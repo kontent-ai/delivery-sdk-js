@@ -1,9 +1,9 @@
 {
-  "name": "test-richards",
+  "name": "kentico-cloud-angular2-sdk",
   "version": "0.9.1",
   "repository": {
     "type": "git",
-    "url": "git://wittydeveloper/typescript-npm-module-bootstrap.git"
+    "url": "git://Enngage/KenticoCloudAngular2SDK"
   },
   "main": "dist/index.js",
   "typings": "definitions/index",

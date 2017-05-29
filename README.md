@@ -1,28 +1,71 @@
-# How to write a NPM module using TypeScript
-> Targeting Node.js (v6) and TypeScript
+# Kentico Cloud SDK for Angular 2
 
-*- see [related article on Medium](https://medium.com/french-make-beautiful/5-things-to-know-when-writing-a-typescript-npm-module-e9a334efd544)*
+Developer's SDK for [KenticoCloud](https://kenticocloud.com/))
 
-
-Provide : 
-
-- packaging for TypeScript use
-- packaging for Node.js (v6) use
-- TypeScript testing with Jasmine
-- Gulp automatisation
-
-
-#### How to run
+#### Installation
 
 ```
-npm i
-gulp
-gulp test
+npm install kentico-cloud-angular2-sdk --save
 ```
 
+#### Include
+
+```
+import { KCloudService, KCloudConfig, TypeResolver } from 'kentico-cloud-angular2-sdk';
+```
+
+#### Example component
+
+```
+import { Component, Input, OnInit } from '@angular/core';
+import { Http } from '@angular/http';
+
+import { KCloudService, KCloudConfig, TypeResolver } from 'test-richards';
+
+// models
+import { Character } from '../../models/character.class';
+import { Author } from '../../models/author.class';
+import { Category } from '../../models/category.class';
+import { CodeExample } from '../../models/code-example.class';
+
+@Component({
+  selector: 'dashboard',
+  templateUrl: 'dashboard.component.html',
+})
+export class DashboardComponent implements OnInit {
+
+  private kCloudService: KCloudService;
+
+  constructor(
+    private http: Http,
+  ) {
+  }
+
+  ngOnInit(): void {
+
+    let apiUrl = 'https://deliver.kenticocloud.com';
+    let projectId = 'b52fa0db-84ec-4310-8f7c-3b94ed06644d';
+
+    let typeResolvers: TypeResolver[] = [
+      new TypeResolver("code_example", () => new CodeExample()),
+      new TypeResolver("category", () => new Category()),
+      new TypeResolver("author", () => new Author()),
+      new TypeResolver("character", () => new Character()),
+    ];
+
+    this.kCloudService = new KCloudService(
+      this.http,
+      new KCloudConfig(apiUrl, projectId, typeResolvers)
+    )
+
+    this.kCloudService.getItems("character").subscribe(response => console.log(response));
+
+    //console.log(`result is: ${add(4,5)}`);
+  }
+}
+```
 
 ##### Notes
 
-- `index.ts` at root is mandatory for `tsc` in order to make the module discoverable
-- `dist/index.js` is the entry point for node.js targeting
-- `.npmignore` allow to expose `dist/` and `definitions` folders without versionning it. 
+- Only `Delivery API` is supported
+
