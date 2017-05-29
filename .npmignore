@@ -1,0 +1,7 @@
+
+!*.ts
+lib/*.ts
+!definitions/*.ts
+!dist/*.ts
+!package.json
+!*.md
