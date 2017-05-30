@@ -61,12 +61,16 @@ export abstract class DeliveryClientBaseService {
         var errMsg: string;
 
         if (error instanceof Response) {
-            errMsg = `$Kentico Cloud service error: ${error.status} - ${error.statusText || ''} ${error}`;
+            errMsg = `$Error in 'DeliveryClient': ${error}`;
         } else {
             errMsg = error.message ? error.message : error.toString();
         }
 
-        return Observable.throw(errMsg);
+        if (this.config.logErrorsToConsole) {
+            console.error(error);
+        }
+
+        return Observable.throw(error);
     }
 
     private getSingleTypeResponse(response: Response): SingleTypeResponse {
@@ -84,7 +88,7 @@ export abstract class DeliveryClientBaseService {
         // map types
         var types = this.typeMapService.mapMultipleTypes(cloudResponse);
 
-           // pagination
+        // pagination
         var pagination = new Pagination(
             cloudResponse.pagination.skip,
             cloudResponse.pagination.limit,
@@ -130,8 +134,8 @@ export abstract class DeliveryClientBaseService {
             .map(response => {
                 return this.getSingleResponse<TItem>(response)
             })
-            .catch(response => {
-                return this.handleError(response);
+            .catch(err => {
+                return this.handleError(err);
             });
     }
 
@@ -145,8 +149,8 @@ export abstract class DeliveryClientBaseService {
             .map(response => {
                 return this.getMultipleResponse(response)
             })
-            .catch(response => {
-                return this.handleError(response);
+            .catch(err => {
+                return this.handleError(err);
             });
     }
 
@@ -159,8 +163,8 @@ export abstract class DeliveryClientBaseService {
             .map(response => {
                 return this.getSingleTypeResponse(response)
             })
-            .catch(response => {
-                return this.handleError(response);
+            .catch(err => {
+                return this.handleError(err);
             });
     }
 
@@ -174,8 +178,8 @@ export abstract class DeliveryClientBaseService {
             .map(response => {
                 return this.getMultipleTypeResponse(response)
             })
-            .catch(response => {
-                return this.handleError(response);
+            .catch(err => {
+                return this.handleError(err);
             });
     }
 }
