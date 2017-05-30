@@ -19,9 +19,6 @@ import { KCloudServiceProvider } from './setup/kcloud.service.provider';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { ItemsModule } from './modules/items/items.module';
 
-// angular2 markdown
-import { MarkdownModule } from 'angular2-markdown';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,9 +36,6 @@ import { MarkdownModule } from 'angular2-markdown';
         component: NotFoundComponent
       }
     ]),
-
-    // markdown
-    MarkdownModule.forRoot(),
 
     // angular modules
     BrowserModule,
