@@ -24,14 +24,27 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // all items
     this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
+
+    this.deliveryClient.getItemById<Character>("character", "id");
+    this.deliveryClient.getItemByCodename<Character>("character", "codename");
+
+    // single item
+    this.deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
+      .subscribe(
+        response => console.log(response),
+        error => console.log(error) // handle error
+      );
 
     // query params
     this.deliveryClient.getItems<Character>("character",
       [
         new LimitParameter(5)
       ])
-      .subscribe(response => console.log(response));
+      .subscribe(
+      response => console.log(response)
+      );
 
     // filtering
     this.deliveryClient.getItems<Character>("character",

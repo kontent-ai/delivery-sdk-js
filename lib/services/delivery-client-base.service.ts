@@ -57,20 +57,12 @@ export abstract class DeliveryClientBaseService {
         return url;
     }
 
-    private handleError(error: Response | any): Observable<any> {
-        var errMsg: string;
-
-        if (error instanceof Response) {
-            errMsg = `$Error in 'DeliveryClient': ${error}`;
-        } else {
-            errMsg = error.message ? error.message : error.toString();
-        }
-
+    private getError(error: Response | any): any {
         if (this.config.logErrorsToConsole) {
             console.error(error);
         }
 
-        return Observable.throw(error);
+        return error;
     }
 
     private getSingleTypeResponse(response: Response): SingleTypeResponse {
@@ -135,7 +127,7 @@ export abstract class DeliveryClientBaseService {
                 return this.getSingleResponse<TItem>(response)
             })
             .catch(err => {
-                return this.handleError(err);
+                return Observable.throw(this.getError(err));
             });
     }
 
@@ -150,7 +142,7 @@ export abstract class DeliveryClientBaseService {
                 return this.getMultipleResponse(response)
             })
             .catch(err => {
-                return this.handleError(err);
+                return Observable.throw(this.getError(err));
             });
     }
 
@@ -164,7 +156,7 @@ export abstract class DeliveryClientBaseService {
                 return this.getSingleTypeResponse(response)
             })
             .catch(err => {
-                return this.handleError(err);
+                return Observable.throw(this.getError(err));
             });
     }
 
@@ -179,7 +171,7 @@ export abstract class DeliveryClientBaseService {
                 return this.getMultipleTypeResponse(response)
             })
             .catch(err => {
-                return this.handleError(err);
+                return Observable.throw(this.getError(err));
             });
     }
 }

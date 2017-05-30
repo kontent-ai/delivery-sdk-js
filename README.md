@@ -97,7 +97,22 @@ export class SampleComponent implements OnInit {
   }
 }
 ```
-## Additional documentation
+## API Documentation
+
+### Getting data
+
+To get multiple items use `getItems` method with `codename` of your content type as parameter
+
+```typescript
+deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
+```
+
+To get single item use `getItemByCodename` or `getItemById` method:
+
+```typescript
+deliveryClient.getItemById<Character>("character", "id").subscribe(response => console.log(response));
+eliveryClient.getItemByCodename<Character>("character", "codename").subscribe(response => console.log(response));
+```
 
 ### Filtering
 
@@ -200,6 +215,18 @@ export class Person extends BaseItem {
 }
 ```
 
+### Handling errors
+
+Errors are best handled with `error` optional parameter (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html))
+
+```typescript
+.deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
+  .subscribe(
+    response => console.log(response),
+    error => console.log(error) // handle error
+  );
+```
+
 ## Working with content types
 
 To retrieve information about your content types, use `getItem` or `getItems` method
@@ -207,14 +234,14 @@ To retrieve information about your content types, use `getItem` or `getItems` me
 ### Get single content type
 
 ```typescript
-this.deliveryClient.getType("character").subscribe(response => console.log(response));
+deliveryClient.getType("character").subscribe(response => console.log(response));
 ```
 
 ### Get multiple content types
 
 
 ```typescript
-this.deliveryClient.getTypes().subscribe(response => console.log(response));
+deliveryClient.getTypes().subscribe(response => console.log(response));
 ```
 
 ## Todo's
