@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 // config
-import { KCloudConfig } from '../config/kcloud.config';
+import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 // models
 import { ResponseSingle, ResponseMultiple } from '../models/responses';
@@ -13,14 +13,14 @@ import { IQueryOption } from '../interfaces/iquery-option.interface';
 
 // services
 import { ItemMapService } from '../utility-services/item-map.service';
-import { KCloudBaseService } from './kcloud-base.service';
+import { DeliveryClientBaseService } from './delivery-client-base.service';
 
 @Injectable()
-export class KCloudService extends KCloudBaseService {
+export class DeliveryClient extends DeliveryClientBaseService {
 
     constructor(
         protected http: Http,
-        protected config: KCloudConfig
+        protected config: DeliveryClientConfig
     ) {
         super(http, config)
     }

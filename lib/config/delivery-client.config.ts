@@ -1,6 +1,6 @@
 import { TypeResolver } from '../models/type-resolver.class';
 
-export class KCloudConfig {
+export class DeliveryClientConfig {
     public option1: boolean = true;
 
     constructor(

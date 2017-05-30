@@ -6,7 +6,7 @@ import { Character } from '../../models/character.class';
 
 // k cloud
 import {
-  KCloudService,
+  DeliveryClient,
   LimitParameter, OrderAscParameter, OrderDescParameter, DepthParameter,
   ElementsParameter, SkipParameter,
   EqualsFilter, AllFilter, AnyFilter, ContainsFilter, GreaterThanFilter,
@@ -26,13 +26,13 @@ export class GetItemsComponent implements OnInit {
   private characters: Character[];
 
   constructor(
-    private kCloudService: KCloudService,
+    private deliveryClient: DeliveryClient,
   ) {
   }
 
   ngOnInit(): void {
 
-    this.kCloudService.getItems<Character>('character', [
+    this.deliveryClient.getItems<Character>('character', [
       new RangeFilter("elements.somenumber", 1, 20)
     ])
       .subscribe(response => {
@@ -40,7 +40,7 @@ export class GetItemsComponent implements OnInit {
         this.characters = response.items;
       });
 
-    this.kCloudService.getItems<CodeExample>(this.type, [
+    this.deliveryClient.getItems<CodeExample>(this.type, [
       new LimitParameter(5),
       // new SkipParameter(1),
       // new DepthParameter(5),
@@ -52,7 +52,7 @@ export class GetItemsComponent implements OnInit {
       this.codeExamples = response.items;
     });
 
-    this.kCloudService.getItemByCodename<CodeExample>(this.type, 'changemacrorule_parameters').subscribe(response => {
+    this.deliveryClient.getItemByCodename<CodeExample>(this.type, 'changemacrorule_parameters').subscribe(response => {
       console.log(response);
       this.codeExample = response.item;
     });

@@ -8,29 +8,13 @@ Developer's SDK for [KenticoCloud](https://kenticocloud.com/)
 npm install kentico-cloud-angular2-sdk --save
 ```
 
-#### Create models
+#### Create model
 
 ```
-import { BaseItem } from 'kentico-cloud-angular2-sdk';
-import { TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-angular2-sdk';
+import { BaseItem, TextField, NumberField, RichTextField, DateTimeField } from 'kentico-cloud-angular2-sdk';
 
 export class Character extends BaseItem {
   public name: TextField;
-  public someNumber: NumberField;
-  public someDateTime: DateTimeField;
-  public someRichText: RichTextField;
-
-  public resolver = ((fieldName: string) => {
-    if (fieldName === 'somenumber') {
-      return 'someNumber';
-    }
-    else if(fieldName === 'somedate'){
-      return 'someDateTime';
-    }
-    else if(fieldName === 'somerichtext'){
-      return 'someRichText';
-    }
-  });
 
   constructor() {
     super()
@@ -38,61 +22,50 @@ export class Character extends BaseItem {
 }
 ```
 
-#### Create factory provider
+#### Setup factory provider for DeliveryClient
 
 ```
 // core
-import { NgModule } from '@angular/core';
 import { Http } from '@angular/http';
 
 // kentico cloud
-import { KCloudService, KCloudConfig, TypeResolver } from 'kentico-cloud-angular2-sdk';
+import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-angular2-sdk';
 
 // models
-import { Character } from '../models/character.class';
+import { Character } from './character.class';
 
-export function KCloudServiceFactory(http: Http) {
+export function DeliveryClientFactory(http: Http) {
 
     let apiUrl = 'https://deliver.kenticocloud.com';
-    let projectId = 'b52fa0db-84ec-4310-8f7c-3b94ed06644d';
+    let projectId = 'yourProjectId';
 
     let typeResolvers: TypeResolver[] = [
         new TypeResolver("character", () => new Character()),
     ];
 
-    return new KCloudService(
+    return new DeliveryClient(
         http,
-        new KCloudConfig(apiUrl, projectId, typeResolvers)
+        new DeliveryClientConfig(apiUrl, projectId, typeResolvers)
     )
 };
 
-export var KCloudServiceProvider =
+export var DeliveryClientProvider =
     {
-        provide: KCloudService,
-        useFactory: KCloudServiceFactory,
+        provide: DeliveryClient,
+        useFactory: DeliveryClientFactory,
         deps: [Http]
     };
 
-@NgModule({
-    imports: [
-    ],
-    declarations: [
-    ],
-    providers: [
-        KCloudService,
-    ],
-})
-export class KenticoCloudModule { }
 ```
 
-#### Register in your app.module
+#### Use factory provider in app.module
 
 ```
-import { KCloudServiceProvider } from './setup/kcloud.service.provider';
+import { DeliveryClientFactory } from 'your-delivery-factory-provider';
 
 @NgModule({
   providers: [
-    KCloudServiceProvider
+    DeliveryClientFactory
   ],
   bootstrap: [AppComponent],
 })
@@ -103,27 +76,24 @@ import { KCloudServiceProvider } from './setup/kcloud.service.provider';
 ```
 import { Component, OnInit } from '@angular/core';
 
-import { KCloudService } from 'kentico-cloud-angular2-sdk';
+// delivery client
+import { DeliveryClient } from 'kentico-cloud-angular2-sdk';
 
 // models
-import { Character } from '../../models/character.class';
-import { Author } from '../../models/author.class';
-import { Category } from '../../models/category.class';
-import { CodeExample } from '../../models/code-example.class';
+import { Character } from 'character.class';
 
 @Component({
+  templateUrl: 'sample.component.html',
 })
 export class SampleComponent implements OnInit {
 
-  private kCloudService: KCloudService;
-
   constructor(
-    private kCloudService: KCloudService,
+    private deliveryClient: DeliveryClient
   ) {
   }
 
   ngOnInit(): void {
-    this.kCloudService.getItems("character").subscribe(response => console.log(response));
+    this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
   }
 }
 ```

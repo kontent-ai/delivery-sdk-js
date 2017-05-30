@@ -1,7 +1,7 @@
 
-export { KCloudService } from './lib/services/kcloud.service';
+export { DeliveryClient } from './lib/services/delivery-client.service';
 
-export { KCloudConfig } from './lib/config/kcloud.config';
+export { DeliveryClientConfig } from './lib/config/delivery-client.config';
 
 export { TypeResolver } from './lib/models/type-resolver.class';
 

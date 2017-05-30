@@ -12,8 +12,8 @@ import { AppComponent } from './app.component';
 import { NotFoundComponent } from './modules/shared/not-found.component';
 
 // kentico cloud
-import { KCloudService } from '../../index';
-import { KCloudServiceProvider } from './setup/kcloud.service.provider';
+import { DeliveryClient } from '../../index';
+import { DeliveryClientProvider } from './setup/delivery-client.provider';
 
 // custom modules
 import { DashboardModule } from './modules/dashboard/dashboard.module';
@@ -47,7 +47,7 @@ import { ItemsModule } from './modules/items/items.module';
     ItemsModule
   ],
   providers: [
-    KCloudServiceProvider
+    DeliveryClientProvider
   ],
   bootstrap: [AppComponent],
 })

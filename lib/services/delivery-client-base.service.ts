@@ -1,9 +1,10 @@
+// core
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 // config
-import { KCloudConfig } from '../config/kcloud.config';
+import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 // models
 import { ResponseSingle, ResponseMultiple } from '../models/responses';
@@ -21,13 +22,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
 @Injectable()
-export abstract class KCloudBaseService {
+export abstract class DeliveryClientBaseService {
 
     protected itemMapService: ItemMapService;
 
     constructor(
         protected http: Http,
-        protected config: KCloudConfig
+        protected config: DeliveryClientConfig
     ) {
         this.itemMapService = new ItemMapService(config.typeResolvers);
     }
