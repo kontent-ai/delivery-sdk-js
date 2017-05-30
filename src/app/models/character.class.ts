@@ -11,16 +11,27 @@ export class Character extends BaseItem {
     if (fieldName === 'somenumber') {
       return 'someNumber';
     }
-    else if(fieldName === 'somedate'){
+    else if (fieldName === 'somedate') {
       return 'someDateTime';
     }
-    else if(fieldName === 'somerichtext'){
+    else if (fieldName === 'somerichtext') {
       return 'someRichText';
     }
   });
 
   constructor() {
-    super()
-  }
+    super({
+      resolver: ((fieldName: string) => {
+        if (fieldName === 'somenumber') {
+          return 'someNumber';
+        }
+        else if (fieldName === 'somedate') {
+          return 'someDateTime';
+        }
+        else if (fieldName === 'somerichtext') {
+          return 'someRichText';
+        }})
+      })
+    }
 }
 

@@ -176,7 +176,7 @@ export class Movie extends BaseItem {
 
 ### Custom field binding in models
 
-Kentico cloud returns all field names in **lowercase** and since javascript properties are case sensitive, the binding will fail if your property is called e.g. *firstName*. One solution is to use lowercase only properties or use custom resolver to bind fields to their proper names:
+Kentico cloud returns all field names in **lowercase** and since javascript properties are case sensitive, the binding will fail if your property is called e.g. *firstName*. You can either use **lowercase only properties** or use custom resolver to bind fields to their proper names:
 
 ```typescript
 import { BaesField TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
@@ -186,18 +186,17 @@ export class Person extends BaseItem {
   public lastName: TextField;
   public age: NumbeField;
 
-  constructor() {
-    super()
-  }
-
-  public resolver = ((fieldName: string) => {
-    if (fieldName === 'firstname') { // lowercase field returned by Kentico delivery API
-      return 'firstName'; // name of 'Person' property
+    constructor() {
+    super({
+      resolver: ((fieldName: string) => {
+        if (fieldName === 'firstname') { // lowercase field returned by Kentico delivery API
+          return 'firstName'; // name of 'Person' property
+        }
+        else if (fieldName === 'lastname') {
+          return 'lastName';
+        }
+      })
     }
-    else if(fieldName === 'lastname'){
-      return 'someDateTime';
-    }
-  });
 }
 ```
 
