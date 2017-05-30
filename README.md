@@ -101,7 +101,7 @@ export class SampleComponent implements OnInit {
 
 ### Filtering
 
-This example returns all 'character' items whose 'name' element is equal to 'Rimmer'. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#content-filtering)
+This example returns all **character** items whose **name** element is equal to **Rimmer**. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#content-filtering)
 
 ```typescript
 deliveryClient.getItems<Character>("character",
