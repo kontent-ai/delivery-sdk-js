@@ -123,11 +123,6 @@ export class SampleComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.kCloudService = new KCloudService(
-      this.http,
-      new KCloudConfig(apiUrl, projectId, typeResolvers)
-    )
-
     this.kCloudService.getItems("character").subscribe(response => console.log(response));
   }
 }
