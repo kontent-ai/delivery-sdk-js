@@ -2,13 +2,13 @@
 
 Developer's SDK for [KenticoCloud](https://kenticocloud.com/)
 
-## Gettint started guide
+## Getting started
 
 ```
 npm install kentico-cloud-angular2-sdk --save
 ```
 
-#### Create model
+### Create model
 
 ```typescript
 import { BaseItem, TextField, NumberField, RichTextField, DateTimeField } from 'kentico-cloud-angular2-sdk';
@@ -104,32 +104,32 @@ export class SampleComponent implements OnInit {
 This example returns all 'character' items whose 'name' element is equal to 'Rimmer'. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#content-filtering)
 
 ```typescript
-this.deliveryClient.getItems<Character>("character",
-      [
-        new EqualsFilter("elements.name", "Rimmer")
-      ])
-      .subscribe(response => console.log(response));
+deliveryClient.getItems<Character>("character",
+  [
+     new EqualsFilter("elements.name", "Rimmer")
+  ])
+  .subscribe(response => console.log(response));
 ```
 
-Supported filters: **AllFilter**, **AnyFilter**, **ContainsFilter**, **EqualsFilter**, **GreaterThanFilter**, **GreaterThanOrEqualFilter**, **Infilter**, **LessThanFilter**, **LessThanOrEqualFilter**, **RangeFilter**
+Supported filters: `AllFilter`, `AnyFilter`, `ContainsFilter`, `EqualsFilter`, `GreaterThanFilter`, `GreaterThanOrEqualFilter`, `Infilter`, `LessThanFilter`, `LessThanOrEqualFilter`, `RangeFilter`
 
 ### Using query parameters
 
 Following example returns top 5 items of 'character' type. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#listing-responses) 
 
 ```typescript
-this.deliveryClient.getItems<Character>("character",
-      [
-        new LimitParameter(5)
-      ])
-      .subscribe(response => console.log(response));
+deliveryClient.getItems<Character>("character",
+  [
+    new LimitParameter(5)
+  ])
+  .subscribe(response => console.log(response));
 ```
 
-Supported query parameters: **DepthParameter**, **ElementsParameter**, **LimitParameter**, **OrderAscParameter**, **OrderDescParameter**, **SkipParameter**
+Supported query parameters: `DepthParameter`, `ElementsParameter`, `LimitParameter`, `OrderAscParameter`, `OrderDescParameter`, `SkipParameter`
 
 ### Creating models
 
-Each model class need to extend 'BaseField' and each element needs to use one of supported fields. For example if you define a 'text' field in your content type, you need to use 'TextField' in your model:
+Each model class need to extend `BaseField` and each element needs to use one of supported fields. For example if you define a 'text' field in your content type, you need to use `TextField` in your model:
 
 ```typescript
 import { BaesField TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-angular-2-sdk';
@@ -146,9 +146,9 @@ export class Character extends BaseItem {
 }
 ```
 
-### Modelular content in models
+### Nested modular content 
 
-It is possible to nest content types within content types:
+To include modular content simply reference proper class:
 
 
 ```typescript
@@ -201,7 +201,13 @@ export class Person extends BaseItem {
 }
 ```
 
+## Todo's
+
+- Content types API
+- Tests
+
 ## Notes
 
 - Only `Delivery API` is supported
+
 
