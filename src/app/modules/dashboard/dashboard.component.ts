@@ -6,6 +6,13 @@ import { DeliveryClient } from '../../../../index';
 // models
 import { Character } from '../../models/character.class';
 
+
+// query params
+import { LimitParameter } from '../../../../index';
+
+// filters
+import { EqualsFilter } from '../../../../index';
+
 @Component({
   templateUrl: 'dashboard.component.html',
 })
@@ -18,5 +25,19 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
+
+    // query params
+    this.deliveryClient.getItems<Character>("character",
+      [
+        new LimitParameter(5)
+      ])
+      .subscribe(response => console.log(response));
+
+    // filtering
+    this.deliveryClient.getItems<Character>("character",
+      [
+        new EqualsFilter("elements.name", "Rimmer")
+      ])
+      .subscribe(response => console.log(response));
   }
 }
