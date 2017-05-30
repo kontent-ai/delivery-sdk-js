@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-angular2-sdk",
-  "version": "0.9.11",
+  "version": "0.9.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/KenticoCloudAngular2SDK"
