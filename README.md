@@ -11,7 +11,7 @@ npm install kentico-cloud-angular2-sdk --save
 ### Create model
 
 ```typescript
-import { BaseItem, TextField, NumberField, RichTextField, DateTimeField } from 'kentico-cloud-angular2-sdk';
+import { BaseItem, TextField } from 'kentico-cloud-angular2-sdk';
 
 export class Character extends BaseItem {
   public name: TextField;
@@ -116,7 +116,7 @@ eliveryClient.getItemByCodename<Character>("character", "codename").subscribe(re
 
 ### Filtering
 
-This example returns all **character** items whose **name** element is equal to **Rimmer**. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#content-filtering)
+This example returns all **character** items whose **name** element is equal to **Rimmer**. More info in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#content-filtering)
 
 ```typescript
 deliveryClient.getItems<Character>("character",
@@ -130,7 +130,7 @@ Supported filters: `AllFilter`, `AnyFilter`, `ContainsFilter`, `EqualsFilter`, `
 
 ### Using query parameters
 
-Following example returns top 5 items of 'character' type. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#listing-responses) 
+Following example returns top 5 items of 'character' type. More info in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses) 
 
 ```typescript
 deliveryClient.getItems<Character>("character",
