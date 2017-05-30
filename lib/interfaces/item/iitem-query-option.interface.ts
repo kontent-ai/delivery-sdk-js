@@ -1,4 +1,4 @@
-export interface IQueryOption {
+export interface IItemQueryOption {
     GetParam();
     GetParamValue();
 }

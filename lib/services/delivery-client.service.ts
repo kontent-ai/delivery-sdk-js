@@ -7,9 +7,9 @@ import { Observable } from 'rxjs/Observable';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 // models
-import { ResponseSingle, ResponseMultiple } from '../models/responses';
-import { IItem } from '../interfaces/iitem.interface';
-import { IQueryOption } from '../interfaces/iquery-option.interface';
+import { ResponseSingle, ResponseMultiple } from '../models/item/responses';
+import { IItem } from '../interfaces/item/iitem.interface';
+import { IItemQueryOption } from '../interfaces/item/iitem-query-option.interface';
 
 // services
 import { ItemMapService } from '../utility-services/item-map.service';
@@ -25,19 +25,19 @@ export class DeliveryClient extends DeliveryClientBaseService {
         super(http, config)
     }
 
-    getItems<TItem extends IItem>(type: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>> {
+    getItems<TItem extends IItem>(type: string, options?: IItemQueryOption[]): Observable<ResponseMultiple<TItem>> {
         var action = '/items?system.type=' + type;
 
         return this.getMultipleItems(type, action, options);
     }
 
-    getItemByCodename<TItem extends IItem>(type: string, codename: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
+    getItemByCodename<TItem extends IItem>(type: string, codename: string, options?: IItemQueryOption[]): Observable<ResponseSingle<TItem>> {
         var action = '/items/' + codename;
 
         return this.getSingleItem(type, action, options);
     }
 
-    getItemById<TItem extends IItem>(type: string, id: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
+    getItemById<TItem extends IItem>(type: string, id: string, options?: IItemQueryOption[]): Observable<ResponseSingle<TItem>> {
         var action = '/items?system.type=' + type + '&system.id=' + id + '&limit=1';
 
         return this.getSingleItem(type, action, options);

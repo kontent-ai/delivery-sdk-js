@@ -7,11 +7,11 @@ import { Observable } from 'rxjs/Observable';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 // models
-import { ResponseSingle, ResponseMultiple } from '../models/responses';
-import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/cloud-responses';
-import { Pagination } from '../models/pagination.class';
-import { IItem } from '../interfaces/iitem.interface';
-import { IQueryOption } from '../interfaces/iquery-option.interface';
+import { ResponseSingle, ResponseMultiple } from '../models/item/responses';
+import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/item/cloud-responses';
+import { Pagination } from '../models/item/pagination.class';
+import { IItem } from '../interfaces/item/iitem.interface';
+import { IItemQueryOption } from '../interfaces/item/iitem-query-option.interface';
 
 // services
 import { ItemMapService } from '../utility-services/item-map.service';
@@ -37,7 +37,7 @@ export abstract class DeliveryClientBaseService {
         return this.config.apiEndpoint + '/' + this.config.projectId;
     }
 
-    private addOptionsToUrl(url: string, options?: IQueryOption[]): string {
+    private addOptionsToUrl(url: string, options?: IItemQueryOption[]): string {
         if (options) {
             options.forEach(filter => {
                 if (url.indexOf('?') > -1) {
@@ -89,7 +89,7 @@ export abstract class DeliveryClientBaseService {
         return new ResponseMultiple(items, pagination);
     }
 
-    protected getSingleItem<TItem extends IItem>(type: string, action: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
+    protected getSingleItem<TItem extends IItem>(type: string, action: string, options?: IItemQueryOption[]): Observable<ResponseSingle<TItem>> {
         var url = this.getBaseUrl() + action;
 
         url = this.addOptionsToUrl(url, options);
@@ -103,7 +103,7 @@ export abstract class DeliveryClientBaseService {
             });
     }
 
-    protected getMultipleItems<TItem extends IItem>(type: string, action: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>> {
+    protected getMultipleItems<TItem extends IItem>(type: string, action: string, options?: IItemQueryOption[]): Observable<ResponseMultiple<TItem>> {
         var url = this.getBaseUrl() + action;
         var that = this;
 

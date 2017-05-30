@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { IModularContent } from '../interfaces/imodular-content.interface';
-import { IItem } from '../interfaces/iitem.interface';
-import { ResponseSingle, ResponseMultiple } from '../models/responses';
+import { IModularContent } from '../interfaces/item/imodular-content.interface';
+import { IItem } from '../interfaces/item/iitem.interface';
+import { ResponseSingle, ResponseMultiple } from '../models/item/responses';
 import { TextField, AssetsField, NumberField, MultipleChoiceField, DateTimeField, RichTextField } from '../fields/field-types';
-import { IField } from '../interfaces/ifield.interface';
+import { IField } from '../interfaces/item/ifield.interface';
 import { FieldType } from '../fields/field-type';
-import { TypeResolver } from '../models/type-resolver.class';
+import { TypeResolver } from '../models/item/type-resolver.class';
 import { TypeResolverService } from './type-resolver.service';
 
 export class FieldMapService {

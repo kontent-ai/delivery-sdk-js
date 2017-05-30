@@ -1,5 +1,5 @@
 
-export class System {
+export class SystemItem {
     constructor(
         public id: string,
         public name: string,

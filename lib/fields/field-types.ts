@@ -1,6 +1,6 @@
 import { FieldType } from './field-type';
-import { IField } from '../interfaces/ifield.interface';
-import { IItem } from '../interfaces/iitem.interface';
+import { IField } from '../interfaces/item/ifield.interface';
+import { IItem } from '../interfaces/item/iitem.interface';
 import { IAsset, IMultipleChoiceOption } from './field-interfaces';
 import { AssetModel, MultipleChoiceOption } from './field-models';
 

@@ -1,4 +1,4 @@
-import { FieldType } from '../fields/field-type';
+import { FieldType } from '../../fields/field-type';
 
 export interface IField {
     name: string;

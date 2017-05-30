@@ -1,6 +1,6 @@
-import { IQueryOption } from '../interfaces/iquery-option.interface';
+import { IItemQueryOption } from '../../interfaces/item/iitem-query-option.interface';
 
-export class ElementsParameter implements IQueryOption {
+export class ElementsParameter implements IItemQueryOption {
 
     constructor(
         public elementCodenames: string[]
@@ -19,7 +19,7 @@ export class ElementsParameter implements IQueryOption {
     }
 }
 
-export class LimitParameter implements IQueryOption {
+export class LimitParameter implements IItemQueryOption {
 
     constructor(
         public limit: number
@@ -34,7 +34,7 @@ export class LimitParameter implements IQueryOption {
     }
 }
 
-export class SkipParameter implements IQueryOption {
+export class SkipParameter implements IItemQueryOption {
 
     constructor(
         public skip: number
@@ -49,7 +49,7 @@ export class SkipParameter implements IQueryOption {
     }
 }
 
-export class OrderAscParameter implements IQueryOption {
+export class OrderAscParameter implements IItemQueryOption {
 
     constructor(
         public field: string
@@ -64,7 +64,7 @@ export class OrderAscParameter implements IQueryOption {
     }
 }
 
-export class OrderDescParameter implements IQueryOption {
+export class OrderDescParameter implements IItemQueryOption {
 
     constructor(
         public field: string
@@ -79,7 +79,7 @@ export class OrderDescParameter implements IQueryOption {
     }
 }
 
-export class DepthParameter implements IQueryOption {
+export class DepthParameter implements IItemQueryOption {
 
     constructor(
         public depth: number

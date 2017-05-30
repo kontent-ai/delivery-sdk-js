@@ -1,4 +1,4 @@
-import { IPagination } from '../interfaces/ipagination.interface';
+import { IPagination } from '../../interfaces/item/ipagination.interface';
 
 export class Pagination implements IPagination {
 

@@ -1,5 +1,5 @@
-import { IItem } from '../interfaces/iitem.interface';
-import { ISystem } from '../interfaces/isystem.interface';
+import { IItem } from '../../interfaces/item/iitem.interface';
+import { ISystem } from '../../interfaces/item/isystem.interface';
 
 export abstract class BaseItem implements IItem {
     system: ISystem;

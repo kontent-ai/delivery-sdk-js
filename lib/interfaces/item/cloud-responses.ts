@@ -1,6 +1,6 @@
-import { IItem } from '../interfaces/iitem.interface';
-import { IModularContent } from '../interfaces/imodular-content.interface';
-import { IPagination } from '../interfaces/ipagination.interface';
+import { IItem } from '../../interfaces/item/iitem.interface';
+import { IModularContent } from '../../interfaces/item/imodular-content.interface';
+import { IPagination } from '../../interfaces/item/ipagination.interface';
 
 export class ICloudResponseMultiple{
   constructor(

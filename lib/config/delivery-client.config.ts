@@ -1,4 +1,4 @@
-import { TypeResolver } from '../models/type-resolver.class';
+import { TypeResolver } from '../models/item/type-resolver.class';
 
 export class DeliveryClientConfig {
     public option1: boolean = true;
