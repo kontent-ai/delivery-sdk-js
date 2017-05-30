@@ -3,7 +3,7 @@
   "version": "0.9.2",
   "repository": {
     "type": "git",
-    "url": "git://Enngage/KenticoCloudAngular2SDK"
+    "url": "https://github.com/Enngage/KenticoCloudAngular2SDK"
   },
   "main": "dist/index.js",
   "typings": "definitions/index",
