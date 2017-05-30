@@ -1,0 +1,41 @@
+<h3>
+    Get items
+</h3>
+
+<div class="mdl-card mdl-shadow--4dp kc-fluid-width">
+    <div class="mdl-card__supporting-text">
+        <div class="demo-list-action mdl-list">
+            <div *ngFor="let codeExample of codeExamples" class="mdl-list__item mdl-list__item--three-line">
+                <span class="mdl-list__item-primary-content">
+                <img class="mdl-list__item-avatar" src="{{codeExample.author.image.assets[0].url}}">
+                 <span>{{codeExample.title.text}}</span>
+                <span class="mdl-list__item-text-body">{{codeExample.category.categoryName.text}} by <em>{{codeExample.author.name.text}}</em></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>
+    Characters
+</h3>
+
+<div class="mdl-card mdl-shadow--4dp kc-fluid-width">
+    <div class="mdl-card__supporting-text">
+        <div class="demo-list-action mdl-list">
+            <div *ngFor="let character of characters" class="mdl-list__item">
+                <span class="mdl-list__item-primary-content">
+                 <span>{{character.name.text}} - {{character.someNumber.number}}</span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>.ts</h3>
+
+<markdown path="assets/code/get-items.js"></markdown>
+
+<h3>.html</h3>
+
+<markdown path="assets/code/get-items.html"></markdown>

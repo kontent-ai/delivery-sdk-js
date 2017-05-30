@@ -1,0 +1,13 @@
+/* You can add global styles to this file, and also import other style files */
+
+.kc-clickable:hover{
+    cursor: pointer;
+}
+
+.kc-content-pad{
+    padding: 15px 30px;
+}
+
+.kc-fluid-width{
+    width: 100%;
+}

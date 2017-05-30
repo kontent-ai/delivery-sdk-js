@@ -5,3 +5,6 @@ lib/*.ts
 !dist/*.ts
 !package.json
 !*.md
+
+#ignore test angular app
+src/*
