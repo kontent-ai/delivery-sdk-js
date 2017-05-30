@@ -2,7 +2,7 @@
 
 Developer's SDK for [KenticoCloud](https://kenticocloud.com/)
 
-#### Installation
+## Gettint started guide
 
 ```
 npm install kentico-cloud-angular2-sdk --save
@@ -22,7 +22,7 @@ export class Character extends BaseItem {
 }
 ```
 
-#### Setup factory provider for DeliveryClient
+### Setup factory provider for DeliveryClient
 
 ```typescript
 // core
@@ -58,7 +58,7 @@ export var DeliveryClientProvider =
 
 ```
 
-#### Use factory provider in app.module
+### Use factory provider in app.module
 
 ```typescript
 import { DeliveryClientFactory } from 'your-delivery-factory-provider';
@@ -71,7 +71,7 @@ import { DeliveryClientFactory } from 'your-delivery-factory-provider';
 })
 ```
 
-##### Use in your component
+### Use in your component
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
@@ -97,7 +97,9 @@ export class SampleComponent implements OnInit {
   }
 }
 ```
-##### Filtering
+## Additional documentation
+
+### Filtering
 
 This example returns all 'character' items whose 'name' element is equal to 'Rimmer'. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#content-filtering)
 
@@ -111,7 +113,7 @@ this.deliveryClient.getItems<Character>("character",
 
 Supported filters: **AllFilter**, **AnyFilter**, **ContainsFilter**, **EqualsFilter**, **GreaterThanFilter**, **GreaterThanOrEqualFilter**, **Infilter**, **LessThanFilter**, **LessThanOrEqualFilter**, **RangeFilter**
 
-##### Using query parameters
+### Using query parameters
 
 Following example returns top 5 items of 'character' type. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#listing-responses) 
 
@@ -125,7 +127,7 @@ this.deliveryClient.getItems<Character>("character",
 
 Supported query parameters: **DepthParameter**, **ElementsParameter**, **LimitParameter**, **OrderAscParameter**, **OrderDescParameter**, **SkipParameter**
 
-##### Models
+### Creating models
 
 Each model class need to extend 'BaseField' and each element needs to use one of supported fields. For example if you define a 'text' field in your content type, you need to use 'TextField' in your model:
 
@@ -144,7 +146,7 @@ export class Character extends BaseItem {
 }
 ```
 
-##### Modelular content
+### Modelular content in models
 
 It is possible to nest content types within content types:
 
@@ -172,7 +174,34 @@ export class Movie extends BaseItem {
 }
 ```
 
-##### Notes
+### Custom field binding in models
+
+Kentico cloud returns all field names in **lowercase** and since javascript properties are case sensitive, the binding will fail if your property is called e.g. *firstName*. One solution is to use lowercase only properties or use custom resolver to bind fields to their proper names:
+
+```typescript
+import { BaesField TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
+
+export class Person extends BaseItem {
+  public firstName: TextField;
+  public lastName: TextField;
+  public age: NumbeField;
+
+  constructor() {
+    super()
+  }
+
+  public resolver = ((fieldName: string) => {
+    if (fieldName === 'firstname') { // lowercase field returned by Kentico delivery API
+      return 'firstName'; // name of 'Person' property
+    }
+    else if(fieldName === 'lastname'){
+      return 'someDateTime';
+    }
+  });
+}
+```
+
+## Notes
 
 - Only `Delivery API` is supported
 
