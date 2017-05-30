@@ -10,7 +10,7 @@ npm install kentico-cloud-angular2-sdk --save
 
 #### Create model
 
-```javascript
+```typescript
 import { BaseItem, TextField, NumberField, RichTextField, DateTimeField } from 'kentico-cloud-angular2-sdk';
 
 export class Character extends BaseItem {
@@ -24,7 +24,7 @@ export class Character extends BaseItem {
 
 #### Setup factory provider for DeliveryClient
 
-```javascript
+```typescript
 // core
 import { Http } from '@angular/http';
 
@@ -60,7 +60,7 @@ export var DeliveryClientProvider =
 
 #### Use factory provider in app.module
 
-```javascript
+```typescript
 import { DeliveryClientFactory } from 'your-delivery-factory-provider';
 
 @NgModule({
@@ -73,7 +73,7 @@ import { DeliveryClientFactory } from 'your-delivery-factory-provider';
 
 ##### Use in your component
 
-```javascript
+```typescript
 import { Component, OnInit } from '@angular/core';
 
 // delivery client
@@ -101,7 +101,7 @@ export class SampleComponent implements OnInit {
 
 This example returns all 'character' items whose 'name' element is equal to 'Rimmer'. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#content-filtering)
 
-```javascript
+```typescript
 this.deliveryClient.getItems<Character>("character",
       [
         new EqualsFilter("elements.name", "Rimmer")
@@ -115,7 +115,7 @@ Supported filters: **AllFilter**, **AnyFilter**, **ContainsFilter**, **EqualsFil
 
 Following example returns top 5 items of 'character' type. More info in [official documentation](https://developer.kenticocloud.com/v1/reference#listing-responses) 
 
-```javascript
+```typescript
 this.deliveryClient.getItems<Character>("character",
       [
         new LimitParameter(5)
@@ -129,7 +129,7 @@ Supported query parameters: **DepthParameter**, **ElementsParameter**, **LimitPa
 
 Each model class need to extend 'BaseField' and each element needs to use one of supported fields. For example if you define a 'text' field in your content type, you need to use 'TextField' in your model:
 
-```javascript
+```typescript
 import { BaesField TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-angular-2-sdk';
 
 export class Character extends BaseItem {
@@ -149,7 +149,7 @@ export class Character extends BaseItem {
 It is possible to nest content types within content types:
 
 
-```javascript
+```typescript
 import { BaesField TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
 
 export class Character extends BaseItem {
@@ -171,7 +171,6 @@ export class Movie extends BaseItem {
   }
 }
 ```
-
 
 ##### Notes
 
