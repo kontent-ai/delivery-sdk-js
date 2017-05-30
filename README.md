@@ -132,7 +132,7 @@ Supported query parameters: `DepthParameter`, `ElementsParameter`, `LimitParamet
 Each model class need to extend `BaseField` and each element needs to use one of supported fields. For example if you define a 'text' field in your content type, you need to use `TextField` in your model:
 
 ```typescript
-import { BaesField TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-angular-2-sdk';
+import { BaseField TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-angular-2-sdk';
 
 export class Character extends BaseItem {
   public name: TextField;
@@ -152,7 +152,7 @@ To include modular content simply reference proper class:
 
 
 ```typescript
-import { BaesField TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
+import { BaseField TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
 
 export class Character extends BaseItem {
   public name: TextField;
@@ -179,7 +179,7 @@ export class Movie extends BaseItem {
 Kentico cloud returns all field names in **lowercase** and since javascript properties are case sensitive, the binding will fail if your property is called e.g. *firstName*. You can either use **lowercase only properties** or use custom resolver to bind fields to their proper names:
 
 ```typescript
-import { BaesField TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
+import { BaseField TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
 
 export class Person extends BaseItem {
   public firstName: TextField;
@@ -198,6 +198,23 @@ export class Person extends BaseItem {
       })
     }
 }
+```
+
+## Working with content types
+
+To retrieve information about your content types, use `getItem` or `getItems` method
+
+### Get single content type
+
+```typescript
+this.deliveryClient.getType("character").subscribe(response => console.log(response));
+```
+
+### Get multiple content types
+
+
+```typescript
+this.deliveryClient.getTypes().subscribe(response => console.log(response));
 ```
 
 ## Todo's
