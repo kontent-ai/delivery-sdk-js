@@ -1,6 +1,6 @@
 import { IItem } from '../../interfaces/item/iitem.interface';
 import { IModularContent } from '../../interfaces/item/imodular-content.interface';
-import { IPagination } from '../../interfaces/item/ipagination.interface';
+import { IPagination } from '../../interfaces/common/ipagination.interface';
 
 export class ICloudResponseMultiple{
   constructor(
@@ -8,7 +8,6 @@ export class ICloudResponseMultiple{
     public modular_content: IModularContent[],
     public pagination: IPagination
   ) { }
-
 }
 
 export class ICloudResponseSingle {

@@ -1,8 +1,8 @@
 import { IItem } from '../../interfaces/item/iitem.interface';
-import { ISystem } from '../../interfaces/item/isystem.interface';
+import { ISystemItem } from '../../interfaces/item/isystem-item.interface'
 
 export abstract class BaseItem implements IItem {
-    system: ISystem;
+    system: ISystemItem;
     elements: any;
     resolver?: ((fieldName: string) => string);
 
@@ -11,5 +11,4 @@ export abstract class BaseItem implements IItem {
     }) {
         if (options) Object.assign(this, options);
     }
-
 }

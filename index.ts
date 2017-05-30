@@ -10,12 +10,9 @@ export { BaseItem } from './lib/models/item/base-item.class';
 export {
     AllFilter, AnyFilter, ContainsFilter, EqualsFilter, GreaterThanFilter, GreaterThanOrEqualFilter,
     Infilter, LessThanFilter, LessThanOrEqualFilter, RangeFilter
-} from './lib/models/item/filters';
+} from './lib/models/common/filters';
 
 export { AssetsField, DateTimeField, MultipleChoiceField, NumberField, RichTextField, TextField } from './lib/fields/field-types';
 
-export { DepthParameter, ElementsParameter, LimitParameter, OrderAscParameter, OrderDescParameter, SkipParameter } from './lib/models/item/parameters';
+export { DepthParameter, ElementsParameter, LimitParameter, OrderAscParameter, OrderDescParameter, SkipParameter } from './lib/models/common/parameters';
 
-export function add(a: number, b: number): number {
-    return a + b;
-}

@@ -9,7 +9,9 @@ import { DeliveryClientConfig } from '../config/delivery-client.config';
 // models
 import { ResponseSingle, ResponseMultiple } from '../models/item/responses';
 import { IItem } from '../interfaces/item/iitem.interface';
-import { IItemQueryOption } from '../interfaces/item/iitem-query-option.interface';
+import { IQueryOption } from '../interfaces/common/iquery-option.interface';
+import { IType } from '../interfaces/type/itype.interface';
+import { MultipleTypeResponse, SingleTypeResponse } from '../models/type/responses';
 
 // services
 import { ItemMapService } from '../utility-services/item-map.service';
@@ -25,21 +27,33 @@ export class DeliveryClient extends DeliveryClientBaseService {
         super(http, config)
     }
 
-    getItems<TItem extends IItem>(type: string, options?: IItemQueryOption[]): Observable<ResponseMultiple<TItem>> {
+    getTypes(options?: IQueryOption[]): Observable<MultipleTypeResponse> {
+        var action = '/types';
+
+        return super.getMultipleTypes(action, options);
+    }
+
+    getType(type: string, options?: IQueryOption[]): Observable<SingleTypeResponse> {
+        var action = '/types/' + type;
+
+        return super.getSingleType(action, options);
+    }
+
+    getItems<TItem extends IItem>(type: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>> {
         var action = '/items?system.type=' + type;
 
-        return this.getMultipleItems(type, action, options);
+        return super.getMultipleItems(type, action, options);
     }
 
-    getItemByCodename<TItem extends IItem>(type: string, codename: string, options?: IItemQueryOption[]): Observable<ResponseSingle<TItem>> {
+    getItemByCodename<TItem extends IItem>(type: string, codename: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
         var action = '/items/' + codename;
 
-        return this.getSingleItem(type, action, options);
+        return super.getSingleItem(type, action, options);
     }
 
-    getItemById<TItem extends IItem>(type: string, id: string, options?: IItemQueryOption[]): Observable<ResponseSingle<TItem>> {
+    getItemById<TItem extends IItem>(type: string, id: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
         var action = '/items?system.type=' + type + '&system.id=' + id + '&limit=1';
 
-        return this.getSingleItem(type, action, options);
+        return super.getSingleItem(type, action, options);
     }
 }

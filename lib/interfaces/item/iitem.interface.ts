@@ -1,7 +1,7 @@
-import { ISystem } from './isystem.interface';
+import { ISystemItem } from './isystem-item.interface';
 
 export interface IItem {
-  system: ISystem;
+  system: ISystemItem;
   elements: any;
 
   resolver?: ((fieldName: string) => string);

@@ -64,8 +64,9 @@ export class FieldMapService {
             return this.mapRichTextField(field, modularContent);
         }
         else {
-            console.log(`Unsupported field type '${field.type}'`);
-            //throw Error(`Unsupported field type '${field.type}'`)
+            var err = `Unsupported field type '${field.type}'`
+            console.log(err);
+            throw Error(err)
         }
     }
 

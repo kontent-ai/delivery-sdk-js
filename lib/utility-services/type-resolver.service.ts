@@ -1,6 +1,6 @@
 import { TypeResolver } from '../models/item/type-resolver.class';
 import { IItem } from '../interfaces/item/iitem.interface';
-import { SystemItem } from '../models/item/system.class';
+import { SystemItem } from '../models/item/system-item.class';
 
 export class TypeResolverService {
 

@@ -1,6 +1,6 @@
-import { IItemQueryOption } from '../../interfaces/item/iitem-query-option.interface';
+import { IQueryOption } from '../../interfaces/common/iquery-option.interface';
 
-export class EqualsFilter implements IItemQueryOption {
+export class EqualsFilter implements IQueryOption {
     constructor(
         public field: string,
         public value: string
@@ -22,7 +22,7 @@ export class EqualsFilter implements IItemQueryOption {
     }
 }
 
-export class AllFilter implements IItemQueryOption {
+export class AllFilter implements IQueryOption {
     constructor(
         public field: string,
         public values: string[]
@@ -44,7 +44,7 @@ export class AllFilter implements IItemQueryOption {
     }
 }
 
-export class AnyFilter implements IItemQueryOption {
+export class AnyFilter implements IQueryOption {
   constructor(
         public field: string,
         public values: string[]
@@ -66,7 +66,7 @@ export class AnyFilter implements IItemQueryOption {
     }
 }
 
-export class ContainsFilter implements IItemQueryOption {
+export class ContainsFilter implements IQueryOption {
       constructor(
         public field: string,
         public values: string[]
@@ -88,7 +88,7 @@ export class ContainsFilter implements IItemQueryOption {
     }
 }
 
-export class GreaterThanFilter implements IItemQueryOption {
+export class GreaterThanFilter implements IQueryOption {
     constructor(
         public field: string,
         public value: string
@@ -110,7 +110,7 @@ export class GreaterThanFilter implements IItemQueryOption {
     }
 }
 
-export class GreaterThanOrEqualFilter implements IItemQueryOption {
+export class GreaterThanOrEqualFilter implements IQueryOption {
      constructor(
         public field: string,
         public value: string
@@ -132,7 +132,7 @@ export class GreaterThanOrEqualFilter implements IItemQueryOption {
     }
 }
 
-export class Infilter implements IItemQueryOption {
+export class Infilter implements IQueryOption {
     constructor(
         public field: string,
         public values: string[]
@@ -154,7 +154,7 @@ export class Infilter implements IItemQueryOption {
     }
 }
 
-export class LessThanFilter implements IItemQueryOption {
+export class LessThanFilter implements IQueryOption {
      constructor(
         public field: string,
         public value: string
@@ -176,7 +176,7 @@ export class LessThanFilter implements IItemQueryOption {
     }
 }
 
-export class LessThanOrEqualFilter implements IItemQueryOption {
+export class LessThanOrEqualFilter implements IQueryOption {
     constructor(
         public field: string,
         public value: string
@@ -198,7 +198,7 @@ export class LessThanOrEqualFilter implements IItemQueryOption {
     }
 }
 
-export class RangeFilter implements IItemQueryOption {
+export class RangeFilter implements IQueryOption {
      constructor(
         public field: string,
         public lowerValue: number,

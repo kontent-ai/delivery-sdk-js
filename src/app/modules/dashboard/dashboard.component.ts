@@ -39,5 +39,11 @@ export class DashboardComponent implements OnInit {
         new EqualsFilter("elements.name", "Rimmer")
       ])
       .subscribe(response => console.log(response));
+
+    // content types
+    this.deliveryClient.getTypes().subscribe(response => console.log(response));
+
+    // content type
+    this.deliveryClient.getType("character").subscribe(response => console.log(response));
   }
 }

@@ -1,5 +1,6 @@
+import { ISystemItem } from '../../interfaces/item/isystem-item.interface';
 
-export class SystemItem {
+export class SystemItem implements ISystemItem {
     constructor(
         public id: string,
         public name: string,
