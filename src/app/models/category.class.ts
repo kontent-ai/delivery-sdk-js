@@ -1,7 +1,6 @@
-import { BaseItem } from '../../../index';
-import { TextField, NumberField, AssetsField } from '../../../index';
+import { ContentItem, TextField } from '../../../index';
 
-export class Category extends BaseItem {
+export class Category extends ContentItem {
   
   public categoryName: TextField;
 

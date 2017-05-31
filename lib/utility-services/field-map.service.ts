@@ -1,5 +1,5 @@
 import { IModularContent } from '../interfaces/item/imodular-content.interface';
-import { IItem } from '../interfaces/item/iitem.interface';
+import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { TextField, AssetsField, NumberField, MultipleChoiceField, DateTimeField, RichTextField } from '../fields/field-types';
 import { IField } from '../interfaces/item/ifield.interface';
 import { FieldType } from '../fields/field-type';
@@ -13,7 +13,7 @@ export class FieldMapService {
     ) {
     }
 
-    mapFields(item: IItem, modularContent: any): any {
+    mapFields(item: IContentItem, modularContent: any): any {
         var properties = Object.getOwnPropertyNames(item.elements);
 
         // create typed item
@@ -70,7 +70,7 @@ export class FieldMapService {
 
     private mapRichTextField(field: IField, modularContent: any): RichTextField {
         // get all modular content items nested in rich text
-        var modularItems: IItem[] = [];
+        var modularItems: IContentItem[] = [];
 
         if (field.modular_content){
             if (Array.isArray(field.modular_content)){

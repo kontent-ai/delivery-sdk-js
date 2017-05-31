@@ -10,7 +10,7 @@ import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { DeliveryItemListingResponse, DeliveryItemResponse } from '../models/item/responses';
 import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/item/cloud-responses';
 import { Pagination } from '../models/common/pagination.class';
-import { IItem } from '../interfaces/item/iitem.interface';
+import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { ICloudMultipleTypeResponse, ICloudSingleTypeResponse } from '../interfaces/type/cloud-responses';
 import { IQueryOption } from '../interfaces/common/iquery-option.interface';
 import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
@@ -38,9 +38,9 @@ export abstract class DeliveryClientBaseService {
         this.typeMapService = new TypeMapService();
     }
 
-    private getUrl(action: string, options?: IQueryOption[]): string{
+    private getUrl(action: string, options?: IQueryOption[]): string {
         return this.addOptionsToUrl(this.getBaseUrl() + action, options);
-    }    
+    }
 
     private getBaseUrl(): string {
         return this.config.apiEndpoint + '/' + this.config.projectId;
@@ -94,7 +94,7 @@ export abstract class DeliveryClientBaseService {
         return new DeliveryTypeListingResponse(types, pagination);
     }
 
-    private getSingleResponse<TItem extends IItem>(response: Response): DeliveryItemResponse<TItem> {
+    private getSingleResponse<TItem extends IContentItem>(response: Response): DeliveryItemResponse<TItem> {
         var cloudResponse = (response.json() || {}) as ICloudResponseSingle;
 
         // map item
@@ -103,7 +103,7 @@ export abstract class DeliveryClientBaseService {
         return new DeliveryItemResponse(item);
     }
 
-    private getMultipleResponse<TItem extends IItem>(response: Response): DeliveryItemListingResponse<TItem> {
+    private getMultipleResponse<TItem extends IContentItem>(response: Response): DeliveryItemListingResponse<TItem> {
         var cloudResponse = (response.json() || {}) as ICloudResponseMultiple;
 
         // map items
@@ -120,7 +120,7 @@ export abstract class DeliveryClientBaseService {
         return new DeliveryItemListingResponse(items, pagination);
     }
 
-    protected getSingleItem<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<DeliveryItemResponse<TItem>> {
+    protected getSingleItem<TItem extends IContentItem>(action: string, options?: IQueryOption[]): Observable<DeliveryItemResponse<TItem>> {
         var url = this.getUrl(action, options);
 
         return this.http.get(url)
@@ -132,7 +132,7 @@ export abstract class DeliveryClientBaseService {
             });
     }
 
-    protected getMultipleItems<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<DeliveryItemListingResponse<TItem>> {
+    protected getMultipleItems<TItem extends IContentItem>(action: string, options?: IQueryOption[]): Observable<DeliveryItemListingResponse<TItem>> {
         var url = this.getUrl(action, options);
 
         return this.http.get(url)

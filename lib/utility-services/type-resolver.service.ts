@@ -1,5 +1,5 @@
 import { TypeResolver } from '../models/item/type-resolver.class';
-import { IItem } from '../interfaces/item/iitem.interface';
+import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
 
 export class TypeResolverService {
@@ -9,7 +9,7 @@ export class TypeResolverService {
     ) {
     }
 
-    createTypedObj<TItem extends IItem>(type: string, item: IItem): TItem {
+    createTypedObj<TItem extends IContentItem>(type: string, item: IContentItem): TItem {
         if (!type) {
             throw Error('Cannot resolve type because no type name was provided');
         }

@@ -1,7 +1,6 @@
-import { BaseItem } from '../../../index';
-import { TextField, NumberField, AssetsField } from '../../../index';
+import { ContentItem, TextField, AssetsField } from '../../../index';
 
-export class Author extends BaseItem {
+export class Author extends ContentItem {
   public name: TextField;
   public image: AssetsField;
 }

@@ -5,7 +5,7 @@ export { DeliveryClientConfig } from './lib/config/delivery-client.config';
 
 export { TypeResolver } from './lib/models/item/type-resolver.class';
 
-export { BaseItem } from './lib/models/item/base-item.class';
+export { ContentItem } from './lib/models/item/content-item.class';
 
 export {
     AllFilter, AnyFilter, ContainsFilter, EqualsFilter, GreaterThanFilter, GreaterThanOrEqualFilter,

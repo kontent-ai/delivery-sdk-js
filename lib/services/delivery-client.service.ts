@@ -8,7 +8,7 @@ import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 // models
 import { DeliveryItemListingResponse, DeliveryItemResponse } from '../models/item/responses';
-import { IItem } from '../interfaces/item/iitem.interface';
+import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IQueryOption } from '../interfaces/common/iquery-option.interface';
 import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
 import { EqualsFilter } from '../models/common/filters';
@@ -40,7 +40,7 @@ export class DeliveryClient extends DeliveryClientBaseService {
         return super.getSingleType(action, options);
     }
 
-    getItems<TItem extends IItem>(type: string, options?: IQueryOption[]): Observable<DeliveryItemListingResponse<TItem>> {
+    getItems<TItem extends IContentItem>(type: string, options?: IQueryOption[]): Observable<DeliveryItemListingResponse<TItem>> {
         var action = '/items';
 
         if (!options) {
@@ -52,7 +52,7 @@ export class DeliveryClient extends DeliveryClientBaseService {
         return super.getMultipleItems(action, options);
     }
 
-    getItem<TItem extends IItem>(type: string, codename: string, options?: IQueryOption[]): Observable<DeliveryItemResponse<TItem>> {
+    getItem<TItem extends IContentItem>(type: string, codename: string, options?: IQueryOption[]): Observable<DeliveryItemResponse<TItem>> {
         var action = '/items/' + codename;
 
         return super.getSingleItem(action, options);

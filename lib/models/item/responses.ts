@@ -1,8 +1,8 @@
-import { IItem } from '../../interfaces/item/iitem.interface';
+import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { IModularContent } from '../../interfaces/item/imodular-content.interface';
 import { IPagination } from '../../interfaces/common/ipagination.interface';
 
-export class DeliveryItemListingResponse <TItem extends IItem> {
+export class DeliveryItemListingResponse <TItem extends IContentItem> {
     constructor(
         public items: TItem[],
         public pagination: IPagination
@@ -21,7 +21,7 @@ export class DeliveryItemListingResponse <TItem extends IItem> {
     }
 }
 
-export class DeliveryItemResponse <TItem extends IItem> {
+export class DeliveryItemResponse <TItem extends IContentItem> {
     constructor(
         public item: TItem
     ) { }
