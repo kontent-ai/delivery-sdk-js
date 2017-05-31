@@ -39,6 +39,10 @@ export abstract class DeliveryClientBaseService {
         this.typeMapService = new TypeMapService();
     }
 
+    private getUrl(action: string, options?: IQueryOption[]): string{
+        return this.addOptionsToUrl(this.getBaseUrl() + action);
+    }    
+
     private getBaseUrl(): string {
         return this.config.apiEndpoint + '/' + this.config.projectId;
     }
@@ -71,7 +75,7 @@ export abstract class DeliveryClientBaseService {
         // map type
         var type = this.typeMapService.mapSingleType(cloudResponse);
 
-        return new SingleTypeResponse(type.system, type.elements);
+        return new SingleTypeResponse(type);
     }
 
     private getMultipleTypeResponse(response: Response, options?: IQueryOption[]): MultipleTypeResponse {
@@ -118,9 +122,7 @@ export abstract class DeliveryClientBaseService {
     }
 
     protected getSingleItem<TItem extends IItem>(type: string, action: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
-        var url = this.getBaseUrl() + action;
-
-        url = this.addOptionsToUrl(url, options);
+        var url = this.getUrl(action, options);
 
         return this.http.get(url)
             .map(response => {
@@ -132,10 +134,7 @@ export abstract class DeliveryClientBaseService {
     }
 
     protected getMultipleItems<TItem extends IItem>(type: string, action: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>> {
-        var url = this.getBaseUrl() + action;
-        var that = this;
-
-        url = this.addOptionsToUrl(url, options);
+        var url = this.getUrl(action, options);;
 
         return this.http.get(url)
             .map(response => {
@@ -147,9 +146,7 @@ export abstract class DeliveryClientBaseService {
     }
 
     protected getSingleType(action: string, options?: IQueryOption[]): Observable<SingleTypeResponse> {
-        var url = this.getBaseUrl() + action;
-
-        url = this.addOptionsToUrl(url, options);
+        var url = this.getUrl(action, options);
 
         return this.http.get(url)
             .map(response => {
@@ -161,10 +158,7 @@ export abstract class DeliveryClientBaseService {
     }
 
     protected getMultipleTypes(action: string, options?: IQueryOption[]): Observable<MultipleTypeResponse> {
-        var url = this.getBaseUrl() + action;
-        var that = this;
-
-        url = this.addOptionsToUrl(url, options);
+        var url = this.getUrl(action, options);
 
         return this.http.get(url)
             .map(response => {

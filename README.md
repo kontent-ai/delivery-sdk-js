@@ -111,7 +111,7 @@ To get single item use `getItemByCodename` or `getItemById` method:
 
 ```typescript
 deliveryClient.getItemById<Character>("character", "id").subscribe(response => console.log(response));
-eliveryClient.getItemByCodename<Character>("character", "codename").subscribe(response => console.log(response));
+deliveryClient.getItemByCodename<Character>("character", "codename").subscribe(response => console.log(response));
 ```
 
 ### Filtering
