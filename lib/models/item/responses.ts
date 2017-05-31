@@ -2,7 +2,7 @@ import { IItem } from '../../interfaces/item/iitem.interface';
 import { IModularContent } from '../../interfaces/item/imodular-content.interface';
 import { IPagination } from '../../interfaces/common/ipagination.interface';
 
-export class ResponseMultiple<TItem extends IItem> {
+export class DeliveryItemListingResponse <TItem extends IItem> {
     constructor(
         public items: TItem[],
         public pagination: IPagination
@@ -21,7 +21,7 @@ export class ResponseMultiple<TItem extends IItem> {
     }
 }
 
-export class ResponseSingle<TItem extends IItem> {
+export class DeliveryItemResponse <TItem extends IItem> {
     constructor(
         public item: TItem
     ) { }

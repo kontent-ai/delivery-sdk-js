@@ -1,17 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 // delivery client
-import { DeliveryClient } from '../../../../index';
+import { DeliveryClient, LimitParameter, EqualsFilter } from '../../../../index';
 
 // models
 import { Character } from '../../models/character.class';
-
-
-// query params
-import { LimitParameter } from '../../../../index';
-
-// filters
-import { EqualsFilter } from '../../../../index';
 
 @Component({
   templateUrl: 'dashboard.component.html',
@@ -25,9 +18,21 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    //this.errorRequests();
+    // multiple items
+    this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
 
-    // all items
+    // single item
+    this.deliveryClient.getItem<Character>("character", "rick").subscribe(response => console.log(response));
+
+    // content types
+    this.deliveryClient.getTypes().subscribe(response => console.log(response));
+
+    // content type
+    this.deliveryClient.getType("character").subscribe(response => console.log(response));
+
+  }
+
+  private testRequests(): void {
     this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
 
     this.deliveryClient.getItem<Character>("character", "rick").subscribe(response => console.log(response));

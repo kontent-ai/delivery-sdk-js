@@ -1,6 +1,6 @@
 import { TypeResolver } from '../models/item/type-resolver.class';
 import { IItem } from '../interfaces/item/iitem.interface';
-import { SystemItem } from '../models/item/system-item.class';
+import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
 
 export class TypeResolverService {
 
@@ -23,7 +23,7 @@ export class TypeResolverService {
         var typedItem = typeResolver.resolve() as TItem;
 
         // use typed 'system' property
-        typedItem.system = new SystemItem(
+        typedItem.system = new ContentItemSystemAttributes(
             item.system.id,
             item.system.name,
             item.system.codename,

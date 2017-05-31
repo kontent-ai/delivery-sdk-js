@@ -1,8 +1,8 @@
 import { IItem } from '../../interfaces/item/iitem.interface';
-import { ISystemItem } from '../../interfaces/item/isystem-item.interface'
+import { IContentItemSystemAttributes } from '../../interfaces/item/icontent-item-system-attributes.interface'
 
 export abstract class BaseItem implements IItem {
-    system: ISystemItem;
+    system: IContentItemSystemAttributes;
     elements: any;
     resolver?: ((fieldName: string) => string);
 

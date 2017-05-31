@@ -32,14 +32,6 @@ export class GetItemsComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.deliveryClient.getItems<Character>('character', [
-      new RangeFilter("elements.somenumber", 1, 20)
-    ])
-      .subscribe(response => {
-        console.log(response);
-        this.characters = response.items;
-      });
-
     this.deliveryClient.getItems<CodeExample>(this.type, [
       new LimitParameter(5),
       // new SkipParameter(1),

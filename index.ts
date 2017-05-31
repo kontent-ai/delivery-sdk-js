@@ -16,3 +16,8 @@ export { AssetsField, DateTimeField, MultipleChoiceField, NumberField, RichTextF
 
 export { DepthParameter, ElementsParameter, LimitParameter, OrderAscParameter, OrderDescParameter, SkipParameter } from './lib/models/common/parameters';
 
+export { ContentType } from './lib/models/type/content-type.class';
+
+export { DeliveryItemListingResponse, DeliveryItemResponse } from './lib/models/item/responses';
+
+export { DeliveryTypeListingResponse, DeliveryTypeResponse } from './lib/models/type/responses';

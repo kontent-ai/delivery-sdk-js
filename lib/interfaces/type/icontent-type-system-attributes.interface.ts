@@ -1,5 +1,5 @@
 
-export interface ISystemType {
+export interface IContentTypeSystemAttributes {
     id: string,
     name: string,
     codename: string,

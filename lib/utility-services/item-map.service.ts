@@ -1,12 +1,6 @@
-import { Injectable } from '@angular/core';
 import { FieldMapService } from './field-map.service';
-import { IModularContent } from '../interfaces/item/imodular-content.interface';
 import { IItem } from '../interfaces/item/iitem.interface';
-import { ResponseSingle, ResponseMultiple } from '../models/item/responses';
 import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/item/cloud-responses';
-import { TextField } from '../fields/field-types';
-import { IField } from '../interfaces/item/ifield.interface';
-import { FieldType } from '../fields/field-type';
 import { TypeResolver } from '../models/item/type-resolver.class';
 import { TypeResolverService } from './type-resolver.service';
 

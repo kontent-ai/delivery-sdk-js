@@ -1,14 +1,14 @@
-import { IType } from './itype.interface';
-import { ISystemType } from './isystem-type.interface';
-import { ITypeElement } from './itype-element.interface';
+import { IContentType } from './icontent-type.interface';
+import { IContentTypeSystemAttributes } from './icontent-type-system-attributes.interface';
+import { IContentTypeElement } from './icontent-type-element.interface';
 import { IPagination } from '../common/ipagination.interface';
 
 export interface ICloudMultipleTypeResponse{
-    types: IType[];
+    types: IContentType[];
     pagination: IPagination;
 }
 
 export interface ICloudSingleTypeResponse{
-    system: ISystemType;
-    elements: ITypeElement[];
+    system: IContentTypeSystemAttributes;
+    elements: IContentTypeElement[];
 }

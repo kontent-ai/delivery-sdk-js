@@ -7,14 +7,13 @@ import { Observable } from 'rxjs/Observable';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 // models
-import { ResponseSingle, ResponseMultiple } from '../models/item/responses';
+import { DeliveryItemListingResponse, DeliveryItemResponse } from '../models/item/responses';
 import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/item/cloud-responses';
 import { Pagination } from '../models/common/pagination.class';
 import { IItem } from '../interfaces/item/iitem.interface';
 import { ICloudMultipleTypeResponse, ICloudSingleTypeResponse } from '../interfaces/type/cloud-responses';
 import { IQueryOption } from '../interfaces/common/iquery-option.interface';
-import { IType } from '../interfaces/type/itype.interface';
-import { MultipleTypeResponse, SingleTypeResponse } from '../models/type/responses';
+import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
 
 // services
 import { ItemMapService } from '../utility-services/item-map.service';
@@ -69,16 +68,16 @@ export abstract class DeliveryClientBaseService {
         return error;
     }
 
-    private getSingleTypeResponse(response: Response): SingleTypeResponse {
+    private getSingleTypeResponse(response: Response): DeliveryTypeResponse {
         var cloudResponse = (response.json() || {}) as ICloudSingleTypeResponse;
 
         // map type
         var type = this.typeMapService.mapSingleType(cloudResponse);
 
-        return new SingleTypeResponse(type);
+        return new DeliveryTypeResponse(type);
     }
 
-    private getMultipleTypeResponse(response: Response, options?: IQueryOption[]): MultipleTypeResponse {
+    private getMultipleTypeResponse(response: Response, options?: IQueryOption[]): DeliveryTypeListingResponse {
         var cloudResponse = (response.json() || {}) as ICloudMultipleTypeResponse;
 
         // map types
@@ -92,19 +91,19 @@ export abstract class DeliveryClientBaseService {
             cloudResponse.pagination.next_page
         );
 
-        return new MultipleTypeResponse(types, pagination);
+        return new DeliveryTypeListingResponse(types, pagination);
     }
 
-    private getSingleResponse<TItem extends IItem>(response: Response): ResponseSingle<TItem> {
+    private getSingleResponse<TItem extends IItem>(response: Response): DeliveryItemResponse<TItem> {
         var cloudResponse = (response.json() || {}) as ICloudResponseSingle;
 
         // map item
         var item = this.itemMapService.mapSingleItem<TItem>(cloudResponse);
 
-        return new ResponseSingle(item);
+        return new DeliveryItemResponse(item);
     }
 
-    private getMultipleResponse<TItem extends IItem>(response: Response): ResponseMultiple<TItem> {
+    private getMultipleResponse<TItem extends IItem>(response: Response): DeliveryItemListingResponse<TItem> {
         var cloudResponse = (response.json() || {}) as ICloudResponseMultiple;
 
         // map items
@@ -118,10 +117,10 @@ export abstract class DeliveryClientBaseService {
             cloudResponse.pagination.next_page
         );
 
-        return new ResponseMultiple(items, pagination);
+        return new DeliveryItemListingResponse(items, pagination);
     }
 
-    protected getSingleItem<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
+    protected getSingleItem<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<DeliveryItemResponse<TItem>> {
         var url = this.getUrl(action, options);
 
         return this.http.get(url)
@@ -133,7 +132,7 @@ export abstract class DeliveryClientBaseService {
             });
     }
 
-    protected getMultipleItems<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>> {
+    protected getMultipleItems<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<DeliveryItemListingResponse<TItem>> {
         var url = this.getUrl(action, options);
 
         return this.http.get(url)
@@ -145,7 +144,7 @@ export abstract class DeliveryClientBaseService {
             });
     }
 
-    protected getSingleType(action: string, options?: IQueryOption[]): Observable<SingleTypeResponse> {
+    protected getSingleType(action: string, options?: IQueryOption[]): Observable<DeliveryTypeResponse> {
         var url = this.getUrl(action, options);
 
         return this.http.get(url)
@@ -157,7 +156,7 @@ export abstract class DeliveryClientBaseService {
             });
     }
 
-    protected getMultipleTypes(action: string, options?: IQueryOption[]): Observable<MultipleTypeResponse> {
+    protected getMultipleTypes(action: string, options?: IQueryOption[]): Observable<DeliveryTypeListingResponse> {
         var url = this.getUrl(action, options);
 
         return this.http.get(url)

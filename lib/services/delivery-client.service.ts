@@ -7,11 +7,10 @@ import { Observable } from 'rxjs/Observable';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 // models
-import { ResponseSingle, ResponseMultiple } from '../models/item/responses';
+import { DeliveryItemListingResponse, DeliveryItemResponse } from '../models/item/responses';
 import { IItem } from '../interfaces/item/iitem.interface';
 import { IQueryOption } from '../interfaces/common/iquery-option.interface';
-import { IType } from '../interfaces/type/itype.interface';
-import { MultipleTypeResponse, SingleTypeResponse } from '../models/type/responses';
+import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
 import { EqualsFilter } from '../models/common/filters';
 import { LimitParameter } from '../models/common/parameters';
 
@@ -29,19 +28,19 @@ export class DeliveryClient extends DeliveryClientBaseService {
         super(http, config)
     }
 
-    getTypes(options?: IQueryOption[]): Observable<MultipleTypeResponse> {
+    getTypes(options?: IQueryOption[]): Observable<DeliveryTypeListingResponse> {
         var action = '/types';
 
         return super.getMultipleTypes(action, options);
     }
 
-    getType(type: string, options?: IQueryOption[]): Observable<SingleTypeResponse> {
+    getType(type: string, options?: IQueryOption[]): Observable<DeliveryTypeResponse> {
         var action = '/types/' + type;
 
         return super.getSingleType(action, options);
     }
 
-    getItems<TItem extends IItem>(type: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>> {
+    getItems<TItem extends IItem>(type: string, options?: IQueryOption[]): Observable<DeliveryItemListingResponse<TItem>> {
         var action = '/items';
 
         if (!options) {
@@ -53,7 +52,7 @@ export class DeliveryClient extends DeliveryClientBaseService {
         return super.getMultipleItems(action, options);
     }
 
-    getItem<TItem extends IItem>(type: string, codename: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
+    getItem<TItem extends IItem>(type: string, codename: string, options?: IQueryOption[]): Observable<DeliveryItemResponse<TItem>> {
         var action = '/items/' + codename;
 
         return super.getSingleItem(action, options);

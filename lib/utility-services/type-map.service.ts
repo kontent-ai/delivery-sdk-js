@@ -1,11 +1,10 @@
 import { ICloudMultipleTypeResponse, ICloudSingleTypeResponse } from '../interfaces/type/cloud-responses';
 import { IQueryOption } from '../interfaces/common/iquery-option.interface';
-import { IType } from '../interfaces/type/itype.interface';
-import { Type } from '../models/type/type.class';
-import { MultipleTypeResponse, SingleTypeResponse } from '../models/type/responses';
-import { TypeSystem } from '../models/type/system-type.class';
-import { TypeElement } from '../models/type/type-element.class';
-import { ITypeElement } from '../interfaces/type/itype-element.interface';
+import { IContentType } from '../interfaces/type/icontent-type.interface';
+import { ContentType } from '../models/type/content-type.class';
+import { ContentTypeSystemAttributes } from '../models/type/content-type-system-attributes.class';
+import { ContentTypeElement } from '../models/type/content-type-element.class';
+import { IContentTypeElement } from '../interfaces/type/icontent-type-element.interface';
 
 export class TypeMapService {
 
@@ -13,41 +12,41 @@ export class TypeMapService {
     ) {
     }
 
-    private mapType(type: IType): Type {
+    private mapType(type: IContentType): ContentType {
         if (!type) {
             return null;
         }
 
-        var typeSystem = new TypeSystem(
+        var typeSystem = new ContentTypeSystemAttributes(
             type.system.id,
             type.system.name,
             type.system.codename,
             type.system.last_modified
         );
 
-        var elements: TypeElement[] = [];
+        var elements: ContentTypeElement[] = [];
 
         if (type.elements) {
             var elementNames = Object.getOwnPropertyNames(type.elements);
             if (elementNames) {
                 elementNames.forEach(elementName => {
-                    var typeElement = type.elements[elementName] as ITypeElement;
+                    var typeElement = type.elements[elementName] as IContentTypeElement;
 
                     if (!typeElement) {
                         throw `Cannot find element '${elementName}' on type '${type}'`;
                     }
-                    elements.push(new TypeElement(typeElement.type, typeElement.name));
+                    elements.push(new ContentTypeElement(typeElement.type, typeElement.name));
                 });
             }
         }
-        return new Type(typeSystem, elements);
+        return new ContentType(typeSystem, elements);
     }
 
-    mapSingleType(response: ICloudSingleTypeResponse): Type {
-        return this.mapType(response as IType);
+    mapSingleType(response: ICloudSingleTypeResponse): ContentType {
+        return this.mapType(response as IContentType);
     }
 
-    mapMultipleTypes(response: ICloudMultipleTypeResponse): Type[] {
+    mapMultipleTypes(response: ICloudMultipleTypeResponse): ContentType[] {
         var that = this;
         return response.types.map(function (type) {
             return that.mapType(type);

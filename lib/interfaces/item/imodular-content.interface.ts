@@ -1,7 +1,7 @@
-import { ISystemItem } from './isystem-item.interface';
+import { IContentItemSystemAttributes } from './icontent-item-system-attributes.interface';
 
 export interface IModularContent {
-  system: ISystemItem,
+  system: IContentItemSystemAttributes,
   elements: any,
 }
 

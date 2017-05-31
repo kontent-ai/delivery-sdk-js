@@ -1,16 +1,15 @@
-import { IType } from '../../interfaces/type/itype.interface';
-import { ISystemType } from '../../interfaces/type/isystem-type.interface';
+import { IContentType } from '../../interfaces/type/icontent-type.interface';
 import { IPagination } from '../../interfaces/common/ipagination.interface';
 
-export class MultipleTypeResponse {
+export class DeliveryTypeListingResponse {
     constructor(
-        public types: IType[],
+        public types: IContentType[],
         public pagination: IPagination
     ) { }
 }
 
-export class SingleTypeResponse {
+export class DeliveryTypeResponse {
     constructor(
-        public type: IType
+        public type: IContentType
     ) { }
 }
