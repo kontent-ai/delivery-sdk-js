@@ -16,6 +16,7 @@ export declare abstract class DeliveryClientBaseService {
     protected itemMapService: ItemMapService;
     protected typeMapService: TypeMapService;
     constructor(http: Http, config: DeliveryClientConfig);
+    private getUrl(action, options?);
     private getBaseUrl();
     private addOptionsToUrl(url, options?);
     private getError(error);
@@ -23,8 +24,8 @@ export declare abstract class DeliveryClientBaseService {
     private getMultipleTypeResponse(response, options?);
     private getSingleResponse<TItem>(response);
     private getMultipleResponse<TItem>(response);
-    protected getSingleItem<TItem extends IItem>(type: string, action: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>>;
-    protected getMultipleItems<TItem extends IItem>(type: string, action: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>>;
+    protected getSingleItem<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>>;
+    protected getMultipleItems<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>>;
     protected getSingleType(action: string, options?: IQueryOption[]): Observable<SingleTypeResponse>;
     protected getMultipleTypes(action: string, options?: IQueryOption[]): Observable<MultipleTypeResponse>;
 }

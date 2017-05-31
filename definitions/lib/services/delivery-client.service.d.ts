@@ -13,6 +13,5 @@ export declare class DeliveryClient extends DeliveryClientBaseService {
     getTypes(options?: IQueryOption[]): Observable<MultipleTypeResponse>;
     getType(type: string, options?: IQueryOption[]): Observable<SingleTypeResponse>;
     getItems<TItem extends IItem>(type: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>>;
-    getItemByCodename<TItem extends IItem>(type: string, codename: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>>;
-    getItemById<TItem extends IItem>(type: string, id: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>>;
+    getItem<TItem extends IItem>(type: string, codename: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>>;
 }
