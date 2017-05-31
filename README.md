@@ -250,7 +250,8 @@ deliveryClient.getTypes().subscribe(response => console.log(response));
 
 ## Build
 
-Run `gulp build` to generate definitions & dist from the contents of `lib` folder
+- Use `gulp build` to generate definitions & dist from the contents of `lib` folder
+- Use `ng serve` to run sample angular2 app
 
 ## Notes
 
