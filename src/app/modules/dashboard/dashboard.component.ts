@@ -27,14 +27,15 @@ export class DashboardComponent implements OnInit {
     // all items
     this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
 
-    this.deliveryClient.getItemById<Character>("character", "id");
-    this.deliveryClient.getItemByCodename<Character>("character", "codename");
+    //this.deliveryClient.getItemById<Character>("character", "10993c23-3840-4485-b50e-567783dfe126").subscribe(response => console.log(response));
+    this.deliveryClient.getItemByCodename<Character>("character", "rick").subscribe(response => console.log(response));
 
+   /*
     // single item
     this.deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
       .subscribe(
         response => console.log(response),
-        error => console.log(error) // handle error
+        err => console.log(err) // handle error
       );
 
       // single item
@@ -46,6 +47,7 @@ export class DashboardComponent implements OnInit {
       .subscribe(
         response => console.log(response),
       );
+     */
 
     // query params
     this.deliveryClient.getItems<Character>("character",

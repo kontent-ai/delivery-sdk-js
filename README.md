@@ -223,7 +223,7 @@ Errors can be handled with `error` parameter of `subscribe` method (see [RxJS do
 .deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
   .subscribe(
     response => console.log(response),
-    error => console.log(error) // handle error
+    err => console.log(err) // handle error
   );
 
 deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
@@ -238,7 +238,7 @@ deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // thro
 
 ## Working with content types
 
-To retrieve information about your content types, use `getItem` or `getItems` method
+To retrieve information about your content types, use `getType` or `getTypes` method.
 
 ### Get single content type
 
