@@ -52,7 +52,7 @@ export class GetItemsComponent implements OnInit {
       this.codeExamples = response.items;
     });
 
-    this.deliveryClient.getItemByCodename<CodeExample>(this.type, 'changemacrorule_parameters').subscribe(response => {
+    this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters').subscribe(response => {
       console.log(response);
       this.codeExample = response.item;
     });

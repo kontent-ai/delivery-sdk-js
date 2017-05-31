@@ -107,11 +107,10 @@ To get multiple items use `getItems` method with `codename` of your content type
 deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
 ```
 
-To get single item use `getItemByCodename` or `getItemById` method:
+To get single item use `getItem` method:
 
 ```typescript
-deliveryClient.getItemById<Character>("character", "id").subscribe(response => console.log(response));
-deliveryClient.getItemByCodename<Character>("character", "codename").subscribe(response => console.log(response));
+deliveryClient.getItem<Character>("character", "itemCodename").subscribe(response => console.log(response));
 ```
 
 ### Filtering
@@ -220,13 +219,13 @@ export class Person extends BaseItem {
 Errors can be handled with `error` parameter of `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or with `catch` method.
 
 ```typescript
-.deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
+.deliveryClient.getItem<Character>("character", "invalidiItem") // throws 404
   .subscribe(
     response => console.log(response),
     err => console.log(err) // handle error
   );
 
-deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
+deliveryClient.getItem<Character>("character", "invalidiItem") // throws 404
   .catch(err => {
     console.log(err);
     throw err;

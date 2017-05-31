@@ -40,7 +40,7 @@ export abstract class DeliveryClientBaseService {
     }
 
     private getUrl(action: string, options?: IQueryOption[]): string{
-        return this.addOptionsToUrl(this.getBaseUrl() + action);
+        return this.addOptionsToUrl(this.getBaseUrl() + action, options);
     }    
 
     private getBaseUrl(): string {
@@ -121,7 +121,7 @@ export abstract class DeliveryClientBaseService {
         return new ResponseMultiple(items, pagination);
     }
 
-    protected getSingleItem<TItem extends IItem>(type: string, action: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
+    protected getSingleItem<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
         var url = this.getUrl(action, options);
 
         return this.http.get(url)
@@ -133,8 +133,8 @@ export abstract class DeliveryClientBaseService {
             });
     }
 
-    protected getMultipleItems<TItem extends IItem>(type: string, action: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>> {
-        var url = this.getUrl(action, options);;
+    protected getMultipleItems<TItem extends IItem>(action: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>> {
+        var url = this.getUrl(action, options);
 
         return this.http.get(url)
             .map(response => {

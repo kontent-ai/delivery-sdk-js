@@ -12,6 +12,8 @@ import { IItem } from '../interfaces/item/iitem.interface';
 import { IQueryOption } from '../interfaces/common/iquery-option.interface';
 import { IType } from '../interfaces/type/itype.interface';
 import { MultipleTypeResponse, SingleTypeResponse } from '../models/type/responses';
+import { EqualsFilter } from '../models/common/filters';
+import { LimitParameter } from '../models/common/parameters';
 
 // services
 import { ItemMapService } from '../utility-services/item-map.service';
@@ -40,20 +42,20 @@ export class DeliveryClient extends DeliveryClientBaseService {
     }
 
     getItems<TItem extends IItem>(type: string, options?: IQueryOption[]): Observable<ResponseMultiple<TItem>> {
-        var action = '/items?system.type=' + type;
+        var action = '/items';
 
-        return super.getMultipleItems(type, action, options);
+        if (!options) {
+            options = [];
+        }
+
+        options.push(new EqualsFilter("system.type", type));
+
+        return super.getMultipleItems(action, options);
     }
 
-    getItemByCodename<TItem extends IItem>(type: string, codename: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
+    getItem<TItem extends IItem>(type: string, codename: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
         var action = '/items/' + codename;
 
-        return super.getSingleItem(type, action, options);
-    }
-
-    getItemById<TItem extends IItem>(type: string, id: string, options?: IQueryOption[]): Observable<ResponseSingle<TItem>> {
-        var action = '/items?system.type=' + type + '&system.id=' + id + '&limit=1';
-
-        return super.getSingleItem(type, action, options);
+        return super.getSingleItem(action, options);
     }
 }

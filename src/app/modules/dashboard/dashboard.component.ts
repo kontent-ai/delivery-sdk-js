@@ -24,30 +24,13 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    //this.errorRequests();
+
     // all items
     this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
 
-    //this.deliveryClient.getItemById<Character>("character", "10993c23-3840-4485-b50e-567783dfe126").subscribe(response => console.log(response));
-    this.deliveryClient.getItemByCodename<Character>("character", "rick").subscribe(response => console.log(response));
-
-   /*
-    // single item
-    this.deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
-      .subscribe(
-        response => console.log(response),
-        err => console.log(err) // handle error
-      );
-
-      // single item
-    this.deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
-      .catch(err => {
-          console.log(err);
-          throw err;
-      })
-      .subscribe(
-        response => console.log(response),
-      );
-     */
+    this.deliveryClient.getItem<Character>("character", "rick").subscribe(response => console.log(response));
 
     // query params
     this.deliveryClient.getItems<Character>("character",
@@ -61,7 +44,7 @@ export class DashboardComponent implements OnInit {
     // filtering
     this.deliveryClient.getItems<Character>("character",
       [
-        new EqualsFilter("elements.name", "Rimmer")
+        new EqualsFilter("elements.name", "Rick")
       ])
       .subscribe(response => console.log(response));
 
@@ -70,5 +53,24 @@ export class DashboardComponent implements OnInit {
 
     // content type
     this.deliveryClient.getType("character").subscribe(response => console.log(response));
+  }
+
+  private errorRequests(): void {
+    // single item
+    this.deliveryClient.getItem<Character>("character", "invalidiItem") // throws 404
+      .subscribe(
+      response => console.log(response),
+      err => console.log(err) // handle error
+      );
+
+    // single item
+    this.deliveryClient.getItem<Character>("character", "invalidiItem") // throws 404
+      .catch(err => {
+        console.log(err);
+        throw err;
+      })
+      .subscribe(
+      response => console.log(response),
+    );
   }
 }
