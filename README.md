@@ -119,9 +119,25 @@ To get all items of all types use `getItems` with `ContentItem` type parameter:
 deliveryClient.getItems<ContentItem>().subscribe(response => console.log(response));
 ```
 
+### Using query parameters
+
+Query parameters can be combined. More info about parameters in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses) 
+
+```typescript
+deliveryClient.getItems<Character>("character",
+  [
+    new LimitParameter(5),
+    new OrderParameter("elements.name", SortOrder.desc)
+    new SkipParameter(3)
+  ])
+  .subscribe(response => console.log(response));
+```
+
+Supported query parameters: `DepthParameter`, `ElementsParameter`, `LimitParameter`, `OrderByParameter`, `SkipParameter`
+
 ### Filtering
 
-This example returns all **character** items whose **name** element is equal to **Rimmer**. More info in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#content-filtering)
+This example returns all **character** items whose **name** element is equal to **Rimmer**. Filters are also considered as `Query parameters` and can be combined. More info in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#content-filtering)
 
 ```typescript
 deliveryClient.getItems<Character>("character",
@@ -148,22 +164,6 @@ deliveryClient.getItems<Character>("character",
 ```
 
 Supported filters: `AllFilter`, `AnyFilter`, `ContainsFilter`, `EqualsFilter`, `GreaterThanFilter`, `GreaterThanOrEqualFilter`, `Infilter`, `LessThanFilter`, `LessThanOrEqualFilter`, `RangeFilter`
-
-### Using query parameters
-
-Query parameters can be combined. More info about parameters in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses) 
-
-```typescript
-deliveryClient.getItems<Character>("character",
-  [
-    new LimitParameter(5),
-    new OrderParameter("elements.name", SortOrder.desc)
-    new SkipParameter(3)
-  ])
-  .subscribe(response => console.log(response));
-```
-
-Supported query parameters: `DepthParameter`, `ElementsParameter`, `LimitParameter`, `OrderByParameter`, `SkipParameter`
 
 ### Creating models
 
