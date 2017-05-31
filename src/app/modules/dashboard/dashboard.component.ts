@@ -37,6 +37,16 @@ export class DashboardComponent implements OnInit {
         error => console.log(error) // handle error
       );
 
+      // single item
+    this.deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
+      .catch(err => {
+          console.log(err);
+          throw err;
+      })
+      .subscribe(
+        response => console.log(response),
+      );
+
     // query params
     this.deliveryClient.getItems<Character>("character",
       [

@@ -217,13 +217,22 @@ export class Person extends BaseItem {
 
 ### Handling errors
 
-Errors are best handled with `error` optional parameter (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html))
+Errors can be handled with `error` parameter of `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or with `catch` method.
 
 ```typescript
 .deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
   .subscribe(
     response => console.log(response),
     error => console.log(error) // handle error
+  );
+
+deliveryClient.getItemByCodename<Character>("character", "invalidiItem") // throws 404
+  .catch(err => {
+    console.log(err);
+    throw err;
+  })
+  .subscribe(
+    response => console.log(response),
   );
 ```
 
