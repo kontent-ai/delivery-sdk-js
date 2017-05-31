@@ -1,4 +1,4 @@
-import { IItem } from '../interfaces/iitem.interface';
+import { IItem } from '../interfaces/item/iitem.interface';
 import { TypeResolverService } from './type-resolver.service';
 export declare class FieldMapService {
     private typeResolverService;

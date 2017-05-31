@@ -207,7 +207,7 @@ export class Person extends BaseItem {
         if (fieldName === 'firstname') { // lowercase field returned by Kentico delivery API
           return 'firstName'; // name of 'Person' property
         }
-        else if (fieldName === 'lastname') {
+        if (fieldName === 'lastname') {
           return 'lastName';
         }
       })
@@ -246,8 +246,11 @@ deliveryClient.getTypes().subscribe(response => console.log(response));
 
 ## Todo's
 
-- Content types API
 - Tests
+
+## Build
+
+Run `gulp build` to generate definitions & dist from the contents of `lib` folder
 
 ## Notes
 

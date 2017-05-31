@@ -1,5 +1,5 @@
-import { TypeResolver } from '../models/type-resolver.class';
-import { IItem } from '../interfaces/iitem.interface';
+import { TypeResolver } from '../models/item/type-resolver.class';
+import { IItem } from '../interfaces/item/iitem.interface';
 export declare class TypeResolverService {
     private typeResolvers;
     constructor(typeResolvers: TypeResolver[]);

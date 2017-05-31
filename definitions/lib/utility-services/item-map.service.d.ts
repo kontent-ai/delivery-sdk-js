@@ -1,6 +1,6 @@
-import { IItem } from '../interfaces/iitem.interface';
-import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/cloud-responses';
-import { TypeResolver } from '../models/type-resolver.class';
+import { IItem } from '../interfaces/item/iitem.interface';
+import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/item/cloud-responses';
+import { TypeResolver } from '../models/item/type-resolver.class';
 export declare class ItemMapService {
     private typeResolvers;
     private fieldMapService;
