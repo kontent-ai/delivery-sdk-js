@@ -1,5 +1,4 @@
 import { ICloudMultipleTypeResponse, ICloudSingleTypeResponse } from '../interfaces/type/cloud-responses';
-import { IQueryOption } from '../interfaces/common/iquery-option.interface';
 import { IContentType } from '../interfaces/type/icontent-type.interface';
 import { ContentType } from '../models/type/content-type.class';
 import { ContentTypeSystemAttributes } from '../models/type/content-type-system-attributes.class';

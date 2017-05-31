@@ -14,10 +14,12 @@ export {
 
 export { AssetsField, DateTimeField, MultipleChoiceField, NumberField, RichTextField, TextField } from './lib/fields/field-types';
 
-export { DepthParameter, ElementsParameter, LimitParameter, OrderAscParameter, OrderDescParameter, SkipParameter } from './lib/models/common/parameters';
+export { DepthParameter, ElementsParameter, LimitParameter, OrderParameter, SkipParameter } from './lib/models/common/parameters';
 
 export { ContentType } from './lib/models/type/content-type.class';
 
 export { DeliveryItemListingResponse, DeliveryItemResponse } from './lib/models/item/responses';
 
 export { DeliveryTypeListingResponse, DeliveryTypeResponse } from './lib/models/type/responses';
+
+export { SortOrder } from './lib/models/common/sort-order.enum';

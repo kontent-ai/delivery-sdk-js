@@ -1,6 +1,7 @@
-import { IQueryOption } from '../../interfaces/common/iquery-option.interface';
+import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
+import { SortOrder } from './sort-order.enum';
 
-export class ElementsParameter implements IQueryOption {
+export class ElementsParameter implements IQueryParameter {
 
     constructor(
         public elementCodenames: string[]
@@ -19,7 +20,7 @@ export class ElementsParameter implements IQueryOption {
     }
 }
 
-export class LimitParameter implements IQueryOption {
+export class LimitParameter implements IQueryParameter {
 
     constructor(
         public limit: number
@@ -34,7 +35,7 @@ export class LimitParameter implements IQueryOption {
     }
 }
 
-export class SkipParameter implements IQueryOption {
+export class SkipParameter implements IQueryParameter {
 
     constructor(
         public skip: number
@@ -49,10 +50,10 @@ export class SkipParameter implements IQueryOption {
     }
 }
 
-export class OrderAscParameter implements IQueryOption {
-
+export class OrderParameter implements IQueryParameter {
     constructor(
-        public field: string
+        public field: string,
+        public sortOrder: SortOrder
     ) { }
 
     public GetParam(): string {
@@ -60,26 +61,18 @@ export class OrderAscParameter implements IQueryOption {
     }
 
     public GetParamValue(): string {
-        return `${this.field}[asc]`;
+        var order: string;
+        if (this.sortOrder == SortOrder.asc){
+            order = "asc";
+        }
+        else{
+            order = "desc";
+        }
+        return `${this.field}[${order}]`;
     }
 }
 
-export class OrderDescParameter implements IQueryOption {
-
-    constructor(
-        public field: string
-    ) { }
-
-    public GetParam(): string {
-        return 'order';
-    }
-
-    public GetParamValue(): string {
-        return `${this.field}[desc]`;
-    }
-}
-
-export class DepthParameter implements IQueryOption {
+export class DepthParameter implements IQueryParameter {
 
     constructor(
         public depth: number

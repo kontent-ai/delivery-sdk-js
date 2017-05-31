@@ -11,9 +11,9 @@ npm install kentico-cloud-angular2-sdk --save
 ### Create model
 
 ```typescript
-import { BaseItem, TextField } from 'kentico-cloud-angular2-sdk';
+import { ContentItem, TextField } from 'kentico-cloud-angular2-sdk';
 
-export class Character extends BaseItem {
+export class Character extends ContentItem {
   public name: TextField;
 
   constructor() {
@@ -101,7 +101,7 @@ export class SampleComponent implements OnInit {
 
 ### Getting data
 
-To get multiple items use `getItems` method with `codename` of your content type as parameter
+To get multiple items use `getItems` method with `codename` of your content type as parameter:
 
 ```typescript
 deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
@@ -111,6 +111,12 @@ To get single item use `getItem` method:
 
 ```typescript
 deliveryClient.getItem<Character>("character", "itemCodename").subscribe(response => console.log(response));
+```
+
+To get all items of all types use `getItems` with `ContentItem` type parameter:
+
+```typescript
+deliveryClient.getItems<ContentItem>().subscribe(response => console.log(response));
 ```
 
 ### Filtering
@@ -123,6 +129,22 @@ deliveryClient.getItems<Character>("character",
      new EqualsFilter("elements.name", "Rimmer")
   ])
   .subscribe(response => console.log(response));
+```
+
+### Sorting
+
+```typescript
+deliveryClient.getItems<Character>("character",
+  [
+    new OrderParameter("elements.name", SortOrder.desc)
+  ]
+  ).subscribe(response => console.log(response));
+
+deliveryClient.getItems<Character>("character",
+  [
+    new OrderParameter("elements.name", SortOrder.asc)
+  ]
+  ).subscribe(response => console.log(response));
 ```
 
 Supported filters: `AllFilter`, `AnyFilter`, `ContainsFilter`, `EqualsFilter`, `GreaterThanFilter`, `GreaterThanOrEqualFilter`, `Infilter`, `LessThanFilter`, `LessThanOrEqualFilter`, `RangeFilter`
@@ -139,16 +161,16 @@ deliveryClient.getItems<Character>("character",
   .subscribe(response => console.log(response));
 ```
 
-Supported query parameters: `DepthParameter`, `ElementsParameter`, `LimitParameter`, `OrderAscParameter`, `OrderDescParameter`, `SkipParameter`
+Supported query parameters: `DepthParameter`, `ElementsParameter`, `LimitParameter`, `OrderByParameter`, `SkipParameter`
 
 ### Creating models
 
-Each model class need to extend `BaseField` and each element needs to use one of supported fields. For example if you define a 'text' field in your content type, you need to use `TextField` in your model:
+Each model class need to extend `ContentItem` and each element needs to use one of supported fields. For example if you define a 'text' field in your content type, you need to use `TextField` in your model:
 
 ```typescript
-import { BaseField TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-angular-2-sdk';
+import { ContentItem TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-angular-2-sdk';
 
-export class Character extends BaseItem {
+export class Character extends ContentItem {
   public name: TextField;
   public age: NumberField;
   public birthdate: DateTimeField;
@@ -166,9 +188,9 @@ To include modular content simply reference proper class:
 
 
 ```typescript
-import { BaseField TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
+import { ContentItem TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
 
-export class Character extends BaseItem {
+export class Character extends ContentItem {
   public name: TextField;
   public age: NumbeField;
 
@@ -177,7 +199,7 @@ export class Character extends BaseItem {
   }
 }
 
-export class Movie extends BaseItem {
+export class Movie extends ContentItem {
   public movie: TextField;
   public release: NumberField;
   public characters: Character[]
@@ -193,9 +215,9 @@ export class Movie extends BaseItem {
 Kentico cloud returns all field names in **lowercase** and since javascript properties are case sensitive, the binding will fail if your property is called e.g. *firstName*. You can either use **lowercase only properties** or use custom resolver to bind fields to their proper names:
 
 ```typescript
-import { BaseField TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
+import { ContentItem TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
 
-export class Person extends BaseItem {
+export class Person extends ContentItem {
   public firstName: TextField;
   public lastName: TextField;
   public age: NumbeField;

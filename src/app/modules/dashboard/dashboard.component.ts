@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // delivery client
-import { DeliveryClient, LimitParameter, EqualsFilter } from '../../../../index';
+import { DeliveryClient, LimitParameter, EqualsFilter, OrderParameter, SortOrder, ContentItem } from '../../../../index';
 
 // models
 import { Character } from '../../models/character.class';
@@ -17,7 +17,11 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.deliveryClient.getItems<ContentItem>().subscribe(response => console.log(response));
+  }
 
+
+  private testRequests(): void {
     // multiple items
     this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
 
@@ -29,10 +33,16 @@ export class DashboardComponent implements OnInit {
 
     // content type
     this.deliveryClient.getType("character").subscribe(response => console.log(response));
-
   }
 
-  private testRequests(): void {
+  private allRequests(): void {
+
+    this.deliveryClient.getItems<Character>("character",
+      [
+        new OrderParameter("elements.name", SortOrder.desc)
+      ]
+    ).subscribe(response => console.log(response));
+
     this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
 
     this.deliveryClient.getItem<Character>("character", "rick").subscribe(response => console.log(response));

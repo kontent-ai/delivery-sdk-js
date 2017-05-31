@@ -1,6 +1,6 @@
-import { IQueryOption } from '../../interfaces/common/iquery-option.interface';
+import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
 
-export class EqualsFilter implements IQueryOption {
+export class EqualsFilter implements IQueryParameter {
     constructor(
         public field: string,
         public value: string
@@ -22,7 +22,7 @@ export class EqualsFilter implements IQueryOption {
     }
 }
 
-export class AllFilter implements IQueryOption {
+export class AllFilter implements IQueryParameter {
     constructor(
         public field: string,
         public values: string[]
@@ -44,7 +44,7 @@ export class AllFilter implements IQueryOption {
     }
 }
 
-export class AnyFilter implements IQueryOption {
+export class AnyFilter implements IQueryParameter {
   constructor(
         public field: string,
         public values: string[]
@@ -66,7 +66,7 @@ export class AnyFilter implements IQueryOption {
     }
 }
 
-export class ContainsFilter implements IQueryOption {
+export class ContainsFilter implements IQueryParameter {
       constructor(
         public field: string,
         public values: string[]
@@ -88,7 +88,7 @@ export class ContainsFilter implements IQueryOption {
     }
 }
 
-export class GreaterThanFilter implements IQueryOption {
+export class GreaterThanFilter implements IQueryParameter {
     constructor(
         public field: string,
         public value: string
@@ -110,7 +110,7 @@ export class GreaterThanFilter implements IQueryOption {
     }
 }
 
-export class GreaterThanOrEqualFilter implements IQueryOption {
+export class GreaterThanOrEqualFilter implements IQueryParameter {
      constructor(
         public field: string,
         public value: string
@@ -132,7 +132,7 @@ export class GreaterThanOrEqualFilter implements IQueryOption {
     }
 }
 
-export class Infilter implements IQueryOption {
+export class Infilter implements IQueryParameter {
     constructor(
         public field: string,
         public values: string[]
@@ -154,7 +154,7 @@ export class Infilter implements IQueryOption {
     }
 }
 
-export class LessThanFilter implements IQueryOption {
+export class LessThanFilter implements IQueryParameter {
      constructor(
         public field: string,
         public value: string
@@ -176,7 +176,7 @@ export class LessThanFilter implements IQueryOption {
     }
 }
 
-export class LessThanOrEqualFilter implements IQueryOption {
+export class LessThanOrEqualFilter implements IQueryParameter {
     constructor(
         public field: string,
         public value: string
@@ -198,7 +198,7 @@ export class LessThanOrEqualFilter implements IQueryOption {
     }
 }
 
-export class RangeFilter implements IQueryOption {
+export class RangeFilter implements IQueryParameter {
      constructor(
         public field: string,
         public lowerValue: number,
