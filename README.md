@@ -151,12 +151,14 @@ Supported filters: `AllFilter`, `AnyFilter`, `ContainsFilter`, `EqualsFilter`, `
 
 ### Using query parameters
 
-Following example returns top 5 items of 'character' type. More info in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses) 
+Query parameters can be combined. More info about parameters in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses) 
 
 ```typescript
 deliveryClient.getItems<Character>("character",
   [
-    new LimitParameter(5)
+    new LimitParameter(5),
+    new OrderParameter("elements.name", SortOrder.desc)
+    new SkipParameter(3)
   ])
   .subscribe(response => console.log(response));
 ```
