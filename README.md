@@ -123,6 +123,12 @@ deliveryClient.getItems<ContentItem>().subscribe(response => console.log(respons
 
 Query parameters can be combined. More info about parameters in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses) 
 
+Don't forget to import all parameters before using them:
+
+```typescript
+import { LimitParameter, EqualsFilter, OrderParameter, SortOrder } from 'kentico-cloud-angular2-sdk';
+```
+
 ```typescript
 deliveryClient.getItems<Character>("character",
   [
@@ -228,7 +234,7 @@ export class Person extends ContentItem {
     super({
       resolver: ((fieldName: string) => {
         if (fieldName === 'firstname') { // lowercase field returned by Kentico delivery API
-          return 'firstName'; // name of 'Person' property
+          return 'firstName'; // name of 'Person.lastName' property
         }
         if (fieldName === 'lastname') {
           return 'lastName';
