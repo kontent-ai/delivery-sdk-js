@@ -2,7 +2,7 @@
 
 Developer's SDK for [KenticoCloud](https://kenticocloud.com/)
 
-[![npm version](https://badge.fury.io/js/kentico-cloud-angular2-sdk.svg)](https://www.npmjs.com/package/kentico-cloud-delivery-typescript-sdk)
+[![npm version](https://badge.fury.io/js/kentico-cloud-delivery-typescript-sdk.svg)](https://www.npmjs.com/package/kentico-cloud-delivery-typescript-sdk)
 
 ## Getting started
 
