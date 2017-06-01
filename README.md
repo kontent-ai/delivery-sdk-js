@@ -2,18 +2,18 @@
 
 Developer's SDK for [KenticoCloud](https://kenticocloud.com/)
 
-[![npm version](https://badge.fury.io/js/kentico-cloud-angular2-sdk.svg)](https://www.npmjs.com/package/kentico-cloud-angular2-sdk)
+[![npm version](https://badge.fury.io/js/kentico-cloud-angular2-sdk.svg)](https://www.npmjs.com/package/kentico-cloud-delivery-typescript-sdk)
 
 ## Getting started
 
 ```
-npm install kentico-cloud-angular2-sdk --save
+npm i kentico-cloud-delivery-typescript-sdk --save
 ```
 
 ### Create model
 
 ```typescript
-import { ContentItem, TextField } from 'kentico-cloud-angular2-sdk';
+import { ContentItem, TextField } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Character extends ContentItem {
   public name: TextField;
@@ -24,81 +24,28 @@ export class Character extends ContentItem {
 }
 ```
 
-### Setup factory provider for DeliveryClient
+### Initialize DeliveryClient
 
 ```typescript
-// core
-import { Http } from '@angular/http';
-
 // kentico cloud
-import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-angular2-sdk';
+import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-delivery-typescript-sdk';
 
 // models
 import { Character } from './character.class';
 
-export function DeliveryClientFactory(http: Http) {
+let apiUrl = 'https://deliver.kenticocloud.com';
+let projectId = 'yourProjectId';
 
-    let apiUrl = 'https://deliver.kenticocloud.com';
-    let projectId = 'yourProjectId';
+let typeResolvers: TypeResolver[] = [
+    new TypeResolver("character", () => new Character()),
+  ];
 
-    let typeResolvers: TypeResolver[] = [
-        new TypeResolver("character", () => new Character()),
-    ];
-
-    return new DeliveryClient(
-        http,
-        new DeliveryClientConfig(apiUrl, projectId, typeResolvers)
-    )
-};
-
-export var DeliveryClientProvider =
-    {
-        provide: DeliveryClient,
-        useFactory: DeliveryClientFactory,
-        deps: [Http]
-    };
+var deliveryClient = new DeliveryClient(
+  new DeliveryClientConfig(apiUrl, projectId, typeResolvers)
+  )
 
 ```
 
-### Use factory provider in app.module
-
-```typescript
-import { DeliveryClientFactory } from 'your-delivery-factory-provider';
-
-@NgModule({
-  providers: [
-    DeliveryClientFactory
-  ],
-  bootstrap: [AppComponent],
-})
-```
-
-### Use in your component
-
-```typescript
-import { Component, OnInit } from '@angular/core';
-
-// delivery client
-import { DeliveryClient } from 'kentico-cloud-angular2-sdk';
-
-// models
-import { Character } from 'character.class';
-
-@Component({
-  templateUrl: 'sample.component.html',
-})
-export class SampleComponent implements OnInit {
-
-  constructor(
-    private deliveryClient: DeliveryClient
-  ) {
-  }
-
-  ngOnInit(): void {
-    this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
-  }
-}
-```
 ## API Documentation
 
 ### Getting data
@@ -128,7 +75,7 @@ Query parameters can be combined. More info about parameters in [Kentico Cloud A
 Don't forget to import all parameters before using them:
 
 ```typescript
-import { LimitParameter, EqualsFilter, OrderParameter, SortOrder } from 'kentico-cloud-angular2-sdk';
+import { LimitParameter, EqualsFilter, OrderParameter, SortOrder } from 'kentico-cloud-delivery-typescript-sdk';
 ```
 
 ```typescript
@@ -178,7 +125,7 @@ Supported filters: `AllFilter`, `AnyFilter`, `ContainsFilter`, `EqualsFilter`, `
 Each model class need to extend `ContentItem` and each element needs to use one of supported fields. For example if you define a 'text' field in your content type, you need to use `TextField` in your model:
 
 ```typescript
-import { ContentItem TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-angular-2-sdk';
+import { ContentItem TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Character extends ContentItem {
   public name: TextField;
@@ -198,7 +145,7 @@ To include modular content simply reference proper class:
 
 
 ```typescript
-import { ContentItem TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
+import { ContentItem TextField, NumberField } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Character extends ContentItem {
   public name: TextField;
@@ -225,7 +172,7 @@ export class Movie extends ContentItem {
 Kentico cloud returns all field names in **lowercase** and since javascript properties are case sensitive, the binding will fail if your property is called e.g. *firstName*. You can either use **lowercase only properties** or use custom resolver to bind fields to their proper names:
 
 ```typescript
-import { ContentItem TextField, NumberField } from 'kentico-cloud-angular-2-sdk';
+import { ContentItem TextField, NumberField } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Person extends ContentItem {
   public firstName: TextField;
@@ -288,10 +235,10 @@ deliveryClient.getTypes().subscribe(response => console.log(response));
 
 - Tests
 
-## Build
+## Build (only for Git repo)
 
 - Use `gulp build` to generate definitions & dist from the contents of `lib` folder
-- Use `ng serve` to run sample angular2 app
+- Use `ng serve` to run sample angular2 app 
 
 ## Notes
 
