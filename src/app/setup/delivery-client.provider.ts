@@ -1,6 +1,3 @@
-// core
-import { Http } from '@angular/http';
-
 // kentico cloud
 import { DeliveryClient, DeliveryClientConfig, TypeResolver } from '../../../index';
 
@@ -10,7 +7,7 @@ import { Author } from '../models/author.class';
 import { Category } from '../models/category.class';
 import { CodeExample } from '../models/code-example.class';
 
-export function DeliveryClientFactory(http: Http) {
+export function DeliveryClientFactory() {
 
     let apiUrl = 'https://deliver.kenticocloud.com';
     let projectId = 'b52fa0db-84ec-4310-8f7c-3b94ed06644d';
@@ -23,7 +20,6 @@ export function DeliveryClientFactory(http: Http) {
     ];
 
     return new DeliveryClient(
-        http,
         new DeliveryClientConfig(apiUrl, projectId, typeResolvers)
     )
 };
@@ -32,5 +28,5 @@ export var DeliveryClientProvider =
     {
         provide: DeliveryClient,
         useFactory: DeliveryClientFactory,
-        deps: [Http]
+        deps: []
     };

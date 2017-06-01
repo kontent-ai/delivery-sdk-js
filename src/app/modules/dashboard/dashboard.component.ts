@@ -6,6 +6,8 @@ import { DeliveryClient, LimitParameter, EqualsFilter, OrderParameter, SortOrder
 // models
 import { Character } from '../../models/character.class';
 
+import * as https from 'https';
+
 @Component({
   templateUrl: 'dashboard.component.html',
 })
@@ -19,7 +21,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.deliveryClient.getItems<ContentItem>().subscribe(response => console.log(response));
   }
-
 
   private testRequests(): void {
     // multiple items

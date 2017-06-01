@@ -1,6 +1,4 @@
-// core
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+// rxjs
 import { Observable } from 'rxjs/Observable';
 
 // config
@@ -18,14 +16,12 @@ import { LimitParameter } from '../models/common/parameters';
 import { ItemMapService } from '../utility-services/item-map.service';
 import { DeliveryClientBaseService } from './delivery-client-base.service';
 
-@Injectable()
 export class DeliveryClient extends DeliveryClientBaseService {
 
     constructor(
-        protected http: Http,
         protected config: DeliveryClientConfig
     ) {
-        super(http, config)
+        super(config)
     }
 
     getTypes(options?: IQueryParameter[]): Observable<DeliveryTypeListingResponse> {
@@ -47,7 +43,7 @@ export class DeliveryClient extends DeliveryClientBaseService {
             options = [];
         }
 
-        // get all items if no type is specified
+        // get all items of all types when no type is specified
         if (type){
             options.push(new EqualsFilter("system.type", type));
         }

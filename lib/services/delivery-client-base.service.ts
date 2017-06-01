@@ -1,10 +1,13 @@
-// core
-import { Injectable } from '@angular/core';
-import { Headers, Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-
 // config
 import { DeliveryClientConfig } from '../config/delivery-client.config';
+
+// rxjs
+import { Observable } from 'rxjs/Observable';
+import { ajax } from 'rxjs/observable/dom/ajax';
+import { AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/observable/throw';
 
 // models
 import { DeliveryItemListingResponse, DeliveryItemResponse } from '../models/item/responses';
@@ -19,19 +22,12 @@ import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/typ
 import { ItemMapService } from '../utility-services/item-map.service';
 import { TypeMapService } from '../utility-services/type-map.service';
 
-// rxjs
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/throw';
-
-@Injectable()
 export abstract class DeliveryClientBaseService {
 
     protected itemMapService: ItemMapService;
     protected typeMapService: TypeMapService;
 
     constructor(
-        protected http: Http,
         protected config: DeliveryClientConfig
     ) {
         this.itemMapService = new ItemMapService(config.typeResolvers);
@@ -68,8 +64,8 @@ export abstract class DeliveryClientBaseService {
         return error;
     }
 
-    private getSingleTypeResponse(response: Response): DeliveryTypeResponse {
-        var cloudResponse = (response.json() || {}) as ICloudSingleTypeResponse;
+    private getSingleTypeResponse(json: any): DeliveryTypeResponse {
+        var cloudResponse = json as ICloudSingleTypeResponse;
 
         // map type
         var type = this.typeMapService.mapSingleType(cloudResponse);
@@ -77,8 +73,8 @@ export abstract class DeliveryClientBaseService {
         return new DeliveryTypeResponse(type);
     }
 
-    private getMultipleTypeResponse(response: Response, options?: IQueryParameter[]): DeliveryTypeListingResponse {
-        var cloudResponse = (response.json() || {}) as ICloudMultipleTypeResponse;
+    private getMultipleTypeResponse(json: any, options?: IQueryParameter[]): DeliveryTypeListingResponse {
+        var cloudResponse = json as ICloudMultipleTypeResponse;
 
         // map types
         var types = this.typeMapService.mapMultipleTypes(cloudResponse);
@@ -94,8 +90,8 @@ export abstract class DeliveryClientBaseService {
         return new DeliveryTypeListingResponse(types, pagination);
     }
 
-    private getSingleResponse<TItem extends IContentItem>(response: Response): DeliveryItemResponse<TItem> {
-        var cloudResponse = (response.json() || {}) as ICloudResponseSingle;
+    private getSingleResponse<TItem extends IContentItem>(json: any): DeliveryItemResponse<TItem> {
+        var cloudResponse = json as ICloudResponseSingle;
 
         // map item
         var item = this.itemMapService.mapSingleItem<TItem>(cloudResponse);
@@ -103,8 +99,8 @@ export abstract class DeliveryClientBaseService {
         return new DeliveryItemResponse(item);
     }
 
-    private getMultipleResponse<TItem extends IContentItem>(response: Response): DeliveryItemListingResponse<TItem> {
-        var cloudResponse = (response.json() || {}) as ICloudResponseMultiple;
+    private getMultipleResponse<TItem extends IContentItem>(json: any): DeliveryItemListingResponse<TItem> {
+        var cloudResponse = json as ICloudResponseMultiple;
 
         // map items
         var items = this.itemMapService.mapMultipleItems<TItem>(cloudResponse);
@@ -123,9 +119,9 @@ export abstract class DeliveryClientBaseService {
     protected getSingleItem<TItem extends IContentItem>(action: string, options?: IQueryParameter[]): Observable<DeliveryItemResponse<TItem>> {
         var url = this.getUrl(action, options);
 
-        return this.http.get(url)
-            .map(response => {
-                return this.getSingleResponse<TItem>(response)
+        return ajax.getJSON(url)
+            .map(json => {
+                return this.getSingleResponse<TItem>(json)
             })
             .catch(err => {
                 return Observable.throw(this.getError(err));
@@ -135,9 +131,9 @@ export abstract class DeliveryClientBaseService {
     protected getMultipleItems<TItem extends IContentItem>(action: string, options?: IQueryParameter[]): Observable<DeliveryItemListingResponse<TItem>> {
         var url = this.getUrl(action, options);
 
-        return this.http.get(url)
-            .map(response => {
-                return this.getMultipleResponse(response)
+        return ajax.getJSON(url)
+            .map(json => {
+                return this.getMultipleResponse(json)
             })
             .catch(err => {
                 return Observable.throw(this.getError(err));
@@ -147,9 +143,9 @@ export abstract class DeliveryClientBaseService {
     protected getSingleType(action: string, options?: IQueryParameter[]): Observable<DeliveryTypeResponse> {
         var url = this.getUrl(action, options);
 
-        return this.http.get(url)
-            .map(response => {
-                return this.getSingleTypeResponse(response)
+        return ajax.getJSON(url)
+            .map(json => {
+                return this.getSingleTypeResponse(json)
             })
             .catch(err => {
                 return Observable.throw(this.getError(err));
@@ -159,9 +155,9 @@ export abstract class DeliveryClientBaseService {
     protected getMultipleTypes(action: string, options?: IQueryParameter[]): Observable<DeliveryTypeListingResponse> {
         var url = this.getUrl(action, options);
 
-        return this.http.get(url)
-            .map(response => {
-                return this.getMultipleTypeResponse(response)
+        return ajax.getJSON(url)
+            .map(json => {
+                return this.getMultipleTypeResponse(json)
             })
             .catch(err => {
                 return Observable.throw(this.getError(err));
