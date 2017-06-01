@@ -1,16 +1,17 @@
 {
-  "name": "kentico-cloud-angular2-sdk",
-  "version": "0.10.3",
+  "name": "kentico-cloud-delivery-typescript-sdk",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Enngage/KenticoCloudAngular2SDK"
+    "url": "https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK"
   },
   "author": "richard sustek",
-  "description": "Kentico Cloud SDK",
+  "description": "Kentico Cloud Delivery SDK",
   "keywords": [
+    "Kentico",
+    "Kentico SDK",
     "Kentico Cloud",
     "Kentico Cloud SDK",
-    "Kentico SDK",
     "Kentico Cloud Typescript",
     "Kentico Cloud Javascript"
   ],

@@ -1,4 +1,4 @@
-# Kentico Cloud SDK for Angular 2
+# Kentico Cloud Delivery TypeScript SDK
 
 Developer's SDK for [KenticoCloud](https://kenticocloud.com/)
 
