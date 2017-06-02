@@ -1,10 +1,10 @@
+# Ignore everything
+*
 
-!*.ts
-lib/*.ts
+# But not these files
 !definitions/*.ts
 !dist/*.ts
 !package.json
 !*.md
 
-#ignore test angular app
-src/*
+
