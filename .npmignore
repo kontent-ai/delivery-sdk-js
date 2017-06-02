@@ -2,8 +2,8 @@
 *
 
 # But not these files
-!definitions/*.ts
-!dist/*.ts
+!definitions/
+!dist/
 !package.json
 !*.md
 
