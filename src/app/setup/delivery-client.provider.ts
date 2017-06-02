@@ -6,6 +6,7 @@ import { Character } from '../models/character.class';
 import { Author } from '../models/author.class';
 import { Category } from '../models/category.class';
 import { CodeExample } from '../models/code-example.class';
+import { DeeperCategory } from '../models/deeper-category';
 
 export function DeliveryClientFactory() {
 
@@ -17,6 +18,7 @@ export function DeliveryClientFactory() {
         new TypeResolver("category", () => new Category()),
         new TypeResolver("author", () => new Author()),
         new TypeResolver("character", () => new Character()),
+        new TypeResolver("deeper_category", () => new DeeperCategory()),
     ];
 
     return new DeliveryClient(

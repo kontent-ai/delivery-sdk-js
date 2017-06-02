@@ -7,8 +7,8 @@ import { Category } from './category.class';
 export class CodeExample extends ContentItem {
   
   public title: TextField;
-  public author: Author;
-  public category: Category;
+  public author: Author[];
+  public category: Category[];
   public versions: MultipleChoiceField;
 }
 

@@ -14,6 +14,11 @@ export class FieldMapService {
     }
 
     mapFields(item: IContentItem, modularContent: any): any {
+        if (!item){
+            console.log("ase");
+            return null;
+        }
+
         var properties = Object.getOwnPropertyNames(item.elements);
 
         // create typed item
@@ -107,8 +112,19 @@ export class FieldMapService {
     }
 
     private mapModularField(field: IField, modularContent: any): any {
-        var modularItem = modularContent[field.value[0]];
+        if (!field.value){
+            // no modular content is assigned
+            return null;
+        }
 
-        return this.mapFields(modularItem, modularContent);
+        // modular content is always returned in an array
+        var modularContentItems: any[] = [];
+        var fieldModularContent = field.value as Array<string>;
+        fieldModularContent.forEach(modularItemCodename => {
+            console.log("Field map service - TODO - fix nested modular content");
+            modularContentItems.push(this.mapFields(modularContent[modularItemCodename], modularContent));
+        })
+
+        return modularContentItems;
     }
 }
