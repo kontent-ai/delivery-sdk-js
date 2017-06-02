@@ -4,10 +4,12 @@ import { ContentType } from '../models/type/content-type.class';
 import { ContentTypeSystemAttributes } from '../models/type/content-type-system-attributes.class';
 import { ContentTypeElement } from '../models/type/content-type-element.class';
 import { IContentTypeElement } from '../interfaces/type/icontent-type-element.interface';
+import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 export class TypeMapService {
 
     constructor(
+        private deliveryClientConfig: DeliveryClientConfig
     ) {
     }
 

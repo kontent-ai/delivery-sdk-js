@@ -7,7 +7,7 @@ import { Character } from '../../models/character.class';
 // k cloud
 import {
   DeliveryClient,
-  LimitParameter, OrderAscParameter, OrderDescParameter, DepthParameter,
+  LimitParameter, DepthParameter,
   ElementsParameter, SkipParameter,
   EqualsFilter, AllFilter, AnyFilter, ContainsFilter, GreaterThanFilter,
   GreaterThanOrEqualFilter, Infilter, LessThanFilter, LessThanOrEqualFilter,
@@ -44,9 +44,13 @@ export class GetItemsComponent implements OnInit {
       this.codeExamples = response.items;
     });
 
-    this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters').subscribe(response => {
-      console.log(response);
-      this.codeExample = response.item;
-    });
+
+    this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters',
+      [
+        new DepthParameter(2)
+      ]).subscribe(response => {
+        console.log(response);
+        this.codeExample = response.item;
+      });
   }
 }

@@ -1,11 +1,12 @@
 import { TypeResolver } from '../models/item/type-resolver.class';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
+import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 export class TypeResolverService {
 
     constructor(
-        private typeResolvers: TypeResolver[]
+        private config: DeliveryClientConfig
     ) {
     }
 
@@ -14,7 +15,7 @@ export class TypeResolverService {
             throw Error('Cannot resolve type because no type name was provided');
         }
 
-        var typeResolver = this.typeResolvers.find(m => m.type === type);
+        var typeResolver = this.config.typeResolvers.find(m => m.type === type);
 
         if (!typeResolver) {
             throw Error(`Cannot find resolver for type '${type}'`);

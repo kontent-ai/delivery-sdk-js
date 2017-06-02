@@ -30,8 +30,8 @@ export abstract class DeliveryClientBaseService {
     constructor(
         protected config: DeliveryClientConfig
     ) {
-        this.itemMapService = new ItemMapService(config.typeResolvers);
-        this.typeMapService = new TypeMapService();
+        this.itemMapService = new ItemMapService(config);
+        this.typeMapService = new TypeMapService(config);
     }
 
     private getUrl(action: string, options?: IQueryParameter[]): string {

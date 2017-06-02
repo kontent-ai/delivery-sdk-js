@@ -5,17 +5,20 @@ import { IField } from '../interfaces/item/ifield.interface';
 import { FieldType } from '../fields/field-type';
 import { TypeResolver } from '../models/item/type-resolver.class';
 import { TypeResolverService } from './type-resolver.service';
+import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 export class FieldMapService {
 
+    private typeResolverService: TypeResolverService;
+
     constructor(
-        private typeResolverService: TypeResolverService,
+        private config: DeliveryClientConfig,
     ) {
+        this.typeResolverService = new TypeResolverService(config);
     }
 
     mapFields(item: IContentItem, modularContent: any): any {
-        if (!item){
-            console.log("ase");
+        if (!item) {
             return null;
         }
 
@@ -34,7 +37,7 @@ export class FieldMapService {
             }
 
             // if property name is null/empty, use elements codename
-            if (!propertyName){
+            if (!propertyName) {
                 propertyName = fieldName;
             }
 
@@ -68,7 +71,9 @@ export class FieldMapService {
         }
         else {
             var err = `Unsupported field type '${field.type}'`
-            console.log(err);
+            if (this.config.enableAdvancedLogging){
+                console.log(err);
+            }
             throw Error(err)
         }
     }
@@ -77,8 +82,8 @@ export class FieldMapService {
         // get all modular content items nested in rich text
         var modularItems: IContentItem[] = [];
 
-        if (field.modular_content){
-            if (Array.isArray(field.modular_content)){
+        if (field.modular_content) {
+            if (Array.isArray(field.modular_content)) {
                 field.modular_content.forEach(codename => {
                     // get modular item
                     var modularItem = this.mapFields(modularContent[codename], modularContent);
@@ -112,8 +117,17 @@ export class FieldMapService {
     }
 
     private mapModularField(field: IField, modularContent: any): any {
-        if (!field.value){
-            // no modular content is assigned
+        if (!field) {
+            if (this.config.enableAdvancedLogging) {
+                console.log(`Cannot map modular content field because field does not exist`);
+            }
+            return null;
+        }
+
+        if (!field.value) {
+            if (this.config.enableAdvancedLogging) {
+                console.log(`Cannot map modular content of '${field.name}' because its value does not exist`);
+            }
             return null;
         }
 
@@ -121,8 +135,15 @@ export class FieldMapService {
         var modularContentItems: any[] = [];
         var fieldModularContent = field.value as Array<string>;
         fieldModularContent.forEach(modularItemCodename => {
-            console.log("Field map service - TODO - fix nested modular content");
-            modularContentItems.push(this.mapFields(modularContent[modularItemCodename], modularContent));
+            var modularItem = modularContent[modularItemCodename];
+
+            if (!modularItem) {
+                if (this.config.enableAdvancedLogging) {
+                    console.log(`Cannot map '${field.name}' modular content item. Make sure you use 'DepthParameter' in case your modular content is nested.`)
+                }
+            }
+
+            modularContentItems.push(this.mapFields(modularItem, modularContent));
         })
 
         return modularContentItems;
