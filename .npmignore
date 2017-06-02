@@ -2,8 +2,8 @@
 *
 
 # But not these files
-!definitions/*
-!dist/*
+!definitions/
+!dist/
 !package.json
 !.npmignore
 !*.md
