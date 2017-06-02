@@ -1,9 +1,12 @@
 # Ignore everything
 *
 
-# But not these files
-!definitions/
-!dist/
+# But descend into directories
+!*/
+
+# Recursively allow files under subtree
+!/definitions/**
+!/dist/**
 !package.json
 !.npmignore
 !*.md
