@@ -16,24 +16,43 @@ import { DeliveryClientBaseService } from './delivery-client-base.service';
 
 export class DeliveryClient extends DeliveryClientBaseService {
 
+    /**
+    * Delivery client used to fetch data from Kentico Cloud
+    * @constructor
+    * @param {DeliveryClientConfig} config - The client configuration
+    */
     constructor(
         protected config: DeliveryClientConfig
     ) {
         super(config)
     }
 
+    /**
+    * Retrieves list of content types in your project
+    * @param {IQueryParameter[]} options - An optional collection of query parameters
+    */
     getTypes(options?: IQueryParameter[]): Observable<DeliveryTypeListingResponse> {
         var action = '/types';
 
         return super.getMultipleTypes(action, options);
     }
 
+    /**
+    * Retrieves specified content type
+    * @param {string} type - Codename of content type
+    * @param {IQueryParameter[]} options - An optional collection of query parameters
+    */
     getType(type: string, options?: IQueryParameter[]): Observable<DeliveryTypeResponse> {
         var action = '/types/' + type;
 
         return super.getSingleType(action, options);
     }
 
+    /**
+    * Retrieves content items of specified type and options
+    * @param {string} type - Codename of content type whose items will be returned
+    * @param {IQueryParameter[]} options - An optional collection of query parameters
+    */
     getItems<TItem extends IContentItem>(type?: string, options?: IQueryParameter[]): Observable<DeliveryItemListingResponse<TItem>> {
         var action = '/items';
 
@@ -42,13 +61,19 @@ export class DeliveryClient extends DeliveryClientBaseService {
         }
 
         // get all items of all types when no type is specified
-        if (type){
+        if (type) {
             options.push(new EqualsFilter("system.type", type));
         }
 
         return super.getMultipleItems(action, options);
     }
 
+    /**
+    * Retrieves specified content item based on codename
+    * @param {string} type - Codename of content type to which the content item belongs
+    * @param {string} codename - Codename of content item to be returned
+    * @param {IQueryParameter[]} options - An optional collection of query parameters
+    */
     getItem<TItem extends IContentItem>(type: string, codename: string, options?: IQueryParameter[]): Observable<DeliveryItemResponse<TItem>> {
         var action = '/items/' + codename;
 
