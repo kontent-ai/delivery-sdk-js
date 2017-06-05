@@ -2,7 +2,7 @@
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 // rxjs
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx'; // import from 'rxjs/rx' instead of 'rxjs/Observable' to include 'throw' method
 import { ajax } from 'rxjs/observable/dom/ajax';
 import { AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
 import 'rxjs/add/operator/catch';

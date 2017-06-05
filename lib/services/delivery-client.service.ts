@@ -1,5 +1,5 @@
 // rxjs
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 
 // config
 import { DeliveryClientConfig } from '../config/delivery-client.config';
