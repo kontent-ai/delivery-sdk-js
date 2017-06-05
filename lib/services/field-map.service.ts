@@ -6,6 +6,7 @@ import { FieldType } from '../fields/field-type';
 import { TypeResolver } from '../models/item/type-resolver.class';
 import { TypeResolverService } from './type-resolver.service';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { IQueryConfig } from '../interfaces/item/iquery.config';
 
 export class FieldMapService {
 
@@ -18,7 +19,7 @@ export class FieldMapService {
         this.typeResolverService = new TypeResolverService(config);
     }
 
-    mapFields(item: IContentItem, modularContent: any): any {
+    mapFields(item: IContentItem, modularContent: any, queryConfig: IQueryConfig): any {
         if (!item) {
             return null;
         }
@@ -48,15 +49,15 @@ export class FieldMapService {
                 propertyName = fieldName;
             }
 
-            itemTyped[propertyName] = this.mapField(field, modularContent, itemTyped);
+            itemTyped[propertyName] = this.mapField(field, modularContent, itemTyped, queryConfig);
         });
 
         return itemTyped;
     }
 
-    private mapField(field: IField, modularContent: any,item: IContentItem ): any {
+    private mapField(field: IField, modularContent: any, item: IContentItem, queryConfig: IQueryConfig): any {
         if (field.type.toString() === FieldType.modular_content.toString()) {
-            return this.mapModularField(field, modularContent);
+            return this.mapModularField(field, modularContent, queryConfig);
         }
         else if (field.type.toString() === FieldType.text.toString()) {
             return this.mapTextField(field);
@@ -74,10 +75,10 @@ export class FieldMapService {
             return this.mapDateTimeField(field);
         }
         else if (field.type.toString() === FieldType.rich_text.toString()) {
-            return this.mapRichTextField(field, modularContent);
+            return this.mapRichTextField(field, modularContent, queryConfig);
         }
         else if (field.type.toString() === FieldType.url_slug.toString()) {
-            return this.mapUrlSlugField(field, item);
+            return this.mapUrlSlugField(field, item, queryConfig);
         }
         else {
             var err = `Unsupported field type '${field.type}'`
@@ -88,7 +89,7 @@ export class FieldMapService {
         }
     }
 
-    private mapRichTextField(field: IField, modularContent: any): RichTextField {
+    private mapRichTextField(field: IField, modularContent: any, queryConfig: IQueryConfig): RichTextField {
         // get all modular content items nested in rich text
         var modularItems: IContentItem[] = [];
 
@@ -96,7 +97,7 @@ export class FieldMapService {
             if (Array.isArray(field.modular_content)) {
                 field.modular_content.forEach(codename => {
                     // get modular item
-                    var modularItem = this.mapFields(modularContent[codename], modularContent);
+                    var modularItem = this.mapFields(modularContent[codename], modularContent, queryConfig);
 
                     modularItems.push(modularItem);
                 });
@@ -126,11 +127,21 @@ export class FieldMapService {
         return new AssetsField(field.name, field.type, field.value);
     }
 
-    private mapUrlSlugField(field: IField, item: IContentItem): UrlSlugField {
-        return new UrlSlugField(field.name, field.type, field.value, item.urlSlugResolver, this.config.enableAdvancedLogging);
+    private mapUrlSlugField(field: IField, item: IContentItem, config: IQueryConfig): UrlSlugField {
+        // url slug defined by the 'config' (= by calling method) has priority over type's url slug
+        var urlSlug: (fieldName: string, value: string) => string;
+
+        if (config.urlSlugResolver) {
+            urlSlug = config.urlSlugResolver;
+        }
+        else {
+            urlSlug = item.urlSlugResolver;
+        }
+
+        return new UrlSlugField(field.name, field.type, field.value, urlSlug, this.config.enableAdvancedLogging);
     }
 
-    private mapModularField(field: IField, modularContent: any): any {
+    private mapModularField(field: IField, modularContent: any, queryConfig: IQueryConfig): any {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
                 console.log(`Cannot map modular content field because field does not exist`);
@@ -157,15 +168,18 @@ export class FieldMapService {
                 }
             }
 
-            // add/taken item to processed items to avoid infinite recursion
-            var processedItem = this.processedItems.find(m => m.system.codename === modularItem.system.codename);
-            if (processedItem) {
-                modularContentItems.push(processedItem);
-            }
-            else {
-                var modularItem = this.mapFields(modularItem, modularContent);
-                modularContentItems.push(modularItem);
-                processedItem = modularItem;
+            // try to map only if the modular item was present in response
+            if (modularItem) {
+                // add/taken item to processed items to avoid infinite recursion
+                var processedItem = this.processedItems.find(m => m.system.codename === modularItem.system.codename);
+                if (processedItem) {
+                    modularContentItems.push(processedItem);
+                }
+                else {
+                    var modularItem = this.mapFields(modularItem, modularContent, queryConfig);
+                    modularContentItems.push(modularItem);
+                    processedItem = modularItem;
+                }
             }
         })
 

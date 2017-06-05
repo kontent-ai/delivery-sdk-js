@@ -15,3 +15,4 @@ export * from './lib/models/type/content-type.class';
 export * from './lib/models/item/responses';
 export * from './lib/models/type/responses';
 export * from './lib/models/common/sort-order.enum';
+export * from './lib/models/item/query.config';

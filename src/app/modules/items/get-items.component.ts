@@ -11,7 +11,7 @@ import {
   ElementsParameter, SkipParameter,
   EqualsFilter, AllFilter, AnyFilter, ContainsFilter, GreaterThanFilter,
   GreaterThanOrEqualFilter, Infilter, LessThanFilter, LessThanOrEqualFilter,
-  RangeFilter
+  RangeFilter, QueryConfig
 } from '../../../../index';
 
 @Component({
@@ -45,11 +45,16 @@ export class GetItemsComponent implements OnInit {
     });
     */
 
-    
-    this.deliveryClient.getItem<CodeExample>(this.type, 'codename').subscribe(response => {
-        console.log(response.item.codeExampleUrlSlug.url);
-      });
 
+    this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters', null, {
+      urlSlugResolver: (fieldName: string, value: string) => {
+        return "hello smurfies!";
+      }
+    }).subscribe(response => {
+      console.log(response.item.codeExampleUrlSlug.url);
+    });
+
+    /*
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters',
       [
         new DepthParameter(2)
@@ -57,5 +62,6 @@ export class GetItemsComponent implements OnInit {
         console.log(response);
         this.codeExample = response.item;
       });
+      */
   }
 }

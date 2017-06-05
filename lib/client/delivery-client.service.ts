@@ -10,6 +10,8 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
 import { EqualsFilter } from '../models/common/filters';
+import { IQueryConfig } from '../interfaces/item/iquery.config';
+import { QueryConfig } from '../models/item/query.config';
 
 // services
 import { DeliveryClientBaseService } from './delivery-client-base.service';
@@ -53,7 +55,7 @@ export class DeliveryClient extends DeliveryClientBaseService {
     * @param {string} type - Codename of content type whose items will be returned
     * @param {IQueryParameter[]} options - An optional collection of query parameters
     */
-    getItems<TItem extends IContentItem>(type?: string, options?: IQueryParameter[]): Observable<DeliveryItemListingResponse<TItem>> {
+    getItems<TItem extends IContentItem>(type?: string, options?: IQueryParameter[], queryConfig?: IQueryConfig): Observable<DeliveryItemListingResponse<TItem>> {
         var action = '/items';
 
         if (!options) {
@@ -65,6 +67,11 @@ export class DeliveryClient extends DeliveryClientBaseService {
             options.push(new EqualsFilter("system.type", type));
         }
 
+        // use default config if none is provider
+        if (!queryConfig) {
+            queryConfig = new QueryConfig();
+        }
+
         return super.getMultipleItems(action, options);
     }
 
@@ -73,10 +80,16 @@ export class DeliveryClient extends DeliveryClientBaseService {
     * @param {string} type - Codename of content type to which the content item belongs
     * @param {string} codename - Codename of content item to be returned
     * @param {IQueryParameter[]} options - An optional collection of query parameters
+    * @param {IQueryConfig} config - An optional configuration for this query
     */
-    getItem<TItem extends IContentItem>(type: string, codename: string, options?: IQueryParameter[]): Observable<DeliveryItemResponse<TItem>> {
+    getItem<TItem extends IContentItem>(type: string, codename: string, options?: IQueryParameter[], queryConfig?: IQueryConfig): Observable<DeliveryItemResponse<TItem>> {
         var action = '/items/' + codename;
 
-        return super.getSingleItem(action, options);
+        // use default config if none is provider
+        if (!queryConfig) {
+            queryConfig = new QueryConfig();
+        }
+
+        return super.getSingleItem(action, queryConfig, options);
     }
 }
