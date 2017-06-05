@@ -19,8 +19,8 @@ import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface
 import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
 
 // services
-import { ItemMapService } from '../utility-services/item-map.service';
-import { TypeMapService } from '../utility-services/type-map.service';
+import { ItemMapService } from '../services/item-map.service';
+import { TypeMapService } from '../services/type-map.service';
 
 export abstract class DeliveryClientBaseService {
 

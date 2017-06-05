@@ -1,5 +1,5 @@
 
-export { DeliveryClient } from './lib/services/delivery-client.service';
+export { DeliveryClient } from './lib/client/delivery-client.service';
 
 export { DeliveryClientConfig } from './lib/config/delivery-client.config';
 

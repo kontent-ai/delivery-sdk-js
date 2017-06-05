@@ -10,10 +10,8 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
 import { EqualsFilter } from '../models/common/filters';
-import { LimitParameter } from '../models/common/parameters';
 
 // services
-import { ItemMapService } from '../utility-services/item-map.service';
 import { DeliveryClientBaseService } from './delivery-client-base.service';
 
 export class DeliveryClient extends DeliveryClientBaseService {
