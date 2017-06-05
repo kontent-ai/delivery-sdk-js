@@ -5,5 +5,6 @@ export interface IContentItem {
   elements: any;
 
   resolver?: ((fieldName: string) => string);
+  urlSlugResolver?: ((fieldName: string, value: string) => string);
 }
 

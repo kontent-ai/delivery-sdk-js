@@ -62,7 +62,7 @@ export class RichTextField implements IField {
         public name: string,
         public type: FieldType,
         public value: any,
-        public modularItems: IContentItem[] 
+        public modularItems: IContentItem[]
     ) {
         this.text = value;
         this.items = modularItems;
@@ -106,4 +106,33 @@ export class AssetsField implements IField {
             }
         }
     };
+}
+
+export class UrlSlugField implements IField {
+
+    public url: string;
+
+    constructor(
+        public name: string,
+        public type: FieldType,
+        public value: string,
+        public urlSlugResolver: (fieldName: string, value: string) => string,
+        public enableAdvancedLogging: boolean
+    ) {
+        this.url = this.getUrl();
+    };
+
+    private getUrl(): string {
+        if (!this.urlSlugResolver) {
+            throw `You have to implement 'urlSlugResolver' in order to get url of this item`;
+        }
+
+        var url = this.urlSlugResolver(this.name.toLowerCase(), this.value);
+
+        if (!url && this.enableAdvancedLogging) {
+            console.log(`'urlSlugResolver' is configured, but url resolved for '${this.name}' field is empty`);
+        }
+
+        return url;
+    }
 }

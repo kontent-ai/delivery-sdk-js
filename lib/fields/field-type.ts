@@ -13,4 +13,5 @@ export class FieldType {
     static datetime = new FieldType("date_time");
     static rich_text = new FieldType("rich_text");
     static multiple_choice = new FieldType("multiple_choice");
+    static url_slug = new FieldType("url_slug");
 }

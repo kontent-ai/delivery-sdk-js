@@ -193,6 +193,40 @@ export class Person extends ContentItem {
 }
 ```
 
+### Resolving URL Slugs
+
+URL slugs enable you to generate user friendly URLs while giving editors the capability to control the looks of it. As a developer you will need to take the URL slug defined by editors and convert it to path that your application knows and can render. 
+
+For example, if you define URL slug for your item as `dwayne-johnson` and your application is able to handle requests such as `yourApp.com/actors/{actor}`you will need to configure `urlSlugResolver` of your `ContentItem` class how to resolve such item. This example would transfer to following code:
+
+```typescript
+import { ContentItem TextField, NumberField, UrlSlugField } from 'kentico-cloud-delivery-typescript-sdk';
+
+export class Character extends ContentItem {
+  public name: TextField;
+  public age: NumbeField;
+  public slug: UrlSlugField;
+
+  constructor() {
+    super({
+      urlSlugResolver: (fieldName: string, value: string) => {
+        if (fieldName === 'slug'){ // codename of your URL slug field in Kentico Cloud, not property name of this class
+          return `/actors/${value}`; // value = url slug defined for your content item
+        }
+      }
+    })
+  }
+}
+```
+
+To get the url simply access the `url` property of your `UrlslugField`:
+
+```typescript
+deliveryClient.getItem<Character>(this.type, 'someCodename').subscribe(response => {
+  console.log(response.item.slug.url);
+  });
+```
+
 ### Handling errors
 
 Errors can be handled with `error` parameter of `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or with `catch` method.

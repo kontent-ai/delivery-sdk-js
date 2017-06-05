@@ -45,6 +45,11 @@ export class GetItemsComponent implements OnInit {
     });
     */
 
+    
+    this.deliveryClient.getItem<CodeExample>(this.type, 'codename').subscribe(response => {
+        console.log(response.item.codeExampleUrlSlug.url);
+      });
+
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters',
       [
         new DepthParameter(2)

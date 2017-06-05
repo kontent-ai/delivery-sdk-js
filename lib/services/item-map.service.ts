@@ -24,7 +24,6 @@ export class ItemMapService {
         return this.fieldMapService.mapFields(item, modularContent);
     }
 
-
     mapSingleItem<TItem extends IContentItem>(response: ICloudResponseSingle): TItem {
         return this.mapItem<TItem>(response.item, response.modular_content);
     }

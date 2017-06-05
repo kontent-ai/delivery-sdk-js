@@ -1,6 +1,6 @@
 import { IModularContent } from '../interfaces/item/imodular-content.interface';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { TextField, AssetsField, NumberField, MultipleChoiceField, DateTimeField, RichTextField } from '../fields/field-types';
+import { TextField, AssetsField, NumberField, MultipleChoiceField, DateTimeField, RichTextField, UrlSlugField } from '../fields/field-types';
 import { IField } from '../interfaces/item/ifield.interface';
 import { FieldType } from '../fields/field-type';
 import { TypeResolver } from '../models/item/type-resolver.class';
@@ -48,13 +48,13 @@ export class FieldMapService {
                 propertyName = fieldName;
             }
 
-            itemTyped[propertyName] = this.mapField(field, modularContent);
+            itemTyped[propertyName] = this.mapField(field, modularContent, itemTyped);
         });
 
         return itemTyped;
     }
 
-    private mapField(field: IField, modularContent: any): any {
+    private mapField(field: IField, modularContent: any,item: IContentItem ): any {
         if (field.type.toString() === FieldType.modular_content.toString()) {
             return this.mapModularField(field, modularContent);
         }
@@ -75,6 +75,9 @@ export class FieldMapService {
         }
         else if (field.type.toString() === FieldType.rich_text.toString()) {
             return this.mapRichTextField(field, modularContent);
+        }
+        else if (field.type.toString() === FieldType.url_slug.toString()) {
+            return this.mapUrlSlugField(field, item);
         }
         else {
             var err = `Unsupported field type '${field.type}'`
@@ -121,6 +124,10 @@ export class FieldMapService {
 
     private mapAssetsField(field: IField): AssetsField {
         return new AssetsField(field.name, field.type, field.value);
+    }
+
+    private mapUrlSlugField(field: IField, item: IContentItem): UrlSlugField {
+        return new UrlSlugField(field.name, field.type, field.value, item.urlSlugResolver, this.config.enableAdvancedLogging);
     }
 
     private mapModularField(field: IField, modularContent: any): any {

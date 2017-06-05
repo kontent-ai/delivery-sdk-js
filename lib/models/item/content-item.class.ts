@@ -4,10 +4,13 @@ import { IContentItemSystemAttributes } from '../../interfaces/item/icontent-ite
 export abstract class ContentItem implements IContentItem {
     system: IContentItemSystemAttributes;
     elements: any;
+
     resolver?: ((fieldName: string) => string);
+    urlSlugResolver?: ((fieldName: string, value: string)=> string);
 
     constructor(public options?: {
-        resolver?: ((fieldName: string) => string)
+        resolver?: ((fieldName: string) => string),
+        urlSlugResolver?: ((fieldName: string, value: string) => string)
     }) {
         if (options) Object.assign(this, options);
     }
