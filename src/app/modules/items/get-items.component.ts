@@ -31,7 +31,7 @@ export class GetItemsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    /*
     this.deliveryClient.getItems<CodeExample>(this.type, [
       new LimitParameter(5),
       // new SkipParameter(1),
@@ -43,7 +43,7 @@ export class GetItemsComponent implements OnInit {
       console.log(response);
       this.codeExamples = response.items;
     });
-
+    */
 
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters',
       [

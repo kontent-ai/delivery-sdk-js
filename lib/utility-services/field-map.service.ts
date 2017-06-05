@@ -11,6 +11,7 @@ export class FieldMapService {
 
     private typeResolverService: TypeResolverService;
 
+    private processedItems: IContentItem[] = [];
     constructor(
         private config: DeliveryClientConfig,
     ) {
@@ -26,6 +27,12 @@ export class FieldMapService {
 
         // create typed item
         var itemTyped = this.typeResolverService.createTypedObj(item.system.type, item);
+
+        // add/taken item to processed items to avoid infinite recursion
+        var processedItem = this.processedItems.find(m => m.system.codename === item.system.codename);
+        if (!processedItem) {
+            this.processedItems.push(itemTyped);
+        }
 
         properties.forEach(fieldName => {
             var field = item.elements[fieldName] as IField;
@@ -71,8 +78,8 @@ export class FieldMapService {
         }
         else {
             var err = `Unsupported field type '${field.type}'`
-            if (this.config.enableAdvancedLogging){
-                console.log(err);
+            if (this.config.enableAdvancedLogging) {
+                console.log(err, field);
             }
             throw Error(err)
         }
@@ -143,7 +150,16 @@ export class FieldMapService {
                 }
             }
 
-            modularContentItems.push(this.mapFields(modularItem, modularContent));
+            // add/taken item to processed items to avoid infinite recursion
+            var processedItem = this.processedItems.find(m => m.system.codename === modularItem.system.codename);
+            if (processedItem) {
+                modularContentItems.push(processedItem);
+            }
+            else {
+                var modularItem = this.mapFields(modularItem, modularContent);
+                modularContentItems.push(modularItem);
+                processedItem = modularItem;
+            }
         })
 
         return modularContentItems;
