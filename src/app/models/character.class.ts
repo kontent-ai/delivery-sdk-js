@@ -1,4 +1,4 @@
-import { ContentItem, TextField, NumberField, AssetsField, RichTextField, DateTimeField } from '../../../index';
+import { ContentItem, TextField, NumberField, AssetsField, RichTextField, DateTimeField } from '../../../lib';
 
 export class Character extends ContentItem {
   public name: TextField;

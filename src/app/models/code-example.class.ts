@@ -1,4 +1,4 @@
-import { IContentItem, ContentItem, TextField, NumberField, AssetsField, MultipleChoiceField, UrlSlugField } from '../../../index';
+import { IContentItem, ContentItem, TextField, NumberField, AssetsField, MultipleChoiceField, UrlSlugField } from '../../../lib';
 
 // nested type models
 import { Author } from './author.class';

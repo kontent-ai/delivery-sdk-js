@@ -12,7 +12,7 @@ import {
   EqualsFilter, AllFilter, AnyFilter, ContainsFilter, GreaterThanFilter,
   GreaterThanOrEqualFilter, Infilter, LessThanFilter, LessThanOrEqualFilter,
   RangeFilter, ItemQueryConfig, IContentItem
-} from '../../../../index';
+} from '../../../../lib';
 
 @Component({
   templateUrl: 'get-items.component.html',
@@ -45,19 +45,19 @@ export class GetItemsComponent implements OnInit {
     });
     */
 
-
+    /*
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters', null, {
       urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
         return "hello smurfies!";
       }
     }).subscribe(response => {
-      console.log(response.item.codeExampleUrlSlug.url);
+      console.log(response);
     });
-
+    */
  
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters',
       [
-        new DepthParameter(2)
+        new DepthParameter(5)
       ]).subscribe(response => {
         console.log(response);
         this.codeExample = response.item;

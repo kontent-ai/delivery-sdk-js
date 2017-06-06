@@ -1,12 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "kentico-cloud-angular2-sample-app"
+    "name": "kentico-cloud-sdk-angular"
   },
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "angular-dist",
       "assets": [
         "assets",
         "favicon.ico"

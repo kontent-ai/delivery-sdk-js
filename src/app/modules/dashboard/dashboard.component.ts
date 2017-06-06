@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // delivery client
-import { DeliveryClient, LimitParameter, EqualsFilter, OrderParameter, SortOrder, ContentItem } from '../../../../index';
+import { DeliveryClient, LimitParameter, EqualsFilter, OrderParameter, SortOrder, ContentItem } from '../../../../lib';
 
 // models
 import { Character } from '../../models/character.class';

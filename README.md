@@ -139,7 +139,7 @@ export class Character extends ContentItem {
 }
 ```
 
-### Nested modular content 
+### Nesting modular content 
 
 To include modular content simply reference proper class:
 
@@ -167,7 +167,7 @@ export class Movie extends ContentItem {
 }
 ```
 
-### Custom field binding in models
+### Field binding in models
 
 Kentico cloud returns all field names in **lowercase** and since javascript properties are case sensitive, the binding will fail if your property is called e.g. *firstName*. You can either use **lowercase only properties** or use custom resolver to bind fields to their proper names:
 

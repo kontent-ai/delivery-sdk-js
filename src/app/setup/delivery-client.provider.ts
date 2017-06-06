@@ -1,5 +1,5 @@
 // kentico cloud
-import { DeliveryClient, DeliveryClientConfig, TypeResolver } from '../../../index';
+import { DeliveryClient, DeliveryClientConfig, TypeResolver } from '../../../lib';
 
 // models
 import { Character } from '../models/character.class';

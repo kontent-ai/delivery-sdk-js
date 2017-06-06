@@ -1,4 +1,4 @@
-import { ContentItem, TextField } from '../../../index';
+import { ContentItem, TextField } from '../../../lib';
 
 export class DeeperCategory extends ContentItem {
   
