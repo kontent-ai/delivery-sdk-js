@@ -29,8 +29,8 @@
   },
   "private": false,
   "dependencies": {
-    "rxjs": "5.4.0",
-    "rx-dom": "7.0.3"
+    "rx-dom": "^7.0.3",
+    "rxjs": "5.4.0"
   },
   "devDependencies": {
     "@angular/core": "^4.1.3",
@@ -41,7 +41,7 @@
     "@angular/platform-browser": "^4.1.3",
     "@angular/platform-browser-dynamic": "^4.1.3",
     "@angular/router": "^4.1.3",
-    "@angular/cli": "1.0.6",
+    "@angular/cli": "1.1.0",
     "@angular/compiler-cli": "4.1.3",
     "@types/jasmine": "2.5.47",
     "@types/node": "7.0.22",
