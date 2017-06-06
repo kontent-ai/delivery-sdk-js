@@ -45,7 +45,7 @@ export class GetItemsComponent implements OnInit {
     });
     */
 
-    /*
+    
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters', null, {
       urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
         return "hello smurfies!";
@@ -53,12 +53,15 @@ export class GetItemsComponent implements OnInit {
     }).subscribe(response => {
       console.log(response);
     });
-    */
+   
  
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters',
       [
         new DepthParameter(5)
-      ]).subscribe(response => {
+      ],
+      {
+        usePreviewMode: true
+      }).subscribe(response => {
         console.log(response);
         this.codeExample = response.item;
       });

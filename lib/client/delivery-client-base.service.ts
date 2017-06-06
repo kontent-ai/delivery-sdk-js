@@ -25,6 +25,16 @@ import { TypeMapService } from '../services/type-map.service';
 
 export abstract class DeliveryClientBaseService {
 
+    /**
+    * Base Url to Kentico Delivery API
+    */
+    private baseDeliveryApiUrl: string = 'https://deliver.kenticocloud.com';
+
+    /**
+    * Preview url to Kentico Delivery API
+    */
+    private previewDeliveryApiUrl: string = 'https://preview-deliver.kenticocloud.com/';
+
     protected itemMapService: ItemMapService;
     protected typeMapService: TypeMapService;
 
@@ -35,12 +45,32 @@ export abstract class DeliveryClientBaseService {
         this.typeMapService = new TypeMapService(config);
     }
 
-    private getUrl(action: string, options?: IQueryParameter[]): string {
-        return this.addOptionsToUrl(this.getBaseUrl() + action, options);
+    private isPreviewModeEnabled(queryConfig: IItemQueryConfig): boolean {
+        if (queryConfig.usePreviewMode != null) {
+            return queryConfig.usePreviewMode;
+        }
+
+        return this.config.enablePreviewMode === true;
     }
 
-    private getBaseUrl(): string {
-        return this.config.apiEndpoint + '/' + this.config.projectId;
+    private getDeliveryUrl(queryConfig: IItemQueryConfig): string {
+        if (this.isPreviewModeEnabled(queryConfig)) {
+
+            if (!this.config.previewApiKey) {
+                throw `You have to configure 'previewApiKey' to use 'preview' mode`;
+            }
+
+            return this.previewDeliveryApiUrl;
+        }
+        return this.baseDeliveryApiUrl;
+    }
+
+    private getUrl(action: string, queryConfig: IItemQueryConfig, options?: IQueryParameter[]): string {
+        return this.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
+    }
+
+    private getBaseUrl(queryConfig: IItemQueryConfig): string {
+        return this.getDeliveryUrl(queryConfig) + '/' + this.config.projectId;
     }
 
     private addOptionsToUrl(url: string, options?: IQueryParameter[]): string {
@@ -55,6 +85,14 @@ export abstract class DeliveryClientBaseService {
             });
         }
         return url;
+    }
+
+    private getHeaders(queryConfig: IItemQueryConfig): any {
+        if (this.isPreviewModeEnabled(queryConfig)) {
+            // authorization header required for preview mode
+            return { 'authorization': `bearer ${this.config.previewApiKey}` };
+        }
+        return null;
     }
 
     private getError(error: Response | any): any {
@@ -118,9 +156,9 @@ export abstract class DeliveryClientBaseService {
     }
 
     protected getSingleItem<TItem extends IContentItem>(action: string, queryConfig: IItemQueryConfig, options?: IQueryParameter[], ): Observable<DeliveryItemResponse<TItem>> {
-        var url = this.getUrl(action, options);
+        var url = this.getUrl(action, queryConfig, options);
 
-        return ajax.getJSON(url)
+        return ajax.getJSON(url, this.getHeaders(queryConfig))
             .map(json => {
                 return this.getSingleResponse<TItem>(json, queryConfig)
             })
@@ -130,9 +168,9 @@ export abstract class DeliveryClientBaseService {
     }
 
     protected getMultipleItems<TItem extends IContentItem>(action: string, queryConfig: IItemQueryConfig, options?: IQueryParameter[]): Observable<DeliveryItemListingResponse<TItem>> {
-        var url = this.getUrl(action, options);
+        var url = this.getUrl(action, queryConfig, options);
 
-        return ajax.getJSON(url)
+        return ajax.getJSON(url, this.getHeaders(queryConfig))
             .map(json => {
                 return this.getMultipleResponse(json, queryConfig)
             })

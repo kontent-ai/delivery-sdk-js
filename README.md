@@ -33,7 +33,6 @@ import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-clou
 // models
 import { Character } from './character.class';
 
-let apiUrl = 'https://deliver.kenticocloud.com';
 let projectId = 'yourProjectId';
 
 let typeResolvers: TypeResolver[] = [
@@ -41,7 +40,7 @@ let typeResolvers: TypeResolver[] = [
   ];
 
 var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig(apiUrl, projectId, typeResolvers)
+  new DeliveryClientConfig(projectId, typeResolvers)
   )
 
 ```
@@ -191,6 +190,39 @@ export class Person extends ContentItem {
       })
     }
 }
+```
+
+### Preview mode
+
+You can enable preview mode either `globally` (when initializing DeliveryClient) or `locally` for each query. For example you disable preview mode globally, but you can enable it for one particular query. 
+
+#### Enabling preview mode globally
+
+```typescript
+
+let previewApiKey = 'yourPreviewApiKey';
+let projectId = 'yourProjectId';
+let typeResolvers: TypeResolver[] = [
+    new TypeResolver("character", () => new Character()),
+  ];
+
+new DeliveryClient(
+  new DeliveryClientConfig(projectId, typeResolvers, 
+        {
+            enablePreviewMode: true,
+            previewApiKey: previewApiKey
+        })
+    )
+```
+
+#### Enabling preview mode locally
+
+```typescript
+deliveryClient.getItem<Character>(this.type, 'Rimmer', null, {
+      usePreviewMode: true
+    }).subscribe(response => {
+      console.log(response);
+    });
 ```
 
 ### Resolving URL Slugs
