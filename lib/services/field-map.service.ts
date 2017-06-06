@@ -6,7 +6,7 @@ import { FieldType } from '../fields/field-type';
 import { TypeResolver } from '../models/item/type-resolver.class';
 import { TypeResolverService } from './type-resolver.service';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
-import { IQueryConfig } from '../interfaces/item/iquery.config';
+import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 
 export class FieldMapService {
 
@@ -19,7 +19,7 @@ export class FieldMapService {
         this.typeResolverService = new TypeResolverService(config);
     }
 
-    mapFields(item: IContentItem, modularContent: any, queryConfig: IQueryConfig): any {
+    mapFields(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): any {
         if (!item) {
             return null;
         }
@@ -55,7 +55,7 @@ export class FieldMapService {
         return itemTyped;
     }
 
-    private mapField(field: IField, modularContent: any, item: IContentItem, queryConfig: IQueryConfig): any {
+    private mapField(field: IField, modularContent: any, item: IContentItem, queryConfig: IItemQueryConfig): any {
         if (field.type.toString() === FieldType.modular_content.toString()) {
             return this.mapModularField(field, modularContent, queryConfig);
         }
@@ -89,7 +89,7 @@ export class FieldMapService {
         }
     }
 
-    private mapRichTextField(field: IField, modularContent: any, queryConfig: IQueryConfig): RichTextField {
+    private mapRichTextField(field: IField, modularContent: any, queryConfig: IItemQueryConfig): RichTextField {
         // get all modular content items nested in rich text
         var modularItems: IContentItem[] = [];
 
@@ -127,9 +127,9 @@ export class FieldMapService {
         return new AssetsField(field.name, field.type, field.value);
     }
 
-    private mapUrlSlugField(field: IField, item: IContentItem, config: IQueryConfig): UrlSlugField {
+    private mapUrlSlugField(field: IField, item: IContentItem, config: IItemQueryConfig): UrlSlugField {
         // url slug defined by the 'config' (= by calling method) has priority over type's url slug
-        var urlSlug: (fieldName: string, value: string) => string;
+        var urlSlug: (item: IContentItem, value: string) => string;
 
         if (config.urlSlugResolver) {
             urlSlug = config.urlSlugResolver;
@@ -138,10 +138,10 @@ export class FieldMapService {
             urlSlug = item.urlSlugResolver;
         }
 
-        return new UrlSlugField(field.name, field.type, field.value, urlSlug, this.config.enableAdvancedLogging);
+        return new UrlSlugField(field.name, field.type, field.value, item, urlSlug, this.config.enableAdvancedLogging);
     }
 
-    private mapModularField(field: IField, modularContent: any, queryConfig: IQueryConfig): any {
+    private mapModularField(field: IField, modularContent: any, queryConfig: IItemQueryConfig): any {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
                 console.log(`Cannot map modular content field because field does not exist`);

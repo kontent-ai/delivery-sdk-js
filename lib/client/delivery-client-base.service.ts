@@ -17,7 +17,7 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { ICloudMultipleTypeResponse, ICloudSingleTypeResponse } from '../interfaces/type/cloud-responses';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
-import { IQueryConfig } from '../interfaces/item/iquery.config';
+import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 
 // services
 import { ItemMapService } from '../services/item-map.service';
@@ -58,7 +58,7 @@ export abstract class DeliveryClientBaseService {
     }
 
     private getError(error: Response | any): any {
-        if (this.config.logErrorsToConsole) {
+        if (this.config.enableAdvancedLogging) {
             console.error(error);
         }
 
@@ -91,7 +91,7 @@ export abstract class DeliveryClientBaseService {
         return new DeliveryTypeListingResponse(types, pagination);
     }
 
-    private getSingleResponse<TItem extends IContentItem>(json: any, queryConfig: IQueryConfig): DeliveryItemResponse<TItem> {
+    private getSingleResponse<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): DeliveryItemResponse<TItem> {
         var cloudResponse = json as ICloudResponseSingle;
 
         // map item
@@ -100,7 +100,7 @@ export abstract class DeliveryClientBaseService {
         return new DeliveryItemResponse(item);
     }
 
-    private getMultipleResponse<TItem extends IContentItem>(json: any, queryConfig: IQueryConfig): DeliveryItemListingResponse<TItem> {
+    private getMultipleResponse<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): DeliveryItemListingResponse<TItem> {
         var cloudResponse = json as ICloudResponseMultiple;
 
         // map items
@@ -117,7 +117,7 @@ export abstract class DeliveryClientBaseService {
         return new DeliveryItemListingResponse(items, pagination);
     }
 
-    protected getSingleItem<TItem extends IContentItem>(action: string, queryConfig: IQueryConfig, options?: IQueryParameter[], ): Observable<DeliveryItemResponse<TItem>> {
+    protected getSingleItem<TItem extends IContentItem>(action: string, queryConfig: IItemQueryConfig, options?: IQueryParameter[], ): Observable<DeliveryItemResponse<TItem>> {
         var url = this.getUrl(action, options);
 
         return ajax.getJSON(url)
@@ -129,7 +129,7 @@ export abstract class DeliveryClientBaseService {
             });
     }
 
-    protected getMultipleItems<TItem extends IContentItem>(action: string, queryConfig: IQueryConfig, options?: IQueryParameter[]): Observable<DeliveryItemListingResponse<TItem>> {
+    protected getMultipleItems<TItem extends IContentItem>(action: string, queryConfig: IItemQueryConfig, options?: IQueryParameter[]): Observable<DeliveryItemListingResponse<TItem>> {
         var url = this.getUrl(action, options);
 
         return ajax.getJSON(url)

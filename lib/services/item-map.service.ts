@@ -5,7 +5,7 @@ import { TypeResolver } from '../models/item/type-resolver.class';
 import { TypeResolverService } from './type-resolver.service';
 import { IModularContent } from '../interfaces/item/imodular-content.interface';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
-import { IQueryConfig } from '../interfaces/item/iquery.config';
+import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 
 export class ItemMapService {
 
@@ -17,7 +17,7 @@ export class ItemMapService {
         this.fieldMapService = new FieldMapService(config);
     }
 
-    private mapItem<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IQueryConfig): TItem {
+    private mapItem<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem {
         if (!item) {
             return null;
         }
@@ -25,11 +25,11 @@ export class ItemMapService {
         return this.fieldMapService.mapFields(item, modularContent, queryConfig);
     }
 
-    mapSingleItem<TItem extends IContentItem>(response: ICloudResponseSingle, queryConfig: IQueryConfig): TItem {
+    mapSingleItem<TItem extends IContentItem>(response: ICloudResponseSingle, queryConfig: IItemQueryConfig): TItem {
         return this.mapItem<TItem>(response.item, response.modular_content, queryConfig);
     }
 
-    mapMultipleItems<TItem extends IContentItem>(response: ICloudResponseMultiple, queryConfig: IQueryConfig): TItem[] {
+    mapMultipleItems<TItem extends IContentItem>(response: ICloudResponseMultiple, queryConfig: IItemQueryConfig): TItem[] {
         var that = this;
 
         return response.items.map(function (item) {

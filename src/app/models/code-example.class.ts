@@ -1,4 +1,4 @@
-import { ContentItem, TextField, NumberField, AssetsField, MultipleChoiceField, UrlSlugField } from '../../../index';
+import { IContentItem, ContentItem, TextField, NumberField, AssetsField, MultipleChoiceField, UrlSlugField } from '../../../index';
 
 // nested type models
 import { Author } from './author.class';
@@ -19,10 +19,8 @@ export class CodeExample extends ContentItem {
           return 'codeExampleUrlSlug';
         }
       },
-      urlSlugResolver: (fieldName: string, value: string) => {
-        if (fieldName === 'codeexampleurlslug'){
-          return `/actors/${value}`;
-        }
+      urlSlugResolver: (item: IContentItem, value: string) => {
+        return `/actors/${value}`;
       }
     })
   }

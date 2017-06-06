@@ -4,7 +4,7 @@ export interface IContentItem {
   system: IContentItemSystemAttributes;
   elements: any;
 
-  resolver?: ((fieldName: string) => string);
-  urlSlugResolver?: ((fieldName: string, value: string) => string);
+  resolver?: (fieldName: string) => string;
+  urlSlugResolver?: (contentItem: IContentItem, urlSlug: string) => string;
 }
 

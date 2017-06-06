@@ -3,6 +3,11 @@ import { SortOrder } from './sort-order.enum';
 
 export class ElementsParameter implements IQueryParameter {
 
+    /**
+    * Sets elements (projection) so that only certain elements from a content item are returned
+    * @constructor
+    * @param {string[]} elementCodenames - Array of element codenames to include in response.
+    */
     constructor(
         public elementCodenames: string[]
     ) { }
@@ -22,6 +27,11 @@ export class ElementsParameter implements IQueryParameter {
 
 export class LimitParameter implements IQueryParameter {
 
+    /**
+    * Limits the number of items that are returned from response
+    * @constructor
+    * @param {number} limit - Number of elements that will be returned
+    */
     constructor(
         public limit: number
     ) { }
@@ -37,6 +47,11 @@ export class LimitParameter implements IQueryParameter {
 
 export class SkipParameter implements IQueryParameter {
 
+    /**
+    * Configures response to skip certain number of items
+    * @constructor
+    * @param {number} skip - Number of content items that will be skipped 
+    */
     constructor(
         public skip: number
     ) { }
@@ -51,6 +66,13 @@ export class SkipParameter implements IQueryParameter {
 }
 
 export class OrderParameter implements IQueryParameter {
+
+    /**
+    * Sorts the response based on given field
+    * @constructor
+    * @param {number} field - Field that will be used for sorting (can be both elements.<fieldname> or system.<fieldname>)
+    * @param {number} sortOrder - Order type (desc/asc)
+    */
     constructor(
         public field: string,
         public sortOrder: SortOrder
@@ -72,8 +94,17 @@ export class OrderParameter implements IQueryParameter {
     }
 }
 
+
 export class DepthParameter implements IQueryParameter {
 
+    /**
+    * Configured the depth of the response. Content items might reference modular content items using the Modular content element. 
+    * Recursively, these modular content items can reference another modular content items. 
+    * By default, only one level of modular content is returned.
+    * @constructor
+    * @param {number} field - Field that will be used for sorting (can be both elements.<fieldname> or system.<fieldname>)
+    * @param {number} sortOrder - Order type (desc/asc)
+    */
     constructor(
         public depth: number
     ) { }

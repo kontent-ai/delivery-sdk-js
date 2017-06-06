@@ -5,12 +5,18 @@ export abstract class ContentItem implements IContentItem {
     system: IContentItemSystemAttributes;
     elements: any;
 
-    resolver?: ((fieldName: string) => string);
-    urlSlugResolver?: ((fieldName: string, value: string)=> string);
+    resolver?: (fieldName: string) => string;
+    urlSlugResolver?: (contentItem: IContentItem, value: string) => string;
 
+   /**
+   * Base class representing content item type. All content type models need to extend this class.
+   * @constructor
+   * @param {(fieldName: string) => string} resolver - Callback used to bind field returned from Kentico Cloud to a model property. Common usage is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
+   * @param {(contentItem: IContentItem, value: string) => string} urlSlugResolver - Callback used to resolve URL slugs
+   */
     constructor(public options?: {
-        resolver?: ((fieldName: string) => string),
-        urlSlugResolver?: ((fieldName: string, value: string) => string)
+        resolver?: (fieldName: string) => string,
+        urlSlugResolver?: (contentItem: IContentItem, value: string) => string
     }) {
         if (options) Object.assign(this, options);
     }

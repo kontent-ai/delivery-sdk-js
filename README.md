@@ -207,24 +207,34 @@ export class Character extends ContentItem {
   public age: NumbeField;
   public slug: UrlSlugField;
 
-  constructor() {
+    constructor() {
     super({
-      urlSlugResolver: (fieldName: string, value: string) => {
-        if (fieldName === 'slug'){ // codename of your URL slug field in Kentico Cloud, not property name of this class
-          return `/actors/${value}`; // value = url slug defined for your content item
-        }
+      urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
+        // you can also access additional content data using the `contentItem` property
+        return `/actors/${urlSlug}`;
       }
     })
   }
 }
 ```
-
 To get the url simply access the `url` property of your `UrlslugField`:
 
 ```typescript
 deliveryClient.getItem<Character>(this.type, 'someCodename').subscribe(response => {
   console.log(response.item.slug.url);
   });
+```
+
+Additionally, you can specify URL slug resolver when getting items using the `config` property of `getItems` or `getItem` method. Setting the URL slug resolver this way has priority over the one defined in model.
+
+```typescript
+.deliveryClient.getItem<Character>(this.type, 'someCodename', null, {
+      urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
+        return `/actors/${urlSlug}`;
+      }
+    }).subscribe(response => {
+      console.log(response.item.slug.url);
+    });
 ```
 
 ### Handling errors
@@ -274,8 +284,6 @@ deliveryClient.getTypes().subscribe(response => console.log(response));
 - Use `gulp build` to generate definitions & dist from the contents of `lib` folder
 - Use `ng serve` to run sample angular2 app 
 
-## Notes
 
-- Only `Delivery API` is supported
 
 

@@ -3,7 +3,6 @@
  * @description
  * Entry point for all public Kentico Cloud Delivery APIs
  */
-
 export * from './lib/client/delivery-client.service';
 export * from './lib/config/delivery-client.config';
 export * from './lib/models/item/type-resolver.class';
@@ -15,4 +14,5 @@ export * from './lib/models/type/content-type.class';
 export * from './lib/models/item/responses';
 export * from './lib/models/type/responses';
 export * from './lib/models/common/sort-order.enum';
-export * from './lib/models/item/query.config';
+export * from './lib/models/item/item-query.config';
+export * from './lib/interfaces/item/icontent-item.interface';

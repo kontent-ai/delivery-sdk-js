@@ -6,8 +6,18 @@ import { AssetModel, MultipleChoiceOption } from './field-models';
 
 export class TextField implements IField {
 
+    /**
+    * Text stored in the field
+    */
     public text: string;
 
+    /**
+    * Represents text field of Kentico Cloud item
+    * @constructor
+    * @param {string} name - Name of the field
+    * @param {FieldType} type - Type of the field
+    * @param {string} value - Value of the field
+    */
     constructor(
         public name: string,
         public type: FieldType,
@@ -17,10 +27,21 @@ export class TextField implements IField {
     };
 }
 
+
 export class MultipleChoiceField implements IField {
 
+    /**
+    * Multiple choice options
+    */
     public options: MultipleChoiceOption[] = [];
 
+    /**
+    * Represents multiple choice field of Kentico Cloud item
+    * @constructor
+    * @param {string} name - Name of the field
+    * @param {FieldType} type - Type of the field
+    * @param {string} value - Value of the field
+    */
     constructor(
         public name: string,
         public type: FieldType,
@@ -40,10 +61,21 @@ export class MultipleChoiceField implements IField {
     };
 }
 
+
 export class DateTimeField implements IField {
 
+    /**
+    * Date time value
+    */
     public datetime: Date;
 
+    /**
+    * Represents date time field of Kentico Cloud item
+    * @constructor
+    * @param {string} name - Name of the field
+    * @param {FieldType} type - Type of the field
+    * @param {string} value - Value of the field
+    */
     constructor(
         public name: string,
         public type: FieldType,
@@ -55,9 +87,23 @@ export class DateTimeField implements IField {
 
 export class RichTextField implements IField {
 
+    /**
+    * Text stored in the field
+    */
     public text: string;
+
+    /**
+    * List of modular content items used in this rich text field
+    */
     public items: IContentItem[] = [];
 
+    /**
+    * Represents rich text field of Kentico Cloud item
+    * @constructor
+    * @param {string} name - Name of the field
+    * @param {FieldType} type - Type of the field
+    * @param {string} value - Value of the field
+    */
     constructor(
         public name: string,
         public type: FieldType,
@@ -71,8 +117,18 @@ export class RichTextField implements IField {
 
 export class NumberField implements IField {
 
+    /**
+    * Number value of this field
+    */
     public number: number;
 
+    /**
+    * Represents number field of Kentico Cloud item
+    * @constructor
+    * @param {string} name - Name of the field
+    * @param {FieldType} type - Type of the field
+    * @param {string} value - Value of the field
+    */
     constructor(
         public name: string,
         public type: FieldType,
@@ -84,8 +140,18 @@ export class NumberField implements IField {
 
 export class AssetsField implements IField {
 
+    /**
+    * List of assets used in this field
+    */
     public assets: AssetModel[] = [];
 
+    /**
+    * Represents asset field of Kentico Cloud item
+    * @constructor
+    * @param {string} name - Name of the field
+    * @param {FieldType} type - Type of the field
+    * @param {string} value - Value of the field
+    */
     constructor(
         public name: string,
         public type: FieldType,
@@ -110,13 +176,27 @@ export class AssetsField implements IField {
 
 export class UrlSlugField implements IField {
 
+    /**
+    * Resolved Url of the item
+    */
     public url: string;
 
+    /**
+    * Represents URL slug field of Kentico Cloud item
+    * @constructor
+    * @param {string} name - Name of the field
+    * @param {FieldType} type - Type of the field
+    * @param {string} value - Value of the field
+    * @param {string} contentItemType - Type of the content item
+    * @param {(contentItem: IContentItem, urlSlug: string) => string} urlSlugResolver - Callback used to resolve URL slug of the item with type
+    * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
+    */
     constructor(
         public name: string,
         public type: FieldType,
         public value: string,
-        public urlSlugResolver: (fieldName: string, value: string) => string,
+        public contentItem: IContentItem,
+        public urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => string,
         public enableAdvancedLogging: boolean
     ) {
         this.url = this.getUrl();
@@ -124,13 +204,13 @@ export class UrlSlugField implements IField {
 
     private getUrl(): string {
         if (!this.urlSlugResolver) {
-            throw `You have to implement 'urlSlugResolver' in order to get url of this item`;
+            throw `You have to implement 'urlSlugResolver' in your Model class or your query in order to get url of this item`;
         }
 
-        var url = this.urlSlugResolver(this.name.toLowerCase(), this.value);
+        var url = this.urlSlugResolver(this.contentItem, this.value);
 
         if (!url && this.enableAdvancedLogging) {
-            console.log(`'urlSlugResolver' is configured, but url resolved for '${this.name}' field is empty`);
+            console.log(`'urlSlugResolver' is configured, but url resolved for '${this.contentItem.system.type}' type is empty`);
         }
 
         return url;
