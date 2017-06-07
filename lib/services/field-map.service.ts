@@ -104,7 +104,7 @@ export class FieldMapService {
             }
         }
 
-        return new RichTextField(field.name, field.type, field.value, modularItems, this.config.enableAdvancedLogging);
+        return new RichTextField(field.name, field.type, field.value, modularItems, this.config.enableAdvancedLogging, queryConfig.richTextResolver);
     }
 
     private mapDateTimeField(field: IField): DateTimeField {
@@ -127,12 +127,12 @@ export class FieldMapService {
         return new AssetsField(field.name, field.type, field.value);
     }
 
-    private mapUrlSlugField(field: IField, item: IContentItem, config: IItemQueryConfig): UrlSlugField {
+    private mapUrlSlugField(field: IField, item: IContentItem, queryConfig: IItemQueryConfig): UrlSlugField {
         // url slug defined by the 'config' (= by calling method) has priority over type's url slug
         var urlSlug: (item: IContentItem, value: string) => string;
 
-        if (config.urlSlugResolver) {
-            urlSlug = config.urlSlugResolver;
+        if (queryConfig.urlSlugResolver) {
+            urlSlug = queryConfig.urlSlugResolver;
         }
         else {
             urlSlug = item.urlSlugResolver;

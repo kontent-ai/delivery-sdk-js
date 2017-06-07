@@ -194,7 +194,7 @@ export class Person extends ContentItem {
 
 ### Preview mode
 
-You can enable preview mode either `globally` (when initializing DeliveryClient) or `locally` for each query. For example you disable preview mode globally, but you can enable it for one particular query. 
+You can enable preview mode either `globally` (when initializing DeliveryClient) or `per query`. For example you disable preview mode globally, but you can enable it for one particular query for testing purposes. 
 
 #### Enabling preview mode globally
 
@@ -215,7 +215,7 @@ var deliveryClient = new DeliveryClient(
     )
 ```
 
-#### Enabling preview mode locally
+#### Enabling preview mode per query
 
 ```typescript
 deliveryClient.getItem<Character>(this.type, 'Rimmer', null, {
@@ -268,8 +268,79 @@ Additionally, you can specify URL slug resolver when getting items using the `co
       console.log(response.item.slug.url);
     });
 ```
+### Resolving modular content in Rich text fields
 
-### Handling errors
+If you have a `modular content item` inside a `Rich text` field, you need to define how each type resolves the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. 
+
+#### Globally
+
+```typescript
+import { ContentItem TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-delivery-typescript-sdk';
+
+export class Character extends ContentItem {
+  public name: TextField;
+  public age: NumberField;
+  public birthdate: DateTimeField;
+  public description: RichTextField;
+
+  constructor() {
+    super({
+        richTextResolver: (item: Character) => {
+          return `<h3>${item.name.text}</h3>`;
+        }
+      })
+    }
+}
+```
+
+Result:
+
+```typescript
+.deliveryClient.getItem<Character>('character', 'rick').subscribe(response => {
+      console.log(response.item.someRichText.getHtml());
+      // outputs:
+      // <h3>Rick<h3>
+    });
+```
+
+#### Per query
+
+```typescript
+.deliveryClient.getItem<Character>('character', 'rick', null,
+      {
+        richTextResolver: (item: IContentItem) => {
+          if (item.system.type == 'character') {
+            var character = item as Character;
+            return `<h2>${character.name.text}</h2>`;
+          }
+        }
+      })
+      .subscribe(response => {
+        console.log(response.item.someRichText.getHtml());
+        // outputs:
+        // <h2>Rick</h2>
+      });
+```
+
+
+## Working with content types
+
+To retrieve information about your content types, use `getType` or `getTypes` method.
+
+### Get single content type
+
+```typescript
+deliveryClient.getType("character").subscribe(response => console.log(response));
+```
+
+### Get multiple content types
+
+
+```typescript
+deliveryClient.getTypes().subscribe(response => console.log(response));
+```
+
+## Handling errors
 
 Errors can be handled with `error` parameter of `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or with `catch` method.
 
@@ -288,23 +359,6 @@ deliveryClient.getItem<Character>("character", "invalidiItem") // throws 404
   .subscribe(
     response => console.log(response),
   );
-```
-
-## Working with content types
-
-To retrieve information about your content types, use `getType` or `getTypes` method.
-
-### Get single content type
-
-```typescript
-deliveryClient.getType("character").subscribe(response => console.log(response));
-```
-
-### Get multiple content types
-
-
-```typescript
-deliveryClient.getTypes().subscribe(response => console.log(response));
 ```
 
 ## Todo's

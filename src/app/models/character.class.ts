@@ -18,7 +18,7 @@ export class Character extends ContentItem {
         else if (fieldName === 'somerichtext') {
           return 'someRichText';
         }}),
-        richTextModularResolver: (item: Character) => {
+        richTextResolver: (item: Character) => {
           return `<h3>${item.name.text}</h3>`;
         }
       })

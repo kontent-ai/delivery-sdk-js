@@ -14,12 +14,12 @@ export abstract class ContentItem implements IContentItem {
     * @constructor
     * @param {(fieldName: string) => string} resolver - Callback used to bind field returned from Kentico Cloud to a model property. Common usage is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
     * @param {(contentItem: IContentItem, value: string) => string} urlSlugResolver - Callback used to resolve URL slugs
-    * @param {<T extends IContentItem>(contentItem: T) => string} richTextModularResolver - Callback used to resolve modular content in rich text fields to HTML
+    * @param {<T extends IContentItem>(contentItem: T) => string} richTextResolver - Callback used to resolve modular content in rich text fields to HTML
     */
     constructor(public options?: {
         resolver?: (fieldName: string) => string,
         urlSlugResolver?: (contentItem: IContentItem, urlSlug: string) => string,
-        richTextModularResolver?: <T extends IContentItem>(contentItem: T) => string;
+        richTextResolver?: <T extends IContentItem>(contentItem: T) => string;
     }) {
         if (options) Object.assign(this, options);
     }

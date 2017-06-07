@@ -25,6 +25,8 @@ export class GetItemsComponent implements OnInit {
   private codeExample: CodeExample;
   private characters: Character[];
 
+  private richTextHtml: string;
+
   constructor(
     private deliveryClient: DeliveryClient,
   ) {
@@ -33,10 +35,18 @@ export class GetItemsComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.deliveryClient.getItem<Character>('character', 'rick').subscribe(response => {
-      console.log(response);
-      console.log(response.item.someRichText.getHtml());
-    });
+    this.deliveryClient.getItem<Character>('character', 'rick', null,
+      {
+        richTextResolver: (item: IContentItem) => {
+          if (item.system.type == 'character') {
+            var character = item as Character;
+            return `<h2>${character.name.text}</h2>`;
+          }
+        }
+      }).subscribe(response => {
+        console.log(response);
+        console.log(response.item.someRichText.getHtml());
+      });
 
     /*
     this.deliveryClient.getItems<CodeExample>(this.type, [

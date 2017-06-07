@@ -14,15 +14,22 @@ export class ItemQueryConfig implements IItemQueryConfig {
     public usePreviewMode?: boolean;
 
     /**
+     * Callback used to resolve modular content nested in Rich text fields to proper HTML
+     */
+    public richTextResolver?: <T extends IContentItem>(contentItem: T) => string;
+
+    /**
     * Configuration of query
     * @constructor
     * @param {(contentItem: IContentItem, value: string) => string} urlSlugResolver - Callback used to resolve URL slug. This has priority over url slug resolved defined on model level
     * @param {boolean} usePreviewMode - Indicates if query should use preview mode. Overrides global settings of Delivery Client
+    * @param {<T extends IContentItem>(contentItem: T) => string} richTextResolver?: Callback used to resolve modular content nested in Rich text fields to proper HTML
     */
     constructor(
         config?: {
             urlSlugResolver?: (contentItem: IContentItem, value: string) => string,
-            usePreviewMode?: boolean
+            usePreviewMode?: boolean,
+            richTextResolver?: <T extends IContentItem>(contentItem: T) => string;
         }) {
         if (config) Object.assign(this, config);
     }

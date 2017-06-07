@@ -128,13 +128,15 @@ export class RichTextField implements IField {
     * @param {FieldType} type - Type of the field
     * @param {string} value - Value of the field
     * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
+    * @param {<IContentItem>(item: IContentItem) => string} richTextResolverDefinedByQuery - If set, this resolved will be used to resolve modular content instead of the ones defined in model classes
     */
     constructor(
         public name: string,
         public type: FieldType,
         public value: any,
         public modularItems: IContentItem[],
-        public enableAdvancedLogging: boolean
+        public enableAdvancedLogging: boolean,
+        public richTextResolverDefinedByQuery?: <IContentItem>(item: IContentItem) => string
     ) {
         this.html = value;
         this.items = modularItems;
@@ -150,7 +152,7 @@ export class RichTextField implements IField {
         // example: <object type="application/kenticocloud" data-type="item" data-codename="geralt"></object>
 
         // check if html was already resolved
-        if (this.resolvedHtml){
+        if (this.resolvedHtml) {
             return this.resolvedHtml;
         }
 
@@ -207,16 +209,27 @@ export class RichTextField implements IField {
                 node.tagName = this.modularContentTagWrapper;
 
                 // get html to replace object using Rich text resolver function
-                // check if such function exists first
-                if (!modularContentItem.richTextModularResolver) {
+
+                var resolver: <IContentItem>(item: IContentItem) => string;
+                if (this.richTextResolverDefinedByQuery) {
+                    // use resolved defined by query if available
+                    resolver = this.richTextResolverDefinedByQuery;
+                }
+                else {
+                    // use default resolver defined in models
+                    if (modularContentItem.richTextResolver) {
+                        resolver = modularContentItem.richTextResolver;
+                    }
+                }
+
+                // check resolver
+                if (!resolver) {
                     if (this.enableAdvancedLogging) {
                         console.log(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
                     }
-
-                    return null;
                 }
 
-                var replaceHtml = modularContentItem.richTextModularResolver(modularContentItem);
+                var replaceHtml = resolver(modularContentItem);
 
                 var serializedHtml = parse5.parseFragment(replaceHtml) as any;
 
