@@ -296,10 +296,13 @@ export class Character extends ContentItem {
 Result:
 
 ```typescript
-.deliveryClient.getItem<Character>('character', 'rick').subscribe(response => {
+.deliveryClient.getItem<Character>('character', 'rick')
+  .subscribe(response => {
       console.log(response.item.someRichText.getHtml());
       // outputs:
-      // <h3>Rick<h3>
+      // {html from your Rich text field}
+      // <h3>Rick</h3>
+      // {html from your Rich text field}
     });
 ```
 
@@ -307,19 +310,21 @@ Result:
 
 ```typescript
 .deliveryClient.getItem<Character>('character', 'rick', null,
-      {
-        richTextResolver: (item: IContentItem) => {
-          if (item.system.type == 'character') {
-            var character = item as Character;
-            return `<h2>${character.name.text}</h2>`;
-          }
+  {
+    richTextResolver: (item: IContentItem) => {
+      if (item.system.type == 'character') {
+        var character = item as Character;
+        return `<h2>${character.name.text}</h2>`;
         }
-      })
-      .subscribe(response => {
-        console.log(response.item.someRichText.getHtml());
-        // outputs:
-        // <h2>Rick</h2>
-      });
+    }
+  })
+  .subscribe(response => {
+  console.log(response.item.someRichText.getHtml());
+  // outputs:
+  // {html from your Rich text field}
+  // <h2>Rick</h2>
+  // {html from your Rich text field}
+  });
 ```
 
 
