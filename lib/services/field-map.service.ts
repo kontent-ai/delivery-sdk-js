@@ -104,7 +104,7 @@ export class FieldMapService {
             }
         }
 
-        return new RichTextField(field.name, field.type, field.value, modularItems);
+        return new RichTextField(field.name, field.type, field.value, modularItems, this.config.enableAdvancedLogging);
     }
 
     private mapDateTimeField(field: IField): DateTimeField {

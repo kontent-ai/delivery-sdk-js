@@ -30,7 +30,8 @@
   "private": false,
   "dependencies": {
     "rx-dom": "^7.0.3",
-    "rxjs": "5.4.0"
+    "rxjs": "5.4.0",
+    "parse5": "3.0.2"
   },
   "devDependencies": {
     "@angular/core": "^4.1.3",

@@ -31,6 +31,13 @@ export class GetItemsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+
+    this.deliveryClient.getItem<Character>('character', 'rick').subscribe(response => {
+      console.log(response);
+      console.log(response.item.someRichText.getHtml());
+    });
+
     /*
     this.deliveryClient.getItems<CodeExample>(this.type, [
       new LimitParameter(5),
@@ -45,7 +52,7 @@ export class GetItemsComponent implements OnInit {
     });
     */
 
-    
+    /*
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters', null, {
       urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
         return "hello smurfies!";
@@ -54,7 +61,6 @@ export class GetItemsComponent implements OnInit {
       console.log(response);
     });
    
- 
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters',
       [
         new DepthParameter(5)
@@ -65,6 +71,7 @@ export class GetItemsComponent implements OnInit {
         console.log(response);
         this.codeExample = response.item;
       });
-     
+ */
+
   }
 }

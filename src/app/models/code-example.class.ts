@@ -19,8 +19,11 @@ export class CodeExample extends ContentItem {
           return 'codeExampleUrlSlug';
         }
       },
-      urlSlugResolver: (item: IContentItem, value: string) => {
-        return `/actors/${value}`;
+      urlSlugResolver: (contentItem, urlSlug) =>{
+        return 'someurl/' + urlSlug;
+      },
+      richTextModularResolver: (contentItem: CodeExample) => {
+        return `Resolver modular content in rich text: <h2>'${contentItem.title.text}'</h2>`;
       }
     })
   }

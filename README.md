@@ -206,7 +206,7 @@ let typeResolvers: TypeResolver[] = [
     new TypeResolver("character", () => new Character()),
   ];
 
-new DeliveryClient(
+var deliveryClient = new DeliveryClient(
   new DeliveryClientConfig(projectId, typeResolvers, 
         {
             enablePreviewMode: true,

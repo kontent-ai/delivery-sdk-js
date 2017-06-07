@@ -35,3 +35,4 @@ export class MultipleChoiceOption implements IMultipleChoiceOption {
         public codename: string
     ) { }
 }
+
