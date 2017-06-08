@@ -72,7 +72,7 @@ export class DeliveryClient extends DeliveryClientBaseService {
             queryConfig = new ItemQueryConfig();
         }
 
-        return super.getMultipleItems(action, options);
+        return super.getMultipleItems(action, queryConfig, options);
     }
 
     /**

@@ -48,11 +48,11 @@ export class GetItemsComponent implements OnInit {
         console.log(response.item.someRichText.getHtml());
       });
 
-    /*
+
     this.deliveryClient.getItems<CodeExample>(this.type, [
       new LimitParameter(5),
-      // new SkipParameter(1),
-      // new DepthParameter(5),
+      new SkipParameter(1),
+      new DepthParameter(5),
       // new ElementsParameter(["title", "author", "category", "image", "name", "category_name"]),
       // new OrderDescParameter("elements.title")
       // new EqualsFilter("elements.title", "Rick")
@@ -60,9 +60,7 @@ export class GetItemsComponent implements OnInit {
       console.log(response);
       this.codeExamples = response.items;
     });
-    */
 
-    /*
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters', null, {
       urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
         return "hello smurfies!";
@@ -70,7 +68,7 @@ export class GetItemsComponent implements OnInit {
     }).subscribe(response => {
       console.log(response);
     });
-   
+
     this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters',
       [
         new DepthParameter(5)
@@ -81,7 +79,6 @@ export class GetItemsComponent implements OnInit {
         console.log(response);
         this.codeExample = response.item;
       });
- */
 
   }
 }
