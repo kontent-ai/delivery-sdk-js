@@ -22,10 +22,9 @@ export class CodeExample extends ContentItem {
       urlSlugResolver: (contentItem, urlSlug) =>{
         return 'someurl/' + urlSlug;
       },
-      richTextModularResolver: (contentItem: CodeExample) => {
-        return `Resolver modular content in rich text: <h2>'${contentItem.title.text}'</h2>`;
-      }
+      richTextResolver: (contentItem: CodeExample) => {
+            return `Resolver modular content in rich text: <h2>'${contentItem.title.text}'</h2>`;
+        }
     })
   }
 }
-

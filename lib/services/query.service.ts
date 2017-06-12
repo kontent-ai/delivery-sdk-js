@@ -33,7 +33,7 @@ export abstract class QueryService {
     /**
     * Preview url to Kentico Delivery API
     */
-    private previewDeliveryApiUrl: string = 'https://preview-deliver.kenticocloud.com/';
+    private previewDeliveryApiUrl: string = 'https://preview-deliver.kenticocloud.com';
 
     protected itemMapService: ItemMapService;
     protected typeMapService: TypeMapService;
