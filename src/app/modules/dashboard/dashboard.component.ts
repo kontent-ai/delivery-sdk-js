@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 // delivery client
-import { DeliveryClient, LimitParameter, EqualsFilter, OrderParameter, SortOrder, ContentItem } from '../../../../lib';
+import { DeliveryClient, SortOrder, ContentItem } from '../../../../lib';
 
 // models
 import { Character } from '../../models/character.class';
@@ -17,12 +17,13 @@ export class DashboardComponent implements OnInit {
     private deliveryClient: DeliveryClient
   ) {
   }
-
   ngOnInit(): void {
-    this.deliveryClient.getItems<ContentItem>().subscribe(response => console.log(response));
+    //this.deliveryClient.getItems<ContentItem>().subscribe(response => console.log(response));
   }
 
+    /*
   private testRequests(): void {
+  
     // multiple items
     this.deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
 
@@ -89,4 +90,5 @@ export class DashboardComponent implements OnInit {
       response => console.log(response),
     );
   }
+  */
 }

@@ -45,6 +45,15 @@ var deliveryClient = new DeliveryClient(
 
 ```
 
+### Get data from Kentico Cloud
+
+```typescript
+deliveryClient.items<Character>()
+  .type('character')
+  .get()
+  .subscribe(response => console.log(response));
+```
+
 ## API Documentation
 
 ### Getting data
@@ -52,72 +61,76 @@ var deliveryClient = new DeliveryClient(
 To get multiple items use `getItems` method with `codename` of your content type as parameter:
 
 ```typescript
-deliveryClient.getItems<Character>("character").subscribe(response => console.log(response));
+deliveryClient.items<Character>()
+      .type("character")
+      .get()
+      .subscribe(response => console.log(response));
 ```
 
 To get single item use `getItem` method:
 
 ```typescript
-deliveryClient.getItem<Character>("character", "itemCodename").subscribe(response => console.log(response));
+deliveryClient.item<Character>('itemCodeName')
+      .type("character")
+      .get()
+      .subscribe(response => console.log(response));
 ```
 
 To get all items of all types use `getItems` with `ContentItem` type parameter:
 
 ```typescript
-deliveryClient.getItems<ContentItem>().subscribe(response => console.log(response));
+import { IContentItem } from 'kentico-cloud-delivery-typescript-sdk';
+
+
+deliveryClient.items<IContentItem>()
+  .get()
+  .subscribe(response => console.log(response));
 ```
 
 ### Using query parameters
 
 Query parameters can be combined. More info about parameters in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses) 
 
-Don't forget to import all parameters before using them:
-
 ```typescript
-import { LimitParameter, EqualsFilter, OrderParameter, SortOrder } from 'kentico-cloud-delivery-typescript-sdk';
-```
-
-```typescript
-deliveryClient.getItems<Character>("character",
-  [
-    new LimitParameter(5),
-    new OrderParameter("elements.name", SortOrder.desc)
-    new SkipParameter(3)
-  ])
+deliveryClient.items<Character>()
+  .type('character')
+  .limitParameter(5)
+  .skipParameter(2)
+  .get()
   .subscribe(response => console.log(response));
 ```
 
-Supported query parameters: `DepthParameter`, `ElementsParameter`, `LimitParameter`, `OrderByParameter`, `SkipParameter`
+Supported query parameters: `depthParameter`, `elementsParameter`, `limitParameter`, `orderParameter`, `skipParameter`
 
 ### Filtering
 
 This example returns all **character** items whose **name** element is equal to **Rimmer**. Filters are also considered as `Query parameters` and can be combined. More info in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#content-filtering)
 
 ```typescript
-deliveryClient.getItems<Character>("character",
-  [
-     new EqualsFilter("elements.name", "Rimmer")
-  ])
+deliveryClient.items<Character>()
+  .type('character')
+  .equalsFilter('elements.name', 'Rimmer')
+  .get()
   .subscribe(response => console.log(response));
 ```
 
 ### Sorting
 
 ```typescript
-deliveryClient.getItems<Character>("character",
-  [
-    new OrderParameter("elements.name", SortOrder.desc)
-  ]
-  ).subscribe(response => console.log(response));
+deliveryClient.items<Character>()
+  .type('character')
+  .orderParameter('elements.name', SortOrder.desc)
+  .get()
+  .subscribe(response => console.log(response));
 
-deliveryClient.getItems<Character>("character",
-  [
-    new OrderParameter("elements.name", SortOrder.asc)
-  ]
-  ).subscribe(response => console.log(response));
+deliveryClient.items<Character>()
+  .type('character')
+  .orderParameter('elements.name', SortOrder.asc)
+  .get()
+  .subscribe(response => console.log(response));
 ```
 
-Supported filters: `AllFilter`, `AnyFilter`, `ContainsFilter`, `EqualsFilter`, `GreaterThanFilter`, `GreaterThanOrEqualFilter`, `Infilter`, `LessThanFilter`, `LessThanOrEqualFilter`, `RangeFilter`
+Supported filters: `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`
 
 ### Creating models
 
@@ -131,17 +144,12 @@ export class Character extends ContentItem {
   public age: NumberField;
   public birthdate: DateTimeField;
   public description: RichTextField;
-
-  constructor() {
-    super()
-  }
 }
 ```
 
 ### Nesting modular content 
 
-To include modular content simply reference proper class:
-
+To include modular content simply reference given type class:
 
 ```typescript
 import { ContentItem TextField, NumberField } from 'kentico-cloud-delivery-typescript-sdk';
@@ -149,20 +157,12 @@ import { ContentItem TextField, NumberField } from 'kentico-cloud-delivery-types
 export class Character extends ContentItem {
   public name: TextField;
   public age: NumbeField;
-
-  constructor() {
-    super()
-  }
 }
 
 export class Movie extends ContentItem {
   public movie: TextField;
   public release: NumberField;
   public characters: Character[]
-
-  constructor() {
-    super()
-  }
 }
 ```
 
@@ -194,7 +194,7 @@ export class Person extends ContentItem {
 
 ### Preview mode
 
-You can enable preview mode either `globally` (when initializing DeliveryClient) or `per query`. For example you disable preview mode globally, but you can enable it for one particular query for testing purposes. 
+You can enable preview mode either `globally` (when initializing DeliveryClient) or `per query`. For example you disable preview mode globally, but you can enable it for one particular query for testing purposes. In each case you need to set `previewApiKey` of DeliveryClientConfig.
 
 #### Enabling preview mode globally
 
@@ -206,7 +206,7 @@ let typeResolvers: TypeResolver[] = [
     new TypeResolver("character", () => new Character()),
   ];
 
-var deliveryClient = new DeliveryClient(
+let deliveryClient = new DeliveryClient(
   new DeliveryClientConfig(projectId, typeResolvers, 
         {
             enablePreviewMode: true,
@@ -218,11 +218,13 @@ var deliveryClient = new DeliveryClient(
 #### Enabling preview mode per query
 
 ```typescript
-deliveryClient.getItem<Character>(this.type, 'Rimmer', null, {
-      usePreviewMode: true
-    }).subscribe(response => {
-      console.log(response);
-    });
+deliveryClient.items<Character>()
+  .type('character')
+  .queryConfig({
+    usePreviewMode: true
+  })
+  .get()
+  .subscribe(response => console.log(response));
 ```
 
 ### Resolving URL Slugs
@@ -252,21 +254,29 @@ export class Character extends ContentItem {
 To get the url simply access the `url` property of your `UrlslugField`:
 
 ```typescript
-deliveryClient.getItem<Character>(this.type, 'someCodename').subscribe(response => {
-  console.log(response.item.slug.url);
-  });
+deliveryClient.item<Character>('someCodename')
+  .type('character')
+  .get()
+  .subscribe(response => console.log(response.item.slug.url));
 ```
 
 Additionally, you can specify URL slug resolver when getting items using the `config` property of `getItems` or `getItem` method. Setting the URL slug resolver this way has priority over the one defined in model.
 
 ```typescript
-.deliveryClient.getItem<Character>(this.type, 'someCodename', null, {
-      urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
-        return `/actors/${urlSlug}`;
-      }
-    }).subscribe(response => {
-      console.log(response.item.slug.url);
-    });
+deliveryClient.item<Character>('someCodename')
+  .type('character')
+  .get()
+  .subscribe(response => console.log(response.item.slug.url));
+
+deliveryClient.item<Character>('someCodename')
+  .type('character')
+  .queryConfig({
+    urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
+      return `/actors/${urlSlug}`;
+    }
+  })
+  .get()
+  .subscribe(response => console.log(response.item.slug.url));
 ```
 ### Resolving modular content in Rich text fields
 
@@ -296,14 +306,16 @@ export class Character extends ContentItem {
 Result:
 
 ```typescript
-.deliveryClient.getItem<Character>('character', 'rick')
+deliveryClient.item<Character>('rick')
+  .type('character')
+  .get()
   .subscribe(response => {
-      console.log(response.item.someRichText.getHtml());
-      // outputs:
-      // {html from your Rich text field}
-      // <h3>Rick</h3>
-      // {html from your Rich text field}
-    });
+    console.log(response.item.someRichText.getHtml());
+    // outputs:
+    // {html from your Rich text field}
+    // <h3>Rick</h3>
+    // {html from your Rich text field}
+  });
 ```
 
 #### Per query
@@ -335,14 +347,17 @@ To retrieve information about your content types, use `getType` or `getTypes` me
 ### Get single content type
 
 ```typescript
-deliveryClient.getType("character").subscribe(response => console.log(response));
+deliveryClient.type('character')
+  .get()
+  .subscribe(response => console.log(response));
 ```
 
 ### Get multiple content types
 
-
 ```typescript
-deliveryClient.getTypes().subscribe(response => console.log(response));
+deliveryClient.types()
+  .get()
+  .subscribe(response => console.log(response));
 ```
 
 ## Handling errors
@@ -356,7 +371,8 @@ Errors can be handled with `error` parameter of `subscribe` method (see [RxJS do
     err => console.log(err) // handle error
   );
 
-deliveryClient.getItem<Character>("character", "invalidiItem") // throws 404
+deliveryClient.item<Character>('incalidCodename') // throws 404
+  .get()
   .catch(err => {
     console.log(err);
     throw err;

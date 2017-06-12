@@ -6,12 +6,7 @@ import { Character } from '../../models/character.class';
 
 // k cloud
 import {
-  DeliveryClient,
-  LimitParameter, DepthParameter,
-  ElementsParameter, SkipParameter,
-  EqualsFilter, AllFilter, AnyFilter, ContainsFilter, GreaterThanFilter,
-  GreaterThanOrEqualFilter, Infilter, LessThanFilter, LessThanOrEqualFilter,
-  RangeFilter, ItemQueryConfig, IContentItem
+  DeliveryClient, ItemQueryConfig, IContentItem, SortOrder
 } from '../../../../lib';
 
 @Component({
@@ -35,50 +30,53 @@ export class GetItemsComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.deliveryClient.getItem<Character>('character', 'rick', null,
-      {
+
+    this.testQueries()
+  }
+
+  private testQueries(): void {
+    var queryText = this.deliveryClient.items()
+      .toString();
+
+    var query1 = this.deliveryClient.items<Character>()
+      .limitParameter(1)
+      .queryConfig({
+        usePreviewMode: true
+      })
+      .type('character');
+
+    var query2 = this.deliveryClient.items<Character>()
+      .type('character');
+
+    var query3 = this.deliveryClient.item<Character>('rick')
+      .queryConfig({
         richTextResolver: (item: IContentItem) => {
           if (item.system.type == 'character') {
             var character = item as Character;
             return `<h2>${character.name.text}</h2>`;
           }
         }
-      }).subscribe(response => {
-        console.log(response);
-        console.log(response.item.someRichText.getHtml());
       });
 
+    var query4 = this.deliveryClient.types();
 
-    this.deliveryClient.getItems<CodeExample>(this.type, [
-      new LimitParameter(5),
-      new SkipParameter(1),
-      new DepthParameter(5),
-      // new ElementsParameter(["title", "author", "category", "image", "name", "category_name"]),
-      // new OrderDescParameter("elements.title")
-      // new EqualsFilter("elements.title", "Rick")
-    ]).subscribe(response => {
-      console.log(response);
-      this.codeExamples = response.items;
-    });
+    var query5 = this.deliveryClient.type('character');
 
-    this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters', null, {
-      urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
-        return "hello smurfies!";
-      }
-    }).subscribe(response => {
-      console.log(response);
-    });
+    console.log(queryText);
 
-    this.deliveryClient.getItem<CodeExample>(this.type, 'changemacrorule_parameters',
-      [
-        new DepthParameter(5)
-      ],
-      {
-        usePreviewMode: true
-      }).subscribe(response => {
-        console.log(response);
-        this.codeExample = response.item;
-      });
+    query1.get()
+      .subscribe(response => console.log(response));
 
+    query2.get()
+      .subscribe(response => console.log(response));
+
+    query3.get()
+      .subscribe(response => console.log(response));
+
+    query4.get()
+      .subscribe(response => console.log(response));
+
+    query5.get()
+      .subscribe(response => console.log(response));
   }
 }
