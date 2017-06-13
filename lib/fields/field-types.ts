@@ -173,7 +173,7 @@ export class RichTextField implements IField {
     private processChildNodes(childNodes: Parse5Node[]): void {
         if (childNodes) {
             if (!Array.isArray(childNodes)) {
-                throw `Cannot process modular content in 'RichTextField' because child nodes is not an array`;
+                throw Error(`Cannot process modular content in 'RichTextField' because child nodes is not an array`);
             }
 
             childNodes.forEach(node => {
@@ -194,7 +194,7 @@ export class RichTextField implements IField {
                 // get codename of the modular content
                 var modularItemCodenameAttribute = attributes.find(m => m.name === this.codenameAttributeName);
                 if (!modularItemCodenameAttribute) {
-                    throw null;
+                    throw Error(`The '${this.codenameAttributeName}' attribute is missing and therefore modular content item cannot be retrieved`);
                 }
 
                 // get modular content item
@@ -202,7 +202,7 @@ export class RichTextField implements IField {
 
                 // check if modular content really exists
                 if (!modularContentItem) {
-                    throw `Cannot resolve modular content in 'RichTextField' for '${modularItemCodenameAttribute.value}' content item`
+                    throw Error(`Cannot resolve modular content in 'RichTextField' for '${modularItemCodenameAttribute.value}' content item`);
                 }
 
                 // replace 'object' tag name
@@ -329,7 +329,7 @@ export class UrlSlugField implements IField {
 
     private getUrl(): string {
         if (!this.urlSlugResolver) {
-            throw `You have to implement 'urlSlugResolver' in your Model class or your query in order to get url of this item`;
+            throw Error(`You have to implement 'urlSlugResolver' in your Model class or your query in order to get url of this item`);
         }
 
         var url = this.urlSlugResolver(this.contentItem, this.value);

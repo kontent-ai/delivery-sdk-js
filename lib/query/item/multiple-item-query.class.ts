@@ -26,6 +26,13 @@ export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery
         super(config)
     }
 
+    // type
+
+    type(type: string): this {
+        this._contentType = type;
+        return this;
+    }
+
     // filters
 
     equalsFilter(field: string, value: string): this {
@@ -113,7 +120,7 @@ export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery
 
     // debug
 
-    toString(): string{
+    toString(): string {
         return super.getMultipleItemsQueryUrl();
     }
 }

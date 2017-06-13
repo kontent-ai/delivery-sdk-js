@@ -31,11 +31,6 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
         super(config)
     }
 
-    type(type: string): this {
-        this._contentType = type;
-        return this;
-    }
-
     queryConfig(queryConfig: IItemQueryConfig): this {
         this._queryConfig = queryConfig;
         return this;

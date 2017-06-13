@@ -21,6 +21,10 @@ export class SingleItemQuery<TItem extends IContentItem> extends BaseItemQuery<T
         private codename: string
     ) {
         super(config)
+
+        if (!codename){
+            throw Error(`'codename' has to be configured for 'SingleItemQuery' query`);
+        }
     }
 
     // query params

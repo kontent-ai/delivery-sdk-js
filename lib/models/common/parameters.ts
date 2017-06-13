@@ -21,7 +21,12 @@ export class ElementsParameter implements IQueryParameter {
             return null;
         }
 
-        return this.elementCodenames.map(m => m.trim()).join();
+        return this.elementCodenames.map(m => {
+            if (!m){
+                throw Error(`Codename of 'ElementsParameter' cannot be null or empty`);
+            }
+            return m.trim()
+        }).join();
     }
 }
 
@@ -84,10 +89,10 @@ export class OrderParameter implements IQueryParameter {
 
     public GetParamValue(): string {
         var order: string;
-        if (this.sortOrder == SortOrder.asc){
+        if (this.sortOrder == SortOrder.asc) {
             order = "asc";
         }
-        else{
+        else {
             order = "desc";
         }
         return `${this.field}[${order}]`;

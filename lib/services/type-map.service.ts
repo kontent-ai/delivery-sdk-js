@@ -34,7 +34,7 @@ export class TypeMapService {
                     var typeElement = type.elements[elementName] as IContentTypeElement;
 
                     if (!typeElement) {
-                        throw `Cannot find element '${elementName}' on type '${type}'`;
+                        throw Error(`Cannot find element '${elementName}' on type '${type}'`);
                     }
                     elements.push(new ContentTypeElement(typeElement.type, typeElement.name));
                 });

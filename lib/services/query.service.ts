@@ -57,7 +57,7 @@ export abstract class QueryService {
         if (this.isPreviewModeEnabled(queryConfig)) {
 
             if (!this.config.previewApiKey) {
-                throw `You have to configure 'previewApiKey' to use 'preview' mode`;
+                throw Error(`You have to configure 'previewApiKey' to use 'preview' mode`);
             }
 
             return this.previewDeliveryApiUrl;
