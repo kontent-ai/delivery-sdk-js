@@ -28,9 +28,6 @@ export class GetItemsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-
-
     this.testQueries()
   }
 
@@ -62,6 +59,9 @@ export class GetItemsComponent implements OnInit {
 
     var query5 = this.deliveryClient.type('character');
 
+    var query6 = this.deliveryClient.items<CodeExample>()
+      .limitParameter(100);
+
     console.log(queryText);
 
     query1.get()
@@ -71,12 +71,20 @@ export class GetItemsComponent implements OnInit {
       .subscribe(response => console.log(response));
 
     query3.get()
-      .subscribe(response => console.log(response));
+      .subscribe(response => {
+        console.log(response.item.someRichText.getHtml());
+        console.log(response);
+      });
 
     query4.get()
       .subscribe(response => console.log(response));
 
     query5.get()
       .subscribe(response => console.log(response));
+
+    query6.get()
+      .subscribe(response => {
+        console.log(response.items[0].codeExampleUrlSlug.url);
+      });
   }
 }
