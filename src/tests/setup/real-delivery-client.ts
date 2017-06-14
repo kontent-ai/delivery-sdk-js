@@ -2,8 +2,8 @@
 import { DeliveryClient, DeliveryClientConfig, TypeResolver } from '../../../lib';
 
 // models
-import { Movie } from '../../app/models/movie.class';
-import { Actor } from '../../app/models/actor.class';
+import { Movie } from './movie.class';
+import { Actor } from './actor.class';
 
 export var realDeliveryClient = getDeliveryClient();
 

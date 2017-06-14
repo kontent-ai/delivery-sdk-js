@@ -5,13 +5,13 @@ import { async, TestBed } from '@angular/core/testing';
 import urlParser from 'url-parse';
 
 // real delivery client
-import { realDeliveryClient } from '../delivery-clients/real-delivery-client';
+import { realDeliveryClient } from '../setup/real-delivery-client';
 
 // delivery client
 import { DeliveryClient, DeliveryClientConfig, TypeResolver } from '../../../lib';
 
 // tests
-describe('Delivery Client initializiation', () => {
+describe('Delivery Client initialization', () => {
 
   it(`initialization DeliveryClient without config should throw error`, () => {
     expect(() => new DeliveryClient(null)).toThrowError();

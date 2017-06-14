@@ -5,7 +5,7 @@ import { async, TestBed } from '@angular/core/testing';
 import urlParser from 'url-parse';
 
 // real delivery client
-import { realDeliveryClient, realDeliveryClientConfig } from '../delivery-clients/real-delivery-client';
+import { realDeliveryClient, realDeliveryClientConfig } from '../setup/real-delivery-client';
 
 // delivery client
 import { DeliveryClient, DeliveryClientConfig } from '../../../lib';
