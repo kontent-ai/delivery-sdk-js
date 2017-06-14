@@ -80,7 +80,6 @@ To get all items of all types use `getItems` with `ContentItem` type parameter:
 ```typescript
 import { IContentItem } from 'kentico-cloud-delivery-typescript-sdk';
 
-
 deliveryClient.items<IContentItem>()
   .get()
   .subscribe(response => console.log(response));

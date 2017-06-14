@@ -6,6 +6,11 @@ import { IPagination } from '../../interfaces/common/ipagination.interface';
 export class DeliveryItemListingResponse<TItem extends IContentItem> {
 
     /**
+     * Indicates if response contains any items
+     */
+    public isEmpty: boolean;
+
+    /**
     * First item or undefined if none is found
     */
     public firstItem: TItem;
@@ -25,7 +30,17 @@ export class DeliveryItemListingResponse<TItem extends IContentItem> {
         public items: TItem[],
         public pagination: IPagination
     ) {
+        this.initIsEmpty();
         this.initFirstAndLastItem();
+    }
+
+    private initIsEmpty(): void {
+        if (!this.items) {
+            this.isEmpty = true;
+        }
+        else{
+            this.isEmpty = false;
+        }
     }
 
     private initFirstAndLastItem(): void {
