@@ -71,7 +71,6 @@ To get single item use `getItem` method:
 
 ```typescript
 deliveryClient.item<Character>('itemCodeName')
-      .type("character")
       .get()
       .subscribe(response => console.log(response));
 ```
@@ -255,7 +254,6 @@ To get the url simply access the `url` property of your `UrlslugField`:
 
 ```typescript
 deliveryClient.item<Character>('someCodename')
-  .type('character')
   .get()
   .subscribe(response => console.log(response.item.slug.url));
 ```
@@ -264,12 +262,10 @@ Additionally, you can specify URL slug resolver when getting items using the `co
 
 ```typescript
 deliveryClient.item<Character>('someCodename')
-  .type('character')
   .get()
   .subscribe(response => console.log(response.item.slug.url));
 
 deliveryClient.item<Character>('someCodename')
-  .type('character')
   .queryConfig({
     urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
       return `/actors/${urlSlug}`;
@@ -307,7 +303,6 @@ Result:
 
 ```typescript
 deliveryClient.item<Character>('rick')
-  .type('character')
   .get()
   .subscribe(response => {
     console.log(response.item.someRichText.getHtml());
@@ -382,14 +377,14 @@ deliveryClient.item<Character>('incalidCodename') // throws 404
   );
 ```
 
-## Todo's
+## Tests
 
-- Tests
+- Run `ng test` to run tests
 
 ## Build (only for Git repo)
 
-- Use `gulp build` to generate definitions & dist from the contents of `lib` folder
-- Use `ng serve` to run sample angular2 app 
+- Run `gulp build` to generate definitions & dist from the contents of `lib` folder
+- Run `ng serve` to run testing angular2 app
 
 
 
