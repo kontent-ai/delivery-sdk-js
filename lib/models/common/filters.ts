@@ -4,13 +4,15 @@ export class EqualsFilter implements IQueryParameter {
     constructor(
         public field: string,
         public value: string
-    ) { }
+    ) {
+        if (!this.field) {
+            throw Error(`Field specified in 'EqualsFilter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'EqualsFilter' due to invalid field parameter`);
-        }
-        return this.field;
+
+        return this.field.trim();
     }
 
     public GetParamValue(): string {
@@ -26,13 +28,14 @@ export class AllFilter implements IQueryParameter {
     constructor(
         public field: string,
         public values: string[]
-    ) { }
+    ) {
+        if (!this.field) {
+            throw Error(`Field specified in 'AllFilter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'AllFilter' due to invalid field parameter`);
-        }
-        return `${this.field}[all]`;
+        return `${this.field.trim()}[all]`;
     }
 
     public GetParamValue(): string {
@@ -48,13 +51,14 @@ export class AnyFilter implements IQueryParameter {
     constructor(
         public field: string,
         public values: string[]
-    ) { }
+    ) {
+        if (!this.field) {
+            throw Error(`Field specified in 'AnyFilter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'AnyFilter' due to invalid field parameter`);
-        }
-        return `${this.field}[any]`;
+        return `${this.field.trim()}[any]`;
     }
 
     public GetParamValue(): string {
@@ -70,13 +74,14 @@ export class ContainsFilter implements IQueryParameter {
     constructor(
         public field: string,
         public values: string[]
-    ) { }
+    ) {
+        if (!this.field) {
+            throw Error(`Field specified in 'ContainsFilter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'ContainsFilter' due to invalid field parameter`);
-        }
-        return `${this.field}[contains]`;
+        return `${this.field.trim()}[contains]`;
     }
 
     public GetParamValue(): string {
@@ -92,13 +97,15 @@ export class GreaterThanFilter implements IQueryParameter {
     constructor(
         public field: string,
         public value: string
-    ) { }
+    ) {
+        if (!this.field) {
+            throw Error(`Field specified in 'GreaterThanFilter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'GreaterThanFilter' due to invalid field parameter`);
-        }
-        return `${this.field}[gt]`;
+
+        return `${this.field.trim()}[gt]`;
     }
 
     public GetParamValue(): string {
@@ -114,13 +121,15 @@ export class GreaterThanOrEqualFilter implements IQueryParameter {
     constructor(
         public field: string,
         public value: string
-    ) { }
+    ) {
+        if (!this.field.trim) {
+            throw Error(`Field specified in 'GreaterThanOrEqualFilter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'GreaterThanOrEqualFilter' due to invalid field parameter`);
-        }
-        return `${this.field}[gte]`;
+
+        return `${this.field.trim()}[gte]`;
     }
 
     public GetParamValue(): string {
@@ -136,13 +145,14 @@ export class Infilter implements IQueryParameter {
     constructor(
         public field: string,
         public values: string[]
-    ) { }
+    ) {
+        if (!this.field) {
+            throw Error(`Field specified in 'Infilter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'Infilter' due to invalid field parameter`);
-        }
-        return `${this.field}[in]`;
+        return `${this.field.trim()}[in]`;
     }
 
     public GetParamValue(): string {
@@ -164,20 +174,20 @@ export class LessThanFilter implements IQueryParameter {
     constructor(
         public field: string,
         public value: string
-    ) { }
+    ) {
+        if (!this.field) {
+            throw Error(`Field specified in 'LessThanFilter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'LessThanFilter' due to invalid field parameter`);
-        }
-        return `${this.field}[lt]`;
+        return `${this.field.trim()}[lt]`;
     }
 
     public GetParamValue(): string {
         if (!this.value) {
             return null;
         }
-
         return this.value;
     }
 }
@@ -186,13 +196,15 @@ export class LessThanOrEqualFilter implements IQueryParameter {
     constructor(
         public field: string,
         public value: string
-    ) { }
+    ) {
+        if (!this.field) {
+            throw Error(`Field specified in 'LessThanOrEqualFilter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'LessThanOrEqualFilter' due to invalid field parameter`);
-        }
-        return `${this.field}[lte]`;
+
+        return `${this.field.trim()}[lte]`;
     }
 
     public GetParamValue(): string {
@@ -209,13 +221,18 @@ export class RangeFilter implements IQueryParameter {
         public field: string,
         public lowerValue: number,
         public higherValue: number
-    ) { }
+    ) {
+        if (!this.field) {
+            throw Error(`Field specified in 'RangeFilter' is null or empty`);
+        }
+
+        if (lowerValue > higherValue) {
+            throw Error(`'lowerValue' cannot be higher then 'higherValue' in 'RangeFilter'`);
+        }
+    }
 
     public GetParam(): string {
-        if (!this.field) {
-            throw Error(`Cannot apply 'RangeFilter' due to invalid field parameter`);
-        }
-        return `${this.field}[range]`;
+        return `${this.field.trim()}[range]`;
     }
 
     public GetParamValue(): string {

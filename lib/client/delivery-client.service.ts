@@ -29,6 +29,10 @@ export class DeliveryClient extends QueryService {
         protected config: DeliveryClientConfig
     ) {
         super(config)
+
+        if (!config){
+            throw Error(`Cannot create 'DeliveryClient' without configuration`);
+        }
     }
 
     /**

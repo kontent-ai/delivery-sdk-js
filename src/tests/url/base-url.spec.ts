@@ -45,7 +45,7 @@ describe('Base URL', () => {
 
   it(`origin should be 'https://deliver.kenticocloud.com'`, () => expect(parsedUrl.origin).toEqual('https://deliver.kenticocloud.com'));
 
-  it(`pathname should be contain project id'`, () => expect(itemsUrl).toContain(deliveryClientConfig.projectId));
+  it(`pathname should contain project id'`, () => expect(itemsUrl).toContain(deliveryClientConfig.projectId));
 
 });
 

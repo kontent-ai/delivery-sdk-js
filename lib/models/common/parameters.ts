@@ -10,19 +10,19 @@ export class ElementsParameter implements IQueryParameter {
     */
     constructor(
         public elementCodenames: string[]
-    ) { }
+    ) {
+        if (!this.elementCodenames) {
+            throw Error(`'elementCodenames' are not set in 'ElementsParameter'`);
+        }
+    }
 
     public GetParam(): string {
         return 'elements';
     }
 
     public GetParamValue(): string {
-        if (!this.elementCodenames) {
-            return null;
-        }
-
         return this.elementCodenames.map(m => {
-            if (!m){
+            if (!m) {
                 throw Error(`Codename of 'ElementsParameter' cannot be null or empty`);
             }
             return m.trim()
@@ -39,7 +39,11 @@ export class LimitParameter implements IQueryParameter {
     */
     constructor(
         public limit: number
-    ) { }
+    ) {
+        if (limit <= 0) {
+            throw Error(`'LimitParameter' must specify a positive integer`);
+        }
+    }
 
     public GetParam(): string {
         return 'limit';
@@ -59,7 +63,11 @@ export class SkipParameter implements IQueryParameter {
     */
     constructor(
         public skip: number
-    ) { }
+    ) {
+        if (skip < 0) {
+            throw Error(`'SkipParameter' must specify a positive integer number or zero."`);
+        }
+    }
 
     public GetParam(): string {
         return 'skip';
@@ -73,15 +81,19 @@ export class SkipParameter implements IQueryParameter {
 export class OrderParameter implements IQueryParameter {
 
     /**
-    * Sorts the response based on given field
+    * Sorts the response based on given field. 
     * @constructor
-    * @param {number} field - Field that will be used for sorting (can be both elements.<fieldname> or system.<fieldname>)
-    * @param {number} sortOrder - Order type (desc/asc)
+    * @param {string} field - Field that will be used for sorting (can be both elements.<fieldname> or system.<fieldname>)
+    * @param {SortOrder} sortOrder - Order type (desc/asc). Defaults to 'asc' if SortOrder is null or invalid.
     */
     constructor(
         public field: string,
         public sortOrder: SortOrder
-    ) { }
+    ) {
+        if (!field) {
+            throw Error(`Field specified in 'OrderParameter' is null or empty`);
+        }
+    }
 
     public GetParam(): string {
         return 'order';
@@ -89,13 +101,13 @@ export class OrderParameter implements IQueryParameter {
 
     public GetParamValue(): string {
         var order: string;
-        if (this.sortOrder == SortOrder.asc) {
-            order = "asc";
-        }
-        else {
+        if (this.sortOrder == SortOrder.desc) {
             order = "desc";
         }
-        return `${this.field}[${order}]`;
+        else {
+            order = "asc";
+        }
+        return `${this.field.trim()}[${order}]`;
     }
 }
 
@@ -107,12 +119,15 @@ export class DepthParameter implements IQueryParameter {
     * Recursively, these modular content items can reference another modular content items. 
     * By default, only one level of modular content is returned.
     * @constructor
-    * @param {number} field - Field that will be used for sorting (can be both elements.<fieldname> or system.<fieldname>)
-    * @param {number} sortOrder - Order type (desc/asc)
+    * @param {number} depth - Depth fo the response
     */
     constructor(
         public depth: number
-    ) { }
+    ) {
+        if (depth <= 0) {
+            throw Error(`'DepthParameter' must specify a positive integer or zero`);
+        }
+    }
 
     public GetParam(): string {
         return 'depth';

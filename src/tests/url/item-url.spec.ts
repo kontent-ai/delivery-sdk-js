@@ -5,16 +5,15 @@ import { async, TestBed } from '@angular/core/testing';
 import urlParser from 'url-parse';
 
 // real delivery client
-import { realDeliveryClient, realDeliveryClientConfig } from '../delivery-clients/real-delivery-client';
+import { realDeliveryClient } from '../delivery-clients/real-delivery-client';
 
 // delivery client
-import { DeliveryClient, DeliveryClientConfig } from '../../../lib';
+import { DeliveryClient } from '../../../lib';
 
 // tests
 describe('Item URL', () => {
 
     var deliveryClient: DeliveryClient;
-    var deliveryClientConfig: DeliveryClientConfig = this.deliveryClientConfig;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -22,13 +21,9 @@ describe('Item URL', () => {
                 {
                     provide: DeliveryClient, useValue: realDeliveryClient,
                 },
-                {
-                    provide: DeliveryClientConfig, useValue: realDeliveryClientConfig,
-                }
             ]
         });
 
-        deliveryClientConfig = TestBed.get(DeliveryClientConfig) as DeliveryClientConfig;
         deliveryClient = TestBed.get(DeliveryClient) as DeliveryClient;
     });
 
@@ -40,14 +35,16 @@ describe('Item URL', () => {
         expect(() => deliveryClient.item('')).toThrowError();
     });
 
-    it(`basic item URL with 'kyle' codename`, () => {
+    it(`item URL with 'kyle' codename should end with '/items/kyle`, () => {
         var url = new URL(deliveryClient.item('kyle').toString());
-        expect(url.pathname).toEqual(`/${deliveryClientConfig.projectId}/items/kyle`);
+        var last11Digits = url.pathname.substr(url.pathname.length - 11);
+        expect(last11Digits).toEqual(`/items/kyle`);
     });
 
-    it(`basic item URL with 'arnold' codename`, () => {
+    it(`item URL with 'arnold' codename should end with '/items/arnold'`, () => {
         var url = new URL(deliveryClient.item('arnold').toString());
-        expect(url.pathname).toEqual(`/${deliveryClientConfig.projectId}/items/arnold`);
+        var last13Digits = url.pathname.substr(url.pathname.length - 13);
+        expect(last13Digits).toEqual(`/items/arnold`);
     });
 });
 

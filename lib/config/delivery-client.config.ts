@@ -35,6 +35,15 @@ export class DeliveryClientConfig {
             enablePreviewMode?: boolean
 
         }) {
+
+        if (!projectId) {
+            throw Error(`Cannot create delivery configuration without 'projectId'`);
+        }
+
+        if (!typeResolvers){
+            throw Error(`Cannot create delivery configuration without specifying 'typeResolvers'`);
+        }
+
         if (options) Object.assign(this, options);
     }
 }
