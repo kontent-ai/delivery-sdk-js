@@ -2,7 +2,7 @@
 import { TestBed } from '@angular/core/testing';
 
 // setup
-import { realDeliveryClient, Actor, Movie } from '../setup';
+import { Actor, Movie } from '../setup';
 
 // delivery client
 import {
@@ -47,6 +47,9 @@ export function setup(context: Context) {
         enablePreviewMode: context.usePreviewMode
     })
 
-    // init delivery client
+    // set context
     context.deliveryClient = new DeliveryClient(deliveryClientConfig);
+    context.projectId = projectId;
+    context.previewApiKey = previewApiKey;
+    context.typeResolvers = typeResolvers;
 }

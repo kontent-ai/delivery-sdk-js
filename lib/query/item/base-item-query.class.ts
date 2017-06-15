@@ -11,6 +11,7 @@ import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interf
 import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../../models/type/responses';
 import { IItemQueryConfig } from '../../interfaces/item/iitem-query.config';
 import { ItemQueryConfig } from '../../models/item/item-query.config';
+import { IHeader } from '../../interfaces/common/iheader.interface';
 
 // base query
 import { BaseQuery } from '../common/base-query.class';
@@ -34,6 +35,10 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
     queryConfig(queryConfig: IItemQueryConfig): this {
         this._queryConfig = queryConfig;
         return this;
+    }
+
+    getHeaders(): IHeader[]{
+        return super.getHeadersInternal(this.getQueryConfig());
     }
 
     private getQueryConfig(): IItemQueryConfig {

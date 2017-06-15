@@ -2,7 +2,7 @@
 import urlParser from 'url-parse';
 
 // setup
-import { Context, setup } from '../setup';
+import { Context, setup } from '../../setup';
 
 // tests
 describe('Item URL', () => {

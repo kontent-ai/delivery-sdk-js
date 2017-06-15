@@ -18,6 +18,8 @@ import { ICloudMultipleTypeResponse, ICloudSingleTypeResponse } from '../interfa
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { IHeader } from '../interfaces/common/iheader.interface';
+import { Header } from '../models/common/header.class';
 
 // services
 import { ItemMapService } from '../services/item-map.service';
@@ -83,14 +85,6 @@ export abstract class QueryService {
         return url;
     }
 
-    private getHeaders(queryConfig: IItemQueryConfig): any {
-        if (this.isPreviewModeEnabled(queryConfig)) {
-            // authorization header required for preview mode
-            return { 'authorization': `bearer ${this.config.previewApiKey}` };
-        }
-        return null;
-    }
-
     private handleError(error: Response | any): any {
         if (this.config.enableAdvancedLogging) {
             console.error(error);
@@ -98,7 +92,7 @@ export abstract class QueryService {
         return error;
     }
 
-    private getSingleTypeResponse(json: any): DeliveryTypeResponse {
+    protected getSingleTypeResponse(json: any): DeliveryTypeResponse {
         var cloudResponse = json as ICloudSingleTypeResponse;
 
         // map type
@@ -107,7 +101,7 @@ export abstract class QueryService {
         return new DeliveryTypeResponse(type);
     }
 
-    private getMultipleTypeResponse(json: any, options?: IQueryParameter[]): DeliveryTypeListingResponse {
+    protected getMultipleTypeResponse(json: any, options?: IQueryParameter[]): DeliveryTypeListingResponse {
         var cloudResponse = json as ICloudMultipleTypeResponse;
 
         // map types
@@ -122,6 +116,26 @@ export abstract class QueryService {
         );
 
         return new DeliveryTypeListingResponse(types, pagination);
+    }
+
+    protected getHeadersInternal(queryConfig: IItemQueryConfig): IHeader[] {
+        var headers: IHeader[] = [];
+
+        if (this.isPreviewModeEnabled(queryConfig)) {
+            // authorization header required for preview mode
+            headers.push(new Header('authorization', `bearer ${this.config.previewApiKey}`));
+        }
+        return headers;
+    }
+
+    protected getHeadersJson(queryConfig: IItemQueryConfig): any{
+        var headerJson: any = {};
+        var headers = this.getHeadersInternal(queryConfig);
+        headers.forEach(header => {
+            headerJson[header.header] = header.value;
+        });
+
+        return headerJson;
     }
 
     protected getUrl(action: string, queryConfig: IItemQueryConfig, options?: IQueryParameter[]): string {
@@ -155,7 +169,7 @@ export abstract class QueryService {
     }
 
     protected getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<DeliveryItemResponse<TItem>> {
-        return ajax.getJSON(url, this.getHeaders(queryConfig))
+        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
             .map(json => {
                 return this.getSingleResponse<TItem>(json, queryConfig)
             })
@@ -165,7 +179,7 @@ export abstract class QueryService {
     }
 
     protected getMultipleItems<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<DeliveryItemListingResponse<TItem>> {
-        return ajax.getJSON(url, this.getHeaders(queryConfig))
+        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
             .map(json => {
                 return this.getMultipleResponse(json, queryConfig)
             })

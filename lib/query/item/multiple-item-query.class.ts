@@ -29,6 +29,9 @@ export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery
     // type
 
     type(type: string): this {
+        if (!type){
+            throw Error(`'type' cannot be null or empty`);
+        }
         this._contentType = type;
         return this;
     }

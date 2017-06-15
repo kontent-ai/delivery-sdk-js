@@ -1,5 +1,5 @@
 // setup
-import { setup, Context, Actor, Movie } from '../setup';
+import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
 import { AjaxError } from 'rxjs/observable/dom/AjaxObservable';

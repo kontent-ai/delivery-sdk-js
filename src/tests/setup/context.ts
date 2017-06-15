@@ -1,5 +1,5 @@
 import {
-  DeliveryClient, DeliveryItemResponse, DeliveryItemListingResponse, TypeResolver
+  DeliveryClient, DeliveryItemResponse, DeliveryItemListingResponse, TypeResolver, DeliveryClientConfig
 } from '../../../lib';
 
 export class Context {
@@ -11,15 +11,27 @@ export class Context {
 
   constructor(
     options?: {
-      typeResolvers: TypeResolver[],
-      projectId: string,
-      previewApiKey: string,
-      deliveryClient: DeliveryClient,
-      usePreviewMode: boolean
+      typeResolvers?: TypeResolver[],
+      projectId?: string,
+      previewApiKey?: string,
+      deliveryClient?: DeliveryClient,
+      usePreviewMode?: boolean
     }
   ) {
     if (options) {
       Object.assign(this, options);
     }
+  }
+
+  getConfig(): DeliveryClientConfig {
+    return new DeliveryClientConfig(
+      this.projectId,
+      this.typeResolvers,
+      {
+        enableAdvancedLogging: true,
+        enablePreviewMode: this.usePreviewMode,
+        previewApiKey: this.previewApiKey
+      }
+    );
   }
 }

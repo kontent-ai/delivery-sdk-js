@@ -2,15 +2,15 @@
 import urlParser from 'url-parse';
 
 // setup
-import { Context, setup } from '../setup';
+import { Context, setup } from '../../setup';
 
 // models
-import { SortOrder } from '../../../lib';
+import { SortOrder } from '../../../../lib';
 
 // tests
 describe('Parameters', () => {
 
-        var context = new Context();
+    var context = new Context();
     setup(context);
 
     it(`depth param should be set`, () => {

@@ -1,8 +1,8 @@
-// rxjs
-import { Observable } from 'rxjs/Rx';
-
 // config
 import { DeliveryClientConfig } from '../config/delivery-client.config';
+
+// interface
+import { IDeliveryClient } from './idelivery-client.interface';
 
 // models
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
@@ -18,7 +18,7 @@ import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
 // services
 import { QueryService } from '../services/query.service';
 
-export class DeliveryClient extends QueryService {
+export class DeliveryClient extends QueryService implements IDeliveryClient {
 
     /**
     * Delivery client used to fetch data from Kentico Cloud

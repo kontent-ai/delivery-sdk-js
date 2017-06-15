@@ -11,6 +11,9 @@ export class Actor extends ContentItem {
 
   constructor() {
     super({
+      richTextResolver: (item: Actor) => {
+        return `<p>${item.firstName.text}</p>`
+      },
       resolver: (fieldName: string) => {
         if (fieldName === 'first_name') {
           return 'firstName'; // binds 'first_name' response from Kentico cloud to 'firstName' property of this class
@@ -39,9 +42,12 @@ export class Movie extends ContentItem {
 
   constructor(){
     super({
+      richTextResolver: (item: Movie) => {
+        return `<p>${item.title.text}</p>`
+      },
       urlSlugResolver: (item, urlSlug) => {
-        return 'testslug/' + urlSlug;
+        return 'testSlugUrl/' + urlSlug;
       }
-    })
+    },)
   }
 }
