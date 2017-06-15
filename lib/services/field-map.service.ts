@@ -104,27 +104,27 @@ export class FieldMapService {
             }
         }
 
-        return new RichTextField(field.name, field.type, field.value, modularItems, this.config.enableAdvancedLogging, queryConfig.richTextResolver);
+        return new RichTextField(field.name, field.value, modularItems, this.config.enableAdvancedLogging, queryConfig.richTextResolver);
     }
 
     private mapDateTimeField(field: IField): DateTimeField {
-        return new DateTimeField(field.name, field.type, field.value);
+        return new DateTimeField(field.name, field.value);
     }
 
     private mapMultipleChoiceField(field: IField): MultipleChoiceField {
-        return new MultipleChoiceField(field.name, field.type, field.value);
+        return new MultipleChoiceField(field.name, field.value);
     }
 
     private mapNumberField(field: IField): NumberField {
-        return new NumberField(field.name, field.type, field.value);
+        return new NumberField(field.name,  field.value);
     }
 
     private mapTextField(field: IField): TextField {
-        return new TextField(field.name, field.type, field.value);
+        return new TextField(field.name, field.value);
     }
 
     private mapAssetsField(field: IField): AssetsField {
-        return new AssetsField(field.name, field.type, field.value);
+        return new AssetsField(field.name, field.value);
     }
 
     private mapUrlSlugField(field: IField, item: IContentItem, queryConfig: IItemQueryConfig): UrlSlugField {
@@ -138,7 +138,7 @@ export class FieldMapService {
             urlSlug = item.urlSlugResolver;
         }
 
-        return new UrlSlugField(field.name, field.type, field.value, item, urlSlug, this.config.enableAdvancedLogging);
+        return new UrlSlugField(field.name, field.value, item, urlSlug, this.config.enableAdvancedLogging);
     }
 
     private mapModularField(field: IField, modularContent: any, queryConfig: IItemQueryConfig): any {

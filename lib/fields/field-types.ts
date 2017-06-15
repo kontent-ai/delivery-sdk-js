@@ -4,9 +4,7 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IAsset, IMultipleChoiceOption } from './field-interfaces';
 import { AssetModel, MultipleChoiceOption } from './field-models';
 import { Parse5Attribute, Parse5Node } from './internal-models';
-
-// parse5 for parsing HTML
-import * as parse5 from 'parse5';
+import { RichTextResolver } from './rich-text-resolver.class';
 
 export class TextField implements IField {
 
@@ -16,21 +14,23 @@ export class TextField implements IField {
     public text: string;
 
     /**
+    * Type of the field
+    */
+    public type: FieldType = FieldType.text;
+
+    /**
     * Represents text field of Kentico Cloud item
     * @constructor
     * @param {string} name - Name of the field
-    * @param {FieldType} type - Type of the field
     * @param {string} value - Value of the field
     */
     constructor(
         public name: string,
-        public type: FieldType,
         public value: any
     ) {
         this.text = this.value;
     };
 }
-
 
 export class MultipleChoiceField implements IField {
 
@@ -40,15 +40,18 @@ export class MultipleChoiceField implements IField {
     public options: MultipleChoiceOption[] = [];
 
     /**
+    * Type of the field
+    */
+    public type: FieldType = FieldType.multiple_choice;
+
+    /**
     * Represents multiple choice field of Kentico Cloud item
     * @constructor
     * @param {string} name - Name of the field
-    * @param {FieldType} type - Type of the field
     * @param {string} value - Value of the field
     */
     constructor(
         public name: string,
-        public type: FieldType,
         public value: any
     ) {
         if (this.value) {
@@ -74,15 +77,18 @@ export class DateTimeField implements IField {
     public datetime: Date;
 
     /**
+    * Type of the field
+    */
+    public type: FieldType = FieldType.datetime;
+
+    /**
     * Represents date time field of Kentico Cloud item
     * @constructor
     * @param {string} name - Name of the field
-    * @param {FieldType} type - Type of the field
     * @param {string} value - Value of the field
     */
     constructor(
         public name: string,
-        public type: FieldType,
         public value: any
     ) {
         this.datetime = new Date(value);
@@ -92,24 +98,9 @@ export class DateTimeField implements IField {
 export class RichTextField implements IField {
 
     /**
-     * Type identifying nested modular content in Rich text fields
-     */
-    private readonly objectType = 'application/kenticocloud';
-
-    /**
-     * This tag wil be used instead of 'object'
-     */
-    private readonly modularContentTagWrapper = 'div';
-
-    /**
-     * Attribute used to identify modular item based on its codename
-     */
-    private readonly codenameAttributeName = 'data-codename';
-
-    /**
-    * Html stored in the field. Does not contain resolved modular content. Use 'getHtml' method to get html with resolved modular content.
+    * Type of the field
     */
-    private html: string;
+    public type: FieldType = FieldType.rich_text;
 
     /**
      * Resolved html in field - store here once the html was resolved to avoid resolving it multiple times
@@ -125,122 +116,39 @@ export class RichTextField implements IField {
     * Represents rich text field of Kentico Cloud item
     * @constructor
     * @param {string} name - Name of the field
-    * @param {FieldType} type - Type of the field
     * @param {string} value - Value of the field
     * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
     * @param {<IContentItem>(item: IContentItem) => string} richTextResolverDefinedByQuery - If set, this resolved will be used to resolve modular content instead of the ones defined in model classes
     */
     constructor(
         public name: string,
-        public type: FieldType,
         public value: any,
         public modularItems: IContentItem[],
         public enableAdvancedLogging: boolean,
         public richTextResolverDefinedByQuery?: <IContentItem>(item: IContentItem) => string
     ) {
-        this.html = value;
         this.items = modularItems;
     };
 
-    /**
-     * Resolves modular content inside the Rich text field. 
-     * Rich text resolved needs to be configured either on the model or query level
-     */
     getHtml(): string {
-        // resolve modular content nested within the rich text field 
-        // find the all 'object' tags
-        // example: <object type="application/kenticocloud" data-type="item" data-codename="geralt"></object>
-
         // check if html was already resolved
         if (this.resolvedHtml) {
             return this.resolvedHtml;
         }
 
-        var documentFragment = parse5.parseFragment(this.html) as any;
+        var richTextHelper = new RichTextResolver(this.value, this.modularItems, this.enableAdvancedLogging, this.richTextResolverDefinedByQuery)
+        this.resolvedHtml = richTextHelper.resolveHtml();
 
-        // recursively process all child nodes
-        this.processChildNodes(documentFragment.childNodes as Parse5Node[]);
-
-        // serliaze document go get string as HTML
-        var resolvedHtml = parse5.serialize(documentFragment);
-
-        // set resolved html
-        this.resolvedHtml = resolvedHtml;
-
-        return resolvedHtml;
-    }
-
-    private processChildNodes(childNodes: Parse5Node[]): void {
-        if (childNodes) {
-            if (!Array.isArray(childNodes)) {
-                throw Error(`Cannot process modular content in 'RichTextField' because child nodes is not an array`);
-            }
-
-            childNodes.forEach(node => {
-                if (!node.attrs) {
-                    // recursively process all nodes
-                    if (node.childNodes) {
-                        return this.processChildNodes(node.childNodes);
-                    }
-                    return this.processChildNodes(null);
-                }
-
-                var attributes = node.attrs as Parse5Attribute[]; // array of attributes => name/value pair
-                var modularContentAttribute = attributes.find(m => m.value === this.objectType && m.name === 'type');
-                if (!modularContentAttribute) {
-                    return null;
-                }
-
-                // get codename of the modular content
-                var modularItemCodenameAttribute = attributes.find(m => m.name === this.codenameAttributeName);
-                if (!modularItemCodenameAttribute) {
-                    throw Error(`The '${this.codenameAttributeName}' attribute is missing and therefore modular content item cannot be retrieved`);
-                }
-
-                // get modular content item
-                var modularContentItem = this.modularItems.find(m => m.system.codename === modularItemCodenameAttribute.value);
-
-                // check if modular content really exists
-                if (!modularContentItem) {
-                    throw Error(`Cannot resolve modular content in 'RichTextField' for '${modularItemCodenameAttribute.value}' content item`);
-                }
-
-                // replace 'object' tag name
-                node.tagName = this.modularContentTagWrapper;
-
-                // get html to replace object using Rich text resolver function
-
-                var resolver: <IContentItem>(item: IContentItem) => string;
-                if (this.richTextResolverDefinedByQuery) {
-                    // use resolved defined by query if available
-                    resolver = this.richTextResolverDefinedByQuery;
-                }
-                else {
-                    // use default resolver defined in models
-                    if (modularContentItem.richTextResolver) {
-                        resolver = modularContentItem.richTextResolver;
-                    }
-                }
-
-                // check resolver
-                if (!resolver) {
-                    if (this.enableAdvancedLogging) {
-                        console.log(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
-                    }
-                }
-
-                var replaceHtml = resolver(modularContentItem);
-
-                var serializedHtml = parse5.parseFragment(replaceHtml) as any;
-
-                // add replaced html to node
-                node.childNodes = serializedHtml.childNodes as Parse5Node[];
-            });
-        }
+        return this.resolvedHtml;
     }
 }
 
 export class NumberField implements IField {
+
+    /**
+    * Type of the field
+    */
+    public type: FieldType = FieldType.number;
 
     /**
     * Number value of this field
@@ -251,12 +159,10 @@ export class NumberField implements IField {
     * Represents number field of Kentico Cloud item
     * @constructor
     * @param {string} name - Name of the field
-    * @param {FieldType} type - Type of the field
     * @param {string} value - Value of the field
     */
     constructor(
         public name: string,
-        public type: FieldType,
         public value: any
     ) {
         this.number = value;
@@ -264,6 +170,11 @@ export class NumberField implements IField {
 }
 
 export class AssetsField implements IField {
+
+    /**
+    * Type of the field
+    */
+    public type: FieldType = FieldType.asset;
 
     /**
     * List of assets used in this field
@@ -274,12 +185,10 @@ export class AssetsField implements IField {
     * Represents asset field of Kentico Cloud item
     * @constructor
     * @param {string} name - Name of the field
-    * @param {FieldType} type - Type of the field
     * @param {string} value - Value of the field
     */
     constructor(
         public name: string,
-        public type: FieldType,
         public value: any
     ) {
         if (this.value) {
@@ -302,6 +211,11 @@ export class AssetsField implements IField {
 export class UrlSlugField implements IField {
 
     /**
+    * Type of the field
+    */
+    public type: FieldType = FieldType.url_slug;
+
+    /**
     * Resolved Url of the item
     */
     public url: string;
@@ -310,7 +224,6 @@ export class UrlSlugField implements IField {
     * Represents URL slug field of Kentico Cloud item
     * @constructor
     * @param {string} name - Name of the field
-    * @param {FieldType} type - Type of the field
     * @param {string} value - Value of the field
     * @param {string} contentItemType - Type of the content item
     * @param {(contentItem: IContentItem, urlSlug: string) => string} urlSlugResolver - Callback used to resolve URL slug of the item with type
@@ -318,7 +231,6 @@ export class UrlSlugField implements IField {
     */
     constructor(
         public name: string,
-        public type: FieldType,
         public value: string,
         public contentItem: IContentItem,
         public urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => string,

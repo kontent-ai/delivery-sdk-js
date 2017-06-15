@@ -1,38 +1,20 @@
-// test imports
-import { async, TestBed } from '@angular/core/testing';
-
 // url parser
 import urlParser from 'url-parse';
 
-// real delivery client
-import { realDeliveryClient, realDeliveryClientConfig } from '../setup/real-delivery-client';
-
-// delivery client
-import { DeliveryClient, DeliveryClientConfig } from '../../../lib';
+// setup
+import { setup, Context } from '../setup';
 
 // tests
 describe('Base URL', () => {
 
+  var context = new Context();
+  setup(context);
+
   var itemsUrl: string;
   var parsedUrl: URL;
-  var deliveryClientConfig: DeliveryClientConfig;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: DeliveryClient, useValue: realDeliveryClient,
-        },
-        {
-          provide: DeliveryClientConfig, useValue: realDeliveryClientConfig,
-        }
-      ]
-    });
-
-    deliveryClientConfig = TestBed.get(DeliveryClientConfig) as DeliveryClientConfig;
-
-    let deliveryClient = TestBed.get(DeliveryClient) as DeliveryClient;
-    itemsUrl = deliveryClient.items().toString();
+  beforeAll(() => {
+    itemsUrl = context.deliveryClient.items().toString();
 
     parsedUrl = new URL(itemsUrl);
   });
@@ -45,7 +27,7 @@ describe('Base URL', () => {
 
   it(`origin should be 'https://deliver.kenticocloud.com'`, () => expect(parsedUrl.origin).toEqual('https://deliver.kenticocloud.com'));
 
-  it(`pathname should contain project id'`, () => expect(itemsUrl).toContain(deliveryClientConfig.projectId));
+  it(`pathname should contain project id'`, () => expect(itemsUrl).toContain(context.projectId));
 
 });
 

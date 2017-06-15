@@ -1,35 +1,18 @@
-// test imports
-import { async, TestBed } from '@angular/core/testing';
-
 // url parser
 import urlParser from 'url-parse';
 
-// real delivery client
-import { realDeliveryClient } from '../setup/real-delivery-client';
-
-// delivery client
-import { DeliveryClient } from '../../../lib';
+// setup
+import { Context, setup } from '../setup';
 
 // tests
 describe('Filters', () => {
 
-    var deliveryClient: DeliveryClient;
-
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [
-                {
-                    provide: DeliveryClient, useValue: realDeliveryClient,
-                },
-            ]
-        });
-
-        deliveryClient = TestBed.get(DeliveryClient) as DeliveryClient;
-    });
+    var context = new Context();
+    setup(context);
 
     it(`inFilter with single value should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .inFilter('elem1', ['val1'])
                 .toString()
         );
@@ -41,7 +24,7 @@ describe('Filters', () => {
 
     it(`inFilter with multiple values should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .inFilter('elem1', ['val1', 'val2'])
                 .toString()
         );
@@ -53,7 +36,7 @@ describe('Filters', () => {
 
     it(`anyFilter with single value should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .anyFilter('elem1', ['val1'])
                 .toString()
         );
@@ -65,7 +48,7 @@ describe('Filters', () => {
 
     it(`anyFilter with multiple values should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .anyFilter('elem1', ['val1', 'val2'])
                 .toString()
         );
@@ -77,7 +60,7 @@ describe('Filters', () => {
 
     it(`containsFilter with single value should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .containsFilter('elem1', ['val1'])
                 .toString()
         );
@@ -89,7 +72,7 @@ describe('Filters', () => {
 
     it(`containsFilter with multiple value should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .containsFilter('elem1', ['val1', 'val2'])
                 .toString()
         );
@@ -101,7 +84,7 @@ describe('Filters', () => {
 
     it(`equalsFilter should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .equalsFilter('elem1', 'val1')
                 .toString()
         );
@@ -113,7 +96,7 @@ describe('Filters', () => {
 
     it(`greaterThanFilter should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .greaterThanFilter('elem1', 'val1')
                 .toString()
         );
@@ -125,7 +108,7 @@ describe('Filters', () => {
 
     it(`greaterThanOrEqualFilter should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .greaterThanOrEqualFilter('elem1', 'val1')
                 .toString()
         );
@@ -137,7 +120,7 @@ describe('Filters', () => {
 
     it(`lessThanFilter should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .lessThanFilter('elem1', 'val1')
                 .toString()
         );
@@ -149,7 +132,7 @@ describe('Filters', () => {
 
     it(`lessThanOrEqualFilter should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .lessThanOrEqualFilter('elem1', 'val1')
                 .toString()
         );
@@ -161,7 +144,7 @@ describe('Filters', () => {
 
     it(`allFilter with single value should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .allFilter('elem1', ['val1'])
                 .toString()
         );
@@ -173,7 +156,7 @@ describe('Filters', () => {
 
     it(`allFilter with multiple values should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .allFilter('elem1', ['val1', 'val2'])
                 .toString()
         );
@@ -185,7 +168,7 @@ describe('Filters', () => {
 
     it(`rangeFilter should be set`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .rangeFilter('elem1', 1, 10)
                 .toString()
         );
@@ -196,56 +179,56 @@ describe('Filters', () => {
     });
 
     it(`rangeFilter should throw error when higher value is lower then lower value`, () => {
-        expect(() => deliveryClient.items().rangeFilter('elem1', 10, 1)).toThrowError();
+        expect(() => context.deliveryClient.items().rangeFilter('elem1', 10, 1)).toThrowError();
     });
 
     // Null parameter checks
 
     it(`inFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().inFilter(null, ['val1'])).toThrowError();
+        expect(() => context.deliveryClient.items().inFilter(null, ['val1'])).toThrowError();
     });
 
     it(`anyFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().anyFilter(null, ['val1'])).toThrowError();
+        expect(() => context.deliveryClient.items().anyFilter(null, ['val1'])).toThrowError();
     });
 
     it(`containsFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().containsFilter(null, ['val1'])).toThrowError();
+        expect(() => context.deliveryClient.items().containsFilter(null, ['val1'])).toThrowError();
     });
 
     it(`greaterThanFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().greaterThanFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().greaterThanFilter(null, 'val1')).toThrowError();
     });
 
     it(`greaterThanOrEqualFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().greaterThanOrEqualFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().greaterThanOrEqualFilter(null, 'val1')).toThrowError();
     });
 
     it(`lessThanFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().lessThanFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().lessThanFilter(null, 'val1')).toThrowError();
     });
 
     it(`lessThanOrEqualFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().lessThanOrEqualFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().lessThanOrEqualFilter(null, 'val1')).toThrowError();
     });
 
     it(`allFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().allFilter(null, [])).toThrowError();
+        expect(() => context.deliveryClient.items().allFilter(null, [])).toThrowError();
     });
 
     it(`rangeFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().rangeFilter(null, 1, 4)).toThrowError();
+        expect(() => context.deliveryClient.items().rangeFilter(null, 1, 4)).toThrowError();
     });
 
     it(`equalsFilter without field should throw an error`, () => {
-        expect(() => deliveryClient.items().equalsFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().equalsFilter(null, 'val1')).toThrowError();
     });
 
     // trim checks
 
     it(`inFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .inFilter(' elem1 ', ['val1'])
                 .toString()
         );
@@ -257,7 +240,7 @@ describe('Filters', () => {
 
     it(`allFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .allFilter(' elem1 ', ['val1'])
                 .toString()
         );
@@ -269,7 +252,7 @@ describe('Filters', () => {
 
     it(`anyFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .anyFilter(' elem1 ', ['val1'])
                 .toString()
         );
@@ -281,7 +264,7 @@ describe('Filters', () => {
 
     it(`containsFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .containsFilter(' elem1 ', ['val1'])
                 .toString()
         );
@@ -293,7 +276,7 @@ describe('Filters', () => {
 
     it(`equalsFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .equalsFilter(' elem1 ', 'val1')
                 .toString()
         );
@@ -305,7 +288,7 @@ describe('Filters', () => {
 
     it(`greaterThanFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .greaterThanFilter(' elem1 ', 'val1')
                 .toString()
         );
@@ -317,7 +300,7 @@ describe('Filters', () => {
 
     it(`greaterThanOrEqualFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .greaterThanOrEqualFilter(' elem1 ', 'val1')
                 .toString()
         );
@@ -329,7 +312,7 @@ describe('Filters', () => {
 
     it(`lessThanFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .lessThanFilter(' elem1 ', 'val1')
                 .toString()
         );
@@ -341,7 +324,7 @@ describe('Filters', () => {
 
     it(`lessThanOrEqualFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .lessThanOrEqualFilter(' elem1 ', 'val1')
                 .toString()
         );
@@ -353,7 +336,7 @@ describe('Filters', () => {
 
     it(`rangeFilter should trim its field`, () => {
         var url = new URL(
-            deliveryClient.items()
+            context.deliveryClient.items()
                 .rangeFilter(' elem1 ', 1, 10)
                 .toString()
         );

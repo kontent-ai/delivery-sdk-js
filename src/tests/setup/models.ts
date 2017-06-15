@@ -3,7 +3,29 @@ import {
   RichTextField, AssetsField, MultipleChoiceField, UrlSlugField
 } from '../../../lib';
 
-import { Actor } from './actor.class';
+
+export class Actor extends ContentItem {
+  public firstName: TextField;
+  public lastName: TextField;
+  public photo: AssetsField;
+
+  constructor() {
+    super({
+      resolver: (fieldName: string) => {
+        if (fieldName === 'first_name') {
+          return 'firstName'; // binds 'first_name' response from Kentico cloud to 'firstName' property of this class
+        }
+        if (fieldName === 'last_name') {
+          return 'lastName';
+        }
+      }
+    })
+  }
+
+  public getFullName(): string {
+    return `${this.firstName.text} ${this.lastName.text}`;
+  }
+}
 
 export class Movie extends ContentItem {
   public title: TextField;

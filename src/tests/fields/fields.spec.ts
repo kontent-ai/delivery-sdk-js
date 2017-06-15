@@ -1,41 +1,24 @@
-// test imports
-import { async, TestBed } from '@angular/core/testing';
+// setup
+import { setup, Context, Actor, Movie } from '../setup';
 
-// url parser
-import urlParser from 'url-parse';
-
-// real delivery client
-import { realDeliveryClient } from '../setup/real-delivery-client';
-
-// delivery client
+// models
 import {
   DeliveryClient, DeliveryItemResponse, AssetsField, DateTimeField,
   MultipleChoiceField, NumberField, RichTextField, TextField, UrlSlugField
 } from '../../../lib';
 
-// models
-import { Movie } from '../setup/movie.class';
-import { Actor } from '../setup/actor.class';
-
 // tests
-describe('Fields', () => {
+describe('Field type', () => {
 
+  var context = new Context();
+  setup(context);
+
+  var movieCodename: string = 'warrior';
   var movieResponse: DeliveryItemResponse<Movie>;
 
-  beforeEach((done) => {
-    TestBed.configureTestingModule({
-      providers: [
-        {
-          provide: DeliveryClient, useValue: realDeliveryClient,
-        },
-      ]
-    });
+  beforeAll((done) => {
 
-    var movieCodename: string = 'warrior';
-
-    let deliveryClient = TestBed.get(DeliveryClient) as DeliveryClient;
-
-    deliveryClient.item<Movie>(movieCodename)
+    context.deliveryClient.item<Movie>(movieCodename)
       .get()
       .subscribe(response => {
         movieResponse = response as DeliveryItemResponse<Movie>;
@@ -72,13 +55,5 @@ describe('Fields', () => {
    it(`check 'UrlSlugField' type`, () => {
     expect(movieResponse.item.seoname).toEqual(jasmine.any(UrlSlugField));
   });
-
-  // misc
-
-  it(`check that 'stars' property contains exactly 2 actor objects`, () => {
-    expect(movieResponse.item.stars.length).toEqual(2);
-  });
-
-
 });
 
