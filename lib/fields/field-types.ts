@@ -240,14 +240,15 @@ export class UrlSlugField implements IField {
     };
 
     private getUrl(): string {
-        if (!this.urlSlugResolver) {
-            throw Error(`You have to implement 'urlSlugResolver' in your Model class or your query in order to get url of this item`);
+        if (!this.urlSlugResolver && this.enableAdvancedLogging) {
+            console.log(`You have to implement 'urlSlugResolver' in your Model class or your query in order to get url of this item`);
+            return;
         }
 
         var url = this.urlSlugResolver(this.contentItem, this.value);
 
         if (!url && this.enableAdvancedLogging) {
-            console.log(`'urlSlugResolver' is configured, but url resolved for '${this.contentItem.system.type}' type is empty`);
+            console.log(`'urlSlugResolver' is configured, but url resolved for '${this.contentItem.system.type}' type was resolved to empty string`);
         }
 
         return url;
