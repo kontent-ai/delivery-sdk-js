@@ -45,7 +45,7 @@ var deliveryClient = new DeliveryClient(
 
 ```
 
-### Get data from Kentico Cloud
+### Use it
 
 ```typescript
 deliveryClient.items<Character>()
@@ -58,7 +58,7 @@ deliveryClient.items<Character>()
 
 ### Getting data
 
-To get multiple items use `getItems` method with `codename` of your content type as parameter:
+To get multiple items use `items` method. Type can be specified with `type` method:
 
 ```typescript
 deliveryClient.items<Character>()
@@ -67,22 +67,12 @@ deliveryClient.items<Character>()
       .subscribe(response => console.log(response));
 ```
 
-To get single item use `getItem` method:
+To get single item use `item` method:
 
 ```typescript
 deliveryClient.item<Character>('itemCodeName')
       .get()
       .subscribe(response => console.log(response));
-```
-
-To get all items of all types use `getItems` with `ContentItem` type parameter:
-
-```typescript
-import { IContentItem } from 'kentico-cloud-delivery-typescript-sdk';
-
-deliveryClient.items<IContentItem>()
-  .get()
-  .subscribe(response => console.log(response));
 ```
 
 ### Using query parameters
@@ -225,11 +215,13 @@ deliveryClient.items<Character>()
   .subscribe(response => console.log(response));
 ```
 
-### Resolving URL Slugs
+### URL Slugs
 
-URL slugs enable you to generate user friendly URLs while giving editors the capability to control the looks of it. As a developer you will need to take the URL slug defined by editors and convert it to path that your application knows and can render. 
+URL slugs enable you to generate user friendly URLs while giving editors the capability to control the looks of it. As a developer you will need to take the URL slug defined by editors and convert it to path that your application knows and can render. URL slug can be resolved either `globally` or locally for each `query`
 
 For example, if you define URL slug for your item as `dwayne-johnson` and your application is able to handle requests such as `yourApp.com/actors/{actor}`you will need to configure `urlSlugResolver` of your `ContentItem` class how to resolve such item. This example would transfer to following code:
+
+#### Resolving URL slugs globally
 
 ```typescript
 import { ContentItem TextField, NumberField, UrlSlugField } from 'kentico-cloud-delivery-typescript-sdk';
@@ -249,7 +241,7 @@ export class Character extends ContentItem {
   }
 }
 ```
-To get the url simply access the `url` property of your `UrlslugField`:
+To get the url access the `url` property of your `UrlslugField`:
 
 ```typescript
 deliveryClient.item<Character>('someCodename')
@@ -257,13 +249,11 @@ deliveryClient.item<Character>('someCodename')
   .subscribe(response => console.log(response.item.slug.url));
 ```
 
-Additionally, you can specify URL slug resolver when getting items using the `config` property of `getItems` or `getItem` method. Setting the URL slug resolver this way has priority over the one defined in model.
+#### Resolving URL Slug locally
+
+Additionally, you can specify URL slug resolver when getting items using the `queryConfig` method. Setting the URL slug resolver this way has priority over the one defined in model.
 
 ```typescript
-deliveryClient.item<Character>('someCodename')
-  .get()
-  .subscribe(response => console.log(response.item.slug.url));
-
 deliveryClient.item<Character>('someCodename')
   .queryConfig({
     urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
@@ -312,17 +302,17 @@ deliveryClient.item<Character>('rick')
   });
 ```
 
-#### Per query
+#### Locally per query
 
 ```typescript
-.deliveryClient.getItem<Character>('character', 'rick', null,
-  {
-    richTextResolver: (item: IContentItem) => {
-      if (item.system.type == 'character') {
-        var character = item as Character;
-        return `<h2>${character.name.text}</h2>`;
+.deliveryClient.item<Character>('rick')
+    queryConfig({
+      richTextResolver: (item: IContentItem) => {
+        if (item.system.type == 'character') {
+          var character = item as Character;
+          return `<h2>${character.name.text}</h2>`;
         }
-    }
+    })
   })
   .subscribe(response => {
   console.log(response.item.someRichText.getHtml());
@@ -336,7 +326,7 @@ deliveryClient.item<Character>('rick')
 
 ## Working with content types
 
-To retrieve information about your content types, use `getType` or `getTypes` method.
+To retrieve information about your content types, use `type` or `types` method.
 
 ### Get single content type
 
@@ -359,7 +349,8 @@ deliveryClient.types()
 Errors can be handled with `error` parameter of `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or with `catch` method.
 
 ```typescript
-.deliveryClient.getItem<Character>("character", "invalid_codename") // throws 404
+.deliveryClient.item<Character>("character", "invalid_codename") // throws 404
+  .get()
   .subscribe(
     response => console.log(response),
     err => console.log(err) // handle error
