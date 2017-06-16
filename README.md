@@ -275,7 +275,7 @@ deliveryClient.item<Character>('someCodename')
 ```
 ### Resolving modular content in Rich text fields
 
-If you have a `modular content item` inside a `Rich text` field, you need to define how each type resolves the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. 
+If you have a `modular content item` inside a `Rich text` field, you need to define how each type resolves the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. Following example shows how to resolve `Character` modular items used in your rich text areas.
 
 #### Globally
 
@@ -359,13 +359,13 @@ deliveryClient.types()
 Errors can be handled with `error` parameter of `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or with `catch` method.
 
 ```typescript
-.deliveryClient.getItem<Character>("character", "invalidiItem") // throws 404
+.deliveryClient.getItem<Character>("character", "invalid_codename") // throws 404
   .subscribe(
     response => console.log(response),
     err => console.log(err) // handle error
   );
 
-deliveryClient.item<Character>('incalidCodename') // throws 404
+deliveryClient.item<Character>('invalid_codename') // throws 404
   .get()
   .catch(err => {
     console.log(err);
