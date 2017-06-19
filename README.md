@@ -381,6 +381,7 @@ var queryText = this.deliveryClient.items()
 console.log(queryText);
 // outputs:
 // https://deliver.kenticocloud.com/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=character
+```
 
 ## Tests
 
