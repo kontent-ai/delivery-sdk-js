@@ -37,7 +37,6 @@ export abstract class BaseTypeQuery extends BaseQuery {
         var action = '/types';
 
         return this.getUrl(action, this._queryConfig, this.parameters);
-
     }
 
     protected runMultipleTypesQuery(): Observable<DeliveryTypeListingResponse> {

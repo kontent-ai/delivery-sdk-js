@@ -28,7 +28,7 @@ class MockMovie extends ContentItem {
     }
 }
 // tests
-describe('Model property binding', () => {
+describe('Field resolver', () => {
 
     var context = new Context();
     var typeResolvers = [];

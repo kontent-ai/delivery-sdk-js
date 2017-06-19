@@ -48,8 +48,10 @@ export function setup(context: Context) {
     })
 
     // set context
-    context.deliveryClient = new DeliveryClient(deliveryClientConfig);
     context.projectId = projectId;
     context.previewApiKey = previewApiKey;
     context.typeResolvers = typeResolvers;
+
+    // set delivery client
+    context.deliveryClient = new DeliveryClient(deliveryClientConfig);
 }

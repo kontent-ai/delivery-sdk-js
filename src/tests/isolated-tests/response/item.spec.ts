@@ -25,12 +25,10 @@ describe('Isolated item', () => {
     it(`checks system codename`, () => {
         expect(response.item.system.codename).toEqual('warrior');
     });
-
     
     it(`checks system id`, () => {
         expect(response.item.system.id).toEqual('325e2acb-1c14-47f6-af9a-27bc8b6c16fe');
     });
-
     
     it(`checks system type`, () => {
         expect(response.item.system.type).toEqual('movie');
@@ -59,7 +57,6 @@ describe('Isolated item', () => {
     it(`checks assets field`, () => {
         expect(response.item.stars.length).toEqual(2);
     });
-
 
     it(`checks that modular items are defined`, () => {
         expect(response.item.stars).toBeDefined();
