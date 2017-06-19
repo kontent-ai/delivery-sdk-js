@@ -367,6 +367,21 @@ deliveryClient.item<Character>('invalid_codename') // throws 404
   );
 ```
 
+## Getting URL of query
+
+Call `toString()` method of the item query in case you need to get `raw` URL of request.
+
+```typescript
+var queryText = this.deliveryClient.items()
+  .type('character')
+  .limitParameter(10)
+  .orderParameter('system.codename', SortOrder.desc)
+  .toString();
+
+console.log(queryText);
+// outputs:
+// https://deliver.kenticocloud.com/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=character
+
 ## Tests
 
 - Run `ng test` to run tests

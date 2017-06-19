@@ -33,6 +33,9 @@ export class GetItemsComponent implements OnInit {
 
   private testQueries(): void {
     var queryText = this.deliveryClient.items()
+      .type('character')
+      .limitParameter(10)
+      .orderParameter('system.codename', SortOrder.desc)
       .toString();
 
     var query1 = this.deliveryClient.items<Character>()
