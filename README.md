@@ -4,6 +4,8 @@ Developer's SDK for [KenticoCloud](https://kenticocloud.com/)
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery-typescript-sdk.svg)](https://www.npmjs.com/package/kentico-cloud-delivery-typescript-sdk)
 
+Sample applications using this SDK: [Javascript app](https://github.com/Enngage/KenticoCloudSampleJavascriptApp), [Angular app](https://github.com/Enngage/KenticoCloudSampleAngularApp)
+
 ## Getting started
 
 ```
