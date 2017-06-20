@@ -10,6 +10,11 @@ export class TypeResolverService {
     ) {
     }
 
+    /**
+     * Takes given type name and creates a strongly typed model based specified in client configuration
+     * @param type Type of the content item 
+     * @param item Content item
+     */
     createTypedObj<TItem extends IContentItem>(type: string, item: IContentItem): TItem {
         if (!type) {
             throw Error('Cannot resolve type because no type name was provided');

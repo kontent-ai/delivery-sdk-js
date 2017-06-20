@@ -47,6 +47,10 @@ export abstract class QueryService {
         this.typeMapService = new TypeMapService(config);
     }
 
+    /**
+     * Indicates if current query should use preview mode
+     * @param queryConfig Query configuration
+     */
     private isPreviewModeEnabled(queryConfig: IItemQueryConfig): boolean {
         if (queryConfig.usePreviewMode != null) {
             return queryConfig.usePreviewMode;
@@ -55,6 +59,10 @@ export abstract class QueryService {
         return this.config.enablePreviewMode === true;
     }
 
+    /**
+     * Gets preview or standard URL based on client and query configuration
+     * @param queryConfig Query configuration
+     */
     private getDeliveryUrl(queryConfig: IItemQueryConfig): string {
         if (this.isPreviewModeEnabled(queryConfig)) {
 
@@ -67,10 +75,19 @@ export abstract class QueryService {
         return this.baseDeliveryApiUrl;
     }
 
+    /**
+     * Gets base URL of the request including the project Id
+     * @param queryConfig Query configuration
+     */
     private getBaseUrl(queryConfig: IItemQueryConfig): string {
         return this.getDeliveryUrl(queryConfig) + '/' + this.config.projectId;
     }
 
+    /**
+     * Adds query parameters to given url
+     * @param url Url to which options will be added
+     * @param options Query parameters to add
+     */
     private addOptionsToUrl(url: string, options?: IQueryParameter[]): string {
         if (options) {
             options.forEach(filter => {
@@ -83,6 +100,10 @@ export abstract class QueryService {
             });
         }
         return url;
+    }
+
+    protected getUrl(action: string, queryConfig: IItemQueryConfig, options?: IQueryParameter[]): string {
+        return this.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
     }
 
     private handleError(error: Response | any): any {
@@ -128,7 +149,7 @@ export abstract class QueryService {
         return headers;
     }
 
-    protected getHeadersJson(queryConfig: IItemQueryConfig): any{
+    protected getHeadersJson(queryConfig: IItemQueryConfig): any {
         var headerJson: any = {};
         var headers = this.getHeadersInternal(queryConfig);
         headers.forEach(header => {
@@ -138,9 +159,7 @@ export abstract class QueryService {
         return headerJson;
     }
 
-    protected getUrl(action: string, queryConfig: IItemQueryConfig, options?: IQueryParameter[]): string {
-        return this.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
-    }
+
 
     protected getSingleResponse<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): DeliveryItemResponse<TItem> {
         var cloudResponse = json as ICloudResponseSingle;

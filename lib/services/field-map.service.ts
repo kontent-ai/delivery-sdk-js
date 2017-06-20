@@ -3,7 +3,6 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { TextField, AssetsField, NumberField, MultipleChoiceField, DateTimeField, RichTextField, UrlSlugField } from '../fields/field-types';
 import { IField } from '../interfaces/item/ifield.interface';
 import { FieldType } from '../fields/field-type';
-import { TypeResolver } from '../models/item/type-resolver.class';
 import { TypeResolverService } from './type-resolver.service';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
@@ -19,7 +18,14 @@ export class FieldMapService {
         this.typeResolverService = new TypeResolverService(config);
     }
 
-    mapFields(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): any {
+    /**
+     * Maps all fields in given content item and returns strongly typed content item based on the resolver specified
+     * in DeliveryClientConfig
+     * @param item Item to map (raw response from Kentico Cloud)
+     * @param modularContent Modular content sent along with item
+     * @param queryConfig Query configuration
+     */
+    mapFields<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem {
         if (!item) {
             return null;
         }
@@ -27,7 +33,7 @@ export class FieldMapService {
         var properties = Object.getOwnPropertyNames(item.elements);
 
         // create typed item
-        var itemTyped = this.typeResolverService.createTypedObj(item.system.type, item);
+        var itemTyped = this.typeResolverService.createTypedObj(item.system.type, item) as TItem;
 
         // add/taken item to processed items to avoid infinite recursion
         var processedItem = this.processedItems.find(m => m.system.codename === item.system.codename);
@@ -176,7 +182,7 @@ export class FieldMapService {
                     modularContentItems.push(processedItem);
                 }
                 else {
-                    var modularItem = this.mapFields(modularItem, modularContent, queryConfig);
+                    var modularItem = this.mapFields<any>(modularItem, modularContent, queryConfig);
                     modularContentItems.push(modularItem);
                     processedItem = modularItem;
                 }

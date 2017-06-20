@@ -1,7 +1,6 @@
 import { FieldMapService } from './field-map.service';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/item/cloud-responses';
-import { TypeResolver } from '../models/item/type-resolver.class';
 import { TypeResolverService } from './type-resolver.service';
 import { IModularContent } from '../interfaces/item/imodular-content.interface';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
@@ -22,13 +21,23 @@ export class ItemMapService {
             return null;
         }
 
-        return this.fieldMapService.mapFields(item, modularContent, queryConfig);
+        return this.fieldMapService.mapFields<TItem>(item, modularContent, queryConfig);
     }
 
+    /**
+     * Maps single item to its proper strongly typed model from the given Cloud response
+     * @param response Cloud response used to map the item
+     * @param queryConfig Query configuration
+     */
     mapSingleItem<TItem extends IContentItem>(response: ICloudResponseSingle, queryConfig: IItemQueryConfig): TItem {
         return this.mapItem<TItem>(response.item, response.modular_content, queryConfig);
     }
 
+   /**
+   * Maps multiple items to their strongly typed model from the given Cloud response
+   * @param response Cloud response used to map the item
+   * @param queryConfig Query configuration
+   */
     mapMultipleItems<TItem extends IContentItem>(response: ICloudResponseMultiple, queryConfig: IItemQueryConfig): TItem[] {
         var that = this;
 

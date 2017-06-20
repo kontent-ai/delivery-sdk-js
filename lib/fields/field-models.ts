@@ -1,7 +1,5 @@
 import { IAsset, IMultipleChoiceOption } from './field-interfaces';
 
-
-
 export class AssetModel implements IAsset {
 
     /**

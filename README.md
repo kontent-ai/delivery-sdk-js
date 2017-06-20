@@ -375,7 +375,7 @@ deliveryClient.item<Character>('invalid_codename') // throws 404
 In case you need to get the raw URL of a request, call the `toString()` method on the `item` query.
 
 ```typescript
-var queryText = this.deliveryClient.items()
+var queryText = deliveryClient.items()
   .type('character')
   .limitParameter(10)
   .orderParameter('system.codename', SortOrder.desc)
