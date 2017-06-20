@@ -1,6 +1,6 @@
 # Kentico Cloud Delivery TypeScript SDK
 
-Developer's SDK for [KenticoCloud](https://kenticocloud.com/)
+Developer SDK for retrieving content from [Kentico Cloud](https://kenticocloud.com/).
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery-typescript-sdk.svg)](https://www.npmjs.com/package/kentico-cloud-delivery-typescript-sdk)
 
@@ -60,7 +60,7 @@ deliveryClient.items<Character>()
 
 ### Getting data
 
-To get multiple items use `items` method. Type can be specified with `type` method:
+To get multiple content items, use the `items` method. You can specify content type with the `type` method:
 
 ```typescript
 deliveryClient.items<Character>()
@@ -69,7 +69,7 @@ deliveryClient.items<Character>()
       .subscribe(response => console.log(response));
 ```
 
-To get single item use `item` method:
+To get a single content item, use the `item` method:
 
 ```typescript
 deliveryClient.item<Character>('itemCodeName')
@@ -79,7 +79,7 @@ deliveryClient.item<Character>('itemCodeName')
 
 ### Using query parameters
 
-Query parameters can be combined. More info about parameters in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses) 
+You can combine query parameters. For more information about parameters, see the [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses).
 
 ```typescript
 deliveryClient.items<Character>()
@@ -90,11 +90,11 @@ deliveryClient.items<Character>()
   .subscribe(response => console.log(response));
 ```
 
-Supported query parameters: `depthParameter`, `elementsParameter`, `limitParameter`, `orderParameter`, `skipParameter`
+Supported query parameters: `depthParameter`, `elementsParameter`, `limitParameter`, `orderParameter`, `skipParameter`.
 
 ### Filtering
 
-This example returns all **character** items whose **name** element is equal to **Rimmer**. Filters are also considered as `Query parameters` and can be combined. More info in [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#content-filtering)
+This example returns all **Character** content items whose **name** element is equal to **Rimmer**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Cloud API reference for more general examples.
 
 ```typescript
 deliveryClient.items<Character>()
@@ -103,6 +103,8 @@ deliveryClient.items<Character>()
   .get()
   .subscribe(response => console.log(response));
 ```
+
+Supported filters: `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`.
 
 ### Sorting
 
@@ -120,11 +122,9 @@ deliveryClient.items<Character>()
   .subscribe(response => console.log(response));
 ```
 
-Supported filters: `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`
-
 ### Creating models
 
-Each model class need to extend `ContentItem` and each element needs to use one of supported fields. For example if you define a 'text' field in your content type, you need to use `TextField` in your model:
+Each model class needs to extend the `ContentItem` class and each element needs to use one of the supported fields. For example, if you define a Text element in your content type, you need to use a `TextField` in your model:
 
 ```typescript
 import { ContentItem TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-delivery-typescript-sdk';
@@ -139,7 +139,7 @@ export class Character extends ContentItem {
 
 ### Nesting modular content 
 
-To include modular content simply reference given type class:
+To include modular content, simply reference a given type class:
 
 ```typescript
 import { ContentItem TextField, NumberField } from 'kentico-cloud-delivery-typescript-sdk';
@@ -158,7 +158,7 @@ export class Movie extends ContentItem {
 
 ### Field binding in models
 
-Kentico cloud returns all field names in **lowercase** and since javascript properties are case sensitive, the binding will fail if your property is called e.g. *firstName*. You can either use **lowercase only properties** or use custom resolver to bind fields to their proper names:
+Kentico Cloud returns all element names in **lowercase**. Because Javascript properties are case sensitive, the binding will fail if your property is called, for example, *firstName*. You can either use **lowercase only properties** or use a custom resolver to bind fields to their proper names:
 
 ```typescript
 import { ContentItem TextField, NumberField } from 'kentico-cloud-delivery-typescript-sdk';
@@ -184,7 +184,7 @@ export class Person extends ContentItem {
 
 ### Preview mode
 
-You can enable preview mode either `globally` (when initializing DeliveryClient) or `per query`. For example you disable preview mode globally, but you can enable it for one particular query for testing purposes. In each case you need to set `previewApiKey` of DeliveryClientConfig.
+You can enable the preview mode either globally (when initializing the DeliveryClient) or per query. For example, you might disable preview mode globally, but enable it for one particular query for testing purposes. In each case you need to set `previewApiKey` in the DeliveryClientConfig.
 
 #### Enabling preview mode globally
 
@@ -219,9 +219,9 @@ deliveryClient.items<Character>()
 
 ### URL Slugs
 
-URL slugs enable you to generate user friendly URLs while giving editors the capability to control the looks of it. As a developer you will need to take the URL slug defined by editors and convert it to path that your application knows and can render. URL slug can be resolved either `globally` or locally for each `query`
+URL slugs enable you to generate user friendly URLs while giving editors the capability to control the looks of it. As a developer you will need to take the URL slug defined by editors and convert it to a path that your application knows and can render. URL slugs can be resolved either globally or locally for each query.
 
-For example, if you define URL slug for your item as `dwayne-johnson` and your application is able to handle requests such as `yourApp.com/actors/{actor}`you will need to configure `urlSlugResolver` of your `ContentItem` class how to resolve such item. This example would transfer to following code:
+For example, if you define a URL slug for your item as `dwayne-johnson` and your application is able to handle requests such as `yourApp.com/actors/{actor}`, you will need to configure the `urlSlugResolver` of your `ContentItem` class to resolve such item. This example would transfer to the code below.
 
 #### Resolving URL slugs globally
 
@@ -243,7 +243,8 @@ export class Character extends ContentItem {
   }
 }
 ```
-To get the url access the `url` property of your `UrlslugField`:
+
+To get the URL, access the `url` property of your `UrlslugField`:
 
 ```typescript
 deliveryClient.item<Character>('someCodename')
@@ -251,9 +252,9 @@ deliveryClient.item<Character>('someCodename')
   .subscribe(response => console.log(response.item.slug.url));
 ```
 
-#### Resolving URL Slug locally
+#### Resolving URL slugs locally
 
-Additionally, you can specify URL slug resolver when getting items using the `queryConfig` method. Setting the URL slug resolver this way has priority over the one defined in model.
+Additionally, you can specify a URL slug resolver when getting content items using the `queryConfig` method. Setting the URL slug resolver this way has priority over the one defined in a model.
 
 ```typescript
 deliveryClient.item<Character>('someCodename')
@@ -265,9 +266,10 @@ deliveryClient.item<Character>('someCodename')
   .get()
   .subscribe(response => console.log(response.item.slug.url));
 ```
+
 ### Resolving modular content in Rich text fields
 
-If you have a `modular content item` inside a `Rich text` field, you need to define how each type resolves the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. Following example shows how to resolve `Character` modular items used in your rich text areas.
+If you have a modular content item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Character` modular items used in your Rich text elements.
 
 #### Globally
 
@@ -325,12 +327,11 @@ deliveryClient.item<Character>('rick')
   });
 ```
 
-
 ## Working with content types
 
-To retrieve information about your content types, use `type` or `types` method.
+To retrieve information about your content types, you can use the methods `type` and `types`.
 
-### Get single content type
+### Getting a single content type
 
 ```typescript
 deliveryClient.type('character')
@@ -338,7 +339,7 @@ deliveryClient.type('character')
   .subscribe(response => console.log(response));
 ```
 
-### Get multiple content types
+### Getting multiple content types
 
 ```typescript
 deliveryClient.types()
@@ -348,7 +349,7 @@ deliveryClient.types()
 
 ## Handling errors
 
-Errors can be handled with `error` parameter of `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or with `catch` method.
+You can handle errors either by using the `error` parameter of the `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or with the `catch` method.
 
 ```typescript
 .deliveryClient.item<Character>("character", "invalid_codename") // throws 404
@@ -369,9 +370,9 @@ deliveryClient.item<Character>('invalid_codename') // throws 404
   );
 ```
 
-## Getting URL of query
+## Getting URL of a query
 
-Call `toString()` method of the item query in case you need to get `raw` URL of request.
+In case you need to get the raw URL of a request, call the `toString()` method on the `item` query.
 
 ```typescript
 var queryText = this.deliveryClient.items()
@@ -393,7 +394,3 @@ console.log(queryText);
 
 - Run `gulp build` to generate definitions & dist from the contents of `lib` folder
 - Run `ng serve` to run testing angular2 app
-
-
-
-
