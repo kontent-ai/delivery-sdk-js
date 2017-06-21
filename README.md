@@ -19,10 +19,6 @@ import { ContentItem, TextField } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Character extends ContentItem {
   public name: TextField;
-
-  constructor() {
-    super()
-  }
 }
 ```
 
