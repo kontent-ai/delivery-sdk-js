@@ -5,7 +5,7 @@ import { setup, Context, Actor, Movie } from '../../setup';
 import { DeliveryItemResponse, MultipleChoiceOption } from '../../../../lib';
 
 // tests
-describe('Basic item', () => {
+describe('Live item', () => {
 
   var context = new Context();
   setup(context);
@@ -42,12 +42,9 @@ describe('Basic item', () => {
     expect(response.item.title.text).toEqual('Warrior');
   });
 
-  it(`verify 'plot' rich text field with modular content`, () => {
-    var expectedHtml = `<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>
-<p>Stars:&nbsp;</p>
-<div type="application/kenticocloud" data-type="item" data-codename="tom_hardy"><p>Tom</p></div><div type="application/kenticocloud" data-type="item" data-codename="joel_edgerton"><p>Joel </p></div>`;
-
-    expect(response.item.plot.getHtml()).toEqual(expectedHtml);
+  it(`verify 'plot' rich text field with modular content contains expected html`, () => {
+    var html = response.item.plot.getHtml();
+    expect(html).toContain('<p>Tom</p>');
   });
 
   it(`released date should be '2011-09-09T00:00:00Z'`, () => {

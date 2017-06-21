@@ -1,6 +1,6 @@
 import {
   ContentItem, TextField, NumberField, DateTimeField,
-  RichTextField, AssetsField, MultipleChoiceField, UrlSlugField
+  RichTextField, AssetsField, MultipleChoiceField, UrlSlugField, TaxonomyField
 } from '../../../lib';
 
 
@@ -39,15 +39,21 @@ export class Movie extends ContentItem {
   public category: MultipleChoiceField;
   public stars: Actor[];
   public seoname: UrlSlugField;
+  public releaseCategory: TaxonomyField;
 
-  constructor(){
+  constructor() {
     super({
+      resolver: (fieldName) => {
+        if (fieldName === 'releasecategory') {
+          return 'releaseCategory';
+        }
+      },
       richTextResolver: (item: Movie) => {
         return `<p>${item.title.text}</p>`
       },
       urlSlugResolver: (item, urlSlug) => {
         return 'testSlugUrl/' + urlSlug;
       }
-    },)
+    }, )
   }
 }

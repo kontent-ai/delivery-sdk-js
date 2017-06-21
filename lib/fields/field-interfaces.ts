@@ -10,3 +10,8 @@ export interface IMultipleChoiceOption {
     name: string;
     codename: string;
 }
+
+export interface ITaxonomyTerm{
+    name: string;
+    codename: string;
+}

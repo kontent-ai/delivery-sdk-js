@@ -5,7 +5,7 @@ import { setup, Context, Actor, Movie } from '../../setup';
 import { DeliveryItemListingResponse, MultipleChoiceOption } from '../../../../lib';
 
 // tests
-describe('Basic items', () => {
+describe('Live items', () => {
 
   var context = new Context();
   setup(context);

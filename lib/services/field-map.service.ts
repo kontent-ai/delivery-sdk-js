@@ -1,6 +1,6 @@
 import { IModularContent } from '../interfaces/item/imodular-content.interface';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { TextField, AssetsField, NumberField, MultipleChoiceField, DateTimeField, RichTextField, UrlSlugField } from '../fields/field-types';
+import { TextField, AssetsField, NumberField, MultipleChoiceField, DateTimeField, RichTextField, UrlSlugField, TaxonomyField } from '../fields/field-types';
 import { IField } from '../interfaces/item/ifield.interface';
 import { FieldType } from '../fields/field-type';
 import { TypeResolverService } from './type-resolver.service';
@@ -86,6 +86,9 @@ export class FieldMapService {
         else if (field.type.toString() === FieldType.url_slug.toString()) {
             return this.mapUrlSlugField(field, item, queryConfig);
         }
+        else if (field.type.toString() === FieldType.taxonomy.toString()) {
+            return this.mapTaxonomyField(field);
+        }
         else {
             var err = `Unsupported field type '${field.type}'`
             if (this.config.enableAdvancedLogging) {
@@ -131,6 +134,10 @@ export class FieldMapService {
 
     private mapAssetsField(field: IField): AssetsField {
         return new AssetsField(field.name, field.value);
+    }
+
+    private mapTaxonomyField(field: IField): TaxonomyField {
+        return new TaxonomyField(field.name, field.value, field.taxonomy_group);
     }
 
     private mapUrlSlugField(field: IField, item: IContentItem, queryConfig: IItemQueryConfig): UrlSlugField {

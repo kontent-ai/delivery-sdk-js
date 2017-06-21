@@ -4,5 +4,6 @@ export interface IField {
     name: string;
     type: FieldType;
     value: any;
-    modular_content?: string[]
+    modular_content?: string[];
+    taxonomy_group?: string;
 }

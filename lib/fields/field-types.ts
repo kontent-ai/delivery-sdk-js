@@ -1,8 +1,8 @@
 import { FieldType } from './field-type';
 import { IField } from '../interfaces/item/ifield.interface';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { IAsset, IMultipleChoiceOption } from './field-interfaces';
-import { AssetModel, MultipleChoiceOption } from './field-models';
+import { IAsset, IMultipleChoiceOption, ITaxonomyTerm } from './field-interfaces';
+import { AssetModel, MultipleChoiceOption, TaxonomyTerm } from './field-models';
 import { Parse5Attribute, Parse5Node } from './internal-models';
 import { RichTextResolver } from './rich-text-resolver.class';
 
@@ -253,4 +253,42 @@ export class UrlSlugField implements IField {
 
         return url;
     }
+}
+
+export class TaxonomyField implements IField {
+
+    /**
+    * Type of the field
+    */
+    public type: FieldType = FieldType.taxonomy;
+
+    /**
+    * List of assigned taxonomy terms
+    */
+    public taxonomyTerms: TaxonomyTerm[] = [];
+
+    /**
+    * Represents number field of Kentico Cloud item
+    * @constructor
+    * @param {string} name - Name of the field
+    * @param {string} value - Value of the field
+    * @param {string} taxonomyGroup - Codename of the taxonomy group
+    */
+    constructor(
+        public name: string,
+        public value: any,
+        public taxonomyGroup: string
+    ) {
+        if (value) {
+            if (!Array.isArray(value)) {
+                throw Error(`Cannot get taxonomy terms because the object is not an array`);
+            }
+
+            var taxonomyList = value as ITaxonomyTerm[];
+
+            taxonomyList.forEach(term => {
+                this.taxonomyTerms.push(new TaxonomyTerm(term.name, term.codename));
+            });
+        }
+    };
 }

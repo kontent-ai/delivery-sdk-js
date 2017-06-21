@@ -1,6 +1,6 @@
 import {
   ContentItem, TextField, NumberField, DateTimeField,
-  RichTextField, AssetsField, MultipleChoiceField
+  RichTextField, AssetsField, MultipleChoiceField, TaxonomyField
 } from '../../../lib';
 
 import { Actor } from './actor.class';
@@ -13,6 +13,17 @@ export class Movie extends ContentItem {
   public poster: AssetsField;
   public category: MultipleChoiceField;
   public stars: Actor[];
+  public releaseCategory: TaxonomyField;
+
+  constructor() {
+    super({
+      resolver: (fieldName) => {
+        if (fieldName === 'releasecategory') {
+          return 'releaseCategory';
+        }
+      }
+    })
+  }
 
   getCategoriesText(): string {
     if (!this.category) {

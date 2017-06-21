@@ -35,7 +35,7 @@ describe('Isolated item', () => {
     });
 
     it(`checks last modified`, () => {
-        expect(response.item.system.last_modified.toString()).toEqual('2017-06-15T07:53:42.7273237Z');
+        expect(response.item.system.last_modified.toString()).toEqual('2017-06-21T12:22:09.1437891Z');
     });
 
     it(`checks language`, () => {
@@ -47,6 +47,10 @@ describe('Isolated item', () => {
             'main_sitemap'
         ];
         expect(response.item.system.sitemap_locations).toEqual(locations);
+    });
+
+    it(`checks taxonomy field`, () => {
+        expect(response.item.releaseCategory.taxonomyTerms[0].codename).toEqual('global_release');
     });
 
     it(`checks text field`, () => {

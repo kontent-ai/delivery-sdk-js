@@ -9,7 +9,7 @@ export var warriorMovieJson = {
       "sitemap_locations": [
         "main_sitemap"
       ],
-      "last_modified": "2017-06-15T07:53:42.7273237Z"
+      "last_modified": "2017-06-21T12:22:09.1437891Z"
     },
     "elements": {
       "title": {
@@ -77,6 +77,17 @@ export var warriorMovieJson = {
         "type": "url_slug",
         "name": "SeoName",
         "value": "warrior"
+      },
+      "releasecategory": {
+        "type": "taxonomy",
+        "name": "ReleaseCategory",
+        "taxonomy_group": "releasecategory",
+        "value": [
+          {
+            "name": "Global release",
+            "codename": "global_release"
+          }
+        ]
       }
     }
   },
@@ -125,7 +136,7 @@ export var warriorMovieJson = {
         "language": "en",
         "type": "actor",
         "sitemap_locations": [],
-        "last_modified": "2017-06-02T10:23:20.0516568Z"
+        "last_modified": "2017-06-21T12:05:53.7889345Z"
       },
       "elements": {
         "first_name": {

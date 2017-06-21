@@ -144,6 +144,8 @@ export class Character extends ContentItem {
 }
 ```
 
+Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField` and `TaxonomyField`
+
 ### Nesting modular content 
 
 To include modular content, simply reference a given type class:

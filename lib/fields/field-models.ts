@@ -1,4 +1,4 @@
-import { IAsset, IMultipleChoiceOption } from './field-interfaces';
+import { IAsset, IMultipleChoiceOption, ITaxonomyTerm } from './field-interfaces';
 
 export class AssetModel implements IAsset {
 
@@ -28,6 +28,20 @@ export class MultipleChoiceOption implements IMultipleChoiceOption {
     * @param {string} name - Name of the option
     * @param {string} codename - Codename of the option
     */
+    constructor(
+        public name: string,
+        public codename: string
+    ) { }
+}
+
+export class TaxonomyTerm implements ITaxonomyTerm {
+
+    /**
+   * Represents taxonomy term
+   * @constructor
+   * @param {string} name - Name of the taxonomy option
+   * @param {string} codename - Codename of the option
+   */
     constructor(
         public name: string,
         public codename: string

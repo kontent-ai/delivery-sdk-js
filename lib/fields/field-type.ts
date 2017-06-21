@@ -17,4 +17,5 @@ export class FieldType {
     static rich_text = new FieldType("rich_text");
     static multiple_choice = new FieldType("multiple_choice");
     static url_slug = new FieldType("url_slug");
+    static taxonomy = new FieldType("taxonomy");
 }
