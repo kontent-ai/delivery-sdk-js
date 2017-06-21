@@ -20,3 +20,4 @@ export * from './query/item/multiple-item-query.class';
 export * from './query/item/single-item-query.class';
 export * from './query/type/multiple-type-query.class';
 export * from './query/type/single-type-query.class';
+export * from './models/common/cloud-error.class';

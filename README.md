@@ -349,25 +349,40 @@ deliveryClient.types()
 
 ## Handling errors
 
-You can handle errors either by using the `error` parameter of the `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or with the `catch` method.
+Error can be handled using the `error` parameter of the `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or the `catch` method. If the error originated with Kentico Cloud (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `CloudError` model with more specific information. Otherwise, you will get an original exception.
 
 ```typescript
-.deliveryClient.item<Character>("character", "invalid_codename") // throws 404
-  .get()
-  .subscribe(
-    response => console.log(response),
-    err => console.log(err) // handle error
-  );
+import { CloudError } from 'kentico-cloud-delivery-typescript-sdk';
 
-deliveryClient.item<Character>('invalid_codename') // throws 404
+deliveryClient.item<Character>('rick2')
+  .get()
+  .subscribe(response => console.log(response), err => {
+    // handle Cloud specific errors
+    if (err instanceof CloudError) {
+      // outputs 'The requested content item 'rick2' was not found.'
+      console.log(err.message); 
+      }
+    else {
+      // handle generic errors
+        console.log(err);
+      }
+  });
+
+deliveryClient.item<Character>('rick2')
   .get()
   .catch(err => {
-    console.log(err);
-    throw err;
+    // handle Cloud specific errors
+      if (err instanceof CloudError) {
+        // outputs 'The requested content item 'rick2' was not found.'
+        console.log(err.message);
+      }
+      else {
+        // handle generic errors
+        console.log(err);
+      }
+    return err;
   })
-  .subscribe(
-    response => console.log(response),
-  );
+  .subscribe(response => console.log(response))
 ```
 
 ## Getting URL of a query

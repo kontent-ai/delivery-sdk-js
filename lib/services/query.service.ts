@@ -4,7 +4,7 @@ import { DeliveryClientConfig } from '../config/delivery-client.config';
 // rxjs
 import { Observable } from 'rxjs/Rx'; // import from 'rxjs/rx' instead of 'rxjs/Observable' to include 'throw' method
 import { ajax } from 'rxjs/observable/dom/ajax';
-import { AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
+import { AjaxResponse, AjaxError } from 'rxjs/observable/dom/AjaxObservable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/observable/throw';
@@ -20,6 +20,8 @@ import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/typ
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { IHeader } from '../interfaces/common/iheader.interface';
 import { Header } from '../models/common/header.class';
+import { CloudError } from '../models/common/cloud-error.class';
+import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
 
 // services
 import { ItemMapService } from '../services/item-map.service';
@@ -106,10 +108,20 @@ export abstract class QueryService {
         return this.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
     }
 
-    private handleError(error: Response | any): any {
+    private handleError(error: Response | AjaxResponse): any | CloudError {
         if (this.config.enableAdvancedLogging) {
             console.error(error);
         }
+
+        if (error instanceof AjaxError){
+            var xhrResponse = error.xhr.response as ICloudErrorResponse;
+            if (!xhrResponse){
+                return error;
+            }
+            // return Cloud specific error 
+            return new CloudError(xhrResponse.message, xhrResponse.request_id, xhrResponse.error_code, xhrResponse.specific_code, error);
+        }
+
         return error;
     }
 
@@ -158,8 +170,6 @@ export abstract class QueryService {
 
         return headerJson;
     }
-
-
 
     protected getSingleResponse<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): DeliveryItemResponse<TItem> {
         var cloudResponse = json as ICloudResponseSingle;

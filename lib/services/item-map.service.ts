@@ -20,7 +20,6 @@ export class ItemMapService {
         if (!item) {
             return null;
         }
-
         return this.fieldMapService.mapFields<TItem>(item, modularContent, queryConfig);
     }
 

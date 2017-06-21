@@ -6,7 +6,7 @@ import { Character } from '../../models/character.class';
 
 // k cloud
 import {
-  DeliveryClient, ItemQueryConfig, IContentItem, SortOrder
+  DeliveryClient, ItemQueryConfig, IContentItem, SortOrder, CloudError
 } from '../../../../lib';
 
 @Component({
@@ -28,7 +28,35 @@ export class GetItemsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.testQueries()
+    this.deliveryClient.item<Character>('rick2')
+      .get()
+      .subscribe(response => console.log(response), err => {
+         // handle Cloud specific errors
+        if (err instanceof CloudError) {
+          // outputs 'The requested content item 'rick2' was not found.'
+          console.log(err.message); 
+        }
+        else {
+          // handle generic errors
+          console.log(err);
+        }
+      });
+
+    this.deliveryClient.item<Character>('rick2')
+      .get()
+      .catch(err => {
+        // handle Cloud specific errors
+        if (err instanceof CloudError) {
+          // outputs 'The requested content item 'rick2' was not found.'
+          console.log(err.message);
+        }
+        else {
+          // handle generic errors
+          console.log(err);
+        }
+        return err;
+      })
+      .subscribe(response => console.log(response))
   }
 
   private testQueries(): void {
