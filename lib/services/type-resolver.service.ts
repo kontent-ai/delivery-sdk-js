@@ -35,7 +35,8 @@ export class TypeResolverService {
             item.system.codename,
             item.system.type,
             item.system.last_modified,
-            item.system.language
+            item.system.language,
+            item.system.sitemap_locations
         );
 
         return typedItem;

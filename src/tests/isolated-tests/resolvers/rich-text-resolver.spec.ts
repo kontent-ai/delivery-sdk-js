@@ -44,20 +44,20 @@ describe('Rich text resolver', () => {
 
         responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {
             richTextResolver: (item: MockActor) => {
-                 return `<h2>${item.first_name.text}</h2>`;
+                return `<h2>${item.first_name.text}</h2>`;
             }
         });
         done();
     })
 
-    it(`verifies globally defined rich text resolver`, () => {
-        var expectedHtml = `<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<div type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"><h1>Tom</h1></div><div type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"><h1>Joel</h1></div>`;
-        expect(response.item.plot.getHtml()).toEqual(expectedHtml);
+    it(`verifies globally defined rich text contains correct html`, () => {
+        var containsHtml = '<h1>Tom</h1>';
+        expect(response.item.plot.getHtml()).toContain(containsHtml);
     });
 
-    it(`verifies locally defined rich text resolver (should have priority over global one)`, () => {
-         var expectedHtml = `<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<div type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"><h2>Tom</h2></div><div type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"><h2>Joel</h2></div>`;
-        expect(responseWithQueryConfig.item.plot.getHtml()).toEqual(expectedHtml);
+    it(`verifies locally defined rich text resolver (should have priority over global one) contains correct html`, () => {
+        var containsHtml = '<h2>Tom</h2>';
+        expect(responseWithQueryConfig.item.plot.getHtml()).toContain(containsHtml);
     });
 });
 

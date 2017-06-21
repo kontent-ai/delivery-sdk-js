@@ -13,7 +13,7 @@ class ActorMock extends ContentItem {
     constructor(codename: string, firstName: string) {
         super()
         this.firstName = new TextField('firstName', firstName);
-        this.system = new ContentItemSystemAttributes('id', 'name', codename, 'actor', null, 'en');
+        this.system = new ContentItemSystemAttributes('id', 'name', codename, 'actor', null, 'en', []);
     }
 }
 

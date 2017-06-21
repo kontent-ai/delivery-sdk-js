@@ -4,8 +4,11 @@ export var warriorMovieJson = {
       "id": "325e2acb-1c14-47f6-af9a-27bc8b6c16fe",
       "name": "Warrior",
       "codename": "warrior",
+      "language": "en",
       "type": "movie",
-      "sitemap_locations": [],
+      "sitemap_locations": [
+        "main_sitemap"
+      ],
       "last_modified": "2017-06-15T07:53:42.7273237Z"
     },
     "elements": {
@@ -42,7 +45,7 @@ export var warriorMovieJson = {
           {
             "name": "warrior.jpg",
             "type": "image/jpeg",
-            "size": "111004",
+            "size": 0,
             "description": null,
             "url": "https://assets.kenticocloud.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/22504ba8-2075-48fa-9d4f-8fce3de1754a/warrior.jpg"
           }
@@ -83,6 +86,7 @@ export var warriorMovieJson = {
         "id": "d1557cb1-d7ec-4d04-9742-f86b52bc34fc",
         "name": "Tom Hardy",
         "codename": "tom_hardy",
+        "language": "en",
         "type": "actor",
         "sitemap_locations": [],
         "last_modified": "2017-06-02T10:19:23.8705332Z"
@@ -105,7 +109,7 @@ export var warriorMovieJson = {
             {
               "name": "tom_hardy.jpg",
               "type": "image/jpeg",
-              "size": "8091",
+              "size": 0,
               "description": null,
               "url": "https://assets.kenticocloud.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/bb0899cf-2c3a-4e3f-8962-60e5a54fcca5/tom_hardy.jpg"
             }
@@ -118,6 +122,7 @@ export var warriorMovieJson = {
         "id": "3294e4b0-e58b-49d7-85fa-5bc9a86556ec",
         "name": "Joel Edgerton",
         "codename": "joel_edgerton",
+        "language": "en",
         "type": "actor",
         "sitemap_locations": [],
         "last_modified": "2017-06-02T10:23:20.0516568Z"
@@ -140,7 +145,7 @@ export var warriorMovieJson = {
             {
               "name": "joel_edgerton.jpg",
               "type": "image/jpeg",
-              "size": "6460",
+              "size": 0,
               "description": null,
               "url": "https://assets.kenticocloud.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/2855720a-4ca4-4687-826a-29f9635088e0/joel_edgerton.jpg"
             }

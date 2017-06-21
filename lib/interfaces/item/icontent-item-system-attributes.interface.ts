@@ -6,5 +6,6 @@ export interface IContentItemSystemAttributes {
     type: string;
     last_modified: Date;
     language: string;
+    sitemap_locations: string[];
 }
 

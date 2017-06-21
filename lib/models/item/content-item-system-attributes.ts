@@ -7,7 +7,8 @@ export class ContentItemSystemAttributes implements IContentItemSystemAttributes
         public codename: string,
         public type: string,
         public last_modified: Date,
-        public language: string
+        public language: string,
+        public sitemap_locations: string[]
     ) { }
 }
 
