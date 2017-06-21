@@ -370,11 +370,11 @@ deliveryClient.item<Character>('rick2')
     if (err instanceof CloudError) {
       // outputs 'The requested content item 'rick2' was not found.'
       console.log(err.message); 
-      }
+    }
     else {
       // handle generic errors
-        console.log(err);
-      }
+      console.log(err);
+    }
   });
 
 deliveryClient.item<Character>('rick2')
