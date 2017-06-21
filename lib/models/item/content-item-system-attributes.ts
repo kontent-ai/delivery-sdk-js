@@ -6,7 +6,8 @@ export class ContentItemSystemAttributes implements IContentItemSystemAttributes
         public name: string,
         public codename: string,
         public type: string,
-        public last_modified: Date
+        public last_modified: Date,
+        public language: string
     ) { }
 }
 

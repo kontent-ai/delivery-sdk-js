@@ -60,17 +60,17 @@ To get multiple content items, use the `items` method. You can specify content t
 
 ```typescript
 deliveryClient.items<Character>()
-      .type("character")
-      .get()
-      .subscribe(response => console.log(response));
+  .type("character")
+  .get()
+  .subscribe(response => console.log(response));
 ```
 
 To get a single content item, use the `item` method:
 
 ```typescript
 deliveryClient.item<Character>('itemCodeName')
-      .get()
-      .subscribe(response => console.log(response));
+  .get()
+  .subscribe(response => console.log(response));
 ```
 
 ### Using query parameters
@@ -86,7 +86,7 @@ deliveryClient.items<Character>()
   .subscribe(response => console.log(response));
 ```
 
-Supported query parameters: `depthParameter`, `elementsParameter`, `limitParameter`, `orderParameter`, `skipParameter`.
+Supported query parameters: `depthParameter`, `elementsParameter`, `limitParameter`, `orderParameter`, `skipParameter` and `languageParameter`.
 
 ### Filtering
 
@@ -114,6 +114,17 @@ deliveryClient.items<Character>()
 deliveryClient.items<Character>()
   .type('character')
   .orderParameter('elements.name', SortOrder.asc)
+  .get()
+  .subscribe(response => console.log(response));
+```
+
+### Getting localized items
+
+[Localized items](https://developer.kenticocloud.com/v1/docs/localization) can be retrieved with `languageParameter`. If none is specified, default language will be used.
+
+```typescript
+deliveryClient.item<Character>('itemCodeName')
+  .languageParameter(`en`)
   .get()
   .subscribe(response => console.log(response));
 ```
@@ -315,11 +326,11 @@ deliveryClient.item<Character>('rick')
     })
   })
   .subscribe(response => {
-  console.log(response.item.someRichText.getHtml());
-  // outputs:
-  // {html from your Rich text field}
-  // <h2>Rick</h2>
-  // {html from your Rich text field}
+    console.log(response.item.someRichText.getHtml());
+    // outputs:
+    // {html from your Rich text field}
+    // <h2>Rick</h2>
+    // {html from your Rich text field}
   });
 ```
 

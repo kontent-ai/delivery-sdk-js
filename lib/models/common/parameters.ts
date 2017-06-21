@@ -111,11 +111,10 @@ export class OrderParameter implements IQueryParameter {
     }
 }
 
-
 export class DepthParameter implements IQueryParameter {
 
     /**
-    * Configured the depth of the response. Content items might reference modular content items using the Modular content element. 
+    * Configures the depth of the response. Content items might reference modular content items using the Modular content element. 
     * Recursively, these modular content items can reference another modular content items. 
     * By default, only one level of modular content is returned.
     * @constructor
@@ -135,6 +134,30 @@ export class DepthParameter implements IQueryParameter {
 
     public GetParamValue(): string {
         return this.depth.toString();
+    }
+}
+
+export class LanguageParameter implements IQueryParameter {
+
+    /**
+    * Specifies language version to fetch
+    * @constructor
+    * @param {string} languageCodename - Codename of the language
+    */
+    constructor(
+        public languageCodename: string
+    ) {
+        if (!languageCodename) {
+            throw Error(`'LanguageParameter' must specify codename of the language`);
+        }
+    }
+
+    public GetParam(): string {
+        return 'language';
+    }
+
+    public GetParamValue(): string {
+        return this.languageCodename.trim().toString();
     }
 }
 

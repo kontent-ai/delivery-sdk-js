@@ -28,18 +28,6 @@ export class SingleItemQuery<TItem extends IContentItem> extends BaseItemQuery<T
         }
     }
 
-    // query params
-
-    elementsParameter(elementCodenames: string[]): this {
-        this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
-        return this;
-    }
-
-    depthParameter(depth: number): this {
-        this.parameters.push(new Parameters.DepthParameter(depth));
-        return this;
-    }
-
     // execution
 
     get(): Observable<DeliveryItemResponse<TItem>> {

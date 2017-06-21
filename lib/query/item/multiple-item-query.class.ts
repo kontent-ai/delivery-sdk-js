@@ -90,16 +90,6 @@ export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery
 
     // query params
 
-    elementsParameter(elementCodenames: string[]): this {
-        this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
-        return this;
-    }
-
-    depthParameter(depth: number): this {
-        this.parameters.push(new Parameters.DepthParameter(depth));
-        return this;
-    }
-
     limitParameter(limit: number): this {
         this.parameters.push(new Parameters.LimitParameter(limit));
         return this;

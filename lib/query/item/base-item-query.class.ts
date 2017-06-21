@@ -16,6 +16,9 @@ import { IHeader } from '../../interfaces/common/iheader.interface';
 // base query
 import { BaseQuery } from '../common/base-query.class';
 
+// query params
+import * as Parameters from '../../models/common/parameters';
+
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
@@ -37,8 +40,26 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
         return this;
     }
 
-    getHeaders(): IHeader[]{
+    getHeaders(): IHeader[] {
         return super.getHeadersInternal(this.getQueryConfig());
+    }
+
+    // shared parameters
+
+    languageParameter(languageCodename: string): this {
+        this.parameters.push(new Parameters.LanguageParameter(languageCodename));
+        return this;
+    }
+
+    // shared parameters
+    elementsParameter(elementCodenames: string[]): this {
+        this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
+        return this;
+    }
+
+    depthParameter(depth: number): this {
+        this.parameters.push(new Parameters.DepthParameter(depth));
+        return this;
     }
 
     private getQueryConfig(): IItemQueryConfig {

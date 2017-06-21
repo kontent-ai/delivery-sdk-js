@@ -121,6 +121,18 @@ describe('Parameters', () => {
         expect(() => context.deliveryClient.items().skipParameter(-1)).toThrowError()
     });
 
+    it(`language parameter should be set`, () => {
+        var url = new URL(
+            context.deliveryClient.items()
+                .languageParameter('en')
+                .toString()
+        );
+
+        var param = url.searchParams.get('language');
+
+        expect(param).toEqual('en');
+    });
+
     // Null parameter checks
 
     it(`order parameter with null or empty field should throw an error`, () => {
@@ -129,6 +141,10 @@ describe('Parameters', () => {
 
     it(`elements parameter with empty or not set elements should throw error`, () => {
         expect(() => context.deliveryClient.items().elementsParameter([null]).toString()).toThrowError();
+    });
+
+       it(`language parameter with empty or not set elements should throw error`, () => {
+        expect(() => context.deliveryClient.items().languageParameter(null).toString()).toThrowError();
     });
 
     // trim checks
@@ -155,6 +171,18 @@ describe('Parameters', () => {
         var param = url.searchParams.get('order');
 
         expect(param).toEqual('elem1[asc]');
+    });
+
+      it(`language parameter should trim its field`, () => {
+        var url = new URL(
+            context.deliveryClient.items()
+                .languageParameter(' en ')
+                .toString()
+        );
+
+        var param = url.searchParams.get('language');
+
+        expect(param).toEqual('en');
     });
 });
 
