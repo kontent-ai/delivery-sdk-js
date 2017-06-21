@@ -371,7 +371,7 @@ deliveryClient.item<Character>('rick2')
 deliveryClient.item<Character>('rick2')
   .get()
   .catch(err => {
-    // handle Cloud specific errors
+      // handle Cloud specific errors
       if (err instanceof CloudError) {
         // outputs 'The requested content item 'rick2' was not found.'
         console.log(err.message);
