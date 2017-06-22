@@ -113,9 +113,9 @@ export abstract class QueryService {
             console.error(error);
         }
 
-        if (error instanceof AjaxError){
+        if (error instanceof AjaxError) {
             var xhrResponse = error.xhr.response as ICloudErrorResponse;
-            if (!xhrResponse){
+            if (!xhrResponse) {
                 return error;
             }
             // return Cloud specific error 
@@ -151,19 +151,28 @@ export abstract class QueryService {
         return new DeliveryTypeListingResponse(types, pagination);
     }
 
+    protected getAuthorizationHeader(): IHeader {
+        if (!this.config.previewApiKey) {
+            throw Error(`Cannot get authorization header because 'previewApiKey' is not defined`);
+        }
+        // authorization header required for preview mode
+        return new Header('authorization', `bearer ${this.config.previewApiKey}`);
+    }
+
     protected getHeadersInternal(queryConfig: IItemQueryConfig): IHeader[] {
         var headers: IHeader[] = [];
-
         if (this.isPreviewModeEnabled(queryConfig)) {
-            // authorization header required for preview mode
-            headers.push(new Header('authorization', `bearer ${this.config.previewApiKey}`));
+            headers.push(this.getAuthorizationHeader());
         }
+
         return headers;
     }
 
     protected getHeadersJson(queryConfig: IItemQueryConfig): any {
         var headerJson: any = {};
+
         var headers = this.getHeadersInternal(queryConfig);
+
         headers.forEach(header => {
             headerJson[header.header] = header.value;
         });
