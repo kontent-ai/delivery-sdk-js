@@ -1,6 +1,7 @@
 import { FieldInterfaces} from './field-interfaces';
 
 export namespace FieldModels {
+    
     export class AssetModel implements FieldInterfaces.IAsset {
 
         /**

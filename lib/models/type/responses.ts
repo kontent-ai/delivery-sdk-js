@@ -2,6 +2,7 @@ import { IContentType } from '../../interfaces/type/icontent-type.interface';
 import { IPagination } from '../../interfaces/common/ipagination.interface';
 
 export namespace TypeResponses {
+    
     export class DeliveryTypeListingResponse {
 
         /**

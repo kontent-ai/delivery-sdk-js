@@ -2,6 +2,7 @@ import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interf
 import { SortOrder } from './sort-order.enum';
 
 export namespace Parameters {
+    
     export class ElementsParameter implements IQueryParameter {
 
         /**

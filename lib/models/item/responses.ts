@@ -3,6 +3,7 @@ import { IModularContent } from '../../interfaces/item/imodular-content.interfac
 import { IPagination } from '../../interfaces/common/ipagination.interface';
 
 export namespace ItemResponses {
+    
     export class DeliveryItemListingResponse<TItem extends IContentItem> {
 
         /**

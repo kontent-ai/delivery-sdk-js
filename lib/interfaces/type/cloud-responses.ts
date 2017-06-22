@@ -4,6 +4,7 @@ import { IContentTypeElement } from './icontent-type-element.interface';
 import { IPagination } from '../common/ipagination.interface';
 
 export namespace CloudTypeResponseInterfaces {
+    
     export interface ICloudMultipleTypeResponse {
         types: IContentType[];
         pagination: IPagination;

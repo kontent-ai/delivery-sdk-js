@@ -5,6 +5,7 @@ import { FieldModels } from './field-models';
 import { RichTextResolver } from './rich-text-resolver.class';
 
 export namespace Fields {
+    
     export class TextField implements FieldInterfaces.IField {
 
         /**

@@ -1,8 +1,6 @@
 import { FieldMapService } from './field-map.service';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
-import { TypeResolverService } from './type-resolver.service';
-import { IModularContent } from '../interfaces/item/imodular-content.interface';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 

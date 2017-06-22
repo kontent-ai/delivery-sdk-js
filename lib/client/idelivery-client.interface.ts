@@ -7,7 +7,7 @@ import { MultipleTypeQuery } from '../query/type/multiple-type-query.class';
 import { SingleItemQuery } from '../query/item/single-item-query.class';
 import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
 
-export interface IDeliveryClient{
+export interface IDeliveryClient {
 
     /**
     * Gets query for multiple types
@@ -19,7 +19,6 @@ export interface IDeliveryClient{
     * @param {string} typeCodename - Codename of the type to retrieve
     */
     type(typeCodename: string): SingleTypeQuery;
-
 
     /**
     * Gets query for multiple items

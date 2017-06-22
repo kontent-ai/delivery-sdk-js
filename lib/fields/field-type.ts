@@ -2,6 +2,7 @@
 * Represents Kentico Cloud's field types
 */
 export class FieldType {
+    
     constructor(public type: string) {
     }
 

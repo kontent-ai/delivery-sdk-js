@@ -1,6 +1,7 @@
 import { FieldType } from './field-type';
 
 export namespace FieldInterfaces {
+    
     export interface IField {
         name: string;
         type: FieldType;

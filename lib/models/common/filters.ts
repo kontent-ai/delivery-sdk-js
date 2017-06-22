@@ -1,6 +1,7 @@
 import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
 
 export namespace Filters {
+    
     export class EqualsFilter implements IQueryParameter {
         constructor(
             public field: string,

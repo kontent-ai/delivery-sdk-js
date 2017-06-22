@@ -1,4 +1,3 @@
-import { IModularContent } from '../interfaces/item/imodular-content.interface';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { FieldInterfaces } from '../fields/field-interfaces';
 import { FieldType } from '../fields/field-type';

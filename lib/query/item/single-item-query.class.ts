@@ -4,7 +4,6 @@ import { DeliveryClientConfig } from '../../config/delivery-client.config';
 // models
 import { ItemResponses } from '../../models/item/responses';
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';
-import { IHeader } from '../../interfaces/common/iheader.interface';
 
 // services
 import { BaseItemQuery } from './base-item-query.class';

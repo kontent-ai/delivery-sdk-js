@@ -1,4 +1,3 @@
-import { TypeResolver } from '../models/item/type-resolver.class';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
 import { DeliveryClientConfig } from '../config/delivery-client.config';

@@ -2,7 +2,7 @@
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 
 // filters
-import * as Filters from '../../models/common/filters';
+import { Filters } from '../../models/common/filters';
 
 // models
 import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
