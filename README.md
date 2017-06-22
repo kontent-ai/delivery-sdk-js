@@ -17,8 +17,8 @@ npm i kentico-cloud-delivery-typescript-sdk --save
 ```typescript
 import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
 
-export class Character extends ContentItem {
-  public name: Fields.TextField;
+export class Movie extends ContentItem {
+  public title: Fields.TextField;
 }
 ```
 
@@ -29,12 +29,12 @@ export class Character extends ContentItem {
 import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-delivery-typescript-sdk';
 
 // models
-import { Character } from './character.class';
+import { Movie } from './movie'; // use your own path to movie class model
 
-let projectId = 'yourProjectId';
+let projectId = 'projectId';
 
 let typeResolvers: TypeResolver[] = [
-    new TypeResolver("character", () => new Character()),
+    new TypeResolver("movie", () => new Movie()),
   ];
 
 var deliveryClient = new DeliveryClient(
@@ -46,8 +46,8 @@ var deliveryClient = new DeliveryClient(
 ### Use it
 
 ```typescript
-deliveryClient.items<Character>()
-  .type('character')
+deliveryClient.items<Movie>()
+  .type('movie')
   .get()
   .subscribe(response => console.log(response));
 ```
@@ -59,8 +59,8 @@ deliveryClient.items<Character>()
 To get multiple content items, use the `items` method. You can specify content type with the `type` method:
 
 ```typescript
-deliveryClient.items<Character>()
-  .type('character')
+deliveryClient.items<Movie>()
+  .type('movie')
   .get()
   .subscribe(response => console.log(response));
 ```
@@ -68,7 +68,7 @@ deliveryClient.items<Character>()
 To get a single content item, use the `item` method:
 
 ```typescript
-deliveryClient.item<Character>('itemCodeName')
+deliveryClient.item<Movie>('movieCodename')
   .get()
   .subscribe(response => console.log(response));
 ```
@@ -78,8 +78,8 @@ deliveryClient.item<Character>('itemCodeName')
 You can combine query parameters. For more information about parameters, see the [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-responses).
 
 ```typescript
-deliveryClient.items<Character>()
-  .type('character')
+deliveryClient.items<Movie>()
+  .type('movie')
   .limitParameter(5)
   .skipParameter(2)
   .get()
@@ -90,12 +90,12 @@ Supported query parameters: `depthParameter`, `elementsParameter`, `limitParamet
 
 ### Filtering
 
-This example returns all **Character** content items whose **name** element is equal to **Rimmer**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Cloud API reference for more general examples.
+This example returns all **Movie** content items whose **name** element is equal to **Warrior**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Cloud API reference for more general examples.
 
 ```typescript
-deliveryClient.items<Character>()
-  .type('character')
-  .equalsFilter('elements.name', 'Rimmer')
+deliveryClient.items<Movie>()
+  .type('movie')
+  .equalsFilter('elements.name', 'Warrior')
   .get()
   .subscribe(response => console.log(response));
 ```
@@ -105,14 +105,14 @@ Supported filters: `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `
 ### Sorting
 
 ```typescript
-deliveryClient.items<Character>()
-  .type('character')
+deliveryClient.items<Movie>()
+  .type('movie')
   .orderParameter('elements.name', SortOrder.desc)
   .get()
   .subscribe(response => console.log(response));
 
-deliveryClient.items<Character>()
-  .type('character')
+deliveryClient.items<Movie>()
+  .type('movie')
   .orderParameter('elements.name', SortOrder.asc)
   .get()
   .subscribe(response => console.log(response));
@@ -131,12 +131,12 @@ var deliveryClient = new DeliveryClient(
 )
 
 // gets items in 'es' language
-deliveryClient.item<Character>('itemCodeName')
+deliveryClient.item<Movie>('movieCodename')
   .get()
   .subscribe(response => console.log(response));
 
 // gets items in 'en' language
-deliveryClient.item<Character>('itemCodeName')
+deliveryClient.item<Movie>('movideCodename')
   .languageParameter(`en`)
   .get()
   .subscribe(response => console.log(response));
@@ -149,11 +149,13 @@ Each model class needs to extend the `ContentItem` class and each element needs 
 ```typescript
 import { ContentItem, Fields} from 'kentico-cloud-delivery-typescript-sdk';
 
-export class Character extends ContentItem {
-  public name: Fields.TextField;
-  public age: Fields.NumberField;
-  public birthdate: Fields.DateTimeField;
-  public description: Fields.RichTextField;
+export class Movie extends ContentItem {
+  public title: Fields.TextField;
+  public plot: Fields.RichTextField;
+  public released: Fields.DateTimeField;
+  public length: Fields.NumberField;
+  public poster: Fields.AssetsField;
+  public category: Fields.MultipleChoiceField;
 }
 ```
 
@@ -166,15 +168,13 @@ To include modular content, simply reference a given type class:
 ```typescript
 import { ContentItem, Fields} from 'kentico-cloud-delivery-typescript-sdk';
 
-export class Character extends ContentItem {
+export class Actor extends ContentItem {
   public name: Fields.TextField;
-  public age: Fields.NumbeField;
 }
 
 export class Movie extends ContentItem {
-  public movie: Fields.TextField;
-  public release: Fields.NumberField;
-  public characters: Character[]
+  public title: Fields.TextField;
+  public stars: Actor[];
 }
 ```
 
@@ -185,10 +185,10 @@ Kentico Cloud returns all element names in **lowercase**. Because Javascript pro
 ```typescript
 import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
 
-export class Person extends ContentItem {
+export class Actor extends ContentItem {
   public firstName: Fields.TextField;
   public lastName: Fields.TextField;
-  public age: Fields.NumbeField;
+  public bio: Fields.RichTextField;
 
     constructor() {
     super({
@@ -212,10 +212,10 @@ You can enable the preview mode either globally (when initializing the DeliveryC
 
 ```typescript
 
-let previewApiKey = 'yourPreviewApiKey';
-let projectId = 'yourProjectId';
+let previewApiKey = 'previewApiKey';
+let projectId = 'projectId';
 let typeResolvers: TypeResolver[] = [
-    new TypeResolver("character", () => new Character()),
+    new TypeResolver("movie", () => new Movie()),
   ];
 
 let deliveryClient = new DeliveryClient(
@@ -230,8 +230,8 @@ let deliveryClient = new DeliveryClient(
 #### Enabling preview mode per query
 
 ```typescript
-deliveryClient.items<Character>()
-  .type('character')
+deliveryClient.items<Movie>()
+  .type('movie')
   .queryConfig({
     usePreviewMode: true
   })
@@ -243,16 +243,15 @@ deliveryClient.items<Character>()
 
 URL slugs enable you to generate user friendly URLs while giving editors the capability to control the looks of it. As a developer you will need to take the URL slug defined by editors and convert it to a path that your application knows and can render. URL slugs can be resolved either globally or locally for each query.
 
-For example, if you define a URL slug for your item as `dwayne-johnson` and your application is able to handle requests such as `yourApp.com/actors/{actor}`, you will need to configure the `urlSlugResolver` of your `ContentItem` class to resolve such item. This example would transfer to the code below.
+For example, if you define a URL slug for your item as `dwayne-johnson` and your application is able to handle requests such as `yourApp.com/actors/{urlSlug}`, you will need to configure the `urlSlugResolver` of your `ContentItem` class to resolve such item. This example would transfer to the code below.
 
 #### Resolving URL slugs globally
 
 ```typescript
 import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
 
-export class Character extends ContentItem {
-  public name: Fields.TextField;
-  public age: Fields.NumbeField;
+export class Actor extends ContentItem {
+  public title: Fields.TextField;
   public slug: Fields.UrlSlugField;
 
     constructor() {
@@ -269,7 +268,7 @@ export class Character extends ContentItem {
 To get the URL, access the `url` property of your `UrlslugField`:
 
 ```typescript
-deliveryClient.item<Character>('someCodename')
+deliveryClient.item<Actor>('actorCodename')
   .get()
   .subscribe(response => console.log(response.item.slug.url));
 ```
@@ -279,7 +278,7 @@ deliveryClient.item<Character>('someCodename')
 Additionally, you can specify a URL slug resolver when getting content items using the `queryConfig` method. Setting the URL slug resolver this way has priority over the one defined in a model.
 
 ```typescript
-deliveryClient.item<Character>('someCodename')
+deliveryClient.item<Actor>('actorCodename')
   .queryConfig({
     urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
       return `/actors/${urlSlug}`;
@@ -291,61 +290,65 @@ deliveryClient.item<Character>('someCodename')
 
 ### Resolving modular content in Rich text fields
 
-If you have a modular content item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Character` modular items used in your Rich text elements.
+If you have a modular content item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` modular items used in all your rich text fields.
 
 #### Globally
 
 ```typescript
 import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
 
-export class Character extends ContentItem {
+export class Actor extends ContentItem {
   public name: Fields.TextField;
-  public age: Fields.NumberField;
-  public birthdate: Fields.DateTimeField;
-  public description: Fields.RichTextField;
 
   constructor() {
     super({
-        richTextResolver: (item: Character) => {
+        richTextResolver: (item: Actor) => {
           return `<h3>${item.name.text}</h3>`;
         }
       })
     }
+}
+
+export class Movie extends ContentItem {
+  public title: Fields.TextField;
+  public plot: Fields.RichTextField;
 }
 ```
 
 Result:
 
 ```typescript
-deliveryClient.item<Character>('rick')
+deliveryClient.item<Movie>('pain_and_gain')
   .get()
   .subscribe(response => {
-    console.log(response.item.someRichText.getHtml());
-    // outputs:
-    // {html from your Rich text field}
-    // <h3>Rick</h3>
-    // {html from your Rich text field}
+    console.log(response.item.plot.getHtml());
+    // Example output:
+    // {html from your the plot before modular items}
+    // <h3>Dwayne Johsnon</h3>
+    // {html from your the plot after the modular items}
   });
 ```
 
 #### Locally per query
 
+You can specifically define a resolver for a particular query. Resolver defined this way has priority over the globally defined one.
+
 ```typescript
-.deliveryClient.item<Character>('rick')
+deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
-      richTextResolver: (item: IContentItem) => {
-        if (item.system.type == 'character') {
-          var character = item as Character;
-          return `<h2>${character.name.text}</h2>`;
+      richTextResolver: (item: Actor) => {
+        if (item.system.type == 'actor') {
+          var actor = item as Actor;
+          return `<h2>${actor.name.text}</h2>`;
         }
     })
   })
   .subscribe(response => {
-    console.log(response.item.someRichText.getHtml());
-    // outputs:
-    // {html from your Rich text field}
-    // <h2>Rick</h2>
-    // {html from your Rich text field}
+    console.log(response.item.plot.getHtml());
+    // Example output:
+    // {html from your the plot before modular items}
+    // <h3>Dwayne Johsnon</h3>
+    // {html from your the plot after the modular items}
   });
 ```
 
@@ -356,7 +359,8 @@ To retrieve information about your content types, you can use the methods `type`
 ### Getting a single content type
 
 ```typescript
-deliveryClient.type('character')
+deliveryClient
+  .type('movie')
   .get()
   .subscribe(response => console.log(response));
 ```
@@ -376,12 +380,12 @@ Error can be handled using the `error` parameter of the `subscribe` method (see 
 ```typescript
 import { CloudError } from 'kentico-cloud-delivery-typescript-sdk';
 
-deliveryClient.item<Character>('rick2')
+deliveryClient.item<Movie>('terminator_9')
   .get()
   .subscribe(response => console.log(response), err => {
     // handle Cloud specific errors
     if (err instanceof CloudError) {
-      // outputs 'The requested content item 'rick2' was not found.'
+      // outputs 'The requested content item 'terminator_9' was not found.'
       console.log(err.message); 
     }
     else {
@@ -390,12 +394,12 @@ deliveryClient.item<Character>('rick2')
     }
   });
 
-deliveryClient.item<Character>('rick2')
+deliveryClient.item<Movie>('terminator_9')
   .get()
   .catch(err => {
       // handle Cloud specific errors
       if (err instanceof CloudError) {
-        // outputs 'The requested content item 'rick2' was not found.'
+        // outputs 'The requested content item 'terminator_9' was not found.'
         console.log(err.message);
       }
       else {
@@ -413,14 +417,14 @@ In case you need to get the raw URL of a request, call the `toString()` method o
 
 ```typescript
 var queryText = deliveryClient.items()
-  .type('character')
+  .type('movie')
   .limitParameter(10)
   .orderParameter('system.codename', SortOrder.desc)
   .toString();
 
 console.log(queryText);
 // outputs:
-// https://deliver.kenticocloud.com/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=character
+// https://deliver.kenticocloud.com/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
 ```
 
 ## Tests
