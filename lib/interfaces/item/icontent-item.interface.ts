@@ -5,7 +5,7 @@ export interface IContentItem {
   system: IContentItemSystemAttributes;
   elements: any;
 
-  resolver?: (fieldName: string) => string;
+  propertyResolver?: (fieldName: string) => string;
   urlSlugResolver?: (contentItem: IContentItem, urlSlug: string) => string;
   richTextResolver?: <T extends IContentItem>(contentItem: T) => string;
 }

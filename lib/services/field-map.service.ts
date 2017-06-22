@@ -45,9 +45,9 @@ export class FieldMapService {
             var field = item.elements[fieldName] as FieldInterfaces.IField;
             var propertyName;
 
-            // resolve value into a different 'property'
-            if (itemTyped.resolver) {
-                propertyName = itemTyped.resolver(fieldName);
+            // resolve field to a custom model property
+            if (itemTyped.propertyResolver) {
+                propertyName = itemTyped.propertyResolver(fieldName);
             }
 
             // if property name is null/empty, use elements codename

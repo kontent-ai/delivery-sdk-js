@@ -16,7 +16,7 @@ export class Movie extends ContentItem {
 
   constructor() {
     super({
-      resolver: (fieldName) => {
+      propertyResolver: (fieldName) => {
         if (fieldName === 'releasecategory') {
           return 'releaseCategory';
         }

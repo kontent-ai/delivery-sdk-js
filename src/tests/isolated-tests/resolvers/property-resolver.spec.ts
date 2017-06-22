@@ -13,7 +13,7 @@ class MockMovie extends ContentItem {
 
     constructor() {
         super({
-            resolver: (fieldName: string) => {
+            propertyResolver: (fieldName: string) => {
                 if (fieldName === 'title') {
                     return 'titleTest';
                 }
@@ -28,7 +28,7 @@ class MockMovie extends ContentItem {
     }
 }
 // tests
-describe('Field resolver', () => {
+describe('Property resolver', () => {
 
     var context = new Context();
     var typeResolvers = [];

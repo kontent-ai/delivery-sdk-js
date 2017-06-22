@@ -7,7 +7,7 @@ export class Actor extends ContentItem {
 
   constructor() {
     super({
-      resolver: (fieldName: string) => {
+      propertyResolver: (fieldName: string) => {
         if (fieldName === 'first_name') {
           return 'firstName'; // binds 'first_name' response from Kentico cloud to 'firstName' property of this class
         }

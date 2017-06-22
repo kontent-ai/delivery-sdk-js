@@ -60,7 +60,7 @@ To get multiple content items, use the `items` method. You can specify content t
 
 ```typescript
 deliveryClient.items<Character>()
-  .type("character")
+  .type('character')
   .get()
   .subscribe(response => console.log(response));
 ```
@@ -178,7 +178,7 @@ export class Movie extends ContentItem {
 }
 ```
 
-### Field binding in models
+### Property binding in models
 
 Kentico Cloud returns all element names in **lowercase**. Because Javascript properties are case sensitive, the binding will fail if your property is called, for example, *firstName*. You can either use **lowercase only properties** or use a custom resolver to bind fields to their proper names:
 
@@ -192,7 +192,7 @@ export class Person extends ContentItem {
 
     constructor() {
     super({
-      resolver: ((fieldName: string) => {
+      propertyResolver: ((fieldName: string) => {
         if (fieldName === 'firstname') { // lowercase field returned by Kentico delivery API
           return 'firstName'; // name of 'Person.lastName' property
         }
