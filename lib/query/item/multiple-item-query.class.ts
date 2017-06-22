@@ -2,15 +2,15 @@
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 
 // models
-import { DeliveryItemListingResponse } from '../../models/item/responses';
+import { ItemResponses } from '../../models/item/responses';
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { SortOrder } from '../../models/common/sort-order.enum';
 
 // filters
-import * as Filters from '../../models/common/filters';
+import { Filters } from '../../models/common/filters';
 
 // query params
-import * as Parameters from '../../models/common/parameters';
+import { Parameters } from '../../models/common/parameters';
 
 // base query
 import { BaseItemQuery } from './base-item-query.class';
@@ -29,7 +29,7 @@ export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery
     // type
 
     type(type: string): this {
-        if (!type){
+        if (!type) {
             throw Error(`'type' cannot be null or empty`);
         }
         this._contentType = type;
@@ -107,7 +107,7 @@ export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery
 
     // execution
 
-    get(): Observable<DeliveryItemListingResponse<TItem>> {
+    get(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
         return super.runMultipleItemsQuery();
     }
 

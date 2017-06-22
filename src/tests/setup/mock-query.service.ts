@@ -2,10 +2,9 @@ import { QueryService } from '../../../lib/services/query.service';
 import { DeliveryClientConfig } from '../../../lib';
 
 // models
-import { DeliveryItemListingResponse, DeliveryItemResponse } from '../../../lib/models/item/responses';
+import { ItemResponses} from '../../../lib/models/item/responses';
 import { IContentItem } from '../../../lib/interfaces/item/icontent-item.interface';
 import { IQueryParameter } from '../../../lib/interfaces/common/iquery-parameter.interface';
-import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../../../lib/models/type/responses';
 import { IItemQueryConfig } from '../../../lib/interfaces/item/iitem-query.config';
 import { ItemQueryConfig } from '../../../lib/models/item/item-query.config';
 
@@ -17,14 +16,14 @@ export class MockQueryService extends QueryService {
         super(config)
     }
 
-    mockGetSingleItem<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): DeliveryItemResponse<TItem> {
+    mockGetSingleItem<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
         if (!queryConfig) {
             queryConfig = new ItemQueryConfig();
         }
         return super.getSingleResponse<TItem>(json, queryConfig);
     }
 
-    mockGetMultipleItems<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): DeliveryItemListingResponse<TItem> {
+    mockGetMultipleItems<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
         if (!queryConfig) {
             queryConfig = new ItemQueryConfig();
         }

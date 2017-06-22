@@ -15,10 +15,10 @@ npm i kentico-cloud-delivery-typescript-sdk --save
 ### Create model
 
 ```typescript
-import { ContentItem, TextField } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Character extends ContentItem {
-  public name: TextField;
+  public name: Fields.TextField;
 }
 ```
 
@@ -147,13 +147,13 @@ deliveryClient.item<Character>('itemCodeName')
 Each model class needs to extend the `ContentItem` class and each element needs to use one of the supported fields. For example, if you define a Text element in your content type, you need to use a `TextField` in your model:
 
 ```typescript
-import { ContentItem TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields} from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Character extends ContentItem {
-  public name: TextField;
-  public age: NumberField;
-  public birthdate: DateTimeField;
-  public description: RichTextField;
+  public name: Fields.TextField;
+  public age: Fields.NumberField;
+  public birthdate: Fields.DateTimeField;
+  public description: Fields.RichTextField;
 }
 ```
 
@@ -164,16 +164,16 @@ Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichText
 To include modular content, simply reference a given type class:
 
 ```typescript
-import { ContentItem TextField, NumberField } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields} from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Character extends ContentItem {
-  public name: TextField;
-  public age: NumbeField;
+  public name: Fields.TextField;
+  public age: Fields.NumbeField;
 }
 
 export class Movie extends ContentItem {
-  public movie: TextField;
-  public release: NumberField;
+  public movie: Fields.TextField;
+  public release: Fields.NumberField;
   public characters: Character[]
 }
 ```
@@ -183,12 +183,12 @@ export class Movie extends ContentItem {
 Kentico Cloud returns all element names in **lowercase**. Because Javascript properties are case sensitive, the binding will fail if your property is called, for example, *firstName*. You can either use **lowercase only properties** or use a custom resolver to bind fields to their proper names:
 
 ```typescript
-import { ContentItem TextField, NumberField } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Person extends ContentItem {
-  public firstName: TextField;
-  public lastName: TextField;
-  public age: NumbeField;
+  public firstName: Fields.TextField;
+  public lastName: Fields.TextField;
+  public age: Fields.NumbeField;
 
     constructor() {
     super({
@@ -248,12 +248,12 @@ For example, if you define a URL slug for your item as `dwayne-johnson` and your
 #### Resolving URL slugs globally
 
 ```typescript
-import { ContentItem TextField, NumberField, UrlSlugField } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Character extends ContentItem {
-  public name: TextField;
-  public age: NumbeField;
-  public slug: UrlSlugField;
+  public name: Fields.TextField;
+  public age: Fields.NumbeField;
+  public slug: Fields.UrlSlugField;
 
     constructor() {
     super({
@@ -296,13 +296,13 @@ If you have a modular content item inside a Rich text element, you need to defin
 #### Globally
 
 ```typescript
-import { ContentItem TextField, NumberField, AssetsField, RichTextField, DateTimeField } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Character extends ContentItem {
-  public name: TextField;
-  public age: NumberField;
-  public birthdate: DateTimeField;
-  public description: RichTextField;
+  public name: Fields.TextField;
+  public age: Fields.NumberField;
+  public birthdate: Fields.DateTimeField;
+  public description: Fields.RichTextField;
 
   constructor() {
     super({

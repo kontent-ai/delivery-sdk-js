@@ -2,7 +2,7 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { DeliveryItemResponse } from '../../../../lib';
+import { ItemResponses } from '../../../../lib';
 
 // tests
 describe('Localization with globally defined language #1', () => {
@@ -13,13 +13,13 @@ describe('Localization with globally defined language #1', () => {
     setup(context);
 
     var movieCodename: string = 'warrior';
-    var response: DeliveryItemResponse<Movie>;
+    var response: ItemResponses.DeliveryItemResponse<Movie>;
 
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(movieCodename)
             .get()
             .subscribe(r => {
-                response = r as DeliveryItemResponse<Movie>;
+                response = r as ItemResponses.DeliveryItemResponse<Movie>;
                 done();
             });
     });
@@ -42,13 +42,13 @@ describe('Localization with globally defined language #2', () => {
     setup(context);
 
     var movieCodename: string = 'warrior';
-    var response: DeliveryItemResponse<Movie>;
+    var response: ItemResponses.DeliveryItemResponse<Movie>;
 
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(movieCodename)
             .get()
             .subscribe(r => {
-                response = r as DeliveryItemResponse<Movie>;
+                response = r as ItemResponses.DeliveryItemResponse<Movie>;
                 done();
             });
     });
@@ -72,14 +72,14 @@ describe('Localization defined by query', () => {
     setup(context);
 
     var movieCodename: string = 'warrior';
-    var response: DeliveryItemResponse<Movie>;
+    var response: ItemResponses.DeliveryItemResponse<Movie>;
 
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(movieCodename)
             .languageParameter(queryLanguage)
             .get()
             .subscribe(r => {
-                response = r as DeliveryItemResponse<Movie>;
+                response = r as ItemResponses.DeliveryItemResponse<Movie>;
                 done();
             });
     });

@@ -1,8 +1,8 @@
 import { IModularContent } from '../interfaces/item/imodular-content.interface';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { TextField, AssetsField, NumberField, MultipleChoiceField, DateTimeField, RichTextField, UrlSlugField, TaxonomyField } from '../fields/field-types';
-import { IField } from '../interfaces/item/ifield.interface';
+import { FieldInterfaces } from '../fields/field-interfaces';
 import { FieldType } from '../fields/field-type';
+import { Fields } from '../fields/field-types';
 import { TypeResolverService } from './type-resolver.service';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
@@ -42,7 +42,7 @@ export class FieldMapService {
         }
 
         properties.forEach(fieldName => {
-            var field = item.elements[fieldName] as IField;
+            var field = item.elements[fieldName] as FieldInterfaces.IField;
             var propertyName;
 
             // resolve value into a different 'property'
@@ -61,7 +61,7 @@ export class FieldMapService {
         return itemTyped;
     }
 
-    private mapField(field: IField, modularContent: any, item: IContentItem, queryConfig: IItemQueryConfig): any {
+    private mapField(field: FieldInterfaces.IField, modularContent: any, item: IContentItem, queryConfig: IItemQueryConfig): any {
         if (field.type.toString() === FieldType.modular_content.toString()) {
             return this.mapModularField(field, modularContent, queryConfig);
         }
@@ -98,7 +98,7 @@ export class FieldMapService {
         }
     }
 
-    private mapRichTextField(field: IField, modularContent: any, queryConfig: IItemQueryConfig): RichTextField {
+    private mapRichTextField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig): Fields.RichTextField {
         // get all modular content items nested in rich text
         var modularItems: IContentItem[] = [];
 
@@ -113,34 +113,34 @@ export class FieldMapService {
             }
         }
 
-        return new RichTextField(field.name, field.value, modularItems, this.config.enableAdvancedLogging, queryConfig.richTextResolver);
+        return new Fields.RichTextField(field.name, field.value, modularItems, this.config.enableAdvancedLogging, queryConfig.richTextResolver);
     }
 
-    private mapDateTimeField(field: IField): DateTimeField {
-        return new DateTimeField(field.name, field.value);
+    private mapDateTimeField(field: FieldInterfaces.IField): Fields.DateTimeField {
+        return new Fields.DateTimeField(field.name, field.value);
     }
 
-    private mapMultipleChoiceField(field: IField): MultipleChoiceField {
-        return new MultipleChoiceField(field.name, field.value);
+    private mapMultipleChoiceField(field: FieldInterfaces.IField): Fields.MultipleChoiceField {
+        return new Fields.MultipleChoiceField(field.name, field.value);
     }
 
-    private mapNumberField(field: IField): NumberField {
-        return new NumberField(field.name,  field.value);
+    private mapNumberField(field: FieldInterfaces.IField): Fields.NumberField {
+        return new Fields.NumberField(field.name,  field.value);
     }
 
-    private mapTextField(field: IField): TextField {
-        return new TextField(field.name, field.value);
+    private mapTextField(field: FieldInterfaces.IField): Fields.TextField {
+        return new Fields.TextField(field.name, field.value);
     }
 
-    private mapAssetsField(field: IField): AssetsField {
-        return new AssetsField(field.name, field.value);
+    private mapAssetsField(field: FieldInterfaces.IField): Fields.AssetsField {
+        return new Fields.AssetsField(field.name, field.value);
     }
 
-    private mapTaxonomyField(field: IField): TaxonomyField {
-        return new TaxonomyField(field.name, field.value, field.taxonomy_group);
+    private mapTaxonomyField(field: FieldInterfaces.IField): Fields.TaxonomyField {
+        return new Fields.TaxonomyField(field.name, field.value, field.taxonomy_group);
     }
 
-    private mapUrlSlugField(field: IField, item: IContentItem, queryConfig: IItemQueryConfig): UrlSlugField {
+    private mapUrlSlugField(field: FieldInterfaces.IField, item: IContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
         // url slug defined by the 'config' (= by calling method) has priority over type's url slug
         var urlSlug: (item: IContentItem, value: string) => string;
 
@@ -151,10 +151,10 @@ export class FieldMapService {
             urlSlug = item.urlSlugResolver;
         }
 
-        return new UrlSlugField(field.name, field.value, item, urlSlug, this.config.enableAdvancedLogging);
+        return new Fields.UrlSlugField(field.name, field.value, item, urlSlug, this.config.enableAdvancedLogging);
     }
 
-    private mapModularField(field: IField, modularContent: any, queryConfig: IItemQueryConfig): any {
+    private mapModularField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig): any {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
                 console.log(`Cannot map modular content field because field does not exist`);

@@ -2,17 +2,15 @@
 import { setup, Context, Movie, Actor } from '../../setup';
 
 // models
-import {
-    RichTextField, TextField, ContentItem, ContentItemSystemAttributes
-} from '../../../../lib';
+import { Fields, ContentItem, ContentItemSystemAttributes} from '../../../../lib';
 
 class ActorMock extends ContentItem {
-    firstName: TextField;
+    firstName: Fields.TextField;
     system: ContentItemSystemAttributes;
 
     constructor(codename: string, firstName: string) {
         super()
-        this.firstName = new TextField('firstName', firstName);
+        this.firstName = new Fields.TextField('firstName', firstName);
         this.system = new ContentItemSystemAttributes('id', 'name', codename, 'actor', null, 'en', []);
     }
 }
@@ -34,7 +32,7 @@ describe('RichTextField', () => {
     <h1>Test</h1><object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"></object><object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"></object>
     `;
 
-    var field = new RichTextField('name', html, modularItems, false,
+    var field = new Fields.RichTextField('name', html, modularItems, false,
         (item: ActorMock) => {
             return `<p>${item.firstName.text}</p>`;
         });

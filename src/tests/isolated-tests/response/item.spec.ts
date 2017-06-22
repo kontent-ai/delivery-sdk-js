@@ -3,7 +3,7 @@ import { setup, Context, Movie, Actor, MockQueryService, warriorMovieJson } from
 
 // models
 import {
-    TextField, ContentItem, ContentItemSystemAttributes, DeliveryItemResponse
+    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses
 } from '../../../../lib';
 
 // tests
@@ -15,7 +15,7 @@ describe('Isolated item', () => {
     // mock query service
     var mockQueryService = new MockQueryService(context.getConfig())
 
-    var response: DeliveryItemResponse<Movie>;
+    var response: ItemResponses.DeliveryItemResponse<Movie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {});

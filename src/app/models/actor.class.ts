@@ -1,9 +1,9 @@
-import { ContentItem, TextField, AssetsField } from '../../../lib';
+import { ContentItem, Fields } from '../../../lib';
 
 export class Actor extends ContentItem {
-  public firstName: TextField;
-  public lastName: TextField;
-  public photo: AssetsField;
+  public firstName: Fields.TextField;
+  public lastName: Fields.TextField;
+  public photo: Fields.AssetsField;
 
   constructor() {
     super({

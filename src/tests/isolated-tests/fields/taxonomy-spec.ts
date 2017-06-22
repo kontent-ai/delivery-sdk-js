@@ -2,9 +2,7 @@
 import { setup, Context } from '../../setup';
 
 // models
-import {
-    TaxonomyField, TaxonomyTerm
-} from '../../../../lib';
+import { FieldModels, Fields } from '../../../../lib';
 
 // tests
 describe('TaxonomyField', () => {
@@ -13,7 +11,7 @@ describe('TaxonomyField', () => {
         ['Term 1', 'term1'],
         ['Term 2', 'term2']
     ];
-    var field = new TaxonomyField('name', taxonomyList, 'taxgroup');
+    var field = new Fields.TaxonomyField('name', taxonomyList, 'taxgroup');
 
     it(`checks name`, () => {
         expect(field.name).toEqual('name');
@@ -28,9 +26,9 @@ describe('TaxonomyField', () => {
     });
 
     it(`checks taxonomy terms`, () => {
-        var taxonomyList: TaxonomyTerm[] = [
-            new TaxonomyTerm('Term 1', 'term1'),
-            new TaxonomyTerm('Term 2', 'term2')
+        var taxonomyList: FieldModels.TaxonomyTerm[] = [
+            new FieldModels.TaxonomyTerm('Term 1', 'term1'),
+            new FieldModels.TaxonomyTerm('Term 2', 'term2')
         ];
         expect(field.taxonomyTerms).toEqual(taxonomyList);
     });

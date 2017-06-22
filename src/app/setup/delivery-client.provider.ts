@@ -7,8 +7,8 @@ import { Actor } from '../models/actor.class';
 
 export function DeliveryClientFactory() {
 
-    let projectId = 'b52fa0db-84ec-4310-8f7c-3b94ed06644d';
-    let previewApiKey = 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAidWlkIjogInVzcl8wdlFZQkNxQXZybm81cmlmSG5pWUVHIiwNCiAgImVtYWlsIjogInJpY2hhcmRzQGtlbnRpY28uY29tIiwNCiAgInByb2plY3RfaWQiOiAiYjUyZmEwZGItODRlYy00MzEwLThmN2MtM2I5NGVkMDY2NDRkIiwNCiAgImp0aSI6ICI0aWxidVJmSnVpWFZjV0tDIiwNCiAgInZlciI6ICIxLjAuMCIsDQogICJnaXZlbl9uYW1lIjogIlJpY2hhcmQiLA0KICAiZmFtaWx5X25hbWUiOiAiU3VzdGVrIiwNCiAgImF1ZCI6ICJwcmV2aWV3LmRlbGl2ZXIua2VudGljb2Nsb3VkLmNvbSINCn0.T4BjQJOGvkAUwEjdDfqdin8PzkZntGnt-T2YKITeHrw';
+    let projectId = 'da5abe9f-fdad-4168-97cd-b3464be2ccb9';
+    let previewApiKey = 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQp9.ew0KICAidWlkIjogInVzcl8wdlFZQkNxQXZybm81cmlmSG5pWUVHIiwNCiAgImVtYWlsIjogInJpY2hhcmRzQGtlbnRpY28uY29tIiwNCiAgInByb2plY3RfaWQiOiAiZGE1YWJlOWYtZmRhZC00MTY4LTk3Y2QtYjM0NjRiZTJjY2I5IiwNCiAgImp0aSI6ICJ2cGdvRm1GcVRRdFFfZWRjIiwNCiAgInZlciI6ICIxLjAuMCIsDQogICJnaXZlbl9uYW1lIjogIlJpY2hhcmQiLA0KICAiZmFtaWx5X25hbWUiOiAiU3VzdGVrIiwNCiAgImF1ZCI6ICJwcmV2aWV3LmRlbGl2ZXIua2VudGljb2Nsb3VkLmNvbSINCn0.LBWv463D3hr_VznmIXoPPWNtXSsMoAloa5pDgMaDKZo';
 
     let typeResolvers: TypeResolver[] = [
         new TypeResolver("movie", () => new Movie()),

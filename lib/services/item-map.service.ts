@@ -1,6 +1,6 @@
 import { FieldMapService } from './field-map.service';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/item/cloud-responses';
+import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
 import { TypeResolverService } from './type-resolver.service';
 import { IModularContent } from '../interfaces/item/imodular-content.interface';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
@@ -28,7 +28,7 @@ export class ItemMapService {
      * @param response Cloud response used to map the item
      * @param queryConfig Query configuration
      */
-    mapSingleItem<TItem extends IContentItem>(response: ICloudResponseSingle, queryConfig: IItemQueryConfig): TItem {
+    mapSingleItem<TItem extends IContentItem>(response: CloudItemResponseInterfaces.ICloudResponseSingle, queryConfig: IItemQueryConfig): TItem {
         return this.mapItem<TItem>(response.item, response.modular_content, queryConfig);
     }
 
@@ -37,7 +37,7 @@ export class ItemMapService {
    * @param response Cloud response used to map the item
    * @param queryConfig Query configuration
    */
-    mapMultipleItems<TItem extends IContentItem>(response: ICloudResponseMultiple, queryConfig: IItemQueryConfig): TItem[] {
+    mapMultipleItems<TItem extends IContentItem>(response: CloudItemResponseInterfaces.ICloudResponseMultiple, queryConfig: IItemQueryConfig): TItem[] {
         var that = this;
 
         return response.items.map(function (item) {

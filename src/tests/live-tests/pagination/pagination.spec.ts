@@ -2,7 +2,7 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { DeliveryItemListingResponse } from '../../../../lib';
+import { ItemResponses } from '../../../../lib';
 
 // tests
 describe('Pagination', () => {
@@ -11,7 +11,7 @@ describe('Pagination', () => {
   setup(context);
 
   var type: string = 'movie';
-  var response: DeliveryItemListingResponse<Movie>;
+  var response: ItemResponses.DeliveryItemListingResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
@@ -20,7 +20,7 @@ describe('Pagination', () => {
       .skipParameter(1)
       .get()
       .subscribe(r => {
-        response = r as DeliveryItemListingResponse<Movie>;
+        response = r as ItemResponses.DeliveryItemListingResponse<Movie>;
         done();
       });
   });

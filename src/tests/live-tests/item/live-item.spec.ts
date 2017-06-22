@@ -2,7 +2,7 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { DeliveryItemResponse, MultipleChoiceOption } from '../../../../lib';
+import { ItemResponses, FieldModels } from '../../../../lib';
 
 // tests
 describe('Live item', () => {
@@ -11,13 +11,13 @@ describe('Live item', () => {
   setup(context);
 
   var movieCodename: string = 'warrior';
-  var response: DeliveryItemResponse<Movie>;
+  var response: ItemResponses.DeliveryItemResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.item<Movie>(movieCodename)
       .get()
       .subscribe(r => {
-        response = r as DeliveryItemResponse<Movie>;
+        response = r as ItemResponses.DeliveryItemResponse<Movie>;
         done();
       });
   });
@@ -76,7 +76,7 @@ describe('Live item', () => {
   });
 
   it(`checks that category options are of proper type`, () => {
-    expect(response.item.category.options[1]).toEqual(jasmine.any(MultipleChoiceOption));
+    expect(response.item.category.options[1]).toEqual(jasmine.any(FieldModels.MultipleChoiceOption));
   });
 
   it(`stars modular items should be defined`, () => {

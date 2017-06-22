@@ -2,14 +2,12 @@
 import { setup, Context } from '../../setup';
 
 // models
-import {
-  TextField, 
-} from '../../../../lib';
+import { Fields } from '../../../../lib';
 
 // tests
 describe('TextField', () => {
 
-    var field = new TextField('name', 'text value');
+    var field = new Fields.TextField('name', 'text value');
 
     it(`checks name`, () => {
         expect(field.name).toEqual('name');

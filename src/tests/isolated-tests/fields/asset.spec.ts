@@ -2,9 +2,7 @@
 import { setup, Context } from '../../setup';
 
 // models
-import {
-    AssetsField, AssetModel
-} from '../../../../lib';
+import { Fields, FieldModels } from '../../../../lib';
 
 // tests
 describe('AssetField', () => {
@@ -19,7 +17,7 @@ describe('AssetField', () => {
         }
     ];
 
-    var field = new AssetsField('name', assetValue);
+    var field = new Fields.AssetsField('name', assetValue);
 
     it(`checks name`, () => {
         expect(field.name).toEqual(field.name);
@@ -38,7 +36,7 @@ describe('AssetField', () => {
     });
 
     it(`checks that asset is of 'AssetModel' type`, () => {
-        expect(field.assets[0]).toEqual(jasmine.any(AssetModel));
+        expect(field.assets[0]).toEqual(jasmine.any(FieldModels.AssetModel));
     });
 
     it(`checks name of asset`, () => {

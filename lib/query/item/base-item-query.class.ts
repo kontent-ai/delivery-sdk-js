@@ -2,13 +2,13 @@
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 
 // filters
-import * as Filters from '../../models/common/filters';
+import { Filters } from '../../models/common/filters';
 
 // models
-import { DeliveryItemListingResponse, DeliveryItemResponse } from '../../models/item/responses';
+import { ItemResponses } from '../../models/item/responses';
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
-import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../../models/type/responses';
+import { TypeResponses } from '../../models/type/responses';
 import { IItemQueryConfig } from '../../interfaces/item/iitem-query.config';
 import { ItemQueryConfig } from '../../models/item/item-query.config';
 import { IHeader } from '../../interfaces/common/iheader.interface';
@@ -17,7 +17,7 @@ import { IHeader } from '../../interfaces/common/iheader.interface';
 import { BaseQuery } from '../common/base-query.class';
 
 // query params
-import * as Parameters from '../../models/common/parameters';
+import { Parameters } from '../../models/common/parameters';
 
 // rxjs
 import { Observable } from 'rxjs/Rx';
@@ -94,13 +94,13 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
         return this.getUrl(action, this.getQueryConfig(), this.parameters);
     }
 
-    protected runMultipleItemsQuery(): Observable<DeliveryItemListingResponse<TItem>> {
+    protected runMultipleItemsQuery(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
         var url = this.getMultipleItemsQueryUrl();
 
         return super.getMultipleItems(url, this.getQueryConfig());
     }
 
-    protected runSingleItemQuery(codename: string): Observable<DeliveryItemResponse<TItem>> {
+    protected runSingleItemQuery(codename: string): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         var url = this.getSingleItemQueryUrl(codename);
 
         return super.getSingleItem(url, this.getQueryConfig());

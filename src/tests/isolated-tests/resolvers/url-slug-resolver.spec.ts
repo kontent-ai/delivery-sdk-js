@@ -3,11 +3,11 @@ import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../..
 
 // models
 import {
-    UrlSlugField, ContentItem, ContentItemSystemAttributes, DeliveryItemResponse, TypeResolver
+    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver
 } from '../../../../lib';
 
 class MockMovie extends ContentItem {
-    public seoname: UrlSlugField
+    public seoname: Fields.UrlSlugField
 
     constructor() {
         super({
@@ -31,8 +31,8 @@ describe('URL slug resolver', () => {
     // mock query service
     var mockQueryService = new MockQueryService(context.getConfig());
 
-    var response: DeliveryItemResponse<MockMovie>;
-    var responseWithQueryConfig: DeliveryItemResponse<MockMovie>;
+    var response: ItemResponses.DeliveryItemResponse<MockMovie>;
+    var responseWithQueryConfig: ItemResponses.DeliveryItemResponse<MockMovie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});

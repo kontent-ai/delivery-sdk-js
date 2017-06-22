@@ -2,7 +2,7 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { DeliveryItemResponse } from '../../../../lib';
+import { ItemResponses } from '../../../../lib';
 
 // tests
 describe('Localized item', () => {
@@ -12,14 +12,14 @@ describe('Localized item', () => {
 
   var language: string = 'cz';
   var movieCodename: string = 'warrior';
-  var response: DeliveryItemResponse<Movie>;
+  var response: ItemResponses.DeliveryItemResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.item<Movie>(movieCodename)
       .languageParameter(language)
       .get()
       .subscribe(r => {
-        response = r as DeliveryItemResponse<Movie>;
+        response = r as ItemResponses.DeliveryItemResponse<Movie>;
         done();
       });
   });

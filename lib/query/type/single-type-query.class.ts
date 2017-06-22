@@ -2,10 +2,10 @@
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 
 // models
-import { DeliveryTypeResponse } from '../../models/type/responses';
+import { TypeResponses } from '../../models/type/responses';
 
 // query params
-import * as Parameters from '../../models/common/parameters';
+import  { Parameters } from '../../models/common/parameters';
 
 // base query
 import { BaseTypeQuery } from './base-type-query.class';
@@ -20,11 +20,15 @@ export class SingleTypeQuery extends BaseTypeQuery {
         private typeCodename: string
     ) {
         super(config)
+
+           if (!typeCodename){
+            throw Error(`'typeCodename' cannot be null for 'SingleTypeQuery' query`);
+        }
     }
 
     // execution
 
-    get(): Observable<DeliveryTypeResponse> {
+    get(): Observable<TypeResponses.DeliveryTypeResponse> {
         return super.runSingleTypeQuery(this.typeCodename)
     }
 

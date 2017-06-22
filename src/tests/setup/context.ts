@@ -1,5 +1,5 @@
 import {
-  DeliveryClient, DeliveryItemResponse, DeliveryItemListingResponse, TypeResolver, DeliveryClientConfig
+  DeliveryClient, TypeResolver, DeliveryClientConfig
 } from '../../../lib';
 
 export class Context {

@@ -1,5 +1,4 @@
 export class CloudError{
-
     constructor(
         public message: string,
         public request_id: number,

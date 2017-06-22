@@ -3,12 +3,14 @@ import { IContentTypeSystemAttributes } from './icontent-type-system-attributes.
 import { IContentTypeElement } from './icontent-type-element.interface';
 import { IPagination } from '../common/ipagination.interface';
 
-export interface ICloudMultipleTypeResponse{
-    types: IContentType[];
-    pagination: IPagination;
-}
+export namespace CloudTypeResponseInterfaces {
+    export interface ICloudMultipleTypeResponse {
+        types: IContentType[];
+        pagination: IPagination;
+    }
 
-export interface ICloudSingleTypeResponse{
-    system: IContentTypeSystemAttributes;
-    elements: IContentTypeElement[];
+    export interface ICloudSingleTypeResponse {
+        system: IContentTypeSystemAttributes;
+        elements: IContentTypeElement[];
+    }
 }

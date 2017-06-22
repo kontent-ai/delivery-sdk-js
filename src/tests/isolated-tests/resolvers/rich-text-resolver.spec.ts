@@ -3,15 +3,15 @@ import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../..
 
 // models
 import {
-    RichTextField, TextField, ContentItem, ContentItemSystemAttributes, DeliveryItemResponse, TypeResolver
+   Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver
 } from '../../../../lib';
 
 class MockMovie extends ContentItem {
-    public plot: RichTextField
+    public plot: Fields.RichTextField
 }
 
 class MockActor extends ContentItem {
-    public first_name: TextField
+    public first_name: Fields.TextField
 
     constructor() {
         super({
@@ -36,8 +36,8 @@ describe('Rich text resolver', () => {
     // mock query service
     var mockQueryService = new MockQueryService(context.getConfig());
 
-    var response: DeliveryItemResponse<MockMovie>;
-    var responseWithQueryConfig: DeliveryItemResponse<MockMovie>;
+    var response: ItemResponses.DeliveryItemResponse<MockMovie>;
+    var responseWithQueryConfig: ItemResponses.DeliveryItemResponse<MockMovie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});

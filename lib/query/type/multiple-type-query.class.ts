@@ -3,10 +3,10 @@
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 
 // models
-import { DeliveryTypeListingResponse } from '../../models/type/responses';
+import { TypeResponses } from '../../models/type/responses';
 
 // query params
-import * as Parameters from '../../models/common/parameters';
+import { Parameters } from '../../models/common/parameters';
 
 // base query
 import { BaseTypeQuery } from './base-type-query.class';
@@ -35,7 +35,7 @@ export class MultipleTypeQuery extends BaseTypeQuery {
 
     // execution
 
-    get(): Observable<DeliveryTypeListingResponse> {
+    get(): Observable<TypeResponses.DeliveryTypeListingResponse> {
         return super.runMultipleTypesQuery();
     }
 

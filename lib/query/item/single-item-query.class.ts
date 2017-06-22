@@ -2,12 +2,9 @@
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 
 // models
-import { DeliveryItemResponse } from '../../models/item/responses';
+import { ItemResponses } from '../../models/item/responses';
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { IHeader } from '../../interfaces/common/iheader.interface';
-
-// query params
-import * as Parameters from '../../models/common/parameters';
 
 // services
 import { BaseItemQuery } from './base-item-query.class';
@@ -30,7 +27,7 @@ export class SingleItemQuery<TItem extends IContentItem> extends BaseItemQuery<T
 
     // execution
 
-    get(): Observable<DeliveryItemResponse<TItem>> {
+    get(): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return super.runSingleItemQuery(this.codename);
     }
 

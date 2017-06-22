@@ -1,4 +1,4 @@
-import { ICloudMultipleTypeResponse, ICloudSingleTypeResponse } from '../interfaces/type/cloud-responses';
+import { CloudTypeResponseInterfaces } from '../interfaces/type/cloud-responses';
 import { IContentType } from '../interfaces/type/icontent-type.interface';
 import { ContentType } from '../models/type/content-type.class';
 import { ContentTypeSystemAttributes } from '../models/type/content-type-system-attributes.class';
@@ -43,11 +43,11 @@ export class TypeMapService {
         return new ContentType(typeSystem, elements);
     }
 
-    mapSingleType(response: ICloudSingleTypeResponse): ContentType {
+    mapSingleType(response: CloudTypeResponseInterfaces.ICloudSingleTypeResponse): ContentType {
         return this.mapType(response as IContentType);
     }
 
-    mapMultipleTypes(response: ICloudMultipleTypeResponse): ContentType[] {
+    mapMultipleTypes(response: CloudTypeResponseInterfaces.ICloudMultipleTypeResponse): ContentType[] {
         var that = this;
         return response.types.map(function (type) {
             return that.mapType(type);

@@ -1,13 +1,9 @@
-import {
-  ContentItem, TextField, NumberField, DateTimeField,
-  RichTextField, AssetsField, MultipleChoiceField, UrlSlugField, TaxonomyField
-} from '../../../lib';
-
+import { ContentItem, Fields } from '../../../lib';
 
 export class Actor extends ContentItem {
-  public firstName: TextField;
-  public lastName: TextField;
-  public photo: AssetsField;
+  public firstName: Fields.TextField;
+  public lastName: Fields.TextField;
+  public photo: Fields.AssetsField;
 
   constructor() {
     super({
@@ -31,15 +27,15 @@ export class Actor extends ContentItem {
 }
 
 export class Movie extends ContentItem {
-  public title: TextField;
-  public plot: RichTextField;
-  public released: DateTimeField;
-  public length: NumberField;
-  public poster: AssetsField;
-  public category: MultipleChoiceField;
+  public title: Fields.TextField;
+  public plot: Fields.RichTextField;
+  public released: Fields.DateTimeField;
+  public length: Fields.NumberField;
+  public poster: Fields.AssetsField;
+  public category: Fields.MultipleChoiceField;
   public stars: Actor[];
-  public seoname: UrlSlugField;
-  public releaseCategory: TaxonomyField;
+  public seoname: Fields.UrlSlugField;
+  public releaseCategory: Fields.TaxonomyField;
 
   constructor() {
     super({

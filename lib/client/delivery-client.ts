@@ -6,8 +6,6 @@ import { IDeliveryClient } from './idelivery-client.interface';
 
 // models
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { DeliveryItemListingResponse, DeliveryItemResponse } from '../models/item/responses';
-import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
 
 // queries
 import { SingleTypeQuery } from '../query/type/single-type-query.class';

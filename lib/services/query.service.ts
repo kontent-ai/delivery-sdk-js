@@ -10,13 +10,13 @@ import 'rxjs/add/operator/map';
 import 'rxjs/observable/throw';
 
 // models
-import { DeliveryItemListingResponse, DeliveryItemResponse } from '../models/item/responses';
-import { ICloudResponseSingle, ICloudResponseMultiple } from '../interfaces/item/cloud-responses';
+import { ItemResponses} from '../models/item/responses';
+import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
 import { Pagination } from '../models/common/pagination.class';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { ICloudMultipleTypeResponse, ICloudSingleTypeResponse } from '../interfaces/type/cloud-responses';
+import { CloudTypeResponseInterfaces } from '../interfaces/type/cloud-responses';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
-import { DeliveryTypeListingResponse, DeliveryTypeResponse } from '../models/type/responses';
+import { TypeResponses } from '../models/type/responses';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { IHeader } from '../interfaces/common/iheader.interface';
 import { Header } from '../models/common/header.class';
@@ -125,17 +125,17 @@ export abstract class QueryService {
         return error;
     }
 
-    protected getSingleTypeResponse(json: any): DeliveryTypeResponse {
-        var cloudResponse = json as ICloudSingleTypeResponse;
+    protected getSingleTypeResponse(json: any): TypeResponses.DeliveryTypeResponse {
+        var cloudResponse = json as CloudTypeResponseInterfaces.ICloudSingleTypeResponse;
 
         // map type
         var type = this.typeMapService.mapSingleType(cloudResponse);
 
-        return new DeliveryTypeResponse(type);
+        return new TypeResponses.DeliveryTypeResponse(type);
     }
 
-    protected getMultipleTypeResponse(json: any, options?: IQueryParameter[]): DeliveryTypeListingResponse {
-        var cloudResponse = json as ICloudMultipleTypeResponse;
+    protected getMultipleTypeResponse(json: any, options?: IQueryParameter[]): TypeResponses.DeliveryTypeListingResponse {
+        var cloudResponse = json as CloudTypeResponseInterfaces.ICloudMultipleTypeResponse;
 
         // map types
         var types = this.typeMapService.mapMultipleTypes(cloudResponse);
@@ -148,7 +148,7 @@ export abstract class QueryService {
             cloudResponse.pagination.next_page
         );
 
-        return new DeliveryTypeListingResponse(types, pagination);
+        return new TypeResponses.DeliveryTypeListingResponse(types, pagination);
     }
 
     protected getAuthorizationHeader(): IHeader {
@@ -180,17 +180,17 @@ export abstract class QueryService {
         return headerJson;
     }
 
-    protected getSingleResponse<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): DeliveryItemResponse<TItem> {
-        var cloudResponse = json as ICloudResponseSingle;
+    protected getSingleResponse<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
+        var cloudResponse = json as CloudItemResponseInterfaces.ICloudResponseSingle;
 
         // map item
         var item = this.itemMapService.mapSingleItem<TItem>(cloudResponse, queryConfig);
 
-        return new DeliveryItemResponse(item);
+        return new ItemResponses.DeliveryItemResponse(item);
     }
 
-    protected getMultipleResponse<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): DeliveryItemListingResponse<TItem> {
-        var cloudResponse = json as ICloudResponseMultiple;
+    protected getMultipleResponse<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
+        var cloudResponse = json as CloudItemResponseInterfaces.ICloudResponseMultiple;
 
         // map items
         var items = this.itemMapService.mapMultipleItems<TItem>(cloudResponse, queryConfig);
@@ -203,10 +203,10 @@ export abstract class QueryService {
             cloudResponse.pagination.next_page
         );
 
-        return new DeliveryItemListingResponse(items, pagination);
+        return new ItemResponses.DeliveryItemListingResponse(items, pagination);
     }
 
-    protected getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<DeliveryItemResponse<TItem>> {
+    protected getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return ajax.getJSON(url, this.getHeadersJson(queryConfig))
             .map(json => {
                 return this.getSingleResponse<TItem>(json, queryConfig)
@@ -216,7 +216,7 @@ export abstract class QueryService {
             });
     }
 
-    protected getMultipleItems<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<DeliveryItemListingResponse<TItem>> {
+    protected getMultipleItems<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
         return ajax.getJSON(url, this.getHeadersJson(queryConfig))
             .map(json => {
                 return this.getMultipleResponse(json, queryConfig)
@@ -226,7 +226,7 @@ export abstract class QueryService {
             });
     }
 
-    protected getSingleType(url: string): Observable<DeliveryTypeResponse> {
+    protected getSingleType(url: string): Observable<TypeResponses.DeliveryTypeResponse> {
         return ajax.getJSON(url)
             .map(json => {
                 return this.getSingleTypeResponse(json)
@@ -236,7 +236,7 @@ export abstract class QueryService {
             });
     }
 
-    protected getMultipleTypes(url: string): Observable<DeliveryTypeListingResponse> {
+    protected getMultipleTypes(url: string): Observable<TypeResponses.DeliveryTypeListingResponse> {
         return ajax.getJSON(url)
             .map(json => {
                 return this.getMultipleTypeResponse(json)

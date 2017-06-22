@@ -2,7 +2,7 @@
 import * as parse5 from 'parse5';
 
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { Parse5Attribute, Parse5Node } from './internal-models';
+import { FieldModels } from './field-models';
 
 export class RichTextResolver {
 
@@ -49,7 +49,7 @@ export class RichTextResolver {
         var documentFragment = parse5.parseFragment(this.html) as any;
 
         // recursively process all child nodes
-        this.processChildNodes(documentFragment.childNodes as Parse5Node[]);
+        this.processChildNodes(documentFragment.childNodes as FieldModels.Parse5Node[]);
 
         // serliaze document go get string as HTML
         var resolvedHtml = parse5.serialize(documentFragment);
@@ -57,7 +57,7 @@ export class RichTextResolver {
         return resolvedHtml;
     }
 
-    private processChildNodes(childNodes: Parse5Node[]): void {
+    private processChildNodes(childNodes: FieldModels.Parse5Node[]): void {
         if (childNodes) {
             if (!Array.isArray(childNodes)) {
                 throw Error(`Cannot process modular content in 'RichTextField' because child nodes is not an array`);
@@ -72,7 +72,7 @@ export class RichTextResolver {
                     return this.processChildNodes(null);
                 }
 
-                var attributes = node.attrs as Parse5Attribute[]; // array of attributes => name/value pair
+                var attributes = node.attrs as FieldModels.Parse5Attribute[]; // array of attributes => name/value pair
                 var modularContentAttribute = attributes.find(m => m.value === this.objectType && m.name === 'type');
                 if (!modularContentAttribute) {
                     return null;
@@ -121,7 +121,7 @@ export class RichTextResolver {
                 var serializedHtml = parse5.parseFragment(replaceHtml) as any;
 
                 // add replaced html to node
-                node.childNodes = serializedHtml.childNodes as Parse5Node[];
+                node.childNodes = serializedHtml.childNodes as FieldModels.Parse5Node[];
             });
         }
     }

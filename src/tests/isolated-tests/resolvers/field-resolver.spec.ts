@@ -3,13 +3,13 @@ import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../..
 
 // models
 import {
-    TextField, NumberField, DateTimeField, ContentItem, ContentItemSystemAttributes, DeliveryItemResponse, TypeResolver
+    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver
 } from '../../../../lib';
 
 class MockMovie extends ContentItem {
-    public titleTest: TextField;
-    public test_released: DateTimeField;
-    public justNumber: NumberField;
+    public titleTest: Fields.TextField;
+    public test_released: Fields.DateTimeField;
+    public justNumber: Fields.NumberField;
 
     constructor() {
         super({
@@ -41,7 +41,7 @@ describe('Field resolver', () => {
     // mock query service
     var mockQueryService = new MockQueryService(context.getConfig())
 
-    var response: DeliveryItemResponse<MockMovie>;
+    var response: ItemResponses.DeliveryItemResponse<MockMovie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});

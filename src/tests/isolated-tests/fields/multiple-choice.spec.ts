@@ -2,9 +2,7 @@
 import { setup, Context } from '../../setup';
 
 // models
-import {
-    MultipleChoiceField, MultipleChoiceOption
-} from '../../../../lib';
+import { FieldModels, Fields } from '../../../../lib';
 
 // tests
 describe('MultipleChoiceField', () => {
@@ -20,7 +18,7 @@ describe('MultipleChoiceField', () => {
         }
     ];
 
-    var field = new MultipleChoiceField('name', multipleChoiceValue);
+    var field = new Fields.MultipleChoiceField('name', multipleChoiceValue);
 
     it(`checks name`, () => {
         expect(field.name).toEqual(field.name);
@@ -39,7 +37,7 @@ describe('MultipleChoiceField', () => {
     });
 
     it(`checks that options are of 'MultipleChoiceOption' type`, () => {
-        expect(field.options[0]).toEqual(jasmine.any(MultipleChoiceOption));
+        expect(field.options[0]).toEqual(jasmine.any(FieldModels.MultipleChoiceOption));
     });
 
     it(`checks name of the option`, () => {

@@ -2,7 +2,7 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { DeliveryItemListingResponse, MultipleChoiceOption } from '../../../../lib';
+import { ItemResponses, FieldModels } from '../../../../lib';
 
 // tests
 describe('Live items', () => {
@@ -11,14 +11,14 @@ describe('Live items', () => {
   setup(context);
 
   var type: string = 'movie';
-  var response: DeliveryItemListingResponse<Movie>;
+  var response: ItemResponses.DeliveryItemListingResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
       .type(type)
       .get()
       .subscribe(r => {
-        response = r as DeliveryItemListingResponse<Movie>;
+        response = r as ItemResponses.DeliveryItemListingResponse<Movie>;
         done();
       });
   });

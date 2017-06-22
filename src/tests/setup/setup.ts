@@ -5,9 +5,7 @@ import { TestBed } from '@angular/core/testing';
 import { Actor, Movie } from '../setup';
 
 // delivery client
-import {
-    DeliveryClient, TypeResolver, DeliveryClientConfig
-} from '../../../lib';
+import { DeliveryClient, TypeResolver, DeliveryClientConfig} from '../../../lib';
 
 // context
 import { Context } from './context';

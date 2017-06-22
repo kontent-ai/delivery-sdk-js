@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeliveryClient, SortOrder, CloudError } from '../../lib';
+import { DeliveryClient, SortOrder, CloudError, ItemResponses } from '../../lib';
 import { Actor } from './models/actor.class';
 import { Movie } from './models/movie.class';
 
