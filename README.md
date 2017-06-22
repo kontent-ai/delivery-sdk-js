@@ -90,12 +90,12 @@ Supported query parameters: `depthParameter`, `elementsParameter`, `limitParamet
 
 ### Filtering
 
-This example returns all **Movie** content items whose **name** element is equal to **Warrior**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Cloud API reference for more general examples.
+This example returns all **Movie** content items whose **title** element is equal to **Warrior**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Cloud API reference for more general examples.
 
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')
-  .equalsFilter('elements.name', 'Warrior')
+  .equalsFilter('elements.title', 'Warrior')
   .get()
   .subscribe(response => console.log(response));
 ```
@@ -107,13 +107,13 @@ Supported filters: `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')
-  .orderParameter('elements.name', SortOrder.desc)
+  .orderParameter('elements.title', SortOrder.desc)
   .get()
   .subscribe(response => console.log(response));
 
 deliveryClient.items<Movie>()
   .type('movie')
-  .orderParameter('elements.name', SortOrder.asc)
+  .orderParameter('elements.title', SortOrder.asc)
   .get()
   .subscribe(response => console.log(response));
 ```
