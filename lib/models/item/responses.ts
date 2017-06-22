@@ -38,8 +38,8 @@ export class DeliveryItemListingResponse<TItem extends IContentItem> {
         if (!this.items) {
             this.isEmpty = true;
         }
-        else{
-            this.isEmpty = false;
+        else {
+            this.isEmpty = this.items.length <= 0;
         }
     }
 
@@ -60,12 +60,28 @@ export class DeliveryItemListingResponse<TItem extends IContentItem> {
 export class DeliveryItemResponse<TItem extends IContentItem> {
 
     /**
+     * Indicates if response contains item
+     */
+    public isEmpty: boolean;
+
+    /**
     * Response containing single item
     * @constructor
     * @param {TItem} item - Returned item
     */
     constructor(
         public item: TItem
-    ) { }
+    ) {
+        this.initIsEmpty();
+    }
+
+    private initIsEmpty(): void {
+        if (!this.item) {
+            this.isEmpty = true;
+        }
+        else {
+            this.isEmpty = false;
+        }
+    }
 }
 
