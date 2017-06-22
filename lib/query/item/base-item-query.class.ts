@@ -79,11 +79,17 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
             this.parameters.push(new Filters.EqualsFilter("system.type", this._contentType));
         }
 
+        // add default language is necessry
+        this.processDefaultLanguageParameter();
+
         return this.getUrl(action, this.getQueryConfig(), this.parameters);
     }
 
     protected getSingleItemQueryUrl(codename: string): string {
         var action = '/items/' + codename;
+
+        // add default language is necessry
+        this.processDefaultLanguageParameter();
 
         return this.getUrl(action, this.getQueryConfig(), this.parameters);
     }
@@ -98,5 +104,16 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
         var url = this.getSingleItemQueryUrl(codename);
 
         return super.getSingleItem(url, this.getQueryConfig());
+    }
+
+    private processDefaultLanguageParameter(): void {
+        // add default language if none is specified && default language is specified globally
+        if (this.config.defaultLanguage) {
+            var languageParameter = this.parameters.find(m => m.GetParam() === 'language');
+            if (!languageParameter) {
+                // language parameter was not specified in query, use globally defined language
+                this.parameters.push(new Parameters.LanguageParameter(this.config.defaultLanguage));
+            }
+        }
     }
 }

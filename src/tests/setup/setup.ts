@@ -44,13 +44,15 @@ export function setup(context: Context) {
 
     var deliveryClientConfig: DeliveryClientConfig = new DeliveryClientConfig(projectId, typeResolvers, {
         previewApiKey: previewApiKey,
-        enablePreviewMode: context.usePreviewMode
+        enablePreviewMode: context.usePreviewMode,
+        defaultLanguage: context.defaultLanguage
     })
 
     // set context
     context.projectId = projectId;
     context.previewApiKey = previewApiKey;
     context.typeResolvers = typeResolvers;
+    context.defaultLanguage = context.defaultLanguage;
 
     // set delivery client
     context.deliveryClient = new DeliveryClient(deliveryClientConfig);

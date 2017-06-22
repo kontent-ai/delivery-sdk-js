@@ -120,9 +120,22 @@ deliveryClient.items<Character>()
 
 ### Getting localized items
 
-[Localized items](https://developer.kenticocloud.com/v1/docs/localization) can be retrieved with `languageParameter`. If none is specified, default language will be used.
+You can specify the [language of items](https://developer.kenticocloud.com/v1/docs/localization) with `languageParameter` of particular query. You can also specify default language that will be used if `languageParameter` is not used during the initialization of `DeliveryClientConfig`. 
 
 ```typescript
+var deliveryClient = new DeliveryClient(
+  new DeliveryClientConfig(projectId, typeResolvers,
+  {
+    defaultLanguage: 'es'
+  })
+)
+
+// gets items in 'es' language
+deliveryClient.item<Character>('itemCodeName')
+  .get()
+  .subscribe(response => console.log(response));
+
+// gets items in 'en' language
 deliveryClient.item<Character>('itemCodeName')
   .languageParameter(`en`)
   .get()

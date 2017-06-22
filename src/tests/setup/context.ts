@@ -8,6 +8,7 @@ export class Context {
   public previewApiKey: string;
   public deliveryClient: DeliveryClient;
   public usePreviewMode: boolean;
+  public defaultLanguage: string;
 
   constructor(
     options?: {
@@ -15,7 +16,8 @@ export class Context {
       projectId?: string,
       previewApiKey?: string,
       deliveryClient?: DeliveryClient,
-      usePreviewMode?: boolean
+      usePreviewMode?: boolean,
+      defaultLanguage?: string
     }
   ) {
     if (options) {
@@ -30,7 +32,8 @@ export class Context {
       {
         enableAdvancedLogging: true,
         enablePreviewMode: this.usePreviewMode,
-        previewApiKey: this.previewApiKey
+        previewApiKey: this.previewApiKey,
+        defaultLanguage: this.defaultLanguage
       }
     );
   }

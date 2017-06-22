@@ -2,7 +2,7 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { DeliveryItemResponse, MultipleChoiceOption } from '../../../../lib';
+import { DeliveryItemResponse } from '../../../../lib';
 
 // tests
 describe('Localized item', () => {

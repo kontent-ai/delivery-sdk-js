@@ -3,7 +3,7 @@ import { TypeResolver } from '../models/item/type-resolver.class';
 export class DeliveryClientConfig {
 
     /**
-    * Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.
+    * Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production
     */
     public enableAdvancedLogging: boolean = true;
 
@@ -18,6 +18,11 @@ export class DeliveryClientConfig {
     public enablePreviewMode: boolean;
 
     /**
+     * Default content language, can be overidden with languageParameter method
+     */
+    public defaultLanguage: string;
+
+    /**
     * Configuration of Kentico Cloud Delivery client
     * @constructor
     * @param {FieldType} projectId - ProjectId of your Kentico Cloud project
@@ -25,6 +30,7 @@ export class DeliveryClientConfig {
     * @param {boolean} enableAdvancedLogging - Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.
     * @param {string} previewApiKey - Preview API key used to get unpublished content items 
     * @param {boolean} enablePreviewMode - Indicates if preview mode is enabled globally
+    * @param {string} defaultLanguage - Sets default language that will be used for all queries unless overriden with query parameters
     */
     constructor(
         public projectId: string,
@@ -32,7 +38,8 @@ export class DeliveryClientConfig {
         public options?: {
             enableAdvancedLogging?: boolean,
             previewApiKey?: string,
-            enablePreviewMode?: boolean
+            enablePreviewMode?: boolean,
+            defaultLanguage?: string
 
         }) {
 
