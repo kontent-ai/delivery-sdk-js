@@ -28,13 +28,13 @@ export class RichTextResolver {
     * @param {string} html - html to resolve
     * @param {IContentItem} modularItems - modular items
     * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
-    * @param {<IContentItem>(item: IContentItem) => string} richTextResolverDefinedByQuery - If set, this resolved will be used to resolve modular content instead of the ones defined in model classes
+    * @param {<TItem extends IContentItem>(item: IContentItem) => string} richTextResolverDefinedByQuery - If set, this resolved will be used to resolve modular content instead of the ones defined in model classes
     */
     constructor(
         private html: string,
         private modularItems: IContentItem[],
         private enableAdvancedLogging: boolean,
-        private richTextResolverDefinedByQuery?: <IContentItem>(item: IContentItem) => string
+        private richTextResolverDefinedByQuery?: <TItem extends IContentItem>(item: TItem) => string
     ) {
     };
 
@@ -97,7 +97,7 @@ export class RichTextResolver {
 
                 // get html to replace object using Rich text resolver function
 
-                var resolver: <IContentItem>(item: IContentItem) => string;
+                var resolver: <TItem extends IContentItem>(item: TItem) => string;
                 if (this.richTextResolverDefinedByQuery) {
                     // use resolved defined by query if available
                     resolver = this.richTextResolverDefinedByQuery;

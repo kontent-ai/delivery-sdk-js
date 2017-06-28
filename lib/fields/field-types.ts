@@ -118,14 +118,14 @@ export namespace Fields {
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
         * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
-        * @param {<IContentItem>(item: IContentItem) => string} richTextResolverDefinedByQuery - If set, this resolved will be used to resolve modular content instead of the ones defined in model classes
+        * @param {<TItem extends IContentItem>(item: TItem) => string} richTextResolverDefinedByQuery - If set, this resolved will be used to resolve modular content instead of the ones defined in model classes
         */
         constructor(
             public name: string,
             public value: any,
             public modularItems: IContentItem[],
             public enableAdvancedLogging: boolean,
-            public richTextResolverDefinedByQuery?: <IContentItem>(item: IContentItem) => string
+            public richTextResolverDefinedByQuery?: <TItem extends IContentItem>(item: TItem) => string
         ) {
             this.items = modularItems;
         };

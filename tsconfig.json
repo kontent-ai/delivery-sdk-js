@@ -1,8 +1,8 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "compilerOptions": {
+    "baseUrl": ".",
     "outDir": "./dist",
-    "baseUrl": "src",
     "sourceMap": true,
     "declaration": true,
     "moduleResolution": "node",
@@ -16,9 +16,13 @@
       "es2016",
       "dom"
     ]
- },
+  },
   "include": [
     "lib/**/*",
     "spec/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dev-test"
   ]
 }

@@ -427,11 +427,9 @@ console.log(queryText);
 // https://deliver.kenticocloud.com/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
 ```
 
-## Tests
+## Scripts
 
-- Run `ng test` to run tests
+- Use `npm test` to run all tests once 
+- Use `npm run dev-test` to run developer tests created in `dev-test` folder. Use this for your testing purposes.
+- Use `npm run build` to generate definitions & dist from the contents of `lib` folder
 
-## Build (only for Git repo)
-
-- Run `gulp build` to generate definitions & dist from the contents of `lib` folder
-- Run `ng serve` to run testing angular2 app

@@ -10,13 +10,15 @@ module.exports = function (config) {
         ],
         files: [
             { pattern: "lib/**/*.ts" },
-            { pattern: "test/**/*.ts" }
+            { pattern: "test/setup/*.ts" },
+            { pattern: "dev-test/**/*.ts" }
         ],
         exclude: [
         ],
         preprocessors: {
             "lib/**/*.ts": ["karma-typescript", "coverage"],
-            "test/**/*.ts": ["karma-typescript"]
+            "test/setup/*.ts": ["karma-typescript", "coverage"],
+            "dev-test/**/*.ts": ["karma-typescript"]
         },
         reporters: ["kjhtml", "progress",],
         browsers: ["Chrome"],
@@ -33,11 +35,11 @@ module.exports = function (config) {
                 ]
             },
         },
-        port: 9669,
+        port: 9668,
         colors: true,
-        autoWatch: false,
+        autoWatch: true,
         browsers: ["Chrome"],
-        singleRun: true,
+        singleRun: false,
         logLevel: config.LOG_ERROR,
     });
 };
