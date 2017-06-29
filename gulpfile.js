@@ -16,11 +16,8 @@ gulp.task('build', function() {
 });
 
 gulp.task('clean', function () {
-    return gulp.src('dist', { read: false })
-        .pipe(clean());
+    return gulp.src(['dist', 'definitions'], { read: false })
+        .pipe(clean())
 });
 
-gulp.task('watch', ['default'], function() {
-    gulp.watch('src/*.ts', ['default']);
-});
 
