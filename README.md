@@ -433,6 +433,6 @@ console.log(queryText);
 - Use `npm run dev-test` to run developer tests created in `dev-test` folder. Use this for your testing purposes.
 - Use `npm run build` to generate definitions & dist from the contents of `lib` folder
 
-## Feedback & Contributing
+## Feedback & Contribution
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
