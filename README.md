@@ -161,6 +161,10 @@ export class Movie extends ContentItem {
 
 Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField` and `TaxonomyField`
 
+#### Don't want to waste time creating models manually? 
+
+Try [Kentico Cloud model generator utility](https://www.npmjs.com/package/kentico-cloud-model-generator-utility) package that can generate `typescript` models out of your Kentico Cloud project automatically.
+
 ### Nesting modular content 
 
 To include modular content, simply reference a given type class:
