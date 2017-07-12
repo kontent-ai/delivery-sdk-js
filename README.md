@@ -435,4 +435,4 @@ console.log(queryText);
 
 ## Feedback & Contributing
 
-Check out the [contributing](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/blob/master/CONTRIBUTING.md) page to see the best places to file issues, start discussions, and begin contributing.
+Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
