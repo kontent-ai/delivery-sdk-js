@@ -16,10 +16,9 @@ describe('Developer tests', () => {
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(movieCodename)
             .get()
-            .subscribe(r => {
-                response = r as ItemResponses.DeliveryItemResponse<Movie>;
-                done();
-            });
+            .toPromise()
+            .then(r => response = r)
+            .catch(err => console.log('error:' + err));
     });
 
     it(`Text #1`, () => {

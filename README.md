@@ -54,7 +54,7 @@ deliveryClient.items<Movie>()
 
 ## API Documentation
 
-### Getting data
+### Getting data (Observable)
 
 To get multiple content items, use the `items` method. You can specify content type with the `type` method:
 
@@ -71,6 +71,18 @@ To get a single content item, use the `item` method:
 deliveryClient.item<Movie>('movieCodename')
   .get()
   .subscribe(response => console.log(response));
+```
+
+### Getting data (Promise)
+
+Get methods return rxjs [Observable](http://reactivex.io/rxjs/manual/overview.html#introduction) which is more powerful than a Promise (they are easily cancellable, repeatable...), but you might want to use `Promises` instead depending on your scenario & application. Luckily, converting an `Observable` to a `Promise` is very easy with [toPromise()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-toPromise) method.
+
+```typescript
+deliveryClient.item<Movie>('movieCodename')
+  .get()
+  .toPromise()
+    .then(response => console.log(response))
+    .catch(err => console.log('error:' + err));
 ```
 
 ### Using query parameters
