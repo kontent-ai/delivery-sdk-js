@@ -215,8 +215,10 @@ export class Actor extends ContentItem {
         if (fieldName === 'lastname') {
           return 'lastName';
         }
+        return fieldName;
       })
-    }
+    });
+  }
 }
 ```
 
