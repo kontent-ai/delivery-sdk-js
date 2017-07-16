@@ -125,7 +125,7 @@ export namespace Parameters {
         constructor(
             public depth: number
         ) {
-            if (depth <= 0) {
+            if (depth < 0) {
                 throw Error(`'DepthParameter' must specify a positive integer or zero`);
             }
         }

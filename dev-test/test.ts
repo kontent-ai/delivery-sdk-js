@@ -4,6 +4,7 @@ import { setup, Context, Actor, Movie } from '../test/setup';
 // models
 import { ItemResponses, FieldModels } from '../lib';
 
+/*
 // tests
 describe('Developer tests', () => {
 
@@ -12,7 +13,7 @@ describe('Developer tests', () => {
 
     var movieCodename: string = 'warrior';
     var response: ItemResponses.DeliveryItemResponse<Movie>;
-
+   
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(movieCodename)
             .get()
@@ -27,3 +28,4 @@ describe('Developer tests', () => {
     });
 });
 
+*/
