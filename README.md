@@ -210,7 +210,7 @@ export class Actor extends ContentItem {
     super({
       propertyResolver: ((fieldName: string) => {
         if (fieldName === 'firstname') { // lowercase field returned by Kentico delivery API
-          return 'firstName'; // name of 'Person.lastName' property
+          return 'firstName'; // name of 'Actor.firstName' property
         }
         if (fieldName === 'lastname') {
           return 'lastName';
