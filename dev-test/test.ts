@@ -4,8 +4,8 @@ import { setup, Context, Actor, Movie } from '../test/setup';
 // models
 import { ItemResponses, FieldModels } from '../lib';
 
-/*
-// tests
+
+// dev tests
 describe('Developer tests', () => {
 
     var context = new Context();
@@ -17,15 +17,28 @@ describe('Developer tests', () => {
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(movieCodename)
             .get()
-            .toPromise()
-            .then(r => response = r)
-            .catch(err => console.log('error:' + err));
+            .subscribe(r => {
+                response = r;
+                done();
+            })
     });
 
-    it(`Text #1`, () => {
+    it(`Test #1`, () => {
         console.log(response.item);
+        var html = response.item.plot.getHtml();
+        expect(response).toBeDefined();
+    });
+
+    it(`Link in rich text should be resolved using global url slug resolver`, () => {
+        var html = response.item.plot.getHtml();
+        expect(response).toBeDefined();
+    });
+
+    it(`Link in rich text should be resolved using url slug resolver defined by query`, () => {
+        console.log(response.item);
+        var html = response.item.plot.getHtml();
+        console.log(html);
         expect(response).toBeDefined();
     });
 });
 
-*/

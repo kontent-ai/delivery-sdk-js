@@ -16,7 +16,7 @@ export class ItemQueryConfig implements IItemQueryConfig {
     /**
      * Callback used to resolve modular content nested in Rich text fields to proper HTML
      */
-    public richTextResolver?: <T extends IContentItem>(contentItem: T) => string;
+    public richTextResolver?: (contentItem: IContentItem) => string;
 
     /**
     * Configuration of query
@@ -29,7 +29,7 @@ export class ItemQueryConfig implements IItemQueryConfig {
         config?: {
             urlSlugResolver?: (contentItem: IContentItem, value: string) => string,
             usePreviewMode?: boolean,
-            richTextResolver?: <T extends IContentItem>(contentItem: T) => string;
+            richTextResolver?: (contentItem: IContentItem) => string;
         }) {
         if (config) Object.assign(this, config);
     }
