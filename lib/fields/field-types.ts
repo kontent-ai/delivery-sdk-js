@@ -3,6 +3,7 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { FieldInterfaces} from './field-interfaces';
 import { FieldModels } from './field-models';
 import { RichTextResolver } from './rich-text-resolver.class';
+import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 
 export namespace Fields {
     
@@ -118,14 +119,14 @@ export namespace Fields {
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
         * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
-        * @param {<TItem extends IContentItem>(item: TItem) => string} richTextResolverDefinedByQuery - If set, this resolved will be used to resolve modular content instead of the ones defined in model classes
+        * @param {IItemQueryConfig} itemQueryConfig - Item query config
         */
         constructor(
             public name: string,
             public value: any,
             public modularItems: IContentItem[],
             public enableAdvancedLogging: boolean,
-            public richTextResolverDefinedByQuery?: <TItem extends IContentItem>(item: TItem) => string
+            public itemQueryConfig: IItemQueryConfig
         ) {
             this.items = modularItems;
         };
@@ -136,7 +137,7 @@ export namespace Fields {
                 return this.resolvedHtml;
             }
 
-            var richTextHelper = new RichTextResolver(this.value, this.modularItems, this.enableAdvancedLogging, this.richTextResolverDefinedByQuery)
+            var richTextHelper = new RichTextResolver(this.value, this.modularItems, this.enableAdvancedLogging, this.itemQueryConfig)
             this.resolvedHtml = richTextHelper.resolveHtml();
 
             return this.resolvedHtml;

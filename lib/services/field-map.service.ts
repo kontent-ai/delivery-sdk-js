@@ -112,7 +112,7 @@ export class FieldMapService {
             }
         }
 
-        return new Fields.RichTextField(field.name, field.value, modularItems, this.config.enableAdvancedLogging, queryConfig.richTextResolver);
+        return new Fields.RichTextField(field.name, field.value, modularItems, this.config.enableAdvancedLogging, queryConfig);
     }
 
     private mapDateTimeField(field: FieldInterfaces.IField): Fields.DateTimeField {
@@ -140,15 +140,7 @@ export class FieldMapService {
     }
 
     private mapUrlSlugField(field: FieldInterfaces.IField, item: IContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
-        // url slug defined by the 'config' (= by calling method) has priority over type's url slug
-        var urlSlug: (item: IContentItem, value: string) => string;
-
-        if (queryConfig.urlSlugResolver) {
-            urlSlug = queryConfig.urlSlugResolver;
-        }
-        else {
-            urlSlug = item.urlSlugResolver;
-        }
+       var urlSlug = this.getUrlSlugResolverToUse(item, queryConfig);
 
         return new Fields.UrlSlugField(field.name, field.value, item, urlSlug, this.config.enableAdvancedLogging);
     }
@@ -196,5 +188,19 @@ export class FieldMapService {
         })
 
         return modularContentItems;
+    }
+
+    private getUrlSlugResolverToUse(item: IContentItem, queryConfig: IItemQueryConfig): (contentItem: IContentItem, urlSlug: string) => string {
+         // url slug defined by the 'config' (= by calling method) has priority over type's url slug
+        var urlSlug: (item: IContentItem, value: string) => string;
+
+        if (queryConfig.urlSlugResolver) {
+            urlSlug = queryConfig.urlSlugResolver;
+        }
+        else {
+            urlSlug = item.urlSlugResolver;
+        }
+
+        return urlSlug;
     }
 }

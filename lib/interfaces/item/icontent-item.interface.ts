@@ -7,6 +7,6 @@ export interface IContentItem {
 
   propertyResolver?: (fieldName: string) => string;
   urlSlugResolver?: (contentItem: IContentItem, urlSlug: string) => string;
-  richTextResolver?: <T extends IContentItem>(contentItem: T) => string;
+  richTextResolver?: (contentItem: IContentItem) => string;
 }
 

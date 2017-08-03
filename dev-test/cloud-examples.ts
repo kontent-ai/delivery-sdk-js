@@ -4,6 +4,7 @@ class Article extends ContentItem {
 
 }
 
+/*
 // tests
 describe('Kentico cloud example tests', () => {
 
@@ -48,4 +49,4 @@ describe('Kentico cloud example tests', () => {
         expect(1).toBeDefined();
     });
 });
-
+*/

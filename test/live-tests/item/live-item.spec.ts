@@ -17,7 +17,6 @@ describe('Live item', () => {
     context.deliveryClient.item<Movie>(movieCodename)
       .get()
       .subscribe(r => {
-        console.dir(r);
         response = r as ItemResponses.DeliveryItemResponse<Movie>;
         done();
       });
@@ -102,6 +101,26 @@ describe('Live item', () => {
 
   it(`url of url slug field should be resolved`, () => {
     expect(response.item.seoname.url).toEqual('testSlugUrl/warrior');
+  });
+
+  it(`checks that html contains resolved modular content #1`, () => {
+    var expectedHtml = `<p>Tom</p>`;
+    expect(response.item.plot.getHtml()).toContain(expectedHtml);
+  });
+
+  it(`checks that html contains resolved modular content #2`, () => {
+    var expectedHtml = `<p>Joel</p>`;
+    expect(response.item.plot.getHtml()).toContain(expectedHtml);
+  });
+
+  it(`checks that html contains resolved url #1`, () => {
+    var expectedHtml = `/actor/tom`;
+    expect(response.item.plot.getHtml()).toContain(expectedHtml);
+  });
+
+  it(`checks that html contains resolved url #2`, () => {
+    var expectedHtml = `/actor/joel`;
+    expect(response.item.plot.getHtml()).toContain(expectedHtml);
   });
 });
 
