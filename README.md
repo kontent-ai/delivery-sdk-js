@@ -22,6 +22,8 @@ export class Movie extends ContentItem {
 }
 ```
 
+You can use [Kentico Cloud Model Generator Utility](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)  NPM package to help you generate TypeScript models from your [Kentico Cloud](https://kenticocloud.com/) project. Read more about models and their features further in this documentation.
+
 ### Initialize DeliveryClient
 
 ```typescript
