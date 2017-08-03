@@ -17,6 +17,9 @@ export class Actor extends ContentItem {
         if (fieldName === 'last_name') {
           return 'lastName';
         }
+      },
+      urlSlugResolver: (item: Actor, urlSlug: string) => {
+        return '/actor/' + urlSlug
       }
     })
   }
