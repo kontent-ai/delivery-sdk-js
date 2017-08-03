@@ -1,12 +1,12 @@
 import { FieldType } from './field-type';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { FieldInterfaces} from './field-interfaces';
+import { FieldInterfaces } from './field-interfaces';
 import { FieldModels } from './field-models';
 import { RichTextResolver } from './rich-text-resolver.class';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 
 export namespace Fields {
-    
+
     export class TextField implements FieldInterfaces.IField {
 
         /**
@@ -227,24 +227,27 @@ export namespace Fields {
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
         * @param {string} contentItemType - Type of the content item
-        * @param {(contentItem: IContentItem, urlSlug: string) => string} urlSlugResolver - Callback used to resolve URL slug of the item with type
+        * @param {((contentItem: IContentItem, urlSlug: string) => string) | undefined} urlSlugResolver - Callback used to resolve URL slug of the item with type
         * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
         */
         constructor(
             public name: string,
             public value: string,
             public contentItem: IContentItem,
-            public urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => string,
+            public urlSlugResolver: ((contentItem: IContentItem, urlSlug: string) => string) | undefined,
             public enableAdvancedLogging: boolean
         ) {
             this.url = this.getUrl();
         };
 
         private getUrl(): string {
-            if (!this.urlSlugResolver && this.enableAdvancedLogging) {
-                console.log(`You have to implement 'urlSlugResolver' in your Model class or your query in order to get url of this item`);
-                return;
+            if (this.urlSlugResolver == null) {
+                if (this.enableAdvancedLogging) {
+                    console.log(`You have to implement 'urlSlugResolver' in your Model class or your query in order to get url of this item`);
+                }
+                return '';
             }
+
 
             var url = this.urlSlugResolver(this.contentItem, this.value);
 
@@ -273,12 +276,12 @@ export namespace Fields {
         * @constructor
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
-        * @param {string} taxonomyGroup - Codename of the taxonomy group
+        * @param {string | undefined} taxonomyGroup - Codename of the taxonomy group
         */
         constructor(
             public name: string,
             public value: any,
-            public taxonomyGroup: string
+            public taxonomyGroup: string | undefined
         ) {
             if (value) {
                 if (!Array.isArray(value)) {

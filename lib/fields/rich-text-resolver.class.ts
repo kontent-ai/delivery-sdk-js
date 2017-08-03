@@ -82,10 +82,10 @@ export class RichTextResolver {
             }
 
             childNodes.forEach(node => {
-                if (node.attrs){
+                if (node.attrs) {
                     var attributes = node.attrs as FieldModels.Parse5Attribute[]; // array of attributes => name/value pair
-                    
-                     // process modular content
+
+                    // process modular content
                     this.processModularContent(node, attributes);
 
                     // process link
@@ -101,26 +101,26 @@ export class RichTextResolver {
     }
 
     private processLink(node: FieldModels.Parse5Node, attributes: FieldModels.Parse5Attribute[]): void {
-        if (node.nodeName !== this.linkTag){
+        if (node.nodeName !== this.linkTag) {
             // node is not a link
             return;
         }
 
         // get all links which have item it attribute, ignore all other links (they can be normal links in rich text)
-        var contentItemIdAttribute = attributes.find(m =>m.name === this.linkContentItemIdAttributeName);
-        if (!contentItemIdAttribute){
+        var contentItemIdAttribute = attributes.find(m => m.name === this.linkContentItemIdAttributeName);
+        if (!contentItemIdAttribute) {
             // its a regular link, don't process it
-            return; 
+            return;
         }
 
         // get id of content item
         var contentItemId = contentItemIdAttribute.value;
-        
+
         // get content item from modular content
         var contentItem = this.modularItems.find(m => m.system.id === contentItemId);
 
-        if (!contentItem){
-            if (this.enableAdvancedLogging){
+        if (!contentItem) {
+            if (this.enableAdvancedLogging) {
                 console.log(`Could not resolve link for item with id '${contentItemId}' because no such item was found in modular items`)
             }
             return;
@@ -128,28 +128,28 @@ export class RichTextResolver {
 
         // get url slug property 
         var urlSlugField = this.fieldUtilities.getUrlSlugProperty(contentItem);
-        if (!urlSlugField){
+        if (!urlSlugField) {
             // if url slug field is not defined on content type, don't process it
             return;
         }
 
         var url = urlSlugField.url;
 
-        if (!url){
-            if (this.enableAdvancedLogging){
+        if (!url) {
+            if (this.enableAdvancedLogging) {
                 console.log(`Url for content type '${contentItem.system.type}' with id '${contentItem.system.id}' resolved to null`);
-            } 
+            }
             return;
         }
 
         // assign url to 'href' attribute of the link
-        var hrefAttribute = attributes.find(m =>m.name === 'href');
-        if (!hrefAttribute){
+        var hrefAttribute = attributes.find(m => m.name === 'href');
+        if (!hrefAttribute) {
             // href attribute is missing
-            if (this.enableAdvancedLogging){
+            if (this.enableAdvancedLogging) {
                 console.log(`Cannot set url '${url}' because 'href' attribute is not present in the <a> tag`)
             }
-            return; 
+            return;
         }
 
         hrefAttribute.value = url;
@@ -163,24 +163,26 @@ export class RichTextResolver {
         }
 
         // get codename of the modular content
-        var modularItemCodenameAttribute = attributes.find(m => m.name === this.modularContentCodenameAttributeName);
-        if (!modularItemCodenameAttribute) {
+        var modularItemCodenameAttribute: FieldModels.Parse5Attribute | undefined = attributes.find(m => m.name === this.modularContentCodenameAttributeName);
+        if (modularItemCodenameAttribute == null) {
             throw Error(`The '${this.modularContentCodenameAttributeName}' attribute is missing and therefore modular content item cannot be retrieved`);
         }
 
+        var itemCodename = modularItemCodenameAttribute.value;
+
         // get modular content item
-        var modularContentItem = this.modularItems.find(m => m.system.codename === modularItemCodenameAttribute.value);
+        var modularContentItem = this.modularItems.find(m => m.system.codename === itemCodename);
 
         // check if modular content really exists
         if (!modularContentItem) {
-            throw Error(`Cannot resolve modular content in 'RichTextField' for '${modularItemCodenameAttribute.value}' content item`);
+            throw Error(`Cannot resolve modular content in 'RichTextField' for '${itemCodename}' content item`);
         }
 
         // replace 'object' tag name
         node.tagName = this.modularContentTagWrapper;
 
         // get html to replace object using Rich text resolver function
-        var resolver: <TItem extends IContentItem>(item: TItem) => string;
+        var resolver: (<TItem extends IContentItem>(item: TItem) => string) | null = null;
         if (this.queryConfig.richTextResolver) {
             // use resolved defined by query if available
             resolver = this.queryConfig.richTextResolver;
@@ -193,16 +195,18 @@ export class RichTextResolver {
         }
 
         // check resolver
-        if (!resolver) {
+        if (resolver == null) {
             if (this.enableAdvancedLogging) {
                 console.log(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
             }
         }
-        var replaceHtml = resolver(modularContentItem);
+        else {
+            var replaceHtml = resolver(modularContentItem);
 
-        var serializedHtml = parse5.parseFragment(replaceHtml) as any;
+            var serializedHtml = parse5.parseFragment(replaceHtml) as any;
 
-        // add replaced html to node
-        node.childNodes = serializedHtml.childNodes as FieldModels.Parse5Node[];
+            // add replaced html to node
+            node.childNodes = serializedHtml.childNodes as FieldModels.Parse5Node[];
+        }
     }
 }
