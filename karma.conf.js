@@ -35,9 +35,12 @@ module.exports = function (config) {
         },
         port: 9669,
         colors: true,
-        autoWatch: false,
+        autoWatch: true,
         browsers: ["Chrome"],
-        singleRun: true,
+        singleRun: false,
+        client: {
+            clearContext: false // leave Jasmine Spec Runner output visible in browser
+        },
         logLevel: config.LOG_ERROR,
     });
 };
