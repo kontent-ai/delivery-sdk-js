@@ -15,7 +15,7 @@ export class TypeMapService {
 
     private mapType(type: IContentType): ContentType {
         if (!type) {
-            return null;
+            throw Error(`Cannot map type: ` + type);
         }
 
         var typeSystem = new ContentTypeSystemAttributes(

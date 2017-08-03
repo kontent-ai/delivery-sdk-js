@@ -6,14 +6,14 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 
 export class FieldUtilities{
 
-    getUrlSlugProperty(contentItem: IContentItem): Fields.UrlSlugField{
+    getUrlSlugProperty(contentItem: IContentItem): Fields.UrlSlugField | null{
         if (!contentItem){
             return null;
         }
 
         var properties = Object.getOwnPropertyNames(contentItem);
         
-        var urlSlugfield: Fields.UrlSlugField;
+        var urlSlugfield: Fields.UrlSlugField | null = null;
 
         properties.forEach(property => {
             // get field

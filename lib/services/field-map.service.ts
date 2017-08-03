@@ -24,9 +24,9 @@ export class FieldMapService {
      * @param modularContent Modular content sent along with item
      * @param queryConfig Query configuration
      */
-    mapFields<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem {
-        if (!item) {
-            return null;
+    mapFields<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem{
+        if (item == null) {
+            throw Error(`Cannot map fields because item is not defined`);
         }
 
         var properties = Object.getOwnPropertyNames(item.elements);
@@ -107,7 +107,9 @@ export class FieldMapService {
                     // get modular item
                     var modularItem = this.mapFields(modularContent[codename], modularContent, queryConfig);
 
-                    modularItems.push(modularItem);
+                    if (modularItem != null){
+                        modularItems.push(modularItem);
+                    }
                 });
             }
         }
@@ -190,9 +192,9 @@ export class FieldMapService {
         return modularContentItems;
     }
 
-    private getUrlSlugResolverToUse(item: IContentItem, queryConfig: IItemQueryConfig): (contentItem: IContentItem, urlSlug: string) => string {
+    private getUrlSlugResolverToUse(item: IContentItem, queryConfig: IItemQueryConfig): ((contentItem: IContentItem, urlSlug: string) => string) | undefined{
          // url slug defined by the 'config' (= by calling method) has priority over type's url slug
-        var urlSlug: (item: IContentItem, value: string) => string;
+        var urlSlug: ((item: IContentItem, value: string) => string) | undefined = undefined;
 
         if (queryConfig.urlSlugResolver) {
             urlSlug = queryConfig.urlSlugResolver;
