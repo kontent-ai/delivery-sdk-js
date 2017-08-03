@@ -17,7 +17,7 @@ export namespace Filters {
             return this.field.trim();
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.value) {
                 return null;
             }
@@ -40,7 +40,7 @@ export namespace Filters {
             return `${this.field.trim()}[all]`;
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.values) {
                 return null;
             }
@@ -63,7 +63,7 @@ export namespace Filters {
             return `${this.field.trim()}[any]`;
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.values) {
                 return null;
             }
@@ -86,7 +86,7 @@ export namespace Filters {
             return `${this.field.trim()}[contains]`;
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.values) {
                 return null;
             }
@@ -110,7 +110,7 @@ export namespace Filters {
             return `${this.field.trim()}[gt]`;
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.value) {
                 return null;
             }
@@ -134,7 +134,7 @@ export namespace Filters {
             return `${this.field.trim()}[gte]`;
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.value) {
                 return null;
             }
@@ -157,7 +157,7 @@ export namespace Filters {
             return `${this.field.trim()}[in]`;
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.values) {
                 return null;
             }
@@ -186,7 +186,7 @@ export namespace Filters {
             return `${this.field.trim()}[lt]`;
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.value) {
                 return null;
             }
@@ -209,7 +209,7 @@ export namespace Filters {
             return `${this.field.trim()}[lte]`;
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.value) {
                 return null;
             }
@@ -237,7 +237,7 @@ export namespace Filters {
             return `${this.field.trim()}[range]`;
         }
 
-        public GetParamValue(): string {
+        public GetParamValue(): string | null{
             if (!this.lowerValue) {
                 return null;
             }
