@@ -22,6 +22,7 @@
   "scripts": {
     "test": "karma start karma.conf.js",
     "dev-test": "karma start karma-dev.conf.js",
+    "travis-test": "karma start karma-travis.conf.js",
     "gulp": "gulp",
     "build": "gulp build"
   },
