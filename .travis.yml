@@ -1,0 +1,5 @@
+language: node_js
+before_install: npm install -g gulp
+install: npm install
+before_script: gulp build
+script: npm test
