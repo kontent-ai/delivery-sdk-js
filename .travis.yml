@@ -3,24 +3,13 @@ dist: trusty
 language: node_js
 node_js:
  - "stable"
-addons:
-apt:
-  sources:
-    - google-chrome
-  packages:
-    - google-chrome-stable
-    - google-chrome-beta
-
-before_install:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
 
 before_script:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 - npm install -g gulp
-- npm install -g angular-cli
 - npm install -g karma
 - npm install
 - gulp build
 
-script: karma start config/karma.conf.js --single-run
+script: karma start karma-travis.conf.js --single-run
