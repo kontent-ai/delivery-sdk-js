@@ -1,12 +1,12 @@
 # Kentico Cloud Delivery TypeScript SDK
 
-Developer SDK for retrieving content from [Kentico Cloud](https://kenticocloud.com/).
-
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery-typescript-sdk.svg)](https://www.npmjs.com/package/kentico-cloud-delivery-typescript-sdk)
 [![Build Status](https://api.travis-ci.org/Enngage/KenticoCloudDeliveryTypeScriptSDK.svg?branch=master)](https://travis-ci.org/Enngage/KenticoCloudDeliveryTypeScriptSDK)
 [![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
 
 Sample applications using this SDK: [Javascript app](https://github.com/Enngage/KenticoCloudSampleJavascriptApp), [Angular app](https://github.com/Enngage/KenticoCloudSampleAngularApp)
+
+Developer SDK for retrieving content from [Kentico Cloud](https://kenticocloud.com/).
 
 ## Getting started
 
