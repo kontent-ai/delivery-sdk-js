@@ -1,12 +1,21 @@
 dist: trusty
 language: node_js
 node_js:
- - "stable"
+- "stable"
 before_script:
+# karma - http://karma-runner.github.io/0.8/plus/Travis-CI.html
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
+# global gulp + karma + cat
 - npm install -g gulp
 - npm install -g karma
+- npm install -g cat
 - npm install
+# build report
 - gulp build
-script: karma start karma-travis.conf.js --single-run
+script: 
+# run tests with travis config
+- karma start karma-travis.conf.js --single-run
+after_script:
+# run coveralls
+- npm run coveralls
