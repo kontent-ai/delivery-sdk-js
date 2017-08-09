@@ -17,7 +17,7 @@ module.exports = function (config) {
         ],
         preprocessors: {
             "lib/**/*.ts": ["karma-typescript", "coverage"],
-            "test/setup/*.ts": ["karma-typescript", "coverage"],
+            "test/setup/*.ts": ["karma-typescript"],
             "dev-test/**/*.ts": ["karma-typescript"]
         },
         reporters: ["kjhtml", "progress",],

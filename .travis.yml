@@ -1,12 +1,24 @@
+# code climate test coverage: https://docs.codeclimate.com/docs/travis-ci-test-coverage
+env:
+  global:
+    - CC_TEST_REPORTER_ID=787a2f89b15c637323c7340d65ec17e898ac44480706b4b4122ea040c2a88f1d
+    - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
 dist: trusty
 language: node_js
 node_js:
  - "stable"
 before_script:
+# code climate
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter 
+- chmod +x ./cc-test-reporter 
+# karma - http://karma-runner.github.io/0.8/plus/Travis-CI.html
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - npm install -g gulp
 - npm install -g karma
 - npm install
 - gulp build
-script: karma start karma-travis.conf.js --single-run
+script: 
+- bundle exec rspec
+- ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+- karma start karma-travis.conf.js --single-run
