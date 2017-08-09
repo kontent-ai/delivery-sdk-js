@@ -1,9 +1,17 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=5364693c5865eddef709bb35526975761b93d1138fcba73cb07e837a9f3bbabd
+    - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
+language: ruby
 dist: trusty
 language: node_js
 group: "stable"
 node_js:
  - "stable"
 before_script:
+# code clilmate
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
 # karma - http://karma-runner.github.io/0.8/plus/Travis-CI.html
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
@@ -12,7 +20,5 @@ before_script:
 - npm install
 - gulp build
 script: 
+- bundle exec rspec
 - karma start karma-travis.conf.js --single-run
-after_success: [
-    "vendor/bin/test-reporter"
-  ]
