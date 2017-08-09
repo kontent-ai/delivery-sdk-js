@@ -20,7 +20,7 @@ module.exports = function (config) {
             "test/setup/*.ts": ["karma-typescript"],
             "dev-test/**/*.ts": ["karma-typescript"]
         },
-        reporters: ["kjhtml", "progress",],
+        reporters: ["kjhtml", "progress", "coverage"],
         browsers: ["Chrome"],
         karmaTypescriptConfig: {
             bundlerOptions: {

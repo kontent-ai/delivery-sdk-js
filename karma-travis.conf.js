@@ -18,7 +18,7 @@ module.exports = function (config) {
             "lib/**/*.ts": ["karma-typescript", "coverage"],
             "test/**/*.ts": ["karma-typescript"]
         },
-        reporters: ["kjhtml", "progress",],
+        reporters: ["kjhtml", "progress", "coverage"],
         customLaunchers: {
             // chrome setup for travis CI using chromium
             Chrome_travis_ci: {
@@ -39,6 +39,13 @@ module.exports = function (config) {
                     "node_modules"
                 ]
             },
+        },
+        coverageReporter: {
+            reporters: [
+                { type: 'html', subdir: 'html' },
+                { type: 'lcov', subdir: 'lcov' },
+                { type: 'lcovonly', subdir: '.', file: 'report-lcovonly.txt' }
+            ]
         },
         port: 9669,
         colors: true,
