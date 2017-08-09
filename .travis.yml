@@ -15,4 +15,4 @@ script:
 - karma start karma-travis.conf.js --single-run
 after_success: [
     "vendor/bin/test-reporter"
-  ],
+  ]
