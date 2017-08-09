@@ -1,7 +1,7 @@
 # code climate test coverage: https://docs.codeclimate.com/docs/travis-ci-test-coverage
 env:
   global:
-    - CC_TEST_REPORTER_ID=787a2f89b15c637323c7340d65ec17e898ac44480706b4b4122ea040c2a88f1d
+    - CC_TEST_REPORTER_ID=5364693c5865eddef709bb35526975761b93d1138fcba73cb07e837a9f3bbabd
     - GIT_COMMITTED_AT=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then git log -1 --pretty=format:%ct; else git log -1 --skip 1 --pretty=format:%ct; fi)
 dist: trusty
 language: node_js
