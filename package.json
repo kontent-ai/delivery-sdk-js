@@ -25,7 +25,7 @@
     "travis-test": "karma start karma-travis.conf.js",
     "gulp": "gulp",
     "build": "gulp build",
-    "coveralls": "cat ./coverage/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
+    "coveralls": "cat ./coverage/lcov/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
   },
   "private": false,
   "dependencies": {
