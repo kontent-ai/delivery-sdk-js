@@ -28,7 +28,7 @@ export namespace Parameters {
                     throw Error(`Codename of 'ElementsParameter' cannot be null or empty`);
                 }
                 return m.trim()
-            }).join();
+            }).join(',');
         }
     }
 
