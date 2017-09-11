@@ -10,22 +10,26 @@ import 'rxjs/add/operator/map';
 import 'rxjs/observable/throw';
 
 // models
-import { ItemResponses} from '../models/item/responses';
+import { ItemResponses } from '../models/item/responses';
 import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
 import { Pagination } from '../models/common/pagination.class';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { CloudTypeResponseInterfaces } from '../interfaces/type/cloud-responses';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { TypeResponses } from '../models/type/responses';
+import { IQueryConfig } from '../interfaces/common/iquery.config';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { IHeader } from '../interfaces/common/iheader.interface';
 import { Header } from '../models/common/header.class';
 import { CloudError } from '../models/common/cloud-error.class';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
+import { TaxonomyResponses } from '../models/taxonomy/responses';
+import { CloudTaxonomyResponseInterfaces } from '../interfaces/taxonomy/cloud-responses';
 
 // services
 import { ItemMapService } from '../services/item-map.service';
 import { TypeMapService } from '../services/type-map.service';
+import { TaxonomyMapService } from '../services/taxonomy-map.service';
 
 export abstract class QueryService {
 
@@ -41,19 +45,21 @@ export abstract class QueryService {
 
     protected itemMapService: ItemMapService;
     protected typeMapService: TypeMapService;
+    protected taxonomyMapService: TaxonomyMapService;
 
     constructor(
         protected config: DeliveryClientConfig
     ) {
         this.itemMapService = new ItemMapService(config);
         this.typeMapService = new TypeMapService(config);
+        this.taxonomyMapService = new TaxonomyMapService(config);
     }
 
     /**
      * Indicates if current query should use preview mode
      * @param queryConfig Query configuration
      */
-    private isPreviewModeEnabled(queryConfig: IItemQueryConfig): boolean {
+    private isPreviewModeEnabled(queryConfig: IQueryConfig): boolean {
         if (queryConfig.usePreviewMode != null) {
             return queryConfig.usePreviewMode;
         }
@@ -65,7 +71,7 @@ export abstract class QueryService {
      * Gets preview or standard URL based on client and query configuration
      * @param queryConfig Query configuration
      */
-    private getDeliveryUrl(queryConfig: IItemQueryConfig): string {
+    private getDeliveryUrl(queryConfig: IQueryConfig): string {
         if (this.isPreviewModeEnabled(queryConfig)) {
 
             if (!this.config.previewApiKey) {
@@ -81,7 +87,7 @@ export abstract class QueryService {
      * Gets base URL of the request including the project Id
      * @param queryConfig Query configuration
      */
-    private getBaseUrl(queryConfig: IItemQueryConfig): string {
+    private getBaseUrl(queryConfig: IQueryConfig): string {
         return this.getDeliveryUrl(queryConfig) + '/' + this.config.projectId;
     }
 
@@ -104,7 +110,7 @@ export abstract class QueryService {
         return url;
     }
 
-    protected getUrl(action: string, queryConfig: IItemQueryConfig, options?: IQueryParameter[]): string {
+    protected getUrl(action: string, queryConfig: IQueryConfig, options?: IQueryParameter[]): string {
         return this.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
     }
 
@@ -159,7 +165,7 @@ export abstract class QueryService {
         return new Header('authorization', `bearer ${this.config.previewApiKey}`);
     }
 
-    protected getHeadersInternal(queryConfig: IItemQueryConfig): IHeader[] {
+    protected getHeadersInternal(queryConfig: IQueryConfig): IHeader[] {
         var headers: IHeader[] = [];
         if (this.isPreviewModeEnabled(queryConfig)) {
             headers.push(this.getAuthorizationHeader());
@@ -168,7 +174,7 @@ export abstract class QueryService {
         return headers;
     }
 
-    protected getHeadersJson(queryConfig: IItemQueryConfig): any {
+    protected getHeadersJson(queryConfig: IQueryConfig): any {
         var headerJson: any = {};
 
         var headers = this.getHeadersInternal(queryConfig);
@@ -206,6 +212,25 @@ export abstract class QueryService {
         return new ItemResponses.DeliveryItemListingResponse(items, pagination);
     }
 
+    protected getTaxonomyResponse(json: any): TaxonomyResponses.TaxonomyResponse {
+        var cloudResponse = json as CloudTaxonomyResponseInterfaces.ICloudTaxonomyResponse;
+
+        // map taxonomy 
+        var taxonomy = this.taxonomyMapService.mapTaxonomy(cloudResponse.system, cloudResponse.terms);
+
+        return new TaxonomyResponses.TaxonomyResponse(taxonomy.system, taxonomy.terms);
+    }
+
+
+    protected getTaxonomiesResponse(json: any): TaxonomyResponses.TaxonomiesResponse {
+        var cloudResponse = json as CloudTaxonomyResponseInterfaces.ICloudTaxonomiesResponse;
+
+        // map taxonomies
+        var taxonomies = this.taxonomyMapService.mapTaxonomies(cloudResponse.taxonomies);
+
+        return new TaxonomyResponses.TaxonomiesResponse(taxonomies);
+    }
+
     protected getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return ajax.getJSON(url, this.getHeadersJson(queryConfig))
             .map(json => {
@@ -240,6 +265,26 @@ export abstract class QueryService {
         return ajax.getJSON(url)
             .map(json => {
                 return this.getMultipleTypeResponse(json)
+            })
+            .catch(err => {
+                return Observable.throw(this.handleError(err));
+            });
+    }
+
+    protected getTaxonomy(url: string): Observable<TaxonomyResponses.TaxonomyResponse> {
+        return ajax.getJSON(url)
+            .map(json => {
+                return this.getTaxonomyResponse(json)
+            })
+            .catch(err => {
+                return Observable.throw(this.handleError(err));
+            });
+    }
+
+    protected getTaxonomies(url: string): Observable<TaxonomyResponses.TaxonomiesResponse> {
+        return ajax.getJSON(url)
+            .map(json => {
+                return this.getTaxonomiesResponse(json)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));

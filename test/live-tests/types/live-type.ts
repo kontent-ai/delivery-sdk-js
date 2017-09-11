@@ -26,7 +26,6 @@ describe('Live type', () => {
   });
 
   it(`type should be defined`, () => {
-    console.log(response);
     expect(response).toBeDefined();
   });
 

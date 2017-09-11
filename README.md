@@ -383,7 +383,7 @@ To retrieve information about your content types, you can use the methods `type`
 
 ```typescript
 deliveryClient
-  .type('movie')
+  .type('movie') // codename of the type
   .get()
   .subscribe(response => console.log(response));
 ```
@@ -394,6 +394,30 @@ deliveryClient
 deliveryClient.types()
   .get()
   .subscribe(response => console.log(response));
+```
+
+## Working with taxonomies
+
+To retrieve taxonomies or taxonomy you can use `taxonomy` and `taxonomies` methods.
+
+### Getting a single taxonomy group
+
+```typescript
+deliveryClient  
+  .taxonomy('movieType') // codename of the Taxonomy group
+  .get()
+  .subscribe(response => console.log(response));
+  });  
+```
+
+### Getting multiple taxonomies
+
+```typescript
+deliveryClient  
+  .taxonomies()
+  .get()
+  .subscribe(response => console.log(response));
+  }); 
 ```
 
 ## Handling errors
