@@ -10,11 +10,10 @@ export class TypeResolverService {
     }
 
     /**
-     * Takes given type name and creates a strongly typed model based specified in client configuration
-     * @param type Type of the content item 
-     * @param item Content item
+     * Creates empty typed object of given type
+     * @param type Type of the content item
      */
-    createTypedObj<TItem extends IContentItem>(type: string, item: IContentItem): TItem {
+    createEmptyTypedObj<TItem extends IContentItem>(type: string): TItem {
         if (!type) {
             throw Error('Cannot resolve type because no type name was provided');
         }
@@ -25,7 +24,16 @@ export class TypeResolverService {
             throw Error(`Cannot find resolver for type '${type}'`);
         }
 
-        var typedItem = typeResolver.resolve() as TItem;
+        return typeResolver.resolve() as TItem;
+    }
+
+    /**
+     * Takes given type name and creates a strongly typed model based specified in client configuration
+     * @param type Type of the content item 
+     * @param item Typed content item
+     */
+    createTypedObj<TItem extends IContentItem>(type: string, item: IContentItem): TItem {
+        var typedItem = this.createEmptyTypedObj<TItem>(type);
 
         // use typed 'system' property
         typedItem.system = new ContentItemSystemAttributes(

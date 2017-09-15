@@ -2,9 +2,12 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { FieldInterfaces } from '../fields/field-interfaces';
 import { FieldType } from '../fields/field-type';
 import { Fields } from '../fields/field-types';
+import { FieldModels } from '../fields/field-models';
 import { TypeResolverService } from './type-resolver.service';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { ILink } from '../interfaces/item/ilink.interface';
+import { Link } from '../models/item/link.class';
 
 export class FieldMapService {
 
@@ -80,7 +83,7 @@ export class FieldMapService {
             return this.mapDateTimeField(field);
         }
         else if (field.type.toString() === FieldType.rich_text.toString()) {
-            return this.mapRichTextField(field, modularContent, queryConfig);
+            return this.mapRichTextField(field as FieldInterfaces.IRichTextField, modularContent, queryConfig);
         }
         else if (field.type.toString() === FieldType.url_slug.toString()) {
             return this.mapUrlSlugField(field, item, queryConfig);
@@ -97,7 +100,7 @@ export class FieldMapService {
         }
     }
 
-    private mapRichTextField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig): Fields.RichTextField {
+    private mapRichTextField(field: FieldInterfaces.IRichTextField, modularContent: any, queryConfig: IItemQueryConfig): Fields.RichTextField {
         // get all modular content items nested in rich text
         var modularItems: IContentItem[] = [];
 
@@ -114,7 +117,10 @@ export class FieldMapService {
             }
         }
 
-        return new Fields.RichTextField(field.name, field.value, modularItems, this.config.enableAdvancedLogging, queryConfig);
+        // extract and map links 
+        var links: ILink[] = this.mapRichTextLinks(field.links);
+
+        return new Fields.RichTextField(field.name, field.value, modularItems, links, this.typeResolverService, this.config.enableAdvancedLogging, queryConfig);
     }
 
     private mapDateTimeField(field: FieldInterfaces.IField): Fields.DateTimeField {
@@ -142,9 +148,9 @@ export class FieldMapService {
     }
 
     private mapUrlSlugField(field: FieldInterfaces.IField, item: IContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
-       var urlSlug = this.getUrlSlugResolverToUse(item, queryConfig);
+       var linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
 
-        return new Fields.UrlSlugField(field.name, field.value, item, urlSlug, this.config.enableAdvancedLogging);
+        return new Fields.UrlSlugField(field.name, field.value, item, linkResolver, this.config.enableAdvancedLogging);
     }
 
     private mapModularField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig): any {
@@ -192,17 +198,28 @@ export class FieldMapService {
         return modularContentItems;
     }
 
-    private getUrlSlugResolverToUse(item: IContentItem, queryConfig: IItemQueryConfig): ((contentItem: IContentItem, urlSlug: string) => string) | undefined{
-         // url slug defined by the 'config' (= by calling method) has priority over type's url slug
-        var urlSlug: ((item: IContentItem, value: string) => string) | undefined = undefined;
+    private getLinkResolverForUrlSlugField(item: IContentItem, queryConfig: IItemQueryConfig): ((link: ILink) => string) | undefined {
+         // link resolver defined by the query config (= by calling method) has priority over type's global link resolver
+        var linkResolver: ((value: ILink) => string) | undefined = undefined;
 
-        if (queryConfig.urlSlugResolver) {
-            urlSlug = queryConfig.urlSlugResolver;
+        if (queryConfig.linkResolver) {
+            linkResolver = queryConfig.linkResolver;
         }
         else {
-            urlSlug = item.urlSlugResolver;
+            linkResolver = item.linkResolver;
         }
 
-        return urlSlug;
+        return linkResolver;
+    }
+
+    private mapRichTextLinks(linksJson: any): ILink[]{
+        var links: ILink[] = [];
+
+        for (var linkItemId in linksJson){
+            var linkRaw: ILink = linksJson[linkItemId] as ILink;
+            links.push(new Link(linkItemId, linkRaw.codename, linkRaw.type, linkRaw.url_slug));
+        }
+
+        return links;
     }
 }

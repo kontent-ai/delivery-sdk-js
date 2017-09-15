@@ -100,7 +100,7 @@ describe('Live item', () => {
   });
 
   it(`url of url slug field should be resolved`, () => {
-    expect(response.item.seoname.url).toEqual('testSlugUrl/warrior');
+    expect(response.item.seoname.getUrl()).toEqual('testSlugUrl/warrior');
   });
 
   it(`checks that html contains resolved modular content #1`, () => {
