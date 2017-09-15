@@ -262,16 +262,18 @@ deliveryClient.items<Movie>()
   .subscribe(response => console.log(response));
 ```
 
-### URL Slugs
+### URL Slugs (links)
 
-URL slugs enable you to generate user friendly URLs while giving editors the capability to control the looks of it. As a developer you will need to take the URL slug defined by editors and convert it to a path that your application knows and can render. URL slugs can be resolved either globally or locally for each query.
+Url slugs (links) can be resolved in either `URLSlugField` or `RichTextField` fields. The way how links are resolved depends on the `linkResolver` which can be defined either globally in model definition, or passed it through the `IQueryConfig` of a particular api call. The query resolver has priority over the globally defined one. 
 
-For example, if you define a URL slug for your item as `dwayne-johnson` and your application is able to handle requests such as `yourApp.com/actors/{urlSlug}`, you will need to configure the `urlSlugResolver` of your `ContentItem` class to resolve such item. This example would transfer to the code below.
+To access the url call `getUrl` method.
 
-#### Resolving URL slugs globally
+Please note that when resolving links in RichTextField, you resolve all of them with a single link resolver. For this reason it is recommended that you specify the `type` of the content type you want to resolve.
+
+#### Resolving URL slugs (links) globally
 
 ```typescript
-import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Actor extends ContentItem {
   public title: Fields.TextField;
@@ -279,36 +281,42 @@ export class Actor extends ContentItem {
 
     constructor() {
     super({
-      urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
-        // you can also access additional content data using the `contentItem` property
-        return `/actors/${urlSlug}`;
+      linkResolver: (link: ILink) => {
+        if (link.type === 'actor'){
+          return `/actors/${urlSlug}`;
+        }
+        return 'unkown-type-link';
       }
     })
   }
 }
 ```
 
-To get the URL, access the `url` property of your `UrlslugField`:
-
 ```typescript
 deliveryClient.item<Actor>('actorCodename')
   .get()
-  .subscribe(response => console.log(response.item.slug.url));
+  .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
-#### Resolving URL slugs locally
-
-Additionally, you can specify a URL slug resolver when getting content items using the `queryConfig` method. Setting the URL slug resolver this way has priority over the one defined in a model.
+#### Resolving URL slugs (links) per query
 
 ```typescript
+import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery-typescript-sdk';
+
 deliveryClient.item<Actor>('actorCodename')
   .queryConfig({
-    urlSlugResolver: (contentItem: IContentItem, urlSlug: string) => {
-      return `/actors/${urlSlug}`;
-    }
+    linkResolver: (link: ILink) => {
+        if (link.type === 'actor'){
+          return `/actors/${urlSlug}`;
+        }
+        else if (link.type === 'movie'){
+          return `/movies/${urlSlug}`;
+        }
+        return 'unkown-type-link';
+      }
   })
   .get()
-  .subscribe(response => console.log(response.item.slug.url));
+  .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
 ### Resolving modular content in Rich text fields

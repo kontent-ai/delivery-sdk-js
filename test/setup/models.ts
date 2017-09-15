@@ -1,4 +1,4 @@
-import { ContentItem, Fields } from '../../lib';
+import { ContentItem, Fields, ILink } from '../../lib';
 
 export class Actor extends ContentItem {
   public firstName: Fields.TextField;
@@ -18,8 +18,8 @@ export class Actor extends ContentItem {
           return 'lastName';
         }
       },
-      urlSlugResolver: (item: Actor, urlSlug: string) => {
-        return '/actor/' + urlSlug
+      linkResolver: (link: ILink) => {
+        return '/actor/' + link.url_slug
       }
     })
   }
@@ -50,8 +50,8 @@ export class Movie extends ContentItem {
       richTextResolver: (item: Movie) => {
         return `<p>${item.title.text}</p>`
       },
-      urlSlugResolver: (item, urlSlug) => {
-        return 'testSlugUrl/' + urlSlug;
+      linkResolver: (link: ILink) => {
+        return 'testSlugUrl/' + link.url_slug;
       }
     }, )
   }

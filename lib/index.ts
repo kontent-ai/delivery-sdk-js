@@ -10,6 +10,7 @@ export * from './fields/field-types';
 export * from './models/common/sort-order.enum';
 export * from './fields/field-models';
 export * from './models/common/cloud-error.class';
+export * from './services/type-resolver.service';
 
 // items
 export * from './models/item/type-resolver.class';
@@ -21,6 +22,8 @@ export * from './interfaces/item/icontent-item-system-attributes.interface';
 export * from './models/item/content-item-system-attributes';
 export * from './query/item/multiple-item-query.class';
 export * from './query/item/single-item-query.class';
+export * from './interfaces/item/ilink.interface';
+export * from './models/item/link.class';
 
 // type
 export * from './models/type/content-type.class';

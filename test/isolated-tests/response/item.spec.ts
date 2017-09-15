@@ -66,7 +66,7 @@ describe('Isolated item', () => {
     });
 
     it(`checks url slug field`, () => {
-        expect(response.item.seoname.url).toEqual('testSlugUrl/warrior');
+        expect(response.item.seoname.getUrl()).toEqual('testSlugUrl/warrior');
     });
 
     it(`checks assets field`, () => {

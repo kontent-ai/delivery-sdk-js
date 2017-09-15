@@ -5,7 +5,8 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { FieldModels } from './field-models';
 import { Fields } from './field-types';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { FieldUtilities } from './field-utilities';
+import { ILink } from '../interfaces/item/ilink.interface';
+import { TypeResolverService } from '../services/type-resolver.service';
 
 export class RichTextResolver {
 
@@ -35,25 +36,23 @@ export class RichTextResolver {
     private readonly linkContentItemIdAttributeName = 'data-item-id';
 
     /**
-     * Field utilities
-     */
-    private fieldUtilities: FieldUtilities;
-
-    /**
     * Rich text resolver
     * @constructor
     * @param {string} html - html to resolve
     * @param {IContentItem} modularItems - modular items
+    * @param {ILink[]} links - links
+    * @param {TypeResolverService} typeResolverService - Type resolver service used to access globally defined properties of models
     * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
     * @param {IItemQueryConfig} queryConfig - Query configuration
     */
     constructor(
         private html: string,
         private modularItems: IContentItem[],
+        private links: ILink[],
+        private typeResolverService: TypeResolverService,
         private enableAdvancedLogging: boolean,
         private queryConfig: IItemQueryConfig,
     ) {
-        this.fieldUtilities = new FieldUtilities();
     };
 
     /**
@@ -116,28 +115,45 @@ export class RichTextResolver {
         // get id of content item
         var contentItemId = contentItemIdAttribute.value;
 
-        // get content item from modular content
-        var contentItem = this.modularItems.find(m => m.system.id === contentItemId);
+        // find link with the id of content item
+        var link = this.links.find(m => m.itemId === contentItemId);
 
-        if (!contentItem) {
-            if (this.enableAdvancedLogging) {
-                console.log(`Could not resolve link for item with id '${contentItemId}' because no such item was found in modular items`)
+        if (!link){
+            if (this.enableAdvancedLogging){
+                console.warn(`Cannot resolve URL for item '${contentItemId}' because no link with this id was found`);
             }
             return;
         }
 
-        // get url slug property 
-        var urlSlugField = this.fieldUtilities.getUrlSlugProperty(contentItem);
-        if (!urlSlugField) {
-            // if url slug field is not defined on content type, don't process it
-            return;
+        // try to resolve link using the resolver passed through the query config
+        var queryLinkResolver = this.queryConfig.linkResolver;
+
+        var url;
+
+        if (queryLinkResolver){
+            // try to resolve url using the query config
+            url = queryLinkResolver(link);
         }
 
-        var url = urlSlugField.url;
+        if (!url){
+            // url was not resolved, try to find global resolver for this particupar type
+            // and apply its url resolver
+
+            var emptyTypeItem = this.typeResolverService.createEmptyTypedObj<IContentItem>(link.type);
+
+            if (!emptyTypeItem){
+                throw Error(`Cannot resolve link for '${link.type}' type because mapping of this type failed`);
+            }
+
+            var globalLinkResolver = emptyTypeItem.linkResolver;
+            if (globalLinkResolver){
+                url = globalLinkResolver(link);
+            }
+        }
 
         if (!url) {
             if (this.enableAdvancedLogging) {
-                console.log(`Url for content type '${contentItem.system.type}' with id '${contentItem.system.id}' resolved to null`);
+                console.log(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null`);
             }
             return;
         }

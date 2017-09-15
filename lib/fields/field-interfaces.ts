@@ -6,7 +6,6 @@ export namespace FieldInterfaces {
         name: string;
         type: FieldType;
         value: any;
-        modular_content?: string[];
         taxonomy_group?: string;
     }
 
@@ -26,5 +25,18 @@ export namespace FieldInterfaces {
     export interface ITaxonomyTerm {
         name: string;
         codename: string;
+    }
+
+    export interface IRichTextField extends IField {
+
+        /**
+         * Modular content items
+         */
+        modular_content?: string[];
+
+        /**
+         * Json with links identified by item Id
+         */
+        links: any; 
     }
 }

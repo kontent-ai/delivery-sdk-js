@@ -25,8 +25,20 @@ describe('Preview URL', () => {
         expect(url).toContain(context.projectId)
     });
 
-    it(`preview authorization header should be defined (global config)'`, () => {
+    it(`preview authorization header should be defined when getting items (global config)'`, () => {
         var headers = context.deliveryClient.items().getHeaders();
+        var authorizationHeader = headers.find(m => m.header === 'authorization');
+        expect(authorizationHeader).toBeDefined()
+    });
+
+    it(`preview authorization header should be defined when getting taxonomies (global config)'`, () => {
+        var headers = context.deliveryClient.types().getHeaders();
+        var authorizationHeader = headers.find(m => m.header === 'authorization');
+        expect(authorizationHeader).toBeDefined()
+    });
+
+    it(`preview authorization header should be defined for getting types (global config)'`, () => {
+        var headers = context.deliveryClient.taxonomies().getHeaders();
         var authorizationHeader = headers.find(m => m.header === 'authorization');
         expect(authorizationHeader).toBeDefined()
     });

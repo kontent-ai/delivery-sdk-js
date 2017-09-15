@@ -2,8 +2,11 @@ import { FieldType } from './field-type';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { FieldInterfaces } from './field-interfaces';
 import { FieldModels } from './field-models';
+import { ILink } from '../interfaces/item/ilink.interface';
+import { Link } from '../models/item/link.class';
 import { RichTextResolver } from './rich-text-resolver.class';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { TypeResolverService } from '../services/type-resolver.service';
 
 export namespace Fields {
 
@@ -118,6 +121,9 @@ export namespace Fields {
         * @constructor
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
+        * @param {IContentItem[]} modularItems - Modular items
+        * @param {ILink[]} links - Links in rich text field
+        * @param {TypeResolverService} typeResolverService - Type resolver service
         * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
         * @param {IItemQueryConfig} itemQueryConfig - Item query config
         */
@@ -125,6 +131,8 @@ export namespace Fields {
             public name: string,
             public value: any,
             public modularItems: IContentItem[],
+            public links: ILink[],
+            public typeResolverService: TypeResolverService,
             public enableAdvancedLogging: boolean,
             public itemQueryConfig: IItemQueryConfig
         ) {
@@ -137,7 +145,7 @@ export namespace Fields {
                 return this.resolvedHtml;
             }
 
-            var richTextHelper = new RichTextResolver(this.value, this.modularItems, this.enableAdvancedLogging, this.itemQueryConfig)
+            var richTextHelper = new RichTextResolver(this.value, this.modularItems, this.links, this.typeResolverService, this.enableAdvancedLogging, this.itemQueryConfig)
             this.resolvedHtml = richTextHelper.resolveHtml();
 
             return this.resolvedHtml;
@@ -217,42 +225,46 @@ export namespace Fields {
         public type: FieldType = FieldType.url_slug;
 
         /**
-        * Resolved Url of the item
-        */
-        public url: string;
-
-        /**
         * Represents URL slug field of Kentico Cloud item
         * @constructor
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
-        * @param {string} contentItemType - Type of the content item
-        * @param {((contentItem: IContentItem, urlSlug: string) => string) | undefined} urlSlugResolver - Callback used to resolve URL slug of the item with type
+        * @param {IContentItem} item - Content item, required in order to get link object used by resolver
+        * @param {((link: ILink) => string) | undefined} linkResolver - Callback used to resolve links
         * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
         */
         constructor(
             public name: string,
             public value: string,
-            public contentItem: IContentItem,
-            public urlSlugResolver: ((contentItem: IContentItem, urlSlug: string) => string) | undefined,
+            public item: IContentItem,
+            public linkResolver: ((link: ILink) => string) | undefined,
             public enableAdvancedLogging: boolean
         ) {
-            this.url = this.getUrl();
         };
 
-        private getUrl(): string {
-            if (this.urlSlugResolver == null) {
+        getUrl(): string {
+            if (this.linkResolver == null) {
                 if (this.enableAdvancedLogging) {
-                    console.log(`You have to implement 'urlSlugResolver' in your Model class or your query in order to get url of this item`);
+                    console.log(`You have to implement 'linkResolver' in your Model class or your query in order to get url of this item`);
                 }
                 return '';
             }
 
+            if (!this.item){
+                if (this.enableAdvancedLogging){
+                    console.log(`Cannot resolve link for type '${this.type}' because source item is not valid`);
+                }
+            }
 
-            var url = this.urlSlugResolver(this.contentItem, this.value);
+            var url = this.linkResolver(new Link(
+                this.item.system.id,
+                this.item.system.codename,
+                this.item.system.type,
+                this.value
+            ));
 
             if (!url && this.enableAdvancedLogging) {
-                console.log(`'urlSlugResolver' is configured, but url resolved for '${this.contentItem.system.type}' type was resolved to empty string`);
+                console.log(`'linkResolver' is configured, but url resolved for '${this.type}' type was resolved to empty string`);
             }
 
             return url;

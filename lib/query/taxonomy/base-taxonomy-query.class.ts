@@ -13,6 +13,9 @@ import { QueryConfig } from '../../models/common/query.config';
 // base query
 import { BaseQuery } from '../common/base-query.class';
 
+// models
+import { IHeader } from '../../interfaces/common/iheader.interface';
+
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
@@ -28,6 +31,10 @@ export abstract class BaseTaxonomyQuery extends BaseQuery {
         super(config)
     }
 
+    getHeaders(): IHeader[] {
+        return super.getHeadersInternal(this.queryConfig);
+    }
+
     protected getTaxonomyQueryUrl(taxonomyCodename: string): string {
         var action = '/' + this.taxonomiesEndpoint + '/' + taxonomyCodename;
 
@@ -41,10 +48,10 @@ export abstract class BaseTaxonomyQuery extends BaseQuery {
     }
 
     protected runTaxonomyQuery(codename: string): Observable<TaxonomyResponses.TaxonomyResponse> {
-        return super.getTaxonomy(this.getTaxonomyQueryUrl(codename));
+        return super.getTaxonomy(this.getTaxonomyQueryUrl(codename), this.queryConfig);
     }
 
     protected runTaxonomiesQuery(): Observable<TaxonomyResponses.TaxonomiesResponse> {
-        return super.getTaxonomies(this.getTaxonomiesQueryUrl());
+        return super.getTaxonomies(this.getTaxonomiesQueryUrl(), this.queryConfig);
     }
 }

@@ -3,7 +3,7 @@ import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../..
 
 // models
 import {
-    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver
+    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, ILink
 } from '../../../lib';
 
 class MockMovie extends ContentItem {
@@ -11,8 +11,8 @@ class MockMovie extends ContentItem {
 
     constructor() {
         super({
-            urlSlugResolver: (item, urlSlug) => {
-                return 'globalSlug/' + urlSlug;
+            linkResolver: (link: ILink) => {
+                return 'globalSlug/' + link.url_slug;
             }
         })
     }
@@ -38,19 +38,19 @@ describe('URL slug resolver', () => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
 
         responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {
-            urlSlugResolver: (item, urlSlug) => {
-                return 'querySlug/' + urlSlug;
+            linkResolver: (link: ILink) => {
+                return 'querySlug/' + link.url_slug;
             }
         });
         done();
     })
 
     it(`verifies globally defined url slug resolver`, () => {
-        expect(response.item.seoname.url).toEqual('globalSlug/warrior');
+        expect(response.item.seoname.getUrl()).toEqual('globalSlug/warrior');
     });
 
     it(`verifies locally defined url slug resolver (should have priority over global one)`, () => {
-        expect(responseWithQueryConfig.item.seoname.url).toEqual('querySlug/warrior');
+        expect(responseWithQueryConfig.item.seoname.getUrl()).toEqual('querySlug/warrior');
     });
 });
 
