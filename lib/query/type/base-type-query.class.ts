@@ -13,6 +13,9 @@ import { ItemQueryConfig } from '../../models/item/item-query.config';
 // base query
 import { BaseQuery } from '../common/base-query.class';
 
+// models
+import { IHeader } from '../../interfaces/common/iheader.interface';
+
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
@@ -25,6 +28,10 @@ export abstract class BaseTypeQuery extends BaseQuery {
         protected config: DeliveryClientConfig,
     ) {
         super(config)
+    }
+
+    getHeaders(): IHeader[] {
+        return super.getHeadersInternal(this._queryConfig);
     }
 
     protected getSingleTypeQueryUrl(codename: string): string {
@@ -40,10 +47,10 @@ export abstract class BaseTypeQuery extends BaseQuery {
     }
 
     protected runMultipleTypesQuery(): Observable<TypeResponses.DeliveryTypeListingResponse> {
-        return super.getMultipleTypes(this.getMultipleTypesQueryUrl());
+        return super.getMultipleTypes(this.getMultipleTypesQueryUrl(), this._queryConfig);
     }
 
     protected runSingleTypeQuery(codename: string): Observable<TypeResponses.DeliveryTypeResponse> {
-        return super.getSingleType(this.getSingleTypeQueryUrl(codename));
+        return super.getSingleType(this.getSingleTypeQueryUrl(codename), this._queryConfig);
     }
 }

@@ -251,8 +251,8 @@ export abstract class QueryService {
             });
     }
 
-    protected getSingleType(url: string): Observable<TypeResponses.DeliveryTypeResponse> {
-        return ajax.getJSON(url)
+    protected getSingleType(url: string, queryConfig: IQueryConfig): Observable<TypeResponses.DeliveryTypeResponse> {
+        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
             .map(json => {
                 return this.getSingleTypeResponse(json)
             })
@@ -261,8 +261,8 @@ export abstract class QueryService {
             });
     }
 
-    protected getMultipleTypes(url: string): Observable<TypeResponses.DeliveryTypeListingResponse> {
-        return ajax.getJSON(url)
+    protected getMultipleTypes(url: string, queryConfig: IQueryConfig): Observable<TypeResponses.DeliveryTypeListingResponse> {
+        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
             .map(json => {
                 return this.getMultipleTypeResponse(json)
             })
@@ -271,8 +271,8 @@ export abstract class QueryService {
             });
     }
 
-    protected getTaxonomy(url: string): Observable<TaxonomyResponses.TaxonomyResponse> {
-        return ajax.getJSON(url)
+    protected getTaxonomy(url: string, queryConfig: IQueryConfig): Observable<TaxonomyResponses.TaxonomyResponse> {
+        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
             .map(json => {
                 return this.getTaxonomyResponse(json)
             })
@@ -281,8 +281,8 @@ export abstract class QueryService {
             });
     }
 
-    protected getTaxonomies(url: string): Observable<TaxonomyResponses.TaxonomiesResponse> {
-        return ajax.getJSON(url)
+    protected getTaxonomies(url: string, queryConfig: IQueryConfig): Observable<TaxonomyResponses.TaxonomiesResponse> {
+        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
             .map(json => {
                 return this.getTaxonomiesResponse(json)
             })
