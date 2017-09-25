@@ -6,12 +6,10 @@ import { ContentTypeElement } from '../models/type/content-type-element.class';
 import { ContentTypeOption } from '../models/type/content-type-option.class';
 import { IContentTypeElement } from '../interfaces/type/icontent-type-element.interface';
 import { IContentTypeOption } from '../interfaces/type/icontent-type-option.interface';
-import { DeliveryClientConfig } from '../config/delivery-client.config';
 
 export class TypeMapService {
 
     constructor(
-        private deliveryClientConfig: DeliveryClientConfig
     ) {
     }
 

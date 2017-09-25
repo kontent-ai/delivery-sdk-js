@@ -1,6 +1,6 @@
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { ITaxonomySystemAttributes } from '../interfaces/taxonomy/itaxonomy-system-attributes.interface';
-import { ITaxonomyTerms} from '../interfaces/taxonomy/itaxonomy-terms.interface';
+import { ITaxonomyTerms } from '../interfaces/taxonomy/itaxonomy-terms.interface';
 import { TaxonomySystemAttributes } from '../models/taxonomy/taxonomy-system-attributes.class';
 import { TaxonomyTerms } from '../models/taxonomy/taxonomy-terms.class';
 import { TaxonomyGroup } from '../models/taxonomy/taxonomy-group.class';
@@ -9,7 +9,6 @@ import { ITaxonomyGroup } from '../interfaces/taxonomy/itaxonomy-group.interface
 export class TaxonomyMapService {
 
     constructor(
-        private deliveryClientConfig: DeliveryClientConfig
     ) {
     }
 
@@ -23,10 +22,10 @@ export class TaxonomyMapService {
         }
 
         var mappedSystemAttributes: TaxonomySystemAttributes = new TaxonomySystemAttributes(
-           taxonomySystem.id,
-           taxonomySystem.name,
-           taxonomySystem.codename,
-           taxonomySystem.last_modified
+            taxonomySystem.id,
+            taxonomySystem.name,
+            taxonomySystem.codename,
+            taxonomySystem.last_modified
         );
 
         var mappedTerms: TaxonomyTerms[] = this.mapTaxonomyTerms(taxonomyTerms);
@@ -34,7 +33,7 @@ export class TaxonomyMapService {
         return new TaxonomyGroup(mappedSystemAttributes, mappedTerms);
     }
 
-      mapTaxonomies(taxonomies: ITaxonomyGroup[]): TaxonomyGroup[] {
+    mapTaxonomies(taxonomies: ITaxonomyGroup[]): TaxonomyGroup[] {
         if (!taxonomies) {
             throw Error(`Cannot map taxonomy due to missing 'taxonomies' property`);
         }
@@ -57,15 +56,15 @@ export class TaxonomyMapService {
      * @param termsArray Terms array to map
      */
     private mapTaxonomyTerms(termsArray: ITaxonomyTerms[]): TaxonomyTerms[] {
-        if (!termsArray){
+        if (!termsArray) {
             throw Error(`Cannot map taxonomy terms due to invalid property data`);
         }
 
-        if (!Array.isArray(termsArray)){
+        if (!Array.isArray(termsArray)) {
             throw Error(`Cannot map terms because no terms array was provided`);
         }
 
-        if (termsArray.length == 0){
+        if (termsArray.length == 0) {
             return [];
         }
 
