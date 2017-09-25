@@ -22,26 +22,36 @@ export class TaxonomiesQuery extends BaseTaxonomyQuery {
         super(config)
     }
 
-    // query params
-
+     /**
+     * Limits the number of taxonomies returned by query
+     * @param limit Number of taxonomies to load
+     */
     limitParameter(limit: number): this {
         this.parameters.push(new Parameters.LimitParameter(limit));
         return this;
     }
 
+     /**
+     * Skips the selected number of taxonomies
+     * @param skip Number of taxonomies to skip
+     */
     skipParameter(skip: number): this {
         this.parameters.push(new Parameters.SkipParameter(skip));
         return this;
     }
 
-    // execution
-
+     /**
+     * Gets the runnable Observable
+     */
     get(): Observable<TaxonomyResponses.TaxonomiesResponse> {
         return super.runTaxonomiesQuery();
     }
 
     // debug
 
+     /**
+     * Gets 'Url' representation of query
+     */
     toString(): string {
         return super.getTaxonomiesQueryUrl();
     }

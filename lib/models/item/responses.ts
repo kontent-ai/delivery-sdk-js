@@ -1,10 +1,12 @@
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { IModularContent } from '../../interfaces/item/imodular-content.interface';
 import { IPagination } from '../../interfaces/common/ipagination.interface';
+import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
+import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
 
 export namespace ItemResponses {
     
-    export class DeliveryItemListingResponse<TItem extends IContentItem> {
+    export class DeliveryItemListingResponse<TItem extends IContentItem> implements ICloudResponse {
 
         /**
          * Indicates if response contains any items
@@ -26,10 +28,12 @@ export namespace ItemResponses {
         * @constructor
         * @param {TItem[]} items - Collection of content items
         * @param {IPagination} pagination - Pagination object
+        * @param {ICloudResponseDebug} debug - Debug information from the request
         */
         constructor(
             public items: TItem[],
-            public pagination: IPagination
+            public pagination: IPagination,
+            public debug: ICloudResponseDebug 
         ) {
             this.initIsEmpty();
             this.initFirstAndLastItem();
@@ -58,7 +62,7 @@ export namespace ItemResponses {
         }
     }
 
-    export class DeliveryItemResponse<TItem extends IContentItem> {
+    export class DeliveryItemResponse<TItem extends IContentItem> implements ICloudResponse {
 
         /**
          * Indicates if response contains item
@@ -69,9 +73,11 @@ export namespace ItemResponses {
         * Response containing single item
         * @constructor
         * @param {TItem} item - Returned item
+        * @param {ICloudResponseDebug} debug - Debug information from the request
         */
         constructor(
-            public item: TItem
+            public item: TItem,
+            public debug: ICloudResponseDebug 
         ) {
             this.initIsEmpty();
         }

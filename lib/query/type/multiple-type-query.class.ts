@@ -22,25 +22,34 @@ export class MultipleTypeQuery extends BaseTypeQuery {
         super(config)
     }
 
-    // query params
+     /**
+     * Limits the number of types returned by query
+     * @param limit Number of types to load
+     */
     limitParameter(limit: number): this {
         this.parameters.push(new Parameters.LimitParameter(limit));
         return this;
     }
 
+    /**
+     * Skips the selected number of types
+     * @param skip Number of types to skip
+     */
     skipParameter(skip: number): this {
         this.parameters.push(new Parameters.SkipParameter(skip));
         return this;
     }
 
-    // execution
-
+     /**
+     * Gets the runnable Observable
+     */
     get(): Observable<TypeResponses.DeliveryTypeListingResponse> {
         return super.runMultipleTypesQuery();
     }
 
-    // debug
-
+     /**
+     * Gets 'Url' representation of query
+     */
     toString(): string {
         return super.getMultipleTypesQueryUrl();
     }

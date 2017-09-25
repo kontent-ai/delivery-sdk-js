@@ -11,6 +11,7 @@ export * from './models/common/sort-order.enum';
 export * from './fields/field-models';
 export * from './models/common/cloud-error.class';
 export * from './services/type-resolver.service';
+export * from './interfaces/common/iquery.config';
 
 // items
 export * from './models/item/type-resolver.class';

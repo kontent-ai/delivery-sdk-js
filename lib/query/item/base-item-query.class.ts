@@ -35,28 +35,46 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
         super(config)
     }
 
+    /**
+     * Used to configure query
+     * @param queryConfig Query configuration
+     */
     queryConfig(queryConfig: IItemQueryConfig): this {
         this._queryConfig = queryConfig;
         return this;
     }
 
+    /**
+    * Gets headers used by this query
+    */
     getHeaders(): IHeader[] {
-        return super.getHeadersInternal(this.getQueryConfig());
+        return super.getHeaders(this.getQueryConfig());
     }
 
     // shared parameters
 
+    /**
+     * Language codename
+     * @param languageCodename Codename of the language
+     */
     languageParameter(languageCodename: string): this {
         this.parameters.push(new Parameters.LanguageParameter(languageCodename));
         return this;
     }
 
-    // shared parameters
+    /**
+     * Used to limit the number of elements returned by query.
+     * @param elementCodenames Array of element codenames to fetch
+     */
     elementsParameter(elementCodenames: string[]): this {
         this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
         return this;
     }
 
+    /**
+     * Indicates how deep nested modular content items are resolved.
+     * @param depth Depth of the query (> 0)
+     */
     depthParameter(depth: number): this {
         this.parameters.push(new Parameters.DepthParameter(depth));
         return this;

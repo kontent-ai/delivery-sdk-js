@@ -1,6 +1,9 @@
 import { QueryService } from '../../lib/services/query.service';
 import { DeliveryClientConfig } from '../../lib';
 
+// fake ajax response
+import { fakeResponseFactory } from '../setup';
+
 // models
 import { ItemResponses} from '../../lib/models/item/responses';
 import { IContentItem } from '../../lib/interfaces/item/icontent-item.interface';
@@ -27,13 +30,19 @@ export class MockQueryService extends QueryService {
         if (!queryConfig) {
             queryConfig = new ItemQueryConfig();
         }
-        return this.responseMapService.mapSingleResponse<TItem>(json, queryConfig);
+
+        var fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
+
+        return this.responseMapService.mapSingleResponse<TItem>(fakeResponse, queryConfig);
     }
 
     mockGetMultipleItems<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
         if (!queryConfig) {
             queryConfig = new ItemQueryConfig();
         }
-        return this.responseMapService.mapMultipleResponse<TItem>(json, queryConfig);
+
+        var fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
+
+        return this.responseMapService.mapMultipleResponse<TItem>(fakeResponse, queryConfig);
     }
 }

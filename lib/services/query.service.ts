@@ -14,13 +14,17 @@ import { ItemResponses } from '../models/item/responses';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { TypeResponses } from '../models/type/responses';
-import { IQueryConfig } from '../interfaces/common/iquery.config';
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { IHeader } from '../interfaces/common/iheader.interface';
 import { Header } from '../models/common/header.class';
 import { CloudError } from '../models/common/cloud-error.class';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
+
+// query configs
+import { IQueryConfig } from '../interfaces/common/iquery.config';
+import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { IContentTypeQueryConfig } from '../interfaces/type/icontent-type-query.config';
+import { ITaxonomyQueryConfig } from '../interfaces/taxonomy/itaxonomy-query.config';
 
 // services
 import { ResponseMapService } from './response-map.service';
@@ -36,6 +40,11 @@ export abstract class QueryService {
     * Preview url to Kentico Delivery API
     */
     private readonly previewDeliveryApiUrl: string = 'https://preview-deliver.kenticocloud.com';
+
+    /**
+     * Name of the header used when 'wait for loading new content' feature is used
+     */
+    private readonly waitForLoadingNewContentHeader: string = 'X-KC-Wait-For-Loading-New-Content';
 
     /**
      * Service used to map responses (json) from Kentico cloud to strongly typed types
@@ -143,9 +152,9 @@ export abstract class QueryService {
      * @param queryConfig Query configuration
      */
     protected getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
-        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
-            .map(json => {
-                return this.responseMapService.mapSingleResponse<TItem>(json, queryConfig)
+        return this.getResponse(url, queryConfig)
+            .map(ajaxResponse => {
+                return this.responseMapService.mapSingleResponse<TItem>(ajaxResponse, queryConfig)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -158,9 +167,9 @@ export abstract class QueryService {
     * @param queryConfig Query configuration
     */
     protected getMultipleItems<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
-        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
-            .map(json => {
-                return this.responseMapService.mapMultipleResponse(json, queryConfig)
+        return this.getResponse(url, queryConfig)
+            .map(ajaxResponse => {
+                return this.responseMapService.mapMultipleResponse(ajaxResponse, queryConfig)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -172,10 +181,10 @@ export abstract class QueryService {
      * @param url Url used to get single type
      * @param queryConfig Query configuration
      */
-    protected getSingleType(url: string, queryConfig: IQueryConfig): Observable<TypeResponses.DeliveryTypeResponse> {
-        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
-            .map(json => {
-                return this.responseMapService.mapSingleTypeResponse(json)
+    protected getSingleType(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeResponse> {
+        return this.getResponse(url, queryConfig)
+            .map(ajaxResponse => {
+                return this.responseMapService.mapSingleTypeResponse(ajaxResponse)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -187,26 +196,25 @@ export abstract class QueryService {
      * @param url Url used to get multiple types
      * @param queryConfig Query configuration
      */
-    protected getMultipleTypes(url: string, queryConfig: IQueryConfig): Observable<TypeResponses.DeliveryTypeListingResponse> {
-        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
-            .map(json => {
-                return this.responseMapService.mapMultipleTypeResponse(json)
+    protected getMultipleTypes(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeListingResponse> {
+        return this.getResponse(url, queryConfig)
+            .map(ajaxResponse => {
+                return this.responseMapService.mapMultipleTypeResponse(ajaxResponse)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
             });
     }
-
 
     /**
      * Gets single taxonomy from given url
      * @param url Url used to get single taxonomy
      * @param queryConfig Query configuration
      */
-    protected getTaxonomy(url: string, queryConfig: IQueryConfig): Observable<TaxonomyResponses.TaxonomyResponse> {
-        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
-            .map(json => {
-                return this.responseMapService.mapTaxonomyResponse(json)
+    protected getTaxonomy(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomyResponse> {
+       return this.getResponse(url, queryConfig)
+            .map(ajaxResponse => {
+                return this.responseMapService.mapTaxonomyResponse(ajaxResponse)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -214,15 +222,28 @@ export abstract class QueryService {
     }
 
     /**
- * Gets multiple taxonomies from given url
- * @param url Url used to get multiple taxonomies
- * @param queryConfig Query configuration
- */
-    protected getTaxonomies(url: string, queryConfig: IQueryConfig): Observable<TaxonomyResponses.TaxonomiesResponse> {
-        return ajax.getJSON(url, this.getHeadersJson(queryConfig))
-            .map(json => {
-                return this.responseMapService.mapTaxonomiesResponse(json)
+    * Gets multiple taxonomies from given url
+    * @param url Url used to get multiple taxonomies
+    * @param queryConfig Query configuration
+    */
+    protected getTaxonomies(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomiesResponse> {
+        return this.getResponse(url, queryConfig)
+            .map(ajaxResponse => {
+                return this.responseMapService.mapTaxonomiesResponse(ajaxResponse)
             })
+            .catch(err => {
+                return Observable.throw(this.handleError(err));
+            });
+    }
+
+    /**
+     * Gets Ajax response
+     * @param url Url to hit
+     * @param queryConfig Query configuration
+     */
+    protected getResponse(url: string, queryConfig: IQueryConfig): Observable<AjaxResponse> {
+       return ajax.get(url, this.getHeadersJson(queryConfig))
+            .map((response:AjaxResponse) => response)
             .catch(err => {
                 return Observable.throw(this.handleError(err));
             });
@@ -244,10 +265,17 @@ export abstract class QueryService {
      * should return the authorization header
      * @param queryConfig Query configuration
      */
-    protected getHeadersInternal(queryConfig: IQueryConfig): IHeader[] {
+    protected getHeaders(queryConfig: IQueryConfig): IHeader[] {
         var headers: IHeader[] = [];
+
+        // add preview header is required
         if (this.isPreviewModeEnabled(queryConfig)) {
             headers.push(this.getAuthorizationHeader());
+        }
+
+        // add 'X-KC-Wait-For-Loading-New-Content' header if required
+        if (queryConfig.waitForLoadingNewContent){
+            headers.push(new Header(this.waitForLoadingNewContentHeader, 'true'));
         }
 
         return headers;
@@ -260,7 +288,7 @@ export abstract class QueryService {
     private getHeadersJson(queryConfig: IQueryConfig): any {
         var headerJson: any = {};
 
-        var headers = this.getHeadersInternal(queryConfig);
+        var headers = this.getHeaders(queryConfig);
 
         headers.forEach(header => {
             headerJson[header.header] = header.value;

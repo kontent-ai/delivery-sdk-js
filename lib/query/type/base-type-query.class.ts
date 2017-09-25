@@ -7,8 +7,8 @@ import { Filters } from '../../models/common/filters';
 // models
 import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
 import { TypeResponses } from '../../models/type/responses';
-import { IItemQueryConfig } from '../../interfaces/item/iitem-query.config';
-import { ItemQueryConfig } from '../../models/item/item-query.config';
+import { IContentTypeQueryConfig } from '../../interfaces/type/icontent-type-query.config';
+import { ContentTypeQueryConfig } from '../../models/type/content-type-query.config';
 
 // base query
 import { BaseQuery } from '../common/base-query.class';
@@ -22,7 +22,7 @@ import { Observable } from 'rxjs/Rx';
 export abstract class BaseTypeQuery extends BaseQuery {
 
     protected parameters: IQueryParameter[] = [];
-    protected _queryConfig: IItemQueryConfig = new ItemQueryConfig();
+    protected _queryConfig: IContentTypeQueryConfig = new ContentTypeQueryConfig();
 
     constructor(
         protected config: DeliveryClientConfig,
@@ -30,8 +30,20 @@ export abstract class BaseTypeQuery extends BaseQuery {
         super(config)
     }
 
+    /**
+     * Used to configure query
+     * @param queryConfig Query configuration
+     */
+    queryConfig(queryConfig: IContentTypeQueryConfig): this {
+        this._queryConfig = queryConfig;
+        return this;
+    }
+
+    /**
+     * Gets headers used by this query
+     */
     getHeaders(): IHeader[] {
-        return super.getHeadersInternal(this._queryConfig);
+        return super.getHeaders(this._queryConfig);
     }
 
     protected getSingleTypeQueryUrl(codename: string): string {

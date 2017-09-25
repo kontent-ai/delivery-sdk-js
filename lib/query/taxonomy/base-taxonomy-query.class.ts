@@ -7,8 +7,8 @@ import { Filters } from '../../models/common/filters';
 // models
 import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
 import { TaxonomyResponses } from '../../models/taxonomy/responses';
-import { IQueryConfig } from '../../interfaces/common/iquery.config';
-import { QueryConfig } from '../../models/common/query.config';
+import { ITaxonomyQueryConfig } from '../../interfaces/taxonomy/itaxonomy-query.config';
+import { TaxonomyQueryConfig } from '../../models/taxonomy/taxonomy-query.config';
 
 // base query
 import { BaseQuery } from '../common/base-query.class';
@@ -21,9 +21,20 @@ import { Observable } from 'rxjs/Rx';
 
 export abstract class BaseTaxonomyQuery extends BaseQuery {
 
+    /**
+     * Taxonomies endpoint URL action
+     */
     protected readonly taxonomiesEndpoint: string = 'taxonomies';
+
+    /**
+     * Query parameters
+     */
     protected parameters: IQueryParameter[] = [];
-    protected queryConfig: IQueryConfig = new QueryConfig();
+
+    /**
+     * Query configuration
+     */
+    protected _queryConfig: ITaxonomyQueryConfig = new TaxonomyQueryConfig();
 
     constructor(
         protected config: DeliveryClientConfig,
@@ -31,27 +42,39 @@ export abstract class BaseTaxonomyQuery extends BaseQuery {
         super(config)
     }
 
+    /**
+     * Used to configure query
+     * @param queryConfig Query configuration
+     */
+    queryConfig(queryConfig: ITaxonomyQueryConfig): this {
+        this._queryConfig = queryConfig;
+        return this;
+    }
+
+    /**
+     * Gets headers used by this query
+     */
     getHeaders(): IHeader[] {
-        return super.getHeadersInternal(this.queryConfig);
+        return super.getHeaders(this._queryConfig);
     }
 
     protected getTaxonomyQueryUrl(taxonomyCodename: string): string {
         var action = '/' + this.taxonomiesEndpoint + '/' + taxonomyCodename;
 
-        return this.getUrl(action, this.queryConfig, this.parameters);
+        return this.getUrl(action, this._queryConfig, this.parameters);
     }
 
     protected getTaxonomiesQueryUrl(): string {
         var action = '/' + this.taxonomiesEndpoint;
 
-        return this.getUrl(action, this.queryConfig, this.parameters);
+        return this.getUrl(action, this._queryConfig, this.parameters);
     }
 
     protected runTaxonomyQuery(codename: string): Observable<TaxonomyResponses.TaxonomyResponse> {
-        return super.getTaxonomy(this.getTaxonomyQueryUrl(codename), this.queryConfig);
+        return super.getTaxonomy(this.getTaxonomyQueryUrl(codename), this._queryConfig);
     }
 
     protected runTaxonomiesQuery(): Observable<TaxonomyResponses.TaxonomiesResponse> {
-        return super.getTaxonomies(this.getTaxonomiesQueryUrl(), this.queryConfig);
+        return super.getTaxonomies(this.getTaxonomiesQueryUrl(), this._queryConfig);
     }
 }

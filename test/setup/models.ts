@@ -1,4 +1,7 @@
-import { ContentItem, Fields, ILink } from '../../lib';
+import {
+  ContentItem, Fields, ILink, ItemResponses, FieldModels,
+  TaxonomyResponses, TypeResponses
+} from '../../lib';
 
 export class Actor extends ContentItem {
   public firstName: Fields.TextField;
@@ -55,4 +58,34 @@ export class Movie extends ContentItem {
       }
     }, )
   }
+}
+
+export class AllTestObjects {
+
+  // items
+  public item: ItemResponses.DeliveryItemResponse<Movie>;
+  public items: ItemResponses.DeliveryItemListingResponse<Movie>;
+
+  // taxonomies
+  public taxonomy: TaxonomyResponses.TaxonomyResponse;
+  public taxonomies: TaxonomyResponses.TaxonomiesResponse;
+
+  // types
+  public type: TypeResponses.DeliveryTypeResponse;
+  public types: TypeResponses.DeliveryTypeListingResponse;
+
+  constructor(data?: {
+    // items
+    item: ItemResponses.DeliveryItemResponse<Movie>,
+    items: ItemResponses.DeliveryItemListingResponse<Movie>,
+
+    // taxonomies
+    taxonomy: TaxonomyResponses.TaxonomyResponse,
+    taxonomies: TaxonomyResponses.TaxonomiesResponse,
+
+    // types
+    type: TypeResponses.DeliveryTypeResponse,
+    types: TypeResponses.DeliveryTypeListingResponse,
+  }) { if (data) Object.assign(this, data) }
+
 }
