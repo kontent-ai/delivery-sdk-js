@@ -23,17 +23,17 @@ export class ResponseMapService {
     /**
      * Service used to map 'content types'
      */
-    private typeMapService: TypeMapService;
+    private readonly typeMapService: TypeMapService;
 
     /**
      * Service used to map 'content items'
      */
-    private itemMapService: ItemMapService;
+    private readonly itemMapService: ItemMapService;
 
     /**
      * Service used to map 'taxonomies'
      */
-    private taxonomyMapService: TaxonomyMapService;
+    private readonly taxonomyMapService: TaxonomyMapService;
 
     constructor(config: DeliveryClientConfig){
         this.typeMapService = new TypeMapService();

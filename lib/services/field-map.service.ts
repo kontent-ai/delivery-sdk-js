@@ -11,11 +11,19 @@ import { Link } from '../models/item/link.class';
 
 export class FieldMapService {
 
-    private typeResolverService: TypeResolverService;
+    /**
+     * Service used to resolve types
+     */
+    private readonly typeResolverService: TypeResolverService;
 
+    /**
+     * Processed items contain modular items that were already processed so that we don't end up
+     * in infinite loop.
+     */
     private processedItems: IContentItem[] = [];
+
     constructor(
-        private config: DeliveryClientConfig,
+        private readonly config: DeliveryClientConfig,
     ) {
         this.typeResolverService = new TypeResolverService(config);
     }

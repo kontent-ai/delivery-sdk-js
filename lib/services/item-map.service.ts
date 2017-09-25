@@ -6,10 +6,10 @@ import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 
 export class ItemMapService {
 
-    private fieldMapService: FieldMapService;
+    private readonly fieldMapService: FieldMapService;
 
     constructor(
-        private config: DeliveryClientConfig,
+        private readonly config: DeliveryClientConfig,
     ) {
         this.fieldMapService = new FieldMapService(config);
     }

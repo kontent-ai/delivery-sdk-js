@@ -5,7 +5,7 @@ import { DeliveryClientConfig } from '../config/delivery-client.config';
 export class TypeResolverService {
 
     constructor(
-        private config: DeliveryClientConfig
+        private readonly config: DeliveryClientConfig
     ) {
     }
 

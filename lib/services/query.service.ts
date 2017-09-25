@@ -30,12 +30,12 @@ export abstract class QueryService {
     /**
     * Base Url to Kentico Delivery API
     */
-    private baseDeliveryApiUrl: string = 'https://deliver.kenticocloud.com';
+    private readonly baseDeliveryApiUrl: string = 'https://deliver.kenticocloud.com';
 
     /**
     * Preview url to Kentico Delivery API
     */
-    private previewDeliveryApiUrl: string = 'https://preview-deliver.kenticocloud.com';
+    private readonly previewDeliveryApiUrl: string = 'https://preview-deliver.kenticocloud.com';
 
     /**
      * Service used to map responses (json) from Kentico cloud to strongly typed types
