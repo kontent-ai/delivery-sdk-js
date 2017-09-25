@@ -245,14 +245,14 @@ export namespace Fields {
         getUrl(): string {
             if (this.linkResolver == null) {
                 if (this.enableAdvancedLogging) {
-                    console.log(`You have to implement 'linkResolver' in your Model class or your query in order to get url of this item`);
+                    console.warn(`You have to implement 'linkResolver' in your Model class or your query in order to get url of this item`);
                 }
                 return '';
             }
 
             if (!this.item){
                 if (this.enableAdvancedLogging){
-                    console.log(`Cannot resolve link for type '${this.type}' because source item is not valid`);
+                    console.warn(`Cannot resolve link for type '${this.type}' because source item is not valid`);
                 }
             }
 
@@ -264,7 +264,7 @@ export namespace Fields {
             ));
 
             if (!url && this.enableAdvancedLogging) {
-                console.log(`'linkResolver' is configured, but url resolved for '${this.type}' type was resolved to empty string`);
+                console.warn(`'linkResolver' is configured, but url resolved for '${this.type}' type was resolved to empty string`);
             }
 
             return url;

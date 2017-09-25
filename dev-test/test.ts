@@ -24,7 +24,6 @@ describe('Developer tests', () => {
     });
 
     it(`Test #1`, () => {
-        console.log(response.item);
         var html = response.item.plot.getHtml();
         expect(response).toBeDefined();
     });
@@ -35,9 +34,7 @@ describe('Developer tests', () => {
     });
 
     it(`Link in rich text should be resolved using url slug resolver defined by query`, () => {
-        console.log(response.item);
         var html = response.item.plot.getHtml();
-        console.log(html);
         expect(response).toBeDefined();
     });
 });

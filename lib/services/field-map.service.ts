@@ -94,7 +94,7 @@ export class FieldMapService {
         else {
             var err = `Unsupported field type '${field.type}'`
             if (this.config.enableAdvancedLogging) {
-                console.log(err, field);
+                console.warn(err, field);
             }
             throw Error(err)
         }
@@ -156,14 +156,14 @@ export class FieldMapService {
     private mapModularField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig): any {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
-                console.log(`Cannot map modular content field because field does not exist`);
+                console.warn(`Cannot map modular content field because field does not exist`);
             }
             return null;
         }
 
         if (!field.value) {
             if (this.config.enableAdvancedLogging) {
-                console.log(`Cannot map modular content of '${field.name}' because its value does not exist`);
+                console.warn(`Cannot map modular content of '${field.name}' because its value does not exist`);
             }
             return null;
         }
@@ -176,7 +176,7 @@ export class FieldMapService {
 
             if (!modularItem) {
                 if (this.config.enableAdvancedLogging) {
-                    console.log(`Cannot map '${field.name}' modular content item. Make sure you use 'DepthParameter' in case your modular content is nested.`)
+                    console.warn(`Cannot map '${field.name}' modular content item. Make sure you use 'DepthParameter' in case your modular content is nested.`)
                 }
             }
 

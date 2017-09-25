@@ -153,7 +153,7 @@ export class RichTextResolver {
 
         if (!url) {
             if (this.enableAdvancedLogging) {
-                console.log(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null`);
+                console.warn(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null`);
             }
             return;
         }
@@ -163,7 +163,7 @@ export class RichTextResolver {
         if (!hrefAttribute) {
             // href attribute is missing
             if (this.enableAdvancedLogging) {
-                console.log(`Cannot set url '${url}' because 'href' attribute is not present in the <a> tag`)
+                console.warn(`Cannot set url '${url}' because 'href' attribute is not present in the <a> tag`)
             }
             return;
         }
@@ -213,7 +213,7 @@ export class RichTextResolver {
         // check resolver
         if (resolver == null) {
             if (this.enableAdvancedLogging) {
-                console.log(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
+                console.warn(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
             }
         }
         else {
