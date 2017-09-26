@@ -50,5 +50,10 @@ describe('Response debug', () => {
         expect(all.types.debug.status).toEqual(200); // test some property to see if it exists
     });
 
+     it(`(element) Debug property should be defined and should contain data`, () => {
+        expect(all.element.debug).toBeDefined();
+        expect(all.element.debug.status).toEqual(200); // test some property to see if it exists
+    });
+
 });
 

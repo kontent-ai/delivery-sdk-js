@@ -25,31 +25,31 @@ describe('Live taxonomy', () => {
   });
 
   it(`taxomy should be defined`, () => {
-    expect(response).toBeDefined();
+    expect(response.taxonomy).toBeDefined();
   });
 
   it(`taxomy system attributes should be defined`, () => {
-    expect(response.system).toBeDefined();
-    expect(response.system.codename).toBeDefined();
-    expect(response.system.id).toBeDefined();
-    expect(response.system.lastModified).toBeDefined();
-    expect(response.system.name).toBeDefined();
+    expect(response.taxonomy.system).toBeDefined();
+    expect(response.taxonomy.system.codename).toBeDefined();
+    expect(response.taxonomy.system.id).toBeDefined();
+    expect(response.taxonomy.system.lastModified).toBeDefined();
+    expect(response.taxonomy.system.name).toBeDefined();
   });
 
   it(`taxonomy group should match requested type`, () => {
-    expect(response.system.codename).toEqual(taxonomyCodename);
+    expect(response.taxonomy.system.codename).toEqual(taxonomyCodename);
   });
 
   it(`taxonomy group should have defined terms`, () => {
-    expect(response.terms).toBeDefined();
+    expect(response.taxonomy.terms).toBeDefined();
   });
 
   it(`taxonomy group should have > 0 terms`, () => {
-    expect(response.terms.length).toBeGreaterThan(0);
+    expect(response.taxonomy.terms.length).toBeGreaterThan(0);
   });
 
   it(`taxonomy group should contain nested taxonomies`, () => {
-    var termsWithNestedTerms = response.terms.find(m => m.codename === termsWithNestedTermsCodename);
+    var termsWithNestedTerms = response.taxonomy.terms.find(m => m.codename === termsWithNestedTermsCodename);
     expect(termsWithNestedTerms).toBeDefined();
     expect(termsWithNestedTerms.terms).toBeDefined();
     expect(termsWithNestedTerms.terms.length).toEqual(numberOfNestedTerms);

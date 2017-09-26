@@ -1,6 +1,6 @@
 import {
   ContentItem, Fields, ILink, ItemResponses, FieldModels,
-  TaxonomyResponses, TypeResponses
+  TaxonomyResponses, TypeResponses, ElementResponses
 } from '../../lib';
 
 export class Actor extends ContentItem {
@@ -74,6 +74,9 @@ export class AllTestObjects {
   public type: TypeResponses.DeliveryTypeResponse;
   public types: TypeResponses.DeliveryTypeListingResponse;
 
+  // elements
+  public element: ElementResponses.ElementResponse;
+
   constructor(data?: {
     // items
     item: ItemResponses.DeliveryItemResponse<Movie>,
@@ -86,6 +89,10 @@ export class AllTestObjects {
     // types
     type: TypeResponses.DeliveryTypeResponse,
     types: TypeResponses.DeliveryTypeListingResponse,
+
+    // elements
+    element: ElementResponses.ElementResponse
+
   }) { if (data) Object.assign(this, data) }
 
 }
