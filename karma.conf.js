@@ -26,7 +26,7 @@ module.exports = function (config) {
             },
             compilerOptions: {
                 "module": "commonjs",
-                "target": "es5",
+                "target": "es6", // use es6 only for karma compiler (using es6 will help increase coverage because less junk code required for es5 is needed)
                 "lib": ["es2015", "es2017", "dom"],
                 "exclude": [
                     "node_modules"

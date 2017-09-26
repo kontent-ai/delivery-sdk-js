@@ -30,10 +30,6 @@ export class DeliveryClient extends QueryService implements IDeliveryClient {
         protected config: DeliveryClientConfig
     ) {
         super(config)
-
-        if (!config){
-            throw Error(`Cannot create 'DeliveryClient' without configuration`);
-        }
     }
 
     /**
