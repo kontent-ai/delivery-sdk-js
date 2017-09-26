@@ -28,7 +28,7 @@ module.exports = function (config) {
             },
             compilerOptions: {
                 "module": "commonjs",
-                "target": "es5",
+                "target": "es6",
                 "lib": ["es2015", "es2017", "dom"],
                 "exclude": [
                     "node_modules"
