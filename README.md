@@ -469,9 +469,27 @@ deliveryClient.item<Movie>('terminator_9')
   .subscribe(response => console.log(response))
 ```
 
-## Getting URL of a query
+## Debugging
 
-In case you need to get the raw URL of a request, call the `toString()` method on the `item` query.
+### Accessing request data
+
+Every response from this SDK contains `debug` property which can be used to view the raw request using the `CloudResponseDebug` model that is based on `AjaxResponse` from rxjs.
+
+```typescript
+deliveryClient.items()
+  .get()
+  .subscribe(response => {
+    console.log(response.debug); // complete 'CloudResponseDebug' object
+    console.log(response.debug.status); // e.g. '200'
+    console.log(response.debug.responseType); // e.g. 'json'
+    console.log(response.debug.request.url); // url of the request
+    // and many others..
+  });
+ ``` 
+
+### Getting URL of a query
+
+In case you need to get the raw URL of a request before calling it, use the `toString()` method on the `item` query.
 
 ```typescript
 var queryText = deliveryClient.items()
