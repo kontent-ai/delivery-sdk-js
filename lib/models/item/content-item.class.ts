@@ -3,11 +3,31 @@ import { IContentItemSystemAttributes } from '../../interfaces/item/icontent-ite
 import { ILink } from '../../interfaces/item/ilink.interface';
 
 export abstract class ContentItem implements IContentItem {
+
+    /**
+     * Content item system elements
+     */
     public system: IContentItemSystemAttributes;
+
+    /**
+     * Elements of the item
+     */
     public elements: any;
 
+    /**
+    * Callback used to bind fields returned from Kentico Cloud to a model property. 
+    * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
+     */
     public propertyResolver?: (fieldName: string) => string;
+
+    /**
+     *  Callback used to resolve links or URL slug fields
+     */
     public linkResolver?: (link: ILink) => string;
+
+    /**
+    * Callback used to resolve modular content in rich text fields to HTML
+    */
     public richTextModularResolver?: (contentItem: IContentItem) => string;
 
     /**
@@ -18,8 +38,20 @@ export abstract class ContentItem implements IContentItem {
     * @param {(contentItem: IContentItem) => string} richTextResolver - Callback used to resolve modular content in rich text fields to HTML
     */
     constructor(public options?: {
+        /**
+         * Callback used to bind fields returned from Kentico Cloud to a model property. 
+         * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
+         */
         propertyResolver?: (fieldName: string) => string,
+
+        /**
+         *  Callback used to resolve links or URL slug fields
+         */
         linkResolver?: (link: ILink) => string,
+
+        /**
+         * Callback used to resolve modular content in rich text fields to HTML
+         */
         richTextResolver?: (contentItem: IContentItem) => string;
     }) {
         if (options) Object.assign(this, options);

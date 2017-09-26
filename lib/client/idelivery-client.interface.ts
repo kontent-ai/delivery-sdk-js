@@ -8,6 +8,7 @@ import { SingleItemQuery } from '../query/item/single-item-query.class';
 import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
 import { TaxonomiesQuery } from '../query/taxonomy/taxonomies-query.class';
 import { TaxonomyQuery } from '../query/taxonomy/taxonomy-query.class';
+import { ElementQuery } from '../query/element/element-query.class';
 
 export interface IDeliveryClient {
 
@@ -43,4 +44,9 @@ export interface IDeliveryClient {
     * @param {string} codename - Codename of taxonomy to retrieve
     */
     taxonomy<TItem extends IContentItem>(codename: string): TaxonomyQuery;
+
+    /**
+     * Gets query for an element within a type
+     */
+    element(typeCodename: string, elementCodename: string): ElementQuery;
 }

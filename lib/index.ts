@@ -32,10 +32,16 @@ export * from './models/type/responses';
 export * from './query/type/multiple-type-query.class';
 export * from './query/type/single-type-query.class';
 
-
 // taxonomy
 export * from './models/taxonomy/responses';
 export * from './models/taxonomy/taxonomy-group.class';
 export * from './models/taxonomy/taxonomy-system-attributes.class';
 export * from './models/taxonomy/taxonomy-terms.class';
 export * from './query/taxonomy/taxonomy-query.class';
+
+// element
+export * from './query/element/element-query.class';
+export * from './models/element/responses';
+export * from './models/element/element-query.config';
+export * from './models/element/element.class';
+export * from './models/element/element-option.class';

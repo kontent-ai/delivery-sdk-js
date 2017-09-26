@@ -1,7 +1,7 @@
-import { IContentTypeQueryConfig } from '../../interfaces/type/icontent-type-query.config'
+import { IElementQueryConfig } from '../../interfaces/element/ielement-query.config'
 import { QueryConfig } from '../common/query.config';
 
-export class ContentTypeQueryConfig extends QueryConfig implements IContentTypeQueryConfig {
+export class ElementQueryConfig extends QueryConfig implements IElementQueryConfig {
 
     constructor(
         protected options?: {

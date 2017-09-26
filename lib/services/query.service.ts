@@ -19,12 +19,14 @@ import { Header } from '../models/common/header.class';
 import { CloudError } from '../models/common/cloud-error.class';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
+import { ElementResponses } from '../models/element/responses';
 
 // query configs
 import { IQueryConfig } from '../interfaces/common/iquery.config';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { IContentTypeQueryConfig } from '../interfaces/type/icontent-type-query.config';
 import { ITaxonomyQueryConfig } from '../interfaces/taxonomy/itaxonomy-query.config';
+import { IElementQueryConfig } from '../interfaces/element/ielement-query.config';
 
 // services
 import { ResponseMapService } from './response-map.service';
@@ -212,7 +214,7 @@ export abstract class QueryService {
      * @param queryConfig Query configuration
      */
     protected getTaxonomy(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomyResponse> {
-       return this.getResponse(url, queryConfig)
+        return this.getResponse(url, queryConfig)
             .map(ajaxResponse => {
                 return this.responseMapService.mapTaxonomyResponse(ajaxResponse)
             })
@@ -237,13 +239,28 @@ export abstract class QueryService {
     }
 
     /**
+    * Gets single content type element from given url
+    * @param url Url used to get single content type element
+    * @param queryConfig Query configuration
+    */
+    protected getElement(url: string, queryConfig: ITaxonomyQueryConfig): Observable<ElementResponses.ElementResponse> {
+        return this.getResponse(url, queryConfig)
+            .map(ajaxResponse => {
+                return this.responseMapService.mapElementResponse(ajaxResponse)
+            })
+            .catch(err => {
+                return Observable.throw(this.handleError(err));
+            });
+    }
+
+    /**
      * Gets Ajax response
      * @param url Url to hit
      * @param queryConfig Query configuration
      */
     protected getResponse(url: string, queryConfig: IQueryConfig): Observable<AjaxResponse> {
-       return ajax.get(url, this.getHeadersJson(queryConfig))
-            .map((response:AjaxResponse) => response)
+        return ajax.get(url, this.getHeadersJson(queryConfig))
+            .map((response: AjaxResponse) => response)
             .catch(err => {
                 return Observable.throw(this.handleError(err));
             });
@@ -274,7 +291,7 @@ export abstract class QueryService {
         }
 
         // add 'X-KC-Wait-For-Loading-New-Content' header if required
-        if (queryConfig.waitForLoadingNewContent){
+        if (queryConfig.waitForLoadingNewContent) {
             headers.push(new Header(this.waitForLoadingNewContentHeader, 'true'));
         }
 

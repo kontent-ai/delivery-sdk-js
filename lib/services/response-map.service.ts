@@ -17,33 +17,42 @@ import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { CloudTaxonomyResponseInterfaces } from '../interfaces/taxonomy/cloud-responses';
 import { ICloudResponseDebug } from '../interfaces/common/icloud-response-debug.interface';
 import { CloudResponseDebug } from '../models/common/cloud-response-debug.class';
+import { CloudElementResponseInterfaces } from '../interfaces/element/cloud-responses';
+import { ElementResponses } from '../models/element/responses';
 
 // services
-import { ItemMapService } from '../services/item-map.service';
-import { TypeMapService } from '../services/type-map.service';
-import { TaxonomyMapService } from '../services/taxonomy-map.service';
+import { ItemMapService } from './item-map.service';
+import { TypeMapService } from './type-map.service';
+import { TaxonomyMapService } from './taxonomy-map.service';
+import { ElementMapService } from './element-map.service';
 
 export class ResponseMapService {
 
     /**
-     * Service used to map 'content types'
+     * Service used to map content types
      */
     private readonly typeMapService: TypeMapService;
 
     /**
-     * Service used to map 'content items'
+     * Service used to map content items
      */
     private readonly itemMapService: ItemMapService;
 
     /**
-     * Service used to map 'taxonomies'
+     * Service used to map taxonomies
      */
     private readonly taxonomyMapService: TaxonomyMapService;
+
+    /**
+     * Services used to map elements
+     */
+    private readonly elementMapService: ElementMapService;
 
     constructor(config: DeliveryClientConfig){
         this.typeMapService = new TypeMapService();
         this.itemMapService = new ItemMapService(config);
         this.taxonomyMapService = new TaxonomyMapService()
+        this.elementMapService = new ElementMapService();
     }
 
     /**
@@ -127,7 +136,7 @@ export class ResponseMapService {
         // map taxonomy 
         var taxonomy = this.taxonomyMapService.mapTaxonomy(cloudResponse.system, cloudResponse.terms);
 
-        return new TaxonomyResponses.TaxonomyResponse(taxonomy.system, taxonomy.terms, this.mapResponseDebug(ajaxResponse));
+        return new TaxonomyResponses.TaxonomyResponse(taxonomy, this.mapResponseDebug(ajaxResponse));
     }
 
     /**
@@ -141,6 +150,19 @@ export class ResponseMapService {
         var taxonomies = this.taxonomyMapService.mapTaxonomies(cloudResponse.taxonomies);
 
         return new TaxonomyResponses.TaxonomiesResponse(taxonomies, this.mapResponseDebug(ajaxResponse));
+    }
+
+     /**
+     * Gets response for getting single content type element
+     * @param ajaxResponse Response data 
+     */
+    mapElementResponse(ajaxResponse: AjaxResponse): ElementResponses.ElementResponse {
+        var cloudResponse = ajaxResponse.response as CloudElementResponseInterfaces.ICloudElementResponse;
+
+        // map element 
+        var element = this.elementMapService.mapElement(cloudResponse);
+      
+        return new ElementResponses.ElementResponse(element, this.mapResponseDebug(ajaxResponse));
     }
 
     private mapResponseDebug(ajaxResponse: AjaxResponse) : CloudResponseDebug {

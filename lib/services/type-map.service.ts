@@ -2,10 +2,10 @@ import { CloudTypeResponseInterfaces } from '../interfaces/type/cloud-responses'
 import { IContentType } from '../interfaces/type/icontent-type.interface';
 import { ContentType } from '../models/type/content-type.class';
 import { ContentTypeSystemAttributes } from '../models/type/content-type-system-attributes.class';
-import { ContentTypeElement } from '../models/type/content-type-element.class';
-import { ContentTypeOption } from '../models/type/content-type-option.class';
-import { IContentTypeElement } from '../interfaces/type/icontent-type-element.interface';
-import { IContentTypeOption } from '../interfaces/type/icontent-type-option.interface';
+import { Element } from '../models/element/element.class';
+import { ElementOption } from '../models/element/element-option.class';
+import { IElement } from '../interfaces/element/ielement.interface';
+import { IElementOption } from '../interfaces/element/ielement-option.interface';
 
 export class TypeMapService {
 
@@ -25,7 +25,7 @@ export class TypeMapService {
             type.system.last_modified
         );
 
-        var elements: ContentTypeElement[] = [];
+        var elements: Element[] = [];
 
         if (type.elements) {
             var elementNames = Object.getOwnPropertyNames(type.elements);
@@ -42,7 +42,7 @@ export class TypeMapService {
 
                     // extra properties for certain field types
                     var taxonomyGroup: string | undefined = typeElement.taxonomy_group;
-                    var options: IContentTypeOption[] = [];
+                    var options: IElementOption[] = [];
 
                     // some elements can contain options
                     var rawOptions = typeElement.options;
@@ -52,11 +52,11 @@ export class TypeMapService {
                         }
 
                         rawOptions.forEach(rawOption => {
-                            options.push(new ContentTypeOption(rawOption.name, rawOption.codename));
+                            options.push(new ElementOption(rawOption.name, rawOption.codename));
                         });
                     }
 
-                    elements.push(new ContentTypeElement(elementCodename, typeElement.type, typeElement.name, taxonomyGroup, options));
+                    elements.push(new Element(elementCodename, typeElement.type, typeElement.name, taxonomyGroup, options));
                 });
             }
         }

@@ -14,6 +14,7 @@ import { SingleItemQuery } from '../query/item/single-item-query.class';
 import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
 import { TaxonomyQuery } from '../query/taxonomy/taxonomy-query.class';
 import { TaxonomiesQuery } from '../query/taxonomy/taxonomies-query.class';
+import { ElementQuery } from '../query/element/element-query.class';
 
 // services
 import { QueryService } from '../services/query.service';
@@ -79,5 +80,14 @@ export class DeliveryClient extends QueryService implements IDeliveryClient {
     */
     taxonomies<TItem extends IContentItem>(): TaxonomiesQuery {
         return new TaxonomiesQuery(this.config);
+    }
+
+    /**
+     * Gets query for an element within a type
+     * @param {string} typeCodename - Codename of the type
+     * @param {string} elementCodename - Codename of the element 
+     */
+    element(typeCodename: string, elementCodename: string): ElementQuery {
+        return new ElementQuery(this.config, typeCodename, elementCodename);
     }
 }
