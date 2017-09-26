@@ -17,7 +17,11 @@ export class TaxonomyQuery extends BaseTaxonomyQuery {
         protected config: DeliveryClientConfig,
         private taxonomyCodename: string
     ) {
-        super(config)
+        super(config);
+
+        if (!taxonomyCodename){
+            throw Error(`Cannot create taxonomy query without codename of the taxonomy`);
+        }
     }
 
      /**

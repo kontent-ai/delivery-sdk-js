@@ -5,7 +5,7 @@ import urlParser from 'url-parse';
 import { Context, setup } from '../../setup';
 
 // tests
-describe('Filters', () => {
+describe('Item url filters', () => {
 
     var context = new Context();
     setup(context);

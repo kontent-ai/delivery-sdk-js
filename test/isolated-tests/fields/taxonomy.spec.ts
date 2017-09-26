@@ -12,7 +12,7 @@ describe('TaxonomyField', () => {
             'name': 'Term 1',
             'codename': 'term1'
         },
-         {
+        {
             'name': 'Term 1',
             'codename': 'term1'
         }
@@ -37,6 +37,14 @@ describe('TaxonomyField', () => {
             new FieldModels.TaxonomyTerm('Term 2', 'term2')
         ];
         expect(field.taxonomyTerms[0].codename).toEqual(taxonomyList[0].codename);
+    });
+
+    it(`checks that exception is thrown when invalid value (null) is passed`, () => {
+        expect(() => new Fields.TaxonomyField('name', null, 'taxgroup')).toThrowError();
+    });
+
+    it(`checks that exception is thrown when invalid value (string) is passed`, () => {
+        expect(() => new Fields.TaxonomyField('name', 'test_string', 'taxgroup')).toThrowError();
     });
 });
 

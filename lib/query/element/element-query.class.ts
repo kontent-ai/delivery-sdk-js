@@ -1,16 +1,7 @@
-// config
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
-
-// models
 import { ElementResponses } from '../../models/element/responses';
-
-// query params
 import { Parameters } from '../../models/common/parameters';
-
-// base query
 import { BaseElementQuery } from './base-element-query.class';
-
-// rxjs
 import { Observable } from 'rxjs/Rx';
 
 export class ElementQuery extends BaseElementQuery {
@@ -20,7 +11,7 @@ export class ElementQuery extends BaseElementQuery {
         private typeCodename: string,
         private elementCodename: string
     ) {
-        super(config)
+        super(config);
 
         if (!typeCodename) {
             throw Error(`Codename of the type has to be provided`);

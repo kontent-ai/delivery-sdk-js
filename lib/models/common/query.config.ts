@@ -17,7 +17,7 @@ export class QueryConfig implements IQueryConfig {
     public waitForLoadingNewContent?: boolean;
 
     constructor(
-        protected options?: {
+        private options?: {
             usePreviewMode?: boolean,
             waitForLoadingNewContent?: boolean
         }

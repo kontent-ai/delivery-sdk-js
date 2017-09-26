@@ -200,20 +200,24 @@ export namespace Fields {
             public name: string,
             public value: any
         ) {
-            if (this.value) {
-                if (Array.isArray(this.value)) {
-                    this.value.forEach(asset => {
-                        var assetTemp = asset as FieldInterfaces.IAsset;
-                        this.assets.push(new FieldModels.AssetModel(
-                            assetTemp.name,
-                            assetTemp.type,
-                            assetTemp.size,
-                            assetTemp.description,
-                            assetTemp.url
-                        ));
-                    });
-                }
+            if (!value) {
+                throw Error(`Cannot bind assets field because no value was provided`);
             }
+
+            if (!Array.isArray(value)) {
+                throw Error(`Cannot bind assets because the provided value is not an array`);
+            }
+
+            this.value.forEach(asset => {
+                var assetTemp = asset as FieldInterfaces.IAsset;
+                this.assets.push(new FieldModels.AssetModel(
+                    assetTemp.name,
+                    assetTemp.type,
+                    assetTemp.size,
+                    assetTemp.description,
+                    assetTemp.url
+                ));
+            });
         };
     }
 
@@ -242,18 +246,19 @@ export namespace Fields {
         ) {
         };
 
-        getUrl(): string {
-            if (this.linkResolver == null) {
+        getUrl(): string | null {
+            if (!this.linkResolver) {
                 if (this.enableAdvancedLogging) {
                     console.warn(`You have to implement 'linkResolver' in your Model class or your query in order to get url of this item`);
                 }
-                return '';
+                return null;
             }
 
-            if (!this.item){
-                if (this.enableAdvancedLogging){
+            if (!this.item) {
+                if (this.enableAdvancedLogging) {
                     console.warn(`Cannot resolve link for type '${this.type}' because source item is not valid`);
                 }
+                return null;
             }
 
             var url = this.linkResolver(new Link(
@@ -263,8 +268,9 @@ export namespace Fields {
                 this.value
             ));
 
-            if (!url && this.enableAdvancedLogging) {
+            if (!url) {
                 console.warn(`'linkResolver' is configured, but url resolved for '${this.type}' type was resolved to empty string`);
+                return null;
             }
 
             return url;
@@ -295,17 +301,19 @@ export namespace Fields {
             public value: any,
             public taxonomyGroup: string | undefined
         ) {
-            if (value) {
-                if (!Array.isArray(value)) {
-                    throw Error(`Cannot get taxonomy terms because the object is not an array`);
-                }
-
-                var taxonomyList = value as FieldInterfaces.ITaxonomyTerm[];
-
-                taxonomyList.forEach(term => {
-                    this.taxonomyTerms.push(new FieldModels.TaxonomyTerm(term.name, term.codename));
-                });
+            if (!value) {
+                throw Error(`Cannot map taxonomy field because no value was provided`);
             }
-        };
-    }
+
+            if (!Array.isArray(value)) {
+                throw Error(`Cannot get taxonomy field because the provided value is not an array`);
+            }
+
+            var taxonomyList = value as FieldInterfaces.ITaxonomyTerm[];
+
+            taxonomyList.forEach(term => {
+                this.taxonomyTerms.push(new FieldModels.TaxonomyTerm(term.name, term.codename));
+            });
+        }
+    };
 }

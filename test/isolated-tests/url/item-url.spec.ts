@@ -18,16 +18,14 @@ describe('Item URL', () => {
         expect(() => context.deliveryClient.item('')).toThrowError();
     });
 
-    it(`item URL with 'kyle' codename should end with '/items/kyle`, () => {
+    it(`item url with 'kyle' codename should end with '/items/kyle`, () => {
         var url = new URL(context.deliveryClient.item('kyle').toString());
-        var last11Digits = url.pathname.substr(url.pathname.length - 11);
-        expect(last11Digits).toEqual(`/items/kyle`);
+        expect(url.toString()).toContain(`/items/kyle`);
     });
 
-    it(`item URL with 'arnold' codename should end with '/items/arnold'`, () => {
+    it(`item url with 'arnold' codename should end with '/items/arnold'`, () => {
         var url = new URL(context.deliveryClient.item('arnold').toString());
-        var last13Digits = url.pathname.substr(url.pathname.length - 13);
-        expect(last13Digits).toEqual(`/items/arnold`);
+        expect(url.toString()).toContain(`/items/arnold`);
     });
 });
 

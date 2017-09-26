@@ -5,7 +5,7 @@ import urlParser from 'url-parse';
 import { Context, setup } from '../../setup';
 
 // tests
-describe('Type URL', () => {
+describe('Type url', () => {
 
     var context = new Context();
     setup(context);
@@ -14,14 +14,20 @@ describe('Type URL', () => {
         expect(() => context.deliveryClient.type(null)).toThrowError();
     });
 
-     it(`type URL with 'movie' codename should contain '/types/movie`, () => {
+    it(`type url with 'movie' codename should contain '/types/movie`, () => {
         var url = context.deliveryClient.type('movie').toString();
         expect(url).toContain(`/types/movie`);
     });
 
-    it(`type URL for all types should end with 'types'`, () => {
+    it(`type url for all types should end with 'types'`, () => {
         var url = context.deliveryClient.types().toString();
         expect(url).toContain(`/types`);
+    });
+
+    it(`type url should contain skip parameter`, () => {
+        var skip: number = 549228429;
+        var url = context.deliveryClient.types().skipParameter(skip).toString();
+        expect(url).toContain('skip=' + skip.toString());
     });
 
 });

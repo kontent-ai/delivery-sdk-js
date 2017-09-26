@@ -59,6 +59,9 @@ export abstract class QueryService {
          */
         protected config: DeliveryClientConfig
     ) {
+        if (!config) {
+            throw Error(`Invalid configuration has been provided`);
+        }
         this.responseMapService = new ResponseMapService(config);
     }
 

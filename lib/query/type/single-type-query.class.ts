@@ -22,7 +22,7 @@ export class SingleTypeQuery extends BaseTypeQuery {
         super(config)
 
            if (!typeCodename){
-            throw Error(`'typeCodename' cannot be null for 'SingleTypeQuery' query`);
+            throw Error(`Cannot create type query without the codename of the type`);
         }
     }
 

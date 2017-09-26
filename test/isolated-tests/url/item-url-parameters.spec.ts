@@ -8,7 +8,7 @@ import { Context, setup } from '../../setup';
 import { SortOrder } from '../../../lib';
 
 // tests
-describe('Parameters', () => {
+describe('Item url parameters', () => {
 
     var context = new Context();
     setup(context);
