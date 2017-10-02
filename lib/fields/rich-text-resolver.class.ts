@@ -1,5 +1,6 @@
 // parse5 for parsing HTML
 import * as parse5 from 'parse5';
+import { AST } from 'parse5';
 
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { FieldModels } from './field-models';
@@ -63,49 +64,57 @@ export class RichTextResolver {
         // resolve modular content nested within the rich text field 
         // find the all 'object' tags
         // example: <object type="application/kenticocloud" data-type="item" data-codename="geralt"></object>
-        var documentFragment = parse5.parseFragment(this.html) as any;
+        var documentFragment = parse5.parseFragment(this.html) as AST.DocumentFragment;
+
+        // get child nodes
+        var childeNodes = this.getChildNodes(documentFragment);
 
         // recursively process all child nodes
-        this.processChildNodes(documentFragment.childNodes as FieldModels.Parse5Node[]);
+        this.processChildNodes(childeNodes);
 
-        // serliaze document go get string as HTML
+        // serialize document and get HTML
         var resolvedHtml = parse5.serialize(documentFragment);
 
         return resolvedHtml;
     }
 
-    private processChildNodes(childNodes: FieldModels.Parse5Node[]): void {
-        if (childNodes) {
-            if (!Array.isArray(childNodes)) {
-                throw Error(`Cannot process modular content in 'RichTextField' because child nodes is not an array`);
+    private getChildNodes(documentFragment: AST.DocumentFragment): AST.Default.Element[] {
+        return (documentFragment as AST.Default.DocumentFragment).childNodes as AST.Default.Element[];
+    } 
+
+    private processChildNodes(childNodes: AST.Default.Element[]): void {
+        if (!childNodes) {
+            return;
+        }
+        if (!Array.isArray(childNodes)) {
+            throw Error(`Cannot process modular content in 'RichTextField' because child nodes is not an array`);
+        }
+
+        childNodes.forEach(node => {
+            if (node.attrs) {
+                var attributes = node.attrs;
+
+                // process modular content
+                this.processModularContent(node, attributes);
+
+                // process link
+                this.processLink(node, attributes);
             }
 
-            childNodes.forEach(node => {
-                if (node.attrs) {
-                    var attributes = node.attrs as FieldModels.Parse5Attribute[]; // array of attributes => name/value pair
-
-                    // process modular content
-                    this.processModularContent(node, attributes);
-
-                    // process link
-                    this.processLink(node, attributes);
-                }
-
-                if (node.childNodes) {
-                    // recursively process all nodes
-                    return this.processChildNodes(node.childNodes);
-                }
-            });
-        }
+            if (node.childNodes) {
+                // recursively process all nodes
+                return this.processChildNodes(this.getChildNodes(node));
+            }
+        });
     }
 
-    private processLink(node: FieldModels.Parse5Node, attributes: FieldModels.Parse5Attribute[]): void {
+    private processLink(node: AST.Default.Node, attributes: AST.Default.Attribute[]): void {
         if (node.nodeName !== this.linkTag) {
             // node is not a link
             return;
         }
 
-        // get all links which have item it attribute, ignore all other links (they can be normal links in rich text)
+        // get all links which have item it attribute, ignore all other links (they can be regular links in rich text)
         var contentItemIdAttribute = attributes.find(m => m.name === this.linkContentItemIdAttributeName);
         if (!contentItemIdAttribute) {
             // its a regular link, don't process it
@@ -118,8 +127,8 @@ export class RichTextResolver {
         // find link with the id of content item
         var link = this.links.find(m => m.itemId === contentItemId);
 
-        if (!link){
-            if (this.enableAdvancedLogging){
+        if (!link) {
+            if (this.enableAdvancedLogging) {
                 console.warn(`Cannot resolve URL for item '${contentItemId}' because no link with this id was found`);
             }
             return;
@@ -130,23 +139,23 @@ export class RichTextResolver {
 
         var url;
 
-        if (queryLinkResolver){
+        if (queryLinkResolver) {
             // try to resolve url using the query config
             url = queryLinkResolver(link);
         }
 
-        if (!url){
-            // url was not resolved, try to find global resolver for this particupar type
+        if (!url) {
+            // url was not resolved, try to find global resolver for this particular type
             // and apply its url resolver
 
             var emptyTypeItem = this.typeResolverService.createEmptyTypedObj<IContentItem>(link.type);
 
-            if (!emptyTypeItem){
+            if (!emptyTypeItem) {
                 throw Error(`Cannot resolve link for '${link.type}' type because mapping of this type failed`);
             }
 
             var globalLinkResolver = emptyTypeItem.linkResolver;
-            if (globalLinkResolver){
+            if (globalLinkResolver) {
                 url = globalLinkResolver(link);
             }
         }
@@ -171,7 +180,7 @@ export class RichTextResolver {
         hrefAttribute.value = url;
     }
 
-    private processModularContent(node: FieldModels.Parse5Node, attributes: FieldModels.Parse5Attribute[]): void {
+    private processModularContent(node: AST.Default.Element, attributes: AST.Default.Attribute[]): void {
         var modularContentAttribute = attributes.find(m => m.value === this.modularContentobjectType);
         if (!modularContentAttribute) {
             // node is not of modular content type
@@ -179,7 +188,7 @@ export class RichTextResolver {
         }
 
         // get codename of the modular content
-        var modularItemCodenameAttribute: FieldModels.Parse5Attribute | undefined = attributes.find(m => m.name === this.modularContentCodenameAttributeName);
+        var modularItemCodenameAttribute: AST.Default.Attribute | undefined = attributes.find(m => m.name === this.modularContentCodenameAttributeName);
         if (modularItemCodenameAttribute == null) {
             throw Error(`The '${this.modularContentCodenameAttributeName}' attribute is missing and therefore modular content item cannot be retrieved`);
         }
@@ -222,7 +231,7 @@ export class RichTextResolver {
             var serializedHtml = parse5.parseFragment(replaceHtml) as any;
 
             // add replaced html to node
-            node.childNodes = serializedHtml.childNodes as FieldModels.Parse5Node[];
+            node.childNodes = serializedHtml.childNodes;
         }
     }
 }
