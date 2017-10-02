@@ -19,6 +19,7 @@ describe('MultipleChoiceField', () => {
     ];
 
     var field = new Fields.MultipleChoiceField('name', multipleChoiceValue);
+    var fieldWithNoValue = new Fields.MultipleChoiceField('name', null);
 
     it(`checks name`, () => {
         expect(field.name).toEqual(field.name);
@@ -46,6 +47,11 @@ describe('MultipleChoiceField', () => {
 
     it(`checks codename of option`, () => {
         expect(field.options[0].codename).toEqual(multipleChoiceValue[0].codename);
+    });
+
+    it(`checks that value contains empty array when no value was provided`, () => {
+        expect(fieldWithNoValue.options).toBeDefined();
+        expect(fieldWithNoValue.options.length).toEqual(0);
     });
 });
 

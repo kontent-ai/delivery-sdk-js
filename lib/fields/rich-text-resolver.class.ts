@@ -83,13 +83,6 @@ export class RichTextResolver {
     } 
 
     private processChildNodes(childNodes: AST.Default.Element[]): void {
-        if (!childNodes) {
-            return;
-        }
-        if (!Array.isArray(childNodes)) {
-            throw Error(`Cannot process modular content in 'RichTextField' because child nodes is not an array`);
-        }
-
         childNodes.forEach(node => {
             if (node.attrs) {
                 var attributes = node.attrs;
@@ -117,7 +110,7 @@ export class RichTextResolver {
         // get all links which have item it attribute, ignore all other links (they can be regular links in rich text)
         var contentItemIdAttribute = attributes.find(m => m.name === this.linkContentItemIdAttributeName);
         if (!contentItemIdAttribute) {
-            // its a regular link, don't process it
+            // its either a regular link or the attribute is not defined
             return;
         }
 
@@ -151,7 +144,7 @@ export class RichTextResolver {
             var emptyTypeItem = this.typeResolverService.createEmptyTypedObj<IContentItem>(link.type);
 
             if (!emptyTypeItem) {
-                throw Error(`Cannot resolve link for '${link.type}' type because mapping of this type failed`);
+                throw Error(`Cannot resolve link for '${link.type}' type because mapping failed (have you registered this type in your config?)`);
             }
 
             var globalLinkResolver = emptyTypeItem.linkResolver;
@@ -160,9 +153,10 @@ export class RichTextResolver {
             }
         }
 
+        // url still wasn't resolved
         if (!url) {
             if (this.enableAdvancedLogging) {
-                console.warn(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null`);
+                console.warn(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null/undefiend`);
             }
             return;
         }

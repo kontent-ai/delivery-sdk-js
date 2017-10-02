@@ -6,6 +6,9 @@ import {
    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver
 } from '../../../lib';
 
+import { RichTextResolver } from '../../../lib/fields/rich-text-resolver.class';
+import { TypeResolverService } from '../../../lib/services/type-resolver.service';
+
 class MockMovie extends ContentItem {
     public plot: Fields.RichTextField
 }

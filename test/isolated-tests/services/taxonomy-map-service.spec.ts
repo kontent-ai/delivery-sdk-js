@@ -1,0 +1,23 @@
+
+// models
+import { TaxonomyMapService } from '../../../lib/services/taxonomy-map.service';
+
+// tests
+describe('TaxonomyMapService', () => {
+
+    var taxonomyMapService = new TaxonomyMapService();
+
+    it(`should throw an Error when invalid response is given`, () => {
+        expect(() => taxonomyMapService.mapTaxonomy(null, [])).toThrowError();
+        expect(() => taxonomyMapService.mapTaxonomy(undefined, [])).toThrowError();
+
+        expect(() => taxonomyMapService.mapTaxonomy({} as any, null)).toThrowError();
+        expect(() => taxonomyMapService.mapTaxonomy({} as any, undefined)).toThrowError();
+
+        expect(() => taxonomyMapService.mapTaxonomies(null)).toThrowError();
+        expect(() => taxonomyMapService.mapTaxonomies(undefined)).toThrowError();
+
+        expect(() => taxonomyMapService.mapTaxonomies('test' as any)).toThrowError();
+    });
+});
+

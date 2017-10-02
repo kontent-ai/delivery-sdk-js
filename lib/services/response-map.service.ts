@@ -48,7 +48,7 @@ export class ResponseMapService {
      */
     private readonly elementMapService: ElementMapService;
 
-    constructor(config: DeliveryClientConfig){
+    constructor(config: DeliveryClientConfig) {
         this.typeMapService = new TypeMapService();
         this.itemMapService = new ItemMapService(config);
         this.taxonomyMapService = new TaxonomyMapService()
@@ -152,21 +152,21 @@ export class ResponseMapService {
         return new TaxonomyResponses.TaxonomiesResponse(taxonomies, this.mapResponseDebug(ajaxResponse));
     }
 
-     /**
-     * Gets response for getting single content type element
-     * @param ajaxResponse Response data 
-     */
+    /**
+    * Gets response for getting single content type element
+    * @param ajaxResponse Response data 
+    */
     mapElementResponse(ajaxResponse: AjaxResponse): ElementResponses.ElementResponse {
         var cloudResponse = ajaxResponse.response as CloudElementResponseInterfaces.ICloudElementResponse;
 
         // map element 
         var element = this.elementMapService.mapElement(cloudResponse);
-      
+
         return new ElementResponses.ElementResponse(element, this.mapResponseDebug(ajaxResponse));
     }
 
-    private mapResponseDebug(ajaxResponse: AjaxResponse) : CloudResponseDebug {
-        if (!ajaxResponse){
+    mapResponseDebug(ajaxResponse: AjaxResponse): CloudResponseDebug {
+        if (!ajaxResponse) {
             throw Error(`Cannot map 'debug' model from the response`);
         }
 

@@ -112,6 +112,5 @@ describe('RichTextField', () => {
         expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml1);
         expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml2);
     });
-
 });
 

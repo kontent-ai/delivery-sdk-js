@@ -58,16 +58,14 @@ export namespace Fields {
             public name: string,
             public value: any
         ) {
-            if (this.value) {
-                if (Array.isArray(this.value)) {
-                    this.value.forEach(option => {
-                        var optionTemp = option as FieldInterfaces.IMultipleChoiceOption;
-                        this.options.push(new FieldModels.MultipleChoiceOption(
-                            optionTemp.name,
-                            optionTemp.codename
-                        ));
-                    });
-                }
+            if (this.value && Array.isArray(this.value)) {
+                this.value.forEach(option => {
+                    var optionTemp = option as FieldInterfaces.IMultipleChoiceOption;
+                    this.options.push(new FieldModels.MultipleChoiceOption(
+                        optionTemp.name,
+                        optionTemp.codename
+                    ));
+                });
             }
         };
     }
@@ -269,7 +267,7 @@ export namespace Fields {
             ));
 
             if (!url) {
-                console.warn(`'linkResolver' is configured, but url resolved for '${this.type}' type was resolved to empty string`);
+                console.warn(`'linkResolver' is configured, but url resolved for '${this.type}' type and '${this.name}' field resolved to an null/undefined value`);
                 return null;
             }
 

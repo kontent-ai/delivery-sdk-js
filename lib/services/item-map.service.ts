@@ -16,7 +16,7 @@ export class ItemMapService {
 
     private mapItem<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem{
         if (item == null) {
-            throw Error(`Could not map item: ` + item);
+            throw Error(`Could not map item because its undefined`);
         }
         return this.fieldMapService.mapFields<TItem>(item, modularContent, queryConfig);
     }

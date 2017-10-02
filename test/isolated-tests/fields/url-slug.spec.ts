@@ -52,11 +52,41 @@ describe('URLSlugField', () => {
         expect(url).toEqual(null);
     });
 
-    
-    it(`url should be null when resolved url equals to null as well`, () => {
+    it(`url should be null when resolved url equals to null`, () => {
         var url = 'test_url';
         url = (new Fields.UrlSlugField('name', 'actor-slug', null, (link) => null, true).getUrl());
         expect(url).toEqual(null);
+    });
+       
+    it(`Checks that console.warn displays/not displays information when url resolving fails due to invalid resolver`, () => {
+        console.warn = jasmine.createSpy("warn");
+
+        var urlWithNoLog = (new Fields.UrlSlugField('name', 'actor-slug', actor, null, false).getUrl());
+        expect(console.warn).toHaveBeenCalledTimes(0);
+
+        var urlWithLogging = (new Fields.UrlSlugField('name', 'actor-slug', actor, null, true).getUrl());
+        expect(console.warn).toHaveBeenCalledTimes(1);
+    });
+
+    it(`Checks that console.warn displays/not displays information when url resolving fails due to invalid item`, () => {
+        console.warn = jasmine.createSpy("warn");
+
+        var urlWithNoLog = (new Fields.UrlSlugField('name', 'actor-slug', null, (link) => 'test', false).getUrl());
+        expect(console.warn).toHaveBeenCalledTimes(0);
+
+        var urlWithLogging = (new Fields.UrlSlugField('name', 'actor-slug', null, (link) => 'test', true).getUrl());
+        expect(console.warn).toHaveBeenCalledTimes(1);
+    });
+
+    it(`Checks that console.warn displays information that url was resolved to improper value`, () => {
+        console.warn = jasmine.createSpy("warn");
+
+        var url = (new Fields.UrlSlugField('name', 'actor-slug', actor, (link) => 'test', false).getUrl());
+        expect(console.warn).toHaveBeenCalledTimes(0);
+
+        var url = (new Fields.UrlSlugField('name', 'actor-slug', actor, (link) => '', false).getUrl());
+        expect(console.warn).toHaveBeenCalledTimes(1);
+
     });
 
 });
