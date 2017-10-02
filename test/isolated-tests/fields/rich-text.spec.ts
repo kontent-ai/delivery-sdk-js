@@ -100,5 +100,18 @@ describe('RichTextField', () => {
         expect(field.getHtml()).toContain(expectedHtml);
     });
 
+    it(`checks that links are resolved even if the rich text resolver is not set`, () => {
+        var fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, modularItems, links, typeResolverService, false,
+        {
+            richTextResolver: null,
+            linkResolver: (link: ILink) => '/actor-rt/' + link.url_slug
+        });
+
+        var expectedHtml1 = `/actor-rt/slug_for_joel`;
+        var expectedHtml2 = `/actor-rt/slug_for_tom`;
+        expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml1);
+        expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml2);
+    });
+
 });
 
