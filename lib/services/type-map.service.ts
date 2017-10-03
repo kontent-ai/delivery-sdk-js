@@ -15,7 +15,11 @@ export class TypeMapService {
 
     private mapType(type: IContentType): ContentType {
         if (!type) {
-            throw Error(`Cannot map type: ` + type);
+            throw Error(`Cannot map type`);
+        }
+
+        if (!type.elements) {
+            throw Error(`Cannot map type elements`);
         }
 
         var typeSystem = new ContentTypeSystemAttributes(
@@ -27,39 +31,35 @@ export class TypeMapService {
 
         var elements: Element[] = [];
 
-        if (type.elements) {
-            var elementNames = Object.getOwnPropertyNames(type.elements);
-            if (elementNames) {
-                elementNames.forEach(elementName => {
-                    var typeElement = type.elements[elementName] as CloudTypeResponseInterfaces.IContentTypeElementCloudResponse;
+        var elementNames = Object.getOwnPropertyNames(type.elements);
+        elementNames.forEach(elementName => {
+            var typeElement = type.elements[elementName] as CloudTypeResponseInterfaces.IContentTypeElementCloudResponse;
 
-                    if (!typeElement) {
-                        throw Error(`Cannot find element '${elementName}' on type '${type}'`);
-                    }
+            if (!typeElement) {
+                throw Error(`Cannot find element '${elementName}' on type '${type}'`);
+            }
 
-                    // use json property as a codename of the type element
-                    var elementCodename = elementName;
+            // use json property as a codename of the type element
+            var elementCodename = elementName;
 
-                    // extra properties for certain field types
-                    var taxonomyGroup: string | undefined = typeElement.taxonomy_group;
-                    var options: IElementOption[] = [];
+            // extra properties for certain field types
+            var taxonomyGroup: string | undefined = typeElement.taxonomy_group;
+            var options: IElementOption[] = [];
 
-                    // some elements can contain options
-                    var rawOptions = typeElement.options;
-                    if (rawOptions){
-                        if (!Array.isArray(rawOptions)){
-                            throw Error(`Content type 'options' property has to be an array`);
-                        }
+            // some elements can contain options
+            var rawOptions = typeElement.options;
+            if (rawOptions) {
+                if (!Array.isArray(rawOptions)) {
+                    throw Error(`Content type 'options' property has to be an array`);
+                }
 
-                        rawOptions.forEach(rawOption => {
-                            options.push(new ElementOption(rawOption.name, rawOption.codename));
-                        });
-                    }
-
-                    elements.push(new Element(elementCodename, typeElement.type, typeElement.name, taxonomyGroup, options));
+                rawOptions.forEach(rawOption => {
+                    options.push(new ElementOption(rawOption.name, rawOption.codename));
                 });
             }
-        }
+
+            elements.push(new Element(elementCodename, typeElement.type, typeElement.name, taxonomyGroup, options));
+        });
         return new ContentType(typeSystem, elements);
     }
 

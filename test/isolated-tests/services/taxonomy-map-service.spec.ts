@@ -14,10 +14,13 @@ describe('TaxonomyMapService', () => {
         expect(() => taxonomyMapService.mapTaxonomy({} as any, null)).toThrowError();
         expect(() => taxonomyMapService.mapTaxonomy({} as any, undefined)).toThrowError();
 
+        expect(() => taxonomyMapService.mapTaxonomy({} as any, 'test' as any)).toThrowError();
+
         expect(() => taxonomyMapService.mapTaxonomies(null)).toThrowError();
         expect(() => taxonomyMapService.mapTaxonomies(undefined)).toThrowError();
 
         expect(() => taxonomyMapService.mapTaxonomies('test' as any)).toThrowError();
+
     });
 });
 

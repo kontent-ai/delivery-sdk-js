@@ -36,8 +36,16 @@ export class FieldMapService {
      * @param queryConfig Query configuration
      */
     mapFields<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem{
-        if (item == null) {
+        if (!item) {
             throw Error(`Cannot map fields because item is not defined`);
+        }
+
+        if (!item.elements) {
+            throw Error(`Cannot map elements of the item`);
+        }
+
+        if (!item.system) {
+            throw Error(`Cannot map system attributes of the item`);
         }
 
         var properties = Object.getOwnPropertyNames(item.elements);
@@ -64,7 +72,6 @@ export class FieldMapService {
             if (!propertyName) {
                 propertyName = fieldName;
             }
-
             itemTyped[propertyName] = this.mapField(field, modularContent, itemTyped, queryConfig);
         });
 

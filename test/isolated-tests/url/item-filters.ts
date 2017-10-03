@@ -4,6 +4,8 @@ import urlParser from 'url-parse';
 // setup
 import { Context, setup } from '../../setup';
 
+import { Filters } from '../../../lib';
+
 // tests
 describe('Item url filters', () => {
 
@@ -224,6 +226,51 @@ describe('Item url filters', () => {
         expect(() => context.deliveryClient.items().equalsFilter(null, 'val1')).toThrowError();
     });
 
+    // null value checks
+
+    it(`EqualsFilter without value should return empty string as param value`, () => {
+        expect(new Filters.EqualsFilter('f', undefined).GetParamValue()).toEqual('');
+    });
+
+    it(`AllFilter without value should return empty string as param value`, () => {
+        expect(new Filters.AllFilter('f', undefined).GetParamValue()).toEqual('');
+    });
+
+    it(`AnyFilter without value should return empty string as param value`, () => {
+        expect(new Filters.AnyFilter('f', undefined).GetParamValue()).toEqual('');
+    });
+
+    it(`ContainsFilter without value should return empty string as param value`, () => {
+        expect(new Filters.ContainsFilter('f', undefined).GetParamValue()).toEqual('');
+    });
+
+    it(`GreaterThanFilter without value should return empty string as param value`, () => {
+        expect(new Filters.GreaterThanFilter('f', undefined).GetParamValue()).toEqual('');
+    });
+
+    it(`GreaterThanOrEqualFilter without value should return empty string as param value`, () => {
+        expect(new Filters.GreaterThanOrEqualFilter('f', undefined).GetParamValue()).toEqual('');
+    });
+
+    it(`Infilter without value should return empty string as param value`, () => {
+        expect(new Filters.Infilter('f', undefined).GetParamValue()).toEqual('');
+    });
+
+    it(`LessThanFilter without value should return empty string as param value`, () => {
+        expect(new Filters.LessThanFilter('f', undefined).GetParamValue()).toEqual('');
+    });
+
+    it(`LessThanOrEqualFilter without value should return empty string as param value`, () => {
+        expect(new Filters.LessThanOrEqualFilter('f', undefined).GetParamValue()).toEqual('');
+    });
+
+    it(`RangeFilter without value should return empty string as param value`, () => {
+        expect(new Filters.RangeFilter('f', undefined, 3).GetParamValue()).toEqual(',3');
+    });
+
+    it(`RangeFilter without value should return empty string as param value`, () => {
+        expect(new Filters.RangeFilter('f', 3, undefined).GetParamValue()).toEqual('3,');
+    });
     // trim checks
 
     it(`inFilter should trim its field`, () => {

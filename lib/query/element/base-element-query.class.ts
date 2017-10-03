@@ -47,14 +47,6 @@ export abstract class BaseElementQuery extends BaseQuery {
     }
 
     protected getElementQueryUrl(typeCodename: string, elementCodename: string): string {
-        if (!typeCodename) {
-            throw Error(`Type codename has to be set in order to fetch content type element`);
-        }
-
-        if (!elementCodename) {
-            throw Error(`Type element's codename has to be set in order to fetch content type element`);
-        }
-
         var action = '/types/' + typeCodename + '/elements/' + elementCodename;
 
         return this.getUrl(action, this._queryConfig, this.parameters);

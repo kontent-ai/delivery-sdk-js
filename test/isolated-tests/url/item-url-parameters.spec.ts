@@ -5,7 +5,7 @@ import urlParser from 'url-parse';
 import { Context, setup } from '../../setup';
 
 // models
-import { SortOrder } from '../../../lib';
+import { SortOrder, Parameters } from '../../../lib';
 
 // tests
 describe('Item url parameters', () => {
@@ -183,6 +183,11 @@ describe('Item url parameters', () => {
         var param = url.searchParams.get('language');
 
         expect(param).toEqual('en');
+    });
+
+    // empty value checks
+    it(`ElementsParameter without value should return empty string as param value`, () => {
+        expect(new Parameters.ElementsParameter(undefined).GetParamValue()).toEqual('');
     });
 });
 

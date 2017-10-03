@@ -2,6 +2,8 @@ import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interf
 import { SortOrder } from './sort-order.enum';
 
 export namespace Parameters {
+
+    var defaultValue: string = '';
     
     export class ElementsParameter implements IQueryParameter {
 
@@ -13,9 +15,7 @@ export namespace Parameters {
         constructor(
             public elementCodenames: string[]
         ) {
-            if (!this.elementCodenames) {
-                throw Error(`'elementCodenames' are not set in 'ElementsParameter'`);
-            }
+            
         }
 
         public GetParam(): string {
@@ -23,6 +23,10 @@ export namespace Parameters {
         }
 
         public GetParamValue(): string {
+            if (!this.elementCodenames) {
+                return defaultValue;
+            }
+
             return this.elementCodenames.map(m => {
                 if (!m) {
                     throw Error(`Codename of 'ElementsParameter' cannot be null or empty`);

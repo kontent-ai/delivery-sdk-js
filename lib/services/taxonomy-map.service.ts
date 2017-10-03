@@ -21,6 +21,10 @@ export class TaxonomyMapService {
             throw Error(`Cannot map taxonomy due to missing 'terms' property`);
         }
 
+        if (!Array.isArray(taxonomyTerms)) {
+            throw Error(`Cannot map terms because no terms array was provided`);
+        }
+
         var mappedSystemAttributes: TaxonomySystemAttributes = new TaxonomySystemAttributes(
             taxonomySystem.id,
             taxonomySystem.name,
@@ -56,14 +60,6 @@ export class TaxonomyMapService {
      * @param termsArray Terms array to map
      */
     private mapTaxonomyTerms(termsArray: ITaxonomyTerms[]): TaxonomyTerms[] {
-        if (!termsArray) {
-            throw Error(`Cannot map taxonomy terms due to invalid property data`);
-        }
-
-        if (!Array.isArray(termsArray)) {
-            throw Error(`Cannot map terms because no terms array was provided`);
-        }
-
         if (termsArray.length == 0) {
             return [];
         }

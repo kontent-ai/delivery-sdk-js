@@ -11,6 +11,8 @@ describe('TypeMapService', () => {
         expect(() => typeMapService.mapSingleType(null)).toThrowError();
         expect(() => typeMapService.mapSingleType(undefined)).toThrowError();
 
+        expect(() => typeMapService.mapSingleType({} as any)).toThrowError();
+
         expect(() => typeMapService.mapMultipleTypes(null)).toThrowError();
         expect(() => typeMapService.mapMultipleTypes(undefined)).toThrowError();
     });
