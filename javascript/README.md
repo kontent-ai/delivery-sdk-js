@@ -83,7 +83,7 @@ Compile your code into JavaScript that can be used within your browser and deplo
 browserify nameOfYourFile.js -o bundle.js
 ```
 
-#### More examples
+## More examples
 
 ```javascript
 /**
