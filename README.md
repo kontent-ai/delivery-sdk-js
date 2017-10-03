@@ -8,6 +8,8 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/enngage/kenticoclouddeliverytypescriptsdk/badge.svg)](https://snyk.io/test/github/enngage/kenticoclouddeliverytypescriptsdk)
 [![Dependency Status](https://dependencyci.com/github/Enngage/KenticoCloudDeliveryTypeScriptSDK/badge)](https://dependencyci.com/github/Enngage/KenticoCloudDeliveryTypeScriptSDK)
 
+For JavaScript documentation look [here](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/master/javascript)
+
 Sample applications using this SDK: [Javascript app](https://github.com/Enngage/KenticoCloudSampleJavascriptApp), [Angular app](https://github.com/Enngage/KenticoCloudSampleAngularApp)
 
 Developer SDK for retrieving content from [Kentico Cloud](https://kenticocloud.com/).
@@ -17,6 +19,7 @@ Developer SDK for retrieving content from [Kentico Cloud](https://kenticocloud.c
 ```
 npm i kentico-cloud-delivery-typescript-sdk --save
 ```
+
 
 ### Create model
 
