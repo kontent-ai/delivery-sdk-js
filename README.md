@@ -1,4 +1,4 @@
-# Kentico Cloud Delivery TypeScript SDK
+# Kentico Cloud Delivery JavaScript / TypeScript SDK
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery-typescript-sdk.svg)](https://www.npmjs.com/package/kentico-cloud-delivery-typescript-sdk)
 [![Build Status](https://api.travis-ci.org/Enngage/KenticoCloudDeliveryTypeScriptSDK.svg?branch=master)](https://travis-ci.org/Enngage/KenticoCloudDeliveryTypeScriptSDK)
@@ -8,11 +8,24 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/enngage/kenticoclouddeliverytypescriptsdk/badge.svg)](https://snyk.io/test/github/enngage/kenticoclouddeliverytypescriptsdk)
 [![Dependency Status](https://dependencyci.com/github/Enngage/KenticoCloudDeliveryTypeScriptSDK/badge)](https://dependencyci.com/github/Enngage/KenticoCloudDeliveryTypeScriptSDK)
 
-For JavaScript documentation look [here](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/master/javascript)
+A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) that supports JavaScript and TypeScript.
 
-Sample applications using this SDK: [Javascript app](https://github.com/Enngage/KenticoCloudSampleJavascriptApp), [Angular app](https://github.com/Enngage/KenticoCloudSampleAngularApp)
-
-Developer SDK for retrieving content from [Kentico Cloud](https://kenticocloud.com/).
+<table>
+<tbody>
+<tr>
+<th><h3>JavaScript</h3></th><th><h3>TypeScript</h3></th>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/master/javascript">Documentation</a></td><td><a href="#getting-started">Documentation</a></td>
+</tr>
+<tr>
+<th colspan="2">Sample apps</th>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudSampleJavascriptApp">Vanilla JavaScript app</a></td><td><a href="https://github.com/Enngage/KenticoCloudSampleAngularApp">Angular app</a></td>
+</tr>
+</tbody>
+</table>
 
 ## Getting started
 
@@ -35,6 +48,14 @@ You can use [Kentico Cloud Model Generator Utility](https://www.npmjs.com/packag
 
 ### Initialize DeliveryClient
 
+<table>
+<tbody>
+<tr>
+<th>TypeScript</th>
+</tr>
+<tr>
+<td>
+
 ```typescript
 // kentico cloud
 import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-delivery-typescript-sdk';
@@ -51,8 +72,24 @@ let typeResolvers: TypeResolver[] = [
 var deliveryClient = new DeliveryClient(
   new DeliveryClientConfig(projectId, typeResolvers)
   )
-
 ```
+
+</td>
+</tr>
+<tr>
+<th>JavaScript</th>
+</tr>
+<tr>
+<td>
+
+```javascript
+here will be a JavaScript example
+```
+
+</td>
+</tr>
+</tbody>
+</table>
 
 ### Use it
 
