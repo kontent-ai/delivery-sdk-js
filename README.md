@@ -38,29 +38,30 @@ npm i kentico-cloud-delivery-typescript-sdk --save
 ```typescript
 import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
 
-var projectId = 'projectId';
-
 /**
-[Kentico Cloud Model Generator Utility](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)  NPM package to help you generate TypeScript models from your [Kentico Cloud](https://kenticocloud.com/) project.
+Each content type needs to have model class
 */
 export class Movie extends ContentItem {
   public title: Fields.TextField;
 }
 
 /**
-* Type resolvers make sure that the items returned from Kentico Cloud are casted to your classes (useful when you define * custom properties/functions on your models)
+* Type resolvers make sure instance of proper class is created for your content types
 */
 let typeResolvers: TypeResolver[] = [
     new TypeResolver('movie', () => new Movie()),
   ];
 
 /**
- * Create new instance of Delivery Client and use it to fetch data from Kentico Cloud
+ * Create new instance of Delivery Client
  */
 var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig(projectId, typeResolvers)
+  new DeliveryClientConfig('projectId', typeResolvers)
   );
 
+/**
+* Get data from Cloud
+*/
 deliveryClient.items<Movie>()
   .type('movie')
   .get()
@@ -74,12 +75,10 @@ deliveryClient.items<Movie>()
 
 ```javascript
 var KenticoCloud = require('kentico-cloud-delivery-typescript-sdk');
-var projectId = 'projectId';
 
 /**
- * Class representing the content type. It is not necessary to manually define properties in JavaScript
- * as all properties will be auto-assigned by the SDK
- */
+Each content type needs to have model class
+*/
 class Movie extends KenticoCloud.ContentItem {
     constructor() {
         super();
@@ -87,7 +86,7 @@ class Movie extends KenticoCloud.ContentItem {
 }
 
 /**
-* Type resolvers make sure that the items returned from Kentico Cloud are casted to your classes (useful when you define * custom properties/functions on your models)
+* Type resolvers make sure instance of proper class is created for your content types
 */
 var typeResolvers = [
     new KenticoCloud.TypeResolver('movie', () => new Movie()),
@@ -99,7 +98,7 @@ var typeResolvers = [
 var config = new KenticoCloud.DeliveryClientConfig(projectId, typeResolvers);
 
 /**
- * Create new instance of Delivery Client and use it to fetch data from Kentico Cloud
+ * Create new instance of Delivery Client
  */
 var deliveryClient = new KenticoCloud.DeliveryClient(config);
 
