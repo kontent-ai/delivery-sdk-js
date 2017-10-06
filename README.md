@@ -226,7 +226,10 @@ export class Movie extends ContentItem {
   public category: Fields.MultipleChoiceField;
 }
 ```
-
+</td>
+</tr>
+<tr>
+<td>
 Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField` and `TaxonomyField`
 
 #### Don't want to waste time creating models manually? 
