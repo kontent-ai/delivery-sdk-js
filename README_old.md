@@ -13,7 +13,7 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 <table>
 <tbody>
 <tr>
-<th><h3>JavaScript</h3></th><th><h3>TypeScript</h3></th>
+<th><h3>TypeScript</h3></th><th><h3>JavaScript</h3></th>
 </tr>
 <tr>
 <td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/master/javascript">Documentation</a></td><td><a href="#installation">Documentation</a></td>
