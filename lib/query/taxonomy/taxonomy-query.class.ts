@@ -11,15 +11,19 @@ import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export class TaxonomyQuery extends BaseTaxonomyQuery {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService,
         private taxonomyCodename: string
     ) {
-        super(config);
+        super(config, queryService);
 
-        if (!taxonomyCodename){
+        if (!taxonomyCodename) {
             throw Error(`Cannot create taxonomy query without codename of the taxonomy`);
         }
     }

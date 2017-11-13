@@ -19,6 +19,9 @@ import { IHeader } from '../../interfaces/common/iheader.interface';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export abstract class BaseTypeQuery extends BaseQuery {
 
     protected parameters: IQueryParameter[] = [];
@@ -26,8 +29,9 @@ export abstract class BaseTypeQuery extends BaseQuery {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService
     ) {
-        super(config)
+        super(config, queryService)
     }
 
     /**
@@ -43,26 +47,26 @@ export abstract class BaseTypeQuery extends BaseQuery {
      * Gets headers used by this query
      */
     getHeaders(): IHeader[] {
-        return super.getHeaders(this._queryConfig);
+        return this.queryService.getHeaders(this._queryConfig);
     }
 
     protected getSingleTypeQueryUrl(codename: string): string {
-        var action = '/types/' + codename;
+        const action = '/types/' + codename;
 
-        return this.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
     }
 
     protected getMultipleTypesQueryUrl(): string {
-        var action = '/types';
+        const action = '/types';
 
-        return this.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
     }
 
     protected runMultipleTypesQuery(): Observable<TypeResponses.DeliveryTypeListingResponse> {
-        return super.getMultipleTypes(this.getMultipleTypesQueryUrl(), this._queryConfig);
+        return this.queryService.getMultipleTypes(this.getMultipleTypesQueryUrl(), this._queryConfig);
     }
 
     protected runSingleTypeQuery(codename: string): Observable<TypeResponses.DeliveryTypeResponse> {
-        return super.getSingleType(this.getSingleTypeQueryUrl(codename), this._queryConfig);
+        return this.queryService.getSingleType(this.getSingleTypeQueryUrl(codename), this._queryConfig);
     }
 }

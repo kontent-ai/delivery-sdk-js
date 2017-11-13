@@ -18,12 +18,16 @@ import { BaseItemQuery } from './base-item-query.class';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery<TItem> {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService
     ) {
-        super(config)
+        super(config, queryService)
     }
 
     // type
@@ -120,9 +124,8 @@ export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery
     }
 
     /**
-     * 
      * @param field Element to filter.
-     * @param value 
+     * @param value Value
      */
     lessThanOrEqualFilter(field: string, value: string): this {
         this.parameters.push(new Filters.LessThanOrEqualFilter(field, value));
@@ -130,7 +133,6 @@ export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery
     }
 
     /**
-     * 
      * @param field Element to filter.
      * @param lowerValue Lower value of range (e.g. 2)
      * @param higherValue Higher value of range (e.g. 10)

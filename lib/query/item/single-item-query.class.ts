@@ -11,15 +11,19 @@ import { BaseItemQuery } from './base-item-query.class';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export class SingleItemQuery<TItem extends IContentItem> extends BaseItemQuery<TItem> {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService,
         private codename: string
     ) {
-        super(config)
+        super(config, queryService)
 
-        if (!codename){
+        if (!codename) {
             throw Error(`'codename' has to be configured for 'SingleItemQuery' query`);
         }
     }
@@ -34,7 +38,7 @@ export class SingleItemQuery<TItem extends IContentItem> extends BaseItemQuery<T
      /**
      * Gets 'Url' representation of query
      */
-    toString(): string{
+    toString(): string {
         return super.getSingleItemQueryUrl(this.codename);
     }
 }

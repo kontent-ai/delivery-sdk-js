@@ -5,7 +5,7 @@ import { DeliveryClientConfig } from '../../config/delivery-client.config';
 import { TypeResponses } from '../../models/type/responses';
 
 // query params
-import  { Parameters } from '../../models/common/parameters';
+import { Parameters } from '../../models/common/parameters';
 
 // base query
 import { BaseTypeQuery } from './base-type-query.class';
@@ -13,15 +13,19 @@ import { BaseTypeQuery } from './base-type-query.class';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export class SingleTypeQuery extends BaseTypeQuery {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService,
         private typeCodename: string
     ) {
-        super(config)
+        super(config, queryService)
 
-           if (!typeCodename){
+           if (!typeCodename) {
             throw Error(`Cannot create type query without the codename of the type`);
         }
     }

@@ -31,7 +31,7 @@ import { IElementQueryConfig } from '../interfaces/element/ielement-query.config
 // services
 import { ResponseMapService } from './response-map.service';
 
-export abstract class QueryService {
+export class QueryService {
 
     /**
     * Base Url to Kentico Delivery API
@@ -75,11 +75,11 @@ export abstract class QueryService {
         }
 
         if (error instanceof AjaxError) {
-            var xhrResponse = error.xhr.response as ICloudErrorResponse;
+            const xhrResponse = error.xhr.response as ICloudErrorResponse;
             if (!xhrResponse) {
                 return error;
             }
-            // return Cloud specific error 
+            // return Cloud specific error
             return new CloudError(xhrResponse.message, xhrResponse.request_id, xhrResponse.error_code, xhrResponse.specific_code, error);
         }
 
@@ -132,8 +132,7 @@ export abstract class QueryService {
             options.forEach(filter => {
                 if (url.indexOf('?') > -1) {
                     url = url + '&' + filter.GetParam() + '=' + filter.GetParamValue();
-                }
-                else {
+                } else {
                     url = url + '?' + filter.GetParam() + '=' + filter.GetParamValue();
                 }
             });
@@ -147,7 +146,7 @@ export abstract class QueryService {
      * @param queryConfig Query configuration
      * @param options Query options
      */
-    protected getUrl(action: string, queryConfig: IQueryConfig, options?: IQueryParameter[]): string {
+    getUrl(action: string, queryConfig: IQueryConfig, options?: IQueryParameter[]): string {
         return this.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
     }
 
@@ -156,7 +155,7 @@ export abstract class QueryService {
      * @param url Url used to get single item
      * @param queryConfig Query configuration
      */
-    protected getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
+    getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return this.getResponse(url, queryConfig)
             .map(ajaxResponse => {
                 return this.responseMapService.mapSingleResponse<TItem>(ajaxResponse, queryConfig)
@@ -171,7 +170,7 @@ export abstract class QueryService {
     * @param url Url used to get multiple items
     * @param queryConfig Query configuration
     */
-    protected getMultipleItems<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
+    getMultipleItems<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
         return this.getResponse(url, queryConfig)
             .map(ajaxResponse => {
                 return this.responseMapService.mapMultipleResponse(ajaxResponse, queryConfig)
@@ -186,7 +185,7 @@ export abstract class QueryService {
      * @param url Url used to get single type
      * @param queryConfig Query configuration
      */
-    protected getSingleType(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeResponse> {
+    getSingleType(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeResponse> {
         return this.getResponse(url, queryConfig)
             .map(ajaxResponse => {
                 return this.responseMapService.mapSingleTypeResponse(ajaxResponse)
@@ -201,7 +200,7 @@ export abstract class QueryService {
      * @param url Url used to get multiple types
      * @param queryConfig Query configuration
      */
-    protected getMultipleTypes(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeListingResponse> {
+    getMultipleTypes(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeListingResponse> {
         return this.getResponse(url, queryConfig)
             .map(ajaxResponse => {
                 return this.responseMapService.mapMultipleTypeResponse(ajaxResponse)
@@ -216,7 +215,7 @@ export abstract class QueryService {
      * @param url Url used to get single taxonomy
      * @param queryConfig Query configuration
      */
-    protected getTaxonomy(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomyResponse> {
+    getTaxonomy(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomyResponse> {
         return this.getResponse(url, queryConfig)
             .map(ajaxResponse => {
                 return this.responseMapService.mapTaxonomyResponse(ajaxResponse)
@@ -231,7 +230,7 @@ export abstract class QueryService {
     * @param url Url used to get multiple taxonomies
     * @param queryConfig Query configuration
     */
-    protected getTaxonomies(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomiesResponse> {
+    getTaxonomies(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomiesResponse> {
         return this.getResponse(url, queryConfig)
             .map(ajaxResponse => {
                 return this.responseMapService.mapTaxonomiesResponse(ajaxResponse)
@@ -246,7 +245,7 @@ export abstract class QueryService {
     * @param url Url used to get single content type element
     * @param queryConfig Query configuration
     */
-    protected getElement(url: string, queryConfig: ITaxonomyQueryConfig): Observable<ElementResponses.ElementResponse> {
+    getElement(url: string, queryConfig: ITaxonomyQueryConfig): Observable<ElementResponses.ElementResponse> {
         return this.getResponse(url, queryConfig)
             .map(ajaxResponse => {
                 return this.responseMapService.mapElementResponse(ajaxResponse)
@@ -285,8 +284,8 @@ export abstract class QueryService {
      * should return the authorization header
      * @param queryConfig Query configuration
      */
-    protected getHeaders(queryConfig: IQueryConfig): IHeader[] {
-        var headers: IHeader[] = [];
+    getHeaders(queryConfig: IQueryConfig): IHeader[] {
+        const headers: IHeader[] = [];
 
         // add preview header is required
         if (this.isPreviewModeEnabled(queryConfig)) {
@@ -306,9 +305,8 @@ export abstract class QueryService {
      * @param queryConfig Query configuration
      */
     private getHeadersJson(queryConfig: IQueryConfig): any {
-        var headerJson: any = {};
-
-        var headers = this.getHeaders(queryConfig);
+        const headerJson: any = {};
+        const headers = this.getHeaders(queryConfig);
 
         headers.forEach(header => {
             headerJson[header.header] = header.value;

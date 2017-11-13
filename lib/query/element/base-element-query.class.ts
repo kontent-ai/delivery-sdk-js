@@ -19,6 +19,9 @@ import { IHeader } from '../../interfaces/common/iheader.interface';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export abstract class BaseElementQuery extends BaseQuery {
 
     protected parameters: IQueryParameter[] = [];
@@ -26,8 +29,9 @@ export abstract class BaseElementQuery extends BaseQuery {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService
     ) {
-        super(config)
+        super(config, queryService)
     }
 
     /**
@@ -43,17 +47,16 @@ export abstract class BaseElementQuery extends BaseQuery {
      * Gets headers used by this query
      */
     getHeaders(): IHeader[] {
-        return super.getHeaders(this._queryConfig);
+        return this.queryService.getHeaders(this._queryConfig);
     }
 
     protected getElementQueryUrl(typeCodename: string, elementCodename: string): string {
-        var action = '/types/' + typeCodename + '/elements/' + elementCodename;
+        const action = '/types/' + typeCodename + '/elements/' + elementCodename;
 
-        return this.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
     }
 
     protected runElementQuery(typeCodename: string, elementCodename: string): Observable<ElementResponses.ElementResponse> {
-        return super.getElement(this.getElementQueryUrl(typeCodename, elementCodename), this._queryConfig);
+        return this.queryService.getElement(this.getElementQueryUrl(typeCodename, elementCodename), this._queryConfig);
     }
-
 }

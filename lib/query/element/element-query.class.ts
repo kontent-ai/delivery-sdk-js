@@ -4,14 +4,18 @@ import { Parameters } from '../../models/common/parameters';
 import { BaseElementQuery } from './base-element-query.class';
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export class ElementQuery extends BaseElementQuery {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService,
         private typeCodename: string,
         private elementCodename: string
     ) {
-        super(config);
+        super(config, queryService);
 
         if (!typeCodename) {
             throw Error(`Codename of the type has to be provided`);

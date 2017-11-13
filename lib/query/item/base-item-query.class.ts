@@ -22,6 +22,9 @@ import { Parameters } from '../../models/common/parameters';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuery {
 
     protected parameters: IQueryParameter[] = [];
@@ -31,8 +34,9 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService
     ) {
-        super(config)
+        super(config, queryService)
     }
 
     /**
@@ -48,7 +52,7 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
     * Gets headers used by this query
     */
     getHeaders(): IHeader[] {
-        return super.getHeaders(this.getQueryConfig());
+        return this.queryService.getHeaders(this.getQueryConfig());
     }
 
     // shared parameters
@@ -90,44 +94,44 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
     }
 
     protected getMultipleItemsQueryUrl(): string {
-        var action = '/items';
+        const action = '/items';
 
         // get all items of all types when no type is specified
         if (this._contentType) {
-            this.parameters.push(new Filters.EqualsFilter("system.type", this._contentType));
+            this.parameters.push(new Filters.EqualsFilter('system.type', this._contentType));
         }
 
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
-        return this.getUrl(action, this.getQueryConfig(), this.parameters);
+        return this.queryService.getUrl(action, this.getQueryConfig(), this.parameters);
     }
 
     protected getSingleItemQueryUrl(codename: string): string {
-        var action = '/items/' + codename;
+        const action = '/items/' + codename;
 
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
-        return this.getUrl(action, this.getQueryConfig(), this.parameters);
+        return this.queryService.getUrl(action, this.getQueryConfig(), this.parameters);
     }
 
     protected runMultipleItemsQuery(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
-        var url = this.getMultipleItemsQueryUrl();
+        const url = this.getMultipleItemsQueryUrl();
 
-        return super.getMultipleItems(url, this.getQueryConfig());
+        return this.queryService.getMultipleItems(url, this.getQueryConfig());
     }
 
     protected runSingleItemQuery(codename: string): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
-        var url = this.getSingleItemQueryUrl(codename);
+        const url = this.getSingleItemQueryUrl(codename);
 
-        return super.getSingleItem(url, this.getQueryConfig());
+        return this.queryService.getSingleItem(url, this.getQueryConfig());
     }
 
     private processDefaultLanguageParameter(): void {
         // add default language if none is specified && default language is specified globally
         if (this.config.defaultLanguage) {
-            var languageParameter = this.parameters.find(m => m.GetParam() === 'language');
+            const languageParameter = this.parameters.find(m => m.GetParam() === 'language');
             if (!languageParameter) {
                 // language parameter was not specified in query, use globally defined language
                 this.parameters.push(new Parameters.LanguageParameter(this.config.defaultLanguage));

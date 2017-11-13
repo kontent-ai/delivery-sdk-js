@@ -19,6 +19,9 @@ import { IHeader } from '../../interfaces/common/iheader.interface';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export abstract class BaseTaxonomyQuery extends BaseQuery {
 
     /**
@@ -38,8 +41,9 @@ export abstract class BaseTaxonomyQuery extends BaseQuery {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService
     ) {
-        super(config)
+        super(config, queryService)
     }
 
     /**
@@ -55,26 +59,26 @@ export abstract class BaseTaxonomyQuery extends BaseQuery {
      * Gets headers used by this query
      */
     getHeaders(): IHeader[] {
-        return super.getHeaders(this._queryConfig);
+        return this.queryService.getHeaders(this._queryConfig);
     }
 
     protected getTaxonomyQueryUrl(taxonomyCodename: string): string {
-        var action = '/' + this.taxonomiesEndpoint + '/' + taxonomyCodename;
+        const action = '/' + this.taxonomiesEndpoint + '/' + taxonomyCodename;
 
-        return this.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
     }
 
     protected getTaxonomiesQueryUrl(): string {
-        var action = '/' + this.taxonomiesEndpoint;
+        const action = '/' + this.taxonomiesEndpoint;
 
-        return this.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
     }
 
     protected runTaxonomyQuery(codename: string): Observable<TaxonomyResponses.TaxonomyResponse> {
-        return super.getTaxonomy(this.getTaxonomyQueryUrl(codename), this._queryConfig);
+        return this.queryService.getTaxonomy(this.getTaxonomyQueryUrl(codename), this._queryConfig);
     }
 
     protected runTaxonomiesQuery(): Observable<TaxonomyResponses.TaxonomiesResponse> {
-        return super.getTaxonomies(this.getTaxonomiesQueryUrl(), this._queryConfig);
+        return this.queryService.getTaxonomies(this.getTaxonomiesQueryUrl(), this._queryConfig);
     }
 }

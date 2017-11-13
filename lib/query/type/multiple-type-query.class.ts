@@ -14,12 +14,16 @@ import { BaseTypeQuery } from './base-type-query.class';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export class MultipleTypeQuery extends BaseTypeQuery {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService
     ) {
-        super(config)
+        super(config, queryService)
     }
 
      /**

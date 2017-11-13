@@ -21,6 +21,8 @@ import { QueryService } from '../services/query.service';
 
 export class DeliveryClient extends QueryService implements IDeliveryClient {
 
+    private queryService: QueryService;
+
     /**
     * Delivery client used to fetch data from Kentico Cloud
     * @constructor
@@ -29,14 +31,16 @@ export class DeliveryClient extends QueryService implements IDeliveryClient {
     constructor(
         protected config: DeliveryClientConfig
     ) {
-        super(config)
+        super(config);
+
+        this.queryService = new QueryService(config);
     }
 
     /**
     * Gets query for multiple types
     */
     types(): MultipleTypeQuery {
-        return new MultipleTypeQuery(this.config);
+        return new MultipleTypeQuery(this.config, this.queryService);
     }
 
     /**
@@ -44,7 +48,7 @@ export class DeliveryClient extends QueryService implements IDeliveryClient {
     * @param {string} typeCodename - Codename of the type to fetch
     */
     type(typeCodename: string): SingleTypeQuery {
-        return new SingleTypeQuery(this.config, typeCodename);
+        return new SingleTypeQuery(this.config, this.queryService, typeCodename);
     }
 
 
@@ -52,7 +56,7 @@ export class DeliveryClient extends QueryService implements IDeliveryClient {
     * Gets query for multiple items
     */
     items<TItem extends IContentItem>(): MultipleItemQuery<TItem> {
-        return new MultipleItemQuery<TItem>(this.config);
+        return new MultipleItemQuery<TItem>(this.config, this.queryService);
     }
 
     /**
@@ -60,30 +64,30 @@ export class DeliveryClient extends QueryService implements IDeliveryClient {
     * @param {string} codename - Codename of item to fetch
     */
     item<TItem extends IContentItem>(codename: string): SingleItemQuery<TItem> {
-        return new SingleItemQuery<TItem>(this.config, codename);
+        return new SingleItemQuery<TItem>(this.config, this.queryService, codename);
     }
 
     /**
-    * Gets query for single taxonomy 
+    * Gets query for single taxonomy
     * @param {string} codename - Codename of taxonomy to fetch
     */
     taxonomy<TItem extends IContentItem>(codename: string): TaxonomyQuery {
-        return new TaxonomyQuery(this.config, codename);
+        return new TaxonomyQuery(this.config, this.queryService, codename);
     }
 
     /**
     * Gets query for multiple taxonomies
     */
     taxonomies<TItem extends IContentItem>(): TaxonomiesQuery {
-        return new TaxonomiesQuery(this.config);
+        return new TaxonomiesQuery(this.config, this.queryService);
     }
 
     /**
      * Gets query for an element within a type
      * @param {string} typeCodename - Codename of the type
-     * @param {string} elementCodename - Codename of the element 
+     * @param {string} elementCodename - Codename of the element
      */
     element(typeCodename: string, elementCodename: string): ElementQuery {
-        return new ElementQuery(this.config, typeCodename, elementCodename);
+        return new ElementQuery(this.config, this.queryService, typeCodename, elementCodename);
     }
 }

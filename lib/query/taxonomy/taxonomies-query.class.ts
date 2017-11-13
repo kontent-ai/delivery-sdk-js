@@ -14,12 +14,16 @@ import { Parameters } from '../../models/common/parameters';
 // rxjs
 import { Observable } from 'rxjs/Rx';
 
+// services
+import { QueryService } from '../../services/query.service';
+
 export class TaxonomiesQuery extends BaseTaxonomyQuery {
 
     constructor(
         protected config: DeliveryClientConfig,
+        protected queryService: QueryService
     ) {
-        super(config)
+        super(config, queryService)
     }
 
      /**
