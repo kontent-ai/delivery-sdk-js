@@ -18,8 +18,9 @@ import { ElementQuery } from '../query/element/element-query.class';
 
 // services
 import { QueryService } from '../services/query.service';
+import { HttpService } from '../services/http/http.service';
 
-export class DeliveryClient extends QueryService implements IDeliveryClient {
+export class DeliveryClient implements IDeliveryClient {
 
     private queryService: QueryService;
 
@@ -31,9 +32,7 @@ export class DeliveryClient extends QueryService implements IDeliveryClient {
     constructor(
         protected config: DeliveryClientConfig
     ) {
-        super(config);
-
-        this.queryService = new QueryService(config);
+        this.queryService = new QueryService(config, new HttpService());
     }
 
     /**

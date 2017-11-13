@@ -13,6 +13,8 @@ import { ItemQueryConfig } from '../../lib/models/item/item-query.config';
 
 // services
 import { ResponseMapService } from '../../lib/services/response-map.service';
+import { HttpService } from '../../lib/services/http/http.service';
+import { IHttpService } from '../../lib/services/http/ihttp.service';
 
 export class MockQueryService extends QueryService {
 
@@ -21,9 +23,7 @@ export class MockQueryService extends QueryService {
     constructor(
         protected config: DeliveryClientConfig
     ) {
-        super(config);
-
-        this.responseMapService = new ResponseMapService(config);
+        this.responseMapService = new ResponseMapService(config, new HttpService());
     }
 
     mockGetSingleItem<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {

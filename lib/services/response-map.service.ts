@@ -1,9 +1,6 @@
 // config
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 
-// rxjs
-import { AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
-
 // models
 import { ItemResponses } from '../models/item/responses';
 import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
@@ -19,6 +16,7 @@ import { ICloudResponseDebug } from '../interfaces/common/icloud-response-debug.
 import { CloudResponseDebug } from '../models/common/cloud-response-debug.class';
 import { CloudElementResponseInterfaces } from '../interfaces/element/cloud-responses';
 import { ElementResponses } from '../models/element/responses';
+import { BaseResponse } from '../services/http/base-response.class';
 
 // services
 import { ItemMapService } from './item-map.service';
@@ -57,119 +55,119 @@ export class ResponseMapService {
 
     /**
      * Gets response for getting a single type
-     * @param ajaxResponse Response data 
+     * @param response Response data
      */
-    mapSingleTypeResponse(ajaxResponse: AjaxResponse): TypeResponses.DeliveryTypeResponse {
-        var cloudResponse = ajaxResponse.response as CloudTypeResponseInterfaces.ICloudSingleTypeResponse;
+    mapSingleTypeResponse(response: BaseResponse): TypeResponses.DeliveryTypeResponse {
+        const cloudResponse = response.data as CloudTypeResponseInterfaces.ICloudSingleTypeResponse;
 
         // map type
-        var type = this.typeMapService.mapSingleType(cloudResponse);
+        const type = this.typeMapService.mapSingleType(cloudResponse);
 
-        return new TypeResponses.DeliveryTypeResponse(type, this.mapResponseDebug(ajaxResponse));
+        return new TypeResponses.DeliveryTypeResponse(type, this.mapResponseDebug(response));
     }
 
     /**
      * Gets resposne for getting multiple types
-     * @param ajaxResponse Response data 
+     * @param response Response data
      * @param options Options
      */
-    mapMultipleTypeResponse(ajaxResponse: AjaxResponse): TypeResponses.DeliveryTypeListingResponse {
-        var cloudResponse = ajaxResponse.response as CloudTypeResponseInterfaces.ICloudMultipleTypeResponse;
+    mapMultipleTypeResponse(response: BaseResponse): TypeResponses.DeliveryTypeListingResponse {
+        const cloudResponse = response.data as CloudTypeResponseInterfaces.ICloudMultipleTypeResponse;
 
         // map types
-        var types = this.typeMapService.mapMultipleTypes(cloudResponse);
+        const types = this.typeMapService.mapMultipleTypes(cloudResponse);
 
         // pagination
-        var pagination = new Pagination(
+        const pagination = new Pagination(
             cloudResponse.pagination.skip,
             cloudResponse.pagination.limit,
             cloudResponse.pagination.count,
             cloudResponse.pagination.next_page
         );
 
-        return new TypeResponses.DeliveryTypeListingResponse(types, pagination, this.mapResponseDebug(ajaxResponse));
+        return new TypeResponses.DeliveryTypeListingResponse(types, pagination, this.mapResponseDebug(response));
     }
 
     /**
      * Gets response for getting single item
-     * @param ajaxResponse Response data 
-     * @param queryConfig Query configuration 
+     * @param response Response data
+     * @param queryConfig Query configuration
      */
-    mapSingleResponse<TItem extends IContentItem>(ajaxResponse: AjaxResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
-        var cloudResponse = ajaxResponse.response as CloudItemResponseInterfaces.ICloudResponseSingle;
+    mapSingleResponse<TItem extends IContentItem>(response: BaseResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
+        const cloudResponse = response.data as CloudItemResponseInterfaces.ICloudResponseSingle;
 
         // map item
-        var item = this.itemMapService.mapSingleItem<TItem>(cloudResponse, queryConfig);
+        const item = this.itemMapService.mapSingleItem<TItem>(cloudResponse, queryConfig);
 
-        return new ItemResponses.DeliveryItemResponse(item, this.mapResponseDebug(ajaxResponse));
+        return new ItemResponses.DeliveryItemResponse(item, this.mapResponseDebug(response));
     }
 
     /**
      * Gets response for getting multiple items
-     * @param ajaxResponse Response data 
-     * @param queryConfig Query configuration 
+     * @param response Response data
+     * @param queryConfig Query configuration
      */
-    mapMultipleResponse<TItem extends IContentItem>(ajaxResponse: AjaxResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
-        var cloudResponse = ajaxResponse.response as CloudItemResponseInterfaces.ICloudResponseMultiple;
+    mapMultipleResponse<TItem extends IContentItem>(response: BaseResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
+        const cloudResponse = response.data as CloudItemResponseInterfaces.ICloudResponseMultiple;
 
         // map items
-        var items = this.itemMapService.mapMultipleItems<TItem>(cloudResponse, queryConfig);
+        const items = this.itemMapService.mapMultipleItems<TItem>(cloudResponse, queryConfig);
 
         // pagination
-        var pagination = new Pagination(
+        const pagination = new Pagination(
             cloudResponse.pagination.skip,
             cloudResponse.pagination.limit,
             cloudResponse.pagination.count,
             cloudResponse.pagination.next_page
         );
 
-        return new ItemResponses.DeliveryItemListingResponse(items, pagination, this.mapResponseDebug(ajaxResponse));
+        return new ItemResponses.DeliveryItemListingResponse(items, pagination, this.mapResponseDebug(response));
     }
 
     /**
      * Gets response for getting single taxonomy item
-     * @param ajaxResponse Response data 
+     * @param response Response data
      */
-    mapTaxonomyResponse(ajaxResponse: AjaxResponse): TaxonomyResponses.TaxonomyResponse {
-        var cloudResponse = ajaxResponse.response as CloudTaxonomyResponseInterfaces.ICloudTaxonomyResponse;
+    mapTaxonomyResponse(response: BaseResponse): TaxonomyResponses.TaxonomyResponse {
+        const cloudResponse = response.data as CloudTaxonomyResponseInterfaces.ICloudTaxonomyResponse;
 
-        // map taxonomy 
-        var taxonomy = this.taxonomyMapService.mapTaxonomy(cloudResponse.system, cloudResponse.terms);
+        // map taxonomy
+        const taxonomy = this.taxonomyMapService.mapTaxonomy(cloudResponse.system, cloudResponse.terms);
 
-        return new TaxonomyResponses.TaxonomyResponse(taxonomy, this.mapResponseDebug(ajaxResponse));
+        return new TaxonomyResponses.TaxonomyResponse(taxonomy, this.mapResponseDebug(response));
     }
 
     /**
      * Gets response for getting multiples taxonomies
-     * @param ajaxResponse Response data 
+     * @param response Response data
      */
-    mapTaxonomiesResponse(ajaxResponse: AjaxResponse): TaxonomyResponses.TaxonomiesResponse {
-        var cloudResponse = ajaxResponse.response as CloudTaxonomyResponseInterfaces.ICloudTaxonomiesResponse;
+    mapTaxonomiesResponse(response: BaseResponse): TaxonomyResponses.TaxonomiesResponse {
+        const cloudResponse = response.data as CloudTaxonomyResponseInterfaces.ICloudTaxonomiesResponse;
 
         // map taxonomies
-        var taxonomies = this.taxonomyMapService.mapTaxonomies(cloudResponse.taxonomies);
+        const taxonomies = this.taxonomyMapService.mapTaxonomies(cloudResponse.taxonomies);
 
-        return new TaxonomyResponses.TaxonomiesResponse(taxonomies, this.mapResponseDebug(ajaxResponse));
+        return new TaxonomyResponses.TaxonomiesResponse(taxonomies, this.mapResponseDebug(response));
     }
 
     /**
     * Gets response for getting single content type element
-    * @param ajaxResponse Response data 
+    * @param response Response data
     */
-    mapElementResponse(ajaxResponse: AjaxResponse): ElementResponses.ElementResponse {
-        var cloudResponse = ajaxResponse.response as CloudElementResponseInterfaces.ICloudElementResponse;
+    mapElementResponse(response: BaseResponse): ElementResponses.ElementResponse {
+        const cloudResponse = response.data as CloudElementResponseInterfaces.ICloudElementResponse;
 
-        // map element 
-        var element = this.elementMapService.mapElement(cloudResponse);
+        // map element
+        const element = this.elementMapService.mapElement(cloudResponse);
 
-        return new ElementResponses.ElementResponse(element, this.mapResponseDebug(ajaxResponse));
+        return new ElementResponses.ElementResponse(element, this.mapResponseDebug(response));
     }
 
-    mapResponseDebug(ajaxResponse: AjaxResponse): CloudResponseDebug {
-        if (!ajaxResponse) {
+    mapResponseDebug(response: BaseResponse): CloudResponseDebug {
+        if (!response) {
             throw Error(`Cannot map 'debug' model from the response`);
         }
 
-        return new CloudResponseDebug(ajaxResponse);
+        return new CloudResponseDebug(response.response);
     }
 }
