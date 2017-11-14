@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-delivery-typescript-sdk",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK"
@@ -33,9 +33,10 @@
   },
   "private": false,
   "dependencies": {
+    "parse5": "3.0.2",
+    "reflect-metadata": "^0.1.10",
     "rx-dom": "7.0.3",
-    "rxjs": "5.4.3",
-    "parse5": "3.0.2"
+    "rxjs": "5.4.3"
   },
   "devDependencies": {
     "@types/jasmine": "2.6.0",

@@ -1,25 +1,21 @@
 import {
   ContentItem, Fields, ILink, ItemResponses, FieldModels,
-  TaxonomyResponses, TypeResponses, ElementResponses
+  FieldDecorators, TaxonomyResponses, TypeResponses, ElementResponses
 } from '../../lib';
 
 export class Actor extends ContentItem {
+  @FieldDecorators.codeName('first_name')
   public firstName: Fields.TextField;
+
+  @FieldDecorators.codeName('last_name')
   public lastName: Fields.TextField;
+  
   public photo: Fields.AssetsField;
 
   constructor() {
     super({
       richTextResolver: (item: Actor) => {
         return `<p>${item.firstName.text}</p>`
-      },
-      propertyResolver: (fieldName: string) => {
-        if (fieldName === 'first_name') {
-          return 'firstName'; // binds 'first_name' response from Kentico cloud to 'firstName' property of this class
-        }
-        if (fieldName === 'last_name') {
-          return 'lastName';
-        }
       },
       linkResolver: (link: ILink) => {
         return '/actor/' + link.url_slug
