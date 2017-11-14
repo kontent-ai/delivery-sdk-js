@@ -28,8 +28,6 @@ deliveryClient.items().type('movie').get().subscribe(response => {
 
   var item = response.items[0];
 
-  console.log(response.debug);
-
   if (item && item instanceof Movie) {
     console.log('Node.js test successful');
   }

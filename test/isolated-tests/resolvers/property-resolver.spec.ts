@@ -3,12 +3,16 @@ import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../..
 
 // models
 import {
-    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, HttpService
+    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, FieldDecorators, HttpService
 } from '../../../lib';
 
 class MockMovie extends ContentItem {
     public titleTest: Fields.TextField;
+
+    @FieldDecorators.codename('released')
     public test_released: Fields.DateTimeField;
+    
+    @FieldDecorators.codename('length')
     public justNumber: Fields.NumberField;
 
     constructor() {
@@ -17,12 +21,6 @@ class MockMovie extends ContentItem {
                 if (fieldName === 'title') {
                     return 'titleTest';
                 }
-                if (fieldName === 'released') {
-                    return 'test_released';
-                }
-                if (fieldName === 'length') {
-                    return 'justNumber';
-                }
             }
         })
     }
@@ -30,8 +28,8 @@ class MockMovie extends ContentItem {
 // tests
 describe('Property resolver', () => {
 
-    var context = new Context();
-    var typeResolvers = [];
+    const context = new Context();
+    const typeResolvers = [];
     typeResolvers.push(new TypeResolver('movie', () => new MockMovie()))
     typeResolvers.push(new TypeResolver('actor', () => new Actor()))
 
@@ -39,9 +37,9 @@ describe('Property resolver', () => {
     setup(context);
 
     // mock query service
-    var mockQueryService = new MockQueryService(context.getConfig(), new HttpService())
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService());
 
-    var response: ItemResponses.DeliveryItemResponse<MockMovie>;
+    let response: ItemResponses.DeliveryItemResponse<MockMovie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
@@ -60,4 +58,3 @@ describe('Property resolver', () => {
         expect(response.item.justNumber.number).toEqual(151);
     });
 });
-

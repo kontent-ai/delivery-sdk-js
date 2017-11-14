@@ -4,10 +4,10 @@ import {
 } from '../../lib';
 
 export class Actor extends ContentItem {
-  @FieldDecorators.codeName('first_name')
+  @FieldDecorators.codename('first_name')
   public firstName: Fields.TextField;
 
-  @FieldDecorators.codeName('last_name')
+  @FieldDecorators.codename('last_name')
   public lastName: Fields.TextField;
   
   public photo: Fields.AssetsField;

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 // nodejs https service
 import * as https from 'https';
 import { RequestOptions } from 'https';
-import { OutgoingHttpHeaders } from 'http';
+import { OutgoingHttpHeaders, IncomingMessage } from 'http';
 
 // interfaces
 import { IHttpService } from './ihttp.service';
@@ -57,7 +57,7 @@ export class HttpNodeJsService implements IHttpService {
     */
     private getData(url: string, headers: IHeader[], callback) {
 
-        const doCallback = (response: string | null = null, incomingMessage: https.IncomingMessage | null = null, error: Error | null = null) => {
+        const doCallback = (response: string | null = null, incomingMessage: IncomingMessage | null = null, error: Error | null = null) => {
             // Note: Callback needs & expects to have first param set (e.g. to null), otherwise it will fail
             callback(null, new ResponseCallback(response, incomingMessage, error));
         };
@@ -113,7 +113,7 @@ export class HttpNodeJsService implements IHttpService {
 class ResponseCallback {
     constructor(
         public response: string | null = null,
-        public incomingMessage: https.IncomingMessage | null = null,
+        public incomingMessage: IncomingMessage | null = null,
         public error: Error | null = null
     ) {
     }

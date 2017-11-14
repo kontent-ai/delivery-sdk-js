@@ -1,5 +1,5 @@
 import { AjaxResponse } from 'rxjs/Rx';
-import { IncomingMessage } from 'https';
+import { IncomingMessage } from 'http';
 
 export interface ICloudResponseDebug {
     response: AjaxResponse | IncomingMessage

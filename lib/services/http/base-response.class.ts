@@ -1,5 +1,5 @@
 import { AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
-import { IncomingMessage } from 'https';
+import { IncomingMessage } from 'http';
 
 export class BaseResponse {
     constructor(
