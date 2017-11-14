@@ -17,10 +17,11 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 </tr>
 <tr>
 <td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK">Documentation</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK">Documentation</a></td>
-<td rowSpan="26"><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/Use-in-Node.js">Setup </a></td>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/Use-in-Node.js">Setup </a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK#installation">Quick start</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK#installation">Quick start</a></td>
+<td  rowSpan="25"></td>
 </tr>
 <tr>
 <th colspan="2">Sample apps</th>
