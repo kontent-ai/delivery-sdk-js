@@ -244,12 +244,13 @@ export class Movie extends ContentItem {
 
 ### Property binding in models
 
-Kentico Cloud returns all element names in **lowercase**. Because Javascript properties are case sensitive, the binding will fail if your property is called, for example, *firstName*. You can either use **lowercase only properties** or use a custom resolver to bind fields to their proper names:
+Kentico Cloud returns all element names in **lowercase**. Because Javascript properties are case sensitive, the binding will fail if your property is called, for example, *firstName*. You can either use **codeName() decorator** that comes with the SDK, **lowercase only properties** or use a custom resolver to bind fields to their proper names:
 
 ```typescript
-import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields, FieldsDecorator } from 'kentico-cloud-delivery-typescript-sdk';
 
 export class Actor extends ContentItem {
+  @FieldsDecorator.codeName('firstname')
   public firstName: Fields.TextField;
   public lastName: Fields.TextField;
   public bio: Fields.RichTextField;
@@ -257,11 +258,8 @@ export class Actor extends ContentItem {
     constructor() {
     super({
       propertyResolver: ((fieldName: string) => {
-        if (fieldName === 'firstname') { // lowercase field returned by Kentico delivery API
-          return 'firstName'; // name of 'Actor.firstName' property
-        }
-        if (fieldName === 'lastname') {
-          return 'lastName';
+        if (fieldName === 'lastname') { // lowercase field returned by Kentico delivery API
+          return 'lastName'; // name of 'Actor.firstName' property
         }
         return fieldName;
       })
