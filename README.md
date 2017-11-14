@@ -13,15 +13,13 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 <table>
 <tbody>
 <tr>
-<th><h3>TypeScript</h3></th><th><h3>JavaScript</h3></th><th><h3>Node.js</h3></th>
+<th><h3>TypeScript</h3></th><th><h3>JavaScript</h3></th>
 </tr>
 <tr>
 <td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK">Documentation</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK">Documentation</a></td>
-<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/Use-in-Node.js">Setup </a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK#installation">Quick start</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK#installation">Quick start</a></td>
-<td  rowSpan="25"></td>
 </tr>
 <tr>
 <th colspan="2">Sample apps</th>
@@ -99,6 +97,10 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 </tr>
 </tbody>
 </table>
+
+## Node.js support
+
+Visit <a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/Use-in-Node.js">this wiki page</a> to see how you can use this SDK in Node.js environment.
 
 ## Quick start
 
