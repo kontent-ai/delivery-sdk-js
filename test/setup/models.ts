@@ -94,5 +94,4 @@ export class AllTestObjects {
     element: ElementResponses.ElementResponse
 
   }) { if (data) Object.assign(this, data) }
-
 }

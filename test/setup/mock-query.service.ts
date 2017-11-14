@@ -21,9 +21,11 @@ export class MockQueryService extends QueryService {
     protected responseMapService: ResponseMapService;
 
     constructor(
-        protected config: DeliveryClientConfig
+        protected config: DeliveryClientConfig,
+        protected httpService: IHttpService
     ) {
-        this.responseMapService = new ResponseMapService(config, new HttpService());
+        super(config, httpService)
+        this.responseMapService = new ResponseMapService(config);
     }
 
     mockGetSingleItem<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
@@ -31,7 +33,7 @@ export class MockQueryService extends QueryService {
             queryConfig = new ItemQueryConfig();
         }
 
-        var fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
+        const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
         return this.responseMapService.mapSingleResponse<TItem>(fakeResponse, queryConfig);
     }
@@ -41,7 +43,7 @@ export class MockQueryService extends QueryService {
             queryConfig = new ItemQueryConfig();
         }
 
-        var fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
+        const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
         return this.responseMapService.mapMultipleResponse<TItem>(fakeResponse, queryConfig);
     }
