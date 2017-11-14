@@ -13,7 +13,7 @@ export namespace CloudTypeResponseInterfaces {
 
     export interface ICloudSingleTypeResponse {
         system: IContentTypeSystemAttributes;
-        elements: IElement[];
+        elements: IContentTypeElementCloudResponse[];
     }
 
     export interface IContentTypeElementCloudResponse {
