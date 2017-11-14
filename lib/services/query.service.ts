@@ -4,10 +4,7 @@ import { DeliveryClientConfig } from '../config/delivery-client.config';
 // rxjs
 import { Observable } from 'rxjs/Rx'; // import from 'rxjs/rx' instead of 'rxjs/Observable' to include 'throw' method
 import { ajax } from 'rxjs/observable/dom/ajax';
-import { AjaxResponse, AjaxError } from 'rxjs/observable/dom/AjaxObservable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import 'rxjs/observable/throw';
+import { AjaxError } from 'rxjs/observable/dom/AjaxObservable';
 
 // models
 import { ItemResponses } from '../models/item/responses';
@@ -20,6 +17,7 @@ import { CloudError } from '../models/common/cloud-error.class';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { ElementResponses } from '../models/element/responses';
+import { BaseResponse } from '../services/http/base-response.class';
 
 // query configs
 import { IQueryConfig } from '../interfaces/common/iquery.config';
@@ -30,6 +28,7 @@ import { IElementQueryConfig } from '../interfaces/element/ielement-query.config
 
 // services
 import { ResponseMapService } from './response-map.service';
+import { IHttpService } from './http/ihttp.service';
 
 export class QueryService {
 
@@ -57,7 +56,11 @@ export class QueryService {
         /**
          * Delivery client configuration
          */
-        protected config: DeliveryClientConfig
+        protected config: DeliveryClientConfig,
+        /**
+         * Http service for fetching data
+         */
+        protected httpService: IHttpService
     ) {
         if (!config) {
             throw Error(`Invalid configuration has been provided`);
@@ -69,7 +72,7 @@ export class QueryService {
      * Handles given error
      * @param error Error to be handled
      */
-    private handleError(error: Response | AjaxResponse): any | CloudError {
+    private handleError(error: Response | AjaxError): any | CloudError {
         if (this.config.enableAdvancedLogging) {
             console.error(error);
         }
@@ -157,8 +160,8 @@ export class QueryService {
      */
     getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return this.getResponse(url, queryConfig)
-            .map(ajaxResponse => {
-                return this.responseMapService.mapSingleResponse<TItem>(ajaxResponse, queryConfig)
+            .map(response => {
+                return this.responseMapService.mapSingleResponse<TItem>(response, queryConfig)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -172,8 +175,8 @@ export class QueryService {
     */
     getMultipleItems<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
         return this.getResponse(url, queryConfig)
-            .map(ajaxResponse => {
-                return this.responseMapService.mapMultipleResponse(ajaxResponse, queryConfig)
+            .map(response => {
+                return this.responseMapService.mapMultipleResponse(response, queryConfig)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -187,8 +190,8 @@ export class QueryService {
      */
     getSingleType(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeResponse> {
         return this.getResponse(url, queryConfig)
-            .map(ajaxResponse => {
-                return this.responseMapService.mapSingleTypeResponse(ajaxResponse)
+            .map(response => {
+                return this.responseMapService.mapSingleTypeResponse(response)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -202,8 +205,8 @@ export class QueryService {
      */
     getMultipleTypes(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeListingResponse> {
         return this.getResponse(url, queryConfig)
-            .map(ajaxResponse => {
-                return this.responseMapService.mapMultipleTypeResponse(ajaxResponse)
+            .map(response => {
+                return this.responseMapService.mapMultipleTypeResponse(response)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -217,8 +220,8 @@ export class QueryService {
      */
     getTaxonomy(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomyResponse> {
         return this.getResponse(url, queryConfig)
-            .map(ajaxResponse => {
-                return this.responseMapService.mapTaxonomyResponse(ajaxResponse)
+            .map(response => {
+                return this.responseMapService.mapTaxonomyResponse(response)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -232,8 +235,8 @@ export class QueryService {
     */
     getTaxonomies(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomiesResponse> {
         return this.getResponse(url, queryConfig)
-            .map(ajaxResponse => {
-                return this.responseMapService.mapTaxonomiesResponse(ajaxResponse)
+            .map(response => {
+                return this.responseMapService.mapTaxonomiesResponse(response)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -247,8 +250,8 @@ export class QueryService {
     */
     getElement(url: string, queryConfig: ITaxonomyQueryConfig): Observable<ElementResponses.ElementResponse> {
         return this.getResponse(url, queryConfig)
-            .map(ajaxResponse => {
-                return this.responseMapService.mapElementResponse(ajaxResponse)
+            .map(response => {
+                return this.responseMapService.mapElementResponse(response)
             })
             .catch(err => {
                 return Observable.throw(this.handleError(err));
@@ -256,13 +259,13 @@ export class QueryService {
     }
 
     /**
-     * Gets Ajax response
-     * @param url Url to hit
+     * Http get response
+     * @param url Url of request
      * @param queryConfig Query configuration
      */
-    protected getResponse(url: string, queryConfig: IQueryConfig): Observable<AjaxResponse> {
-        return ajax.get(url, this.getHeadersJson(queryConfig))
-            .map((response: AjaxResponse) => response)
+    protected getResponse(url: string, queryConfig: IQueryConfig): Observable<BaseResponse> {
+        return this.httpService.get(url, this.getHeaders(queryConfig))
+            .map((response: BaseResponse) => response)
             .catch(err => {
                 return Observable.throw(this.handleError(err));
             });
@@ -298,20 +301,5 @@ export class QueryService {
         }
 
         return headers;
-    }
-
-    /**
-     * Gets the json representation of headers
-     * @param queryConfig Query configuration
-     */
-    private getHeadersJson(queryConfig: IQueryConfig): any {
-        const headerJson: any = {};
-        const headers = this.getHeaders(queryConfig);
-
-        headers.forEach(header => {
-            headerJson[header.header] = header.value;
-        });
-
-        return headerJson;
     }
 }

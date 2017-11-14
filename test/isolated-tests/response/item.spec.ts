@@ -3,19 +3,19 @@ import { setup, Context, Movie, Actor, MockQueryService, warriorMovieJson } from
 
 // models
 import {
-    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses
+    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, HttpService
 } from '../../../lib';
 
 // tests
 describe('Isolated item', () => {
 
-    var context = new Context();
+    const context = new Context();
     setup(context);
 
     // mock query service
-    var mockQueryService = new MockQueryService(context.getConfig())
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService())
 
-    var response: ItemResponses.DeliveryItemResponse<Movie>;
+    let response: ItemResponses.DeliveryItemResponse<Movie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {});
@@ -43,7 +43,7 @@ describe('Isolated item', () => {
     });
 
     it(`checks site map locations`, () => {
-        var locations: string[] = [
+        const locations: string[] = [
             'main_sitemap'
         ];
         expect(response.item.system.sitemap_locations).toEqual(locations);

@@ -1,4 +1,6 @@
 import { AjaxResponse } from 'rxjs/Rx';
+import { IncomingMessage } from 'https';
 
-export interface ICloudResponseDebug extends AjaxResponse{
+export interface ICloudResponseDebug {
+    response: AjaxResponse | IncomingMessage
 }

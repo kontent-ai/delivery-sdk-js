@@ -3,16 +3,12 @@ import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../..
 
 // models
 import {
-    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, FieldDecorators
+    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, HttpService
 } from '../../../lib';
 
 class MockMovie extends ContentItem {
     public titleTest: Fields.TextField;
-
-    @FieldDecorators.codeName('released')
     public test_released: Fields.DateTimeField;
-    
-    @FieldDecorators.codeName('length')
     public justNumber: Fields.NumberField;
 
     constructor() {
@@ -20,6 +16,12 @@ class MockMovie extends ContentItem {
             propertyResolver: (fieldName: string) => {
                 if (fieldName === 'title') {
                     return 'titleTest';
+                }
+                if (fieldName === 'released') {
+                    return 'test_released';
+                }
+                if (fieldName === 'length') {
+                    return 'justNumber';
                 }
             }
         })
@@ -37,7 +39,7 @@ describe('Property resolver', () => {
     setup(context);
 
     // mock query service
-    var mockQueryService = new MockQueryService(context.getConfig())
+    var mockQueryService = new MockQueryService(context.getConfig(), new HttpService())
 
     var response: ItemResponses.DeliveryItemResponse<MockMovie>;
 
@@ -58,3 +60,4 @@ describe('Property resolver', () => {
         expect(response.item.justNumber.number).toEqual(151);
     });
 });
+

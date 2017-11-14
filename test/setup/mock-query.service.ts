@@ -13,16 +13,18 @@ import { ItemQueryConfig } from '../../lib/models/item/item-query.config';
 
 // services
 import { ResponseMapService } from '../../lib/services/response-map.service';
+import { HttpService } from '../../lib/services/http/http.service';
+import { IHttpService } from '../../lib/services/http/ihttp.service';
 
 export class MockQueryService extends QueryService {
 
     protected responseMapService: ResponseMapService;
 
     constructor(
-        protected config: DeliveryClientConfig
+        protected config: DeliveryClientConfig,
+        protected httpService: IHttpService
     ) {
-        super(config);
-
+        super(config, httpService)
         this.responseMapService = new ResponseMapService(config);
     }
 
@@ -31,7 +33,7 @@ export class MockQueryService extends QueryService {
             queryConfig = new ItemQueryConfig();
         }
 
-        var fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
+        const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
         return this.responseMapService.mapSingleResponse<TItem>(fakeResponse, queryConfig);
     }
@@ -41,7 +43,7 @@ export class MockQueryService extends QueryService {
             queryConfig = new ItemQueryConfig();
         }
 
-        var fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
+        const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
         return this.responseMapService.mapMultipleResponse<TItem>(fakeResponse, queryConfig);
     }
