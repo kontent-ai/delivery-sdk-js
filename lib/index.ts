@@ -9,6 +9,7 @@ export * from './config/delivery-client.config';
 export * from './fields/field-types';
 export * from './models/common/sort-order.enum';
 export * from './fields/field-models';
+export * from './fields/field-decorators';
 export * from './models/common/cloud-error.class';
 export * from './services/type-resolver.service';
 export * from './interfaces/common/iquery.config';

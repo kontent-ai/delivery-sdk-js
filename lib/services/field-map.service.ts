@@ -2,6 +2,7 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { FieldInterfaces } from '../fields/field-interfaces';
 import { FieldType } from '../fields/field-type';
 import { Fields } from '../fields/field-types';
+import { FieldDecorators } from '../fields/field-decorators';
 import { FieldModels } from '../fields/field-models';
 import { TypeResolverService } from './type-resolver.service';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
@@ -66,6 +67,11 @@ export class FieldMapService {
             // resolve field to a custom model property
             if (itemTyped.propertyResolver) {
                 propertyName = itemTyped.propertyResolver(fieldName);
+            }
+
+            // if property hasn't been resolved, try with decorator
+            if(!propertyName) {
+                propertyName = FieldDecorators.getPropertyName(itemTyped, fieldName);
             }
 
             // if property name is null/empty, use elements codename
