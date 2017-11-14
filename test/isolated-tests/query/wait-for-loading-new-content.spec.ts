@@ -4,6 +4,9 @@ import urlParser from 'url-parse';
 // rxjs
 import { AjaxResponse } from 'rxjs/Rx'
 
+// https
+import { IncomingMessage } from 'http';
+
 // setup
 import { setup, Context, observableFactory, AllTestObjects } from '../../setup';
 
@@ -71,7 +74,7 @@ describe('Wait for loading new content', () => {
     expect(typesHeader).toBeDefined();
   });
 
-  it(`Verifies that 'X-KC-Wait-For-Loading-New-Content' header is actually present in request`, () => {
+  it(`Verifies that 'X-KC-Wait-For-Loading-New-Content' header is actually present in request (Http service for browsers)`, () => {
     if (all.item.debug.response instanceof AjaxResponse) {
       const header = all.item.debug.response.request.headers[waitForLoadingNewContentHeader];
       expect(header).toEqual('true');

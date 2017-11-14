@@ -3,7 +3,7 @@ import { IncomingMessage } from 'https';
 
 export class BaseResponse {
     constructor(
-        public data: any,
+        public data: JSON,
         public response: AjaxResponse | IncomingMessage
     ) {
     }

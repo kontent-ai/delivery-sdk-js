@@ -3,7 +3,7 @@ import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../..
 
 // models
 import {
-    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver
+    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, HttpService
 } from '../../../lib';
 
 class MockMovie extends ContentItem {
@@ -39,7 +39,7 @@ describe('Property resolver', () => {
     setup(context);
 
     // mock query service
-    var mockQueryService = new MockQueryService(context.getConfig())
+    var mockQueryService = new MockQueryService(context.getConfig(), new HttpService())
 
     var response: ItemResponses.DeliveryItemResponse<MockMovie>;
 

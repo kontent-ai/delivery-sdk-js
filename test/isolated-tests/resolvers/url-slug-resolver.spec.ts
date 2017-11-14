@@ -3,7 +3,7 @@ import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../..
 
 // models
 import {
-    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, ILink
+    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, ILink, HttpService
 } from '../../../lib';
 
 class MockMovie extends ContentItem {
@@ -20,8 +20,8 @@ class MockMovie extends ContentItem {
 // tests
 describe('URL slug resolver', () => {
 
-    var context = new Context();
-    var typeResolvers = [];
+    const context = new Context();
+    const typeResolvers = [];
     typeResolvers.push(new TypeResolver('movie', () => new MockMovie()))
     typeResolvers.push(new TypeResolver('actor', () => new Actor()))
 
@@ -29,10 +29,10 @@ describe('URL slug resolver', () => {
     setup(context);
 
     // mock query service
-    var mockQueryService = new MockQueryService(context.getConfig());
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService());
 
-    var response: ItemResponses.DeliveryItemResponse<MockMovie>;
-    var responseWithQueryConfig: ItemResponses.DeliveryItemResponse<MockMovie>;
+    let response: ItemResponses.DeliveryItemResponse<MockMovie>;
+    let responseWithQueryConfig: ItemResponses.DeliveryItemResponse<MockMovie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});

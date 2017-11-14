@@ -19,6 +19,8 @@ import { ElementQuery } from '../query/element/element-query.class';
 // services
 import { QueryService } from '../services/query.service';
 import { HttpService } from '../services/http/http.service';
+import { HttpNodeJsService } from '../services/http/http-nodejs.service';
+import { IHttpService } from '../services/http/ihttp.service';
 
 export class DeliveryClient implements IDeliveryClient {
 
@@ -28,11 +30,22 @@ export class DeliveryClient implements IDeliveryClient {
     * Delivery client used to fetch data from Kentico Cloud
     * @constructor
     * @param {DeliveryClientConfig} config - The client configuration
+    * @param {boolean} isNodeJsEnvironment - Set to true if you are using this SDK in NodeJs environment
     */
     constructor(
-        protected config: DeliveryClientConfig
+        protected config: DeliveryClientConfig,
+        private isNodeJsEnvironment?: boolean
     ) {
-        this.queryService = new QueryService(config, new HttpService());
+        let httpService: IHttpService;
+        if (!isNodeJsEnvironment) {
+            // standard http service used by browsers
+            httpService = new HttpService();
+        } else {
+            // http service used in node.js environment
+            httpService = new HttpNodeJsService();
+        }
+
+        this.queryService = new QueryService(config, httpService);
     }
 
     /**

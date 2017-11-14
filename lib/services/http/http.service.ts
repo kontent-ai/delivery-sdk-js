@@ -15,7 +15,6 @@ export class HttpService implements IHttpService {
     get(url: string, headers: IHeader[]): Observable<BaseResponse> {
         return ajax.get(url, this.getHeadersJson(headers))
             .map((ajaxResponse: AjaxResponse) => {
-
                 return new BaseResponse(ajaxResponse.response, ajaxResponse);
             });
     }

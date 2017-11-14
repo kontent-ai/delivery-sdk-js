@@ -13,6 +13,11 @@ export * from './models/common/cloud-error.class';
 export * from './services/type-resolver.service';
 export * from './interfaces/common/iquery.config';
 
+// http services
+export * from './services/http/ihttp.service';
+export * from './services/http/http.service';
+export * from './services/http/http-nodejs.service';
+
 // filters
 export * from './models/common/filters';
 

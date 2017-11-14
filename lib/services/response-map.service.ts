@@ -58,7 +58,7 @@ export class ResponseMapService {
      * @param response Response data
      */
     mapSingleTypeResponse(response: BaseResponse): TypeResponses.DeliveryTypeResponse {
-        const cloudResponse = response.data as CloudTypeResponseInterfaces.ICloudSingleTypeResponse;
+        const cloudResponse = response.data as any as CloudTypeResponseInterfaces.ICloudSingleTypeResponse;
 
         // map type
         const type = this.typeMapService.mapSingleType(cloudResponse);
@@ -72,7 +72,7 @@ export class ResponseMapService {
      * @param options Options
      */
     mapMultipleTypeResponse(response: BaseResponse): TypeResponses.DeliveryTypeListingResponse {
-        const cloudResponse = response.data as CloudTypeResponseInterfaces.ICloudMultipleTypeResponse;
+        const cloudResponse = response.data as any  as CloudTypeResponseInterfaces.ICloudMultipleTypeResponse;
 
         // map types
         const types = this.typeMapService.mapMultipleTypes(cloudResponse);
@@ -94,7 +94,7 @@ export class ResponseMapService {
      * @param queryConfig Query configuration
      */
     mapSingleResponse<TItem extends IContentItem>(response: BaseResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
-        const cloudResponse = response.data as CloudItemResponseInterfaces.ICloudResponseSingle;
+        const cloudResponse = response.data as any as CloudItemResponseInterfaces.ICloudResponseSingle;
 
         // map item
         const item = this.itemMapService.mapSingleItem<TItem>(cloudResponse, queryConfig);
@@ -108,7 +108,7 @@ export class ResponseMapService {
      * @param queryConfig Query configuration
      */
     mapMultipleResponse<TItem extends IContentItem>(response: BaseResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
-        const cloudResponse = response.data as CloudItemResponseInterfaces.ICloudResponseMultiple;
+        const cloudResponse = response.data as any as CloudItemResponseInterfaces.ICloudResponseMultiple;
 
         // map items
         const items = this.itemMapService.mapMultipleItems<TItem>(cloudResponse, queryConfig);
@@ -129,7 +129,7 @@ export class ResponseMapService {
      * @param response Response data
      */
     mapTaxonomyResponse(response: BaseResponse): TaxonomyResponses.TaxonomyResponse {
-        const cloudResponse = response.data as CloudTaxonomyResponseInterfaces.ICloudTaxonomyResponse;
+        const cloudResponse = response.data as any as CloudTaxonomyResponseInterfaces.ICloudTaxonomyResponse;
 
         // map taxonomy
         const taxonomy = this.taxonomyMapService.mapTaxonomy(cloudResponse.system, cloudResponse.terms);
@@ -142,7 +142,7 @@ export class ResponseMapService {
      * @param response Response data
      */
     mapTaxonomiesResponse(response: BaseResponse): TaxonomyResponses.TaxonomiesResponse {
-        const cloudResponse = response.data as CloudTaxonomyResponseInterfaces.ICloudTaxonomiesResponse;
+        const cloudResponse = response.data as any as CloudTaxonomyResponseInterfaces.ICloudTaxonomiesResponse;
 
         // map taxonomies
         const taxonomies = this.taxonomyMapService.mapTaxonomies(cloudResponse.taxonomies);
@@ -155,7 +155,7 @@ export class ResponseMapService {
     * @param response Response data
     */
     mapElementResponse(response: BaseResponse): ElementResponses.ElementResponse {
-        const cloudResponse = response.data as CloudElementResponseInterfaces.ICloudElementResponse;
+        const cloudResponse = response.data as any as CloudElementResponseInterfaces.ICloudElementResponse;
 
         // map element
         const element = this.elementMapService.mapElement(cloudResponse);

@@ -2,7 +2,7 @@
 import { setup, Context, Actor, Movie, MockQueryService, warriorMovieJson } from '../../setup';
 
 // models
-import { DeliveryClient, ItemResponses, Fields } from '../../../lib';
+import { DeliveryClient, ItemResponses, Fields, HttpService } from '../../../lib';
 
 // tests
 describe('Field types', () => {
@@ -11,7 +11,7 @@ describe('Field types', () => {
     setup(context);
 
     // mock query service
-    var mockQueryService = new MockQueryService(context.getConfig())
+    var mockQueryService = new MockQueryService(context.getConfig(), new HttpService())
 
     var response: ItemResponses.DeliveryItemResponse<Movie>;
 
