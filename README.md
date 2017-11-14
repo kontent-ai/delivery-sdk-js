@@ -13,10 +13,11 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 <table>
 <tbody>
 <tr>
-<th><h3>TypeScript</h3></th><th><h3>JavaScript</h3></th>
+<th><h3>TypeScript</h3></th><th><h3>JavaScript</h3></th><th><h3>Node.js</h3></th>
 </tr>
 <tr>
 <td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK">Documentation</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK">Documentation</a></td>
+<td rowSpan="26"><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/Use-in-Node.js">Setup </a></td>
 </tr>
 <tr>
 <td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK#installation">Quick start</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK#installation">Quick start</a></td>
@@ -25,7 +26,7 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 <th colspan="2">Sample apps</th>
 </tr>
 <tr>
-<td><a href="https://github.com/Enngage/KenticoCloudSampleJavascriptApp">JavaScript app (node.js)</a></td><td><a href="https://github.com/Enngage/KenticoCloudSampleAngularApp">Angular 4 app</a></td>
+<td><a href="https://github.com/Enngage/KenticoCloudSampleJavascriptApp">JavaScript app</a></td><td><a href="https://github.com/Enngage/KenticoCloudSampleAngularApp">Angular 4 app</a></td>
 </tr>
 <tr>
 <th colspan="2">API documentation</th>
