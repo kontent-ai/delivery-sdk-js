@@ -4,6 +4,6 @@ import { IncomingMessage } from 'http';
 
 export class CloudResponseDebug implements ICloudResponseDebug {
     constructor(
-        public response: AjaxResponse | IncomingMessage) {
+        public rawResponse: AjaxResponse | IncomingMessage) {
     }
 }
