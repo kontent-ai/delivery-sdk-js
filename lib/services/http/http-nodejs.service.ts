@@ -22,7 +22,6 @@ export class HttpNodeJsService implements IHttpService {
     get(url: string, headers: IHeader[]): Observable<BaseResponse> {
         return this.getDataObservable(url, headers)
             .map((responseCallback: ResponseCallback) => {
-
                 if (responseCallback.error) {
                     throw Error(`${responseCallback.error.message}, stack: ${responseCallback.error.stack}`);
                 }
@@ -75,14 +74,14 @@ export class HttpNodeJsService implements IHttpService {
             method: 'GET',
             protocol: typedUrl.protocol,
             hostname: typedUrl.hostname,
-            path: typedUrl.pathname,
-            headers: outgoingHeaders
+            path: typedUrl.pathname + typedUrl.search,
+            headers: outgoingHeaders,
         }), (res) => {
             const { statusCode } = res;
             const contentType = res.headers['content-type'] as string;
             let error;
             if (statusCode !== 200) {
-                error = new Error('Request Failed.\n' +
+                error = new Error('Request Failed. Verify that your URL contains valid Kentico Cloud parameters. \n' +
                     `Status Code: ${statusCode}`);
             } else if (!/^application\/json/.test(contentType)) {
                 error = new Error('Invalid content-type.\n' +

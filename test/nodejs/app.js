@@ -1,6 +1,6 @@
-
+const http = require('http');
 const https = require('https');
-const Rx = require("rxjs");
+const Rx = require('rxjs');
 const Kc = require('../../dist');
 const HS = require('../../dist/services/http/http-nodejs.service');
 
@@ -24,7 +24,7 @@ const config = new Kc.DeliveryClientConfig(projectId, defaultTypeResolvers);
 
 const deliveryClient = new Kc.DeliveryClient(config, true);
 
-deliveryClient.items().type('movie').get().subscribe(response => {
+deliveryClient.items().type('movie').limitParameter(10).get().subscribe(response => {
 
   var item = response.items[0];
 
