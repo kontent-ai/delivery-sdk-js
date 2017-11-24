@@ -75,28 +75,28 @@ describe('Wait for loading new content', () => {
   });
 
   it(`Verifies that 'X-KC-Wait-For-Loading-New-Content' header is actually present in request (Http service for browsers)`, () => {
-    if (all.item.debug.response instanceof AjaxResponse) {
-      const header = all.item.debug.response.request.headers[waitForLoadingNewContentHeader];
+    if (all.item.debug.rawResponse instanceof AjaxResponse) {
+      const header = all.item.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
       expect(header).toEqual('true');
     }
-    if (all.items.debug.response instanceof AjaxResponse) {
-      const header = all.items.debug.response.request.headers[waitForLoadingNewContentHeader];
+    if (all.items.debug.rawResponse instanceof AjaxResponse) {
+      const header = all.items.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
       expect(header).toEqual('true');
     }
-    if (all.taxonomy.debug.response instanceof AjaxResponse) {
-      const header = all.taxonomy.debug.response.request.headers[waitForLoadingNewContentHeader];
+    if (all.taxonomy.debug.rawResponse instanceof AjaxResponse) {
+      const header = all.taxonomy.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
       expect(header).toEqual('true');
     }
-    if (all.taxonomies.debug.response instanceof AjaxResponse) {
-      const header = all.taxonomies.debug.response.request.headers[waitForLoadingNewContentHeader];
+    if (all.taxonomies.debug.rawResponse instanceof AjaxResponse) {
+      const header = all.taxonomies.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
       expect(header).toEqual('true');
     }
-    if (all.type.debug.response instanceof AjaxResponse) {
-      const header = all.type.debug.response.request.headers[waitForLoadingNewContentHeader];
+    if (all.type.debug.rawResponse instanceof AjaxResponse) {
+      const header = all.type.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
       expect(header).toEqual('true');
     }
-    if (all.types.debug.response instanceof AjaxResponse) {
-      const header = all.types.debug.response.request.headers[waitForLoadingNewContentHeader];
+    if (all.types.debug.rawResponse instanceof AjaxResponse) {
+      const header = all.types.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
       expect(header).toEqual('true');
     }
   });
