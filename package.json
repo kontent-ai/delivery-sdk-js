@@ -29,7 +29,6 @@
     "dev-test": "karma start karma-dev.conf.js",
     "travis-test": "karma start karma-travis.conf.js",
     "nodejs-test": "gulp build && node test/nodejs/app",
-    "gulp": "gulp",
     "build": "gulp build",
     "coveralls": "cat ./coverage/lcov/lcov.info | node ./node_modules/coveralls/bin/coveralls.js"
   },
