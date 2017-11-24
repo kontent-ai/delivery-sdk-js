@@ -5,7 +5,7 @@ import { ICloudResponse } from '../../interfaces/common/icloud-response.interfac
 import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
 
 export namespace ItemResponses {
-    
+
     export class DeliveryItemListingResponse<TItem extends IContentItem> implements ICloudResponse {
 
         /**
@@ -24,7 +24,7 @@ export namespace ItemResponses {
         public lastItem: TItem;
 
         /**
-        * Response containing multiple item 
+        * Response containing multiple item
         * @constructor
         * @param {TItem[]} items - Collection of content items
         * @param {IPagination} pagination - Pagination object
@@ -33,7 +33,7 @@ export namespace ItemResponses {
         constructor(
             public items: TItem[],
             public pagination: IPagination,
-            public debug: ICloudResponseDebug 
+            public debug: ICloudResponseDebug
         ) {
             this.initIsEmpty();
             this.initFirstAndLastItem();
@@ -42,8 +42,7 @@ export namespace ItemResponses {
         private initIsEmpty(): void {
             if (!this.items) {
                 this.isEmpty = true;
-            }
-            else {
+            } else {
                 this.isEmpty = this.items.length <= 0;
             }
         }
@@ -77,7 +76,7 @@ export namespace ItemResponses {
         */
         constructor(
             public item: TItem,
-            public debug: ICloudResponseDebug 
+            public debug: ICloudResponseDebug
         ) {
             this.initIsEmpty();
         }
@@ -85,8 +84,7 @@ export namespace ItemResponses {
         private initIsEmpty(): void {
             if (!this.item) {
                 this.isEmpty = true;
-            }
-            else {
+            } else {
                 this.isEmpty = false;
             }
         }
