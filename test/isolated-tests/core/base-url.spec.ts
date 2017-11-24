@@ -7,11 +7,11 @@ import { setup, Context } from '../../setup';
 // tests
 describe('Base URL', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var itemsUrl: string;
-  var parsedUrl: URL;
+  let itemsUrl: string;
+  let parsedUrl: URL;
 
   beforeAll(() => {
     itemsUrl = context.deliveryClient.items().toString();
@@ -28,6 +28,20 @@ describe('Base URL', () => {
   it(`origin should be 'https://deliver.kenticocloud.com'`, () => expect(parsedUrl.origin).toEqual('https://deliver.kenticocloud.com'));
 
   it(`pathname should contain project id'`, () => expect(itemsUrl).toContain(context.projectId));
+
+  it(`custom base URL should be used'`, () => {
+    const baseUrl = 'http://custombase.com';
+    const contextCustom = new Context({baseUrl: baseUrl});
+    setup(contextCustom);
+    expect(contextCustom.deliveryClient.items().toString()).toContain(baseUrl);
+  });
+
+  it(`custom preview URL should be used'`, () => {
+    const previewUrl = 'http://custompreview.com';
+    const contextCustom = new Context({basePreviewUrl: previewUrl, usePreviewMode: true});
+    setup(contextCustom);
+    expect(contextCustom.deliveryClient.items().toString()).toContain(previewUrl);
+  });
 
 });
 

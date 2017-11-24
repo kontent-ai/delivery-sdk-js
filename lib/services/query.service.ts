@@ -33,14 +33,14 @@ import { IHttpService } from './http/ihttp.service';
 export class QueryService {
 
     /**
-    * Base Url to Kentico Delivery API
+    * Default base Url to Kentico Delivery API
     */
-    private readonly baseDeliveryApiUrl: string = 'https://deliver.kenticocloud.com';
+    private readonly defaultBaseDeliveryApiUrl: string = 'https://deliver.kenticocloud.com';
 
     /**
-    * Preview url to Kentico Delivery API
+    * Default preview url to Kentico Delivery API
     */
-    private readonly previewDeliveryApiUrl: string = 'https://preview-deliver.kenticocloud.com';
+    private readonly defaultPreviewDeliveryApiUrl: string = 'https://preview-deliver.kenticocloud.com';
 
     /**
      * Name of the header used when 'wait for loading new content' feature is used
@@ -112,9 +112,20 @@ export class QueryService {
                 throw Error(`You have to configure 'previewApiKey' to use 'preview' mode`);
             }
 
-            return this.previewDeliveryApiUrl;
+            // use custom base / preview url if its configured
+            if (this.config.basePreviewUrl) {
+                return this.config.basePreviewUrl;
+            }
+
+            // use default preview url
+            return this.defaultPreviewDeliveryApiUrl;
         }
-        return this.baseDeliveryApiUrl;
+
+        // use custom base / preview url if its configured
+        if (this.config.baseUrl) {
+            return this.config.baseUrl;
+        }
+        return this.defaultBaseDeliveryApiUrl;
     }
 
     /**
