@@ -25,7 +25,8 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 <th colspan="2">Sample apps</th>
 </tr>
 <tr>
-<td><a href="https://github.com/Enngage/KenticoCloudSampleJavascriptApp">JavaScript app</a></td><td><a href="https://github.com/Enngage/KenticoCloudSampleAngularApp">Angular 4 app</a></td>
+<td><a href="https://github.com/Enngage/KenticoCloudSampleAngularApp">Angular 4 app</a></td>
+<td><a href="https://github.com/Enngage/KenticoCloudSampleJavascriptApp">JavaScript app</a></td>
 </tr>
 <tr>
 <th colspan="2">API documentation</th>
