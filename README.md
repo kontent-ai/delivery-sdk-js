@@ -112,7 +112,7 @@ npm i kentico-cloud-delivery-typescript-sdk --save
 ### TypeScript (ES6)
 
 ```typescript
-import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields,TypeResolver,DeliveryClient,DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
 
 /**
 Each content type needs to have model class
