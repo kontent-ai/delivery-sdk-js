@@ -2,7 +2,7 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { ItemResponses, FieldModels } from '../../../lib';
+import { ItemResponses, FieldModels, Pagination } from '../../../lib';
 
 // tests
 describe('Live items', () => {
@@ -29,6 +29,10 @@ describe('Live items', () => {
 
   it(`check correct number of items`, () => {
     expect(response.items.length).toEqual(6);
+  });
+
+  it(`items should have pagination`, () => {
+    expect(response.pagination).toEqual(jasmine.any(Pagination));
   });
 
   it(`'isEmpty' should be false`, () => {

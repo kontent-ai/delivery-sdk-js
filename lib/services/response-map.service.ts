@@ -72,7 +72,7 @@ export class ResponseMapService {
      * @param options Options
      */
     mapMultipleTypeResponse(response: BaseResponse): TypeResponses.DeliveryTypeListingResponse {
-        const cloudResponse = response.data as any  as CloudTypeResponseInterfaces.ICloudMultipleTypeResponse;
+        const cloudResponse = response.data as any as CloudTypeResponseInterfaces.ICloudMultipleTypeResponse;
 
         // map types
         const types = this.typeMapService.mapMultipleTypes(cloudResponse);
@@ -147,7 +147,15 @@ export class ResponseMapService {
         // map taxonomies
         const taxonomies = this.taxonomyMapService.mapTaxonomies(cloudResponse.taxonomies);
 
-        return new TaxonomyResponses.TaxonomiesResponse(taxonomies, this.mapResponseDebug(response));
+        // pagination
+        const pagination = new Pagination(
+            cloudResponse.pagination.skip,
+            cloudResponse.pagination.limit,
+            cloudResponse.pagination.count,
+            cloudResponse.pagination.next_page
+        );
+
+        return new TaxonomyResponses.TaxonomiesResponse(taxonomies, pagination, this.mapResponseDebug(response));
     }
 
     /**

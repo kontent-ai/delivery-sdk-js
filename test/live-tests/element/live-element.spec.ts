@@ -7,19 +7,18 @@ import { FieldModels, ElementResponses } from '../../../lib';
 // tests
 describe('Live element', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var typeCodename: string = 'movie';
+  const typeCodename: string = 'movie';
 
-  var textElementCodename: string = 'title';
-  var multipleChoiceElementCodename: string = 'category';
-  var taxonomyElementCodename: string = 'releasecategory';
+  const textElementCodename: string = 'title';
+  const multipleChoiceElementCodename: string = 'category';
+  const taxonomyElementCodename: string = 'releasecategory';
 
-  var textElementResponse: ElementResponses.ElementResponse;
-  var multipleChoiceElementResponse: ElementResponses.ElementResponse;
-  var taxonomyElementResponse: ElementResponses.ElementResponse;
-
+  let textElementResponse: ElementResponses.ElementResponse;
+  let multipleChoiceElementResponse: ElementResponses.ElementResponse;
+  let taxonomyElementResponse: ElementResponses.ElementResponse;
 
   beforeAll((done) => {
     context.deliveryClient.element(typeCodename, textElementCodename)

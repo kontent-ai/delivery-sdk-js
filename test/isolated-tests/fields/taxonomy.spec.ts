@@ -7,7 +7,7 @@ import { FieldModels, Fields } from '../../../lib';
 // tests
 describe('TaxonomyField', () => {
 
-    var taxonomyList = [
+    const taxonomyList = [
         {
             'name': 'Term 1',
             'codename': 'term1'
@@ -17,7 +17,7 @@ describe('TaxonomyField', () => {
             'codename': 'term1'
         }
     ];
-    var field = new Fields.TaxonomyField('name', taxonomyList, 'taxgroup');
+    const field = new Fields.TaxonomyField('name', taxonomyList, 'taxgroup');
 
     it(`checks name`, () => {
         expect(field.name).toEqual('name');
@@ -32,11 +32,11 @@ describe('TaxonomyField', () => {
     });
 
     it(`checks taxonomy terms`, () => {
-        var taxonomyList: FieldModels.TaxonomyTerm[] = [
+        const xTaxonomyList: FieldModels.TaxonomyTerm[] = [
             new FieldModels.TaxonomyTerm('Term 1', 'term1'),
             new FieldModels.TaxonomyTerm('Term 2', 'term2')
         ];
-        expect(field.taxonomyTerms[0].codename).toEqual(taxonomyList[0].codename);
+        expect(field.taxonomyTerms[0].codename).toEqual(xTaxonomyList[0].codename);
     });
 
     it(`checks that exception is thrown when invalid value (null) is passed`, () => {

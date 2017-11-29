@@ -2,21 +2,21 @@
 import { setup, Context } from '../../setup';
 
 // models
-import { FieldModels, TaxonomyResponses, TaxonomyGroup } from '../../../lib';
+import { FieldModels, TaxonomyResponses, TaxonomyGroup, Pagination } from '../../../lib';
 
 // tests
 describe('Live taxonomies', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var termsWithNestedTermsCodename: string = 'film'; // codename of the taxonomy term that has nested terms
-  var numberOfNestedTerms: number = 3; // this is the number of nested terms defined by 'termsWithNestedTermsCodename'
-  var existingTaxonomyCodename: string = 'movietype'; // codename of some of the defined taxonomies
-  var numberOfTaxonomies: number = 2; // number of defined taxonomies
-  var response: TaxonomyResponses.TaxonomiesResponse;
+  const termsWithNestedTermsCodename: string = 'film'; // codename of the taxonomy term that has nested terms
+  const numberOfNestedTerms: number = 3; // this is the number of nested terms defined by 'termsWithNestedTermsCodename'
+  const existingTaxonomyCodename: string = 'movietype'; // codename of some of the defined taxonomies
+  const numberOfTaxonomies: number = 2; // number of defined taxonomies
 
-  var taxonomy: TaxonomyGroup;
+  let response: TaxonomyResponses.TaxonomiesResponse;
+  let taxonomy: TaxonomyGroup;
 
   beforeAll((done) => {
     context.deliveryClient.taxonomies()
@@ -26,6 +26,10 @@ describe('Live taxonomies', () => {
         taxonomy = response.taxonomies.find(m => m.system.codename === existingTaxonomyCodename);
         done();
       });
+  });
+
+  it(`taxonomies should have pagination`, () => {
+    expect(response.pagination).toEqual(jasmine.any(Pagination));
   });
 
   it(`taxonomies should be defined`, () => {
@@ -61,7 +65,7 @@ describe('Live taxonomies', () => {
   });
 
   it(`taxonomy group should contain nested taxonomies`, () => {
-    var termsWithNestedTerms = taxonomy.terms.find(m => m.codename === termsWithNestedTermsCodename);
+    const termsWithNestedTerms = taxonomy.terms.find(m => m.codename === termsWithNestedTermsCodename);
     expect(termsWithNestedTerms).toBeDefined();
     expect(termsWithNestedTerms.terms).toBeDefined();
     expect(termsWithNestedTerms.terms.length).toEqual(numberOfNestedTerms);
