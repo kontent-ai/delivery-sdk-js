@@ -64,7 +64,7 @@ export class TypeResolverService {
      * Creates empty typed object of given type
      * @param type Type of the content item
      */
-    private createEmptyTypedObj<TItem extends IContentItem>(type: string): TItem {
+    createEmptyTypedObj<TItem extends IContentItem>(type: string): TItem {
         if (!type) {
             throw Error('Cannot resolve type because no type name was provided');
         }
