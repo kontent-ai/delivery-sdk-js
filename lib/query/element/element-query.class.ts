@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export class ElementQuery extends BaseElementQuery {
+export class ElementQuery extends BaseElementQuery<ElementResponses.ElementResponse> {
 
     constructor(
         protected config: DeliveryClientConfig,

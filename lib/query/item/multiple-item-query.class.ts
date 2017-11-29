@@ -21,7 +21,7 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery<TItem> {
+export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemListingResponse<TItem>> {
 
     constructor(
         protected config: DeliveryClientConfig,

@@ -25,7 +25,7 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuery {
+export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> extends BaseQuery<TResponse> {
 
     protected parameters: IQueryParameter[] = [];
 

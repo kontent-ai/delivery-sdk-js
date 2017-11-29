@@ -22,7 +22,7 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export abstract class BaseTypeQuery extends BaseQuery {
+export abstract class BaseTypeQuery<TResponse> extends BaseQuery<TResponse> {
 
     protected parameters: IQueryParameter[] = [];
     protected _queryConfig: IContentTypeQueryConfig = new ContentTypeQueryConfig();

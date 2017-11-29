@@ -22,7 +22,7 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export abstract class BaseElementQuery extends BaseQuery {
+export abstract class BaseElementQuery<TResponse> extends BaseQuery<TResponse> {
 
     protected parameters: IQueryParameter[] = [];
     protected _queryConfig: IElementQueryConfig = new ElementQueryConfig();
