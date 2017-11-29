@@ -2,15 +2,15 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { ItemResponses, FieldModels, TypeResponses } from '../../../lib';
+import { ItemResponses, FieldModels, TypeResponses, Pagination } from '../../../lib';
 
 // tests
 describe('Live types', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var response: TypeResponses.DeliveryTypeListingResponse;
+  let response: TypeResponses.DeliveryTypeListingResponse;
 
   beforeAll((done) => {
     context.deliveryClient.types()
@@ -23,6 +23,10 @@ describe('Live types', () => {
 
   it(`types should be defined`, () => {
     expect(response).toBeDefined();
+  });
+
+  it(`types should have pagination`, () => {
+    expect(response.pagination).toEqual(jasmine.any(Pagination));
   });
 
   it(`there should be at least 1 type`, () => {

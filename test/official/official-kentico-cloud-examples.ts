@@ -16,32 +16,32 @@ describe('Official Kentico cloud examples (used in API reference https://develop
 
     /* ----------- Initial setup ----------- */
     // Create strongly typed models according to https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK#creating-models
-    var typeResolvers = [
-        new TypeResolver("article", () => new Article())
+    const typeResolvers = [
+        new TypeResolver('article', () => new Article())
     ];
-    var config = new DeliveryClientConfig("975bf280-fd91-488c-994c-2f04416e5ee3", typeResolvers);
-    var deliveryClient = new DeliveryClient(config);
+    const config = new DeliveryClientConfig('975bf280-fd91-488c-994c-2f04416e5ee3', typeResolvers);
+    const deliveryClient = new DeliveryClient(config);
 
     /* ------------- Prepare responses ----------- */
-    var itemResponse: ItemResponses.DeliveryItemResponse<Article>;
-    var itemsResponse: ItemResponses.DeliveryItemListingResponse<Article>;
-    var typeResponse: TypeResponses.DeliveryTypeResponse;
-    var typesResponse: TypeResponses.DeliveryTypeListingResponse;
-    var taxonomyResponse: TaxonomyResponses.TaxonomyResponse;
-    var taxonomiesReponse: TaxonomyResponses.TaxonomiesResponse;
-    var elementResponse: ElementResponses.ElementResponse;
+    let itemResponse: ItemResponses.DeliveryItemResponse<Article>;
+    let itemsResponse: ItemResponses.DeliveryItemListingResponse<Article>;
+    let typeResponse: TypeResponses.DeliveryTypeResponse;
+    let typesResponse: TypeResponses.DeliveryTypeListingResponse;
+    let taxonomyResponse: TaxonomyResponses.TaxonomyResponse;
+    let taxonomiesReponse: TaxonomyResponses.TaxonomiesResponse;
+    let elementResponse: ElementResponses.ElementResponse;
 
     /* ------------ Prepare observables for each example -------------- */
 
     // View a content item
-    var itemObs = deliveryClient.item<Article>('on_roasts')
+    const itemObs = deliveryClient.item<Article>('on_roasts')
         .elementsParameter(['title', 'summary', 'post_date', 'teaser_image'])
         .depthParameter(1)
         .get()
         .map(response => itemResponse = response);
 
     // List content items
-    var itemsObs = deliveryClient.items<Article>()
+    const itemsObs = deliveryClient.items<Article>()
         .equalsFilter('system.type', 'article')
         .elementsParameter(['title', 'summary', 'post_date', 'teaser_image'])
         .orderParameter('elements.post_date', SortOrder.desc)
@@ -50,34 +50,34 @@ describe('Official Kentico cloud examples (used in API reference https://develop
         .map(response => itemsResponse = response);
 
     // List content types
-    var typesObs = deliveryClient.types()
+    const typesObs = deliveryClient.types()
         .limitParameter(3)
         .get()
         .map(response => typesResponse = response);
 
     // View a content type
-    var typeObs = deliveryClient.type('coffee')
+    const typeObs = deliveryClient.type('coffee')
         .get()
         .map(response => typeResponse = response);
 
     // View taxonomy
-    var taxonomyObs = deliveryClient.taxonomy('personas')
+    const taxonomyObs = deliveryClient.taxonomy('personas')
         .get()
         .map(response => taxonomyResponse = response);
 
     // List taxonomies
-    var taxonomiesObs = deliveryClient.taxonomies()
+    const taxonomiesObs = deliveryClient.taxonomies()
         .limitParameter(3)
         .get()
         .map(response => taxonomiesReponse = response);
 
     // View a content type element
-    var elementObs = deliveryClient.element('coffee', 'processing')
+    const elementObs = deliveryClient.element('coffee', 'processing')
         .get()
         .map(response => elementResponse = response);
 
     /* --------------- Prepare single observable ---------------- */
-    var observables: Observable<any>[] = [];
+    const observables: Observable<any>[] = [];
     observables.push(itemObs);
     observables.push(itemsObs);
     observables.push(typeObs);

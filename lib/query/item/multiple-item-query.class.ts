@@ -21,7 +21,7 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery<TItem> {
+export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemListingResponse<TItem>> {
 
     constructor(
         protected config: DeliveryClientConfig,
@@ -37,7 +37,17 @@ export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery
      * @param type Codename of type to get
      */
     type(type: string): this {
-        this._contentType = type;
+        this.parameters.push(new Filters.TypeFilter(type));
+        return this;
+    }
+
+    /**
+     * Gets items of given types (logical or)
+     * I.e. get items of either 'Actor' or 'Movie' type
+     * @param types Types to get
+     */
+    types(types: string[]): this {
+        this.parameters.push(new Filters.TypeFilter(types));
         return this;
     }
 

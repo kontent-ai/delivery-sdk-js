@@ -7,13 +7,14 @@ import { FieldModels, TaxonomyResponses } from '../../../lib';
 // tests
 describe('Live taxonomy', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var taxonomyCodename: string = 'movietype';
-  var termsWithNestedTermsCodename: string = 'film'; // codename of the taxonomy term that has nested terms
-  var numberOfNestedTerms: number = 3; // this is the number of nested terms defined by 'termsWithNestedTermsCodename'
-  var response: TaxonomyResponses.TaxonomyResponse;
+  const taxonomyCodename: string = 'movietype';
+  const termsWithNestedTermsCodename: string = 'film'; // codename of the taxonomy term that has nested terms
+  const numberOfNestedTerms: number = 3; // this is the number of nested terms defined by 'termsWithNestedTermsCodename'
+
+  let response: TaxonomyResponses.TaxonomyResponse;
 
   beforeAll((done) => {
     context.deliveryClient.taxonomy(taxonomyCodename)
@@ -36,6 +37,7 @@ describe('Live taxonomy', () => {
     expect(response.taxonomy.system.name).toBeDefined();
   });
 
+
   it(`taxonomy group should match requested type`, () => {
     expect(response.taxonomy.system.codename).toEqual(taxonomyCodename);
   });
@@ -49,7 +51,7 @@ describe('Live taxonomy', () => {
   });
 
   it(`taxonomy group should contain nested taxonomies`, () => {
-    var termsWithNestedTerms = response.taxonomy.terms.find(m => m.codename === termsWithNestedTermsCodename);
+    const termsWithNestedTerms = response.taxonomy.terms.find(m => m.codename === termsWithNestedTermsCodename);
     expect(termsWithNestedTerms).toBeDefined();
     expect(termsWithNestedTerms.terms).toBeDefined();
     expect(termsWithNestedTerms.terms.length).toEqual(numberOfNestedTerms);

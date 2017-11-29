@@ -2,7 +2,50 @@ import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interf
 
 export namespace Filters {
 
-    var defaultValue: string = '';
+    const valueSeparator: string = ',';
+    const defaultValue: string = '';
+
+    export class TypeFilter implements IQueryParameter {
+        constructor(
+            public type: string | string[]
+        ) {
+        }
+
+        public GetParam(): string {
+            if (Array.isArray(this.type)) {
+                // multiple types
+                return 'system.type[in]'
+            }
+
+            // single type
+            return 'system.type';
+        }
+
+        public GetParamValue(): string | null {
+            if (!this.type) {
+                return defaultValue;
+            }
+
+            if (Array.isArray(this.type)) {
+                let value = '';
+                // use [in] filter
+                for (let i = 0; i < this.type.length; i++) {
+
+                    value = value + this.type[i].toString();
+
+                    if (i !== this.type.length - 1) {
+                        // append separator if its not last item
+                        value = value + valueSeparator;
+                    }
+                }
+
+                return value;
+            }
+
+            // single type was given
+            return this.type.toString();
+        }
+    }
 
     export class EqualsFilter implements IQueryParameter {
         constructor(
@@ -237,8 +280,8 @@ export namespace Filters {
         }
 
         public GetParamValue(): string {
-            var lowerVal = defaultValue;
-            var higherVal = defaultValue;
+            let lowerVal = defaultValue;
+            let higherVal = defaultValue;
 
             if (this.lowerValue) {
                 lowerVal = this.lowerValue.toString();

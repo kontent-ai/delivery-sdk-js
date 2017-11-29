@@ -25,11 +25,10 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuery {
+export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> extends BaseQuery<TResponse> {
 
     protected parameters: IQueryParameter[] = [];
 
-    protected _contentType?: string;
     protected _queryConfig?: IItemQueryConfig;
 
     constructor(
@@ -95,11 +94,6 @@ export abstract class BaseItemQuery<TItem extends IContentItem> extends BaseQuer
 
     protected getMultipleItemsQueryUrl(): string {
         const action = '/items';
-
-        // get all items of all types when no type is specified
-        if (this._contentType) {
-            this.parameters.push(new Filters.EqualsFilter('system.type', this._contentType));
-        }
 
         // add default language is necessry
         this.processDefaultLanguageParameter();

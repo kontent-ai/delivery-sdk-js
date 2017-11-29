@@ -17,7 +17,7 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export class TaxonomiesQuery extends BaseTaxonomyQuery {
+export class TaxonomiesQuery extends BaseTaxonomyQuery<TaxonomyResponses.TaxonomiesResponse> {
 
     constructor(
         protected config: DeliveryClientConfig,

@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export class SingleTypeQuery extends BaseTypeQuery {
+export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeResponse> {
 
     constructor(
         protected config: DeliveryClientConfig,

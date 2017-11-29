@@ -2,16 +2,16 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { ItemResponses, FieldModels } from '../../../lib';
+import { ItemResponses, FieldModels, Pagination } from '../../../lib';
 
 // tests
 describe('Live items', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var type: string = 'movie';
-  var response: ItemResponses.DeliveryItemListingResponse<Movie>;
+  const type: string = 'movie';
+  let response: ItemResponses.DeliveryItemListingResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
@@ -29,6 +29,10 @@ describe('Live items', () => {
 
   it(`check correct number of items`, () => {
     expect(response.items.length).toEqual(6);
+  });
+
+  it(`items should have pagination`, () => {
+    expect(response.pagination).toEqual(jasmine.any(Pagination));
   });
 
   it(`'isEmpty' should be false`, () => {

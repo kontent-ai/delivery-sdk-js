@@ -3,7 +3,7 @@ import { IModularContent } from '../../interfaces/item/imodular-content.interfac
 import { IPagination } from '../../interfaces/common/ipagination.interface';
 
 export namespace CloudItemResponseInterfaces {
-  
+
   export interface ICloudResponseMultiple {
     items: IContentItem[];
     modular_content: IModularContent[];

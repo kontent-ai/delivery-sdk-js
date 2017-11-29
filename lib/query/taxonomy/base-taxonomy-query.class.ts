@@ -22,7 +22,7 @@ import { Observable } from 'rxjs/Rx';
 // services
 import { QueryService } from '../../services/query.service';
 
-export abstract class BaseTaxonomyQuery extends BaseQuery {
+export abstract class BaseTaxonomyQuery<TResponse> extends BaseQuery<TResponse> {
 
     /**
      * Taxonomies endpoint URL action
