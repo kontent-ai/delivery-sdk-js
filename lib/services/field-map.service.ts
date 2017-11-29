@@ -36,7 +36,7 @@ export class FieldMapService {
      * @param modularContent Modular content sent along with item
      * @param queryConfig Query configuration
      */
-    mapFields<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem{
+    mapFields<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem {
         if (!item) {
             throw Error(`Cannot map fields because item is not defined`);
         }
@@ -49,20 +49,20 @@ export class FieldMapService {
             throw Error(`Cannot map system attributes of the item`);
         }
 
-        var properties = Object.getOwnPropertyNames(item.elements);
+        const properties = Object.getOwnPropertyNames(item.elements);
 
         // create typed item
-        var itemTyped = this.typeResolverService.createTypedObj(item.system.type, item) as TItem;
+        const itemTyped = this.typeResolverService.createTypedObj(item.system.type, item) as TItem;
 
         // add/taken item to processed items to avoid infinite recursion
-        var processedItem = this.processedItems.find(m => m.system.codename === item.system.codename);
+        const processedItem = this.processedItems.find(m => m.system.codename === item.system.codename);
         if (!processedItem) {
             this.processedItems.push(itemTyped);
         }
 
         properties.forEach(fieldName => {
-            var field = item.elements[fieldName] as FieldInterfaces.IField;
-            var propertyName;
+            const field = item.elements[fieldName] as FieldInterfaces.IField;
+            let propertyName;
 
             // resolve field to a custom model property
             if (itemTyped.propertyResolver) {
@@ -70,7 +70,7 @@ export class FieldMapService {
             }
 
             // if property hasn't been resolved, try with decorator
-            if(!propertyName) {
+            if (!propertyName) {
                 propertyName = FieldDecorators.getPropertyName(itemTyped, fieldName);
             }
 
@@ -87,33 +87,24 @@ export class FieldMapService {
     private mapField(field: FieldInterfaces.IField, modularContent: any, item: IContentItem, queryConfig: IItemQueryConfig): any {
         if (field.type.toString() === FieldType.modular_content.toString()) {
             return this.mapModularField(field, modularContent, queryConfig);
-        }
-        else if (field.type.toString() === FieldType.text.toString()) {
+        } else if (field.type.toString() === FieldType.text.toString()) {
             return this.mapTextField(field);
-        }
-        else if (field.type.toString() === FieldType.asset.toString()) {
+        } else if (field.type.toString() === FieldType.asset.toString()) {
             return this.mapAssetsField(field);
-        }
-        else if (field.type.toString() === FieldType.number.toString()) {
+        } else if (field.type.toString() === FieldType.number.toString()) {
             return this.mapNumberField(field);
-        }
-        else if (field.type.toString() === FieldType.multiple_choice.toString()) {
+        } else if (field.type.toString() === FieldType.multiple_choice.toString()) {
             return this.mapMultipleChoiceField(field);
-        }
-        else if (field.type.toString() === FieldType.datetime.toString()) {
+        } else if (field.type.toString() === FieldType.datetime.toString()) {
             return this.mapDateTimeField(field);
-        }
-        else if (field.type.toString() === FieldType.rich_text.toString()) {
+        } else if (field.type.toString() === FieldType.rich_text.toString()) {
             return this.mapRichTextField(field as FieldInterfaces.IRichTextField, modularContent, queryConfig);
-        }
-        else if (field.type.toString() === FieldType.url_slug.toString()) {
+        } else if (field.type.toString() === FieldType.url_slug.toString()) {
             return this.mapUrlSlugField(field, item, queryConfig);
-        }
-        else if (field.type.toString() === FieldType.taxonomy.toString()) {
+        } else if (field.type.toString() === FieldType.taxonomy.toString()) {
             return this.mapTaxonomyField(field);
-        }
-        else {
-            var err = `Unsupported field type '${field.type}'`
+        } else {
+            const err = `Unsupported field type '${field.type}'`
             if (this.config.enableAdvancedLogging) {
                 console.warn(err, field);
             }
@@ -123,23 +114,23 @@ export class FieldMapService {
 
     private mapRichTextField(field: FieldInterfaces.IRichTextField, modularContent: any, queryConfig: IItemQueryConfig): Fields.RichTextField {
         // get all modular content items nested in rich text
-        var modularItems: IContentItem[] = [];
+        const modularItems: IContentItem[] = [];
 
         if (field.modular_content) {
             if (Array.isArray(field.modular_content)) {
                 field.modular_content.forEach(codename => {
                     // get modular item
-                    var modularItem = this.mapFields(modularContent[codename], modularContent, queryConfig);
+                    const modularItem = this.mapFields(modularContent[codename], modularContent, queryConfig);
 
-                    if (modularItem != null){
+                    if (modularItem != null) {
                         modularItems.push(modularItem);
                     }
                 });
             }
         }
 
-        // extract and map links 
-        var links: ILink[] = this.mapRichTextLinks(field.links);
+        // extract and map links
+        const links: ILink[] = this.mapRichTextLinks(field.links);
 
         return new Fields.RichTextField(field.name, field.value, modularItems, links, this.typeResolverService, this.config.enableAdvancedLogging, queryConfig);
     }
@@ -169,7 +160,7 @@ export class FieldMapService {
     }
 
     private mapUrlSlugField(field: FieldInterfaces.IField, item: IContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
-       var linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
+       const linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
 
         return new Fields.UrlSlugField(field.name, field.value, item, linkResolver, this.config.enableAdvancedLogging);
     }
@@ -190,10 +181,10 @@ export class FieldMapService {
         }
 
         // modular content is always returned in an array
-        var modularContentItems: any[] = [];
-        var fieldModularContent = field.value as Array<string>;
+        const modularContentItems: any[] = [];
+        const fieldModularContent = field.value as Array<string>;
         fieldModularContent.forEach(modularItemCodename => {
-            var modularItem = modularContent[modularItemCodename];
+            const modularItem = modularContent[modularItemCodename];
 
             if (!modularItem) {
                 if (this.config.enableAdvancedLogging) {
@@ -204,14 +195,13 @@ export class FieldMapService {
             // try to map only if the modular item was present in response
             if (modularItem) {
                 // add/taken item to processed items to avoid infinite recursion
-                var processedItem = this.processedItems.find(m => m.system.codename === modularItem.system.codename);
+                let processedItem = this.processedItems.find(m => m.system.codename === modularItem.system.codename);
                 if (processedItem) {
                     modularContentItems.push(processedItem);
-                }
-                else {
-                    var modularItem = this.mapFields<any>(modularItem, modularContent, queryConfig);
-                    modularContentItems.push(modularItem);
-                    processedItem = modularItem;
+                } else {
+                    const newModularItem = this.mapFields<any>(modularItem, modularContent, queryConfig);
+                    modularContentItems.push(newModularItem);
+                    processedItem = newModularItem;
                 }
             }
         })
@@ -221,23 +211,22 @@ export class FieldMapService {
 
     private getLinkResolverForUrlSlugField(item: IContentItem, queryConfig: IItemQueryConfig): ((link: ILink) => string) | undefined {
          // link resolver defined by the query config (= by calling method) has priority over type's global link resolver
-        var linkResolver: ((value: ILink) => string) | undefined = undefined;
+        let linkResolver: ((value: ILink) => string) | undefined = undefined;
 
         if (queryConfig.linkResolver) {
             linkResolver = queryConfig.linkResolver;
-        }
-        else {
+        } else {
             linkResolver = item.linkResolver;
         }
 
         return linkResolver;
     }
 
-    private mapRichTextLinks(linksJson: any): ILink[]{
-        var links: ILink[] = [];
+    private mapRichTextLinks(linksJson: any): ILink[] {
+        const links: ILink[] = [];
 
-        for (var linkItemId in linksJson){
-            var linkRaw: ILink = linksJson[linkItemId] as ILink;
+        for (const linkItemId of Object.keys(linksJson)) {
+            const linkRaw: ILink = linksJson[linkItemId] as ILink;
             links.push(new Link(linkItemId, linkRaw.codename, linkRaw.type, linkRaw.url_slug));
         }
 

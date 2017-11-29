@@ -2,18 +2,20 @@
 import { setup, Context, Actor, Movie } from '../test/setup';
 
 // models
-import { ItemResponses, FieldModels } from '../lib';
+import { ItemResponses, FieldModels, IContentItem, ContentItem } from '../lib';
 
 
 // dev tests
 describe('Developer tests', () => {
 
-    var context = new Context();
+    const context = new Context();
+    // remove type resolvers for testing
+    context.typeResolvers = [];
     setup(context);
 
-    var movieCodename: string = 'warrior';
-    var response: ItemResponses.DeliveryItemResponse<Movie>;
-   
+    const movieCodename: string = 'warrior';
+    let response: ItemResponses.DeliveryItemResponse<Movie>;
+
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(movieCodename)
             .get()
@@ -23,19 +25,9 @@ describe('Developer tests', () => {
             })
     });
 
-    it(`Test #1`, () => {
-        var html = response.item.plot.getHtml();
-        expect(response).toBeDefined();
+    it(`IContentItem should be returned`, () => {
+        expect(response).toEqual(jasmine.any(ContentItem));
     });
 
-    it(`Link in rich text should be resolved using global url slug resolver`, () => {
-        var html = response.item.plot.getHtml();
-        expect(response).toBeDefined();
-    });
-
-    it(`Link in rich text should be resolved using url slug resolver defined by query`, () => {
-        var html = response.item.plot.getHtml();
-        expect(response).toBeDefined();
-    });
 });
 
