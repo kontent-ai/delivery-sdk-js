@@ -44,8 +44,8 @@
     "rxjs": "5.5.2"
   },
   "devDependencies": {
-    "@types/jasmine": "2.8.0",
-    "@types/node": "8.0.51",
+    "@types/jasmine": "2.8.2",
+    "@types/node": "8.0.53",
     "core-js": "2.5.1",
     "coveralls": "3.0.0",
     "gulp": "3.9.1",
@@ -67,7 +67,7 @@
     "merge2": "1.2.0",
     "ts-node": "3.3.0",
     "tslint": "5.8.0",
-    "typescript": "2.6.1",
+    "typescript": "2.6.2",
     "url-parse": "1.2.0",
     "webpack": "3.8.1"
   },
