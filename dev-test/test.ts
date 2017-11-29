@@ -20,13 +20,14 @@ describe('Developer tests', () => {
         context.deliveryClient.item<Movie>(movieCodename)
             .get()
             .subscribe(r => {
+                console.log(r);
                 response = r;
                 done();
             })
     });
 
     it(`IContentItem should be returned`, () => {
-        expect(response).toEqual(jasmine.any(ContentItem));
+        expect(response.item).toEqual(jasmine.any(ContentItem));
     });
 
 });

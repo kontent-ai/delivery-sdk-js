@@ -2,7 +2,7 @@ import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { IContentItemSystemAttributes } from '../../interfaces/item/icontent-item-system-attributes.interface'
 import { ILink } from '../../interfaces/item/ilink.interface';
 
-export abstract class ContentItem implements IContentItem {
+export class ContentItem implements IContentItem {
 
     /**
      * Content item system elements
@@ -15,7 +15,7 @@ export abstract class ContentItem implements IContentItem {
     public elements: any;
 
     /**
-    * Callback used to bind fields returned from Kentico Cloud to a model property. 
+    * Callback used to bind fields returned from Kentico Cloud to a model property.
     * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
      */
     public propertyResolver?: (fieldName: string) => string;
@@ -39,7 +39,7 @@ export abstract class ContentItem implements IContentItem {
     */
     constructor(public options?: {
         /**
-         * Callback used to bind fields returned from Kentico Cloud to a model property. 
+         * Callback used to bind fields returned from Kentico Cloud to a model property.
          * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
          */
         propertyResolver?: (fieldName: string) => string,
@@ -54,6 +54,8 @@ export abstract class ContentItem implements IContentItem {
          */
         richTextResolver?: (contentItem: IContentItem) => string;
     }) {
-        if (options) Object.assign(this, options);
+        if (options) {
+            Object.assign(this, options);
+        }
     }
 }

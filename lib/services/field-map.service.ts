@@ -51,8 +51,14 @@ export class FieldMapService {
 
         const properties = Object.getOwnPropertyNames(item.elements);
 
-        // create typed item
-        const itemTyped = this.typeResolverService.createTypedObj(item.system.type, item) as TItem;
+        let itemTyped: TItem;
+
+        // check if resolver for this type is available
+        if (this.typeResolverService.hasTypeResolver(item.system.type)) {
+            itemTyped = this.typeResolverService.createTypedObj(item.system.type, item) as TItem;
+        } else {
+            itemTyped = this.typeResolverService.createContentItem(item) as TItem;
+        }
 
         // add/taken item to processed items to avoid infinite recursion
         const processedItem = this.processedItems.find(m => m.system.codename === item.system.codename);

@@ -22,32 +22,32 @@ export class TypeMapService {
             throw Error(`Cannot map type elements`);
         }
 
-        var typeSystem = new ContentTypeSystemAttributes(
+        const typeSystem = new ContentTypeSystemAttributes(
             type.system.id,
             type.system.name,
             type.system.codename,
             type.system.last_modified
         );
 
-        var elements: Element[] = [];
+        const elements: Element[] = [];
 
-        var elementNames = Object.getOwnPropertyNames(type.elements);
+        const elementNames = Object.getOwnPropertyNames(type.elements);
         elementNames.forEach(elementName => {
-            var typeElement = type.elements[elementName] as CloudTypeResponseInterfaces.IContentTypeElementCloudResponse;
+            const typeElement = type.elements[elementName] as CloudTypeResponseInterfaces.IContentTypeElementCloudResponse;
 
             if (!typeElement) {
                 throw Error(`Cannot find element '${elementName}' on type '${type}'`);
             }
 
             // use json property as a codename of the type element
-            var elementCodename = elementName;
+            const elementCodename = elementName;
 
             // extra properties for certain field types
-            var taxonomyGroup: string | undefined = typeElement.taxonomy_group;
-            var options: IElementOption[] = [];
+            const taxonomyGroup: string | undefined = typeElement.taxonomy_group;
+            const options: IElementOption[] = [];
 
             // some elements can contain options
-            var rawOptions = typeElement.options;
+            const rawOptions = typeElement.options;
             if (rawOptions) {
                 if (!Array.isArray(rawOptions)) {
                     throw Error(`Content type 'options' property has to be an array`);
@@ -68,7 +68,7 @@ export class TypeMapService {
     }
 
     mapMultipleTypes(response: CloudTypeResponseInterfaces.ICloudMultipleTypeResponse): ContentType[] {
-        var that = this;
+        const that = this;
         return response.types.map(function (type) {
             return that.mapType(type);
         });
