@@ -115,14 +115,17 @@ npm i kentico-cloud-delivery-typescript-sdk --save
 import { ContentItem, Fields,TypeResolver,DeliveryClient,DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
 
 /**
-Each content type needs to have model class
+* This is optional, but it is considered a best practice to define your models
+* so you can leverage intellisense and so that you can extend your models with 
+* additional properties / methods.
 */
 export class Movie extends ContentItem {
   public title: Fields.TextField;
 }
 
 /**
-* Type resolvers make sure instance of proper class is created for your content types
+* Type resolvers make sure instance of proper class is created for your content types.
+* If you don't use any custom models, return an empty array.
 */
 let typeResolvers: TypeResolver[] = [
     new TypeResolver('movie', () => new Movie()),
@@ -136,7 +139,7 @@ var deliveryClient = new DeliveryClient(
   );
 
 /**
-* Get data from Cloud
+* Get typed data from Cloud (note that the 'Movie' has to be registered in your type resolvers)
 */
 deliveryClient.items<Movie>()
   .type('movie')
@@ -146,6 +149,21 @@ deliveryClient.items<Movie>()
     // you can access strongly types properties
     console.log(response.items[0].title.text);
   });
+
+/**
+ * Get data without having custom models 
+*/
+deliveryClient.items<ContentItem>()
+  .type('movie')
+  .get()
+  .subscribe(response => {
+    console.log(response);
+    // you can access properties same way as with strongly typed models, but note
+    // that you don't get any intellisense and the underlying boject 
+    // instance is of 'ContentItem' type
+    console.log(response.items[0].title.text);
+  });
+
 ```
 ### JavaScript (CommonJS)
 
@@ -153,7 +171,9 @@ deliveryClient.items<Movie>()
 var KenticoCloud = require('kentico-cloud-delivery-typescript-sdk');
 
 /**
-Each content type needs to have model class
+* This is optional, but it is considered a best practice to define your models
+* so you can leverage intellisense and so that you can extend your models with 
+* additional methods.
 */
 class Movie extends KenticoCloud.ContentItem {
     constructor() {
@@ -162,7 +182,8 @@ class Movie extends KenticoCloud.ContentItem {
 }
 
 /**
-* Type resolvers make sure instance of proper class is created for your content types
+* Type resolvers make sure instance of proper class is created for your content types.
+* If you don't use any custom classes, return an empty array
 */
 var typeResolvers = [
     new KenticoCloud.TypeResolver('movie', () => new Movie()),
@@ -179,7 +200,10 @@ var config = new KenticoCloud.DeliveryClientConfig(projectId, typeResolvers);
 var deliveryClient = new KenticoCloud.DeliveryClient(config);
 
 /**
- * Fetch all items of 'movie' type and given parameters from Kentico Cloud
+ * Fetch all items of 'movie' type and given parameters from Kentico Cloud.
+ * Important note: SDK will convert items to your type if you registered it. For example,
+ * in this case the objects will be of 'Movie' type we defined above. 
+ * If you don't use custom models, 'ContentItem' object instances will be returned.
  */
 deliveryClient.items()
     .type('movie')
