@@ -219,6 +219,13 @@ deliveryClient.items()
 - Use `npm run nodejs-test` runs Node.js application and checks if response was successful
 - Use `npm run build` to generate definitions & dist from the contents of `lib` folder.
 - Use `npm run coveralls` to push coverage data directly to [https://coveralls.io](https://coveralls.io). Can be executed only after running`npm test`.
+- Use `npm run prepublish-test` to run all test required before publishing new version without actually increasing version
+
+## Publish scripts
+
+- Use `npm run publish-patch` to run all tests, increase `patch` version and publish it to NPM. 
+- Use `npm run publish-minor` to run all tests, increase `minor` version and publish it to NPM.
+- Use `npm run publish-major` to run all tests, increase `major` version and publish it to NPM.
 
 ## Feedback & Contribution
 
