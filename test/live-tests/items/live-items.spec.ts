@@ -7,11 +7,11 @@ import { ItemResponses, FieldModels } from '../../../lib';
 // tests
 describe('Live items', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var type: string = 'movie';
-  var response: ItemResponses.DeliveryItemListingResponse<Movie>;
+  const type: string = 'movie';
+  let response: ItemResponses.DeliveryItemListingResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
