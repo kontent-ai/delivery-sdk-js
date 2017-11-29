@@ -29,7 +29,6 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
 
     protected parameters: IQueryParameter[] = [];
 
-    protected _contentType?: string;
     protected _queryConfig?: IItemQueryConfig;
 
     constructor(
@@ -95,11 +94,6 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
 
     protected getMultipleItemsQueryUrl(): string {
         const action = '/items';
-
-        // get all items of all types when no type is specified
-        if (this._contentType) {
-            this.parameters.push(new Filters.EqualsFilter('system.type', this._contentType));
-        }
 
         // add default language is necessry
         this.processDefaultLanguageParameter();

@@ -9,173 +9,202 @@ import { Filters } from '../../../lib';
 // tests
 describe('Item url filters', () => {
 
-    var context = new Context();
+    const context = new Context();
     setup(context);
 
+    it(`type filter with single string should be set`, () => {
+        const type = 'TypeA';
+        const url = new URL(
+            context.deliveryClient.items()
+                .type(type)
+                .toString()
+        );
+
+        const param = url.searchParams.get('system.type');
+
+        expect(param).toEqual(type);
+    });
+
+    it(`type filter with multiple strings should be set`, () => {
+        const typeA = 'TypeA';
+        const typeB = 'TypeB';
+
+        const types = [typeA, typeB];
+        const url = new URL(
+            context.deliveryClient.items()
+                .types(types)
+                .toString()
+        );
+
+        const param = url.searchParams.get('system.type[in]');
+
+        expect(param).toEqual(`${typeA},${typeB}`);
+    });
+
     it(`inFilter with single value should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .inFilter('elem1', ['val1'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[in]');
+        const param = url.searchParams.get('elem1[in]');
 
         expect(param).toEqual('val1');
     });
 
     it(`inFilter with multiple values should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .inFilter('elem1', ['val1', 'val2'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[in]');
+        const param = url.searchParams.get('elem1[in]');
 
         expect(param).toEqual('val1,val2');
     });
 
     it(`anyFilter with single value should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .anyFilter('elem1', ['val1'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[any]');
+        const param = url.searchParams.get('elem1[any]');
 
         expect(param).toEqual('val1');
     });
 
     it(`anyFilter with multiple values should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .anyFilter('elem1', ['val1', 'val2'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[any]');
+        const param = url.searchParams.get('elem1[any]');
 
         expect(param).toEqual('val1,val2');
     });
 
     it(`containsFilter with single value should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .containsFilter('elem1', ['val1'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[contains]');
+        const param = url.searchParams.get('elem1[contains]');
 
         expect(param).toEqual('val1');
     });
 
     it(`containsFilter with multiple value should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .containsFilter('elem1', ['val1', 'val2'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[contains]');
+        const param = url.searchParams.get('elem1[contains]');
 
         expect(param).toEqual('val1,val2');
     });
 
     it(`equalsFilter should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .equalsFilter('elem1', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1');
+        const param = url.searchParams.get('elem1');
 
         expect(param).toEqual('val1');
     });
 
     it(`greaterThanFilter should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .greaterThanFilter('elem1', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[gt]');
+        const param = url.searchParams.get('elem1[gt]');
 
         expect(param).toEqual('val1');
     });
 
     it(`greaterThanOrEqualFilter should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .greaterThanOrEqualFilter('elem1', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[gte]');
+        const param = url.searchParams.get('elem1[gte]');
 
         expect(param).toEqual('val1');
     });
 
     it(`lessThanFilter should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .lessThanFilter('elem1', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[lt]');
+        const param = url.searchParams.get('elem1[lt]');
 
         expect(param).toEqual('val1');
     });
 
     it(`lessThanOrEqualFilter should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .lessThanOrEqualFilter('elem1', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[lte]');
+        const param = url.searchParams.get('elem1[lte]');
 
         expect(param).toEqual('val1');
     });
 
     it(`allFilter with single value should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .allFilter('elem1', ['val1'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[all]');
+        const param = url.searchParams.get('elem1[all]');
 
         expect(param).toEqual('val1');
     });
 
     it(`allFilter with multiple values should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .allFilter('elem1', ['val1', 'val2'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[all]');
+        const param = url.searchParams.get('elem1[all]');
 
         expect(param).toEqual('val1,val2');
     });
 
     it(`rangeFilter should be set`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .rangeFilter('elem1', 1, 10)
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[range]');
+        const param = url.searchParams.get('elem1[range]');
 
         expect(param).toEqual('1,10');
     });
@@ -274,121 +303,121 @@ describe('Item url filters', () => {
     // trim checks
 
     it(`inFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .inFilter(' elem1 ', ['val1'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[in]');
+        const param = url.searchParams.get('elem1[in]');
 
         expect(param).toEqual('val1');
     });
 
     it(`allFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .allFilter(' elem1 ', ['val1'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[all]');
+        const param = url.searchParams.get('elem1[all]');
 
         expect(param).toEqual('val1');
     });
 
     it(`anyFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .anyFilter(' elem1 ', ['val1'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[any]');
+        const param = url.searchParams.get('elem1[any]');
 
         expect(param).toEqual('val1');
     });
 
     it(`containsFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .containsFilter(' elem1 ', ['val1'])
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[contains]');
+        const param = url.searchParams.get('elem1[contains]');
 
         expect(param).toEqual('val1');
     });
 
     it(`equalsFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .equalsFilter(' elem1 ', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1');
+        const param = url.searchParams.get('elem1');
 
         expect(param).toEqual('val1');
     });
 
     it(`greaterThanFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .greaterThanFilter(' elem1 ', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[gt]');
+        const param = url.searchParams.get('elem1[gt]');
 
         expect(param).toEqual('val1');
     });
 
     it(`greaterThanOrEqualFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .greaterThanOrEqualFilter(' elem1 ', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[gte]');
+        const param = url.searchParams.get('elem1[gte]');
 
         expect(param).toEqual('val1');
     });
 
     it(`lessThanFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .lessThanFilter(' elem1 ', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[lt]');
+        const param = url.searchParams.get('elem1[lt]');
 
         expect(param).toEqual('val1');
     });
 
     it(`lessThanOrEqualFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .lessThanOrEqualFilter(' elem1 ', 'val1')
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[lte]');
+        const param = url.searchParams.get('elem1[lte]');
 
         expect(param).toEqual('val1');
     });
 
     it(`rangeFilter should trim its field`, () => {
-        var url = new URL(
+        const url = new URL(
             context.deliveryClient.items()
                 .rangeFilter(' elem1 ', 1, 10)
                 .toString()
         );
 
-        var param = url.searchParams.get('elem1[range]');
+        const param = url.searchParams.get('elem1[range]');
 
         expect(param).toEqual('1,10');
     });
