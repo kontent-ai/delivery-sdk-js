@@ -115,32 +115,32 @@ npm i kentico-cloud-delivery-typescript-sdk --save
 import { ContentItem, Fields,TypeResolver,DeliveryClient,DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
 
 /**
-* This is optional, but it is considered a best practice to define your models
-* so you can leverage intellisense and so that you can extend your models with 
-* additional properties / methods.
-*/
+ * This is optional, but it is considered a best practice to define your models
+ * so you can leverage intellisense and so that you can extend your models with 
+ * additional properties / methods.
+ */
 export class Movie extends ContentItem {
   public title: Fields.TextField;
 }
 
 /**
-* Type resolvers make sure instance of proper class is created for your content types.
-* If you don't use any custom models, return an empty array.
-*/
+ * Type resolvers make sure instance of proper class is created for your content types.
+ * If you don't use any custom models, return an empty array.
+ */
 let typeResolvers: TypeResolver[] = [
     new TypeResolver('movie', () => new Movie()),
-  ];
+];
 
 /**
  * Create new instance of Delivery Client
  */
 var deliveryClient = new DeliveryClient(
   new DeliveryClientConfig('projectId', typeResolvers)
-  );
+);
 
 /**
-* Get typed data from Cloud (note that the 'Movie' has to be registered in your type resolvers)
-*/
+ * Get typed data from Cloud (note that the 'Movie' has to be registered in your type resolvers)
+ */
 deliveryClient.items<Movie>()
   .type('movie')
   .get()
@@ -148,21 +148,21 @@ deliveryClient.items<Movie>()
     console.log(response);
     // you can access strongly types properties
     console.log(response.items[0].title.text);
-  });
+});
 
 /**
  * Get data without having custom models 
-*/
+ */
 deliveryClient.items<ContentItem>()
   .type('movie')
   .get()
   .subscribe(response => {
     console.log(response);
     // you can access properties same way as with strongly typed models, but note
-    // that you don't get any intellisense and the underlying boject 
+    // that you don't get any intellisense and the underlying object 
     // instance is of 'ContentItem' type
     console.log(response.items[0].title.text);
-  });
+});
 
 ```
 ### JavaScript (CommonJS)
@@ -171,10 +171,10 @@ deliveryClient.items<ContentItem>()
 var KenticoCloud = require('kentico-cloud-delivery-typescript-sdk');
 
 /**
-* This is optional, but it is considered a best practice to define your models
-* so you can leverage intellisense and so that you can extend your models with 
-* additional methods.
-*/
+ * This is optional, but it is considered a best practice to define your models
+ * so that you can leverage intellisense and extend your models with 
+ * additional methods.
+ */
 class Movie extends KenticoCloud.ContentItem {
     constructor() {
         super();
@@ -182,9 +182,9 @@ class Movie extends KenticoCloud.ContentItem {
 }
 
 /**
-* Type resolvers make sure instance of proper class is created for your content types.
-* If you don't use any custom classes, return an empty array
-*/
+ * Type resolvers make sure instance of proper class is created for your content types.
+ * If you don't use any custom classes, return an empty array.
+ */
 var typeResolvers = [
     new KenticoCloud.TypeResolver('movie', () => new Movie()),
 ];
@@ -216,10 +216,10 @@ deliveryClient.items()
 
 - Use `npm test` to run all tests.
 - Use `npm run dev-test` to run developer tests created in `dev-test` folder. Use this for your testing purposes.
-- Use `npm run nodejs-test` runs Node.js application and checks if response was successful
+- Use `npm run nodejs-test` to test HTTP response in Node.js application.
 - Use `npm run build` to generate definitions & dist from the contents of `lib` folder.
 - Use `npm run coveralls` to push coverage data directly to [https://coveralls.io](https://coveralls.io). Can be executed only after running`npm test`.
-- Use `npm run prepublish-test` to run all test required before publishing new version without actually increasing version
+- Use `npm run prepublish-test` to run all tests required before publishing new version without actually increasing version.
 
 ## Publish scripts
 
