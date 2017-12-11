@@ -1,7 +1,7 @@
 import { IElement } from '../../interfaces/element/ielement.interface';
 import { IElementOption } from '../../interfaces/element/ielement-option.interface';
 
-export class Element implements IElement{
+export class Element implements IElement {
     constructor(
         /**
          * Codename of the element

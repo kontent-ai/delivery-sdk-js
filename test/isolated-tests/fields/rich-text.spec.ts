@@ -25,29 +25,29 @@ class ActorMock extends ContentItem {
 // tests
 describe('RichTextField', () => {
     // prepare config & type resolver
-    var typeResolvers: TypeResolver[] = [
-        new TypeResolver("actor", () => new ActorMock())
+    const typeResolvers: TypeResolver[] = [
+        new TypeResolver('actor', () => new ActorMock())
     ];
 
-    var config: DeliveryClientConfig = new DeliveryClientConfig('fakeId', typeResolvers);
+    const config: DeliveryClientConfig = new DeliveryClientConfig('fakeId', typeResolvers);
 
     // prepare type resolver service
-    var typeResolverService = new TypeResolverService(config);
+    const typeResolverService = new TypeResolverService(config);
 
     // prepare modular items
-    var modularItems: ActorMock[] = [];
+    const modularItems: ActorMock[] = [];
 
-    var tomHardyId = 'd1557cb1-d7ec-4d04-9742-f86b52bc34fc';
-    var joelEdgertonId = '3294e4b0-e58b-49d7-85fa-5bc9a86556ec';
+    const tomHardyId = 'd1557cb1-d7ec-4d04-9742-f86b52bc34fc';
+    const joelEdgertonId = '3294e4b0-e58b-49d7-85fa-5bc9a86556ec';
 
-    var tomHardy = new ActorMock();
+    const tomHardy = new ActorMock();
     tomHardy.setProperties(tomHardyId, 'tom_hardy', 'Tom');
 
-    var joelEdgerton = new ActorMock();
+    const joelEdgerton = new ActorMock();
     joelEdgerton.setProperties(joelEdgertonId, 'joel_edgerton', 'Joel');
 
     // prepare links
-    var links: ILink[] = [
+    const links: ILink[] = [
         new Link(tomHardy.system.id, tomHardy.system.codename, tomHardy.system.type, 'slug_for_tom'),
         new Link(joelEdgerton.system.id, joelEdgerton.system.codename, joelEdgerton.system.type, 'slug_for_joel')
     ];
@@ -56,11 +56,12 @@ describe('RichTextField', () => {
     modularItems.push(joelEdgerton);
 
     // prepare html
-    var html = `
+    // tslint:disable:max-line-length
+    const html = `
     <p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"></object>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"></object>\n<p>See more in profile of <a data-item-id=\"3294e4b0-e58b-49d7-85fa-5bc9a86556ec\" href=\"\">Joel Edgerton</a> and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>
     `;
 
-    var field = new Fields.RichTextField('name', html, modularItems, links, typeResolverService, false,
+    const field = new Fields.RichTextField('name', html, modularItems, links, typeResolverService, false,
         {
             richTextResolver: (item: ActorMock) => {
                 return `<p class="testing_richtext">${item.firstName.text}</p>`;
@@ -81,34 +82,34 @@ describe('RichTextField', () => {
     });
 
     it(`checks that html contains resolved modular content #1`, () => {
-        var expectedHtml = `<p class="testing_richtext">Tom</p>`;
+        const expectedHtml = `<p class="testing_richtext">Tom</p>`;
         expect(field.getHtml()).toContain(expectedHtml);
     });
 
     it(`checks that html contains resolved modular content #2`, () => {
-        var expectedHtml = `<p class="testing_richtext">Joel</p>`;
+        const expectedHtml = `<p class="testing_richtext">Joel</p>`;
         expect(field.getHtml()).toContain(expectedHtml);
     });
 
     it(`checks that html contains resolved url #1`, () => {
-        var expectedHtml = `/actor-rt/slug_for_tom`;
+        const expectedHtml = `/actor-rt/slug_for_tom`;
         expect(field.getHtml()).toContain(expectedHtml);
     });
 
     it(`checks that html contains resolved url #2`, () => {
-        var expectedHtml = `/actor-rt/slug_for_joel`;
+        const expectedHtml = `/actor-rt/slug_for_joel`;
         expect(field.getHtml()).toContain(expectedHtml);
     });
 
     it(`checks that links are resolved even if the rich text resolver is not set`, () => {
-        var fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, modularItems, links, typeResolverService, false,
+        const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, modularItems, links, typeResolverService, false,
         {
             richTextResolver: null,
             linkResolver: (link: ILink) => '/actor-rt/' + link.url_slug
         });
 
-        var expectedHtml1 = `/actor-rt/slug_for_joel`;
-        var expectedHtml2 = `/actor-rt/slug_for_tom`;
+        const expectedHtml1 = `/actor-rt/slug_for_joel`;
+        const expectedHtml2 = `/actor-rt/slug_for_tom`;
         expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml1);
         expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml2);
     });

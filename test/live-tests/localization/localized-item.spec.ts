@@ -7,12 +7,12 @@ import { ItemResponses } from '../../../lib';
 // tests
 describe('Localized item', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var language: string = 'cz';
-  var movieCodename: string = 'warrior';
-  var response: ItemResponses.DeliveryItemResponse<Movie>;
+  const language: string = 'cz';
+  const movieCodename: string = 'warrior';
+  let response: ItemResponses.DeliveryItemResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.item<Movie>(movieCodename)

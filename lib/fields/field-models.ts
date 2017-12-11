@@ -1,7 +1,7 @@
 import { FieldInterfaces} from './field-interfaces';
 
 export namespace FieldModels {
-    
+
     export class AssetModel implements FieldInterfaces.IAsset {
 
         /**
@@ -11,7 +11,7 @@ export namespace FieldModels {
         * @param {string} type - Type of the asset
         * @param {number} size - Size of the asset
         * @param {string} description - Description of the asset
-        * @param {string} url - Url of the asset 
+        * @param {string} url - Url of the asset
         */
         constructor(
             public name: string,

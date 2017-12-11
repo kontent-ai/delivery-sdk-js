@@ -7,7 +7,7 @@ import { Context, setup } from '../../setup';
 // tests
 describe('Item URL', () => {
 
-    var context = new Context();
+    const context = new Context();
     setup(context);
 
     it(`item query should thrown error when item's codename is not set`, () => {
@@ -19,12 +19,12 @@ describe('Item URL', () => {
     });
 
     it(`item url with 'kyle' codename should end with '/items/kyle`, () => {
-        var url = new URL(context.deliveryClient.item('kyle').toString());
+        const url = new URL(context.deliveryClient.item('kyle').toString());
         expect(url.toString()).toContain(`/items/kyle`);
     });
 
     it(`item url with 'arnold' codename should end with '/items/arnold'`, () => {
-        var url = new URL(context.deliveryClient.item('arnold').toString());
+        const url = new URL(context.deliveryClient.item('arnold').toString());
         expect(url.toString()).toContain(`/items/arnold`);
     });
 });

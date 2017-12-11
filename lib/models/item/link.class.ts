@@ -3,7 +3,7 @@ import { ILink } from '../../interfaces/item/ilink.interface';
 export class Link implements ILink {
     constructor(
         /**
-         * Id of the content item 
+         * Id of the content item
          */
         public itemId: string,
 
@@ -21,5 +21,5 @@ export class Link implements ILink {
          * Url slug defined for the content item
          */
         public url_slug: string
-    ){}
+    ) {}
 }

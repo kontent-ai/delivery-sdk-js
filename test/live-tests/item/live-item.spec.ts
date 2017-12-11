@@ -7,11 +7,11 @@ import { ItemResponses, FieldModels } from '../../../lib';
 // tests
 describe('Live item', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var movieCodename: string = 'warrior';
-  var response: ItemResponses.DeliveryItemResponse<Movie>;
+  const movieCodename: string = 'warrior';
+  let response: ItemResponses.DeliveryItemResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.item<Movie>(movieCodename)
@@ -43,7 +43,7 @@ describe('Live item', () => {
   });
 
   it(`verify 'plot' rich text field with modular content contains expected html`, () => {
-    var html = response.item.plot.getHtml();
+    const html = response.item.plot.getHtml();
     expect(html).toContain('<p>Tom</p>');
   });
 
@@ -104,22 +104,22 @@ describe('Live item', () => {
   });
 
   it(`checks that html contains resolved modular content #1`, () => {
-    var expectedHtml = `<p>Tom</p>`;
+    const expectedHtml = `<p>Tom</p>`;
     expect(response.item.plot.getHtml()).toContain(expectedHtml);
   });
 
   it(`checks that html contains resolved modular content #2`, () => {
-    var expectedHtml = `<p>Joel</p>`;
+    const expectedHtml = `<p>Joel</p>`;
     expect(response.item.plot.getHtml()).toContain(expectedHtml);
   });
 
   it(`checks that html contains resolved url #1`, () => {
-    var expectedHtml = `/actor/tom`;
+    const expectedHtml = `/actor/tom`;
     expect(response.item.plot.getHtml()).toContain(expectedHtml);
   });
 
   it(`checks that html contains resolved url #2`, () => {
-    var expectedHtml = `/actor/joel`;
+    const expectedHtml = `/actor/joel`;
     expect(response.item.plot.getHtml()).toContain(expectedHtml);
   });
 });

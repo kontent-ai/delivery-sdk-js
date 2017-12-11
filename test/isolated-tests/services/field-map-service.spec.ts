@@ -10,8 +10,8 @@ import { ContentItem } from '../../../lib';
 // tests
 describe('FieldMapService', () => {
 
-    var fieldType = 'invalid';
-    
+    const fieldType = 'invalid';
+
     class FakeField implements FieldInterfaces.IField {
         public type: FieldType = fieldType as any;
         constructor(
@@ -26,23 +26,23 @@ describe('FieldMapService', () => {
         public elements: any;
     }
 
-    var context = new Context();
+    const context = new Context();
     setup(context);
 
-    var fieldMapService = new FieldMapService(context.getConfig());
+    const fieldMapService = new FieldMapService(context.getConfig());
 
     it(`should throw an Error when invalid response is given`, () => {
         expect(() => fieldMapService.mapFields(null, null, null)).toThrowError();
         expect(() => fieldMapService.mapFields(undefined, undefined, undefined)).toThrowError();
-        
+
         expect(() => {
-            let item = new FakeContentItem();
+            const item = new FakeContentItem();
             item.elements = {};
             fieldMapService.mapFields(item, undefined, undefined)
         } ).toThrowError();
 
         expect(() => {
-            let item = new FakeContentItem();
+            const item = new FakeContentItem();
             item.system = {} as any;
             fieldMapService.mapFields(item, undefined, undefined)
         } ).toThrowError();
@@ -51,9 +51,9 @@ describe('FieldMapService', () => {
 
     it(`should throw an Error when unsupported field type is used`, () => {
 
-        var fakeField = new FakeField('testField', 'testValue')
+        const fakeField = new FakeField('testField', 'testValue')
 
-        var fakeItem = new FakeContentItem();
+        const fakeItem = new FakeContentItem();
         fakeItem.elements = { 'testField': fakeField };
         fakeItem.system = {} as any;
         fakeItem.system.type = 'movie';

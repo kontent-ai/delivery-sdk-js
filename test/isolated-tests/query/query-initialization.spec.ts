@@ -7,7 +7,7 @@ import { setup, Context } from '../../setup';
 // tests
 describe('Query initialization', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
   it(`Element query initialization with invalid type should throw Error`, () => {

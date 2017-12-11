@@ -33,7 +33,7 @@ describe('Responses', () => {
 
     it(`DeliveryItemListingResponse should be initialize properties for invalid item`, () => {
         const response = new ItemResponses.DeliveryItemResponse(null as any, {} as any);
-        const responseWithItem = new ItemResponses.DeliveryItemResponse({'test':1} as any, {} as any);
+        const responseWithItem = new ItemResponses.DeliveryItemResponse({'test': 1} as any, {} as any);
 
         expect(response.isEmpty).toEqual(true);
         expect(responseWithItem.isEmpty).toEqual(false);

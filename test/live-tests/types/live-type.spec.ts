@@ -7,14 +7,14 @@ import { ItemResponses, FieldModels, TypeResponses } from '../../../lib';
 // tests
 describe('Live type', () => {
 
-  var context = new Context();
+  const context = new Context();
   setup(context);
 
-  var codename: string = 'movie';
-  var response: TypeResponses.DeliveryTypeResponse;
+  const codename: string = 'movie';
+  let response: TypeResponses.DeliveryTypeResponse;
 
-  var multipleChoiceElement: string = 'category';
-  var taxonomyElement: string = 'releasecategory';
+  const multipleChoiceElement: string = 'category';
+  const taxonomyElement: string = 'releasecategory';
 
   beforeAll((done) => {
     context.deliveryClient.type(codename)
@@ -40,9 +40,9 @@ describe('Live type', () => {
   it(`proper type should be returned based on test config`, () => {
     expect(response.type.system.codename).toEqual(codename);
   });
- 
+
   it(`Verifies taxonomy element - '${taxonomyElement}'`, () => {
-    var releaseCategoryElement = response.type.elements.find(m => m.codename === taxonomyElement);
+    const releaseCategoryElement = response.type.elements.find(m => m.codename === taxonomyElement);
 
     expect(releaseCategoryElement).toBeDefined();
     expect(releaseCategoryElement.taxonomyGroup).toBeDefined();
@@ -50,7 +50,7 @@ describe('Live type', () => {
   });
 
   it(`Verifies multiple_choice element - '${multipleChoiceElement}'`, () => {
-    var categoryElement = response.type.elements.find(m => m.codename === multipleChoiceElement);
+    const categoryElement = response.type.elements.find(m => m.codename === multipleChoiceElement);
 
     expect(categoryElement).toBeDefined();
     expect(categoryElement.options).toBeDefined();

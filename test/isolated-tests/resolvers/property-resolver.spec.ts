@@ -11,7 +11,7 @@ class MockMovie extends ContentItem {
 
     @FieldDecorators.codename('released')
     public test_released: Fields.DateTimeField;
-    
+
     @FieldDecorators.codename('length')
     public justNumber: Fields.NumberField;
 

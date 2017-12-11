@@ -5,7 +5,7 @@ import { TypeMapService } from '../../../lib/services/type-map.service';
 // tests
 describe('TypeMapService', () => {
 
-    var typeMapService = new TypeMapService();
+    const typeMapService = new TypeMapService();
 
     it(`should throw an Error when invalid response is given`, () => {
         expect(() => typeMapService.mapSingleType(null)).toThrowError();

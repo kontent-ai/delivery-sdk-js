@@ -7,10 +7,10 @@ import { ItemMapService } from '../../../lib/services/item-map.service';
 // tests
 describe('ItemMapService', () => {
 
-    var context = new Context();
+    const context = new Context();
     setup(context);
 
-    var itemMapService = new ItemMapService(context.getConfig());
+    const itemMapService = new ItemMapService(context.getConfig());
 
     it(`should throw an Error when invalid response is given`, () => {
         expect(() => itemMapService.mapSingleItem(null, null)).toThrowError();

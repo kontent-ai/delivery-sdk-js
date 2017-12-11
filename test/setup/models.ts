@@ -9,7 +9,7 @@ export class Actor extends ContentItem {
 
   @FieldDecorators.codename('last_name')
   public lastName: Fields.TextField;
-  
+
   public photo: Fields.AssetsField;
 
   constructor() {
@@ -89,5 +89,5 @@ export class AllTestObjects {
     // elements
     element: ElementResponses.ElementResponse
 
-  }) { if (data) Object.assign(this, data) }
+  }) { if (data) { Object.assign(this, data) } }
 }

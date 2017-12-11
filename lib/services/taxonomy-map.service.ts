@@ -25,14 +25,14 @@ export class TaxonomyMapService {
             throw Error(`Cannot map terms because no terms array was provided`);
         }
 
-        var mappedSystemAttributes: TaxonomySystemAttributes = new TaxonomySystemAttributes(
+        const mappedSystemAttributes: TaxonomySystemAttributes = new TaxonomySystemAttributes(
             taxonomySystem.id,
             taxonomySystem.name,
             taxonomySystem.codename,
             taxonomySystem.last_modified
         );
 
-        var mappedTerms: TaxonomyTerms[] = this.mapTaxonomyTerms(taxonomyTerms);
+        const mappedTerms: TaxonomyTerms[] = this.mapTaxonomyTerms(taxonomyTerms);
 
         return new TaxonomyGroup(mappedSystemAttributes, mappedTerms);
     }
@@ -46,7 +46,7 @@ export class TaxonomyMapService {
             throw Error(`Cannot map taxonomies because the 'taxonomies' property is not an array `);
         }
 
-        var mappedTaxonomies: TaxonomyGroup[] = [];
+        const mappedTaxonomies: TaxonomyGroup[] = [];
 
         taxonomies.forEach(taxonomy => {
             mappedTaxonomies.push(this.mapTaxonomy(taxonomy.system, taxonomy.terms));
@@ -60,14 +60,14 @@ export class TaxonomyMapService {
      * @param termsArray Terms array to map
      */
     private mapTaxonomyTerms(termsArray: ITaxonomyTerms[]): TaxonomyTerms[] {
-        if (termsArray.length == 0) {
+        if (termsArray.length === 0) {
             return [];
         }
 
-        var mappedTermsArray: TaxonomyTerms[] = [];
+        const mappedTermsArray: TaxonomyTerms[] = [];
 
         termsArray.forEach(terms => {
-            var mappedTerms = new TaxonomyTerms(
+            const mappedTerms = new TaxonomyTerms(
                 terms.name,
                 terms.codename,
                 this.mapTaxonomyTerms(terms.terms)

@@ -4,11 +4,11 @@ import { ICloudResponse } from '../../interfaces/common/icloud-response.interfac
 import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
 
 export namespace TypeResponses {
-    
+
     export class DeliveryTypeListingResponse implements ICloudResponse {
 
         /**
-        * Response containing multiple types 
+        * Response containing multiple types
         * @constructor
         * @param {IContentType[]} types - Content types
         * @param {IPagination} pagination - Pagination object
@@ -16,7 +16,7 @@ export namespace TypeResponses {
         constructor(
             public types: IContentType[],
             public pagination: IPagination,
-            public debug: ICloudResponseDebug 
+            public debug: ICloudResponseDebug
         ) { }
     }
 
@@ -29,7 +29,7 @@ export namespace TypeResponses {
         */
         constructor(
             public type: IContentType,
-            public debug: ICloudResponseDebug 
+            public debug: ICloudResponseDebug
         ) { }
     }
 }

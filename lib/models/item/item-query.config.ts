@@ -31,6 +31,6 @@ export class ItemQueryConfig extends QueryConfig implements IItemQueryConfig {
             richTextResolver?: (contentItem: IContentItem) => string;
         }) {
         super(options);
-        if (options) Object.assign(this, options);
+        if (options) { Object.assign(this, options); }
     }
 }
