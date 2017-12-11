@@ -57,35 +57,35 @@ export class RichTextResolver {
     };
 
     /**
-     * Resolves modular content inside the Rich text field. 
+     * Resolves modular content inside the Rich text field.
      * Rich text resolved needs to be configured either on the model or query level
      */
     resolveHtml(): string {
-        // resolve modular content nested within the rich text field 
+        // resolve modular content nested within the rich text field
         // find the all 'object' tags
         // example: <object type="application/kenticocloud" data-type="item" data-codename="geralt"></object>
-        var documentFragment = parse5.parseFragment(this.html) as AST.DocumentFragment;
+        const documentFragment = parse5.parseFragment(this.html) as AST.DocumentFragment;
 
         // get child nodes
-        var childeNodes = this.getChildNodes(documentFragment);
+        const childeNodes = this.getChildNodes(documentFragment);
 
         // recursively process all child nodes
         this.processChildNodes(childeNodes);
 
         // serialize document and get HTML
-        var resolvedHtml = parse5.serialize(documentFragment);
+        const resolvedHtml = parse5.serialize(documentFragment);
 
         return resolvedHtml;
     }
 
     private getChildNodes(documentFragment: AST.DocumentFragment): AST.Default.Element[] {
         return (documentFragment as AST.Default.DocumentFragment).childNodes as AST.Default.Element[];
-    } 
+    }
 
     private processChildNodes(childNodes: AST.Default.Element[]): void {
         childNodes.forEach(node => {
             if (node.attrs) {
-                var attributes = node.attrs;
+                const attributes = node.attrs;
 
                 // process modular content
                 this.processModularContent(node, attributes);
@@ -108,17 +108,17 @@ export class RichTextResolver {
         }
 
         // get all links which have item it attribute, ignore all other links (they can be regular links in rich text)
-        var contentItemIdAttribute = attributes.find(m => m.name === this.linkContentItemIdAttributeName);
+        const contentItemIdAttribute = attributes.find(m => m.name === this.linkContentItemIdAttributeName);
         if (!contentItemIdAttribute) {
             // its either a regular link or the attribute is not defined
             return;
         }
 
         // get id of content item
-        var contentItemId = contentItemIdAttribute.value;
+        const contentItemId = contentItemIdAttribute.value;
 
         // find link with the id of content item
-        var link = this.links.find(m => m.itemId === contentItemId);
+        const link = this.links.find(m => m.itemId === contentItemId);
 
         if (!link) {
             if (this.enableAdvancedLogging) {
@@ -128,9 +128,9 @@ export class RichTextResolver {
         }
 
         // try to resolve link using the resolver passed through the query config
-        var queryLinkResolver = this.queryConfig.linkResolver;
+        const queryLinkResolver = this.queryConfig.linkResolver;
 
-        var url;
+        let url;
 
         if (queryLinkResolver) {
             // try to resolve url using the query config
@@ -141,13 +141,13 @@ export class RichTextResolver {
             // url was not resolved, try to find global resolver for this particular type
             // and apply its url resolver
 
-            var emptyTypeItem = this.typeResolverService.createEmptyTypedObj<IContentItem>(link.type);
+            const emptyTypeItem = this.typeResolverService.createEmptyTypedObj<IContentItem>(link.type);
 
             if (!emptyTypeItem) {
                 throw Error(`Cannot resolve link for '${link.type}' type because mapping failed (have you registered this type in your config?)`);
             }
 
-            var globalLinkResolver = emptyTypeItem.linkResolver;
+            const globalLinkResolver = emptyTypeItem.linkResolver;
             if (globalLinkResolver) {
                 url = globalLinkResolver(link);
             }
@@ -162,7 +162,7 @@ export class RichTextResolver {
         }
 
         // assign url to 'href' attribute of the link
-        var hrefAttribute = attributes.find(m => m.name === 'href');
+        const hrefAttribute = attributes.find(m => m.name === 'href');
         if (!hrefAttribute) {
             // href attribute is missing
             if (this.enableAdvancedLogging) {
@@ -175,22 +175,22 @@ export class RichTextResolver {
     }
 
     private processModularContent(node: AST.Default.Element, attributes: AST.Default.Attribute[]): void {
-        var modularContentAttribute = attributes.find(m => m.value === this.modularContentobjectType);
+        const modularContentAttribute = attributes.find(m => m.value === this.modularContentobjectType);
         if (!modularContentAttribute) {
             // node is not of modular content type
             return;
         }
 
         // get codename of the modular content
-        var modularItemCodenameAttribute: AST.Default.Attribute | undefined = attributes.find(m => m.name === this.modularContentCodenameAttributeName);
+        const modularItemCodenameAttribute: AST.Default.Attribute | undefined = attributes.find(m => m.name === this.modularContentCodenameAttributeName);
         if (modularItemCodenameAttribute == null) {
             throw Error(`The '${this.modularContentCodenameAttributeName}' attribute is missing and therefore modular content item cannot be retrieved`);
         }
 
-        var itemCodename = modularItemCodenameAttribute.value;
+        const itemCodename = modularItemCodenameAttribute.value;
 
         // get modular content item
-        var modularContentItem = this.modularItems.find(m => m.system.codename === itemCodename);
+        const modularContentItem = this.modularItems.find(m => m.system.codename === itemCodename);
 
         // check if modular content really exists
         if (!modularContentItem) {
@@ -201,12 +201,11 @@ export class RichTextResolver {
         node.tagName = this.modularContentTagWrapper;
 
         // get html to replace object using Rich text resolver function
-        var resolver: (<TItem extends IContentItem>(item: TItem) => string) | null = null;
+        let resolver: (<TItem extends IContentItem>(item: TItem) => string) | null = null;
         if (this.queryConfig.richTextResolver) {
             // use resolved defined by query if available
             resolver = this.queryConfig.richTextResolver;
-        }
-        else {
+        } else {
             // use default resolver defined in models
             if (modularContentItem.richTextResolver) {
                 resolver = modularContentItem.richTextResolver;
@@ -218,11 +217,10 @@ export class RichTextResolver {
             if (this.enableAdvancedLogging) {
                 console.warn(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
             }
-        }
-        else {
-            var replaceHtml = resolver(modularContentItem);
+        } else {
+            const replaceHtml = resolver(modularContentItem);
 
-            var serializedHtml = parse5.parseFragment(replaceHtml) as any;
+            const serializedHtml = parse5.parseFragment(replaceHtml) as any;
 
             // add replaced html to node
             node.childNodes = serializedHtml.childNodes;

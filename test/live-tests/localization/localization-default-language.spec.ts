@@ -7,16 +7,16 @@ import { ItemResponses } from '../../../lib';
 // tests
 describe('Localization with globally defined language #1', () => {
 
-    var language = 'en';
-    var context = new Context();
-    context.defaultLanguage = language;
-    setup(context);
+    const language = 'en';
+    const sharedContext = new Context();
+    sharedContext.defaultLanguage = language;
+    setup(sharedContext);
 
-    var movieCodename: string = 'warrior';
-    var response: ItemResponses.DeliveryItemResponse<Movie>;
+    const movieCodename: string = 'warrior';
+    let response: ItemResponses.DeliveryItemResponse<Movie>;
 
     beforeAll((done) => {
-        context.deliveryClient.item<Movie>(movieCodename)
+        sharedContext.deliveryClient.item<Movie>(movieCodename)
             .get()
             .subscribe(r => {
                 response = r as ItemResponses.DeliveryItemResponse<Movie>;
@@ -36,16 +36,16 @@ describe('Localization with globally defined language #1', () => {
 // tests
 describe('Localization with globally defined language #2', () => {
 
-    var language = 'cz';
-    var context = new Context();
+    const language = 'cz';
+    const context = new Context();
     context.defaultLanguage = language;
     setup(context);
 
-    var movieCodename: string = 'warrior';
-    var response: ItemResponses.DeliveryItemResponse<Movie>;
+    const newMovieCodename: string = 'warrior';
+    let response: ItemResponses.DeliveryItemResponse<Movie>;
 
     beforeAll((done) => {
-        context.deliveryClient.item<Movie>(movieCodename)
+        context.deliveryClient.item<Movie>(newMovieCodename)
             .get()
             .subscribe(r => {
                 response = r as ItemResponses.DeliveryItemResponse<Movie>;
@@ -65,17 +65,17 @@ describe('Localization with globally defined language #2', () => {
 // tests
 describe('Localization defined by query', () => {
 
-    var defaultLanguage = 'cz';
-    var queryLanguage = 'en';
-    var context = new Context();
+    const defaultLanguage = 'cz';
+    const queryLanguage = 'en';
+    const context = new Context();
     context.defaultLanguage = defaultLanguage;
     setup(context);
 
-    var movieCodename: string = 'warrior';
-    var response: ItemResponses.DeliveryItemResponse<Movie>;
+    const newMovieCodename: string = 'warrior';
+    let response: ItemResponses.DeliveryItemResponse<Movie>;
 
     beforeAll((done) => {
-        context.deliveryClient.item<Movie>(movieCodename)
+        context.deliveryClient.item<Movie>(newMovieCodename)
             .languageParameter(queryLanguage)
             .get()
             .subscribe(r => {

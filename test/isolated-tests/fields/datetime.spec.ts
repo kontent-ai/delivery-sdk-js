@@ -7,7 +7,7 @@ import { Fields } from '../../../lib';
 // tests
 describe('DateTimeField', () => {
 
-    var field = new Fields.DateTimeField('name', '2014-11-18T00:00:00Z');
+    const field = new Fields.DateTimeField('name', '2014-11-18T00:00:00Z');
 
     it(`checks name`, () => {
         expect(field.name).toEqual('name');

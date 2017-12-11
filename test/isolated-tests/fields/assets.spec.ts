@@ -7,17 +7,17 @@ import { Fields, FieldModels } from '../../../lib';
 // tests
 describe('AssetField', () => {
 
-    var assetValue = [
+    const assetValue = [
         {
-            "name": "tom_hardy.jpg",
-            "type": "image/jpeg",
-            "size": "8091",
-            "description": 'description',
-            "url": "https://assets.kenticocloud.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/bb0899cf-2c3a-4e3f-8962-60e5a54fcca5/tom_hardy.jpg"
+            'name': 'tom_hardy.jpg',
+            'type': 'image/jpeg',
+            'size': '8091',
+            'description': 'description',
+            'url': 'https://assets.kenticocloud.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/bb0899cf-2c3a-4e3f-8962-60e5a54fcca5/tom_hardy.jpg'
         }
     ];
 
-    var field = new Fields.AssetsField('name', assetValue);
+    const field = new Fields.AssetsField('name', assetValue);
 
     it(`checks name`, () => {
         expect(field.name).toEqual(field.name);

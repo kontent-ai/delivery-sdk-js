@@ -6,7 +6,7 @@ import { Fields } from '../../../lib';
 // tests
 describe('NumberField', () => {
 
-    var field = new Fields.NumberField('name', 9);
+    const field = new Fields.NumberField('name', 9);
 
     it(`checks name`, () => {
         expect(field.name).toEqual('name');

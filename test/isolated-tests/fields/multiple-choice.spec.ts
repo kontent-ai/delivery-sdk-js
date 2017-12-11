@@ -7,19 +7,19 @@ import { FieldModels, Fields } from '../../../lib';
 // tests
 describe('MultipleChoiceField', () => {
 
-    var multipleChoiceValue = [
+    const multipleChoiceValue = [
         {
-            "name": "Action",
-            "codename": "action"
+            'name': 'Action',
+            'codename': 'action'
         },
         {
-            "name": "Drama",
-            "codename": "drama"
+            'name': 'Drama',
+            'codename': 'drama'
         }
     ];
 
-    var field = new Fields.MultipleChoiceField('name', multipleChoiceValue);
-    var fieldWithNoValue = new Fields.MultipleChoiceField('name', null);
+    const field = new Fields.MultipleChoiceField('name', multipleChoiceValue);
+    const fieldWithNoValue = new Fields.MultipleChoiceField('name', null);
 
     it(`checks name`, () => {
         expect(field.name).toEqual(field.name);

@@ -3,8 +3,8 @@ import { SortOrder } from './sort-order.enum';
 
 export namespace Parameters {
 
-    var defaultValue: string = '';
-    
+    const defaultValue: string = '';
+
     export class ElementsParameter implements IQueryParameter {
 
         /**
@@ -15,7 +15,7 @@ export namespace Parameters {
         constructor(
             public elementCodenames: string[]
         ) {
-            
+
         }
 
         public GetParam(): string {
@@ -65,7 +65,7 @@ export namespace Parameters {
         /**
         * Configures response to skip certain number of items
         * @constructor
-        * @param {number} skip - Number of content items that will be skipped 
+        * @param {number} skip - Number of content items that will be skipped
         */
         constructor(
             public skip: number
@@ -87,7 +87,7 @@ export namespace Parameters {
     export class OrderParameter implements IQueryParameter {
 
         /**
-        * Sorts the response based on given field. 
+        * Sorts the response based on given field.
         * @constructor
         * @param {string} field - Field that will be used for sorting (can be both elements.<fieldname> or system.<fieldname>)
         * @param {SortOrder} sortOrder - Order type (desc/asc). Defaults to 'asc' if SortOrder is null or invalid.
@@ -106,12 +106,11 @@ export namespace Parameters {
         }
 
         public GetParamValue(): string {
-            var order: string;
-            if (this.sortOrder == SortOrder.desc) {
-                order = "desc";
-            }
-            else {
-                order = "asc";
+            let order: string;
+            if (this.sortOrder === SortOrder.desc) {
+                order = 'desc';
+            } else {
+                order = 'asc';
             }
             return `${this.field.trim()}[${order}]`;
         }
@@ -120,8 +119,8 @@ export namespace Parameters {
     export class DepthParameter implements IQueryParameter {
 
         /**
-        * Configures the depth of the response. Content items might reference modular content items using the Modular content element. 
-        * Recursively, these modular content items can reference another modular content items. 
+        * Configures the depth of the response. Content items might reference modular content items using the Modular content element.
+        * Recursively, these modular content items can reference another modular content items.
         * By default, only one level of modular content is returned.
         * @constructor
         * @param {number} depth - Depth fo the response

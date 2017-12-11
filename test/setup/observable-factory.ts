@@ -12,26 +12,26 @@ class ObservableFactory {
 
     /**
      * Gets single observable containing all test object types
-     * @param client 
-     * @param queryConfig 
+     * @param client
+     * @param queryConfig
      */
     getAllTestObjects(client: IDeliveryClient, queryConfig?: IQueryConfig): Observable<AllTestObjects> {
 
-        var all: AllTestObjects = new AllTestObjects();
+        const all: AllTestObjects = new AllTestObjects();
 
         if (!queryConfig) {
             queryConfig = {};
         }
 
-        var observables: Observable<any>[] = [];
+        const observables: Observable<any>[] = [];
 
-        var itemObs = client.item<Movie>(this.movieCodename).queryConfig(queryConfig).get().map(r => all.item = r);
-        var itemsObs = client.items<Movie>().queryConfig(queryConfig).get().map(r => all.items = r);
-        var taxonomyObs = client.taxonomy(this.taxonomyCodename).queryConfig(queryConfig).get().map(r => all.taxonomy = r);
-        var taxonomiesObs = client.taxonomies().queryConfig(queryConfig).get().map(r => all.taxonomies = r);
-        var typeObs = client.type(this.typeCodename).queryConfig(queryConfig).get().map(r => all.type = r);
-        var typesObs = client.types().queryConfig(queryConfig).get().map(r => all.types = r);
-        var elementObs = client.element(this.typeCodename, this.elementCodename).queryConfig(queryConfig).get().map(r => all.element = r);
+        const itemObs = client.item<Movie>(this.movieCodename).queryConfig(queryConfig).get().map(r => all.item = r);
+        const itemsObs = client.items<Movie>().queryConfig(queryConfig).get().map(r => all.items = r);
+        const taxonomyObs = client.taxonomy(this.taxonomyCodename).queryConfig(queryConfig).get().map(r => all.taxonomy = r);
+        const taxonomiesObs = client.taxonomies().queryConfig(queryConfig).get().map(r => all.taxonomies = r);
+        const typeObs = client.type(this.typeCodename).queryConfig(queryConfig).get().map(r => all.type = r);
+        const typesObs = client.types().queryConfig(queryConfig).get().map(r => all.types = r);
+        const elementObs = client.element(this.typeCodename, this.elementCodename).queryConfig(queryConfig).get().map(r => all.element = r);
 
         observables.push(itemObs);
         observables.push(itemsObs);
@@ -41,7 +41,7 @@ class ObservableFactory {
         observables.push(typesObs);
         observables.push(elementObs);
 
-        var zippedObservable = this.zipObservables(observables);
+        const zippedObservable = this.zipObservables(observables);
 
         return zippedObservable.map(() => all);
     }
@@ -68,10 +68,10 @@ class ObservableFactory {
             return observables[0];
         }
 
-        var zippedObservable: Observable<any> = observables[0];
+        let zippedObservable: Observable<any> = observables[0];
 
-        for (var i = 1; i < observables.length; i++) {
-            var currentObservable = observables[i];
+        for (let i = 1; i < observables.length; i++) {
+            const currentObservable = observables[i];
             zippedObservable = zippedObservable.zip(currentObservable);
         }
 
@@ -79,7 +79,7 @@ class ObservableFactory {
     }
 }
 
-export var observableFactory = new ObservableFactory();
+export let observableFactory = new ObservableFactory();
 
 
 

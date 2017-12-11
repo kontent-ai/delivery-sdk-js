@@ -7,12 +7,12 @@ import { CloudError } from '../../../lib';
 // tests
 describe('Cloud errors', () => {
 
-    var context = new Context();
+    const context = new Context();
     setup(context);
 
-    var invalidCodename: string = 'the_invalid_codename';
-    var succeeded: boolean;
-    var error: any;
+    const invalidCodename: string = 'the_invalid_codename';
+    let succeeded: boolean;
+    let error: any;
 
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(invalidCodename)
@@ -37,8 +37,8 @@ describe('Cloud errors', () => {
     });
 
     it(`'CloudError' model should have all properties assigned`, () => {
-        var allPropertiesAreAssigned = true;
-        var cloudError = error as CloudError;
+        let allPropertiesAreAssigned = true;
+        const cloudError = error as CloudError;
         if (!(cloudError.error_code >= 0) ||
             !cloudError.message ||
             !cloudError.rawError ||

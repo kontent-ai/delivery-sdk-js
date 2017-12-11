@@ -17,6 +17,15 @@ import { URL } from 'url';
 import { BaseResponse } from './base-response.class';
 import { IHeader } from '../../interfaces/common/iheader.interface';
 
+class ResponseCallback {
+    constructor(
+        public response: string | null = null,
+        public incomingMessage: IncomingMessage | null = null,
+        public error: Error | null = null
+    ) {
+    }
+}
+
 export class HttpNodeJsService implements IHttpService {
 
     get(url: string, headers: IHeader[]): Observable<BaseResponse> {
@@ -109,12 +118,5 @@ export class HttpNodeJsService implements IHttpService {
     }
 }
 
-class ResponseCallback {
-    constructor(
-        public response: string | null = null,
-        public incomingMessage: IncomingMessage | null = null,
-        public error: Error | null = null
-    ) {
-    }
-}
+
 

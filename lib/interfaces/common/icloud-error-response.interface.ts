@@ -1,4 +1,4 @@
-export interface ICloudErrorResponse{
+export interface ICloudErrorResponse {
     message: string;
     request_id: number;
     error_code: number;

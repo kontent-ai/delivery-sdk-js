@@ -5,7 +5,7 @@ import { TaxonomyMapService } from '../../../lib/services/taxonomy-map.service';
 // tests
 describe('TaxonomyMapService', () => {
 
-    var taxonomyMapService = new TaxonomyMapService();
+    const taxonomyMapService = new TaxonomyMapService();
 
     it(`should throw an Error when invalid response is given`, () => {
         expect(() => taxonomyMapService.mapTaxonomy(null, [])).toThrowError();

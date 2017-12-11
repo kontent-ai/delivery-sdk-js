@@ -8,11 +8,11 @@ export class QueryConfig implements IQueryConfig {
     public usePreviewMode?: boolean;
 
     /**
-     * If the requested content has changed since the last request, the header determines whether 
+     * If the requested content has changed since the last request, the header determines whether
      * to wait while fetching content. This can be useful when retrieving changed content
-     * in reaction to a webhook call. By default, when the header is not set, the API 
-     * serves old content (if cached by the CDN) while it's fetching the new content 
-     * to minimize wait time. 
+     * in reaction to a webhook call. By default, when the header is not set, the API
+     * serves old content (if cached by the CDN) while it's fetching the new content
+     * to minimize wait time.
      */
     public waitForLoadingNewContent?: boolean;
 
@@ -22,6 +22,6 @@ export class QueryConfig implements IQueryConfig {
             waitForLoadingNewContent?: boolean
         }
     ) {
-        if (options) Object.assign(this, options);
+        if (options) { Object.assign(this, options); }
     }
 }

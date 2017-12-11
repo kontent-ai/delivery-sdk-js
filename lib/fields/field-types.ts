@@ -60,7 +60,7 @@ export namespace Fields {
         ) {
             if (this.value && Array.isArray(this.value)) {
                 this.value.forEach(option => {
-                    var optionTemp = option as FieldInterfaces.IMultipleChoiceOption;
+                    const optionTemp = option as FieldInterfaces.IMultipleChoiceOption;
                     this.options.push(new FieldModels.MultipleChoiceOption(
                         optionTemp.name,
                         optionTemp.codename
@@ -143,7 +143,7 @@ export namespace Fields {
                 return this.resolvedHtml;
             }
 
-            var richTextHelper = new RichTextResolver(this.value, this.modularItems, this.links, this.typeResolverService, this.enableAdvancedLogging, this.itemQueryConfig)
+            const richTextHelper = new RichTextResolver(this.value, this.modularItems, this.links, this.typeResolverService, this.enableAdvancedLogging, this.itemQueryConfig)
             this.resolvedHtml = richTextHelper.resolveHtml();
 
             return this.resolvedHtml;
@@ -207,7 +207,7 @@ export namespace Fields {
             }
 
             this.value.forEach(asset => {
-                var assetTemp = asset as FieldInterfaces.IAsset;
+                const assetTemp = asset as FieldInterfaces.IAsset;
                 this.assets.push(new FieldModels.AssetModel(
                     assetTemp.name,
                     assetTemp.type,
@@ -259,7 +259,7 @@ export namespace Fields {
                 return null;
             }
 
-            var url = this.linkResolver(new Link(
+            const url = this.linkResolver(new Link(
                 this.item.system.id,
                 this.item.system.codename,
                 this.item.system.type,
@@ -307,7 +307,7 @@ export namespace Fields {
                 throw Error(`Cannot get taxonomy field because the provided value is not an array`);
             }
 
-            var taxonomyList = value as FieldInterfaces.ITaxonomyTerm[];
+            const taxonomyList = value as FieldInterfaces.ITaxonomyTerm[];
 
             taxonomyList.forEach(term => {
                 this.taxonomyTerms.push(new FieldModels.TaxonomyTerm(term.name, term.codename));

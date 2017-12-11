@@ -1,0 +1,160 @@
+
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/client/idelivery-client.interface.ts[52, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-interfaces.ts[4, 1]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-interfaces.ts[40, 20]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-interfaces.ts[42, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-models.ts[4, 1]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-models.ts[14, 49]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[5, 1]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[13, 5]: Declaration of static field not allowed after declaration of instance method. Instead, this should come at the beginning of the class/interface.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[13, 33]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[14, 5]: Declaration of static field not allowed after declaration of instance method. Instead, this should come at the beginning of the class/interface.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[14, 35]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[15, 5]: Declaration of static field not allowed after declaration of instance method. Instead, this should come at the beginning of the class/interface.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[15, 44]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[16, 5]: Declaration of static field not allowed after declaration of instance method. Instead, this should come at the beginning of the class/interface.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[16, 34]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[17, 5]: Declaration of static field not allowed after declaration of instance method. Instead, this should come at the beginning of the class/interface.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[17, 37]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[18, 5]: Declaration of static field not allowed after declaration of instance method. Instead, this should come at the beginning of the class/interface.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[18, 38]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[19, 5]: Declaration of static field not allowed after declaration of instance method. Instead, this should come at the beginning of the class/interface.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[19, 44]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[20, 5]: Declaration of static field not allowed after declaration of instance method. Instead, this should come at the beginning of the class/interface.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[20, 37]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[21, 5]: Declaration of static field not allowed after declaration of instance method. Instead, this should come at the beginning of the class/interface.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[21, 37]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-type.ts[22, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[63, 21]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[63, 25]: Identifier 'optionTemp' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[146, 13]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[146, 17]: Identifier 'richTextHelper' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[210, 17]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[210, 21]: Identifier 'assetTemp' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[262, 13]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[262, 17]: Identifier 'url' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[310, 13]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/field-types.ts[310, 17]: Identifier 'taxonomyList' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[60, 60]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[64, 69]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[67, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[67, 13]: Identifier 'documentFragment' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[70, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[70, 13]: Identifier 'childeNodes' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[76, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[76, 13]: Identifier 'resolvedHtml' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[83, 6]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[88, 17]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[88, 21]: Identifier 'attributes' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[111, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[111, 13]: Identifier 'contentItemIdAttribute' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[118, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[118, 13]: Identifier 'contentItemId' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[121, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[121, 13]: Identifier 'link' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[131, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[131, 13]: Identifier 'queryLinkResolver' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[133, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[144, 13]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[144, 17]: Identifier 'emptyTypeItem' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[150, 13]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[150, 17]: Identifier 'globalLinkResolver' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[165, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[165, 13]: Identifier 'hrefAttribute' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[178, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[178, 13]: Identifier 'modularContentAttribute' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[185, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[185, 13]: Identifier 'modularItemCodenameAttribute' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[190, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[190, 13]: Identifier 'itemCodename' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[193, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[193, 13]: Identifier 'modularContentItem' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[204, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[209, 9]: misplaced 'else'
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[222, 9]: misplaced 'else'
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[223, 13]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[223, 17]: Identifier 'replaceHtml' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[225, 13]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/fields/rich-text-resolver.class.ts[225, 17]: Identifier 'serializedHtml' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/icloud-error-response.interface.ts[1, 37]: missing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/icloud-error-response.interface.ts[6, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/iheader.interface.ts[4, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/ipagination.interface.ts[6, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/iquery-parameter.interface.ts[4, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/iquery.config.ts[2, 1]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/iquery.config.ts[9, 98]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/iquery.config.ts[11, 86]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/iquery.config.ts[12, 85]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/iquery.config.ts[13, 30]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/common/iquery.config.ts[17, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/element/cloud-responses.ts[12, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/element/ielement-option.interface.ts[4, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/element/ielement-query.config.ts[3, 18]: An interface declaring no members is equivalent to its supertype.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/element/ielement-query.config.ts[7, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/element/ielement.interface.ts[9, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/item/iitem-query.config.ts[5, 55]: missing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/item/iitem-query.config.ts[8, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/item/ilink.interface.ts[6, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/taxonomy/itaxonomy-group.interface.ts[7, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/taxonomy/itaxonomy-query.config.ts[3, 18]: An interface declaring no members is equivalent to its supertype.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/taxonomy/itaxonomy-query.config.ts[7, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/taxonomy/itaxonomy-system-attributes.interface.ts[6, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/taxonomy/itaxonomy-terms.interface.ts[5, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/type/icontent-type-query.config.ts[3, 18]: An interface declaring no members is equivalent to its supertype.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/type/icontent-type-query.config.ts[7, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/interfaces/type/icontent-type.interface.ts[7, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/cloud-error.class.ts[1, 24]: missing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/cloud-error.class.ts[10, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/header.class.ts[8, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[6, 5]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[6, 9]: Identifier 'defaultValue' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[7, 1]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[18, 1]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[68, 78]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[90, 51]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[109, 13]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[110, 32]: == should be ===
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[111, 25]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[113, 13]: misplaced 'else'
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[114, 25]: " should be '
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[123, 135]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/parameters.ts[124, 96]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/query.config.ts[11, 98]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/query.config.ts[13, 86]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/query.config.ts[14, 85]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/query.config.ts[15, 30]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/query.config.ts[25, 9]: if statements must be braced
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/sort-order.enum.ts[1, 22]: missing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/common/sort-order.enum.ts[4, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/element/element-option.class.ts[3, 53]: missing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/element/element-option.class.ts[9, 1]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/element/element-option.class.ts[14, 6]: missing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/element/element-option.class.ts[15, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/element/element.class.ts[4, 41]: missing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/element/element.class.ts[31, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/element/responses.ts[22, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/item/item-query.config.ts[34, 9]: if statements must be braced
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/item/item-query.config.ts[36, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/item/link.class.ts[6, 34]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/item/link.class.ts[24, 6]: missing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/item/link.class.ts[25, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/type/content-type.class.ts[17, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/type/responses.ts[7, 1]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/type/responses.ts[11, 45]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/type/responses.ts[19, 46]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/type/responses.ts[32, 46]: trailing whitespace
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/models/type/responses.ts[35, 2]: file should end with a newline
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/http/http-nodejs.service.ts[61, 32]: variable 'ResponseCallback' used before declaration
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[28, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[28, 13]: Identifier 'mappedSystemAttributes' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[35, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[35, 13]: Identifier 'mappedTerms' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[49, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[49, 13]: Identifier 'mappedTaxonomies' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[63, 31]: == should be ===
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[67, 9]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[67, 13]: Identifier 'mappedTermsArray' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[70, 13]: Forbidden 'var' keyword, use 'let' or 'const' instead
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[70, 17]: Identifier 'mappedTerms' is never reassigned; use 'const' instead of 'var'.
+ERROR: c:/dev/KenticoCloudDeliveryTypeScriptSDK/lib/services/taxonomy-map.service.ts[81, 2]: file should end with a newline
+
