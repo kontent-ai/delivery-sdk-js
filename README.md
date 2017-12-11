@@ -220,6 +220,7 @@ deliveryClient.items()
 - Use `npm run build` to generate definitions & dist from the contents of `lib` folder.
 - Use `npm run coveralls` to push coverage data directly to [https://coveralls.io](https://coveralls.io). Can be executed only after running`npm test`.
 - Use `npm run prepublish-test` to run all test required before publishing new version without actually increasing version
+- Use `npm run official-javascript-examples` to run official javascript / Node.js code examples
 
 ## Publish scripts
 
