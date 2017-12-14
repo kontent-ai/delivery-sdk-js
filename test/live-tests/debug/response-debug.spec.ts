@@ -7,7 +7,7 @@ import { ItemResponses, FieldModels, TaxonomyResponses, TypeResponses } from '..
 import { AjaxError } from 'rxjs/Rx';
 
 // tests
-describe('Response debug (TODO)', () => {
+describe('Response debug', () => {
 
     const context = new Context();
     setup(context);
