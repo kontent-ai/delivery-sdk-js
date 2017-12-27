@@ -41,12 +41,12 @@ export class FieldMapService {
             throw Error(`Cannot map fields because item is not defined`);
         }
 
-        if (!item.elements) {
-            throw Error(`Cannot map elements of the item`);
+        if (!item.system) {
+            throw Error(`Cannot map item because it does not contain system attributes. This is an essential field and every item should have one.`);
         }
 
-        if (!item.system) {
-            throw Error(`Cannot map system attributes of the item`);
+        if (!item.elements) {
+            throw Error(`Cannot map elements of item with codename '${item.system.codename}'`);
         }
 
         const properties = Object.getOwnPropertyNames(item.elements);
@@ -125,7 +125,15 @@ export class FieldMapService {
         if (field.modular_content) {
             if (Array.isArray(field.modular_content)) {
                 field.modular_content.forEach(codename => {
-                    // get modular item
+                    // get modular item and check if it exists (it might not be included in response due to 'Depth' parameter)
+                    const modularContentItem = modularContent[codename];
+
+                    if (!modularContentItem) {
+                        throw Error(`Modular content item with codename '${codename}' is not present in Delivery response.
+                        This modular item was requested by '${field.name}' field.
+                        Error can usually be solved by increasing 'Depth' parameter of your query.`);
+                    }
+
                     const modularItem = this.mapFields(modularContent[codename], modularContent, queryConfig);
 
                     if (modularItem != null) {
