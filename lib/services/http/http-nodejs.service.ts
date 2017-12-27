@@ -9,8 +9,8 @@ import { OutgoingHttpHeaders, IncomingMessage } from 'http';
 // interfaces
 import { IHttpService } from './ihttp.service';
 
-// nodejs url
 // this URL is used instead of the DOM URL which is not available in node.js environment
+// depending on node version this can vary: https://stackoverflow.com/questions/44738065/uncaught-typeerror-url-is-not-a-constructor-using-whatwg-url-object-support-for
 import { URL } from 'url';
 
 // models
@@ -70,7 +70,14 @@ export class HttpNodeJsService implements IHttpService {
             callback(null, new ResponseCallback(response, incomingMessage, error));
         };
 
-        const typedUrl: URL = new URL(url);
+        let typedUrl: URL;
+
+        try {
+            typedUrl = new URL(url);
+        } catch (ex) {
+            throw Error(`Parsing URL failed. Make sure you have Node.js 8 or higher installed. Original error:` + ex);
+        }
+
         const outgoingHeaders = {} as OutgoingHttpHeaders;
 
         if (headers) {
