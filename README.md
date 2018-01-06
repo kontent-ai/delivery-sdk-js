@@ -221,6 +221,7 @@ deliveryClient.items()
 - Use `npm run coveralls` to push coverage data directly to [https://coveralls.io](https://coveralls.io). Can be executed only after running`npm test`.
 - Use `npm run prepublish-test` to run all tests required before publishing new version without actually increasing version.
 - Use `npm run official-javascript-examples` to run official javascript / Node.js code examples
+- Use `prebuild-scripts` to run pre-build scripts
 
 ## Publish scripts
 

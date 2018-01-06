@@ -1,36 +1,33 @@
-// config
-import { DeliveryClientConfig } from '../config/delivery-client.config';
-
-// rxjs
-import { Observable } from 'rxjs/Rx'; // import from 'rxjs/rx' instead of 'rxjs/Observable' to include 'throw' method
-import { ajax } from 'rxjs/observable/dom/ajax';
 import { AjaxError } from 'rxjs/observable/dom/AjaxObservable';
+import { Observable } from 'rxjs/Rx';
 
-// models
-import { ItemResponses } from '../models/item/responses';
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
-import { TypeResponses } from '../models/type/responses';
-import { IHeader } from '../interfaces/common/iheader.interface';
-import { Header } from '../models/common/header.class';
-import { CloudError } from '../models/common/cloud-error.class';
+import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
-import { TaxonomyResponses } from '../models/taxonomy/responses';
-import { ElementResponses } from '../models/element/responses';
-import { BaseResponse } from '../services/http/base-response.class';
-
-// query configs
+import { IHeader } from '../interfaces/common/iheader.interface';
+import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { IQueryConfig } from '../interfaces/common/iquery.config';
+import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { IContentTypeQueryConfig } from '../interfaces/type/icontent-type-query.config';
 import { ITaxonomyQueryConfig } from '../interfaces/taxonomy/itaxonomy-query.config';
-import { IElementQueryConfig } from '../interfaces/element/ielement-query.config';
-
-// services
-import { ResponseMapService } from './response-map.service';
+import { IContentTypeQueryConfig } from '../interfaces/type/icontent-type-query.config';
+import { CloudError } from '../models/common/cloud-error.class';
+import { Header } from '../models/common/header.class';
+import { ElementResponses } from '../models/element/responses';
+import { ItemResponses } from '../models/item/responses';
+import { TaxonomyResponses } from '../models/taxonomy/responses';
+import { TypeResponses } from '../models/type/responses';
+import { BaseResponse } from '../services/http/base-response.class';
 import { IHttpService } from './http/ihttp.service';
+import { ResponseMapService } from './response-map.service';
+
+import { version, packageId, repoHost } from '../library-version';
 
 export class QueryService {
+
+    /**
+     * Header name for SDK usage
+     */
+    private readonly sdkVersionHeader: string = 'X-KC-SDKID';
 
     /**
     * Default base Url to Kentico Delivery API
@@ -294,12 +291,21 @@ export class QueryService {
     }
 
     /**
-     * Gets proper set of headers. For example, if the preview mode is enabled, this
-     * should return the authorization header
+     * Header identifying SDK type & version for internal purposes of Kentico
+     */
+    private getSdkIdHeader(): IHeader {
+        return new Header(this.sdkVersionHeader, `${repoHost};${packageId};${version}`);
+    }
+
+    /**
+     * Gets proper set of headers for given request.
      * @param queryConfig Query configuration
      */
     getHeaders(queryConfig: IQueryConfig): IHeader[] {
         const headers: IHeader[] = [];
+
+        // add SDK Id header for monitoring SDK usage
+        headers.push(this.getSdkIdHeader());
 
         // add preview header is required
         if (this.isPreviewModeEnabled(queryConfig)) {
