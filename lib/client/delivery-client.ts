@@ -1,26 +1,16 @@
-// config
 import { DeliveryClientConfig } from '../config/delivery-client.config';
-
-// interface
-import { IDeliveryClient } from './idelivery-client.interface';
-
-// models
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-
-// queries
-import { SingleTypeQuery } from '../query/type/single-type-query.class';
-import { MultipleTypeQuery } from '../query/type/multiple-type-query.class';
-import { SingleItemQuery } from '../query/item/single-item-query.class';
-import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
-import { TaxonomyQuery } from '../query/taxonomy/taxonomy-query.class';
-import { TaxonomiesQuery } from '../query/taxonomy/taxonomies-query.class';
+import { version, packageId, repoHost } from '../library-version';
 import { ElementQuery } from '../query/element/element-query.class';
-
-// services
-import { QueryService } from '../services/query.service';
+import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
+import { SingleItemQuery } from '../query/item/single-item-query.class';
+import { TaxonomiesQuery } from '../query/taxonomy/taxonomies-query.class';
+import { TaxonomyQuery } from '../query/taxonomy/taxonomy-query.class';
+import { MultipleTypeQuery } from '../query/type/multiple-type-query.class';
+import { SingleTypeQuery } from '../query/type/single-type-query.class';
 import { HttpService } from '../services/http/http.service';
-import { HttpNodeJsService } from '../services/http/http-nodejs.service';
-import { IHttpService } from '../services/http/ihttp.service';
+import { QueryService } from '../services/query.service';
+import { IDeliveryClient } from './idelivery-client.interface';
 
 export class DeliveryClient implements IDeliveryClient {
 
@@ -30,22 +20,15 @@ export class DeliveryClient implements IDeliveryClient {
     * Delivery client used to fetch data from Kentico Cloud
     * @constructor
     * @param {DeliveryClientConfig} config - The client configuration
-    * @param {boolean} isNodeJsEnvironment - Set to true if you are using this SDK in NodeJs environment
     */
     constructor(
         protected config: DeliveryClientConfig,
-        private isNodeJsEnvironment?: boolean
     ) {
-        let httpService: IHttpService;
-        if (!isNodeJsEnvironment) {
-            // standard http service used by browsers
-            httpService = new HttpService();
-        } else {
-            // http service used in node.js environment
-            httpService = new HttpNodeJsService();
-        }
-
-        this.queryService = new QueryService(config, httpService);
+        this.queryService = new QueryService(config, new HttpService(), {
+            host: repoHost,
+            name: packageId,
+            version: version
+        });
     }
 
     /**

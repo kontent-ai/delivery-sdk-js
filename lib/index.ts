@@ -13,11 +13,11 @@ export * from './fields/field-decorators';
 export * from './models/common/cloud-error.class';
 export * from './services/type-resolver.service';
 export * from './interfaces/common/iquery.config';
+export * from './interfaces/common/isdk-info.class';
 
 // http services
 export * from './services/http/ihttp.service';
 export * from './services/http/http.service';
-export * from './services/http/http-nodejs.service';
 
 // filters
 export * from './models/common/filters';
@@ -53,6 +53,7 @@ export * from './models/taxonomy/taxonomy-group.class';
 export * from './models/taxonomy/taxonomy-system-attributes.class';
 export * from './models/taxonomy/taxonomy-terms.class';
 export * from './query/taxonomy/taxonomy-query.class';
+export * from './query/taxonomy/taxonomies-query.class';
 
 // element
 export * from './query/element/element-query.class';

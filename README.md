@@ -101,7 +101,8 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 
 ## Node.js support
 
-Visit <a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/Use-in-Node.js">this wiki page</a> to see how you can use this SDK in Node.js environment.
+Visit <a href="https://github.com/Enngage/KenticoCloudDeliveryNodeSDK">GitHub repository 
+</a> to see how you can use this SDK in Node.js environment.
 
 ## Quick start
 
@@ -216,11 +217,9 @@ deliveryClient.items()
 
 - Use `npm test` to run all tests.
 - Use `npm run dev-test` to run developer tests created in `dev-test` folder. Use this for your testing purposes.
-- Use `npm run nodejs-test` to test HTTP response in Node.js application.
 - Use `npm run build` to generate definitions & dist from the contents of `lib` folder.
 - Use `npm run coveralls` to push coverage data directly to [https://coveralls.io](https://coveralls.io). Can be executed only after running`npm test`.
 - Use `npm run prepublish-test` to run all tests required before publishing new version without actually increasing version.
-- Use `npm run official-javascript-examples` to run official javascript / Node.js code examples
 - Use `prebuild-scripts` to run pre-build scripts
 
 ## Publish scripts

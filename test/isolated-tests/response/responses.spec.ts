@@ -3,6 +3,7 @@ import { setup, Context, Movie, Actor, MockQueryService, warriorMovieJson } from
 
 // models
 import { ItemResponses, HttpService } from '../../../lib';
+import { packageId, repoHost, version } from '../../../lib/library-version';
 
 // tests
 describe('Responses', () => {
@@ -11,7 +12,11 @@ describe('Responses', () => {
     setup(context);
 
     // mock query service
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService())
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
+        host: repoHost,
+        name: packageId,
+        version: version
+    });
 
     let masterResponse: ItemResponses.DeliveryItemResponse<Movie>;
 

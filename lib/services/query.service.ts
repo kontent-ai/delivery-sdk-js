@@ -1,11 +1,11 @@
-import { AjaxError } from 'rxjs/observable/dom/AjaxObservable';
-import { Observable } from 'rxjs/Rx';
+import { Observable, AjaxError } from 'rxjs/Rx';
 
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
 import { IHeader } from '../interfaces/common/iheader.interface';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { IQueryConfig } from '../interfaces/common/iquery.config';
+import { ISdkInfo } from '../interfaces/common/isdk-info.class';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ITaxonomyQueryConfig } from '../interfaces/taxonomy/itaxonomy-query.config';
@@ -19,8 +19,6 @@ import { TypeResponses } from '../models/type/responses';
 import { BaseResponse } from '../services/http/base-response.class';
 import { IHttpService } from './http/ihttp.service';
 import { ResponseMapService } from './response-map.service';
-
-import { version, packageId, repoHost } from '../library-version';
 
 export class QueryService {
 
@@ -57,7 +55,12 @@ export class QueryService {
         /**
          * Http service for fetching data
          */
-        protected httpService: IHttpService
+        protected httpService: IHttpService,
+        /**
+         * Information about the SDK
+         * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
+         */
+        protected sdkInfo: ISdkInfo
     ) {
         if (!config) {
             throw Error(`Invalid configuration has been provided`);
@@ -294,7 +297,7 @@ export class QueryService {
      * Header identifying SDK type & version for internal purposes of Kentico
      */
     private getSdkIdHeader(): IHeader {
-        return new Header(this.sdkVersionHeader, `${repoHost};${packageId};${version}`);
+        return new Header(this.sdkVersionHeader, `${this.sdkInfo.host};${this.sdkInfo.name};${this.sdkInfo.version}`);
     }
 
     /**

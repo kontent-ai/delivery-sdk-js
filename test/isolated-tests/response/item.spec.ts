@@ -5,6 +5,7 @@ import { setup, Context, Movie, Actor, MockQueryService, warriorMovieJson } from
 import {
     Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, HttpService
 } from '../../../lib';
+import { packageId, repoHost, version } from '../../../lib/library-version';
 
 // tests
 describe('Isolated item', () => {
@@ -13,7 +14,11 @@ describe('Isolated item', () => {
     setup(context);
 
     // mock query service
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService())
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
+        host: repoHost,
+        name: packageId,
+        version: version
+    })
 
     let response: ItemResponses.DeliveryItemResponse<Movie>;
 

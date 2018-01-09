@@ -1,5 +1,5 @@
 import { QueryService } from '../../lib/services/query.service';
-import { DeliveryClientConfig } from '../../lib';
+import { DeliveryClientConfig, ISdkInfo } from '../../lib';
 
 // fake ajax response
 import { fakeResponseFactory } from '../setup';
@@ -22,9 +22,10 @@ export class MockQueryService extends QueryService {
 
     constructor(
         protected config: DeliveryClientConfig,
-        protected httpService: IHttpService
+        protected httpService: IHttpService,
+        protected sdkInfo: ISdkInfo
     ) {
-        super(config, httpService)
+        super(config, httpService, sdkInfo)
         this.responseMapService = new ResponseMapService(config);
     }
 

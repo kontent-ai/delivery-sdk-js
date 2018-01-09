@@ -8,6 +8,7 @@ import {
 
 import { RichTextResolver } from '../../../lib/fields/rich-text-resolver.class';
 import { TypeResolverService } from '../../../lib/services/type-resolver.service';
+import { packageId, repoHost, version } from '../../../lib/library-version';
 
 class MockMovie extends ContentItem {
     public plot: Fields.RichTextField
@@ -37,7 +38,11 @@ describe('Rich text resolver', () => {
     setup(context);
 
     // mock query service
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService());
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
+        host: repoHost,
+        name: packageId,
+        version: version
+    });
 
     let response: ItemResponses.DeliveryItemResponse<MockMovie>;
     let responseWithQueryConfig: ItemResponses.DeliveryItemResponse<MockMovie>;

@@ -5,6 +5,7 @@ import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../..
 import {
     Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, FieldDecorators, HttpService
 } from '../../../lib';
+import { packageId, repoHost, version } from '../../../lib/library-version';
 
 class MockMovie extends ContentItem {
     public titleTest: Fields.TextField;
@@ -37,7 +38,11 @@ describe('Property resolver', () => {
     setup(context);
 
     // mock query service
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService());
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
+        host: repoHost,
+        name: packageId,
+        version: version
+    });
 
     let response: ItemResponses.DeliveryItemResponse<MockMovie>;
 
