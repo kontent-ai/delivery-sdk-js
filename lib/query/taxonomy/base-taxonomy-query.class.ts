@@ -30,11 +30,6 @@ export abstract class BaseTaxonomyQuery<TResponse> extends BaseQuery<TResponse> 
     protected readonly taxonomiesEndpoint: string = 'taxonomies';
 
     /**
-     * Query parameters
-     */
-    protected parameters: IQueryParameter[] = [];
-
-    /**
      * Query configuration
      */
     protected _queryConfig: ITaxonomyQueryConfig = new TaxonomyQueryConfig();
@@ -65,13 +60,13 @@ export abstract class BaseTaxonomyQuery<TResponse> extends BaseQuery<TResponse> 
     protected getTaxonomyQueryUrl(taxonomyCodename: string): string {
         const action = '/' + this.taxonomiesEndpoint + '/' + taxonomyCodename;
 
-        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
     }
 
     protected getTaxonomiesQueryUrl(): string {
         const action = '/' + this.taxonomiesEndpoint;
 
-        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
     }
 
     protected runTaxonomyQuery(codename: string): Observable<TaxonomyResponses.TaxonomyResponse> {

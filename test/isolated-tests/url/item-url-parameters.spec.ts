@@ -187,7 +187,7 @@ describe('Item url parameters', () => {
 
     // empty value checks
     it(`ElementsParameter without value should return empty string as param value`, () => {
-        expect(new Parameters.ElementsParameter(undefined).GetParamValue()).toEqual('');
+        expect(new Parameters.ElementsParameter(undefined).getParamValue()).toEqual('');
     });
 });
 

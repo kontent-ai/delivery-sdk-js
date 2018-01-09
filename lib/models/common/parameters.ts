@@ -18,11 +18,11 @@ export namespace Parameters {
 
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return 'elements';
         }
 
-        public GetParamValue(): string {
+        public getParamValue(): string {
             if (!this.elementCodenames) {
                 return defaultValue;
             }
@@ -51,11 +51,11 @@ export namespace Parameters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return 'limit';
         }
 
-        public GetParamValue(): string {
+        public getParamValue(): string {
             return this.limit.toString();
         }
     }
@@ -75,11 +75,11 @@ export namespace Parameters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return 'skip';
         }
 
-        public GetParamValue(): string {
+        public getParamValue(): string {
             return this.skip.toString();
         }
     }
@@ -101,11 +101,11 @@ export namespace Parameters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return 'order';
         }
 
-        public GetParamValue(): string {
+        public getParamValue(): string {
             let order: string;
             if (this.sortOrder === SortOrder.desc) {
                 order = 'desc';
@@ -133,11 +133,11 @@ export namespace Parameters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return 'depth';
         }
 
-        public GetParamValue(): string {
+        public getParamValue(): string {
             return this.depth.toString();
         }
     }
@@ -157,11 +157,11 @@ export namespace Parameters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return 'language';
         }
 
-        public GetParamValue(): string {
+        public getParamValue(): string {
             return this.languageCodename.trim().toString();
         }
     }

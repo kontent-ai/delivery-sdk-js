@@ -27,7 +27,6 @@ import { QueryService } from '../../services/query.service';
 
 export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> extends BaseQuery<TResponse> {
 
-    protected parameters: IQueryParameter[] = [];
 
     protected _queryConfig?: IItemQueryConfig;
 
@@ -98,7 +97,7 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
-        return this.queryService.getUrl(action, this.getQueryConfig(), this.parameters);
+        return this.queryService.getUrl(action, this.getQueryConfig(), this.getParameters());
     }
 
     protected getSingleItemQueryUrl(codename: string): string {
@@ -107,7 +106,7 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
-        return this.queryService.getUrl(action, this.getQueryConfig(), this.parameters);
+        return this.queryService.getUrl(action, this.getQueryConfig(), this.getParameters());
     }
 
     protected runMultipleItemsQuery(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
@@ -125,7 +124,7 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
     private processDefaultLanguageParameter(): void {
         // add default language if none is specified && default language is specified globally
         if (this.config.defaultLanguage) {
-            const languageParameter = this.parameters.find(m => m.GetParam() === 'language');
+            const languageParameter = this.getParameters().find(m => m.getParam() === 'language');
             if (!languageParameter) {
                 // language parameter was not specified in query, use globally defined language
                 this.parameters.push(new Parameters.LanguageParameter(this.config.defaultLanguage));

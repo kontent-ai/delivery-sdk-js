@@ -145,9 +145,9 @@ export class QueryService {
         if (options) {
             options.forEach(filter => {
                 if (url.indexOf('?') > -1) {
-                    url = url + '&' + filter.GetParam() + '=' + filter.GetParamValue();
+                    url = url + '&' + filter.getParam() + '=' + filter.getParamValue();
                 } else {
-                    url = url + '?' + filter.GetParam() + '=' + filter.GetParamValue();
+                    url = url + '?' + filter.getParam() + '=' + filter.getParamValue();
                 }
             });
         }

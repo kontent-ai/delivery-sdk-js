@@ -11,7 +11,7 @@ export namespace Filters {
         ) {
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             if (Array.isArray(this.type)) {
                 // multiple types
                 return 'system.type[in]'
@@ -21,7 +21,7 @@ export namespace Filters {
             return 'system.type';
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.type) {
                 return defaultValue;
             }
@@ -57,12 +57,12 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
 
             return this.field.trim();
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.value) {
                 return defaultValue;
             }
@@ -81,11 +81,11 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return `${this.field.trim()}[all]`;
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -104,11 +104,11 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return `${this.field.trim()}[any]`;
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -127,11 +127,11 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return `${this.field.trim()}[contains]`;
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -150,12 +150,12 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
 
             return `${this.field.trim()}[gt]`;
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.value) {
                 return defaultValue;
             }
@@ -174,12 +174,12 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
 
             return `${this.field.trim()}[gte]`;
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.value) {
                 return defaultValue;
             }
@@ -198,11 +198,11 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return `${this.field.trim()}[in]`;
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -224,11 +224,11 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return `${this.field.trim()}[lt]`;
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.value) {
                 return defaultValue;
             }
@@ -246,12 +246,12 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
 
             return `${this.field.trim()}[lte]`;
         }
 
-        public GetParamValue(): string | null {
+        public getParamValue(): string | null {
             if (!this.value) {
                 return defaultValue;
             }
@@ -275,11 +275,11 @@ export namespace Filters {
             }
         }
 
-        public GetParam(): string {
+        public getParam(): string {
             return `${this.field.trim()}[range]`;
         }
 
-        public GetParamValue(): string {
+        public getParamValue(): string {
             let lowerVal = defaultValue;
             let higherVal = defaultValue;
 

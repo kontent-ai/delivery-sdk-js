@@ -2,39 +2,32 @@
 import { setup, Context, Actor, Movie } from '../../setup';
 
 // models
-import { ItemResponses } from '../../../lib';
+import { ItemResponses, Parameters } from '../../../lib';
 
 // tests
-describe('Localization with globally defined language #1', () => {
+describe('Language #1', () => {
 
     const language = 'en';
-    const sharedContext = new Context();
-    sharedContext.defaultLanguage = language;
-    setup(sharedContext);
+    const context = new Context();
+    context.defaultLanguage = language;
+    setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.DeliveryItemResponse<Movie>;
 
-    beforeAll((done) => {
-        sharedContext.deliveryClient.item<Movie>(movieCodename)
-            .get()
-            .subscribe(r => {
-                response = r as ItemResponses.DeliveryItemResponse<Movie>;
-                done();
-            });
-    });
+    const query = context.deliveryClient.item<Movie>(movieCodename).languageParameter(language);
+
+    const languageParam = new Parameters.LanguageParameter('a');
+
+    const queryLanguageParam = query.getParameters().find(m => m.getParam() === languageParam.getParam());
 
     it(`language should be '${language}'`, () => {
-        expect(response.item.system.language).toEqual(language);
+        expect(queryLanguageParam.getParamValue()).toEqual(language);
     });
 
-    it(`title should be localized to ${language}`, () => {
-        expect(response.item.title.text).toEqual('Warrior');
-    });
 });
 
 // tests
-describe('Localization with globally defined language #2', () => {
+describe('Language #2', () => {
 
     const language = 'cz';
     const context = new Context();
@@ -42,56 +35,18 @@ describe('Localization with globally defined language #2', () => {
     setup(context);
 
     const newMovieCodename: string = 'warrior';
-    let response: ItemResponses.DeliveryItemResponse<Movie>;
 
-    beforeAll((done) => {
-        context.deliveryClient.item<Movie>(newMovieCodename)
-            .get()
-            .subscribe(r => {
-                response = r as ItemResponses.DeliveryItemResponse<Movie>;
-                done();
-            });
-    });
+    const query = context.deliveryClient.item<Movie>(newMovieCodename).languageParameter(language);
+
+    const languageParam = new Parameters.LanguageParameter('a');
+
+    const queryLanguageParam = query.getParameters().find(m => m.getParam() === languageParam.getParam());
 
     it(`language should be '${language}'`, () => {
-        expect(response.item.system.language).toEqual(language);
-    });
-
-    it(`title should be localized to ${language}`, () => {
-        expect(response.item.title.text).toEqual('Warrior-cz');
+        expect(queryLanguageParam.getParamValue()).toEqual(language);
     });
 });
 
-// tests
-describe('Localization defined by query', () => {
-
-    const defaultLanguage = 'cz';
-    const queryLanguage = 'en';
-    const context = new Context();
-    context.defaultLanguage = defaultLanguage;
-    setup(context);
-
-    const newMovieCodename: string = 'warrior';
-    let response: ItemResponses.DeliveryItemResponse<Movie>;
-
-    beforeAll((done) => {
-        context.deliveryClient.item<Movie>(newMovieCodename)
-            .languageParameter(queryLanguage)
-            .get()
-            .subscribe(r => {
-                response = r as ItemResponses.DeliveryItemResponse<Movie>;
-                done();
-            });
-    });
-
-    it(`should not use globally defined language'${queryLanguage}'`, () => {
-        expect(response.item.system.language).toEqual(queryLanguage);
-    });
-
-    it(`should be localized to ${queryLanguage}`, () => {
-        expect(response.item.title.text).toEqual('Warrior');
-    });
-});
 
 
 

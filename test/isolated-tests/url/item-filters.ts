@@ -258,47 +258,47 @@ describe('Item url filters', () => {
     // null value checks
 
     it(`EqualsFilter without value should return empty string as param value`, () => {
-        expect(new Filters.EqualsFilter('f', undefined).GetParamValue()).toEqual('');
+        expect(new Filters.EqualsFilter('f', undefined).getParamValue()).toEqual('');
     });
 
     it(`AllFilter without value should return empty string as param value`, () => {
-        expect(new Filters.AllFilter('f', undefined).GetParamValue()).toEqual('');
+        expect(new Filters.AllFilter('f', undefined).getParamValue()).toEqual('');
     });
 
     it(`AnyFilter without value should return empty string as param value`, () => {
-        expect(new Filters.AnyFilter('f', undefined).GetParamValue()).toEqual('');
+        expect(new Filters.AnyFilter('f', undefined).getParamValue()).toEqual('');
     });
 
     it(`ContainsFilter without value should return empty string as param value`, () => {
-        expect(new Filters.ContainsFilter('f', undefined).GetParamValue()).toEqual('');
+        expect(new Filters.ContainsFilter('f', undefined).getParamValue()).toEqual('');
     });
 
     it(`GreaterThanFilter without value should return empty string as param value`, () => {
-        expect(new Filters.GreaterThanFilter('f', undefined).GetParamValue()).toEqual('');
+        expect(new Filters.GreaterThanFilter('f', undefined).getParamValue()).toEqual('');
     });
 
     it(`GreaterThanOrEqualFilter without value should return empty string as param value`, () => {
-        expect(new Filters.GreaterThanOrEqualFilter('f', undefined).GetParamValue()).toEqual('');
+        expect(new Filters.GreaterThanOrEqualFilter('f', undefined).getParamValue()).toEqual('');
     });
 
     it(`Infilter without value should return empty string as param value`, () => {
-        expect(new Filters.Infilter('f', undefined).GetParamValue()).toEqual('');
+        expect(new Filters.Infilter('f', undefined).getParamValue()).toEqual('');
     });
 
     it(`LessThanFilter without value should return empty string as param value`, () => {
-        expect(new Filters.LessThanFilter('f', undefined).GetParamValue()).toEqual('');
+        expect(new Filters.LessThanFilter('f', undefined).getParamValue()).toEqual('');
     });
 
     it(`LessThanOrEqualFilter without value should return empty string as param value`, () => {
-        expect(new Filters.LessThanOrEqualFilter('f', undefined).GetParamValue()).toEqual('');
+        expect(new Filters.LessThanOrEqualFilter('f', undefined).getParamValue()).toEqual('');
     });
 
     it(`RangeFilter without value should return empty string as param value`, () => {
-        expect(new Filters.RangeFilter('f', undefined, 3).GetParamValue()).toEqual(',3');
+        expect(new Filters.RangeFilter('f', undefined, 3).getParamValue()).toEqual(',3');
     });
 
     it(`RangeFilter without value should return empty string as param value`, () => {
-        expect(new Filters.RangeFilter('f', 3, undefined).GetParamValue()).toEqual('3,');
+        expect(new Filters.RangeFilter('f', 3, undefined).getParamValue()).toEqual('3,');
     });
     // trim checks
 

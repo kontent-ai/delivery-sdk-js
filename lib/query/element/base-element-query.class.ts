@@ -24,7 +24,6 @@ import { QueryService } from '../../services/query.service';
 
 export abstract class BaseElementQuery<TResponse> extends BaseQuery<TResponse> {
 
-    protected parameters: IQueryParameter[] = [];
     protected _queryConfig: IElementQueryConfig = new ElementQueryConfig();
 
     constructor(
@@ -53,7 +52,7 @@ export abstract class BaseElementQuery<TResponse> extends BaseQuery<TResponse> {
     protected getElementQueryUrl(typeCodename: string, elementCodename: string): string {
         const action = '/types/' + typeCodename + '/elements/' + elementCodename;
 
-        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, super.getParameters());
     }
 
     protected runElementQuery(typeCodename: string, elementCodename: string): Observable<ElementResponses.ElementResponse> {

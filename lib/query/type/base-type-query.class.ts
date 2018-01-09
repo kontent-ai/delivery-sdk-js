@@ -53,13 +53,13 @@ export abstract class BaseTypeQuery<TResponse> extends BaseQuery<TResponse> {
     protected getSingleTypeQueryUrl(codename: string): string {
         const action = '/types/' + codename;
 
-        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
     }
 
     protected getMultipleTypesQueryUrl(): string {
         const action = '/types';
 
-        return this.queryService.getUrl(action, this._queryConfig, this.parameters);
+        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
     }
 
     protected runMultipleTypesQuery(): Observable<TypeResponses.DeliveryTypeListingResponse> {
