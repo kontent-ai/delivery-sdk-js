@@ -218,10 +218,9 @@ deliveryClient.items()
 - Use `npm test` to run all tests.
 - Use `npm run dev-test` to run developer tests created in `dev-test` folder. Use this for your testing purposes.
 - Use `npm run build` to generate definitions & dist from the contents of `lib` folder.
-- Use `build-with-scripts` to build library and run prebuild scripts. This is here because travis CI cannot update files which prebuild scripts do.
 - Use `npm run coveralls` to push coverage data directly to [https://coveralls.io](https://coveralls.io). Can be executed only after running`npm test`.
 - Use `npm run prepublish-test` to run all tests required before publishing new version without actually increasing version.
-- Use `prebuild-scripts` to run pre-build scripts
+- Use `update-sdk-info` to run update SDK information by looking into package.json & writing it to a specialized file. This is picked up by delivery clients and used for identifying current SDK & version in request headers.
 
 ## Publish scripts
 
