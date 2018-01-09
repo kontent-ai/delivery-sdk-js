@@ -30,11 +30,11 @@
     "travis-test": "karma start karma-travis.conf.js",
     "build": "gulp build",
     "coveralls": "cat ./coverage/lcov/lcov.info | node ./node_modules/coveralls/bin/coveralls.js",
-    "prepublish-test": "npm run coveralls && npm run travis-test && node test/test-completed",
+    "prepublish": "npm run build && npm run coveralls && npm run travis-test && node test/test-completed",
     "new-patch": "npm version patch && npm run update-sdk-info",
     "new-minor": "npm version minor && npm run update-sdk-info",
     "new-major": "npm version major && npm run update-sdk-info",
-    "publish-sdk": "npm run prepublish-test && npm publish",
+    "publish-sdk": "npm run prepublish && npm publish",
     "update-sdk-info": "node ./misc/update-sdk-info-tasks.js"
   },
   "private": false,

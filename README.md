@@ -219,7 +219,6 @@ deliveryClient.items()
 - Use `npm run dev-test` to run developer tests created in `dev-test` folder. Use this for your testing purposes.
 - Use `npm run build` to generate definitions & dist from the contents of `lib` folder.
 - Use `npm run coveralls` to push coverage data directly to [https://coveralls.io](https://coveralls.io). Can be executed only after running`npm test`.
-- Use `npm run prepublish-test` to run all tests required before publishing new version without actually increasing version.
 - Use `update-sdk-info` to run update SDK information by looking into package.json & writing it to a specialized file. This is picked up by delivery clients and used for identifying current SDK & version in request headers.
 
 ## Publishing
