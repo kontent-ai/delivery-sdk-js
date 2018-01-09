@@ -14,6 +14,8 @@ export * from './models/common/cloud-error.class';
 export * from './services/type-resolver.service';
 export * from './interfaces/common/iquery.config';
 export * from './interfaces/common/isdk-info.class';
+export * from './interfaces/common/iheader.interface';
+export * from './services/http/base-response.class';
 
 // http services
 export * from './services/http/ihttp.service';
