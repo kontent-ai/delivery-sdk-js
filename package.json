@@ -29,13 +29,12 @@
     "dev-test": "karma start karma-dev.conf.js",
     "travis-test": "karma start karma-travis.conf.js",
     "build": "gulp build",
-    "build-with-scripts": "npm run prebuild-scripts && gulp build",
     "coveralls": "cat ./coverage/lcov/lcov.info | node ./node_modules/coveralls/bin/coveralls.js",
-    "prepublish-test": "npm run build-with-scripts && npm run coveralls && npm run travis-test && node test/test-completed",
-    "publish-patch": "npm run prepublish-test && npm version patch && npm publish",
-    "publish-minor": "npm run prepublish-test && npm version minor && npm publish",
-    "publish-major": "npm run prepublish-test && npm version major && npm publish",
-    "prebuild-scripts": "node ./misc/pre-build-tasks.js"
+    "prepublish-test": "npm run coveralls && npm run travis-test && node test/test-completed",
+    "publish-patch": "npm run prepublish-test && npm version patch && npm run update-sdk-info && npm publish",
+    "publish-minor": "npm run prepublish-test && npm version minor && npm run update-sdk-info && npm publish",
+    "publish-major": "npm run prepublish-test && npm version major && npm run update-sdk-info && npm publish",
+    "update-sdk-info": "node ./misc/update-sdk-info-tasks.js"
   },
   "private": false,
   "dependencies": {
