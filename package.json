@@ -31,9 +31,10 @@
     "build": "gulp build",
     "coveralls": "cat ./coverage/lcov/lcov.info | node ./node_modules/coveralls/bin/coveralls.js",
     "prepublish-test": "npm run coveralls && npm run travis-test && node test/test-completed",
-    "publish-patch": "npm run prepublish-test && npm version patch && npm run update-sdk-info && npm publish",
-    "publish-minor": "npm run prepublish-test && npm version minor && npm run update-sdk-info && npm publish",
-    "publish-major": "npm run prepublish-test && npm version major && npm run update-sdk-info && npm publish",
+    "new-patch": "npm run npm version patch && npm run update-sdk-info",
+    "new-minor": "npm run npm version minor && npm run update-sdk-info",
+    "new-major": "npm run npm version major && npm run update-sdk-info",
+    "publish-sdk": "npm run prepublish-test && npm publish",
     "update-sdk-info": "node ./misc/update-sdk-info-tasks.js"
   },
   "private": false,

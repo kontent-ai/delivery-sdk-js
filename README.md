@@ -222,11 +222,17 @@ deliveryClient.items()
 - Use `npm run prepublish-test` to run all tests required before publishing new version without actually increasing version.
 - Use `update-sdk-info` to run update SDK information by looking into package.json & writing it to a specialized file. This is picked up by delivery clients and used for identifying current SDK & version in request headers.
 
-## Publish scripts
+## Publishing
 
-- Use `npm run publish-patch` to run all tests, increase `patch` version and publish it to NPM. 
-- Use `npm run publish-minor` to run all tests, increase `minor` version and publish it to NPM.
-- Use `npm run publish-major` to run all tests, increase `major` version and publish it to NPM.
+In order to publish SDK first run one of following tasks to increase version & update sdk info file:
+
+- `npm run new-patch`
+- `npm run new-minor`
+- `npm run new-major`
+
+And then run:
+
+- `npm run publish-sdk`
 
 ## Feedback & Contribution
 
