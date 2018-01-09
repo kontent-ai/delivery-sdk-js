@@ -20,6 +20,7 @@ export * from './services/http/base-response.class';
 // http services
 export * from './services/http/ihttp.service';
 export * from './services/http/http.service';
+export * from './services/query.service';
 
 // filters
 export * from './models/common/filters';
