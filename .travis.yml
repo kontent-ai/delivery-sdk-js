@@ -15,7 +15,7 @@ before_script:
 - gulp build
 script: 
 # run tests with travis config
-- karma start karma-travis.conf.js --single-run
+- karma start karma-travis.conf.js --single-run --browsers PhantomJS
 after_script:
 # run coveralls
 - npm run coveralls
