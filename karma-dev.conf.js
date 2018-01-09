@@ -4,7 +4,7 @@ module.exports = function (config) {
         plugins: [
             require("karma-jasmine"),
             require("karma-typescript"),
-            require('karma-chrome-launcher'),
+            require('karma-firefox-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-coverage'),
         ],
@@ -21,7 +21,7 @@ module.exports = function (config) {
             "dev-test/**/*.ts": ["karma-typescript"]
         },
         reporters: ["kjhtml", "progress", "coverage"],
-        browsers: ["Chrome"],
+        browsers: ["Firefox"],
         karmaTypescriptConfig: {
             bundlerOptions: {
                 transforms: [require("karma-typescript-es6-transform")()]
@@ -38,7 +38,7 @@ module.exports = function (config) {
         port: 9668,
         colors: true,
         autoWatch: true,
-        browsers: ["Chrome"],
+        browsers: ["Firefox"],
         singleRun: false,
         logLevel: config.LOG_ERROR,
     });

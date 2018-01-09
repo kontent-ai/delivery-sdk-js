@@ -4,7 +4,7 @@ module.exports = function (config) {
         plugins: [
             require("karma-jasmine"),
             require("karma-typescript"),
-            require('karma-chrome-launcher'),
+            require('karma-firefox-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-coverage'),
         ],
@@ -19,7 +19,7 @@ module.exports = function (config) {
             "test/**/*.ts": ["karma-typescript"]
         },
         reporters: ["kjhtml", "progress", "coverage"],
-        browsers: ["Chrome"],
+        browsers: ["Firefox"],
         karmaTypescriptConfig: {
             bundlerOptions: {
                 transforms: [require("karma-typescript-es6-transform")()]
@@ -43,7 +43,7 @@ module.exports = function (config) {
         port: 9669,
         colors: true,
         autoWatch: true,
-        browsers: ["Chrome"],
+        browsers: ["Firefox"],
         singleRun: false,
         client: {
             clearContext: false // leave Jasmine Spec Runner output visible in browser
