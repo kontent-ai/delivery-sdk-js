@@ -229,9 +229,9 @@ In order to publish SDK first run one of following tasks to increase version & u
 - `npm run new-minor`
 - `npm run new-major`
 
-And then run:
+And then run (note that tests and necessary scripts are automatically executed using the `prepublishOnly` script):
 
-- `npm run publish-sdk`
+- `npm run publish`
 
 ## Feedback & Contribution
 
