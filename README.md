@@ -64,6 +64,9 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 <td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK#preview-mode">Preview mode</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK#preview-mode">Preview mode</a></td>
 </tr>
 <tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK#secured-delivery-api-mode">Secured API mode</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK#secured-delivery-api-mode">Secured API mode</a></td>
+</tr>
+<tr>
 <td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK#url-slugs-links">URL slugs</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK#url-slugs-links">URL slugs</a></td>
 </tr>
 <tr>
