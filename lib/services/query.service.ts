@@ -101,6 +101,18 @@ export class QueryService {
         return this.config.enablePreviewMode === true;
     }
 
+     /**
+     * Indicates if current query should use secured mode
+     * @param queryConfig Query configuration
+     */
+    private isSecuredModeEnabled(queryConfig: IQueryConfig): boolean {
+        if (queryConfig.useSecuredMode != null) {
+            return queryConfig.useSecuredMode;
+        }
+
+        return this.config.enableSecuredMode === true;
+    }
+
     /**
      * Gets preview or standard URL based on client and query configuration
      * @param queryConfig Query configuration
@@ -285,12 +297,12 @@ export class QueryService {
     /**
      * Gets authorization header. This is used for 'preview' functionality
      */
-    private getAuthorizationHeader(): IHeader {
-        if (!this.config.previewApiKey) {
-            throw Error(`Cannot get authorization header because 'previewApiKey' is not defined`);
+    private getAuthorizationHeader(key?: string): IHeader {
+        if (!key) {
+            throw Error(`Cannot get authorization header because key is undefined`);
         }
         // authorization header required for preview mode
-        return new Header('authorization', `bearer ${this.config.previewApiKey}`);
+        return new Header('authorization', `bearer ${key}`);
     }
 
     /**
@@ -310,9 +322,18 @@ export class QueryService {
         // add SDK Id header for monitoring SDK usage
         headers.push(this.getSdkIdHeader());
 
+        if (this.isPreviewModeEnabled(queryConfig) && this.isSecuredModeEnabled(queryConfig)) {
+            throw Error(`Preview & secured mode cannot be used at the same time.`);
+        }
+
         // add preview header is required
         if (this.isPreviewModeEnabled(queryConfig)) {
-            headers.push(this.getAuthorizationHeader());
+            headers.push(this.getAuthorizationHeader(this.config.previewApiKey));
+        }
+
+        // add secured mode header is required
+        if (this.isSecuredModeEnabled(queryConfig)) {
+            headers.push(this.getAuthorizationHeader(this.config.securedApiKey));
         }
 
         // add 'X-KC-Wait-For-Loading-New-Content' header if required

@@ -13,9 +13,21 @@ export class DeliveryClientConfig {
     public previewApiKey?: string;
 
     /**
+    * Secured API key.
+    * !! Important !!
+    * Use secured API only when running on Node.JS server, otherwise you can expose your key
+    */
+    public securedApiKey?: string;
+
+    /**
     * Indicates if preview mode is enabled globally
     */
     public enablePreviewMode: boolean = false;
+
+     /**
+    * Indicates if secured mode is enabled globally
+    */
+    public enableSecuredMode: boolean = false;
 
     /**
      * Default content language, can be overidden with languageParameter method
@@ -39,10 +51,12 @@ export class DeliveryClientConfig {
     * @param {TypeResolver[]} typeResolvers - List of resolvers that are used to create strongly typed objects from Kentico Cloud response
     * @param {boolean} enableAdvancedLogging - Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.
     * @param {string} previewApiKey - Preview API key used to get unpublished content items
-    * @param {boolean} enablePreviewMode - Indicates if preview mode is enabled globally
+    * @param {boolean} enablePreviewMode - Indicates if preview mode is enabled globally. This can be overriden on query level
     * @param {string} defaultLanguage - Sets default language that will be used for all queries unless overriden with query parameters
     * @param {string} baseUrl - Can be used to configure custom base url
     * @param {string} basePreviewUrl - Can bse used to configure custom preview url
+    * @param {string} securedApiKey - Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key
+    * @param {boolean} enableSecuredMode - Indicates if secured mode is enabled globally. This can be overriden on query level
     */
     constructor(
         public projectId: string,
@@ -53,8 +67,9 @@ export class DeliveryClientConfig {
             enablePreviewMode?: boolean,
             defaultLanguage?: string,
             baseUrl?: string,
-            basePreviewUrl?: string
-
+            basePreviewUrl?: string,
+            securedApiKey?: string,
+            enableSecuredMode?: boolean
         }) {
 
         if (!projectId) {

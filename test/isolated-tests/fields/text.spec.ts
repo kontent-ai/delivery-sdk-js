@@ -1,10 +1,5 @@
-// setup
-import { setup, Context } from '../../setup';
-
-// models
 import { Fields } from '../../../lib';
 
-// tests
 describe('TextField', () => {
 
     const field = new Fields.TextField('name', 'text value');

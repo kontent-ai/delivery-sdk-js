@@ -1,11 +1,7 @@
-// setup
-import { setup, Context, Actor, Movie, MockQueryService, warriorMovieJson } from '../../setup';
-
-// models
-import { DeliveryClient, ItemResponses, Fields, HttpService } from '../../../lib';
+import { Fields, HttpService, ItemResponses } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
+import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 
-// tests
 describe('Field types', () => {
 
     const context = new Context();
@@ -24,8 +20,6 @@ describe('Field types', () => {
         response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {});
         done();
     })
-
-  // field types
 
   it(`check 'TextField' type`, () => {
     expect(response.item.title).toEqual(jasmine.any(Fields.TextField));

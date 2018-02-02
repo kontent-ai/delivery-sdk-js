@@ -1,10 +1,5 @@
-// setup
-import { setup, Context } from '../../setup';
-
-// models
 import { FieldModels, Fields } from '../../../lib';
 
-// tests
 describe('MultipleChoiceField', () => {
 
     const multipleChoiceValue = [

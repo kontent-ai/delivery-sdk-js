@@ -3,14 +3,16 @@ import {
 } from '../../lib';
 
 export class Context {
-  public typeResolvers: TypeResolver[];
-  public projectId: string;
-  public previewApiKey: string;
-  public deliveryClient: DeliveryClient;
-  public usePreviewMode: boolean;
-  public defaultLanguage: string;
-  public baseUrl: string;
-  public basePreviewUrl: string;
+  public typeResolvers?: TypeResolver[];
+  public projectId?: string;
+  public previewApiKey?: string;
+  public securedApiKey?: string;
+  public deliveryClient?: DeliveryClient;
+  public usePreviewMode: boolean = false;
+  public useSecuredMode: boolean = false;
+  public defaultLanguage?: string;
+  public baseUrl?: string;
+  public basePreviewUrl?: string;
 
   constructor(
     options?: {
@@ -22,6 +24,8 @@ export class Context {
       defaultLanguage?: string,
       baseUrl?: string,
       basePreviewUrl?: string,
+      securedApiKey?: string,
+      useSecuredMode?: boolean
     }
   ) {
     if (options) {
@@ -39,7 +43,9 @@ export class Context {
         previewApiKey: this.previewApiKey,
         defaultLanguage: this.defaultLanguage,
         baseUrl:  this.baseUrl,
-        basePreviewUrl: this.basePreviewUrl
+        basePreviewUrl: this.basePreviewUrl,
+        enableSecuredMode: this.useSecuredMode,
+        securedApiKey: this.securedApiKey
       }
     );
   }

@@ -1,9 +1,5 @@
-// setup
-import { setup, Context } from '../../setup';
-
-// models
 import { Fields } from '../../../lib';
-// tests
+
 describe('NumberField', () => {
 
     const field = new Fields.NumberField('name', 9);

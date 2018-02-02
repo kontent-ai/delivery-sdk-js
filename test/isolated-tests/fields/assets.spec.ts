@@ -1,10 +1,5 @@
-// setup
-import { setup, Context } from '../../setup';
+import { FieldModels, Fields } from '../../../lib';
 
-// models
-import { Fields, FieldModels } from '../../../lib';
-
-// tests
 describe('AssetField', () => {
 
     const assetValue = [

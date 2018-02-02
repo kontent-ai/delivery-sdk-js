@@ -1,10 +1,5 @@
-// setup
-import { setup, Context } from '../../setup';
-
-// models
 import { Fields } from '../../../lib';
 
-// tests
 describe('DateTimeField', () => {
 
     const field = new Fields.DateTimeField('name', '2014-11-18T00:00:00Z');

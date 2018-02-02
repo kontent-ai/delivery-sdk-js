@@ -1,10 +1,6 @@
-// setup
-import { setup, Context, Movie, Actor } from '../../setup';
+import { ContentItemSystemAttributes, Fields, ILink } from '../../../lib';
+import { Actor } from '../../setup';
 
-// models
-import { Fields, ContentItemSystemAttributes, ILink } from '../../../lib';
-
-// tests
 describe('URLSlugField', () => {
     const sharedActor = new Actor();
     const actorId = '3294e4b0-e58b-49d7-85fa-5bc9a86556ec';

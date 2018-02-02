@@ -1,8 +1,13 @@
-// setup
-import { setup, Context, Movie, Actor } from '../../setup';
-
-// models
-import { DeliveryClientConfig, Fields, ContentItem, ContentItemSystemAttributes, FieldModels, Link, ILink, TypeResolverService, TypeResolver } from '../../../lib';
+import {
+    ContentItem,
+    ContentItemSystemAttributes,
+    DeliveryClientConfig,
+    Fields,
+    ILink,
+    Link,
+    TypeResolver,
+    TypeResolverService,
+} from '../../../lib';
 
 class ActorMock extends ContentItem {
     firstName: Fields.TextField;
