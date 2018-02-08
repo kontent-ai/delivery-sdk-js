@@ -1,14 +1,9 @@
-// rxjs observable
 import { ajax } from 'rxjs/observable/dom/ajax';
-import { AjaxResponse, AjaxError } from 'rxjs/observable/dom/AjaxObservable';
-import { Observable } from 'rxjs/Rx';
+import { AjaxResponse, Observable } from 'rxjs/Rx';
 
-// interfaces
-import { IHttpService } from './ihttp.service';
-
-// models
-import { BaseResponse } from './base-response.class';
 import { IHeader } from '../../interfaces/common/iheader.interface';
+import { BaseResponse } from './base-response.class';
+import { IHttpService } from './ihttp.service';
 
 export class HttpService implements IHttpService {
 

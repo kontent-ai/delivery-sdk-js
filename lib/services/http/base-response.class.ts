@@ -1,5 +1,5 @@
-import { AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
 import { IncomingMessage } from 'http';
+import { AjaxResponse } from 'rxjs/Rx';
 
 export class BaseResponse {
     constructor(
