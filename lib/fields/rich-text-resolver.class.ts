@@ -1,4 +1,5 @@
-import { Parse5 } from 'parse5';
+import { AST } from 'parse5/lib';
+import * as parse5 from 'parse5/lib';
 
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
@@ -60,7 +61,7 @@ export class RichTextResolver {
         // resolve modular content nested within the rich text field
         // find the all 'object' tags
         // example: <object type="application/kenticocloud" data-type="item" data-codename="geralt"></object>
-        const documentFragment = Parse5.parseFragment(this.html) as Parse5.DocumentFragment;
+        const documentFragment = parse5.parseFragment(this.html) as AST.DocumentFragment;
 
         // get child nodes
         const childeNodes = this.getChildNodes(documentFragment);
@@ -69,16 +70,16 @@ export class RichTextResolver {
         this.processChildNodes(childeNodes);
 
         // serialize document and get HTML
-        const resolvedHtml = Parse5.serialize(documentFragment);
+        const resolvedHtml = parse5.serialize(documentFragment);
 
         return resolvedHtml;
     }
 
-    private getChildNodes(documentFragment: Parse5.DocumentFragment): Parse5.Default.Element[] {
-        return (documentFragment as Parse5.Default.DocumentFragment).childNodes as Parse5.Default.Element[];
+    private getChildNodes(documentFragment: AST.DocumentFragment): AST.Default.Element[] {
+        return (documentFragment as AST.Default.DocumentFragment).childNodes as AST.Default.Element[];
     }
 
-    private processChildNodes(childNodes: Parse5.Default.Element[]): void {
+    private processChildNodes(childNodes: AST.Default.Element[]): void {
         childNodes.forEach(node => {
             if (node.attrs) {
                 const attributes = node.attrs;
@@ -97,7 +98,7 @@ export class RichTextResolver {
         });
     }
 
-    private processLink(node: Parse5.Default.Node, attributes: Parse5.Default.Attribute[]): void {
+    private processLink(node: AST.Default.Node, attributes: AST.Default.Attribute[]): void {
         if (node.nodeName !== this.linkTag) {
             // node is not a link
             return;
@@ -170,7 +171,7 @@ export class RichTextResolver {
         hrefAttribute.value = url;
     }
 
-    private processModularContent(node: Parse5.Default.Element, attributes: Parse5.Default.Attribute[]): void {
+    private processModularContent(node: AST.Default.Element, attributes: AST.Default.Attribute[]): void {
         const modularContentAttribute = attributes.find(m => m.value === this.modularContentobjectType);
         if (!modularContentAttribute) {
             // node is not of modular content type
@@ -178,7 +179,7 @@ export class RichTextResolver {
         }
 
         // get codename of the modular content
-        const modularItemCodenameAttribute: Parse5.Default.Attribute | undefined = attributes.find(m => m.name === this.modularContentCodenameAttributeName);
+        const modularItemCodenameAttribute: AST.Default.Attribute | undefined = attributes.find(m => m.name === this.modularContentCodenameAttributeName);
         if (modularItemCodenameAttribute == null) {
             throw Error(`The '${this.modularContentCodenameAttributeName}' attribute is missing and therefore modular content item cannot be retrieved`);
         }
@@ -216,7 +217,7 @@ export class RichTextResolver {
         } else {
             const replaceHtml = resolver(modularContentItem);
 
-            const serializedHtml = Parse5.parseFragment(replaceHtml) as any;
+            const serializedHtml = parse5.parseFragment(replaceHtml) as any;
 
             // add replaced html to node
             node.childNodes = serializedHtml.childNodes;
