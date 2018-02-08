@@ -12,7 +12,7 @@
     "strictNullChecks": true,
     "noImplicitReturns": true,
     "typeRoots": [
-      "node_modules/@types"
+      "./definitions"
     ],
     "lib": [
       "es2016",
@@ -20,6 +20,7 @@
     ]
   },
   "include": [
+    "definitions/**/*",
     "lib/**/*",
     "spec/**/*"
   ],
