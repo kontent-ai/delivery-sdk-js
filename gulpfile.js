@@ -10,13 +10,13 @@ gulp.task('build', function() {
         .pipe(tsProject());
 
     return merge([
-        tsResult.dts.pipe(gulp.dest('./definitions')),
+        tsResult.dts.pipe(gulp.dest('./dist')),
         tsResult.js.pipe(gulp.dest(tsProject.config.compilerOptions.outDir))
     ]);
 });
 
 gulp.task('clean', function () {
-    return gulp.src(['dist', 'definitions'], { read: false })
+    return gulp.src(['dist', 'dist'], { read: false })
         .pipe(clean())
 });
 

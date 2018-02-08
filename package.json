@@ -71,9 +71,6 @@
     "url-parse": "1.2.0",
     "webpack": "3.10.0"
   },
-  "main": "dist/index.js",
-  "typings": "definitions/index",
-  "typescript": {
-    "definition": "definitions/index"
-  }
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts"
 }
