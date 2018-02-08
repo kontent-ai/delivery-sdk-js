@@ -1,9 +1,9 @@
-import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
 import { AjaxResponse } from 'rxjs/Rx';
-import { IncomingMessage } from 'http';
+
+import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
 
 export class CloudResponseDebug implements ICloudResponseDebug {
     constructor(
-        public rawResponse: AjaxResponse | IncomingMessage) {
+        public rawResponse: AjaxResponse | any) {
     }
 }

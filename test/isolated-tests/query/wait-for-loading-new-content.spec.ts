@@ -1,16 +1,7 @@
-// url parser
-import urlParser from 'url-parse';
+import { AjaxResponse } from 'rxjs/Rx';
 
-// rxjs
-import { AjaxResponse } from 'rxjs/Rx'
+import { AllTestObjects, Context, observableFactory, setup } from '../../setup';
 
-// https
-import { IncomingMessage } from 'http';
-
-// setup
-import { setup, Context, observableFactory, AllTestObjects } from '../../setup';
-
-// tests
 describe('Wait for loading new content', () => {
 
   const context = new Context();
