@@ -11,8 +11,14 @@
     "target": "es5",
     "strictNullChecks": true,
     "noImplicitReturns": true,
+    "paths": {
+      "*": [
+        "*",
+        "definitions/*"
+      ],
+    },
     "typeRoots": [
-      "./definitions"
+      "node_modules/@types"
     ],
     "lib": [
       "es2016",
@@ -20,7 +26,6 @@
     ]
   },
   "include": [
-    "definitions/**/*",
     "lib/**/*",
     "spec/**/*"
   ],
