@@ -1,12 +1,7 @@
-// setup
-import { setup, Context, Actor, Movie } from '../test/setup';
+import { ContentItem, ItemResponses } from '../lib';
+import { Context, Movie, setup } from '../test/setup';
 
-// models
-import { ItemResponses, FieldModels, IContentItem, ContentItem } from '../lib';
-
-
-// dev tests
-describe('Developer tests', () => {
+describe('Developer testing', () => {
 
     const context = new Context();
     // remove type resolvers for testing
@@ -20,7 +15,7 @@ describe('Developer tests', () => {
         context.deliveryClient.item<Movie>(movieCodename)
             .get()
             .subscribe(r => {
-                console.log(r);
+                 console.log(r);
                 response = r;
                 done();
             })
@@ -29,6 +24,5 @@ describe('Developer tests', () => {
     it(`IContentItem should be returned`, () => {
         expect(response.item).toEqual(jasmine.any(ContentItem));
     });
-
 });
 

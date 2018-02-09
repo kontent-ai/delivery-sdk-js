@@ -1,14 +1,13 @@
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
+import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { FieldDecorators } from '../fields/field-decorators';
 import { FieldInterfaces } from '../fields/field-interfaces';
 import { FieldType } from '../fields/field-type';
 import { Fields } from '../fields/field-types';
-import { FieldDecorators } from '../fields/field-decorators';
-import { FieldModels } from '../fields/field-models';
-import { TypeResolverService } from './type-resolver.service';
-import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ILink } from '../interfaces/item/ilink.interface';
 import { Link } from '../models/item/link.class';
+import { TypeResolverService } from './type-resolver.service';
 
 export class FieldMapService {
 
@@ -47,6 +46,12 @@ export class FieldMapService {
 
         if (!item.elements) {
             throw Error(`Cannot map elements of item with codename '${item.system.codename}'`);
+        }
+
+        // clear processed items they are not empty. This prevents an issue where subsequent calls could return incorrect data when the modular item is changed
+        // in Kentico Cloud because the 'processedItems' still contains resolved items from previous call.
+        if (this.processedItems && this.processedItems.length > 0) {
+            this.processedItems = [];
         }
 
         const properties = Object.getOwnPropertyNames(item.elements);
