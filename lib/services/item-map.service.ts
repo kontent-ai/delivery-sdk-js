@@ -18,7 +18,7 @@ export class ItemMapService {
         if (item == null) {
             throw Error(`Could not map item because its undefined`);
         }
-        return this.fieldMapService.mapFields<TItem>(item, modularContent, queryConfig);
+        return this.fieldMapService.mapFields<TItem>(item, modularContent, queryConfig, []);
     }
 
     /**

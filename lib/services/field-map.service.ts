@@ -16,12 +16,6 @@ export class FieldMapService {
      */
     private readonly typeResolverService: TypeResolverService;
 
-    /**
-     * Processed items contain modular items that were already processed so that we don't end up
-     * in infinite loop.
-     */
-    private processedItems: IContentItem[] = [];
-
     constructor(
         private readonly config: DeliveryClientConfig,
     ) {
@@ -35,7 +29,7 @@ export class FieldMapService {
      * @param modularContent Modular content sent along with item
      * @param queryConfig Query configuration
      */
-    mapFields<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem {
+    mapFields<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig, processedItems: IContentItem[]): TItem {
         if (!item) {
             throw Error(`Cannot map fields because item is not defined`);
         }
@@ -43,15 +37,17 @@ export class FieldMapService {
         if (!item.system) {
             throw Error(`Cannot map item because it does not contain system attributes. This is an essential field and every item should have one.`);
         }
-
+   
         if (!item.elements) {
             throw Error(`Cannot map elements of item with codename '${item.system.codename}'`);
         }
 
-        // clear processed items they are not empty. This prevents an issue where subsequent calls could return incorrect data when the modular item is changed
-        // in Kentico Cloud because the 'processedItems' still contains resolved items from previous call.
-        if (this.processedItems && this.processedItems.length > 0) {
-            this.processedItems = [];
+        if (!processedItems) {
+            throw Error(`ProcessedItems need to be initialized`);
+        }
+
+        if (!Array.isArray(processedItems)) {
+            throw Error(`ProcessedItems need to be an array of 'IContentItems'`);
         }
 
         const properties = Object.getOwnPropertyNames(item.elements);
@@ -66,9 +62,9 @@ export class FieldMapService {
         }
 
         // add/taken item to processed items to avoid infinite recursion
-        const processedItem = this.processedItems.find(m => m.system.codename === item.system.codename);
+        const processedItem = processedItems.find(m => m.system.codename === item.system.codename);
         if (!processedItem) {
-            this.processedItems.push(itemTyped);
+            processedItems.push(itemTyped);
         }
 
         properties.forEach(fieldName => {
@@ -89,15 +85,15 @@ export class FieldMapService {
             if (!propertyName) {
                 propertyName = fieldName;
             }
-            itemTyped[propertyName] = this.mapField(field, modularContent, itemTyped, queryConfig);
+            itemTyped[propertyName] = this.mapField(field, modularContent, itemTyped, queryConfig, processedItems);
         });
 
         return itemTyped;
     }
 
-    private mapField(field: FieldInterfaces.IField, modularContent: any, item: IContentItem, queryConfig: IItemQueryConfig): any {
+    private mapField(field: FieldInterfaces.IField, modularContent: any, item: IContentItem, queryConfig: IItemQueryConfig, processedItems: IContentItem[]): any {
         if (field.type.toString() === FieldType.modular_content.toString()) {
-            return this.mapModularField(field, modularContent, queryConfig);
+            return this.mapModularField(field, modularContent, queryConfig, processedItems);
         } else if (field.type.toString() === FieldType.text.toString()) {
             return this.mapTextField(field);
         } else if (field.type.toString() === FieldType.asset.toString()) {
@@ -109,7 +105,7 @@ export class FieldMapService {
         } else if (field.type.toString() === FieldType.datetime.toString()) {
             return this.mapDateTimeField(field);
         } else if (field.type.toString() === FieldType.rich_text.toString()) {
-            return this.mapRichTextField(field as FieldInterfaces.IRichTextField, modularContent, queryConfig);
+            return this.mapRichTextField(field as FieldInterfaces.IRichTextField, modularContent, queryConfig, processedItems);
         } else if (field.type.toString() === FieldType.url_slug.toString()) {
             return this.mapUrlSlugField(field, item, queryConfig);
         } else if (field.type.toString() === FieldType.taxonomy.toString()) {
@@ -123,7 +119,7 @@ export class FieldMapService {
         }
     }
 
-    private mapRichTextField(field: FieldInterfaces.IRichTextField, modularContent: any, queryConfig: IItemQueryConfig): Fields.RichTextField {
+    private mapRichTextField(field: FieldInterfaces.IRichTextField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: IContentItem[]): Fields.RichTextField {
         // get all modular content items nested in rich text
         const modularItems: IContentItem[] = [];
 
@@ -139,7 +135,7 @@ export class FieldMapService {
                         Error can usually be solved by increasing 'Depth' parameter of your query.`);
                     }
 
-                    const modularItem = this.mapFields(modularContent[codename], modularContent, queryConfig);
+                    const modularItem = this.mapFields(modularContent[codename], modularContent, queryConfig, processedItems);
 
                     if (modularItem != null) {
                         modularItems.push(modularItem);
@@ -184,7 +180,7 @@ export class FieldMapService {
         return new Fields.UrlSlugField(field.name, field.value, item, linkResolver, this.config.enableAdvancedLogging);
     }
 
-    private mapModularField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig): any {
+    private mapModularField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: IContentItem[]): any {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
                 console.warn(`Cannot map modular content field because field does not exist`);
@@ -214,11 +210,11 @@ export class FieldMapService {
             // try to map only if the modular item was present in response
             if (modularItem) {
                 // add/taken item to processed items to avoid infinite recursion
-                let processedItem = this.processedItems.find(m => m.system.codename === modularItem.system.codename);
+                let processedItem = processedItems.find(m => m.system.codename === modularItem.system.codename);
                 if (processedItem) {
                     modularContentItems.push(processedItem);
                 } else {
-                    const newModularItem = this.mapFields<any>(modularItem, modularContent, queryConfig);
+                    const newModularItem = this.mapFields<any>(modularItem, modularContent, queryConfig, processedItems);
                     modularContentItems.push(newModularItem);
                     processedItem = newModularItem;
                 }
