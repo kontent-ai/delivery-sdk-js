@@ -336,7 +336,7 @@ export class QueryService {
 
         return this.httpService.get(url, this.getHeaders(queryConfig))
             .map((response: BaseResponse) => response)
-            .retryWhen(retryStrategy({
+            .retryWhen(retryStrategy.strategy({
                 maxRetryAttempts: this.config.retryAttempts ? this.config.retryAttempts : this.defaultRetryAttempts,
                 excludedStatusCodes: this.retryExcludedStatuses
             }))

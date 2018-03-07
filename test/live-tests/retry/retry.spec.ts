@@ -1,7 +1,9 @@
-import { Context, Movie, setup } from '../../setup';
+import { Observable } from 'rxjs/Rx';
+
+import { Context, setup } from '../../setup';
+import { retryStrategy, RetryStrategy } from '../../../lib/services/helpers/retry-strategy';
 
 describe('Retry functionality', () => {
-
     const context = new Context();
 
     const retryAttempts = 3;
@@ -9,42 +11,28 @@ describe('Retry functionality', () => {
     // set retry attempts
     context.retryAttempts = retryAttempts;
 
-    // disable advanced logging as it makes test fail (not sure why as it uses console.error and not console.warn)
-    context.enableAdvancedLogging = false;
-
     // set fake base url because we want this to fail
     context.baseUrl = 'http://fakeurl';
 
     setup(context);
 
-    let originalTimeout;
+    const MAX_SAFE_TIMEOUT = Math.pow(2, 31) - 1;
 
-    // create spy for warn commands
-    console.warn = jasmine.createSpy('warn');
-
-    beforeEach(function () {
-        // increase jasmine interval otherwise this might timeout due to retry attempts
-        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
-    });
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = MAX_SAFE_TIMEOUT;
 
     beforeAll((done) => {
         // this will fail
+        spyOn(retryStrategy, 'debugLogAttempt').and.callThrough();
         context.deliveryClient.items()
             .get()
             .subscribe(response => {
-                done();
             }, err => {
                 done();
             });
     });
 
     it(`Warning for retry attempt should have been called '${retryAttempts}' times`, () => {
-        expect(console.warn).toHaveBeenCalledTimes(retryAttempts);
-    });
-
-    afterEach(function () {
-        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+        expect(retryStrategy.debugLogAttempt).toHaveBeenCalledTimes(retryAttempts);
     });
 });
 
