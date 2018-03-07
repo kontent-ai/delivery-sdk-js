@@ -48,7 +48,9 @@ export function setup(context: Context) {
         baseUrl: context.baseUrl,
         basePreviewUrl: context.basePreviewUrl,
         securedApiKey: securedApiKey,
-        enableSecuredMode: context.useSecuredMode
+        enableSecuredMode: context.useSecuredMode,
+        retryAttempts: context.retryAttempts,
+        enableAdvancedLogging: context.enableAdvancedLogging
     })
 
     // set context
@@ -59,6 +61,8 @@ export function setup(context: Context) {
     context.baseUrl = context.baseUrl;
     context.basePreviewUrl = context.basePreviewUrl;
     context.securedApiKey = securedApiKey;
+    context.retryAttempts = context.retryAttempts;
+    context.enableAdvancedLogging = context.enableAdvancedLogging;
 
     // set delivery client
     context.deliveryClient = new DeliveryClient(deliveryClientConfig);

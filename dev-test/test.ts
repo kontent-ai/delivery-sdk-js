@@ -8,7 +8,7 @@ describe('Developer testing', () => {
     context.typeResolvers = [];
     setup(context);
 
-    const movieCodename: string = 'warrior';
+    const movieCodename: string = 'warrior_invalid';
     let response: ItemResponses.DeliveryItemResponse<Movie>;
 
     beforeAll((done) => {

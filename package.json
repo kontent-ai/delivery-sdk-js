@@ -37,7 +37,7 @@
   },
   "private": false,
   "dependencies": {
-    "lcov-parse": "^1.0.0",
+    "lcov-parse": "1.0.0",
     "parse5": "4.0.0",
     "reflect-metadata": "0.1.12",
     "rx-dom": "7.0.3",

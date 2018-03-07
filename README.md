@@ -28,6 +28,11 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 <td><a href="https://github.com/Enngage/KenticoCloudSampleJavascriptApp">JavaScript app</a></td>
 </tr>
 <tr>
+<th colspan="2">Configuration</th>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/TypeScript-SDK#client-configuration">Client configuration</a></td><td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/wiki/JavaScript-SDK#client-configuration">Client configuration</a></td>
+</tr>
 <th colspan="2">API documentation</th>
 </tr>
 <tr>

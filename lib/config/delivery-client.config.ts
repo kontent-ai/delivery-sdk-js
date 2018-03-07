@@ -15,7 +15,7 @@ export class DeliveryClientConfig {
     /**
     * Secured API key.
     * !! Important !!
-    * Use secured API only when running on Node.JS server, otherwise you can expose your key
+    * Use secured API only when running on Node.JS server, otherwise you are exposing your key to all clients
     */
     public securedApiKey?: string;
 
@@ -45,6 +45,11 @@ export class DeliveryClientConfig {
     public basePreviewUrl?: string;
 
     /**
+     * Number of retry attempts when error occures. When not set, no retry attempts are made.
+     */
+    public retryAttempts?: number;
+
+    /**
     * Configuration of Kentico Cloud Delivery client
     * @constructor
     * @param {FieldType} projectId - ProjectId of your Kentico Cloud project
@@ -54,9 +59,10 @@ export class DeliveryClientConfig {
     * @param {boolean} enablePreviewMode - Indicates if preview mode is enabled globally. This can be overriden on query level
     * @param {string} defaultLanguage - Sets default language that will be used for all queries unless overriden with query parameters
     * @param {string} baseUrl - Can be used to configure custom base url
-    * @param {string} basePreviewUrl - Can bse used to configure custom preview url
+    * @param {string} basePreviewUrl - Can be used to configure custom preview url
     * @param {string} securedApiKey - Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key
     * @param {boolean} enableSecuredMode - Indicates if secured mode is enabled globally. This can be overriden on query level
+    * @param {retryAttempts} retryAttempts - Number of retry attempts when error occures
     */
     constructor(
         public projectId: string,
@@ -69,7 +75,8 @@ export class DeliveryClientConfig {
             baseUrl?: string,
             basePreviewUrl?: string,
             securedApiKey?: string,
-            enableSecuredMode?: boolean
+            enableSecuredMode?: boolean,
+            retryAttempts?: number
         }) {
 
         if (!projectId) {

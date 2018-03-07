@@ -13,6 +13,8 @@ export class Context {
   public defaultLanguage?: string;
   public baseUrl?: string;
   public basePreviewUrl?: string;
+  public retryAttempts?: number;
+  public enableAdvancedLogging?: boolean;
 
   constructor(
     options?: {
@@ -25,7 +27,9 @@ export class Context {
       baseUrl?: string,
       basePreviewUrl?: string,
       securedApiKey?: string,
-      useSecuredMode?: boolean
+      useSecuredMode?: boolean,
+      retryAttempts?: number,
+      enableAdvancedLogging?: boolean
     }
   ) {
     if (options) {
@@ -38,14 +42,15 @@ export class Context {
       this.projectId,
       this.typeResolvers,
       {
-        enableAdvancedLogging: true,
+        enableAdvancedLogging: this.enableAdvancedLogging,
         enablePreviewMode: this.usePreviewMode,
         previewApiKey: this.previewApiKey,
         defaultLanguage: this.defaultLanguage,
-        baseUrl:  this.baseUrl,
+        baseUrl: this.baseUrl,
         basePreviewUrl: this.basePreviewUrl,
         enableSecuredMode: this.useSecuredMode,
-        securedApiKey: this.securedApiKey
+        securedApiKey: this.securedApiKey,
+        retryAttempts: this.retryAttempts,
       }
     );
   }

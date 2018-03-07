@@ -1,4 +1,4 @@
-import { Observable, AjaxError } from 'rxjs/Rx';
+import { AjaxError, Observable } from 'rxjs/Rx';
 
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
@@ -17,10 +17,21 @@ import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
 import { BaseResponse } from '../services/http/base-response.class';
+import { retryStrategy } from './helpers/retry-strategy';
 import { IHttpService } from './http/ihttp.service';
 import { ResponseMapService } from './response-map.service';
 
 export class QueryService {
+
+    /**
+     * Default number of retry attempts when user did not set any
+     */
+    private readonly defaultRetryAttempts: number = 0;
+
+    /**
+     * Excluded status code from retry functionality
+     */
+    private readonly retryExcludedStatuses: number[] = [404, 401];
 
     /**
      * Header name for SDK usage
@@ -66,104 +77,6 @@ export class QueryService {
             throw Error(`Invalid configuration has been provided`);
         }
         this.responseMapService = new ResponseMapService(config);
-    }
-
-    /**
-     * Handles given error
-     * @param error Error to be handled
-     */
-    private handleError(error: Response | AjaxError): any | CloudError {
-        if (this.config.enableAdvancedLogging) {
-            console.error(error);
-        }
-
-        if (error instanceof AjaxError) {
-            const xhrResponse = error.xhr.response as ICloudErrorResponse;
-            if (!xhrResponse) {
-                return error;
-            }
-            // return Cloud specific error
-            return new CloudError(xhrResponse.message, xhrResponse.request_id, xhrResponse.error_code, xhrResponse.specific_code, error);
-        }
-
-        return error;
-    }
-
-    /**
-     * Indicates if current query should use preview mode
-     * @param queryConfig Query configuration
-     */
-    private isPreviewModeEnabled(queryConfig: IQueryConfig): boolean {
-        if (queryConfig.usePreviewMode != null) {
-            return queryConfig.usePreviewMode;
-        }
-
-        return this.config.enablePreviewMode === true;
-    }
-
-     /**
-     * Indicates if current query should use secured mode
-     * @param queryConfig Query configuration
-     */
-    private isSecuredModeEnabled(queryConfig: IQueryConfig): boolean {
-        if (queryConfig.useSecuredMode != null) {
-            return queryConfig.useSecuredMode;
-        }
-
-        return this.config.enableSecuredMode === true;
-    }
-
-    /**
-     * Gets preview or standard URL based on client and query configuration
-     * @param queryConfig Query configuration
-     */
-    private getDeliveryUrl(queryConfig: IQueryConfig): string {
-        if (this.isPreviewModeEnabled(queryConfig)) {
-
-            if (!this.config.previewApiKey) {
-                throw Error(`You have to configure 'previewApiKey' to use 'preview' mode`);
-            }
-
-            // use custom base / preview url if its configured
-            if (this.config.basePreviewUrl) {
-                return this.config.basePreviewUrl;
-            }
-
-            // use default preview url
-            return this.defaultPreviewDeliveryApiUrl;
-        }
-
-        // use custom base / preview url if its configured
-        if (this.config.baseUrl) {
-            return this.config.baseUrl;
-        }
-        return this.defaultBaseDeliveryApiUrl;
-    }
-
-    /**
-     * Gets base URL of the request including the project Id
-     * @param queryConfig Query configuration
-     */
-    private getBaseUrl(queryConfig: IQueryConfig): string {
-        return this.getDeliveryUrl(queryConfig) + '/' + this.config.projectId;
-    }
-
-    /**
-     * Adds query parameters to given url
-     * @param url Url to which options will be added
-     * @param options Query parameters to add
-     */
-    private addOptionsToUrl(url: string, options?: IQueryParameter[]): string {
-        if (options) {
-            options.forEach(filter => {
-                if (url.indexOf('?') > -1) {
-                    url = url + '&' + filter.getParam() + '=' + filter.getParamValue();
-                } else {
-                    url = url + '?' + filter.getParam() + '=' + filter.getParamValue();
-                }
-            });
-        }
-        return url;
     }
 
     /**
@@ -282,37 +195,6 @@ export class QueryService {
     }
 
     /**
-     * Http get response
-     * @param url Url of request
-     * @param queryConfig Query configuration
-     */
-    protected getResponse(url: string, queryConfig: IQueryConfig): Observable<BaseResponse> {
-        return this.httpService.get(url, this.getHeaders(queryConfig))
-            .map((response: BaseResponse) => response)
-            .catch(err => {
-                return Observable.throw(this.handleError(err));
-            });
-    }
-
-    /**
-     * Gets authorization header. This is used for 'preview' functionality
-     */
-    private getAuthorizationHeader(key?: string): IHeader {
-        if (!key) {
-            throw Error(`Cannot get authorization header because key is undefined`);
-        }
-        // authorization header required for preview mode
-        return new Header('authorization', `bearer ${key}`);
-    }
-
-    /**
-     * Header identifying SDK type & version for internal purposes of Kentico
-     */
-    private getSdkIdHeader(): IHeader {
-        return new Header(this.sdkVersionHeader, `${this.sdkInfo.host};${this.sdkInfo.name};${this.sdkInfo.version}`);
-    }
-
-    /**
      * Gets proper set of headers for given request.
      * @param queryConfig Query configuration
      */
@@ -343,4 +225,142 @@ export class QueryService {
 
         return headers;
     }
+
+
+    /**
+     * Handles given error
+     * @param error Error to be handled
+     */
+    private handleError(error: Response | AjaxError): any | CloudError {
+        if (this.config.enableAdvancedLogging) {
+            console.error(error);
+        }
+
+        if (error instanceof AjaxError) {
+            const xhrResponse = error.xhr.response as ICloudErrorResponse;
+            if (!xhrResponse) {
+                return error;
+            }
+            // return Cloud specific error
+            return new CloudError(xhrResponse.message, xhrResponse.request_id, xhrResponse.error_code, xhrResponse.specific_code, error);
+        }
+
+        return error;
+    }
+
+    /**
+     * Indicates if current query should use preview mode
+     * @param queryConfig Query configuration
+     */
+    private isPreviewModeEnabled(queryConfig: IQueryConfig): boolean {
+        if (queryConfig.usePreviewMode != null) {
+            return queryConfig.usePreviewMode;
+        }
+
+        return this.config.enablePreviewMode === true;
+    }
+
+    /**
+    * Indicates if current query should use secured mode
+    * @param queryConfig Query configuration
+    */
+    private isSecuredModeEnabled(queryConfig: IQueryConfig): boolean {
+        if (queryConfig.useSecuredMode != null) {
+            return queryConfig.useSecuredMode;
+        }
+
+        return this.config.enableSecuredMode === true;
+    }
+
+    /**
+     * Gets preview or standard URL based on client and query configuration
+     * @param queryConfig Query configuration
+     */
+    private getDeliveryUrl(queryConfig: IQueryConfig): string {
+        if (this.isPreviewModeEnabled(queryConfig)) {
+
+            if (!this.config.previewApiKey) {
+                throw Error(`You have to configure 'previewApiKey' to use 'preview' mode`);
+            }
+
+            // use custom base / preview url if its configured
+            if (this.config.basePreviewUrl) {
+                return this.config.basePreviewUrl;
+            }
+
+            // use default preview url
+            return this.defaultPreviewDeliveryApiUrl;
+        }
+
+        // use custom base / preview url if its configured
+        if (this.config.baseUrl) {
+            return this.config.baseUrl;
+        }
+        return this.defaultBaseDeliveryApiUrl;
+    }
+
+    /**
+     * Gets base URL of the request including the project Id
+     * @param queryConfig Query configuration
+     */
+    private getBaseUrl(queryConfig: IQueryConfig): string {
+        return this.getDeliveryUrl(queryConfig) + '/' + this.config.projectId;
+    }
+
+    /**
+     * Adds query parameters to given url
+     * @param url Url to which options will be added
+     * @param options Query parameters to add
+     */
+    private addOptionsToUrl(url: string, options?: IQueryParameter[]): string {
+        if (options) {
+            options.forEach(filter => {
+                if (url.indexOf('?') > -1) {
+                    url = url + '&' + filter.getParam() + '=' + filter.getParamValue();
+                } else {
+                    url = url + '?' + filter.getParam() + '=' + filter.getParamValue();
+                }
+            });
+        }
+        return url;
+    }
+
+    /**
+     * Http get response
+     * @param url Url of request
+     * @param queryConfig Query configuration
+     */
+    protected getResponse(url: string, queryConfig: IQueryConfig): Observable<BaseResponse> {
+        // hold the attempt count
+        const attempt = 1;
+
+        return this.httpService.get(url, this.getHeaders(queryConfig))
+            .map((response: BaseResponse) => response)
+            .retryWhen(retryStrategy({
+                maxRetryAttempts: this.config.retryAttempts ? this.config.retryAttempts : this.defaultRetryAttempts,
+                excludedStatusCodes: this.retryExcludedStatuses
+            }))
+            .catch(err => {
+                return Observable.throw(this.handleError(err));
+            });
+    }
+
+    /**
+     * Gets authorization header. This is used for 'preview' functionality
+     */
+    private getAuthorizationHeader(key?: string): IHeader {
+        if (!key) {
+            throw Error(`Cannot get authorization header because key is undefined`);
+        }
+        // authorization header required for preview mode
+        return new Header('authorization', `bearer ${key}`);
+    }
+
+    /**
+     * Header identifying SDK type & version for internal purposes of Kentico
+     */
+    private getSdkIdHeader(): IHeader {
+        return new Header(this.sdkVersionHeader, `${this.sdkInfo.host};${this.sdkInfo.name};${this.sdkInfo.version}`);
+    }
+
 }
