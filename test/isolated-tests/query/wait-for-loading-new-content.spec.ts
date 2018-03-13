@@ -1,5 +1,3 @@
-import { AjaxResponse } from 'rxjs/observable/dom/ajaxObservable';
-
 import { AllTestObjects, Context, observableFactory, setup } from '../../setup';
 
 describe('Wait for loading new content', () => {
@@ -63,33 +61,6 @@ describe('Wait for loading new content', () => {
     expect(taxonomiesHeader).toBeDefined();
     expect(typesHeader).toBeDefined();
     expect(typesHeader).toBeDefined();
-  });
-
-  it(`Verifies that 'X-KC-Wait-For-Loading-New-Content' header is actually present in request (Http service for browsers)`, () => {
-    if (all.item.debug.rawResponse instanceof AjaxResponse) {
-      const header = all.item.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
-      expect(header).toEqual('true');
-    }
-    if (all.items.debug.rawResponse instanceof AjaxResponse) {
-      const header = all.items.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
-      expect(header).toEqual('true');
-    }
-    if (all.taxonomy.debug.rawResponse instanceof AjaxResponse) {
-      const header = all.taxonomy.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
-      expect(header).toEqual('true');
-    }
-    if (all.taxonomies.debug.rawResponse instanceof AjaxResponse) {
-      const header = all.taxonomies.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
-      expect(header).toEqual('true');
-    }
-    if (all.type.debug.rawResponse instanceof AjaxResponse) {
-      const header = all.type.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
-      expect(header).toEqual('true');
-    }
-    if (all.types.debug.rawResponse instanceof AjaxResponse) {
-      const header = all.types.debug.rawResponse.request.headers[waitForLoadingNewContentHeader];
-      expect(header).toEqual('true');
-    }
   });
 })
 

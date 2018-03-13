@@ -1,11 +1,9 @@
-import { AjaxResponse } from 'rxjs/observable/dom/ajaxObservable';
-
 import { BaseResponse } from '../../lib/services/http/base-response.class';
 
 class FakeResponseFactory {
 
     getFakeSuccessResponse(json: any): BaseResponse {
-        const fakeResponse: any = {} as AjaxResponse;
+        const fakeResponse: any = {};
 
         fakeResponse.response = json;
         fakeResponse.status = 200;
