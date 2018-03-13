@@ -9,7 +9,11 @@
     "curly": true,
     "eofline": true,
     "forin": true,
-    "import-blacklist": [true, "rxjs"],
+    "import-blacklist": [
+      true,
+      "rxjs",
+      "rxjs/Rx"
+    ],
     "import-spacing": true,
     "indent": [
       true,
@@ -43,7 +47,10 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-inferrable-types": [false, "ignore-params"],
+    "no-inferrable-types": [
+      false,
+      "ignore-params"
+    ],
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
