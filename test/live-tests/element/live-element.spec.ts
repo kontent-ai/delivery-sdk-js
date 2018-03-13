@@ -1,10 +1,8 @@
-// setup
-import { setup, Context } from '../../setup';
+import 'rxjs/add/operator/mergeMap';
 
-// models
-import { FieldModels, ElementResponses } from '../../../lib';
+import { ElementResponses } from '../../../lib';
+import { Context, setup } from '../../setup';
 
-// tests
 describe('Live element', () => {
 
   const context = new Context();

@@ -1,21 +1,10 @@
+import { Observable } from 'rxjs/Observable';
 
-// config
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
-
-// models
-import { TaxonomyResponses } from '../../models/taxonomy/responses';
-
-// base query
-import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
-
-// query params
 import { Parameters } from '../../models/common/parameters';
-
-// rxjs
-import { Observable } from 'rxjs/Rx';
-
-// services
+import { TaxonomyResponses } from '../../models/taxonomy/responses';
 import { QueryService } from '../../services/query.service';
+import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
 
 export class TaxonomiesQuery extends BaseTaxonomyQuery<TaxonomyResponses.TaxonomiesResponse> {
 

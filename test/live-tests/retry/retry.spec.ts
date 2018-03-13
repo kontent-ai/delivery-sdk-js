@@ -1,7 +1,5 @@
-import { Observable } from 'rxjs/Rx';
-
+import { retryStrategy } from '../../../lib/services/helpers/retry-strategy';
 import { Context, setup } from '../../setup';
-import { retryStrategy, RetryStrategy } from '../../../lib/services/helpers/retry-strategy';
 
 describe('Retry functionality', () => {
     const context = new Context();

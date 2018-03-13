@@ -1,11 +1,9 @@
+import { Observable } from 'rxjs/Observable';
+
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 import { ElementResponses } from '../../models/element/responses';
-import { Parameters } from '../../models/common/parameters';
-import { BaseElementQuery } from './base-element-query.class';
-import { Observable } from 'rxjs/Rx';
-
-// services
 import { QueryService } from '../../services/query.service';
+import { BaseElementQuery } from './base-element-query.class';
 
 export class ElementQuery extends BaseElementQuery<ElementResponses.ElementResponse> {
 

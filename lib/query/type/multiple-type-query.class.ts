@@ -1,21 +1,10 @@
+import { Observable } from 'rxjs/Observable';
 
-// config
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
-
-// models
-import { TypeResponses } from '../../models/type/responses';
-
-// query params
 import { Parameters } from '../../models/common/parameters';
-
-// base query
-import { BaseTypeQuery } from './base-type-query.class';
-
-// rxjs
-import { Observable } from 'rxjs/Rx';
-
-// services
+import { TypeResponses } from '../../models/type/responses';
 import { QueryService } from '../../services/query.service';
+import { BaseTypeQuery } from './base-type-query.class';
 
 export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeListingResponse> {
 

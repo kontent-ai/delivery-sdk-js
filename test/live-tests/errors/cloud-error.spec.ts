@@ -1,10 +1,6 @@
-// setup
-import { setup, Context, Actor, Movie } from '../../setup';
-
-// models
 import { CloudError } from '../../../lib';
+import { Context, Movie, setup } from '../../setup';
 
-// tests
 describe('Cloud errors', () => {
 
     const context = new Context();

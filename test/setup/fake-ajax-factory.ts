@@ -1,4 +1,5 @@
-import { AjaxResponse } from 'rxjs/Rx';
+import { AjaxResponse } from 'rxjs/observable/dom/ajaxObservable';
+
 import { BaseResponse } from '../../lib/services/http/base-response.class';
 
 class FakeResponseFactory {

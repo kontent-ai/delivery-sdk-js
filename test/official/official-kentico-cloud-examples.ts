@@ -1,11 +1,17 @@
+import { Observable } from 'rxjs/Observable';
+
 import {
-    DeliveryClient, TypeResolver, DeliveryClientConfig, ContentItem, SortOrder,
-    ItemResponses, ElementResponses, TypeResponses, TaxonomyResponses
+    ContentItem,
+    DeliveryClient,
+    DeliveryClientConfig,
+    ElementResponses,
+    ItemResponses,
+    SortOrder,
+    TaxonomyResponses,
+    TypeResolver,
+    TypeResponses,
 } from '../../lib';
-
 import { observableFactory } from '../setup';
-
-import { Observable } from 'rxjs/Rx';
 
 class Article extends ContentItem {
 

@@ -1,18 +1,9 @@
+import { Observable } from 'rxjs/Observable';
 
-// config
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
-
-// models
 import { TaxonomyResponses } from '../../models/taxonomy/responses';
-
-// base query
-import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
-
-// rxjs
-import { Observable } from 'rxjs/Rx';
-
-// services
 import { QueryService } from '../../services/query.service';
+import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
 
 export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.TaxonomyResponse> {
 

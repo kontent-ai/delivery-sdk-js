@@ -1,20 +1,9 @@
-// config
+import { Observable } from 'rxjs/Observable';
+
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
-
-// models
 import { TypeResponses } from '../../models/type/responses';
-
-// query params
-import { Parameters } from '../../models/common/parameters';
-
-// base query
-import { BaseTypeQuery } from './base-type-query.class';
-
-// rxjs
-import { Observable } from 'rxjs/Rx';
-
-// services
 import { QueryService } from '../../services/query.service';
+import { BaseTypeQuery } from './base-type-query.class';
 
 export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeResponse> {
 

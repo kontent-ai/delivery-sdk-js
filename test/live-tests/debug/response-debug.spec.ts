@@ -1,12 +1,7 @@
-// setup
-import { setup, Context, Actor, Movie, observableFactory, AllTestObjects } from '../../setup';
+import { AjaxError } from 'rxjs/observable/dom/ajaxObservable';
 
-// models
-import { ItemResponses, FieldModels, TaxonomyResponses, TypeResponses } from '../../../lib';
+import { AllTestObjects, Context, observableFactory, setup } from '../../setup';
 
-import { AjaxError } from 'rxjs/Rx';
-
-// tests
 describe('Response debug', () => {
 
     const context = new Context();

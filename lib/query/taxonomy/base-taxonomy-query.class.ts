@@ -1,26 +1,12 @@
-// config
+import { Observable } from 'rxjs/Observable';
+
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
-
-// filters
-import { Filters } from '../../models/common/filters';
-
-// models
-import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
-import { TaxonomyResponses } from '../../models/taxonomy/responses';
-import { ITaxonomyQueryConfig } from '../../interfaces/taxonomy/itaxonomy-query.config';
-import { TaxonomyQueryConfig } from '../../models/taxonomy/taxonomy-query.config';
-
-// base query
-import { BaseQuery } from '../common/base-query.class';
-
-// models
 import { IHeader } from '../../interfaces/common/iheader.interface';
-
-// rxjs
-import { Observable } from 'rxjs/Rx';
-
-// services
+import { ITaxonomyQueryConfig } from '../../interfaces/taxonomy/itaxonomy-query.config';
+import { TaxonomyResponses } from '../../models/taxonomy/responses';
+import { TaxonomyQueryConfig } from '../../models/taxonomy/taxonomy-query.config';
 import { QueryService } from '../../services/query.service';
+import { BaseQuery } from '../common/base-query.class';
 
 export abstract class BaseTaxonomyQuery<TResponse> extends BaseQuery<TResponse> {
 

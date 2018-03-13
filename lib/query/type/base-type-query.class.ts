@@ -1,26 +1,13 @@
-// config
+import { Observable } from 'rxjs/Observable';
+
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
-
-// filters
-import { Filters } from '../../models/common/filters';
-
-// models
+import { IHeader } from '../../interfaces/common/iheader.interface';
 import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
-import { TypeResponses } from '../../models/type/responses';
 import { IContentTypeQueryConfig } from '../../interfaces/type/icontent-type-query.config';
 import { ContentTypeQueryConfig } from '../../models/type/content-type-query.config';
-
-// base query
-import { BaseQuery } from '../common/base-query.class';
-
-// models
-import { IHeader } from '../../interfaces/common/iheader.interface';
-
-// rxjs
-import { Observable } from 'rxjs/Rx';
-
-// services
+import { TypeResponses } from '../../models/type/responses';
 import { QueryService } from '../../services/query.service';
+import { BaseQuery } from '../common/base-query.class';
 
 export abstract class BaseTypeQuery<TResponse> extends BaseQuery<TResponse> {
 

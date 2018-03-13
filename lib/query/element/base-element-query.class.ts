@@ -1,26 +1,12 @@
-// config
+import { Observable } from 'rxjs/Observable';
+
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
-
-// filters
-import { Filters } from '../../models/common/filters';
-
-// models
-import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
-import { ElementResponses } from '../../models/element/responses';
+import { IHeader } from '../../interfaces/common/iheader.interface';
 import { IElementQueryConfig } from '../../interfaces/element/ielement-query.config';
 import { ElementQueryConfig } from '../../models/element/element-query.config';
-
-// base query
-import { BaseQuery } from '../common/base-query.class';
-
-// models
-import { IHeader } from '../../interfaces/common/iheader.interface';
-
-// rxjs
-import { Observable } from 'rxjs/Rx';
-
-// services
+import { ElementResponses } from '../../models/element/responses';
 import { QueryService } from '../../services/query.service';
+import { BaseQuery } from '../common/base-query.class';
 
 export abstract class BaseElementQuery<TResponse> extends BaseQuery<TResponse> {
 

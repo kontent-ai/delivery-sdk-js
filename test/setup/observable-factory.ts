@@ -1,7 +1,9 @@
-import { Observable } from 'rxjs/Rx';
-import { AllTestObjects, Movie } from './models';
+import 'rxjs/add/operator/zip';
 
-import { IDeliveryClient, ItemResponses, FieldModels, TaxonomyResponses, TypeResponses, ElementResponses, IQueryConfig } from '../../lib';
+import { Observable } from 'rxjs/Observable';
+
+import { IDeliveryClient, IQueryConfig } from '../../lib';
+import { AllTestObjects, Movie } from './models';
 
 class ObservableFactory {
 

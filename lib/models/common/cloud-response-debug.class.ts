@@ -1,4 +1,4 @@
-import { AjaxResponse } from 'rxjs/Rx';
+import { AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
 
 import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
 

@@ -1,4 +1,4 @@
-import { AjaxResponse } from 'rxjs/Rx';
+import { AjaxResponse } from 'rxjs/observable/dom/ajaxObservable';
 
 import { AllTestObjects, Context, observableFactory, setup } from '../../setup';
 

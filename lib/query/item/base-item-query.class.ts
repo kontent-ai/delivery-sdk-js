@@ -1,29 +1,15 @@
 // config
+import { Observable } from 'rxjs/Observable';
+
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
-
-// filters
-import { Filters } from '../../models/common/filters';
-
-// models
-import { ItemResponses } from '../../models/item/responses';
-import { IContentItem } from '../../interfaces/item/icontent-item.interface';
-import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
-import { TypeResponses } from '../../models/type/responses';
-import { IItemQueryConfig } from '../../interfaces/item/iitem-query.config';
-import { ItemQueryConfig } from '../../models/item/item-query.config';
 import { IHeader } from '../../interfaces/common/iheader.interface';
-
-// base query
-import { BaseQuery } from '../common/base-query.class';
-
-// query params
+import { IContentItem } from '../../interfaces/item/icontent-item.interface';
+import { IItemQueryConfig } from '../../interfaces/item/iitem-query.config';
 import { Parameters } from '../../models/common/parameters';
-
-// rxjs
-import { Observable } from 'rxjs/Rx';
-
-// services
+import { ItemQueryConfig } from '../../models/item/item-query.config';
+import { ItemResponses } from '../../models/item/responses';
 import { QueryService } from '../../services/query.service';
+import { BaseQuery } from '../common/base-query.class';
 
 export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> extends BaseQuery<TResponse> {
 

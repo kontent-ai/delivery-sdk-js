@@ -1,4 +1,9 @@
-import { AjaxError, Observable } from 'rxjs/Rx';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/retryWhen';
+import { _throw } from 'rxjs/observable/throw';
+
+import { Observable } from 'rxjs/Observable';
+import { AjaxError } from 'rxjs/observable/dom/AjaxObservable';
 
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
@@ -100,7 +105,7 @@ export class QueryService {
                 return this.responseMapService.mapSingleResponse<TItem>(response, queryConfig)
             })
             .catch(err => {
-                return Observable.throw(this.handleError(err));
+                return _throw(this.handleError(err));
             });
     }
 
@@ -115,7 +120,7 @@ export class QueryService {
                 return this.responseMapService.mapMultipleResponse(response, queryConfig)
             })
             .catch(err => {
-                return Observable.throw(this.handleError(err));
+                return _throw(this.handleError(err));
             });
     }
 
@@ -130,7 +135,7 @@ export class QueryService {
                 return this.responseMapService.mapSingleTypeResponse(response)
             })
             .catch(err => {
-                return Observable.throw(this.handleError(err));
+                return _throw(this.handleError(err));
             });
     }
 
@@ -145,7 +150,7 @@ export class QueryService {
                 return this.responseMapService.mapMultipleTypeResponse(response)
             })
             .catch(err => {
-                return Observable.throw(this.handleError(err));
+                return _throw(this.handleError(err));
             });
     }
 
@@ -160,7 +165,7 @@ export class QueryService {
                 return this.responseMapService.mapTaxonomyResponse(response)
             })
             .catch(err => {
-                return Observable.throw(this.handleError(err));
+                return _throw(this.handleError(err));
             });
     }
 
@@ -175,7 +180,7 @@ export class QueryService {
                 return this.responseMapService.mapTaxonomiesResponse(response)
             })
             .catch(err => {
-                return Observable.throw(this.handleError(err));
+                return _throw(this.handleError(err));
             });
     }
 
@@ -190,7 +195,7 @@ export class QueryService {
                 return this.responseMapService.mapElementResponse(response)
             })
             .catch(err => {
-                return Observable.throw(this.handleError(err));
+                return _throw(this.handleError(err));
             });
     }
 
@@ -341,7 +346,7 @@ export class QueryService {
                 excludedStatusCodes: this.retryExcludedStatuses
             }))
             .catch(err => {
-                return Observable.throw(this.handleError(err));
+                return _throw(this.handleError(err));
             });
     }
 
