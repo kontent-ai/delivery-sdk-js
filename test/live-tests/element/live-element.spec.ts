@@ -1,5 +1,3 @@
-import 'rxjs/add/operator/mergeMap';
-
 import { ElementResponses } from '../../../lib';
 import { Context, setup } from '../../setup';
 

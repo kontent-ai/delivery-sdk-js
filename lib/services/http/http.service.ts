@@ -1,5 +1,3 @@
-import 'rxjs/add/operator/map';
-
 import { Observable } from 'rxjs/Observable';
 import { ajax } from 'rxjs/observable/dom/ajax';
 import { AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
@@ -7,6 +5,7 @@ import { AjaxResponse } from 'rxjs/observable/dom/AjaxObservable';
 import { IHeader } from '../../interfaces/common/iheader.interface';
 import { BaseResponse } from './base-response.class';
 import { IHttpService } from './ihttp.service';
+
 
 export class HttpService implements IHttpService {
 

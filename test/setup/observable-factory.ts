@@ -1,5 +1,3 @@
-import 'rxjs/add/operator/zip';
-
 import { Observable } from 'rxjs/Observable';
 
 import { IDeliveryClient, IQueryConfig } from '../../lib';

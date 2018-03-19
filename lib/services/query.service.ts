@@ -1,9 +1,6 @@
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/retryWhen';
-import { _throw } from 'rxjs/observable/throw';
-
 import { Observable } from 'rxjs/Observable';
 import { AjaxError } from 'rxjs/observable/dom/AjaxObservable';
+import { _throw } from 'rxjs/observable/throw';
 
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
@@ -25,6 +22,7 @@ import { BaseResponse } from '../services/http/base-response.class';
 import { retryStrategy } from './helpers/retry-strategy';
 import { IHttpService } from './http/ihttp.service';
 import { ResponseMapService } from './response-map.service';
+
 
 export class QueryService {
 
