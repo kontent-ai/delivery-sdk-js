@@ -1,28 +1,21 @@
-// config
 import { DeliveryClientConfig } from '../config/delivery-client.config';
-
-// models
-import { ItemResponses } from '../models/item/responses';
-import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
-import { Pagination } from '../models/common/pagination.class';
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { CloudTypeResponseInterfaces } from '../interfaces/type/cloud-responses';
-import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
-import { TypeResponses } from '../models/type/responses';
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { TaxonomyResponses } from '../models/taxonomy/responses';
-import { CloudTaxonomyResponseInterfaces } from '../interfaces/taxonomy/cloud-responses';
-import { ICloudResponseDebug } from '../interfaces/common/icloud-response-debug.interface';
-import { CloudResponseDebug } from '../models/common/cloud-response-debug.class';
 import { CloudElementResponseInterfaces } from '../interfaces/element/cloud-responses';
+import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
+import { IContentItem } from '../interfaces/item/icontent-item.interface';
+import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { CloudTaxonomyResponseInterfaces } from '../interfaces/taxonomy/cloud-responses';
+import { CloudTypeResponseInterfaces } from '../interfaces/type/cloud-responses';
+import { CloudResponseDebug } from '../models/common/cloud-response-debug.class';
+import { Pagination } from '../models/common/pagination.class';
 import { ElementResponses } from '../models/element/responses';
+import { ItemResponses } from '../models/item/responses';
+import { TaxonomyResponses } from '../models/taxonomy/responses';
+import { TypeResponses } from '../models/type/responses';
 import { BaseResponse } from '../services/http/base-response.class';
-
-// services
-import { ItemMapService } from './item-map.service';
-import { TypeMapService } from './type-map.service';
-import { TaxonomyMapService } from './taxonomy-map.service';
 import { ElementMapService } from './element-map.service';
+import { ItemMapService } from './item-map.service';
+import { TaxonomyMapService } from './taxonomy-map.service';
+import { TypeMapService } from './type-map.service';
 
 export class ResponseMapService {
 

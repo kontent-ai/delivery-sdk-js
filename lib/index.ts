@@ -26,10 +26,16 @@ export * from './interfaces/common/isdk-info.class';
 export * from './interfaces/common/iheader.interface';
 export * from './services/http/base-response.class';
 
-// http services
+// services
 export * from './services/http/ihttp.service';
 export * from './services/http/http.service';
 export * from './services/query.service';
+export * from './services/response-map.service';
+export * from './services/item-map.service';
+export * from './services/field-map.service';
+export * from './services/type-map.service';
+export * from './services/taxonomy-map.service';
+export * from './services/element-map.service';
 
 // filters
 export * from './models/common/filters';
