@@ -34,8 +34,10 @@
     "new-minor": "npm version minor && npm run update-sdk-info",
     "new-major": "npm version major && npm run update-sdk-info",
     "update-sdk-info": "node ./misc/update-sdk-info-tasks.js",
-    "build:dev": "webpack --mode development --config webpack.config.js --progress --colors",
-    "build:prod": "webpack --mode production --config webpack.config.js --progress --colors",
+    "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
+    "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
+    "build:dev": "tsc && tsc -m es6 --outDir dist-esm && npm run webpack:dev",
+    "build:prod": "tsc && tsc -m es6 --outDir dist-esm && npm run webpack:prod",
     "publish:beta": "npm publish --tag=next"
   },
   "private": false,
