@@ -6,7 +6,7 @@
 # compiled output
 /definitions
 /dist
-/dist-est
+/dist-esm
 /_bundles
 /tmp
 /coverage
