@@ -12,18 +12,6 @@ describe('URLSlugField', () => {
         expect(field1.name).toBeDefined();
     });
 
-    it(`checks that url slug is resolved #1`, () => {
-    });
-
-    it(`checks that url slug is resolved only for given type`, () => {
-        const field = new Fields.UrlSlugField('name', 'actor-slug', sharedActor, (link: ILink) => {
-            if (link.type === 'actor') {
-                return 'actor-link/' + link.url_slug;
-            }
-            return 'unknown-link';
-        }, true);
-    });
-
     it(`checks that url slug is not resolved when the type is incorrect`, () => {
         const actor = new Actor();
         actor.system = new ContentItemSystemAttributes(actorId, 'Joel', 'joel', 'invalid_actor', new Date(), 'en', []);
