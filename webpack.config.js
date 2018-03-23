@@ -19,6 +19,7 @@ module.exports = {
             },
         ]
     },
+    performance: { hints: false }, // this disables warning about large output file (in our case its ~300Kb which is fine)
     plugins: [
         new webpack.ContextReplacementPlugin(
             // workaround for Parse5
