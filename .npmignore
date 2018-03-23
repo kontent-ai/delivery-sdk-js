@@ -5,7 +5,8 @@
 !*/
 
 # Recursively allow files under subtree
-!/definitions/**
+!/dist-esm/**
+!/_bundles/**
 !/dist/**
 !package.json
 !.npmignore
