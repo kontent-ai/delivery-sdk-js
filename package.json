@@ -36,7 +36,8 @@
     "new-major": "npm version major && npm run update-sdk-info",
     "update-sdk-info": "node ./misc/update-sdk-info-tasks.js",
     "build:dev": "webpack --mode development --config webpack.config.js --progress --colors",
-    "build:prod": "webpack --mode production --config webpack.config.js --progress --colors"
+    "build:prod": "webpack --mode production --config webpack.config.js --progress --colors",
+    "publish:beta": "npm publish --tag=next"
   },
   "private": false,
   "dependencies": {
