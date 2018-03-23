@@ -2,13 +2,13 @@
   "compileOnSave": true,
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./dist",
+    "outDir": ".",
     "sourceMap": true,
     "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es6",
+    "target": "es5",
     "strictNullChecks": true,
     "noImplicitReturns": true,
     "typeRoots": [

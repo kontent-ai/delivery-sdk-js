@@ -12,7 +12,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/, loader: 'awesome-typescript-loader',
+                test: /\.tsx?$/, loader: 'ts-loader',
                 include: [
                     path.resolve(__dirname, "lib"), // include only library
                 ],
