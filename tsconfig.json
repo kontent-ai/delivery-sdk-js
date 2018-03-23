@@ -2,7 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": ".",
+    "outDir": "./dist",
     "sourceMap": true,
     "declaration": true,
     "moduleResolution": "node",

@@ -4,7 +4,6 @@ const webpack = require("webpack");
 module.exports = {
     entry: './lib/index.ts',
     resolve: { extensions: ['.ts', '.js'] },
-    target: 'node',
     output: {
         // Puts the output at the root of the dist folder
         path: path.join(__dirname, 'dist'),
@@ -13,7 +12,13 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.ts$/, loader: 'ts-loader',
+                test: /\.tsx?$/, loader: 'awesome-typescript-loader',
+                include: [
+                    path.resolve(__dirname, "lib"), // include only library
+                ],
+            },
+            {
+                test: /\.js$/, loader: 'source-map-loader',
                 include: [
                     path.resolve(__dirname, "lib"), // include only library
                 ],
@@ -30,3 +35,5 @@ module.exports = {
         )
     ]
 };
+
+

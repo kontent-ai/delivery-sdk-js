@@ -40,17 +40,21 @@
   },
   "private": false,
   "dependencies": {
+    "awesome-typescript-loader": "^4.0.1",
     "parse5": "4.0.0",
     "reflect-metadata": "0.1.12",
-    "rx-dom": "7.0.3"
+    "rx-dom": "7.0.3",
+    "source-map-loader": "^0.2.3"
   },
   "peerDependencies": {
     "rxjs": "~5.5.7"
   },
   "devDependencies": {
-    "lcov-parse": "1.0.0",
     "@types/jasmine": "2.8.6",
     "@types/node": "9.6.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
     "core-js": "2.5.3",
     "gulp": "3.9.1",
     "gulp-clean": "0.4.0",
@@ -68,13 +72,14 @@
     "karma-typescript": "3.0.12",
     "karma-typescript-es6-transform": "1.0.4",
     "karma-webpack": "3.0.0",
+    "lcov-parse": "1.0.0",
     "merge2": "1.2.1",
+    "ts-loader": "4.1.0",
     "ts-node": "5.0.1",
     "tslint": "5.9.1",
     "typescript": "2.7.2",
     "url-parse": "1.2.0",
     "webpack": "4.2.0",
-    "ts-loader": "4.1.0",
     "webpack-cli": "2.0.13"
   },
   "main": "./dist/index.js",
