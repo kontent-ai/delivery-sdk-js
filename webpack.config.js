@@ -4,6 +4,7 @@ const webpack = require("webpack");
 module.exports = {
     entry: './lib/index.ts',
     resolve: { extensions: ['.ts', '.js'] },
+    target: 'node',
     output: {
         // Puts the output at the root of the dist folder
         path: path.join(__dirname, 'dist'),
