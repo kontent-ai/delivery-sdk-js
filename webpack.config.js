@@ -32,6 +32,12 @@ module.exports = {
             // fixes WARNING Critical dependency: the request of a dependency is an expression
             /(.+)?parse5(\\|\/)(.+)?/,
             path.join(__dirname, 'lib')
+        ),
+        new webpack.ContextReplacementPlugin(
+            // workaround for Parse5
+            // fixes WARNING Critical dependency: the request of a dependency is an expression
+            /(.+)?parse5(\\|\/)(.+)?/,
+            path.join(__dirname, '_bundles')
         )
     ]
 };
