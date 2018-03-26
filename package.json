@@ -42,12 +42,10 @@
   },
   "private": false,
   "dependencies": {
-    "parse5": "4.0.0",
-    "reflect-metadata": "0.1.12",
-    "rx-dom": "7.0.3"
-  },
-  "peerDependencies": {
-    "rxjs": "~5.5.7"
+    "parse5": "~4.0.0",
+    "reflect-metadata": "~0.1.12",
+    "rx-dom": "~7.0.3",
+    "rxjs": "~5.5.0"
   },
   "devDependencies": {
     "@types/jasmine": "2.8.6",
