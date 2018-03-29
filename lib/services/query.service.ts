@@ -19,9 +19,9 @@ import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
 import { BaseResponse } from '../services/http/base-response.class';
-import { retryStrategy } from './helpers/retry-strategy';
 import { IHttpService } from './http/ihttp.service';
 import { ResponseMapService } from './response-map.service';
+import { retryStrategy } from './retry/retry-strategy';
 
 
 export class QueryService {

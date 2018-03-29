@@ -1,6 +1,15 @@
-import { ContentItem, ItemResponses } from '../lib';
-import { Context, Movie, setup } from '../test/setup';
+import { htmlParseService } from '../lib/parser/html-parse.service';
 
+
+describe('Developer testing', () => {
+
+    it(`Parsing test`, () => {
+        expect(true).toBeDefined();
+    })
+
+})
+
+/*
 describe('Developer testing', () => {
 
     const context = new Context();
@@ -25,4 +34,4 @@ describe('Developer testing', () => {
         expect(response.item).toEqual(jasmine.any(ContentItem));
     });
 });
-
+*/
