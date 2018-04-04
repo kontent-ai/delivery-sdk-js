@@ -12,7 +12,7 @@ import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
 import { IRichTextHtmlParser } from '../parser';
-import { BaseResponse } from '../services/http/base-response.class';
+import { IBaseResponse } from '../services/http/models';
 import { ElementMapService } from './element-map.service';
 import { ItemMapService } from './item-map.service';
 import { TaxonomyMapService } from './taxonomy-map.service';
@@ -53,7 +53,7 @@ export class ResponseMapService {
      * Gets response for getting a single type
      * @param response Response data
      */
-    mapSingleTypeResponse(response: BaseResponse): TypeResponses.DeliveryTypeResponse {
+    mapSingleTypeResponse(response: IBaseResponse): TypeResponses.DeliveryTypeResponse {
         const cloudResponse = response.data as any as CloudTypeResponseInterfaces.ICloudSingleTypeResponse;
 
         // map type
@@ -67,7 +67,7 @@ export class ResponseMapService {
      * @param response Response data
      * @param options Options
      */
-    mapMultipleTypeResponse(response: BaseResponse): TypeResponses.DeliveryTypeListingResponse {
+    mapMultipleTypeResponse(response: IBaseResponse): TypeResponses.DeliveryTypeListingResponse {
         const cloudResponse = response.data as any as CloudTypeResponseInterfaces.ICloudMultipleTypeResponse;
 
         // map types
@@ -89,7 +89,7 @@ export class ResponseMapService {
      * @param response Response data
      * @param queryConfig Query configuration
      */
-    mapSingleResponse<TItem extends IContentItem>(response: BaseResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
+    mapSingleResponse<TItem extends IContentItem>(response: IBaseResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
         const cloudResponse = response.data as any as CloudItemResponseInterfaces.ICloudResponseSingle;
 
         // map item
@@ -103,7 +103,7 @@ export class ResponseMapService {
      * @param response Response data
      * @param queryConfig Query configuration
      */
-    mapMultipleResponse<TItem extends IContentItem>(response: BaseResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
+    mapMultipleResponse<TItem extends IContentItem>(response: IBaseResponse, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
         const cloudResponse = response.data as any as CloudItemResponseInterfaces.ICloudResponseMultiple;
 
         // map items
@@ -124,7 +124,7 @@ export class ResponseMapService {
      * Gets response for getting single taxonomy item
      * @param response Response data
      */
-    mapTaxonomyResponse(response: BaseResponse): TaxonomyResponses.TaxonomyResponse {
+    mapTaxonomyResponse(response: IBaseResponse): TaxonomyResponses.TaxonomyResponse {
         const cloudResponse = response.data as any as CloudTaxonomyResponseInterfaces.ICloudTaxonomyResponse;
 
         // map taxonomy
@@ -137,7 +137,7 @@ export class ResponseMapService {
      * Gets response for getting multiples taxonomies
      * @param response Response data
      */
-    mapTaxonomiesResponse(response: BaseResponse): TaxonomyResponses.TaxonomiesResponse {
+    mapTaxonomiesResponse(response: IBaseResponse): TaxonomyResponses.TaxonomiesResponse {
         const cloudResponse = response.data as any as CloudTaxonomyResponseInterfaces.ICloudTaxonomiesResponse;
 
         // map taxonomies
@@ -158,7 +158,7 @@ export class ResponseMapService {
     * Gets response for getting single content type element
     * @param response Response data
     */
-    mapElementResponse(response: BaseResponse): ElementResponses.ElementResponse {
+    mapElementResponse(response: IBaseResponse): ElementResponses.ElementResponse {
         const cloudResponse = response.data as any as CloudElementResponseInterfaces.ICloudElementResponse;
 
         // map element
@@ -167,7 +167,7 @@ export class ResponseMapService {
         return new ElementResponses.ElementResponse(element, this.mapResponseDebug(response));
     }
 
-    mapResponseDebug(response: BaseResponse): CloudResponseDebug {
+    mapResponseDebug(response: IBaseResponse): CloudResponseDebug {
         if (!response) {
             throw Error(`Cannot map 'debug' model from the response`);
         }

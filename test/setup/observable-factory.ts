@@ -1,7 +1,8 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { IDeliveryClient, IQueryConfig } from '../../lib';
 import { AllTestObjects, Movie } from './models';
+import { map, zip } from 'rxjs/operators';
 
 class ObservableFactory {
 
@@ -25,13 +26,13 @@ class ObservableFactory {
 
         const observables: Observable<any>[] = [];
 
-        const itemObs = client.item<Movie>(this.movieCodename).queryConfig(queryConfig).get().map(r => all.item = r);
-        const itemsObs = client.items<Movie>().queryConfig(queryConfig).get().map(r => all.items = r);
-        const taxonomyObs = client.taxonomy(this.taxonomyCodename).queryConfig(queryConfig).get().map(r => all.taxonomy = r);
-        const taxonomiesObs = client.taxonomies().queryConfig(queryConfig).get().map(r => all.taxonomies = r);
-        const typeObs = client.type(this.typeCodename).queryConfig(queryConfig).get().map(r => all.type = r);
-        const typesObs = client.types().queryConfig(queryConfig).get().map(r => all.types = r);
-        const elementObs = client.element(this.typeCodename, this.elementCodename).queryConfig(queryConfig).get().map(r => all.element = r);
+        const itemObs = client.item<Movie>(this.movieCodename).queryConfig(queryConfig).get().pipe(map(r => all.item = r));
+        const itemsObs = client.items<Movie>().queryConfig(queryConfig).get().pipe(map(r => all.items = r));
+        const taxonomyObs = client.taxonomy(this.taxonomyCodename).queryConfig(queryConfig).get().pipe(map(r => all.taxonomy = r));
+        const taxonomiesObs = client.taxonomies().queryConfig(queryConfig).get().pipe(map(r => all.taxonomies = r));
+        const typeObs = client.type(this.typeCodename).queryConfig(queryConfig).get().pipe(map(r => all.type = r));
+        const typesObs = client.types().queryConfig(queryConfig).get().pipe(map(r => all.types = r));
+        const elementObs = client.element(this.typeCodename, this.elementCodename).queryConfig(queryConfig).get().pipe(map(r => all.element = r));
 
         observables.push(itemObs);
         observables.push(itemsObs);
@@ -43,7 +44,7 @@ class ObservableFactory {
 
         const zippedObservable = this.zipObservables(observables);
 
-        return zippedObservable.map(() => all);
+        return zippedObservable.pipe(map(() => all));
     }
 
     /**
@@ -72,7 +73,7 @@ class ObservableFactory {
 
         for (let i = 1; i < observables.length; i++) {
             const currentObservable = observables[i];
-            zippedObservable = zippedObservable.zip(currentObservable);
+            zip(zippedObservable, currentObservable);
         }
 
         return zippedObservable;

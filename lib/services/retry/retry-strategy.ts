@@ -1,6 +1,4 @@
-import { Observable } from 'rxjs/Observable';
-import { _throw } from 'rxjs/observable/throw';
-import { timer } from 'rxjs/observable/timer';
+import { Observable, throwError, timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
 export class RetryStrategy {
@@ -18,7 +16,7 @@ export class RetryStrategy {
                     retryAttempt > options.maxRetryAttempts ||
                     options.excludedStatusCodes.find(e => e === error.status)
                 ) {
-                    return _throw(error);
+                    return throwError(error);
                 }
 
                 // calculate retry time

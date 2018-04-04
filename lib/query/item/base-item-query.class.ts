@@ -1,5 +1,4 @@
-// config
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 import { IHeader } from '../../interfaces/common/iheader.interface';

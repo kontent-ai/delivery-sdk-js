@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-delivery-typescript-sdk",
-  "version": "3.1.0",
+  "version": "4.0.0-beta.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK"
@@ -42,16 +42,14 @@
   },
   "private": false,
   "dependencies": {
-    "parse5": "~4.0.0",
+    "browser-request": "^0.3.3",
     "reflect-metadata": "~0.1.12",
-    "rx-dom": "~7.0.3",
-    "rxjs": "~5.5.0",
-    "nearley": "~2.13.0"
+    "rxjs": "~6.0.0-rc.0"
   },
   "devDependencies": {
     "@types/jasmine": "2.8.6",
-    "@types/node": "9.6.0",
-    "core-js": "2.5.3",
+    "@types/node": "9.6.2",
+    "core-js": "2.5.4",
     "jasmine-core": "3.1.0",
     "jasmine-spec-reporter": "4.2.1",
     "karma": "2.0.0",
@@ -71,7 +69,7 @@
     "tslint": "5.9.1",
     "typescript": "2.7.2",
     "url-parse": "1.2.0",
-    "webpack": "4.2.0",
+    "webpack": "4.4.1",
     "webpack-cli": "2.0.13"
   },
   "main": "./dist/index.js",

@@ -1,3 +1,5 @@
+import { flatMap, map } from 'rxjs/operators';
+
 import { ElementResponses } from '../../../lib';
 import { Context, setup } from '../../setup';
 
@@ -19,11 +21,12 @@ describe('Live element', () => {
   beforeAll((done) => {
     context.deliveryClient.element(typeCodename, textElementCodename)
       .get()
-      .map(r => textElementResponse = r as ElementResponses.ElementResponse)
-      .flatMap(() => context.deliveryClient.element(typeCodename, multipleChoiceElementCodename).get())
-      .map(r => multipleChoiceElementResponse = r as ElementResponses.ElementResponse)
-      .flatMap(() => context.deliveryClient.element(typeCodename, taxonomyElementCodename).get())
-      .map(r => taxonomyElementResponse = r as ElementResponses.ElementResponse)
+      .pipe(map(r => textElementResponse = r as ElementResponses.ElementResponse),
+        flatMap(() => context.deliveryClient.element(typeCodename, multipleChoiceElementCodename).get())
+        , map(r => multipleChoiceElementResponse = r as ElementResponses.ElementResponse),
+        flatMap(() => context.deliveryClient.element(typeCodename, taxonomyElementCodename).get()),
+        map(r => taxonomyElementResponse = r as ElementResponses.ElementResponse)
+      )
       .subscribe(() => {
         done();
       })

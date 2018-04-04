@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import {
     ContentItem,
@@ -12,6 +12,7 @@ import {
     TypeResponses,
 } from '../../lib';
 import { observableFactory } from '../setup';
+import { map } from 'rxjs/operators';
 
 class Article extends ContentItem {
 
@@ -44,7 +45,9 @@ describe('Official Kentico cloud examples (used in API reference https://develop
         .elementsParameter(['title', 'summary', 'post_date', 'teaser_image'])
         .depthParameter(1)
         .get()
-        .map(response => itemResponse = response);
+        .pipe(
+            map(response => itemResponse = response)
+        );
 
     // List content items
     const itemsObs = deliveryClient.items<Article>()
@@ -53,34 +56,46 @@ describe('Official Kentico cloud examples (used in API reference https://develop
         .orderParameter('elements.post_date', SortOrder.desc)
         .limitParameter(3)
         .get()
-        .map(response => itemsResponse = response);
+        .pipe(
+            map(response => itemsResponse = response)
+        );
 
     // List content types
     const typesObs = deliveryClient.types()
         .limitParameter(3)
         .get()
-        .map(response => typesResponse = response);
+        .pipe(
+            map(response => typesResponse = response)
+        );
 
     // View a content type
     const typeObs = deliveryClient.type('coffee')
         .get()
-        .map(response => typeResponse = response);
+        .pipe(
+            map(response => typeResponse = response)
+        );
 
     // View taxonomy
     const taxonomyObs = deliveryClient.taxonomy('personas')
         .get()
-        .map(response => taxonomyResponse = response);
+        .pipe(
+            map(response => taxonomyResponse = response)
+        );
 
     // List taxonomies
     const taxonomiesObs = deliveryClient.taxonomies()
         .limitParameter(3)
         .get()
-        .map(response => taxonomiesReponse = response);
+        .pipe(
+            map(response => taxonomiesReponse = response)
+        );
 
     // View a content type element
     const elementObs = deliveryClient.element('coffee', 'processing')
         .get()
-        .map(response => elementResponse = response);
+        .pipe(
+            map(response => elementResponse = response)
+        );
 
     /* --------------- Prepare single observable ---------------- */
     const observables: Observable<any>[] = [];

@@ -2,15 +2,6 @@
  * Public API
  */
 
-/**
- * Import rxjs operators globally in single place
- */
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/retryWhen';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/zip';
-
 // core
 export * from './client/delivery-client';
 export * from './client/idelivery-client.interface';
@@ -19,12 +10,11 @@ export * from './fields/field-types';
 export * from './models/common/sort-order.enum';
 export * from './fields/field-models';
 export * from './fields/field-decorators';
-export * from './models/common/cloud-error.class';
 export * from './services/type-resolver.service';
 export * from './interfaces/common/iquery.config';
 export * from './interfaces/common/isdk-info.class';
 export * from './interfaces/common/iheader.interface';
-export * from './services/http/base-response.class';
+export * from './services/http/models';
 
 // parser
 export * from './parser/index';

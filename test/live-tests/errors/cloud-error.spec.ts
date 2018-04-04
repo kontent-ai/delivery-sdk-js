@@ -1,5 +1,5 @@
-import { CloudError } from '../../../lib';
 import { Context, Movie, setup } from '../../setup';
+import { ICloudErrorResponse } from '../../../lib/interfaces/common/icloud-error-response.interface';
 
 describe('Cloud errors', () => {
 
@@ -24,20 +24,15 @@ describe('Cloud errors', () => {
             });
     });
 
-    it(`response shouldn't succeed because the item does not exists`, () => {
+    it(`Response shouldn't succeed because the item does not exists`, () => {
         expect(succeeded).toEqual(false);
     });
 
-    it(`response should be an instance of 'CloudError'`, () => {
-        expect(error).toEqual(jasmine.any(CloudError));
-    });
-
-    it(`'CloudError' model should have all properties assigned`, () => {
+    it(`Error model should have all properties assigned`, () => {
         let allPropertiesAreAssigned = true;
-        const cloudError = error as CloudError;
+        const cloudError = error as ICloudErrorResponse;
         if (!(cloudError.error_code >= 0) ||
             !cloudError.message ||
-            !cloudError.rawError ||
             !cloudError.request_id ||
             !(cloudError.specific_code >= 0)
         ) {

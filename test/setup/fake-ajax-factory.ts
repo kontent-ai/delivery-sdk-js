@@ -1,8 +1,8 @@
-import { BaseResponse } from '../../lib/services/http/base-response.class';
+import { IBaseResponse } from '../../lib/services/http/models';
 
 class FakeResponseFactory {
 
-    getFakeSuccessResponse(json: any): BaseResponse {
+    getFakeSuccessResponse(json: any): IBaseResponse {
         const fakeResponse: any = {};
 
         fakeResponse.response = json;
@@ -11,7 +11,10 @@ class FakeResponseFactory {
         fakeResponse.xhr = {};
         fakeResponse.request = {};
 
-        return new BaseResponse(json, fakeResponse);
+        return {
+            data: json,
+            response: fakeResponse
+        };
     }
 }
 

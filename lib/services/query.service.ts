@@ -1,6 +1,5 @@
-import { Observable } from 'rxjs/Observable';
-import { AjaxError } from 'rxjs/observable/dom/AjaxObservable';
-import { _throw } from 'rxjs/observable/throw';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map, retryWhen } from 'rxjs/operators';
 
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
@@ -12,14 +11,13 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ITaxonomyQueryConfig } from '../interfaces/taxonomy/itaxonomy-query.config';
 import { IContentTypeQueryConfig } from '../interfaces/type/icontent-type-query.config';
-import { CloudError } from '../models/common/cloud-error.class';
 import { Header } from '../models/common/header.class';
 import { ElementResponses } from '../models/element/responses';
 import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
 import { IRichTextHtmlParser } from '../parser';
-import { BaseResponse } from '../services/http/base-response.class';
+import { IBaseResponse, IBaseCloudError } from '../services/http/models';
 import { IHttpService } from './http/ihttp.service';
 import { ResponseMapService } from './response-map.service';
 import { retryStrategy } from './retry/retry-strategy';
@@ -104,12 +102,14 @@ export class QueryService {
      */
     getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return this.getResponse(url, queryConfig)
-            .map(response => {
-                return this.responseMapService.mapSingleResponse<TItem>(response, queryConfig)
-            })
-            .catch(err => {
-                return _throw(this.handleError(err));
-            });
+            .pipe(
+                map(response => {
+                    return this.responseMapService.mapSingleResponse<TItem>(response, queryConfig)
+                }),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
     }
 
     /**
@@ -119,12 +119,14 @@ export class QueryService {
     */
     getMultipleItems<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
         return this.getResponse(url, queryConfig)
-            .map(response => {
-                return this.responseMapService.mapMultipleResponse(response, queryConfig)
-            })
-            .catch(err => {
-                return _throw(this.handleError(err));
-            });
+            .pipe(
+                map(response => {
+                    return this.responseMapService.mapMultipleResponse<TItem>(response, queryConfig)
+                }),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
     }
 
     /**
@@ -134,12 +136,14 @@ export class QueryService {
      */
     getSingleType(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeResponse> {
         return this.getResponse(url, queryConfig)
-            .map(response => {
-                return this.responseMapService.mapSingleTypeResponse(response)
-            })
-            .catch(err => {
-                return _throw(this.handleError(err));
-            });
+            .pipe(
+                map(response => {
+                    return this.responseMapService.mapSingleTypeResponse(response)
+                }),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
     }
 
     /**
@@ -149,12 +153,14 @@ export class QueryService {
      */
     getMultipleTypes(url: string, queryConfig: IContentTypeQueryConfig): Observable<TypeResponses.DeliveryTypeListingResponse> {
         return this.getResponse(url, queryConfig)
-            .map(response => {
-                return this.responseMapService.mapMultipleTypeResponse(response)
-            })
-            .catch(err => {
-                return _throw(this.handleError(err));
-            });
+            .pipe(
+                map(response => {
+                    return this.responseMapService.mapMultipleTypeResponse(response)
+                }),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
     }
 
     /**
@@ -164,12 +170,14 @@ export class QueryService {
      */
     getTaxonomy(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomyResponse> {
         return this.getResponse(url, queryConfig)
-            .map(response => {
-                return this.responseMapService.mapTaxonomyResponse(response)
-            })
-            .catch(err => {
-                return _throw(this.handleError(err));
-            });
+            .pipe(
+                map(response => {
+                    return this.responseMapService.mapTaxonomyResponse(response)
+                }),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
     }
 
     /**
@@ -179,12 +187,14 @@ export class QueryService {
     */
     getTaxonomies(url: string, queryConfig: ITaxonomyQueryConfig): Observable<TaxonomyResponses.TaxonomiesResponse> {
         return this.getResponse(url, queryConfig)
-            .map(response => {
-                return this.responseMapService.mapTaxonomiesResponse(response)
-            })
-            .catch(err => {
-                return _throw(this.handleError(err));
-            });
+            .pipe(
+                map(response => {
+                    return this.responseMapService.mapTaxonomiesResponse(response)
+                }),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
     }
 
     /**
@@ -194,12 +204,14 @@ export class QueryService {
     */
     getElement(url: string, queryConfig: ITaxonomyQueryConfig): Observable<ElementResponses.ElementResponse> {
         return this.getResponse(url, queryConfig)
-            .map(response => {
-                return this.responseMapService.mapElementResponse(response)
-            })
-            .catch(err => {
-                return _throw(this.handleError(err));
-            });
+            .pipe(
+                map(response => {
+                    return this.responseMapService.mapElementResponse(response)
+                }),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
     }
 
     /**
@@ -239,18 +251,21 @@ export class QueryService {
      * Handles given error
      * @param error Error to be handled
      */
-    private handleError(error: Response | AjaxError): any | CloudError {
+    private handleError(error: IBaseCloudError | any): any | ICloudErrorResponse {
         if (this.config.enableAdvancedLogging) {
             console.error(error);
         }
 
-        if (error instanceof AjaxError) {
-            const xhrResponse = error.xhr.response as ICloudErrorResponse;
-            if (!xhrResponse) {
-                return error;
-            }
-            // return Cloud specific error
-            return new CloudError(xhrResponse.message, xhrResponse.request_id, xhrResponse.error_code, xhrResponse.specific_code, error);
+        console.warn('error here:');
+        console.warn(error);
+
+        if (error.request_id) {
+            return <ICloudErrorResponse>{
+                message: error.kenticoCloudError.message,
+                request_id: error.kenticoCloudError.request_id,
+                error_code: error.kenticoCloudError.error_code,
+                specific_code: error.kenticoCloudError.specific_code, error
+            };
         }
 
         return error;
@@ -338,19 +353,23 @@ export class QueryService {
      * @param url Url of request
      * @param queryConfig Query configuration
      */
-    protected getResponse(url: string, queryConfig: IQueryConfig): Observable<BaseResponse> {
+    protected getResponse(url: string, queryConfig: IQueryConfig): Observable<IBaseResponse> {
         // hold the attempt count
         const attempt = 1;
 
         return this.httpService.get(url, this.getHeaders(queryConfig))
-            .map((response: BaseResponse) => response)
-            .retryWhen(retryStrategy.strategy({
-                maxRetryAttempts: this.config.retryAttempts ? this.config.retryAttempts : this.defaultRetryAttempts,
-                excludedStatusCodes: this.retryExcludedStatuses
-            }))
-            .catch(err => {
-                return _throw(this.handleError(err));
-            });
+            .pipe(
+                map((response: IBaseResponse) => {
+                    return response;
+                }),
+                retryWhen(retryStrategy.strategy({
+                    maxRetryAttempts: this.config.retryAttempts ? this.config.retryAttempts : this.defaultRetryAttempts,
+                    excludedStatusCodes: this.retryExcludedStatuses
+                })),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
     }
 
     /**

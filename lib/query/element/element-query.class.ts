@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 import { ElementResponses } from '../../models/element/responses';

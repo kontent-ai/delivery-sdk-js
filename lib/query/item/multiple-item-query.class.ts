@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { DeliveryClientConfig } from '../../config/delivery-client.config';
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';

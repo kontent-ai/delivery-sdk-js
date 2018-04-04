@@ -1,10 +1,10 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { IHeader } from '../../interfaces/common/iheader.interface';
-import { BaseResponse } from './base-response.class';
+import { IBaseResponse } from './models';
 
 export interface IHttpService {
 
-    get(url: string, headers: IHeader[]): Observable<BaseResponse>;
+    get(url: string, headers: IHeader[]): Observable<IBaseResponse>;
 
 }
