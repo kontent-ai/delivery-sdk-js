@@ -1,8 +1,6 @@
 
-// models
 import { TaxonomyMapService } from '../../../lib/services/taxonomy-map.service';
 
-// tests
 describe('TaxonomyMapService', () => {
 
     const taxonomyMapService = new TaxonomyMapService();

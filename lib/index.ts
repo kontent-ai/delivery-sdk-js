@@ -26,6 +26,9 @@ export * from './interfaces/common/isdk-info.class';
 export * from './interfaces/common/iheader.interface';
 export * from './services/http/base-response.class';
 
+// parser
+export * from './parser/index';
+
 // services
 export * from './services/http/ihttp.service';
 export * from './services/http/http.service';

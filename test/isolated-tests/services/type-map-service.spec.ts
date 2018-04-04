@@ -1,8 +1,6 @@
 
-// models
 import { TypeMapService } from '../../../lib/services/type-map.service';
 
-// tests
 describe('TypeMapService', () => {
 
     const typeMapService = new TypeMapService();

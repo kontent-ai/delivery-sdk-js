@@ -1,16 +1,12 @@
-// setup
-import { setup, Context } from '../../setup';
-
-// models
 import { ResponseMapService } from '../../../lib/services/response-map.service';
+import { Context, setup } from '../../setup';
 
-// tests
 describe('ResponseMapService', () => {
 
     const context = new Context();
     setup(context);
 
-    const responseMapService = new ResponseMapService(context.getConfig());
+    const responseMapService = new ResponseMapService(context.getConfig(), context.richTextHtmlParser);
 
     it(`should throw an Error when invalid response is given`, () => {
         expect(() => responseMapService.mapResponseDebug(null)).toThrowError();

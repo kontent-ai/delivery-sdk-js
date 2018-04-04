@@ -3,6 +3,10 @@ import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ILink } from '../interfaces/item/ilink.interface';
 import { TypeResolverService } from '../services/type-resolver.service';
 
+export interface IRichTextHtmlParser {
+    resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
+}
+
 export interface IModularContentObject {
     node: Node;
     dataType: string;
@@ -20,8 +24,8 @@ export interface IFeaturedObjects {
 }
 
 export interface IRichTextReplacements {
-    contentItems: IContentItem[];
-    links: ILink[];
+    getModularContentHtml: (itemCodename: string) => string;
+    getLinkUrl: (itemId: string) => string;
 }
 
 export interface IRichTextResolverResult extends IFeaturedObjects {

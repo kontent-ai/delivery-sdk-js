@@ -3,6 +3,7 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { IRichTextHtmlParser } from '../parser';
 
 export class ItemMapService {
 
@@ -10,8 +11,9 @@ export class ItemMapService {
 
     constructor(
         private readonly config: DeliveryClientConfig,
+        private readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
-        this.fieldMapService = new FieldMapService(config);
+        this.fieldMapService = new FieldMapService(config, richTextHtmlParser);
     }
 
     private mapItem<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem {

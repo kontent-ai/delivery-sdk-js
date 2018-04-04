@@ -1,11 +1,8 @@
-import { AST } from 'parse5/lib';
-import * as parse5 from 'parse5/lib';
-
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ILink } from '../interfaces/item/ilink.interface';
+import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 import { TypeResolverService } from '../services/type-resolver.service';
-import { htmlParseService } from '../parser';
 
 export class RichTextResolver {
 
@@ -37,6 +34,7 @@ export class RichTextResolver {
     /**
     * Rich text resolver
     * @constructor
+    * @param {IRichTextHtmlParser} richTextHtmlParser - Parser used for working with HTML elements
     * @param {string} html - html to resolve
     * @param {IContentItem[]} modularItems - modular items
     * @param {ILink[]} links - links
@@ -45,6 +43,7 @@ export class RichTextResolver {
     * @param {IItemQueryConfig} queryConfig - Query configuration
     */
     constructor(
+        private richTextHtmlParser: IRichTextHtmlParser,
         private html: string,
         private modularItems: IContentItem[],
         private links: ILink[],
@@ -59,15 +58,105 @@ export class RichTextResolver {
      * Rich text resolved needs to be configured either on the model or query level
      */
     resolveHtml(): string {
-        const result = htmlParseService.resolveRichTextField({
-            contentItems: this.modularItems,
-            links: this.links
-        }, {
+        // prepare config
+        const config: IHtmlResolverConfig = {
+            enableAdvancedLogging: this.enableAdvancedLogging,
+            queryConfig: this.queryConfig,
+            typeResolverService: this.typeResolverService
+        };
+
+        const result = this.richTextHtmlParser.resolveRichTextField(
+            this.html, {
+                getLinkUrl: (itemId: string) => this.getLinkUrl(itemId, config),
+                getModularContentHtml: (itemCodename: string) => this.getHtmlOfModularContent(itemCodename, config)
+            }, {
                 enableAdvancedLogging: this.enableAdvancedLogging,
                 queryConfig: this.queryConfig,
                 typeResolverService: this.typeResolverService
             });
 
         return result.resolvedHtml;
+    }
+
+    private getHtmlOfModularContent(itemCodename: string, config: IHtmlResolverConfig): string {
+        // get modular content item
+        const modularContentItem = this.modularItems.find(m => m.system.codename === itemCodename);
+
+        // check if modular content really exists
+        if (!modularContentItem) {
+            throw Error(`Cannot resolve modular content in 'RichTextField' for '${itemCodename}' content item`);
+        }
+
+        // create new replacement object
+
+        // get html to replace object using Rich text resolver function
+        let resolver: (<TItem extends IContentItem>(item: TItem) => string) | null = null;
+        if (config.queryConfig.richTextResolver) {
+            // use resolved defined by query if available
+            resolver = config.queryConfig.richTextResolver;
+        } else {
+            // use default resolver defined in models
+            if (modularContentItem.richTextResolver) {
+                resolver = modularContentItem.richTextResolver;
+            }
+        }
+
+        // check resolver
+        if (resolver == null) {
+            if (config.enableAdvancedLogging) {
+                console.warn(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
+                return '';
+            }
+            return '';
+        }
+        return resolver(modularContentItem);
+    }
+
+    private getLinkUrl(itemId: string, config: IHtmlResolverConfig): string {
+        // find link with the id of content item
+        const link = this.links.find(m => m.itemId === itemId);
+
+        if (!link) {
+            if (config.enableAdvancedLogging) {
+                console.warn(`Cannot resolve URL for item '${itemId}' because no link with this id was found`);
+            }
+            return '';
+        }
+
+        // try to resolve link using the resolver passed through the query config
+        const queryLinkResolver = config.queryConfig.linkResolver;
+
+        let url;
+
+        if (queryLinkResolver) {
+            // try to resolve url using the query config
+            url = queryLinkResolver(link);
+        }
+
+        if (!url) {
+            // url was not resolved, try to find global resolver for this particular type
+            // and apply its url resolver
+
+            const emptyTypeItem = config.typeResolverService.createEmptyTypedObj<IContentItem>(link.type);
+
+            if (!emptyTypeItem) {
+                throw Error(`Cannot resolve link for '${link.type}' type because mapping failed (have you registered this type in your config?)`);
+            }
+
+            const globalLinkResolver = emptyTypeItem.linkResolver;
+            if (globalLinkResolver) {
+                url = globalLinkResolver(link);
+            }
+        }
+
+        // url still wasn't resolved
+        if (!url) {
+            if (config.enableAdvancedLogging) {
+                console.warn(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null/undefiend`);
+            }
+            return '';
+        }
+
+        return url;
     }
 }

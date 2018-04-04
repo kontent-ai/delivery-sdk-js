@@ -1,8 +1,6 @@
 
-// models
 import { ElementMapService } from '../../../lib/services/element-map.service';
 
-// tests
 describe('ElementMapService', () => {
 
     const elementMapService = new ElementMapService();

@@ -1,10 +1,6 @@
-// setup
-import { setup, Context } from '../../setup';
-
-// models
 import { TypeResolverService } from '../../../lib/services/type-resolver.service';
+import { Context, setup } from '../../setup';
 
-// tests
 describe('TypeResolverService', () => {
 
     const context = new Context();

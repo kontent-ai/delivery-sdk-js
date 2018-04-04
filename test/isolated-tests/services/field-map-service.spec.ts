@@ -27,7 +27,7 @@ describe('FieldMapService', () => {
     const context = new Context();
     setup(context);
 
-    const fieldMapService = new FieldMapService(context.getConfig());
+    const fieldMapService = new FieldMapService(context.getConfig(), context.richTextHtmlParser);
 
     it(`should throw an Error when invalid response is given`, () => {
         expect(() => fieldMapService.mapFields(null, null, null, null)).toThrowError();

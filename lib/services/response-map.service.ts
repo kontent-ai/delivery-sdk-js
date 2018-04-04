@@ -11,6 +11,7 @@ import { ElementResponses } from '../models/element/responses';
 import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
+import { IRichTextHtmlParser } from '../parser';
 import { BaseResponse } from '../services/http/base-response.class';
 import { ElementMapService } from './element-map.service';
 import { ItemMapService } from './item-map.service';
@@ -39,9 +40,11 @@ export class ResponseMapService {
      */
     private readonly elementMapService: ElementMapService;
 
-    constructor(config: DeliveryClientConfig) {
+    constructor(
+        private readonly config: DeliveryClientConfig,
+        private readonly richTextHtmlParser: IRichTextHtmlParser) {
         this.typeMapService = new TypeMapService();
-        this.itemMapService = new ItemMapService(config);
+        this.itemMapService = new ItemMapService(config, richTextHtmlParser);
         this.taxonomyMapService = new TaxonomyMapService()
         this.elementMapService = new ElementMapService();
     }

@@ -1,14 +1,6 @@
-// setup
-import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../../setup';
-
-// models
-import {
-   Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, HttpService
-} from '../../../lib';
-
-import { RichTextResolver } from '../../../lib/fields/rich-text-resolver.class';
-import { TypeResolverService } from '../../../lib/services/type-resolver.service';
+import { ContentItem, Fields, HttpService, ItemResponses, TypeResolver } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
+import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 class MockMovie extends ContentItem {
     public plot: Fields.RichTextField
@@ -26,7 +18,6 @@ class MockActor extends ContentItem {
     }
 }
 
-// tests
 describe('Rich text resolver', () => {
 
     const context = new Context();

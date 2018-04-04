@@ -7,6 +7,7 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ILink } from '../interfaces/item/ilink.interface';
 import { Link } from '../models/item/link.class';
+import { IRichTextHtmlParser } from '../parser';
 import { TypeResolverService } from './type-resolver.service';
 
 export class FieldMapService {
@@ -18,6 +19,7 @@ export class FieldMapService {
 
     constructor(
         private readonly config: DeliveryClientConfig,
+        private readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
         this.typeResolverService = new TypeResolverService(config);
     }
@@ -37,7 +39,7 @@ export class FieldMapService {
         if (!item.system) {
             throw Error(`Cannot map item because it does not contain system attributes. This is an essential field and every item should have one.`);
         }
-   
+
         if (!item.elements) {
             throw Error(`Cannot map elements of item with codename '${item.system.codename}'`);
         }
@@ -147,7 +149,7 @@ export class FieldMapService {
         // extract and map links
         const links: ILink[] = this.mapRichTextLinks(field.links);
 
-        return new Fields.RichTextField(field.name, field.value, modularItems, links, this.typeResolverService, this.config.enableAdvancedLogging, queryConfig);
+        return new Fields.RichTextField(this.richTextHtmlParser, field.name, field.value, modularItems, links, this.typeResolverService, this.config.enableAdvancedLogging, queryConfig);
     }
 
     private mapDateTimeField(field: FieldInterfaces.IField): Fields.DateTimeField {
@@ -159,7 +161,7 @@ export class FieldMapService {
     }
 
     private mapNumberField(field: FieldInterfaces.IField): Fields.NumberField {
-        return new Fields.NumberField(field.name,  field.value);
+        return new Fields.NumberField(field.name, field.value);
     }
 
     private mapTextField(field: FieldInterfaces.IField): Fields.TextField {
@@ -175,7 +177,7 @@ export class FieldMapService {
     }
 
     private mapUrlSlugField(field: FieldInterfaces.IField, item: IContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
-       const linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
+        const linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
 
         return new Fields.UrlSlugField(field.name, field.value, item, linkResolver, this.config.enableAdvancedLogging);
     }
@@ -225,7 +227,7 @@ export class FieldMapService {
     }
 
     private getLinkResolverForUrlSlugField(item: IContentItem, queryConfig: IItemQueryConfig): ((link: ILink) => string) | undefined {
-         // link resolver defined by the query config (= by calling method) has priority over type's global link resolver
+        // link resolver defined by the query config (= by calling method) has priority over type's global link resolver
         let linkResolver: ((value: ILink) => string) | undefined = undefined;
 
         if (queryConfig.linkResolver) {

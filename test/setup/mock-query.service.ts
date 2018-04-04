@@ -1,5 +1,5 @@
 import { QueryService } from '../../lib/services/query.service';
-import { DeliveryClientConfig, ISdkInfo } from '../../lib';
+import { DeliveryClientConfig, ISdkInfo, RichTextHtmlParser } from '../../lib';
 
 // fake ajax response
 import { fakeResponseFactory } from '../setup';
@@ -25,8 +25,8 @@ export class MockQueryService extends QueryService {
         protected httpService: IHttpService,
         protected sdkInfo: ISdkInfo
     ) {
-        super(config, httpService, sdkInfo)
-        this.responseMapService = new ResponseMapService(config);
+        super(config, httpService, sdkInfo, new RichTextHtmlParser())
+        this.responseMapService = new ResponseMapService(config, new RichTextHtmlParser);
     }
 
     mockGetSingleItem<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {

@@ -1,6 +1,7 @@
 import { DeliveryClientConfig } from '../config/delivery-client.config';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { packageId, repoHost, version } from '../library-version';
+import { RichTextHtmlParser } from '../parser';
 import { ElementQuery } from '../query/element/element-query.class';
 import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
 import { SingleItemQuery } from '../query/item/single-item-query.class';
@@ -28,7 +29,8 @@ export class DeliveryClient implements IDeliveryClient {
             host: repoHost,
             name: packageId,
             version: version
-        });
+        },
+            new RichTextHtmlParser());
     }
 
     /**

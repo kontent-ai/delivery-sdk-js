@@ -1,12 +1,13 @@
-import { FieldType } from './field-type';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { FieldInterfaces } from './field-interfaces';
-import { FieldModels } from './field-models';
+import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ILink } from '../interfaces/item/ilink.interface';
 import { Link } from '../models/item/link.class';
-import { RichTextResolver } from './rich-text-resolver.class';
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { IRichTextHtmlParser } from '../parser';
 import { TypeResolverService } from '../services/type-resolver.service';
+import { FieldInterfaces } from './field-interfaces';
+import { FieldModels } from './field-models';
+import { FieldType } from './field-type';
+import { RichTextResolver } from './rich-text-resolver.class';
 
 export namespace Fields {
 
@@ -117,6 +118,7 @@ export namespace Fields {
         /**
         * Represents rich text field of Kentico Cloud item
         * @constructor
+        * @param {IRichTextHtmlParser} richTextHtmlParser - Parser used for working with HTML elements
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
         * @param {IContentItem[]} modularItems - Modular items
@@ -126,6 +128,7 @@ export namespace Fields {
         * @param {IItemQueryConfig} itemQueryConfig - Item query config
         */
         constructor(
+            public richTextHtmlParser: IRichTextHtmlParser,
             public name: string,
             public value: any,
             public modularItems: IContentItem[],
@@ -143,7 +146,7 @@ export namespace Fields {
                 return this.resolvedHtml;
             }
 
-            const richTextHelper = new RichTextResolver(this.value, this.modularItems, this.links, this.typeResolverService, this.enableAdvancedLogging, this.itemQueryConfig)
+            const richTextHelper = new RichTextResolver(this.richTextHtmlParser, this.value, this.modularItems, this.links, this.typeResolverService, this.enableAdvancedLogging, this.itemQueryConfig)
             this.resolvedHtml = richTextHelper.resolveHtml();
 
             return this.resolvedHtml;

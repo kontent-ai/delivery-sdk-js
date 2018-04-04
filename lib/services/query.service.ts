@@ -18,6 +18,7 @@ import { ElementResponses } from '../models/element/responses';
 import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
+import { IRichTextHtmlParser } from '../parser';
 import { BaseResponse } from '../services/http/base-response.class';
 import { IHttpService } from './http/ihttp.service';
 import { ResponseMapService } from './response-map.service';
@@ -74,12 +75,16 @@ export class QueryService {
          * Information about the SDK
          * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
          */
-        protected sdkInfo: ISdkInfo
+        protected sdkInfo: ISdkInfo,
+        /**
+         * Used for manipulating with rich text HTML (required for Node / Browser support)
+         */
+        private readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
         if (!config) {
             throw Error(`Invalid configuration has been provided`);
         }
-        this.responseMapService = new ResponseMapService(config);
+        this.responseMapService = new ResponseMapService(config, richTextHtmlParser);
     }
 
     /**
