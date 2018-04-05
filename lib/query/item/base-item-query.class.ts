@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { DeliveryClientConfig } from '../../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { IHeader } from '../../interfaces/common/iheader.interface';
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../../interfaces/item/iitem-query.config';
@@ -12,14 +12,13 @@ import { BaseQuery } from '../common/base-query.class';
 
 export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> extends BaseQuery<TResponse> {
 
-
     protected _queryConfig?: IItemQueryConfig;
 
     constructor(
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
         protected queryService: QueryService
     ) {
-        super(config, queryService)
+        super(config, queryService);
     }
 
     /**
@@ -67,14 +66,7 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
         return this;
     }
 
-    private getQueryConfig(): IItemQueryConfig {
-        // use default config if none is provider
-        if (!this._queryConfig) {
-            return new ItemQueryConfig();
-        }
 
-        return this._queryConfig;
-    }
 
     protected getMultipleItemsQueryUrl(): string {
         const action = '/items';
@@ -115,5 +107,14 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
                 this.parameters.push(new Parameters.LanguageParameter(this.config.defaultLanguage));
             }
         }
+    }
+
+    private getQueryConfig(): IItemQueryConfig {
+        // use default config if none is provider
+        if (!this._queryConfig) {
+            return new ItemQueryConfig();
+        }
+
+        return this._queryConfig;
     }
 }

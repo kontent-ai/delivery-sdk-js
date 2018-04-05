@@ -1,4 +1,4 @@
-import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../config/delivery-client.config';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { packageId, repoHost, version } from '../library-version';
 import { RichTextHtmlParser } from '../parser';
@@ -20,17 +20,22 @@ export class DeliveryClient implements IDeliveryClient {
     /**
     * Delivery client used to fetch data from Kentico Cloud
     * @constructor
-    * @param {DeliveryClientConfig} config - The client configuration
+    * @param {IDeliveryClientConfig} config - The client configuration
     */
     constructor(
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
     ) {
+
+        if (!config) {
+            throw Error(`Please provide Delivery client configuration`);
+        }
+
         this.queryService = new QueryService(config, new HttpService(), {
             host: repoHost,
             name: packageId,
             version: version
         },
-            new RichTextHtmlParser());
+        new RichTextHtmlParser());
     }
 
     /**

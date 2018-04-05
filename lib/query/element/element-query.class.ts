@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { DeliveryClientConfig } from '../../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { ElementResponses } from '../../models/element/responses';
 import { QueryService } from '../../services/query.service';
 import { BaseElementQuery } from './base-element-query.class';
@@ -8,7 +8,7 @@ import { BaseElementQuery } from './base-element-query.class';
 export class ElementQuery extends BaseElementQuery<ElementResponses.ElementResponse> {
 
     constructor(
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
         private typeCodename: string,
         private elementCodename: string

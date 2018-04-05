@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { DeliveryClientConfig } from '../../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { IHeader } from '../../interfaces/common/iheader.interface';
 import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
 import { IContentTypeQueryConfig } from '../../interfaces/type/icontent-type-query.config';
@@ -15,7 +15,7 @@ export abstract class BaseTypeQuery<TResponse> extends BaseQuery<TResponse> {
     protected _queryConfig: IContentTypeQueryConfig = new ContentTypeQueryConfig();
 
     constructor(
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
         protected queryService: QueryService
     ) {
         super(config, queryService);

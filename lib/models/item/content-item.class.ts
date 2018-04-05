@@ -1,5 +1,5 @@
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';
-import { IContentItemSystemAttributes } from '../../interfaces/item/icontent-item-system-attributes.interface'
+import { IContentItemSystemAttributes } from '../../interfaces/item/icontent-item-system-attributes.interface';
 import { ILink } from '../../interfaces/item/ilink.interface';
 
 export class ContentItem implements IContentItem {

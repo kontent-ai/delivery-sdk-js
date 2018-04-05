@@ -1,4 +1,4 @@
-import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../config/delivery-client.config';
 import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
@@ -10,7 +10,7 @@ export class ItemMapper {
     private readonly fieldMapper: FieldMapper;
 
     constructor(
-        private readonly config: DeliveryClientConfig,
+        private readonly config: IDeliveryClientConfig,
         private readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
         this.fieldMapper = new FieldMapper(config, richTextHtmlParser);

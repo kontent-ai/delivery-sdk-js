@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { DeliveryClientConfig } from '../../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { Parameters } from '../../models/common/parameters';
 import { TaxonomyResponses } from '../../models/taxonomy/responses';
 import { QueryService } from '../../services/query.service';
@@ -9,10 +9,10 @@ import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
 export class TaxonomiesQuery extends BaseTaxonomyQuery<TaxonomyResponses.TaxonomiesResponse> {
 
     constructor(
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
         protected queryService: QueryService
     ) {
-        super(config, queryService)
+        super(config, queryService);
     }
 
      /**

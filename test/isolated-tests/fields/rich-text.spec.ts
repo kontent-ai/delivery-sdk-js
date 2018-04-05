@@ -1,8 +1,8 @@
 import {
     ContentItem,
     ContentItemSystemAttributes,
-    DeliveryClientConfig,
     Fields,
+    IDeliveryClientConfig,
     ILink,
     Link,
     RichTextHtmlParser,
@@ -27,14 +27,16 @@ class ActorMock extends ContentItem {
     }
 }
 
-// tests
 describe('RichTextField', () => {
     // prepare config & type resolver
     const typeResolvers: TypeResolver[] = [
         new TypeResolver('actor', () => new ActorMock())
     ];
 
-    const config: DeliveryClientConfig = new DeliveryClientConfig('fakeId', typeResolvers);
+    const config: IDeliveryClientConfig = {
+        projectId: '',
+        typeResolvers: typeResolvers
+    };
 
     // prepare modular items
     const modularItems: ActorMock[] = [];

@@ -1,4 +1,4 @@
-import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../config/delivery-client.config';
 import { FieldDecorators } from '../fields/field-decorators';
 import { FieldInterfaces } from '../fields/field-interfaces';
 import { FieldType } from '../fields/field-type';
@@ -13,7 +13,7 @@ import { stronglyTypedResolver } from '../resolvers';
 export class FieldMapper {
 
     constructor(
-        private readonly config: DeliveryClientConfig,
+        private readonly config: IDeliveryClientConfig,
         private readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
     }
@@ -51,7 +51,7 @@ export class FieldMapper {
         let itemTyped: TItem;
 
         // check if resolver for this type is available
-        if (stronglyTypedResolver.hasTypeResolver(item.system.type, this.config.typeResolvers)) {
+        if (this.config.typeResolvers && stronglyTypedResolver.hasTypeResolver(item.system.type, this.config.typeResolvers)) {
             itemTyped = stronglyTypedResolver.createTypedObj(item.system.type, item, this.config.typeResolvers) as TItem;
         } else {
             itemTyped = stronglyTypedResolver.createContentItem(item) as TItem;
@@ -144,10 +144,10 @@ export class FieldMapper {
         const links: ILink[] = this.mapRichTextLinks(field.links);
 
         return new Fields.RichTextField({
-            enableAdvancedLogging: this.config.enableAdvancedLogging,
+            enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
             value: field.value,
             name: field.name,
-            typeResolvers: this.config.typeResolvers,
+            typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
             richTextHtmlParser: this.richTextHtmlParser,
             modularItems: modularItems,
             links: links,
@@ -182,7 +182,7 @@ export class FieldMapper {
     private mapUrlSlugField(field: FieldInterfaces.IField, item: IContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
         const linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
 
-        return new Fields.UrlSlugField(field.name, field.value, item, linkResolver, this.config.enableAdvancedLogging);
+        return new Fields.UrlSlugField(field.name, field.value, item, linkResolver, this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false);
     }
 
     private mapModularField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: IContentItem[]): any {

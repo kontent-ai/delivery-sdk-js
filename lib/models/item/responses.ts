@@ -1,8 +1,7 @@
-import { IContentItem } from '../../interfaces/item/icontent-item.interface';
-import { IModularContent } from '../../interfaces/item/imodular-content.interface';
-import { IPagination } from '../../interfaces/common/ipagination.interface';
-import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
 import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
+import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
+import { IPagination } from '../../interfaces/common/ipagination.interface';
+import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 
 export namespace ItemResponses {
 
@@ -49,7 +48,7 @@ export namespace ItemResponses {
 
         private initFirstAndLastItem(): void {
             if (!this.items) {
-                return
+                return;
             }
 
             if (this.items.length < 1) {

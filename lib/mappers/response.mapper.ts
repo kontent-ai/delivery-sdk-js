@@ -1,5 +1,5 @@
 import { ElementMapper, ItemMapper, TaxonomyMapper } from '.';
-import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../config/delivery-client.config';
 import { ICloudResponseDebug } from '../interfaces/common/icloud-response-debug.interface';
 import { CloudElementResponseInterfaces } from '../interfaces/element/cloud-responses';
 import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
@@ -24,7 +24,7 @@ export class ResponseMapper {
     private readonly elementMapper: ElementMapper;
 
     constructor(
-        private readonly config: DeliveryClientConfig,
+        private readonly config: IDeliveryClientConfig,
         private readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
         this.typeMapper = new TypeMapper();

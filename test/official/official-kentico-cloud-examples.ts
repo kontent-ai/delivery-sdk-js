@@ -1,10 +1,11 @@
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import {
     ContentItem,
     DeliveryClient,
-    DeliveryClientConfig,
     ElementResponses,
+    IDeliveryClientConfig,
     ItemResponses,
     SortOrder,
     TaxonomyResponses,
@@ -12,7 +13,6 @@ import {
     TypeResponses,
 } from '../../lib';
 import { observableFactory } from '../setup';
-import { map } from 'rxjs/operators';
 
 class Article extends ContentItem {
 
@@ -26,7 +26,10 @@ describe('Official Kentico cloud examples (used in API reference https://develop
     const typeResolvers = [
         new TypeResolver('article', () => new Article())
     ];
-    const config = new DeliveryClientConfig('975bf280-fd91-488c-994c-2f04416e5ee3', typeResolvers);
+    const config: IDeliveryClientConfig = {
+        projectId: '975bf280-fd91-488c-994c-2f04416e5ee3',
+        typeResolvers: typeResolvers
+    };
     const deliveryClient = new DeliveryClient(config);
 
     /* ------------- Prepare responses ----------- */

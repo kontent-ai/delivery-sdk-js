@@ -1,6 +1,4 @@
-import {
-  DeliveryClient, TypeResolver, DeliveryClientConfig, IRichTextHtmlParser, RichTextHtmlParser
-} from '../../lib';
+import { DeliveryClient, IDeliveryClientConfig, IRichTextHtmlParser, RichTextHtmlParser, TypeResolver } from '../../lib';
 
 export class Context {
 
@@ -43,21 +41,19 @@ export class Context {
     }
   }
 
-  getConfig(): DeliveryClientConfig {
-    return new DeliveryClientConfig(
-      this.projectId,
-      this.typeResolvers,
-      {
-        enableAdvancedLogging: this.enableAdvancedLogging,
-        enablePreviewMode: this.usePreviewMode,
-        previewApiKey: this.previewApiKey,
-        defaultLanguage: this.defaultLanguage,
-        baseUrl: this.baseUrl,
-        basePreviewUrl: this.basePreviewUrl,
-        enableSecuredMode: this.useSecuredMode,
-        securedApiKey: this.securedApiKey,
-        retryAttempts: this.retryAttempts,
-      }
-    );
+  getConfig(): IDeliveryClientConfig {
+    return {
+      projectId: this.projectId,
+      typeResolvers: this.typeResolvers,
+      enableAdvancedLogging: this.enableAdvancedLogging,
+      enablePreviewMode: this.usePreviewMode,
+      previewApiKey: this.previewApiKey,
+      defaultLanguage: this.defaultLanguage,
+      baseUrl: this.baseUrl,
+      basePreviewUrl: this.basePreviewUrl,
+      enableSecuredMode: this.useSecuredMode,
+      securedApiKey: this.securedApiKey,
+      retryAttempts: this.retryAttempts,
+    };
   }
 }

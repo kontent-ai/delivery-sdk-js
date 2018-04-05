@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { DeliveryClientConfig } from '../../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { TypeResponses } from '../../models/type/responses';
 import { QueryService } from '../../services/query.service';
 import { BaseTypeQuery } from './base-type-query.class';
@@ -8,7 +8,7 @@ import { BaseTypeQuery } from './base-type-query.class';
 export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeResponse> {
 
     constructor(
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
         private typeCodename: string
     ) {

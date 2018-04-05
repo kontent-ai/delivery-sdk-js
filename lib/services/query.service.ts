@@ -1,7 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen } from 'rxjs/operators';
 
-import { DeliveryClientConfig } from '../config';
+import { IDeliveryClientConfig } from '../config';
 import { IHeader } from '../interfaces/common/iheader.interface';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { IQueryConfig } from '../interfaces/common/iquery.config';
@@ -64,7 +64,7 @@ export class QueryService {
         /**
          * Delivery client configuration
          */
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
         /**
          * Http service for fetching data
          */

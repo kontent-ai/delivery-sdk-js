@@ -1,4 +1,4 @@
-import { DeliveryClient, DeliveryClientConfig, TypeResolver } from '../../lib';
+import { DeliveryClient, IDeliveryClientConfig, TypeResolver } from '../../lib';
 import { Actor, Movie } from '../setup';
 import { Context } from './context';
 
@@ -41,7 +41,9 @@ export function setup(context: Context) {
         typeResolvers = context.typeResolvers;
     }
 
-    const deliveryClientConfig: DeliveryClientConfig = new DeliveryClientConfig(projectId, typeResolvers, {
+    const deliveryClientConfig: IDeliveryClientConfig = {
+        projectId: projectId,
+        typeResolvers: typeResolvers,
         previewApiKey: previewApiKey,
         enablePreviewMode: context.usePreviewMode,
         defaultLanguage: context.defaultLanguage,
@@ -51,7 +53,7 @@ export function setup(context: Context) {
         enableSecuredMode: context.useSecuredMode,
         retryAttempts: context.retryAttempts,
         enableAdvancedLogging: context.enableAdvancedLogging
-    });
+    };
 
     // set context
     context.projectId = projectId;

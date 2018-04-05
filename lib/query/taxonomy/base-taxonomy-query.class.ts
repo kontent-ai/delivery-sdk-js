@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { DeliveryClientConfig } from '../../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { IHeader } from '../../interfaces/common/iheader.interface';
 import { ITaxonomyQueryConfig } from '../../interfaces/taxonomy/itaxonomy-query.config';
 import { TaxonomyResponses } from '../../models/taxonomy/responses';
@@ -21,10 +21,10 @@ export abstract class BaseTaxonomyQuery<TResponse> extends BaseQuery<TResponse> 
     protected _queryConfig: ITaxonomyQueryConfig = new TaxonomyQueryConfig();
 
     constructor(
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
         protected queryService: QueryService
     ) {
-        super(config, queryService)
+        super(config, queryService);
     }
 
     /**

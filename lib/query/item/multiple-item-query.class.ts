@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { DeliveryClientConfig } from '../../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { Filters } from '../../models/common/filters';
 import { Parameters } from '../../models/common/parameters';
@@ -12,13 +12,11 @@ import { BaseItemQuery } from './base-item-query.class';
 export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemListingResponse<TItem>> {
 
     constructor(
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
         protected queryService: QueryService
     ) {
-        super(config, queryService)
+        super(config, queryService);
     }
-
-    // type
 
     /**
      * Gets only item of given type

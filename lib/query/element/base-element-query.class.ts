@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { DeliveryClientConfig } from '../../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { IHeader } from '../../interfaces/common/iheader.interface';
 import { IElementQueryConfig } from '../../interfaces/element/ielement-query.config';
 import { ElementQueryConfig } from '../../models/element/element-query.config';
@@ -13,10 +13,10 @@ export abstract class BaseElementQuery<TResponse> extends BaseQuery<TResponse> {
     protected _queryConfig: IElementQueryConfig = new ElementQueryConfig();
 
     constructor(
-        protected config: DeliveryClientConfig,
+        protected config: IDeliveryClientConfig,
         protected queryService: QueryService
     ) {
-        super(config, queryService)
+        super(config, queryService);
     }
 
     /**
