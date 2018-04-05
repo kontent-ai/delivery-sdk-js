@@ -94,31 +94,31 @@ export class FieldMapService {
     }
 
     private mapField(field: FieldInterfaces.IField, modularContent: any, item: IContentItem, queryConfig: IItemQueryConfig, processedItems: IContentItem[]): any {
-        if (field.type.toString() === FieldType.modular_content.toString()) {
+        const fieldType = field.type.toLowerCase();
+
+        if (fieldType === FieldType.ModularContent.toString()) {
             return this.mapModularField(field, modularContent, queryConfig, processedItems);
-        } else if (field.type.toString() === FieldType.text.toString()) {
+        } else if (fieldType === FieldType.Text.toLowerCase()) {
             return this.mapTextField(field);
-        } else if (field.type.toString() === FieldType.asset.toString()) {
+        } else if (fieldType === FieldType.Asset.toLowerCase()) {
             return this.mapAssetsField(field);
-        } else if (field.type.toString() === FieldType.number.toString()) {
+        } else if (fieldType === FieldType.Number.toLowerCase()) {
             return this.mapNumberField(field);
-        } else if (field.type.toString() === FieldType.multiple_choice.toString()) {
+        } else if (fieldType === FieldType.MultipleChoice.toLowerCase()) {
             return this.mapMultipleChoiceField(field);
-        } else if (field.type.toString() === FieldType.datetime.toString()) {
+        } else if (fieldType === FieldType.DateTime.toLowerCase()) {
             return this.mapDateTimeField(field);
-        } else if (field.type.toString() === FieldType.rich_text.toString()) {
+        } else if (fieldType === FieldType.RichText.toLowerCase()) {
             return this.mapRichTextField(field as FieldInterfaces.IRichTextField, modularContent, queryConfig, processedItems);
-        } else if (field.type.toString() === FieldType.url_slug.toString()) {
+        } else if (fieldType === FieldType.UrlSlug.toLowerCase()) {
             return this.mapUrlSlugField(field, item, queryConfig);
-        } else if (field.type.toString() === FieldType.taxonomy.toString()) {
+        } else if (fieldType === FieldType.Taxonomy.toLowerCase()) {
             return this.mapTaxonomyField(field);
-        } else {
-            const err = `Unsupported field type '${field.type}'`
-            if (this.config.enableAdvancedLogging) {
-                console.warn(err, field);
-            }
-            throw Error(err)
         }
+
+        const error = `Unsupported field type '${field.type}'`;
+
+        throw Error(error);
     }
 
     private mapRichTextField(field: FieldInterfaces.IRichTextField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: IContentItem[]): Fields.RichTextField {
@@ -205,7 +205,7 @@ export class FieldMapService {
 
             if (!modularItem) {
                 if (this.config.enableAdvancedLogging) {
-                    console.warn(`Cannot map '${field.name}' modular content item. Make sure you use 'DepthParameter' in case your modular content is nested.`)
+                    console.warn(`Cannot map '${field.name}' modular content item. Make sure you use 'DepthParameter' in case your modular content is nested.`);
                 }
             }
 
@@ -221,7 +221,7 @@ export class FieldMapService {
                     processedItem = newModularItem;
                 }
             }
-        })
+        });
 
         return modularContentItems;
     }

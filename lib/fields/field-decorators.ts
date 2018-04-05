@@ -6,7 +6,7 @@ export namespace FieldDecorators {
 
   const generateKey = (name: string) => {
     return `${codenameMetadataKey.toString()}:${name}`;
-  }
+  };
 
   /**
    * Get the metadata entry saved by the decorator
@@ -24,7 +24,7 @@ export namespace FieldDecorators {
    */
   export function codename(value: string) {
     return function (target: any, propertyKey: string) {
-      Reflect.defineMetadata(generateKey(value), propertyKey, target)
-    }
+      Reflect.defineMetadata(generateKey(value), propertyKey, target);
+    };
   }
 }

@@ -21,7 +21,7 @@ export namespace Fields {
         /**
         * Type of the field
         */
-        public type: FieldType = FieldType.text;
+        public type: FieldType = FieldType.Text;
 
         /**
         * Represents text field of Kentico Cloud item
@@ -34,7 +34,7 @@ export namespace Fields {
             public value: any
         ) {
             this.text = this.value;
-        };
+        }
     }
 
     export class MultipleChoiceField implements FieldInterfaces.IField {
@@ -47,7 +47,7 @@ export namespace Fields {
         /**
         * Type of the field
         */
-        public type: FieldType = FieldType.multiple_choice;
+        public type: FieldType = FieldType.MultipleChoice;
 
         /**
         * Represents multiple choice field of Kentico Cloud item
@@ -68,7 +68,7 @@ export namespace Fields {
                     ));
                 });
             }
-        };
+        }
     }
 
 
@@ -82,7 +82,7 @@ export namespace Fields {
         /**
         * Type of the field
         */
-        public type: FieldType = FieldType.datetime;
+        public type: FieldType = FieldType.DateTime;
 
         /**
         * Represents date time field of Kentico Cloud item
@@ -95,20 +95,20 @@ export namespace Fields {
             public value: any
         ) {
             this.datetime = new Date(value);
-        };
+        }
     }
 
     export class RichTextField implements FieldInterfaces.IField {
 
         /**
-        * Type of the field
+        * Resolved html in field - store here once the html was resolved to avoid resolving it multiple times
         */
-        public type: FieldType = FieldType.rich_text;
+        private resolvedHtml: string;
 
         /**
-         * Resolved html in field - store here once the html was resolved to avoid resolving it multiple times
-         */
-        private resolvedHtml: string;
+        * Type of the field
+        */
+        public type: FieldType = FieldType.RichText;
 
         /**
         * List of modular content items used in this rich text field
@@ -138,7 +138,7 @@ export namespace Fields {
             public itemQueryConfig: IItemQueryConfig
         ) {
             this.items = modularItems;
-        };
+        }
 
         getHtml(): string {
             // check if html was already resolved
@@ -146,7 +146,7 @@ export namespace Fields {
                 return this.resolvedHtml;
             }
 
-            const richTextHelper = new RichTextResolver(this.richTextHtmlParser, this.value, this.modularItems, this.links, this.typeResolverService, this.enableAdvancedLogging, this.itemQueryConfig)
+            const richTextHelper = new RichTextResolver(this.richTextHtmlParser, this.value, this.modularItems, this.links, this.typeResolverService, this.enableAdvancedLogging, this.itemQueryConfig);
             this.resolvedHtml = richTextHelper.resolveHtml();
 
             return this.resolvedHtml;
@@ -158,7 +158,7 @@ export namespace Fields {
         /**
         * Type of the field
         */
-        public type: FieldType = FieldType.number;
+        public type: FieldType = FieldType.Number;
 
         /**
         * Number value of this field
@@ -176,7 +176,7 @@ export namespace Fields {
             public value: any
         ) {
             this.number = value;
-        };
+        }
     }
 
     export class AssetsField implements FieldInterfaces.IField {
@@ -184,7 +184,7 @@ export namespace Fields {
         /**
         * Type of the field
         */
-        public type: FieldType = FieldType.asset;
+        public type: FieldType = FieldType.Asset;
 
         /**
         * List of assets used in this field
@@ -219,7 +219,7 @@ export namespace Fields {
                     assetTemp.url
                 ));
             });
-        };
+        }
     }
 
     export class UrlSlugField implements FieldInterfaces.IField {
@@ -227,7 +227,7 @@ export namespace Fields {
         /**
         * Type of the field
         */
-        public type: FieldType = FieldType.url_slug;
+        public type: FieldType = FieldType.UrlSlug;
 
         /**
         * Represents URL slug field of Kentico Cloud item
@@ -245,7 +245,7 @@ export namespace Fields {
             public linkResolver: ((link: ILink) => string) | undefined,
             public enableAdvancedLogging: boolean
         ) {
-        };
+        }
 
         getUrl(): string | null {
             if (!this.linkResolver) {
@@ -283,7 +283,7 @@ export namespace Fields {
         /**
         * Type of the field
         */
-        public type: FieldType = FieldType.taxonomy;
+        public type: FieldType = FieldType.Taxonomy;
 
         /**
         * List of assigned taxonomy terms
@@ -316,5 +316,5 @@ export namespace Fields {
                 this.taxonomyTerms.push(new FieldModels.TaxonomyTerm(term.name, term.codename));
             });
         }
-    };
+    }
 }

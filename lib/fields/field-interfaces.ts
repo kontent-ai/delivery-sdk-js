@@ -4,7 +4,7 @@ export namespace FieldInterfaces {
 
     export interface IField {
         name: string;
-        type: FieldType;
+        type: string;
         value: any;
         taxonomy_group?: string;
     }
