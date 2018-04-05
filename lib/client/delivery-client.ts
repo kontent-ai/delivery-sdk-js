@@ -1,6 +1,6 @@
 import { IDeliveryClientConfig } from '../config/delivery-client.config';
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { packageId, repoHost, version } from '../library-version';
+import { ContentItem } from '../models/item/content-item.class';
 import { RichTextHtmlParser } from '../parser';
 import { ElementQuery } from '../query/element/element-query.class';
 import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
@@ -30,12 +30,13 @@ export class DeliveryClient implements IDeliveryClient {
             throw Error(`Please provide Delivery client configuration`);
         }
 
-        this.queryService = new QueryService(config, new HttpService(), {
-            host: repoHost,
-            name: packageId,
-            version: version
-        },
-        new RichTextHtmlParser());
+        this.queryService = new QueryService(config,
+            new HttpService(),
+            new RichTextHtmlParser(), {
+                host: repoHost,
+                name: packageId,
+                version: version
+            });
     }
 
     /**
@@ -57,7 +58,7 @@ export class DeliveryClient implements IDeliveryClient {
     /**
     * Gets query for multiple items
     */
-    items<TItem extends IContentItem>(): MultipleItemQuery<TItem> {
+    items<TItem extends ContentItem>(): MultipleItemQuery<TItem> {
         return new MultipleItemQuery<TItem>(this.config, this.queryService);
     }
 
@@ -65,7 +66,7 @@ export class DeliveryClient implements IDeliveryClient {
     * Gets query for single item
     * @param {string} codename - Codename of item to fetch
     */
-    item<TItem extends IContentItem>(codename: string): SingleItemQuery<TItem> {
+    item<TItem extends ContentItem>(codename: string): SingleItemQuery<TItem> {
         return new SingleItemQuery<TItem>(this.config, this.queryService, codename);
     }
 
@@ -73,14 +74,14 @@ export class DeliveryClient implements IDeliveryClient {
     * Gets query for single taxonomy
     * @param {string} codename - Codename of taxonomy to fetch
     */
-    taxonomy<TItem extends IContentItem>(codename: string): TaxonomyQuery {
+    taxonomy(codename: string): TaxonomyQuery {
         return new TaxonomyQuery(this.config, this.queryService, codename);
     }
 
     /**
     * Gets query for multiple taxonomies
     */
-    taxonomies<TItem extends IContentItem>(): TaxonomiesQuery {
+    taxonomies(): TaxonomiesQuery {
         return new TaxonomiesQuery(this.config, this.queryService);
     }
 

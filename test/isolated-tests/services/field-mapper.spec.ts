@@ -1,4 +1,4 @@
-import { ContentItem } from '../../../lib';
+import { ItemContracts } from '../../../lib';
 import { FieldInterfaces } from '../../../lib/fields/field-interfaces';
 import { FieldType } from '../../../lib/fields/field-type';
 import { FieldMapper } from '../../../lib/mappers';
@@ -17,9 +17,9 @@ describe('FieldMapper', () => {
         }
     }
 
-    class FakeContentItem extends ContentItem {
-        public testField: FakeField;
-        public elements: any;
+    interface FakeContentItem extends ItemContracts.IContentItemContract {
+        testField?: FakeField;
+        elements: any;
     }
 
     const context = new Context();
@@ -32,34 +32,48 @@ describe('FieldMapper', () => {
         expect(() => fieldMapper.mapFields(undefined, undefined, undefined, undefined)).toThrowError();
 
         expect(() => {
-            const item = new FakeContentItem();
-            item.elements = {};
+            const item: FakeContentItem = {
+                elements: {},
+                system: {} as any
+            };
             fieldMapper.mapFields(item, undefined, undefined, undefined);
-        } ).toThrowError();
+        }).toThrowError();
 
         expect(() => {
-            const item = new FakeContentItem();
-            item.system = {} as any;
+            const item: FakeContentItem = {
+                elements: {},
+                system: {} as any
+            };
             fieldMapper.mapFields(item, undefined, undefined, undefined);
-        } ).toThrowError();
+        }).toThrowError();
 
         expect(() => {
-            const item = new FakeContentItem();
-            item.system = {} as any;
+            const item: FakeContentItem = {
+                elements: {},
+                system: {} as any
+            };
             fieldMapper.mapFields(item, {}, {}, undefined);
-        } ).toThrowError();
+        }).toThrowError();
 
     });
 
     it(`should throw an Error when unsupported field type is used`, () => {
         const fakeField = new FakeField('testField', 'testValue');
 
-        const fakeItem = new FakeContentItem();
-        fakeItem.elements = { 'testField': fakeField };
-        fakeItem.system = {} as any;
-        fakeItem.system.type = 'movie';
-        fakeItem.system.codename = 'cd';
-        expect(() => fieldMapper.mapFields(fakeItem, {}, {}, [])).toThrowError(`Unsupported field type '${fieldType}'`);
+        const item: FakeContentItem = {
+            elements: { 'testField': fakeField },
+            system: {
+                type: 'movie',
+                codename: 'cd',
+                id: '',
+                last_modified: new Date(),
+                name: 'name',
+                sitemap_locations: [],
+                language: 'en'
+            }
+        };
+
+        expect(() => fieldMapper.mapFields(item, {}, {}, [])).toThrowError(`Unsupported field type '${fieldType}'`);
     });
 });
 

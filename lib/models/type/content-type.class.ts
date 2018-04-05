@@ -1,17 +1,24 @@
-import { IElement } from '../../interfaces/element/ielement.interface';
-import { IContentTypeSystemAttributes } from '../../interfaces/type/icontent-type-system-attributes.interface';
-import { IContentType } from '../../interfaces/type/icontent-type.interface';
+import { ContentTypeSystemAttributes } from './content-type-system-attributes.class';
+import { Element } from '../element/element.class';
 
-export class ContentType implements IContentType {
+export class ContentType {
+
+    /**
+    * Content type system attributes
+    */
+    public system: ContentTypeSystemAttributes;
+
+    /**
+    * Elements (fields) assigned to content type
+    */
+    public elements: Element[];
+
     constructor(
-        /**
-         * Content type system attributes
-         */
-        public system: IContentTypeSystemAttributes,
-
-        /**
-         * Elements (fields) assigned to content type
-         */
-        public elements: IElement[]
-    ) { }
+        data: {
+            system: ContentTypeSystemAttributes,
+            elements: Element[]
+        }
+    ) {
+        Object.assign(this, data);
+    }
 }

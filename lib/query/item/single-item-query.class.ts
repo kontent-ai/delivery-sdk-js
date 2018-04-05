@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { IContentItem } from '../../interfaces/item/icontent-item.interface';
+import { ContentItem } from '../../models/item/content-item.class';
 import { ItemResponses } from '../../models/item/responses';
 import { QueryService } from '../../services/query.service';
 import { BaseItemQuery } from './base-item-query.class';
 
-export class SingleItemQuery<TItem extends IContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemResponse<TItem>> {
+export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemResponse<TItem>> {
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -20,16 +20,16 @@ export class SingleItemQuery<TItem extends IContentItem> extends BaseItemQuery<T
         }
     }
 
-     /**
-     * Gets the runnable Observable
-     */
+    /**
+    * Gets the runnable Observable
+    */
     get(): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return super.runSingleItemQuery(this.codename);
     }
 
-     /**
-     * Gets 'Url' representation of query
-     */
+    /**
+    * Gets 'Url' representation of query
+    */
     toString(): string {
         return super.getSingleItemQueryUrl(this.codename);
     }

@@ -1,6 +1,6 @@
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { ILink } from '../interfaces/item/ilink.interface';
+import { ContentItem } from '../models/item/content-item.class';
+import { Link } from '../models/item/link.class';
 import { TypeResolver } from '../models/item/type-resolver.class';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 import { stronglyTypedResolver } from '../resolvers';
@@ -35,8 +35,8 @@ export class RichTextResolver {
     public richTextHtmlParser: IRichTextHtmlParser;
     public typeResolvers: TypeResolver[];
     public html: string;
-    public modularItems: IContentItem[];
-    public links: ILink[];
+    public modularItems: ContentItem[];
+    public links: Link[];
     public enableAdvancedLogging: boolean;
     public queryConfig: IItemQueryConfig;
 
@@ -46,8 +46,8 @@ export class RichTextResolver {
     * @param {IRichTextHtmlParser} richTextHtmlParser - Parser used for working with HTML elements
     * @param {TypeResolver[]} typeResolvers - Type reseolvers
     * @param {string} html - html to resolve
-    * @param {IContentItem[]} modularItems - modular items
-    * @param {ILink[]} links - links
+    * @param {ContentItem[]} modularItems - modular items
+    * @param {Link[]} links - links
     * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
     * @param {IItemQueryConfig} queryConfig - Query configuration
     */
@@ -56,8 +56,8 @@ export class RichTextResolver {
             richTextHtmlParser: IRichTextHtmlParser,
             typeResolvers: TypeResolver[],
             html: string,
-            modularItems: IContentItem[],
-            links: ILink[],
+            modularItems: ContentItem[],
+            links: Link[],
             enableAdvancedLogging: boolean,
             queryConfig: IItemQueryConfig,
         }
@@ -100,7 +100,7 @@ export class RichTextResolver {
         // create new replacement object
 
         // get html to replace object using Rich text resolver function
-        let resolver: (<TItem extends IContentItem>(item: TItem) => string) | null = null;
+        let resolver: (<TItem extends ContentItem>(item: TItem) => string) | null = null;
         if (config.queryConfig.richTextResolver) {
             // use resolved defined by query if available
             resolver = config.queryConfig.richTextResolver;
@@ -112,7 +112,7 @@ export class RichTextResolver {
         }
 
         // check resolver
-        if (resolver == null) {
+        if (!resolver) {
             if (config.enableAdvancedLogging) {
                 console.warn(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
                 return '';
@@ -147,7 +147,7 @@ export class RichTextResolver {
             // url was not resolved, try to find global resolver for this particular type
             // and apply its url resolver
 
-            const emptyTypeItem = stronglyTypedResolver.createEmptyTypedObj<IContentItem>(link.type, this.typeResolvers);
+            const emptyTypeItem = stronglyTypedResolver.createEmptyTypedObj<ContentItem>(link.type, this.typeResolvers);
 
             if (!emptyTypeItem) {
                 throw Error(`Cannot resolve link for '${link.type}' type because mapping failed (have you registered this type in your config?)`);

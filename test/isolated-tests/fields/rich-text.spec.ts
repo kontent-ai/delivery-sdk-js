@@ -3,7 +3,6 @@ import {
     ContentItemSystemAttributes,
     Fields,
     IDeliveryClientConfig,
-    ILink,
     Link,
     RichTextHtmlParser,
     TypeResolver,
@@ -20,9 +19,18 @@ class ActorMock extends ContentItem {
 
     setProperties(id: string, codename: string, firstName: string) {
         this.firstName = new Fields.TextField('firstName', firstName);
-        this.system = new ContentItemSystemAttributes(id, 'name', codename, 'actor', null, 'en', []);
-        this.url = new Fields.UrlSlugField('url', codename, this, (link: ILink) => {
-            return `/actor-rt/` + link.url_slug;
+        this.system = new ContentItemSystemAttributes({
+            id: id,
+            name: 'name',
+            codename: codename,
+            type: 'actor',
+            sitemapLocations: [],
+            language: 'en',
+            lastModified: new Date()
+        });
+
+        this.url = new Fields.UrlSlugField('url', codename, this, (link: Link) => {
+            return `/actor-rt/` + link.urlSlug;
         }, true);
     }
 }
@@ -51,9 +59,19 @@ describe('RichTextField', () => {
     joelEdgerton.setProperties(joelEdgertonId, 'joel_edgerton', 'Joel');
 
     // prepare links
-    const links: ILink[] = [
-        new Link(tomHardy.system.id, tomHardy.system.codename, tomHardy.system.type, 'slug_for_tom'),
-        new Link(joelEdgerton.system.id, joelEdgerton.system.codename, joelEdgerton.system.type, 'slug_for_joel')
+    const links: Link[] = [
+        new Link({
+            itemId: tomHardy.system.id,
+            codename: tomHardy.system.codename,
+            type: tomHardy.system.type,
+            urlSlug: 'slug_for_tom'
+        }),
+        new Link({
+            itemId: joelEdgerton.system.id,
+            codename: joelEdgerton.system.codename,
+            type: joelEdgerton.system.type,
+            urlSlug: 'slug_for_joel'
+        })
     ];
 
     modularItems.push(tomHardy);
@@ -78,7 +96,7 @@ describe('RichTextField', () => {
                 richTextResolver: (item: ActorMock) => {
                     return `<p class="testing_richtext">${item.firstName.text}</p>`;
                 },
-                linkResolver: (link: ILink) => '/actor-rt/' + link.url_slug
+                linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
             },
     });
 
@@ -126,7 +144,7 @@ describe('RichTextField', () => {
             enableAdvancedLogging: false,
             itemQueryConfig: {
                 richTextResolver: null,
-                linkResolver: (link: ILink) => '/actor-rt/' + link.url_slug
+                linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
             }
         });
 

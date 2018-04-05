@@ -1,4 +1,4 @@
-export interface IPagination {
+export interface IPaginationContract {
     skip: number;
     limit: number;
     count: number;

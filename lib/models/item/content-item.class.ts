@@ -1,13 +1,12 @@
-import { IContentItem } from '../../interfaces/item/icontent-item.interface';
-import { IContentItemSystemAttributes } from '../../interfaces/item/icontent-item-system-attributes.interface';
-import { ILink } from '../../interfaces/item/ilink.interface';
+import { ContentItemSystemAttributes } from './content-item-system-attributes';
+import { Link } from './link.class';
 
-export class ContentItem implements IContentItem {
+export class ContentItem {
 
     /**
      * Content item system elements
      */
-    public system: IContentItemSystemAttributes;
+    public system: ContentItemSystemAttributes;
 
     /**
      * Elements of the item
@@ -23,21 +22,21 @@ export class ContentItem implements IContentItem {
     /**
      *  Callback used to resolve links or URL slug fields
      */
-    public linkResolver?: (link: ILink) => string;
+    public linkResolver?: (link: Link) => string;
 
     /**
     * Callback used to resolve modular content in rich text fields to HTML
     */
-    public richTextModularResolver?: (contentItem: IContentItem) => string;
+    public richTextResolver?: (contentItem: ContentItem) => string;
 
     /**
     * Base class representing content item type. All content type models need to extend this class.
     * @constructor
     * @param {(fieldName: string) => string} propertyResolver - Callback used to bind fields returned from Kentico Cloud to a model property. Common usage is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
-    * @param {(link: ILink) => string} linkResolver - Callback used to resolve links or URL slug fields
-    * @param {(contentItem: IContentItem) => string} richTextResolver - Callback used to resolve modular content in rich text fields to HTML
+    * @param {(link: Link) => string} linkResolver - Callback used to resolve links or URL slug fields
+    * @param {(contentItem: ContentItem) => string} richTextResolver - Callback used to resolve modular content in rich text fields to HTML
     */
-    constructor(public options?: {
+    constructor(public data?: {
         /**
          * Callback used to bind fields returned from Kentico Cloud to a model property.
          * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
@@ -47,15 +46,15 @@ export class ContentItem implements IContentItem {
         /**
          *  Callback used to resolve links or URL slug fields
          */
-        linkResolver?: (link: ILink) => string,
+        linkResolver?: (link: Link) => string,
 
         /**
          * Callback used to resolve modular content in rich text fields to HTML
          */
-        richTextResolver?: (contentItem: IContentItem) => string;
+        richTextResolver?: (contentItem: ContentItem) => string;
     }) {
-        if (options) {
-            Object.assign(this, options);
+        if (data) {
+            Object.assign(this, data);
         }
     }
 }

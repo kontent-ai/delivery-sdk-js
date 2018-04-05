@@ -1,23 +1,19 @@
+import { ElementContracts } from '../data-contracts';
 import { Element } from '../models/element/element.class';
-import { CloudElementResponseInterfaces } from '../interfaces/element/cloud-responses';
 
 export class ElementMapper {
 
-    constructor(
-    ) {
-    }
-
-    mapElement(response: CloudElementResponseInterfaces.ICloudElementResponse): Element {
+    mapElement(response: ElementContracts.IElementResponseContract): Element {
         if (!response) {
             throw Error(`Invalid response for mapping element`);
         }
 
-        return new Element(
-            response.codename,
-            response.type,
-            response.name,
-            response.taxonomy_group,
-            response.options
-        );
+        return new Element({
+            codename: response.codename,
+            name: response.name,
+            type: response.type,
+            options: response.options,
+            taxonomyGroup: response.taxonomy_group
+        });
     }
 }

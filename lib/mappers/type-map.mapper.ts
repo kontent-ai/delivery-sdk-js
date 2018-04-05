@@ -1,6 +1,4 @@
-import { IElementOption } from '../interfaces/element/ielement-option.interface';
-import { CloudTypeResponseInterfaces } from '../interfaces/type/cloud-responses';
-import { IContentType } from '../interfaces/type/icontent-type.interface';
+import { IElementOptionContract, TypeContracts } from '../data-contracts';
 import { ElementOption } from '../models/element/element-option.class';
 import { Element } from '../models/element/element.class';
 import { ContentTypeSystemAttributes } from '../models/type/content-type-system-attributes.class';
@@ -8,18 +6,18 @@ import { ContentType } from '../models/type/content-type.class';
 
 export class TypeMapper {
 
-    mapSingleType(response: CloudTypeResponseInterfaces.ICloudSingleTypeResponse): ContentType {
-        return this.mapType(response as IContentType);
+    mapSingleType(response: TypeContracts.ITypeResponseContract): ContentType {
+        return this.mapType(response as TypeContracts.IContentTypeContract);
     }
 
-    mapMultipleTypes(response: CloudTypeResponseInterfaces.ICloudMultipleTypeResponse): ContentType[] {
+    mapMultipleTypes(response: TypeContracts.ITypesResponseContract): ContentType[] {
         const that = this;
         return response.types.map(function (type) {
             return that.mapType(type);
         });
     }
 
-    private mapType(type: IContentType): ContentType {
+    private mapType(type: TypeContracts.IContentTypeContract): ContentType {
         if (!type) {
             throw Error(`Cannot map type`);
         }
@@ -28,18 +26,18 @@ export class TypeMapper {
             throw Error(`Cannot map type elements`);
         }
 
-        const typeSystem = new ContentTypeSystemAttributes(
-            type.system.id,
-            type.system.name,
-            type.system.codename,
-            type.system.last_modified
-        );
+        const typeSystem = new ContentTypeSystemAttributes({
+            codename: type.system.codename,
+            id: type.system.id,
+            name: type.system.name,
+            lastModified: type.system.last_modified
+        });
 
         const elements: Element[] = [];
 
         const elementNames = Object.getOwnPropertyNames(type.elements);
         elementNames.forEach(elementName => {
-            const typeElement = type.elements[elementName] as CloudTypeResponseInterfaces.IContentTypeElementCloudResponse;
+            const typeElement = type.elements[elementName] as TypeContracts.IContentTypeElementContract;
 
             if (!typeElement) {
                 throw Error(`Cannot find element '${elementName}' on type '${type}'`);
@@ -50,7 +48,7 @@ export class TypeMapper {
 
             // extra properties for certain field types
             const taxonomyGroup: string | undefined = typeElement.taxonomy_group;
-            const options: IElementOption[] = [];
+            const options: IElementOptionContract[] = [];
 
             // some elements can contain options
             const rawOptions = typeElement.options;
@@ -64,9 +62,18 @@ export class TypeMapper {
                 });
             }
 
-            elements.push(new Element(elementCodename, typeElement.type, typeElement.name, taxonomyGroup, options));
+            elements.push(new Element({
+                codename: elementCodename,
+                taxonomyGroup: taxonomyGroup,
+                options: options,
+                name: typeElement.name,
+                type: typeElement.type
+            }));
         });
-        return new ContentType(typeSystem, elements);
+        return new ContentType({
+            system: typeSystem,
+            elements: elements
+        });
     }
 
 }

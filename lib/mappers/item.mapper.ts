@@ -1,9 +1,9 @@
 import { IDeliveryClientConfig } from '../config/delivery-client.config';
-import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
+import { ItemContracts } from '../data-contracts';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { FieldMapper } from '../mappers';
+import { ContentItem } from '../models/item/content-item.class';
 import { IRichTextHtmlParser } from '../parser';
-import { FieldMapper } from './field.mapper';
 
 export class ItemMapper {
 
@@ -21,7 +21,7 @@ export class ItemMapper {
      * @param response Cloud response used to map the item
      * @param queryConfig Query configuration
      */
-    mapSingleItem<TItem extends IContentItem>(response: CloudItemResponseInterfaces.ICloudResponseSingle, queryConfig: IItemQueryConfig): TItem {
+    mapSingleItem<TItem extends ContentItem>(response: ItemContracts.IItemResponseContract, queryConfig: IItemQueryConfig): TItem {
         return this.mapItem<TItem>(response.item, response.modular_content, queryConfig);
     }
 
@@ -30,7 +30,7 @@ export class ItemMapper {
     * @param response Cloud response used to map the item
     * @param queryConfig Query configuration
     */
-    mapMultipleItems<TItem extends IContentItem>(response: CloudItemResponseInterfaces.ICloudResponseMultiple, queryConfig: IItemQueryConfig): TItem[] {
+    mapMultipleItems<TItem extends ContentItem>(response: ItemContracts.IItemsResponseContract, queryConfig: IItemQueryConfig): TItem[] {
         const that = this;
 
         return response.items.map(function (item) {
@@ -38,7 +38,7 @@ export class ItemMapper {
         });
     }
 
-    private mapItem<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem {
+    private mapItem<TItem extends ContentItem>(item: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig): TItem {
         if (item == null) {
             throw Error(`Could not map item because its undefined`);
         }

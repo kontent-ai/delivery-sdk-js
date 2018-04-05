@@ -1,7 +1,7 @@
-import { IContentType } from '../../interfaces/type/icontent-type.interface';
-import { IPagination } from '../../interfaces/common/ipagination.interface';
-import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
 import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
+import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
+import { Pagination } from '../common';
+import { ContentType } from './content-type.class';
 
 export namespace TypeResponses {
 
@@ -11,11 +11,11 @@ export namespace TypeResponses {
         * Response containing multiple types
         * @constructor
         * @param {IContentType[]} types - Content types
-        * @param {IPagination} pagination - Pagination object
+        * @param {Pagination} pagination - Pagination object
         */
         constructor(
-            public types: IContentType[],
-            public pagination: IPagination,
+            public types: ContentType[],
+            public pagination: Pagination,
             public debug: ICloudResponseDebug
         ) { }
     }
@@ -28,7 +28,7 @@ export namespace TypeResponses {
         * @param {IContentType} type - Content type
         */
         constructor(
-            public type: IContentType,
+            public type: ContentType,
             public debug: ICloudResponseDebug
         ) { }
     }

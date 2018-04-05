@@ -6,13 +6,13 @@ import { IHeader } from '../interfaces/common/iheader.interface';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { IQueryConfig } from '../interfaces/common/iquery.config';
 import { ISdkInfo } from '../interfaces/common/isdk-info.class';
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ITaxonomyQueryConfig } from '../interfaces/taxonomy/itaxonomy-query.config';
 import { IContentTypeQueryConfig } from '../interfaces/type/icontent-type-query.config';
 import { ResponseMapper } from '../mappers';
 import { CloudError } from '../models/common/cloud-error.class';
 import { ElementResponses } from '../models/element/responses';
+import { ContentItem } from '../models/item/content-item.class';
 import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
@@ -69,14 +69,15 @@ export class QueryService {
          */
         protected httpService: IHttpService,
         /**
-         * Information about the SDK
-         * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
-         */
-        protected sdkInfo: ISdkInfo,
+        * Used for manipulating with rich text HTML (required for Node / Browser support)
+        */
+        private readonly richTextHtmlParser: IRichTextHtmlParser,
         /**
-         * Used for manipulating with rich text HTML (required for Node / Browser support)
-         */
-        private readonly richTextHtmlParser: IRichTextHtmlParser
+      * Information about the SDK
+      * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
+      */
+        protected sdkInfo: ISdkInfo,
+
     ) {
         if (!config) {
             throw Error(`Invalid configuration has been provided`);
@@ -99,7 +100,7 @@ export class QueryService {
      * @param url Url used to get single item
      * @param queryConfig Query configuration
      */
-    getSingleItem<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
+    getSingleItem<TItem extends ContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
@@ -116,7 +117,7 @@ export class QueryService {
     * @param url Url used to get multiple items
     * @param queryConfig Query configuration
     */
-    getMultipleItems<TItem extends IContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
+    getMultipleItems<TItem extends ContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {

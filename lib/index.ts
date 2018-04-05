@@ -10,6 +10,9 @@ export * from './interfaces/common/iquery.config';
 export * from './interfaces/common/isdk-info.class';
 export * from './interfaces/common/iheader.interface';
 
+// data contracts
+export * from './data-contracts';
+
 // fields
 export * from './fields';
 
@@ -38,10 +41,7 @@ export * from './models/common/parameters';
 export * from './models/item/type-resolver.class';
 export * from './models/item/content-item.class';
 export * from './models/item/responses';
-export * from './interfaces/item/icontent-item.interface';
-export * from './interfaces/item/icontent-item-system-attributes.interface';
 export * from './models/item/content-item-system-attributes';
-export * from './interfaces/item/ilink.interface';
 export * from './models/item/link.class';
 
 // type

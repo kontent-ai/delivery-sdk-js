@@ -1,4 +1,4 @@
-import { ContentItem, Fields, ILink, ItemResponses, TypeResolver } from '../../../lib';
+import { ContentItem, Fields, ItemResponses, TypeResolver, Link } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
 import { HttpService } from '../../../lib/services/http/http.service';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
@@ -8,13 +8,13 @@ class MockMovie extends ContentItem {
 
     constructor() {
         super({
-            linkResolver: (link: ILink) => {
-                return 'globalSlug/' + link.url_slug;
+            linkResolver: (link: Link) => {
+                return 'globalSlug/' + link.urlSlug;
             }
         });
     }
 }
-// tests
+
 describe('URL slug resolver', () => {
 
     const context = new Context();
@@ -38,8 +38,8 @@ describe('URL slug resolver', () => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
 
         responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {
-            linkResolver: (link: ILink) => {
-                return 'querySlug/' + link.url_slug;
+            linkResolver: (link: Link) => {
+                return 'querySlug/' + link.urlSlug;
             }
         });
         done();

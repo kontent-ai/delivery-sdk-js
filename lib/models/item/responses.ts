@@ -1,11 +1,11 @@
 import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
 import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
-import { IPagination } from '../../interfaces/common/ipagination.interface';
-import { IContentItem } from '../../interfaces/item/icontent-item.interface';
+import { Pagination } from '../common';
+import { ContentItem } from './content-item.class';
 
 export namespace ItemResponses {
 
-    export class DeliveryItemListingResponse<TItem extends IContentItem> implements ICloudResponse {
+    export class DeliveryItemListingResponse<TItem extends ContentItem> implements ICloudResponse {
 
         /**
          * Indicates if response contains any items
@@ -26,12 +26,12 @@ export namespace ItemResponses {
         * Response containing multiple item
         * @constructor
         * @param {TItem[]} items - Collection of content items
-        * @param {IPagination} pagination - Pagination object
+        * @param {Pagination} pagination - Pagination object
         * @param {ICloudResponseDebug} debug - Debug information from the request
         */
         constructor(
             public items: TItem[],
-            public pagination: IPagination,
+            public pagination: Pagination,
             public debug: ICloudResponseDebug
         ) {
             this.initIsEmpty();
@@ -60,7 +60,7 @@ export namespace ItemResponses {
         }
     }
 
-    export class DeliveryItemResponse<TItem extends IContentItem> implements ICloudResponse {
+    export class DeliveryItemResponse<TItem extends ContentItem> implements ICloudResponse {
 
         /**
          * Indicates if response contains item

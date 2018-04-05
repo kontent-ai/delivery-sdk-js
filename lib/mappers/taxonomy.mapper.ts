@@ -1,13 +1,11 @@
-import { ITaxonomyGroup } from '../interfaces/taxonomy/itaxonomy-group.interface';
-import { ITaxonomySystemAttributes } from '../interfaces/taxonomy/itaxonomy-system-attributes.interface';
-import { ITaxonomyTerms } from '../interfaces/taxonomy/itaxonomy-terms.interface';
+import { TaxonomyContracts } from '../data-contracts';
 import { TaxonomyGroup } from '../models/taxonomy/taxonomy-group.class';
 import { TaxonomySystemAttributes } from '../models/taxonomy/taxonomy-system-attributes.class';
 import { TaxonomyTerms } from '../models/taxonomy/taxonomy-terms.class';
 
 export class TaxonomyMapper {
 
-    mapTaxonomy(taxonomySystem: ITaxonomySystemAttributes, taxonomyTerms: ITaxonomyTerms[]): TaxonomyGroup {
+    mapTaxonomy(taxonomySystem: TaxonomyContracts.ITaxonomySystemAttributesContract, taxonomyTerms: TaxonomyContracts.ITaxonomyTermsContract[]): TaxonomyGroup {
         if (!taxonomySystem) {
             throw Error(`Cannot map taxonomy due to missing 'system' property`);
         }
@@ -20,19 +18,19 @@ export class TaxonomyMapper {
             throw Error(`Cannot map terms because no terms array was provided`);
         }
 
-        const mappedSystemAttributes: TaxonomySystemAttributes = new TaxonomySystemAttributes(
-            taxonomySystem.id,
-            taxonomySystem.name,
-            taxonomySystem.codename,
-            taxonomySystem.last_modified
-        );
+        const mappedSystemAttributes: TaxonomySystemAttributes = new TaxonomySystemAttributes({
+            name: taxonomySystem.name,
+            codename: taxonomySystem.codename,
+            id: taxonomySystem.id,
+            lastModified: taxonomySystem.last_modified
+        });
 
         const mappedTerms: TaxonomyTerms[] = this.mapTaxonomyTerms(taxonomyTerms);
 
         return new TaxonomyGroup(mappedSystemAttributes, mappedTerms);
     }
 
-    mapTaxonomies(taxonomies: ITaxonomyGroup[]): TaxonomyGroup[] {
+    mapTaxonomies(taxonomies: TaxonomyContracts.ITaxonomyGroupContract[]): TaxonomyGroup[] {
         if (!taxonomies) {
             throw Error(`Cannot map taxonomy due to missing 'taxonomies' property`);
         }
@@ -54,7 +52,7 @@ export class TaxonomyMapper {
      * Recursively map array of taxonomy terms
      * @param termsArray Terms array to map
      */
-    private mapTaxonomyTerms(termsArray: ITaxonomyTerms[]): TaxonomyTerms[] {
+    private mapTaxonomyTerms(termsArray: TaxonomyContracts.ITaxonomyTermsContract[]): TaxonomyTerms[] {
         if (termsArray.length === 0) {
             return [];
         }
@@ -62,11 +60,11 @@ export class TaxonomyMapper {
         const mappedTermsArray: TaxonomyTerms[] = [];
 
         termsArray.forEach(terms => {
-            const mappedTerms = new TaxonomyTerms(
-                terms.name,
-                terms.codename,
-                this.mapTaxonomyTerms(terms.terms)
-            );
+            const mappedTerms = new TaxonomyTerms({
+                codename: terms.codename,
+                name: terms.name,
+                terms: this.mapTaxonomyTerms(terms.terms)
+            });
 
             mappedTermsArray.push(mappedTerms);
         });

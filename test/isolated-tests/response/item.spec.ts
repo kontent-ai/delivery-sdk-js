@@ -34,7 +34,7 @@ describe('Isolated item', () => {
     });
 
     it(`checks last modified`, () => {
-        expect(response.item.system.last_modified.toString()).toEqual('2017-06-21T12:22:09.1437891Z');
+        expect(response.item.system.lastModified.toString()).toEqual('2017-06-21T12:22:09.1437891Z');
     });
 
     it(`checks language`, () => {
@@ -45,7 +45,7 @@ describe('Isolated item', () => {
         const locations: string[] = [
             'main_sitemap'
         ];
-        expect(response.item.system.sitemap_locations).toEqual(locations);
+        expect(response.item.system.sitemapLocations).toEqual(locations);
     });
 
     it(`checks taxonomy field`, () => {

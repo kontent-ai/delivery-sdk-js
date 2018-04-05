@@ -1,15 +1,15 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { Filters } from '../../models/common/filters';
 import { Parameters } from '../../models/common/parameters';
 import { SortOrder } from '../../models/common/sort-order.enum';
+import { ContentItem } from '../../models/item/content-item.class';
 import { ItemResponses } from '../../models/item/responses';
 import { QueryService } from '../../services/query.service';
 import { BaseItemQuery } from './base-item-query.class';
 
-export class MultipleItemQuery<TItem extends IContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemListingResponse<TItem>> {
+export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemListingResponse<TItem>> {
 
     constructor(
         protected config: IDeliveryClientConfig,

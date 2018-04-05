@@ -1,5 +1,4 @@
-import { IDeliveryClientConfig, ISdkInfo, ResponseMapper, RichTextHtmlParser } from '../../lib';
-import { IContentItem } from '../../lib/interfaces/item/icontent-item.interface';
+import { ContentItem, IDeliveryClientConfig, ISdkInfo, ResponseMapper, RichTextHtmlParser } from '../../lib';
 import { IItemQueryConfig } from '../../lib/interfaces/item/iitem-query.config';
 import { ItemResponses } from '../../lib/models/item/responses';
 import { IHttpService } from '../../lib/services/http/ihttp.service';
@@ -15,11 +14,11 @@ export class MockQueryService extends QueryService {
         protected httpService: IHttpService,
         protected sdkInfo: ISdkInfo
     ) {
-        super(config, httpService, sdkInfo, new RichTextHtmlParser());
+        super(config, httpService, new RichTextHtmlParser(), sdkInfo);
         this.responseMapper = new ResponseMapper(config, new RichTextHtmlParser);
     }
 
-    mockGetSingleItem<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
+    mockGetSingleItem<TItem extends ContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
         if (!queryConfig) {
             queryConfig = {};
         }
@@ -29,7 +28,7 @@ export class MockQueryService extends QueryService {
         return this.responseMapper.mapSingleResponse<TItem>(fakeResponse, queryConfig);
     }
 
-    mockGetMultipleItems<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
+    mockGetMultipleItems<TItem extends ContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
         if (!queryConfig) {
             queryConfig = {};
         }

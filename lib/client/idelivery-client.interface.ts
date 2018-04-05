@@ -1,4 +1,4 @@
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
+import { ContentItem } from '../models/item/content-item.class';
 import { ElementQuery } from '../query/element/element-query.class';
 import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
 import { SingleItemQuery } from '../query/item/single-item-query.class';
@@ -23,13 +23,13 @@ export interface IDeliveryClient {
     /**
     * Gets query for multiple items
     */
-    items<TItem extends IContentItem>(): MultipleItemQuery<TItem>;
+    items<TItem extends ContentItem>(): MultipleItemQuery<TItem>;
 
     /**
     * Gets query for single item
     * @param {string} codename - Codename of item to retrieve
     */
-    item<TItem extends IContentItem>(codename: string): SingleItemQuery<TItem>;
+    item<TItem extends ContentItem>(codename: string): SingleItemQuery<TItem>;
 
     /**
     * Gets query for multiple taxonomies
@@ -40,7 +40,7 @@ export interface IDeliveryClient {
     * Gets query for single item
     * @param {string} codename - Codename of taxonomy to retrieve
     */
-    taxonomy<TItem extends IContentItem>(codename: string): TaxonomyQuery;
+    taxonomy(codename: string): TaxonomyQuery;
 
     /**
      * Gets query for an element within a type

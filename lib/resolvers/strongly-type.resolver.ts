@@ -1,4 +1,4 @@
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
+import { ItemContracts } from '..';
 import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
 import { ContentItem } from '../models/item/content-item.class';
 import { TypeResolver } from '../models/item/type-resolver.class';
@@ -17,18 +17,18 @@ export class StronglyTypedResolver {
     /**
      * Creates non generic ContentItem used when content type does not have a strongly typed model
      */
-    createContentItem(item: IContentItem): ContentItem {
+    createContentItem(item: ItemContracts.IContentItemContract): ContentItem {
         const contentItem = new ContentItem();
         // use typed 'system' property
-        contentItem.system = new ContentItemSystemAttributes(
-            item.system.id,
-            item.system.name,
-            item.system.codename,
-            item.system.type,
-            item.system.last_modified,
-            item.system.language,
-            item.system.sitemap_locations
-        );
+        contentItem.system = new ContentItemSystemAttributes({
+            name: item.system.name,
+            codename: item.system.codename,
+            id: item.system.id,
+            lastModified: item.system.last_modified,
+            language: item.system.language,
+            type: item.system.type,
+            sitemapLocations: item.system.sitemap_locations
+        });
 
         return contentItem;
     }
@@ -39,19 +39,19 @@ export class StronglyTypedResolver {
      * @param item Typed content item
      * @param resolvers Type resolvers
      */
-    createTypedObj<TItem extends IContentItem>(type: string, item: IContentItem, typeResolvers: TypeResolver[]): TItem {
+    createTypedObj<TItem extends ContentItem>(type: string, item: ItemContracts.IContentItemContract, typeResolvers: TypeResolver[]): TItem {
         const typedItem = this.createEmptyTypedObj<TItem>(type, typeResolvers);
 
         // use typed 'system' property
-        typedItem.system = new ContentItemSystemAttributes(
-            item.system.id,
-            item.system.name,
-            item.system.codename,
-            item.system.type,
-            item.system.last_modified,
-            item.system.language,
-            item.system.sitemap_locations
-        );
+        typedItem.system = new ContentItemSystemAttributes({
+            name: item.system.name,
+            codename: item.system.codename,
+            id: item.system.id,
+            lastModified: item.system.last_modified,
+            language: item.system.language,
+            type: item.system.type,
+            sitemapLocations: item.system.sitemap_locations
+        });
 
         return typedItem;
     }
@@ -61,7 +61,7 @@ export class StronglyTypedResolver {
      * @param type Type of the content item
      * @param resolvers Type resolvers
      */
-    createEmptyTypedObj<TItem extends IContentItem>(type: string, resolvers: TypeResolver[]): TItem {
+    createEmptyTypedObj<TItem extends ContentItem>(type: string, resolvers: TypeResolver[]): TItem {
         if (!type) {
             throw Error('Cannot resolve type because no type name was provided');
         }

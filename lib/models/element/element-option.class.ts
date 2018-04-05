@@ -1,6 +1,5 @@
-import { IElementOption } from '../../interfaces/element/ielement-option.interface';
 
-export class ElementOption implements IElementOption {
+export class ElementOption {
     constructor(
         /**
          * Name of the option
@@ -11,5 +10,5 @@ export class ElementOption implements IElementOption {
          * Value of the option
          */
         public codename: string
-    ) {}
+    ) { }
 }

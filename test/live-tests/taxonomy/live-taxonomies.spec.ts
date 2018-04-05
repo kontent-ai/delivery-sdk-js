@@ -1,4 +1,3 @@
-import { IPagination } from '../../../lib/interfaces/common/ipagination.interface';
 import { setup, Context } from '../../setup';
 
 import { FieldModels, TaxonomyResponses, TaxonomyGroup } from '../../../lib';

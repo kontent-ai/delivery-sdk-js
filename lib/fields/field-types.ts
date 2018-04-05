@@ -1,8 +1,7 @@
-import { TypeResolver } from '..';
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { ILink } from '../interfaces/item/ilink.interface';
+import { ContentItem } from '../models/item/content-item.class';
 import { Link } from '../models/item/link.class';
+import { TypeResolver } from '../models/item/type-resolver.class';
 import { IRichTextHtmlParser } from '../parser';
 import { FieldInterfaces } from './field-interfaces';
 import { FieldModels } from './field-models';
@@ -71,7 +70,6 @@ export namespace Fields {
         }
     }
 
-
     export class DateTimeField implements FieldInterfaces.IField {
 
         /**
@@ -114,8 +112,8 @@ export namespace Fields {
         public typeResolvers: TypeResolver[];
         public name: string;
         public value: any;
-        public modularItems: IContentItem[];
-        public links: ILink[];
+        public modularItems: ContentItem[];
+        public links: Link[];
         public enableAdvancedLogging: boolean;
         public itemQueryConfig: IItemQueryConfig;
 
@@ -126,8 +124,8 @@ export namespace Fields {
         * @param {TypeResolver[]} typeResolvers - Type resolvers
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
-        * @param {IContentItem[]} modularItems - Modular items
-        * @param {ILink[]} links - Links in rich text field
+        * @param {ContentItem[]} modularItems - Modular items
+        * @param {Link[]} links - Links in rich text field
         * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
         * @param {IItemQueryConfig} itemQueryConfig - Item query config
         */
@@ -137,8 +135,8 @@ export namespace Fields {
                 typeResolvers: TypeResolver[],
                 name: string,
                 value: any,
-                modularItems: IContentItem[],
-                links: ILink[],
+                modularItems: ContentItem[],
+                links: Link[],
                 enableAdvancedLogging: boolean,
                 itemQueryConfig: IItemQueryConfig
             }
@@ -249,44 +247,44 @@ export namespace Fields {
         * @constructor
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
-        * @param {IContentItem} item - Content item, required in order to get link object used by resolver
-        * @param {((link: ILink) => string) | undefined} linkResolver - Callback used to resolve links
+        * @param {ContentItem} item - Content item, required in order to get link object used by resolver
+        * @param {((link: Link) => string) | undefined} linkResolver - Callback used to resolve links
         * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
         */
         constructor(
             public name: string,
             public value: string,
-            public item: IContentItem,
-            public linkResolver: ((link: ILink) => string) | undefined,
+            public item: ContentItem,
+            public linkResolver: ((link: Link) => string) | undefined,
             public enableAdvancedLogging: boolean
         ) {
         }
 
-        getUrl(): string | null {
+        getUrl(): string | undefined {
             if (!this.linkResolver) {
                 if (this.enableAdvancedLogging) {
                     console.warn(`You have to implement 'linkResolver' in your Model class or your query in order to get url of this item`);
                 }
-                return null;
+                return undefined;
             }
 
             if (!this.item) {
                 if (this.enableAdvancedLogging) {
-                    console.warn(`Cannot resolve link for type '${this.type}' because source item is not valid`);
+                    console.warn(`Cannot resolve link for field '${this.name}' because no item was provided to URL slug field (item may be missing from response)`);
                 }
-                return null;
+                return undefined;
             }
 
-            const url = this.linkResolver(new Link(
-                this.item.system.id,
-                this.item.system.codename,
-                this.item.system.type,
-                this.value
-            ));
+            const url = this.linkResolver(new Link({
+                urlSlug: this.value,
+                type: this.type,
+                codename: this.item.system.codename,
+                itemId: this.item.system.id
+            }));
 
             if (!url) {
-                console.warn(`'linkResolver' is configured, but url resolved for '${this.type}' type and '${this.name}' field resolved to an null/undefined value`);
-                return null;
+                console.warn(`'linkResolver' is configured, but url resolved for '${this.item.system.codename}' item of '${this.item.system.type}' type inside '${this.name}' field resolved to an undefined url.`);
+                return undefined;
             }
 
             return url;

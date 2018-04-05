@@ -1,9 +1,10 @@
 import {
-  ContentItem, Fields, ILink, ItemResponses, FieldModels,
+  ContentItem, Fields, Link, ItemResponses, FieldModels,
   FieldDecorators, TaxonomyResponses, TypeResponses, ElementResponses
 } from '../../lib';
 
 export class Actor extends ContentItem {
+
   @FieldDecorators.codename('first_name')
   public firstName: Fields.TextField;
 
@@ -15,12 +16,12 @@ export class Actor extends ContentItem {
   constructor() {
     super({
       richTextResolver: (item: Actor) => {
-        return `<p>${item.firstName.text}</p>`
+        return `<p>${item.firstName.text}</p>`;
       },
-      linkResolver: (link: ILink) => {
-        return '/actor/' + link.url_slug
+      linkResolver: (link: Link) => {
+        return '/actor/' + link.urlSlug;
       }
-    })
+    });
   }
 
   public getFullName(): string {
@@ -47,12 +48,12 @@ export class Movie extends ContentItem {
         }
       },
       richTextResolver: (item: Movie) => {
-        return `<p>${item.title.text}</p>`
+        return `<p>${item.title.text}</p>`;
       },
-      linkResolver: (link: ILink) => {
-        return 'testSlugUrl/' + link.url_slug;
+      linkResolver: (link: Link) => {
+        return 'testSlugUrl/' + link.urlSlug;
       }
-    }, )
+    }, );
   }
 }
 
@@ -89,5 +90,5 @@ export class AllTestObjects {
     // elements
     element: ElementResponses.ElementResponse
 
-  }) { if (data) { Object.assign(this, data) } }
+  }) { if (data) { Object.assign(this, data); } }
 }
