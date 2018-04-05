@@ -42,7 +42,7 @@
   },
   "private": false,
   "dependencies": {
-    "browser-request": "^0.3.3",
+    "xhr": "^2.4.1",
     "reflect-metadata": "~0.1.12",
     "rxjs": "~6.0.0-rc.0"
   },
