@@ -22,7 +22,7 @@ export abstract class BaseQuery<TResponse> {
     }
 
     getPromise(): Promise<TResponse> {
-        this.getParameters().find(m => m.getParam() === 'language')
+        this.getParameters().find(m => m.getParam() === 'language');
         return this.get().toPromise();
     }
 }

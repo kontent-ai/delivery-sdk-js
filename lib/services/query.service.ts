@@ -2,7 +2,6 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen } from 'rxjs/operators';
 
 import { DeliveryClientConfig } from '../config/delivery-client.config';
-import { ICloudErrorResponse } from '../interfaces/common/icloud-error-response.interface';
 import { IHeader } from '../interfaces/common/iheader.interface';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { IQueryConfig } from '../interfaces/common/iquery.config';
@@ -17,10 +16,12 @@ import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
 import { IRichTextHtmlParser } from '../parser';
-import { IBaseResponse, IBaseCloudError } from '../services/http/models';
+import { IBaseResponse, IBaseResponseCloudError } from '../services/http/models';
 import { IHttpService } from './http/ihttp.service';
 import { ResponseMapService } from './response-map.service';
 import { retryStrategy } from './retry/retry-strategy';
+import { IBaseResponseError } from './http/models';
+import { CloudError } from '../models/common/cloud-error.class';
 
 
 export class QueryService {
@@ -104,7 +105,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapSingleResponse<TItem>(response, queryConfig)
+                    return this.responseMapService.mapSingleResponse<TItem>(response, queryConfig);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -121,7 +122,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapMultipleResponse<TItem>(response, queryConfig)
+                    return this.responseMapService.mapMultipleResponse<TItem>(response, queryConfig);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -138,7 +139,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapSingleTypeResponse(response)
+                    return this.responseMapService.mapSingleTypeResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -155,7 +156,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapMultipleTypeResponse(response)
+                    return this.responseMapService.mapMultipleTypeResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -172,7 +173,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapTaxonomyResponse(response)
+                    return this.responseMapService.mapTaxonomyResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -189,7 +190,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapTaxonomiesResponse(response)
+                    return this.responseMapService.mapTaxonomiesResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -206,7 +207,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapElementResponse(response)
+                    return this.responseMapService.mapElementResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -246,26 +247,46 @@ export class QueryService {
         return headers;
     }
 
+        /**
+     * Http get response
+     * @param url Url of request
+     * @param queryConfig Query configuration
+     */
+    protected getResponse(url: string, queryConfig: IQueryConfig): Observable<IBaseResponse> {
+        // hold the attempt count
+        const attempt = 1;
+
+        return this.httpService.get(url, this.getHeaders(queryConfig))
+            .pipe(
+                map((response: IBaseResponse) => {
+                    return response;
+                }),
+                retryWhen(retryStrategy.strategy({
+                    maxRetryAttempts: this.config.retryAttempts ? this.config.retryAttempts : this.defaultRetryAttempts,
+                    excludedStatusCodes: this.retryExcludedStatuses
+                })),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
+    }
 
     /**
      * Handles given error
      * @param error Error to be handled
      */
-    private handleError(error: IBaseCloudError | any): any | ICloudErrorResponse {
+    private handleError(error: IBaseResponseError): CloudError | any {
         if (this.config.enableAdvancedLogging) {
             console.error(error);
         }
 
-        console.warn('error here:');
-        console.warn(error);
-
-        if (error.request_id) {
-            return <ICloudErrorResponse>{
-                message: error.kenticoCloudError.message,
-                request_id: error.kenticoCloudError.request_id,
-                error_code: error.kenticoCloudError.error_code,
-                specific_code: error.kenticoCloudError.specific_code, error
-            };
+        if (error && error.cloudError) {
+            return new CloudError({
+                message: error.cloudError.message,
+                requestId: error.cloudError.requestId,
+                errorCode: error.cloudError.errorCode,
+                specifiCode: error.cloudError.specificCode,
+            });
         }
 
         return error;
@@ -346,30 +367,6 @@ export class QueryService {
             });
         }
         return url;
-    }
-
-    /**
-     * Http get response
-     * @param url Url of request
-     * @param queryConfig Query configuration
-     */
-    protected getResponse(url: string, queryConfig: IQueryConfig): Observable<IBaseResponse> {
-        // hold the attempt count
-        const attempt = 1;
-
-        return this.httpService.get(url, this.getHeaders(queryConfig))
-            .pipe(
-                map((response: IBaseResponse) => {
-                    return response;
-                }),
-                retryWhen(retryStrategy.strategy({
-                    maxRetryAttempts: this.config.retryAttempts ? this.config.retryAttempts : this.defaultRetryAttempts,
-                    excludedStatusCodes: this.retryExcludedStatuses
-                })),
-                catchError(err => {
-                    return throwError(this.handleError(err));
-                })
-            );
     }
 
     /**

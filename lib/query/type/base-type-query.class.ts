@@ -18,7 +18,7 @@ export abstract class BaseTypeQuery<TResponse> extends BaseQuery<TResponse> {
         protected config: DeliveryClientConfig,
         protected queryService: QueryService
     ) {
-        super(config, queryService)
+        super(config, queryService);
     }
 
     /**

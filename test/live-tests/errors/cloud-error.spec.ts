@@ -1,5 +1,5 @@
 import { Context, Movie, setup } from '../../setup';
-import { ICloudErrorResponse } from '../../../lib/interfaces/common/icloud-error-response.interface';
+import { CloudError } from '../../../lib/models/common/cloud-error.class';
 
 describe('Cloud errors', () => {
 
@@ -8,7 +8,7 @@ describe('Cloud errors', () => {
 
     const invalidCodename: string = 'the_invalid_codename';
     let succeeded: boolean;
-    let error: any;
+    let error: any | CloudError;
 
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(invalidCodename)
@@ -28,13 +28,17 @@ describe('Cloud errors', () => {
         expect(succeeded).toEqual(false);
     });
 
+    it(`Error should be an instance of CloudError`, () => {
+        expect(error).toEqual(jasmine.any(CloudError));
+    });
+
     it(`Error model should have all properties assigned`, () => {
         let allPropertiesAreAssigned = true;
-        const cloudError = error as ICloudErrorResponse;
-        if (!(cloudError.error_code >= 0) ||
+        const cloudError = error as CloudError;
+        if (!(cloudError.errorCode >= 0) ||
             !cloudError.message ||
-            !cloudError.request_id ||
-            !(cloudError.specific_code >= 0)
+            !cloudError.requestId ||
+            !(cloudError.specifiCode >= 0)
         ) {
             allPropertiesAreAssigned = false;
         }

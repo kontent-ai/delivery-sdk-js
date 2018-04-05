@@ -16,13 +16,6 @@ export class ItemMapService {
         this.fieldMapService = new FieldMapService(config, richTextHtmlParser);
     }
 
-    private mapItem<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem {
-        if (item == null) {
-            throw Error(`Could not map item because its undefined`);
-        }
-        return this.fieldMapService.mapFields<TItem>(item, modularContent, queryConfig, []);
-    }
-
     /**
      * Maps single item to its proper strongly typed model from the given Cloud response
      * @param response Cloud response used to map the item
@@ -43,5 +36,12 @@ export class ItemMapService {
         return response.items.map(function (item) {
             return that.mapItem<TItem>(item, response.modular_content, queryConfig);
         });
+    }
+
+    private mapItem<TItem extends IContentItem>(item: IContentItem, modularContent: any, queryConfig: IItemQueryConfig): TItem {
+        if (item == null) {
+            throw Error(`Could not map item because its undefined`);
+        }
+        return this.fieldMapService.mapFields<TItem>(item, modularContent, queryConfig, []);
     }
 }

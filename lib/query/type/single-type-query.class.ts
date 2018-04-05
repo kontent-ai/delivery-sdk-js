@@ -12,23 +12,23 @@ export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeRes
         protected queryService: QueryService,
         private typeCodename: string
     ) {
-        super(config, queryService)
+        super(config, queryService);
 
-           if (!typeCodename) {
+        if (!typeCodename) {
             throw Error(`Cannot create type query without the codename of the type`);
         }
     }
 
-     /**
-     * Gets the runnable Observable
-     */
+    /**
+    * Gets the runnable Observable
+    */
     get(): Observable<TypeResponses.DeliveryTypeResponse> {
-        return super.runSingleTypeQuery(this.typeCodename)
+        return super.runSingleTypeQuery(this.typeCodename);
     }
 
-     /**
-     * Gets 'Url' representation of query
-     */
+    /**
+    * Gets 'Url' representation of query
+    */
     toString(): string {
         return super.getSingleTypeQueryUrl(this.typeCodename);
     }

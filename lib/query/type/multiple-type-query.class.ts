@@ -12,7 +12,7 @@ export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeL
         protected config: DeliveryClientConfig,
         protected queryService: QueryService
     ) {
-        super(config, queryService)
+        super(config, queryService);
     }
 
      /**

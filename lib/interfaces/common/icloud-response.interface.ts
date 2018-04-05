@@ -1,4 +1,4 @@
-import { ICloudResponseDebug } from './icloud-response-debug.interface'
+import { ICloudResponseDebug } from './icloud-response-debug.interface';
 
 export interface ICloudResponse {
     debug: ICloudResponseDebug;

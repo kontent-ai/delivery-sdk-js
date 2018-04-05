@@ -5,7 +5,6 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { CloudTaxonomyResponseInterfaces } from '../interfaces/taxonomy/cloud-responses';
 import { CloudTypeResponseInterfaces } from '../interfaces/type/cloud-responses';
-import { CloudResponseDebug } from '../models/common/cloud-response-debug.class';
 import { Pagination } from '../models/common/pagination.class';
 import { ElementResponses } from '../models/element/responses';
 import { ItemResponses } from '../models/item/responses';
@@ -17,6 +16,7 @@ import { ElementMapService } from './element-map.service';
 import { ItemMapService } from './item-map.service';
 import { TaxonomyMapService } from './taxonomy-map.service';
 import { TypeMapService } from './type-map.service';
+import { ICloudResponseDebug } from '../interfaces/common/icloud-response-debug.interface';
 
 export class ResponseMapService {
 
@@ -45,7 +45,7 @@ export class ResponseMapService {
         private readonly richTextHtmlParser: IRichTextHtmlParser) {
         this.typeMapService = new TypeMapService();
         this.itemMapService = new ItemMapService(config, richTextHtmlParser);
-        this.taxonomyMapService = new TaxonomyMapService()
+        this.taxonomyMapService = new TaxonomyMapService();
         this.elementMapService = new ElementMapService();
     }
 
@@ -167,11 +167,13 @@ export class ResponseMapService {
         return new ElementResponses.ElementResponse(element, this.mapResponseDebug(response));
     }
 
-    mapResponseDebug(response: IBaseResponse): CloudResponseDebug {
+    mapResponseDebug(response: IBaseResponse): ICloudResponseDebug {
         if (!response) {
             throw Error(`Cannot map 'debug' model from the response`);
         }
 
-        return new CloudResponseDebug(response.response);
+        return {
+            response: response.response
+        };
     }
 }

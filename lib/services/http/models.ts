@@ -3,9 +3,15 @@ export interface IBaseResponse {
     response: any;
 }
 
-export interface IBaseCloudError {
+export interface IBaseResponseError {
+    response: any;
     message: string;
-    request_id: number;
-    error_code: number;
-    specific_code: number;
+    cloudError?: IBaseResponseCloudError;
+}
+
+export interface IBaseResponseCloudError {
+    message: string;
+    requestId: number;
+    errorCode: number;
+    specificCode: number;
 }

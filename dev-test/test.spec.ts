@@ -9,12 +9,12 @@ describe('Developer testing', () => {
             .subscribe((response) => {
                 console.log(response);
                 done();
-            })
+            });
     });
 
     it(`Test`, () => {
         expect(true).toBeDefined();
-    })
+    });
 
-})
+});
 

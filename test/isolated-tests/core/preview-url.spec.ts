@@ -1,12 +1,5 @@
-// url parser
-import urlParser from 'url-parse';
+import { Context, setup } from '../../setup';
 
-// setup
-import { setup, Context } from '../../setup';
-
-import { IHeader } from '../../../lib/interfaces/common/iheader.interface'
-
-// tests
 describe('Preview URL', () => {
 
     const context = new Context({

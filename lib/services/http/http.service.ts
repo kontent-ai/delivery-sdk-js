@@ -1,75 +1,101 @@
-import * as request from 'browser-request';
-import { bindCallback, Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { bindCallback, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import * as xhr from 'xhr';
 
 import { IHeader } from '../../interfaces/common/iheader.interface';
 import { IHttpService } from './ihttp.service';
-import { IBaseResponse, IBaseCloudError } from './models';
+import { IBaseResponse, IBaseResponseError } from './models';
 
 interface IHttpCallback {
     data: JSON;
-    response: XMLHttpRequest;
+    response: XMLHttpRequest | any;
     error?: string;
 }
 
 export class HttpService implements IHttpService {
 
+    private readonly kenticoCloudErrorNames = {
+        errorCode: 'error_code',
+        message: 'message',
+        requestId: 'request_id',
+        specificCode: 'specific_code'
+    };
+
     get(url: string, headers: IHeader[]): Observable<IBaseResponse> {
         return this.getDataObservable(url, this.getHeadersJson(headers))
             .pipe(
                 map((callback: IHttpCallback) => {
+
+                    // check if request was successful by checking if error is defined
                     if (callback.error) {
-                        if (callback.data['request_id']) {
-                            // means its kentico cloud specific error
-                            throwError(<IBaseCloudError> {
-                                error_code: callback.data['error_code'],
-                                message: callback.data['message'],
-                                request_id: callback.data['request_id'],
-                                specific_code: callback.data['specific_code'],
-                            });
+                        // check if its a Kentico specific error by looking up one of the
+                        // properties of such response
+                        if (callback.data[this.kenticoCloudErrorNames.requestId]) {
+
+                            throw <IBaseResponseError> {
+                                cloudError: {
+                                    errorCode: callback.data[this.kenticoCloudErrorNames.errorCode],
+                                    message: callback.data[this.kenticoCloudErrorNames.message],
+                                    requestId: callback.data[this.kenticoCloudErrorNames.requestId],
+                                    specificCode: callback.data[this.kenticoCloudErrorNames.specificCode],
+                                },
+                                message: callback.error,
+                                response: callback.response,
+                            };
                         }
-                        // throw error
-                        throwError(callback.error);
+
+                        throw <IBaseResponseError> {
+                            response: callback.response,
+                            message: callback.error
+                        };
                     }
 
                     return <IBaseResponse>{
-                        data: callback.data,
+                        data: callback.data ? callback.data : {},
                         response: callback.response
                     };
                 }),
-            );
+        );
     }
 
-    private getData(url: string, headers: IHeader[], callback: any): void {
-        request({ method: 'GET', url: url, body: '{"relaxed":true}', json: true }, (responseError: any, response: XMLHttpRequest, body: JSON) => {
-            let error: string | undefined = undefined;
+    private getData(url: string, headers: any, callback: any): void {
 
-            if (responseError) {
-                error = responseError;
+        xhr({
+            method: 'GET',
+            uri: url,
+            headers: headers
+            // response can be either XMLHttpRequest or 'XDomainRequest' in case of IE8 & IE9. XDomainRequest is now obsolete
+        }, function (error: Error, response: XMLHttpRequest | any, body: string) {
+            let callbackError: string | undefined = undefined;
+
+            if (error) {
+                callbackError = `Error during http request: '${error.message}'. Stacktrace: '${error.stack}'`;
             }
 
-            if (!response){
-                error = `Http response is invalid`;
+            if (!response) {
+                callbackError = `Http response from '${url}' http request is invalid`;
             }
 
-            if (response.status < 200 || response.status >= 300) {
-                error = 'Response is not successful';
+            if (response.statusCode < 200 || response.statusCode >= 300) {
+                callbackError = `Http request failed with status code: '${response.statusCode}'`;
             }
 
             callback(<IBaseResponse>{
-                data: body,
+                data: body ? JSON.parse(body) : {},
                 response: response,
-                error: error
+                error: callbackError
             });
         });
     }
 
-    private getDataObservable(url: string, headers: IHeader[]): Observable<any> {
+    private getDataObservable(url: string, headers: any): Observable<any> {
         return bindCallback(this.getData)(url, headers);
     }
 
     private getHeadersJson(headers: IHeader[]): any {
-        const headerJson: any = {};
+        const headerJson: any = {
+            'Content-Type': 'application/json'
+        };
 
         if (!headers) {
             return headerJson;
