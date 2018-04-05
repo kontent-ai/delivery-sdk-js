@@ -1,25 +1,25 @@
-import { Fields, HttpService, ItemResponses } from '../../../lib';
+import { Fields, ItemResponses } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
+import { HttpService } from '../../../lib/services/http/http.service';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 
 describe('Field types', () => {
 
-    const context = new Context();
-    setup(context);
+  const context = new Context();
+  setup(context);
 
-    // mock query service
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
-      host: repoHost,
-      name: packageId,
-      version: version
-    });
+  const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
+    host: repoHost,
+    name: packageId,
+    version: version
+  });
 
-    let response: ItemResponses.DeliveryItemResponse<Movie>;
+  let response: ItemResponses.DeliveryItemResponse<Movie>;
 
-    beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {});
-        done();
-    })
+  beforeAll((done) => {
+    response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {});
+    done();
+  });
 
   it(`check 'TextField' type`, () => {
     expect(response.item.title).toEqual(jasmine.any(Fields.TextField));
@@ -45,7 +45,7 @@ describe('Field types', () => {
     expect(response.item.stars[0]).toEqual(jasmine.any(Actor));
   });
 
-   it(`check 'UrlSlugField' type`, () => {
+  it(`check 'UrlSlugField' type`, () => {
     expect(response.item.seoname).toEqual(jasmine.any(Fields.UrlSlugField));
   });
 });

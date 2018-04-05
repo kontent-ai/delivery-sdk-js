@@ -7,7 +7,6 @@ import {
     Link,
     RichTextHtmlParser,
     TypeResolver,
-    TypeResolverService,
 } from '../../../lib';
 
 class ActorMock extends ContentItem {
@@ -16,7 +15,7 @@ class ActorMock extends ContentItem {
     url: Fields.UrlSlugField;
 
     constructor() {
-        super()
+        super();
     }
 
     setProperties(id: string, codename: string, firstName: string) {
@@ -36,9 +35,6 @@ describe('RichTextField', () => {
     ];
 
     const config: DeliveryClientConfig = new DeliveryClientConfig('fakeId', typeResolvers);
-
-    // prepare type resolver service
-    const typeResolverService = new TypeResolverService(config);
 
     // prepare modular items
     const modularItems: ActorMock[] = [];
@@ -67,14 +63,23 @@ describe('RichTextField', () => {
     <p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"></object>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"></object>\n<p>See more in profile of <a data-item-id=\"3294e4b0-e58b-49d7-85fa-5bc9a86556ec\" href=\"\">Joel Edgerton</a> and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>
     `;
 
-    const field = new Fields.RichTextField(
-        new RichTextHtmlParser(), 'name', html, modularItems, links, typeResolverService, false,
-        {
-            richTextResolver: (item: ActorMock) => {
-                return `<p class="testing_richtext">${item.firstName.text}</p>`;
+    const field = new Fields.RichTextField({
+        enableAdvancedLogging: false,
+        links: links,
+        name: 'name',
+        value: html,
+        modularItems: modularItems,
+        typeResolvers: config.typeResolvers,
+        richTextHtmlParser: new RichTextHtmlParser(),
+        itemQueryConfig:
+            {
+                richTextResolver: (item: ActorMock) => {
+                    return `<p class="testing_richtext">${item.firstName.text}</p>`;
+                },
+                linkResolver: (link: ILink) => '/actor-rt/' + link.url_slug
             },
-            linkResolver: (link: ILink) => '/actor-rt/' + link.url_slug
-        });
+    });
+
 
     it(`checks name`, () => {
         expect(field.name).toEqual('name');
@@ -109,11 +114,19 @@ describe('RichTextField', () => {
     });
 
     it(`checks that links are resolved even if the rich text resolver is not set`, () => {
-        const fieldWithoutRichTextResolver = new Fields.RichTextField(new RichTextHtmlParser(), 'name', html, modularItems, links, typeResolverService, false,
-            {
+        const fieldWithoutRichTextResolver = new Fields.RichTextField({
+            name: 'name',
+            value: html,
+            links: links,
+            typeResolvers: typeResolvers,
+            richTextHtmlParser: new RichTextHtmlParser(),
+            modularItems: modularItems,
+            enableAdvancedLogging: false,
+            itemQueryConfig: {
                 richTextResolver: null,
                 linkResolver: (link: ILink) => '/actor-rt/' + link.url_slug
-            });
+            }
+        });
 
         const expectedHtml1 = `/actor-rt/slug_for_joel`;
         const expectedHtml2 = `/actor-rt/slug_for_tom`;

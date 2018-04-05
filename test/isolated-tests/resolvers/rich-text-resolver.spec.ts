@@ -1,20 +1,21 @@
-import { ContentItem, Fields, HttpService, ItemResponses, TypeResolver } from '../../../lib';
+import { ContentItem, Fields, ItemResponses, TypeResolver } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
+import { HttpService } from '../../../lib/services/http/http.service';
 import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 class MockMovie extends ContentItem {
-    public plot: Fields.RichTextField
+    public plot: Fields.RichTextField;
 }
 
 class MockActor extends ContentItem {
-    public first_name: Fields.TextField
+    public first_name: Fields.TextField;
 
     constructor() {
         super({
             richTextResolver: (item: MockActor) => {
                 return `<h1>${item.first_name.text}</h1>`;
             }
-        })
+        });
     }
 }
 
@@ -22,13 +23,12 @@ describe('Rich text resolver', () => {
 
     const context = new Context();
     const typeResolvers = [];
-    typeResolvers.push(new TypeResolver('movie', () => new MockMovie()))
-    typeResolvers.push(new TypeResolver('actor', () => new MockActor()))
+    typeResolvers.push(new TypeResolver('movie', () => new MockMovie()));
+    typeResolvers.push(new TypeResolver('actor', () => new MockActor()));
 
     context.typeResolvers = typeResolvers;
     setup(context);
 
-    // mock query service
     const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
         host: repoHost,
         name: packageId,
@@ -47,7 +47,7 @@ describe('Rich text resolver', () => {
             }
         });
         done();
-    })
+    });
 
     it(`verifies globally defined rich text contains correct html`, () => {
         const containsHtml = '<h1>Tom</h1>';

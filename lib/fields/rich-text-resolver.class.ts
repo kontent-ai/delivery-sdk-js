@@ -1,8 +1,9 @@
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ILink } from '../interfaces/item/ilink.interface';
+import { TypeResolver } from '../models/item/type-resolver.class';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
-import { TypeResolverService } from '../services/type-resolver.service';
+import { stronglyTypedResolver } from '../resolvers';
 
 export class RichTextResolver {
 
@@ -31,27 +32,38 @@ export class RichTextResolver {
      */
     private readonly linkContentItemIdAttributeName = 'data-item-id';
 
+    public richTextHtmlParser: IRichTextHtmlParser;
+    public typeResolvers: TypeResolver[];
+    public html: string;
+    public modularItems: IContentItem[];
+    public links: ILink[];
+    public enableAdvancedLogging: boolean;
+    public queryConfig: IItemQueryConfig;
+
     /**
     * Rich text resolver
     * @constructor
     * @param {IRichTextHtmlParser} richTextHtmlParser - Parser used for working with HTML elements
+    * @param {TypeResolver[]} typeResolvers - Type reseolvers
     * @param {string} html - html to resolve
     * @param {IContentItem[]} modularItems - modular items
     * @param {ILink[]} links - links
-    * @param {TypeResolverService} typeResolverService - Type resolver service used to access globally defined properties of models
     * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
     * @param {IItemQueryConfig} queryConfig - Query configuration
     */
     constructor(
-        private richTextHtmlParser: IRichTextHtmlParser,
-        private html: string,
-        private modularItems: IContentItem[],
-        private links: ILink[],
-        private typeResolverService: TypeResolverService,
-        private enableAdvancedLogging: boolean,
-        private queryConfig: IItemQueryConfig,
+        data: {
+            richTextHtmlParser: IRichTextHtmlParser,
+            typeResolvers: TypeResolver[],
+            html: string,
+            modularItems: IContentItem[],
+            links: ILink[],
+            enableAdvancedLogging: boolean,
+            queryConfig: IItemQueryConfig,
+        }
     ) {
-    };
+        Object.assign(this, data);
+    }
 
     /**
      * Resolves modular content inside the Rich text field.
@@ -62,7 +74,6 @@ export class RichTextResolver {
         const config: IHtmlResolverConfig = {
             enableAdvancedLogging: this.enableAdvancedLogging,
             queryConfig: this.queryConfig,
-            typeResolverService: this.typeResolverService
         };
 
         const result = this.richTextHtmlParser.resolveRichTextField(
@@ -72,7 +83,6 @@ export class RichTextResolver {
             }, {
                 enableAdvancedLogging: this.enableAdvancedLogging,
                 queryConfig: this.queryConfig,
-                typeResolverService: this.typeResolverService
             });
 
         return result.resolvedHtml;
@@ -137,7 +147,7 @@ export class RichTextResolver {
             // url was not resolved, try to find global resolver for this particular type
             // and apply its url resolver
 
-            const emptyTypeItem = config.typeResolverService.createEmptyTypedObj<IContentItem>(link.type);
+            const emptyTypeItem = stronglyTypedResolver.createEmptyTypedObj<IContentItem>(link.type, this.typeResolvers);
 
             if (!emptyTypeItem) {
                 throw Error(`Cannot resolve link for '${link.type}' type because mapping failed (have you registered this type in your config?)`);

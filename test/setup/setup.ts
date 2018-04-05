@@ -51,7 +51,7 @@ export function setup(context: Context) {
         enableSecuredMode: context.useSecuredMode,
         retryAttempts: context.retryAttempts,
         enableAdvancedLogging: context.enableAdvancedLogging
-    })
+    });
 
     // set context
     context.projectId = projectId;

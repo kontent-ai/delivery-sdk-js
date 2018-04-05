@@ -1,9 +1,9 @@
+import { TypeResolver } from '..';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ILink } from '../interfaces/item/ilink.interface';
 import { Link } from '../models/item/link.class';
 import { IRichTextHtmlParser } from '../parser';
-import { TypeResolverService } from '../services/type-resolver.service';
 import { FieldInterfaces } from './field-interfaces';
 import { FieldModels } from './field-models';
 import { FieldType } from './field-type';
@@ -110,34 +110,40 @@ export namespace Fields {
         */
         public type: FieldType = FieldType.RichText;
 
-        /**
-        * List of modular content items used in this rich text field
-        */
-        public items: IContentItem[] = [];
+        public richTextHtmlParser: IRichTextHtmlParser;
+        public typeResolvers: TypeResolver[];
+        public name: string;
+        public value: any;
+        public modularItems: IContentItem[];
+        public links: ILink[];
+        public enableAdvancedLogging: boolean;
+        public itemQueryConfig: IItemQueryConfig;
 
         /**
         * Represents rich text field of Kentico Cloud item
         * @constructor
         * @param {IRichTextHtmlParser} richTextHtmlParser - Parser used for working with HTML elements
+        * @param {TypeResolver[]} typeResolvers - Type resolvers
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
         * @param {IContentItem[]} modularItems - Modular items
         * @param {ILink[]} links - Links in rich text field
-        * @param {TypeResolverService} typeResolverService - Type resolver service
         * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
         * @param {IItemQueryConfig} itemQueryConfig - Item query config
         */
         constructor(
-            public richTextHtmlParser: IRichTextHtmlParser,
-            public name: string,
-            public value: any,
-            public modularItems: IContentItem[],
-            public links: ILink[],
-            public typeResolverService: TypeResolverService,
-            public enableAdvancedLogging: boolean,
-            public itemQueryConfig: IItemQueryConfig
+            data: {
+                richTextHtmlParser: IRichTextHtmlParser,
+                typeResolvers: TypeResolver[],
+                name: string,
+                value: any,
+                modularItems: IContentItem[],
+                links: ILink[],
+                enableAdvancedLogging: boolean,
+                itemQueryConfig: IItemQueryConfig
+            }
         ) {
-            this.items = modularItems;
+            Object.assign(this, data);
         }
 
         getHtml(): string {
@@ -146,7 +152,16 @@ export namespace Fields {
                 return this.resolvedHtml;
             }
 
-            const richTextHelper = new RichTextResolver(this.richTextHtmlParser, this.value, this.modularItems, this.links, this.typeResolverService, this.enableAdvancedLogging, this.itemQueryConfig);
+            const richTextHelper = new RichTextResolver({
+                typeResolvers: this.typeResolvers,
+                queryConfig: this.itemQueryConfig,
+                enableAdvancedLogging: this.enableAdvancedLogging,
+                html: this.value,
+                links: this.links,
+                modularItems: this.modularItems,
+                richTextHtmlParser: this.richTextHtmlParser
+            });
+
             this.resolvedHtml = richTextHelper.resolveHtml();
 
             return this.resolvedHtml;

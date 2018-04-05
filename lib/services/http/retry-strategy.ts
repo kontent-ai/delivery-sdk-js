@@ -28,7 +28,7 @@ export class RetryStrategy {
                 return timer(retryTimeout);
             })
         );
-    };
+    }
 
     /**
     * Calculates retry attempt timeout in ms

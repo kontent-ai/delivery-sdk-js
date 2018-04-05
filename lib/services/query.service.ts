@@ -1,7 +1,7 @@
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen } from 'rxjs/operators';
 
-import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { DeliveryClientConfig } from '../config';
 import { IHeader } from '../interfaces/common/iheader.interface';
 import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
 import { IQueryConfig } from '../interfaces/common/iquery.config';
@@ -10,19 +10,18 @@ import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ITaxonomyQueryConfig } from '../interfaces/taxonomy/itaxonomy-query.config';
 import { IContentTypeQueryConfig } from '../interfaces/type/icontent-type-query.config';
+import { ResponseMapper } from '../mappers';
+import { CloudError } from '../models/common/cloud-error.class';
 import { Header } from '../models/common/header.class';
 import { ElementResponses } from '../models/element/responses';
 import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
 import { IRichTextHtmlParser } from '../parser';
-import { IBaseResponse, IBaseResponseCloudError } from '../services/http/models';
+import { IBaseResponse } from '../services/http/models';
 import { IHttpService } from './http/ihttp.service';
-import { ResponseMapService } from './response-map.service';
-import { retryStrategy } from './retry/retry-strategy';
 import { IBaseResponseError } from './http/models';
-import { CloudError } from '../models/common/cloud-error.class';
-
+import { retryStrategy } from './http/retry-strategy';
 
 export class QueryService {
 
@@ -59,7 +58,7 @@ export class QueryService {
     /**
      * Service used to map responses (json) from Kentico cloud to strongly typed types
      */
-    protected responseMapService: ResponseMapService;
+    protected responseMapper: ResponseMapper;
 
     constructor(
         /**
@@ -83,7 +82,7 @@ export class QueryService {
         if (!config) {
             throw Error(`Invalid configuration has been provided`);
         }
-        this.responseMapService = new ResponseMapService(config, richTextHtmlParser);
+        this.responseMapper = new ResponseMapper(config, richTextHtmlParser);
     }
 
     /**
@@ -105,7 +104,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapSingleResponse<TItem>(response, queryConfig);
+                    return this.responseMapper.mapSingleResponse<TItem>(response, queryConfig);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -122,7 +121,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapMultipleResponse<TItem>(response, queryConfig);
+                    return this.responseMapper.mapMultipleResponse<TItem>(response, queryConfig);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -139,7 +138,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapSingleTypeResponse(response);
+                    return this.responseMapper.mapSingleTypeResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -156,7 +155,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapMultipleTypeResponse(response);
+                    return this.responseMapper.mapMultipleTypeResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -173,7 +172,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapTaxonomyResponse(response);
+                    return this.responseMapper.mapTaxonomyResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -190,7 +189,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapTaxonomiesResponse(response);
+                    return this.responseMapper.mapTaxonomiesResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -207,7 +206,7 @@ export class QueryService {
         return this.getResponse(url, queryConfig)
             .pipe(
                 map(response => {
-                    return this.responseMapService.mapElementResponse(response);
+                    return this.responseMapper.mapElementResponse(response);
                 }),
                 catchError(err => {
                     return throwError(this.handleError(err));
@@ -247,11 +246,11 @@ export class QueryService {
         return headers;
     }
 
-        /**
-     * Http get response
-     * @param url Url of request
-     * @param queryConfig Query configuration
-     */
+    /**
+ * Http get response
+ * @param url Url of request
+ * @param queryConfig Query configuration
+ */
     protected getResponse(url: string, queryConfig: IQueryConfig): Observable<IBaseResponse> {
         // hold the attempt count
         const attempt = 1;

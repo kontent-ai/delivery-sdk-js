@@ -1,21 +1,17 @@
-// setup
-import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../../setup';
-
-// models
-import {
-    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, ILink, HttpService
-} from '../../../lib';
+import { ContentItem, Fields, ILink, ItemResponses, TypeResolver } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
+import { HttpService } from '../../../lib/services/http/http.service';
+import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 class MockMovie extends ContentItem {
-    public seoname: Fields.UrlSlugField
+    public seoname: Fields.UrlSlugField;
 
     constructor() {
         super({
             linkResolver: (link: ILink) => {
                 return 'globalSlug/' + link.url_slug;
             }
-        })
+        });
     }
 }
 // tests
@@ -23,13 +19,12 @@ describe('URL slug resolver', () => {
 
     const context = new Context();
     const typeResolvers = [];
-    typeResolvers.push(new TypeResolver('movie', () => new MockMovie()))
-    typeResolvers.push(new TypeResolver('actor', () => new Actor()))
+    typeResolvers.push(new TypeResolver('movie', () => new MockMovie()));
+    typeResolvers.push(new TypeResolver('actor', () => new Actor()));
 
     context.typeResolvers = typeResolvers;
     setup(context);
 
-    // mock query service
     const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
         host: repoHost,
         name: packageId,
@@ -48,7 +43,7 @@ describe('URL slug resolver', () => {
             }
         });
         done();
-    })
+    });
 
     it(`verifies globally defined url slug resolver`, () => {
         expect(response.item.seoname.getUrl()).toEqual('globalSlug/warrior');

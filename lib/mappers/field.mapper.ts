@@ -8,20 +8,14 @@ import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { ILink } from '../interfaces/item/ilink.interface';
 import { Link } from '../models/item/link.class';
 import { IRichTextHtmlParser } from '../parser';
-import { TypeResolverService } from './type-resolver.service';
+import { stronglyTypedResolver } from '../resolvers';
 
-export class FieldMapService {
-
-    /**
-     * Service used to resolve types
-     */
-    private readonly typeResolverService: TypeResolverService;
+export class FieldMapper {
 
     constructor(
         private readonly config: DeliveryClientConfig,
         private readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
-        this.typeResolverService = new TypeResolverService(config);
     }
 
     /**
@@ -57,10 +51,10 @@ export class FieldMapService {
         let itemTyped: TItem;
 
         // check if resolver for this type is available
-        if (this.typeResolverService.hasTypeResolver(item.system.type)) {
-            itemTyped = this.typeResolverService.createTypedObj(item.system.type, item) as TItem;
+        if (stronglyTypedResolver.hasTypeResolver(item.system.type, this.config.typeResolvers)) {
+            itemTyped = stronglyTypedResolver.createTypedObj(item.system.type, item, this.config.typeResolvers) as TItem;
         } else {
-            itemTyped = this.typeResolverService.createContentItem(item) as TItem;
+            itemTyped = stronglyTypedResolver.createContentItem(item) as TItem;
         }
 
         // add/taken item to processed items to avoid infinite recursion
@@ -149,7 +143,16 @@ export class FieldMapService {
         // extract and map links
         const links: ILink[] = this.mapRichTextLinks(field.links);
 
-        return new Fields.RichTextField(this.richTextHtmlParser, field.name, field.value, modularItems, links, this.typeResolverService, this.config.enableAdvancedLogging, queryConfig);
+        return new Fields.RichTextField({
+            enableAdvancedLogging: this.config.enableAdvancedLogging,
+            value: field.value,
+            name: field.name,
+            typeResolvers: this.config.typeResolvers,
+            richTextHtmlParser: this.richTextHtmlParser,
+            modularItems: modularItems,
+            links: links,
+            itemQueryConfig: queryConfig
+        });
     }
 
     private mapDateTimeField(field: FieldInterfaces.IField): Fields.DateTimeField {

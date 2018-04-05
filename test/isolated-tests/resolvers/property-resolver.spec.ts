@@ -1,11 +1,7 @@
-// setup
-import { setup, Context, MockQueryService, Actor, warriorMovieJson } from '../../setup';
-
-// models
-import {
-    Fields, ContentItem, ContentItemSystemAttributes, ItemResponses, TypeResolver, FieldDecorators, HttpService
-} from '../../../lib';
+import { ContentItem, FieldDecorators, Fields, ItemResponses, TypeResolver } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
+import { HttpService } from '../../../lib/services/http/http.service';
+import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 class MockMovie extends ContentItem {
     public titleTest: Fields.TextField;
@@ -23,16 +19,16 @@ class MockMovie extends ContentItem {
                     return 'titleTest';
                 }
             }
-        })
+        });
     }
 }
-// tests
+
 describe('Property resolver', () => {
 
     const context = new Context();
     const typeResolvers = [];
-    typeResolvers.push(new TypeResolver('movie', () => new MockMovie()))
-    typeResolvers.push(new TypeResolver('actor', () => new Actor()))
+    typeResolvers.push(new TypeResolver('movie', () => new MockMovie()));
+    typeResolvers.push(new TypeResolver('actor', () => new Actor()));
 
     context.typeResolvers = typeResolvers;
     setup(context);
@@ -49,7 +45,7 @@ describe('Property resolver', () => {
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
         done();
-    })
+    });
 
     it(`checks field is assigned #1`, () => {
         expect(response.item.titleTest.text).toEqual('Warrior');

@@ -1,19 +1,19 @@
-import { FieldMapService } from './field-map.service';
-import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
+import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { IRichTextHtmlParser } from '../parser';
+import { FieldMapper } from './field.mapper';
 
-export class ItemMapService {
+export class ItemMapper {
 
-    private readonly fieldMapService: FieldMapService;
+    private readonly fieldMapper: FieldMapper;
 
     constructor(
         private readonly config: DeliveryClientConfig,
         private readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
-        this.fieldMapService = new FieldMapService(config, richTextHtmlParser);
+        this.fieldMapper = new FieldMapper(config, richTextHtmlParser);
     }
 
     /**
@@ -25,11 +25,11 @@ export class ItemMapService {
         return this.mapItem<TItem>(response.item, response.modular_content, queryConfig);
     }
 
-   /**
-   * Maps multiple items to their strongly typed model from the given Cloud response
-   * @param response Cloud response used to map the item
-   * @param queryConfig Query configuration
-   */
+    /**
+    * Maps multiple items to their strongly typed model from the given Cloud response
+    * @param response Cloud response used to map the item
+    * @param queryConfig Query configuration
+    */
     mapMultipleItems<TItem extends IContentItem>(response: CloudItemResponseInterfaces.ICloudResponseMultiple, queryConfig: IItemQueryConfig): TItem[] {
         const that = this;
 
@@ -42,6 +42,6 @@ export class ItemMapService {
         if (item == null) {
             throw Error(`Could not map item because its undefined`);
         }
-        return this.fieldMapService.mapFields<TItem>(item, modularContent, queryConfig, []);
+        return this.fieldMapper.mapFields<TItem>(item, modularContent, queryConfig, []);
     }
 }

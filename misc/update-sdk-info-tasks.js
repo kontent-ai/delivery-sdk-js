@@ -11,7 +11,7 @@ const versionFilePath = path.join(__dirname + '/../lib/library-version.ts');
 const src = `
 export const version = '${appVersion}';
 export const packageId = '${packageId}';
-export const repoHost = 'npmjs.com'
+export const repoHost = 'npmjs.com';
 `;
 
 // ensure version module pulls value from package.json

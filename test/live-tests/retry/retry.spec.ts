@@ -1,4 +1,4 @@
-import { retryStrategy } from '../../../lib/services/retry/retry-strategy';
+import { retryStrategy } from '../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Retry functionality', () => {

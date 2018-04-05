@@ -1,21 +1,17 @@
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
-import { ContentItem } from '../models/item/content-item.class';
 import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
-import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { ContentItem } from '../models/item/content-item.class';
+import { TypeResolver } from '../models/item/type-resolver.class';
 
-export class TypeResolverService {
-
-    constructor(
-        private readonly config: DeliveryClientConfig
-    ) {
-    }
+export class StronglyTypedResolver {
 
     /**
      * Indicates if given type has a type resolver
      * @param type Type
+     * @param resolvers Type resolvers
      */
-    hasTypeResolver(type: string): boolean {
-        return !(!this.config.typeResolvers.find(m => m.type === type));
+    hasTypeResolver(type: string, resolvers: TypeResolver[]): boolean {
+        return !(!resolvers.find(m => m.type === type));
     }
 
     /**
@@ -35,16 +31,16 @@ export class TypeResolverService {
         );
 
         return contentItem;
-
     }
 
     /**
      * Takes given type name and creates a strongly typed model based specified in client configuration
      * @param type Type of the content item
      * @param item Typed content item
+     * @param resolvers Type resolvers
      */
-    createTypedObj<TItem extends IContentItem>(type: string, item: IContentItem): TItem {
-        const typedItem = this.createEmptyTypedObj<TItem>(type);
+    createTypedObj<TItem extends IContentItem>(type: string, item: IContentItem, typeResolvers: TypeResolver[]): TItem {
+        const typedItem = this.createEmptyTypedObj<TItem>(type, typeResolvers);
 
         // use typed 'system' property
         typedItem.system = new ContentItemSystemAttributes(
@@ -63,13 +59,14 @@ export class TypeResolverService {
     /**
      * Creates empty typed object of given type
      * @param type Type of the content item
+     * @param resolvers Type resolvers
      */
-    createEmptyTypedObj<TItem extends IContentItem>(type: string): TItem {
+    createEmptyTypedObj<TItem extends IContentItem>(type: string, resolvers: TypeResolver[]): TItem {
         if (!type) {
             throw Error('Cannot resolve type because no type name was provided');
         }
 
-        const typeResolver = this.config.typeResolvers.find(m => m.type === type);
+        const typeResolver = resolvers.find(m => m.type === type);
 
         if (!typeResolver) {
             throw Error(`Cannot find resolver for type '${type}'. This error means that no class was registered as TypeResolver for this type. Caller of this method should first check if type is available.`);
@@ -78,3 +75,5 @@ export class TypeResolverService {
         return typeResolver.resolve() as TItem;
     }
 }
+
+export const stronglyTypedResolver = new StronglyTypedResolver();

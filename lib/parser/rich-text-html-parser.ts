@@ -14,12 +14,12 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
         type: 'application/kenticocloud',
         dataType: 'data-type',
         dataCodename: 'data-codename'
-    }
+    };
 
     private readonly link = {
         nodeName: 'a',
         dataItemId: 'data-item-id',
-    }
+    };
 
     resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         try {
@@ -35,12 +35,12 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
                 links: result.links,
                 modularContentItems: result.modularContentItems,
                 resolvedHtml: doc.innerHTML
-            }
+            };
 
         } catch (error) {
             throw Error('Parsing HTML failed:' + error);
         }
-    };
+    }
 
     private createWrapperElement(html: string): HTMLDivElement {
         const element = document.createElement('div');
@@ -104,7 +104,7 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
                         if (!hrefAttribute) {
                             // href attribute is missing
                             if (config.enableAdvancedLogging) {
-                                console.warn(`Cannot set url '${resolvedUrl}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this.`)
+                                console.warn(`Cannot set url '${resolvedUrl}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this.`);
                             }
                         } else {
                             hrefAttribute.value = resolvedUrl;

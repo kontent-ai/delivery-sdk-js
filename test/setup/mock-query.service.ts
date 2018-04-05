@@ -1,32 +1,23 @@
-import { QueryService } from '../../lib/services/query.service';
-import { DeliveryClientConfig, ISdkInfo, RichTextHtmlParser } from '../../lib';
-
-// fake ajax response
-import { fakeResponseFactory } from '../setup';
-
-// models
-import { ItemResponses} from '../../lib/models/item/responses';
+import { DeliveryClientConfig, ISdkInfo, ResponseMapper, RichTextHtmlParser } from '../../lib';
 import { IContentItem } from '../../lib/interfaces/item/icontent-item.interface';
-import { IQueryParameter } from '../../lib/interfaces/common/iquery-parameter.interface';
 import { IItemQueryConfig } from '../../lib/interfaces/item/iitem-query.config';
 import { ItemQueryConfig } from '../../lib/models/item/item-query.config';
-
-// services
-import { ResponseMapService } from '../../lib/services/response-map.service';
-import { HttpService } from '../../lib/services/http/http.service';
+import { ItemResponses } from '../../lib/models/item/responses';
 import { IHttpService } from '../../lib/services/http/ihttp.service';
+import { QueryService } from '../../lib/services/query.service';
+import { fakeResponseFactory } from '../setup';
 
 export class MockQueryService extends QueryService {
 
-    protected responseMapService: ResponseMapService;
+    protected responseMapper: ResponseMapper;
 
     constructor(
         protected config: DeliveryClientConfig,
         protected httpService: IHttpService,
         protected sdkInfo: ISdkInfo
     ) {
-        super(config, httpService, sdkInfo, new RichTextHtmlParser())
-        this.responseMapService = new ResponseMapService(config, new RichTextHtmlParser);
+        super(config, httpService, sdkInfo, new RichTextHtmlParser());
+        this.responseMapper = new ResponseMapper(config, new RichTextHtmlParser);
     }
 
     mockGetSingleItem<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
@@ -36,7 +27,7 @@ export class MockQueryService extends QueryService {
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.responseMapService.mapSingleResponse<TItem>(fakeResponse, queryConfig);
+        return this.responseMapper.mapSingleResponse<TItem>(fakeResponse, queryConfig);
     }
 
     mockGetMultipleItems<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
@@ -46,6 +37,6 @@ export class MockQueryService extends QueryService {
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.responseMapService.mapMultipleResponse<TItem>(fakeResponse, queryConfig);
+        return this.responseMapper.mapMultipleResponse<TItem>(fakeResponse, queryConfig);
     }
 }

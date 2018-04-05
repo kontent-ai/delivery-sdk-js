@@ -1,16 +1,11 @@
-import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { ITaxonomyGroup } from '../interfaces/taxonomy/itaxonomy-group.interface';
 import { ITaxonomySystemAttributes } from '../interfaces/taxonomy/itaxonomy-system-attributes.interface';
 import { ITaxonomyTerms } from '../interfaces/taxonomy/itaxonomy-terms.interface';
+import { TaxonomyGroup } from '../models/taxonomy/taxonomy-group.class';
 import { TaxonomySystemAttributes } from '../models/taxonomy/taxonomy-system-attributes.class';
 import { TaxonomyTerms } from '../models/taxonomy/taxonomy-terms.class';
-import { TaxonomyGroup } from '../models/taxonomy/taxonomy-group.class';
-import { ITaxonomyGroup } from '../interfaces/taxonomy/itaxonomy-group.interface';
 
-export class TaxonomyMapService {
-
-    constructor(
-    ) {
-    }
+export class TaxonomyMapper {
 
     mapTaxonomy(taxonomySystem: ITaxonomySystemAttributes, taxonomyTerms: ITaxonomyTerms[]): TaxonomyGroup {
         if (!taxonomySystem) {
@@ -50,7 +45,7 @@ export class TaxonomyMapService {
 
         taxonomies.forEach(taxonomy => {
             mappedTaxonomies.push(this.mapTaxonomy(taxonomy.system, taxonomy.terms));
-        })
+        });
 
         return mappedTaxonomies;
     }

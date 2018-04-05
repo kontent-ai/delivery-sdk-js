@@ -1,7 +1,7 @@
 import { Element } from '../models/element/element.class';
 import { CloudElementResponseInterfaces } from '../interfaces/element/cloud-responses';
 
-export class ElementMapService {
+export class ElementMapper {
 
     constructor(
     ) {

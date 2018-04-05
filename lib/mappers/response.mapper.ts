@@ -1,4 +1,6 @@
+import { ElementMapper, ItemMapper, TaxonomyMapper } from '.';
 import { DeliveryClientConfig } from '../config/delivery-client.config';
+import { ICloudResponseDebug } from '../interfaces/common/icloud-response-debug.interface';
 import { CloudElementResponseInterfaces } from '../interfaces/element/cloud-responses';
 import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
@@ -12,41 +14,23 @@ import { TaxonomyResponses } from '../models/taxonomy/responses';
 import { TypeResponses } from '../models/type/responses';
 import { IRichTextHtmlParser } from '../parser';
 import { IBaseResponse } from '../services/http/models';
-import { ElementMapService } from './element-map.service';
-import { ItemMapService } from './item-map.service';
-import { TaxonomyMapService } from './taxonomy-map.service';
-import { TypeMapService } from './type-map.service';
-import { ICloudResponseDebug } from '../interfaces/common/icloud-response-debug.interface';
+import { TypeMapper } from './type-map.mapper';
 
-export class ResponseMapService {
+export class ResponseMapper {
 
-    /**
-     * Service used to map content types
-     */
-    private readonly typeMapService: TypeMapService;
-
-    /**
-     * Service used to map content items
-     */
-    private readonly itemMapService: ItemMapService;
-
-    /**
-     * Service used to map taxonomies
-     */
-    private readonly taxonomyMapService: TaxonomyMapService;
-
-    /**
-     * Services used to map elements
-     */
-    private readonly elementMapService: ElementMapService;
+    private readonly typeMapper: TypeMapper;
+    private readonly itemMapper: ItemMapper;
+    private readonly taxonomyMapper: TaxonomyMapper;
+    private readonly elementMapper: ElementMapper;
 
     constructor(
         private readonly config: DeliveryClientConfig,
-        private readonly richTextHtmlParser: IRichTextHtmlParser) {
-        this.typeMapService = new TypeMapService();
-        this.itemMapService = new ItemMapService(config, richTextHtmlParser);
-        this.taxonomyMapService = new TaxonomyMapService();
-        this.elementMapService = new ElementMapService();
+        private readonly richTextHtmlParser: IRichTextHtmlParser
+    ) {
+        this.typeMapper = new TypeMapper();
+        this.itemMapper = new ItemMapper(config, richTextHtmlParser);
+        this.taxonomyMapper = new TaxonomyMapper();
+        this.elementMapper = new ElementMapper();
     }
 
     /**
@@ -57,7 +41,7 @@ export class ResponseMapService {
         const cloudResponse = response.data as any as CloudTypeResponseInterfaces.ICloudSingleTypeResponse;
 
         // map type
-        const type = this.typeMapService.mapSingleType(cloudResponse);
+        const type = this.typeMapper.mapSingleType(cloudResponse);
 
         return new TypeResponses.DeliveryTypeResponse(type, this.mapResponseDebug(response));
     }
@@ -71,7 +55,7 @@ export class ResponseMapService {
         const cloudResponse = response.data as any as CloudTypeResponseInterfaces.ICloudMultipleTypeResponse;
 
         // map types
-        const types = this.typeMapService.mapMultipleTypes(cloudResponse);
+        const types = this.typeMapper.mapMultipleTypes(cloudResponse);
 
         // pagination
         const pagination = new Pagination(
@@ -93,7 +77,7 @@ export class ResponseMapService {
         const cloudResponse = response.data as any as CloudItemResponseInterfaces.ICloudResponseSingle;
 
         // map item
-        const item = this.itemMapService.mapSingleItem<TItem>(cloudResponse, queryConfig);
+        const item = this.itemMapper.mapSingleItem<TItem>(cloudResponse, queryConfig);
 
         return new ItemResponses.DeliveryItemResponse(item, this.mapResponseDebug(response));
     }
@@ -107,7 +91,7 @@ export class ResponseMapService {
         const cloudResponse = response.data as any as CloudItemResponseInterfaces.ICloudResponseMultiple;
 
         // map items
-        const items = this.itemMapService.mapMultipleItems<TItem>(cloudResponse, queryConfig);
+        const items = this.itemMapper.mapMultipleItems<TItem>(cloudResponse, queryConfig);
 
         // pagination
         const pagination = new Pagination(
@@ -128,7 +112,7 @@ export class ResponseMapService {
         const cloudResponse = response.data as any as CloudTaxonomyResponseInterfaces.ICloudTaxonomyResponse;
 
         // map taxonomy
-        const taxonomy = this.taxonomyMapService.mapTaxonomy(cloudResponse.system, cloudResponse.terms);
+        const taxonomy = this.taxonomyMapper.mapTaxonomy(cloudResponse.system, cloudResponse.terms);
 
         return new TaxonomyResponses.TaxonomyResponse(taxonomy, this.mapResponseDebug(response));
     }
@@ -141,7 +125,7 @@ export class ResponseMapService {
         const cloudResponse = response.data as any as CloudTaxonomyResponseInterfaces.ICloudTaxonomiesResponse;
 
         // map taxonomies
-        const taxonomies = this.taxonomyMapService.mapTaxonomies(cloudResponse.taxonomies);
+        const taxonomies = this.taxonomyMapper.mapTaxonomies(cloudResponse.taxonomies);
 
         // pagination
         const pagination = new Pagination(
@@ -162,7 +146,7 @@ export class ResponseMapService {
         const cloudResponse = response.data as any as CloudElementResponseInterfaces.ICloudElementResponse;
 
         // map element
-        const element = this.elementMapService.mapElement(cloudResponse);
+        const element = this.elementMapper.mapElement(cloudResponse);
 
         return new ElementResponses.ElementResponse(element, this.mapResponseDebug(response));
     }
