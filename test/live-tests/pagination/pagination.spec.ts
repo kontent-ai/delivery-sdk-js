@@ -1,10 +1,6 @@
-// setup
-import { setup, Context, Actor, Movie } from '../../setup';
-
-// models
 import { ItemResponses } from '../../../lib';
+import { Context, Movie, setup } from '../../setup';
 
-// tests
 describe('Pagination', () => {
 
   const context = new Context();

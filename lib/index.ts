@@ -34,9 +34,6 @@ export * from './query';
 // parameters
 export * from './models/common/parameters';
 
-// common models
-export * from './models/common/pagination.class';
-
 // items
 export * from './models/item/type-resolver.class';
 export * from './models/item/content-item.class';

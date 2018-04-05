@@ -5,14 +5,13 @@ import { IHeader } from '../../interfaces/common/iheader.interface';
 import { IContentItem } from '../../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../../interfaces/item/iitem-query.config';
 import { Parameters } from '../../models/common/parameters';
-import { ItemQueryConfig } from '../../models/item/item-query.config';
 import { ItemResponses } from '../../models/item/responses';
 import { QueryService } from '../../services/query.service';
 import { BaseQuery } from '../common/base-query.class';
 
 export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> extends BaseQuery<TResponse> {
 
-    protected _queryConfig?: IItemQueryConfig;
+    protected _queryConfig: IItemQueryConfig = {};
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -34,7 +33,7 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
     * Gets headers used by this query
     */
     getHeaders(): IHeader[] {
-        return this.queryService.getHeaders(this.getQueryConfig());
+        return this.queryService.getHeaders(this._queryConfig);
     }
 
     // shared parameters
@@ -74,7 +73,7 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
-        return this.queryService.getUrl(action, this.getQueryConfig(), this.getParameters());
+        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
     }
 
     protected getSingleItemQueryUrl(codename: string): string {
@@ -83,19 +82,19 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
-        return this.queryService.getUrl(action, this.getQueryConfig(), this.getParameters());
+        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
     }
 
     protected runMultipleItemsQuery(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
         const url = this.getMultipleItemsQueryUrl();
 
-        return this.queryService.getMultipleItems(url, this.getQueryConfig());
+        return this.queryService.getMultipleItems(url, this._queryConfig);
     }
 
     protected runSingleItemQuery(codename: string): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         const url = this.getSingleItemQueryUrl(codename);
 
-        return this.queryService.getSingleItem(url, this.getQueryConfig());
+        return this.queryService.getSingleItem(url, this._queryConfig);
     }
 
     private processDefaultLanguageParameter(): void {
@@ -107,14 +106,5 @@ export abstract class BaseItemQuery<TItem extends IContentItem, TResponse> exten
                 this.parameters.push(new Parameters.LanguageParameter(this.config.defaultLanguage));
             }
         }
-    }
-
-    private getQueryConfig(): IItemQueryConfig {
-        // use default config if none is provider
-        if (!this._queryConfig) {
-            return new ItemQueryConfig();
-        }
-
-        return this._queryConfig;
     }
 }

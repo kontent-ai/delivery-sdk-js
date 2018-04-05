@@ -1,13 +1,13 @@
 import { ElementMapper, ItemMapper, TaxonomyMapper } from '.';
 import { IDeliveryClientConfig } from '../config/delivery-client.config';
 import { ICloudResponseDebug } from '../interfaces/common/icloud-response-debug.interface';
+import { IPagination } from '../interfaces/common/ipagination.interface';
 import { CloudElementResponseInterfaces } from '../interfaces/element/cloud-responses';
 import { CloudItemResponseInterfaces } from '../interfaces/item/cloud-responses';
 import { IContentItem } from '../interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
 import { CloudTaxonomyResponseInterfaces } from '../interfaces/taxonomy/cloud-responses';
 import { CloudTypeResponseInterfaces } from '../interfaces/type/cloud-responses';
-import { Pagination } from '../models/common/pagination.class';
 import { ElementResponses } from '../models/element/responses';
 import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
@@ -58,12 +58,12 @@ export class ResponseMapper {
         const types = this.typeMapper.mapMultipleTypes(cloudResponse);
 
         // pagination
-        const pagination = new Pagination(
-            cloudResponse.pagination.skip,
-            cloudResponse.pagination.limit,
-            cloudResponse.pagination.count,
-            cloudResponse.pagination.next_page
-        );
+        const pagination: IPagination = {
+            skip: cloudResponse.pagination.skip,
+            count: cloudResponse.pagination.count,
+            limit: cloudResponse.pagination.limit,
+            next_page: cloudResponse.pagination.next_page
+        };
 
         return new TypeResponses.DeliveryTypeListingResponse(types, pagination, this.mapResponseDebug(response));
     }
@@ -94,12 +94,12 @@ export class ResponseMapper {
         const items = this.itemMapper.mapMultipleItems<TItem>(cloudResponse, queryConfig);
 
         // pagination
-        const pagination = new Pagination(
-            cloudResponse.pagination.skip,
-            cloudResponse.pagination.limit,
-            cloudResponse.pagination.count,
-            cloudResponse.pagination.next_page
-        );
+        const pagination: IPagination = {
+            skip: cloudResponse.pagination.skip,
+            count: cloudResponse.pagination.count,
+            limit: cloudResponse.pagination.limit,
+            next_page: cloudResponse.pagination.next_page
+        };
 
         return new ItemResponses.DeliveryItemListingResponse(items, pagination, this.mapResponseDebug(response));
     }
@@ -128,12 +128,12 @@ export class ResponseMapper {
         const taxonomies = this.taxonomyMapper.mapTaxonomies(cloudResponse.taxonomies);
 
         // pagination
-        const pagination = new Pagination(
-            cloudResponse.pagination.skip,
-            cloudResponse.pagination.limit,
-            cloudResponse.pagination.count,
-            cloudResponse.pagination.next_page
-        );
+        const pagination: IPagination = {
+            skip: cloudResponse.pagination.skip,
+            count: cloudResponse.pagination.count,
+            limit: cloudResponse.pagination.limit,
+            next_page: cloudResponse.pagination.next_page
+        };
 
         return new TaxonomyResponses.TaxonomiesResponse(taxonomies, pagination, this.mapResponseDebug(response));
     }

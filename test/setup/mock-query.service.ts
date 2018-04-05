@@ -1,7 +1,6 @@
 import { IDeliveryClientConfig, ISdkInfo, ResponseMapper, RichTextHtmlParser } from '../../lib';
 import { IContentItem } from '../../lib/interfaces/item/icontent-item.interface';
 import { IItemQueryConfig } from '../../lib/interfaces/item/iitem-query.config';
-import { ItemQueryConfig } from '../../lib/models/item/item-query.config';
 import { ItemResponses } from '../../lib/models/item/responses';
 import { IHttpService } from '../../lib/services/http/ihttp.service';
 import { QueryService } from '../../lib/services/query.service';
@@ -22,7 +21,7 @@ export class MockQueryService extends QueryService {
 
     mockGetSingleItem<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
         if (!queryConfig) {
-            queryConfig = new ItemQueryConfig();
+            queryConfig = {};
         }
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
@@ -32,7 +31,7 @@ export class MockQueryService extends QueryService {
 
     mockGetMultipleItems<TItem extends IContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
         if (!queryConfig) {
-            queryConfig = new ItemQueryConfig();
+            queryConfig = {};
         }
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);

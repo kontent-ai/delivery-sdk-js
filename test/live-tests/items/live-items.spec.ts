@@ -1,10 +1,6 @@
-// setup
-import { setup, Context, Actor, Movie } from '../../setup';
+import { ItemResponses } from '../../../lib';
+import { Context, Movie, setup } from '../../setup';
 
-// models
-import { ItemResponses, FieldModels, Pagination } from '../../../lib';
-
-// tests
 describe('Live items', () => {
 
   const context = new Context();
@@ -32,7 +28,7 @@ describe('Live items', () => {
   });
 
   it(`items should have pagination`, () => {
-    expect(response.pagination).toEqual(jasmine.any(Pagination));
+    expect(response.pagination).toBeDefined();
   });
 
   it(`'isEmpty' should be false`, () => {

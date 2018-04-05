@@ -1,10 +1,8 @@
-// setup
+import { IPagination } from '../../../lib/interfaces/common/ipagination.interface';
 import { setup, Context } from '../../setup';
 
-// models
-import { FieldModels, TaxonomyResponses, TaxonomyGroup, Pagination } from '../../../lib';
+import { FieldModels, TaxonomyResponses, TaxonomyGroup } from '../../../lib';
 
-// tests
 describe('Live taxonomies', () => {
 
   const context = new Context();
@@ -22,14 +20,14 @@ describe('Live taxonomies', () => {
     context.deliveryClient.taxonomies()
       .get()
       .subscribe(r => {
-        response = r as TaxonomyResponses.TaxonomiesResponse
+        response = r as TaxonomyResponses.TaxonomiesResponse;
         taxonomy = response.taxonomies.find(m => m.system.codename === existingTaxonomyCodename);
         done();
       });
   });
 
   it(`taxonomies should have pagination`, () => {
-    expect(response.pagination).toEqual(jasmine.any(Pagination));
+    expect(response.pagination).toBeDefined();
   });
 
   it(`taxonomies should be defined`, () => {

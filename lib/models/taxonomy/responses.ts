@@ -1,7 +1,7 @@
-import { TaxonomyGroup } from './taxonomy-group.class';
-import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
 import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
-import { Pagination } from '../common/pagination.class'
+import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
+import { IPagination } from '../../interfaces/common/ipagination.interface';
+import { TaxonomyGroup } from './taxonomy-group.class';
 
 export namespace TaxonomyResponses {
 
@@ -20,7 +20,7 @@ export namespace TaxonomyResponses {
         }
     }
 
-    export class TaxonomiesResponse implements ICloudResponse  {
+    export class TaxonomiesResponse implements ICloudResponse {
         constructor(
             /**
              * Taxonomies
@@ -30,7 +30,7 @@ export namespace TaxonomyResponses {
             /**
              * Pagination
              */
-            public pagination: Pagination,
+            public pagination: IPagination,
 
             /**
              * Debug information

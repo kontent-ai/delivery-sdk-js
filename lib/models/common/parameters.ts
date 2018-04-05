@@ -15,7 +15,6 @@ export namespace Parameters {
         constructor(
             public elementCodenames: string[]
         ) {
-
         }
 
         public getParam(): string {
@@ -31,7 +30,7 @@ export namespace Parameters {
                 if (!m) {
                     throw Error(`Codename of 'ElementsParameter' cannot be null or empty`);
                 }
-                return m.trim()
+                return m.trim();
             }).join(',');
         }
     }

@@ -1,10 +1,6 @@
-// setup
-import { setup, Context, Actor, Movie } from '../../setup';
+import { Parameters } from '../../../lib';
+import { Context, Movie, setup } from '../../setup';
 
-// models
-import { ItemResponses, Parameters } from '../../../lib';
-
-// tests
 describe('Language #1', () => {
 
     const language = 'en';
@@ -26,7 +22,6 @@ describe('Language #1', () => {
 
 });
 
-// tests
 describe('Language #2', () => {
 
     const language = 'cz';

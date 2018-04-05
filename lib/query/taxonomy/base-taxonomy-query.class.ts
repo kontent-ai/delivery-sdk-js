@@ -4,7 +4,6 @@ import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { IHeader } from '../../interfaces/common/iheader.interface';
 import { ITaxonomyQueryConfig } from '../../interfaces/taxonomy/itaxonomy-query.config';
 import { TaxonomyResponses } from '../../models/taxonomy/responses';
-import { TaxonomyQueryConfig } from '../../models/taxonomy/taxonomy-query.config';
 import { QueryService } from '../../services/query.service';
 import { BaseQuery } from '../common/base-query.class';
 
@@ -18,7 +17,7 @@ export abstract class BaseTaxonomyQuery<TResponse> extends BaseQuery<TResponse> 
     /**
      * Query configuration
      */
-    protected _queryConfig: ITaxonomyQueryConfig = new TaxonomyQueryConfig();
+    protected _queryConfig: ITaxonomyQueryConfig = {};
 
     constructor(
         protected config: IDeliveryClientConfig,

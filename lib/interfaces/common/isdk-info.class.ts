@@ -3,13 +3,13 @@ export interface ISdkInfo {
     /**
      * Name of SDK
      */
-    name: string,
+    name: string;
     /**
      * Version SDK
      */
-    version: string,
+    version: string;
     /**
      * Host of SDK
      */
-    host: string
+    host: string;
 }

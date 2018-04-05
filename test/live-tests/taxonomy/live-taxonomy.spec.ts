@@ -20,7 +20,7 @@ describe('Live taxonomy', () => {
     context.deliveryClient.taxonomy(taxonomyCodename)
       .get()
       .subscribe(r => {
-        response = r as TaxonomyResponses.TaxonomyResponse
+        response = r as TaxonomyResponses.TaxonomyResponse;
         done();
       });
   });

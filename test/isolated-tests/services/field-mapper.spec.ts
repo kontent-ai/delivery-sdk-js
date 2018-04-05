@@ -2,7 +2,6 @@ import { ContentItem } from '../../../lib';
 import { FieldInterfaces } from '../../../lib/fields/field-interfaces';
 import { FieldType } from '../../../lib/fields/field-type';
 import { FieldMapper } from '../../../lib/mappers';
-import { QueryConfig } from '../../../lib/models/common/query.config';
 import { Context, setup } from '../../setup';
 
 describe('FieldMapper', () => {
@@ -47,7 +46,7 @@ describe('FieldMapper', () => {
         expect(() => {
             const item = new FakeContentItem();
             item.system = {} as any;
-            fieldMapper.mapFields(item, {}, new QueryConfig(), undefined);
+            fieldMapper.mapFields(item, {}, {}, undefined);
         } ).toThrowError();
 
     });

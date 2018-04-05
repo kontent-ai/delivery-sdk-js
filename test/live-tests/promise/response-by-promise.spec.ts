@@ -1,10 +1,6 @@
-// setup
-import { setup, Context, Movie } from '../../setup';
+import { ItemResponses } from '../../../lib';
+import { Context, Movie, setup } from '../../setup';
 
-// models
-import { FieldModels, ItemResponses } from '../../../lib';
-
-// tests
 describe('Response with Promises', () => {
 
   const context = new Context();
@@ -18,7 +14,7 @@ describe('Response with Promises', () => {
       .then(xResponse => {
         response = xResponse;
         done();
-      })
+      });
   });
 
   it(`Response items should be retrieved and mapped just like with Promise`, () => {

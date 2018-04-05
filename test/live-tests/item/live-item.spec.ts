@@ -1,10 +1,6 @@
-// setup
-import { setup, Context, Actor, Movie } from '../../setup';
+import { FieldModels, ItemResponses } from '../../../lib';
+import { Actor, Context, Movie, setup } from '../../setup';
 
-// models
-import { ItemResponses, FieldModels } from '../../../lib';
-
-// tests
 describe('Live item', () => {
 
   const context = new Context();

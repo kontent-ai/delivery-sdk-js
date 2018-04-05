@@ -1,10 +1,6 @@
-// setup
-import { setup, Context, Actor, Movie } from '../../setup';
+import { TypeResponses } from '../../../lib';
+import { Context, setup } from '../../setup';
 
-// models
-import { ItemResponses, FieldModels, TypeResponses, Pagination } from '../../../lib';
-
-// tests
 describe('Live types', () => {
 
   const context = new Context();
@@ -26,7 +22,7 @@ describe('Live types', () => {
   });
 
   it(`types should have pagination`, () => {
-    expect(response.pagination).toEqual(jasmine.any(Pagination));
+    expect(response.pagination).toBeDefined();
   });
 
   it(`there should be at least 1 type`, () => {

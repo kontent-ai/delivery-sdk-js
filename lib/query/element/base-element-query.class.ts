@@ -3,14 +3,13 @@ import { Observable } from 'rxjs';
 import { IDeliveryClientConfig } from '../../config/delivery-client.config';
 import { IHeader } from '../../interfaces/common/iheader.interface';
 import { IElementQueryConfig } from '../../interfaces/element/ielement-query.config';
-import { ElementQueryConfig } from '../../models/element/element-query.config';
 import { ElementResponses } from '../../models/element/responses';
 import { QueryService } from '../../services/query.service';
 import { BaseQuery } from '../common/base-query.class';
 
 export abstract class BaseElementQuery<TResponse> extends BaseQuery<TResponse> {
 
-    protected _queryConfig: IElementQueryConfig = new ElementQueryConfig();
+    protected _queryConfig: IElementQueryConfig = {};
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -23,7 +22,7 @@ export abstract class BaseElementQuery<TResponse> extends BaseQuery<TResponse> {
      * Use to configure query
      * @param queryConfig Query configuration
      */
-    queryConfig(queryConfig: ElementQueryConfig): this {
+    queryConfig(queryConfig: IElementQueryConfig): this {
         this._queryConfig = queryConfig;
         return this;
     }

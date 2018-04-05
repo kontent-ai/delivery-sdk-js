@@ -29,7 +29,7 @@ describe('Live element', () => {
       )
       .subscribe(() => {
         done();
-      })
+      });
   });
 
   it(`element responses should be defined`, () => {

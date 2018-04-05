@@ -1,11 +1,6 @@
-// setup
-import { setup, Context, Actor, Movie } from '../../setup';
+import { ContentItem, ContentItemSystemAttributes, ItemResponses } from '../../../lib';
+import { Context, setup } from '../../setup';
 
-// models
-import { ItemResponses, FieldModels, IContentItem, ContentItem, ContentItemSystemAttributes } from '../../../lib';
-
-
-// dev tests
 describe('Non generic item tests', () => {
 
     const context = new Context();
@@ -22,7 +17,7 @@ describe('Non generic item tests', () => {
             .subscribe(r => {
                 response = r;
                 done();
-            })
+            });
     });
 
     it(`ContentItem should be returned if `, () => {
