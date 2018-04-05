@@ -15,7 +15,7 @@ describe('Wait for loading new content', () => {
         all = reponse;
         done();
       });
-  })
+  });
 
   it(`'X-KC-Wait-For-Loading-New-Content' header should NOT be set when Query configuration does not set it`, () => {
     const itemHeaders = context.deliveryClient.item('any').getHeaders();
@@ -62,6 +62,6 @@ describe('Wait for loading new content', () => {
     expect(typesHeader).toBeDefined();
     expect(typesHeader).toBeDefined();
   });
-})
+});
 
 

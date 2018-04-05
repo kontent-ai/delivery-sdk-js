@@ -12,7 +12,6 @@ import { ITaxonomyQueryConfig } from '../interfaces/taxonomy/itaxonomy-query.con
 import { IContentTypeQueryConfig } from '../interfaces/type/icontent-type-query.config';
 import { ResponseMapper } from '../mappers';
 import { CloudError } from '../models/common/cloud-error.class';
-import { Header } from '../models/common/header.class';
 import { ElementResponses } from '../models/element/responses';
 import { ItemResponses } from '../models/item/responses';
 import { TaxonomyResponses } from '../models/taxonomy/responses';
@@ -240,7 +239,10 @@ export class QueryService {
 
         // add 'X-KC-Wait-For-Loading-New-Content' header if required
         if (queryConfig.waitForLoadingNewContent) {
-            headers.push(new Header(this.waitForLoadingNewContentHeader, 'true'));
+            headers.push({
+                header: this.waitForLoadingNewContentHeader,
+                value: 'true'
+            });
         }
 
         return headers;
@@ -376,14 +378,20 @@ export class QueryService {
             throw Error(`Cannot get authorization header because key is undefined`);
         }
         // authorization header required for preview mode
-        return new Header('authorization', `bearer ${key}`);
+        return {
+            header: 'authorization',
+            value: `bearer ${key}`
+        };
     }
 
     /**
      * Header identifying SDK type & version for internal purposes of Kentico
      */
     private getSdkIdHeader(): IHeader {
-        return new Header(this.sdkVersionHeader, `${this.sdkInfo.host};${this.sdkInfo.name};${this.sdkInfo.version}`);
+        return {
+            header: this.sdkVersionHeader,
+            value: `${this.sdkInfo.host};${this.sdkInfo.name};${this.sdkInfo.version}`
+        };
     }
 
 }

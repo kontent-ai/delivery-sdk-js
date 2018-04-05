@@ -15,10 +15,8 @@ import {
 import { observableFactory } from '../setup';
 
 class Article extends ContentItem {
-
 }
 
-// tests
 describe('Official Kentico cloud examples (used in API reference https://developer.kenticocloud.com/v1/reference#delivery-api)', () => {
 
     /* ----------- Initial setup ----------- */

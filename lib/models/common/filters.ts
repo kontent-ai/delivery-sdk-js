@@ -14,7 +14,7 @@ export namespace Filters {
         public getParam(): string {
             if (Array.isArray(this.type)) {
                 // multiple types
-                return 'system.type[in]'
+                return 'system.type[in]';
             }
 
             // single type
@@ -67,7 +67,7 @@ export namespace Filters {
                 return defaultValue;
             }
 
-            return this.value
+            return this.value;
         }
     }
 
@@ -208,7 +208,7 @@ export namespace Filters {
             }
 
             return this.values.map(m => {
-                return m.trim()
+                return m.trim();
             }
             ).join(',');
         }
