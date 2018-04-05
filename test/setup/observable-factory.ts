@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs';
+import { Observable, zip } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { IDeliveryClient, IQueryConfig } from '../../lib';
 import { AllTestObjects, Movie } from './models';
-import { map, zip } from 'rxjs/operators';
 
 class ObservableFactory {
 
@@ -47,14 +47,9 @@ class ObservableFactory {
         return zippedObservable.pipe(map(() => all));
     }
 
-    /**
-    * Zips array of observables into one that gets executed once all inner subscriptions complete
-    * https://www.learnrxjs.io/operators/combination/zip.html
-    * @param observables Observables zip
-    */
-    zipObservables(observables: Observable<any>[]): Observable<any> {
+    zipObservables(observables: Observable<any>[]): Observable<any[]> {
         if (!observables) {
-            throw Error(`Given Observables are not valid`);
+            throw Error(`Given observables are not valid`);
         }
 
         if (!Array.isArray(observables)) {
@@ -69,11 +64,11 @@ class ObservableFactory {
             return observables[0];
         }
 
-        let zippedObservable: Observable<any> = observables[0];
+        let zippedObservable: Observable<any[]> = observables[0];
 
         for (let i = 1; i < observables.length; i++) {
             const currentObservable = observables[i];
-            zip(zippedObservable, currentObservable);
+            zippedObservable = zip(zippedObservable, currentObservable);
         }
 
         return zippedObservable;
