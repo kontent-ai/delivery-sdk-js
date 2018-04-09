@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 
-import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
-import { QueryService } from '../../services/query.service';
+import { IDeliveryClientConfig } from '../../config';
+import { IQueryParameter } from '../../interfaces';
+import { QueryService } from '../../services';
 
 export abstract class BaseQuery<TResponse> {
 

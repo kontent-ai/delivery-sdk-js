@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 
-import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { TaxonomyResponses } from '../../models/taxonomy/responses';
-import { QueryService } from '../../services/query.service';
+import { IDeliveryClientConfig } from '../../config';
+import { TaxonomyResponses } from '../../models';
+import { QueryService } from '../../services';
 import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
 
 export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.TaxonomyResponse> {
@@ -19,16 +19,16 @@ export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.TaxonomyR
         }
     }
 
-     /**
-     * Gets the runnable Observable
-     */
+    /**
+    * Gets the runnable Observable
+    */
     get(): Observable<TaxonomyResponses.TaxonomyResponse> {
         return super.runTaxonomyQuery(this.taxonomyCodename);
     }
 
-     /**
-     * Gets 'Url' representation of query
-     */
+    /**
+    * Gets 'Url' representation of query
+    */
     toString(): string {
         return super.getTaxonomyQueryUrl(this.taxonomyCodename);
     }

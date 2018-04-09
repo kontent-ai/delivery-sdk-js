@@ -1,8 +1,8 @@
-import { IDeliveryClientConfig } from '../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { IItemQueryConfig } from '../interfaces';
 import { FieldMapper } from '../mappers';
-import { ContentItem } from '../models/item/content-item.class';
+import { ContentItem } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 
 export class ItemMapper {

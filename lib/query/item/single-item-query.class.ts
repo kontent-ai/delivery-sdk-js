@@ -1,9 +1,8 @@
 import { Observable } from 'rxjs';
 
-import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { ContentItem } from '../../models/item/content-item.class';
-import { ItemResponses } from '../../models/item/responses';
-import { QueryService } from '../../services/query.service';
+import { IDeliveryClientConfig } from '../../config';
+import { ContentItem, ItemResponses } from '../../models';
+import { QueryService } from '../../services';
 import { BaseItemQuery } from './base-item-query.class';
 
 export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemResponse<TItem>> {

@@ -1,8 +1,5 @@
 import { IElementOptionContract, TypeContracts } from '../data-contracts';
-import { ElementOption } from '../models/element/element-option.class';
-import { Element } from '../models/element/element.class';
-import { ContentTypeSystemAttributes } from '../models/type/content-type-system-attributes.class';
-import { ContentType } from '../models/type/content-type.class';
+import { ContentType, ContentTypeSystemAttributes, Element, ElementOption } from '../models';
 
 export class TypeMapper {
 

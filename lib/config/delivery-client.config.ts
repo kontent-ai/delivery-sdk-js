@@ -1,4 +1,4 @@
-import { TypeResolver } from '../models/item/type-resolver.class';
+import { TypeResolver } from '../models';
 
 export interface IDeliveryClientConfig {
 

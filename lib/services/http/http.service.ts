@@ -2,7 +2,7 @@ import { bindCallback, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as xhr from 'xhr';
 
-import { IHeader } from '../../interfaces/common/iheader.interface';
+import { IHeader } from '../../interfaces';
 import { IHttpService } from './ihttp.service';
 import { IBaseResponse, IBaseResponseError } from './models';
 
@@ -32,7 +32,7 @@ export class HttpService implements IHttpService {
                         // properties of such response
                         if (callback.data[this.kenticoCloudErrorNames.requestId]) {
 
-                            throw <IBaseResponseError> {
+                            throw <IBaseResponseError>{
                                 cloudError: {
                                     errorCode: callback.data[this.kenticoCloudErrorNames.errorCode],
                                     message: callback.data[this.kenticoCloudErrorNames.message],
@@ -44,7 +44,7 @@ export class HttpService implements IHttpService {
                             };
                         }
 
-                        throw <IBaseResponseError> {
+                        throw <IBaseResponseError>{
                             response: callback.response,
                             message: callback.error
                         };

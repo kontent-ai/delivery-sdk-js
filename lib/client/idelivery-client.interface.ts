@@ -1,11 +1,13 @@
-import { ContentItem } from '../models/item/content-item.class';
-import { ElementQuery } from '../query/element/element-query.class';
-import { MultipleItemQuery } from '../query/item/multiple-item-query.class';
-import { SingleItemQuery } from '../query/item/single-item-query.class';
-import { TaxonomiesQuery } from '../query/taxonomy/taxonomies-query.class';
-import { TaxonomyQuery } from '../query/taxonomy/taxonomy-query.class';
-import { MultipleTypeQuery } from '../query/type/multiple-type-query.class';
-import { SingleTypeQuery } from '../query/type/single-type-query.class';
+import { ContentItem } from '../models';
+import {
+    ElementQuery,
+    MultipleItemQuery,
+    MultipleTypeQuery,
+    SingleItemQuery,
+    SingleTypeQuery,
+    TaxonomiesQuery,
+    TaxonomyQuery,
+} from '../query';
 
 export interface IDeliveryClient {
 

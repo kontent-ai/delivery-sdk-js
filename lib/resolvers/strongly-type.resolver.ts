@@ -1,4 +1,4 @@
-import { ItemContracts } from '..';
+import { ItemContracts } from '../data-contracts';
 import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
 import { ContentItem } from '../models/item/content-item.class';
 import { TypeResolver } from '../models/item/type-resolver.class';

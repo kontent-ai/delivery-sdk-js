@@ -6,6 +6,8 @@ import {
     Link,
     RichTextHtmlParser,
     TypeResolver,
+    urlSlugResolver,
+    richTextResolver,
 } from '../../../lib';
 
 class ActorMock extends ContentItem {
@@ -29,9 +31,18 @@ class ActorMock extends ContentItem {
             lastModified: new Date()
         });
 
-        this.url = new Fields.UrlSlugField('url', codename, this, (link: Link) => {
-            return `/actor-rt/` + link.urlSlug;
-        }, true);
+        this.url = new Fields.UrlSlugField('name', codename, {
+            resolveUrl: () => urlSlugResolver.resolveUrl({
+                fieldName: 'name',
+                type: 'type',
+                item: this,
+                linkResolver: (link: Link) => {
+                    return `/actor-rt/` + link.urlSlug;
+                },
+                enableAdvancedLogging: true,
+                fieldValue: codename
+            })
+        });
     }
 }
 
@@ -83,21 +94,20 @@ describe('RichTextField', () => {
     <p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"></object>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"></object>\n<p>See more in profile of <a data-item-id=\"3294e4b0-e58b-49d7-85fa-5bc9a86556ec\" href=\"\">Joel Edgerton</a> and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>
     `;
 
-    const field = new Fields.RichTextField({
-        enableAdvancedLogging: false,
-        links: links,
-        name: 'name',
-        value: html,
-        modularItems: modularItems,
-        typeResolvers: config.typeResolvers,
-        richTextHtmlParser: new RichTextHtmlParser(),
-        itemQueryConfig:
-            {
+    const field = new Fields.RichTextField('name', html, {
+        resolveHtml: () => richTextResolver.resolveHtml(html, {
+            enableAdvancedLogging: false,
+            links: links,
+            modularItems: modularItems,
+            typeResolvers: config.typeResolvers,
+            richTextHtmlParser: new RichTextHtmlParser(),
+            queryConfig: {
                 richTextResolver: (item: ActorMock) => {
                     return `<p class="testing_richtext">${item.firstName.text}</p>`;
                 },
                 linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
             },
+        })
     });
 
 
@@ -107,10 +117,6 @@ describe('RichTextField', () => {
 
     it(`checks value`, () => {
         expect(field.value).toEqual(html);
-    });
-
-    it(`checks number of modular items`, () => {
-        expect(field.modularItems.length).toEqual(2);
     });
 
     it(`checks that html contains resolved modular content #1`, () => {
@@ -134,18 +140,19 @@ describe('RichTextField', () => {
     });
 
     it(`checks that links are resolved even if the rich text resolver is not set`, () => {
-        const fieldWithoutRichTextResolver = new Fields.RichTextField({
-            name: 'name',
-            value: html,
-            links: links,
-            typeResolvers: typeResolvers,
-            richTextHtmlParser: new RichTextHtmlParser(),
-            modularItems: modularItems,
-            enableAdvancedLogging: false,
-            itemQueryConfig: {
-                richTextResolver: null,
-                linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
-            }
+
+        const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, {
+            resolveHtml: () => richTextResolver.resolveHtml(html, {
+                enableAdvancedLogging: false,
+                links: links,
+                modularItems: modularItems,
+                typeResolvers: config.typeResolvers,
+                richTextHtmlParser: new RichTextHtmlParser(),
+                queryConfig: {
+                    richTextResolver: null,
+                    linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
+                },
+            })
         });
 
         const expectedHtml1 = `/actor-rt/slug_for_joel`;

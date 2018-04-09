@@ -1,11 +1,9 @@
 import { Observable } from 'rxjs';
 
-import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { IHeader } from '../../interfaces/common/iheader.interface';
-import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
-import { IContentTypeQueryConfig } from '../../interfaces/type/icontent-type-query.config';
-import { TypeResponses } from '../../models/type/responses';
-import { QueryService } from '../../services/query.service';
+import { IDeliveryClientConfig } from '../../config';
+import { IContentTypeQueryConfig, IHeader, IQueryParameter } from '../../interfaces';
+import { TypeResponses } from '../../models';
+import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
 export abstract class BaseTypeQuery<TResponse> extends BaseQuery<TResponse> {

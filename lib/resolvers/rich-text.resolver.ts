@@ -1,9 +1,7 @@
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { ContentItem } from '../models/item/content-item.class';
-import { Link } from '../models/item/link.class';
-import { TypeResolver } from '../models/item/type-resolver.class';
+import { IItemQueryConfig } from '../interfaces';
+import { ContentItem, Link, TypeResolver } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
-import { stronglyTypedResolver } from '../resolvers';
+import { stronglyTypedResolver } from './strongly-type.resolver';
 
 export class RichTextResolver {
 
@@ -32,78 +30,67 @@ export class RichTextResolver {
      */
     private readonly linkContentItemIdAttributeName = 'data-item-id';
 
-    public richTextHtmlParser: IRichTextHtmlParser;
-    public typeResolvers: TypeResolver[];
-    public html: string;
-    public modularItems: ContentItem[];
-    public links: Link[];
-    public enableAdvancedLogging: boolean;
-    public queryConfig: IItemQueryConfig;
-
-    /**
-    * Rich text resolver
-    * @constructor
-    * @param {IRichTextHtmlParser} richTextHtmlParser - Parser used for working with HTML elements
-    * @param {TypeResolver[]} typeResolvers - Type reseolvers
-    * @param {string} html - html to resolve
-    * @param {ContentItem[]} modularItems - modular items
-    * @param {Link[]} links - links
-    * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
-    * @param {IItemQueryConfig} queryConfig - Query configuration
-    */
-    constructor(
-        data: {
-            richTextHtmlParser: IRichTextHtmlParser,
-            typeResolvers: TypeResolver[],
-            html: string,
-            modularItems: ContentItem[],
-            links: Link[],
-            enableAdvancedLogging: boolean,
-            queryConfig: IItemQueryConfig,
-        }
-    ) {
-        Object.assign(this, data);
-    }
-
     /**
      * Resolves modular content inside the Rich text field.
      * Rich text resolved needs to be configured either on the model or query level
      */
-    resolveHtml(): string {
+    resolveHtml(
+        html: string,
+        data: {
+            richTextHtmlParser: IRichTextHtmlParser,
+            typeResolvers: TypeResolver[],
+            modularItems: ContentItem[],
+            links: Link[],
+            enableAdvancedLogging: boolean,
+            queryConfig: IItemQueryConfig,
+        }): string {
         // prepare config
         const config: IHtmlResolverConfig = {
-            enableAdvancedLogging: this.enableAdvancedLogging,
-            queryConfig: this.queryConfig,
+            enableAdvancedLogging: data.enableAdvancedLogging,
+            queryConfig: data.queryConfig,
         };
 
-        const result = this.richTextHtmlParser.resolveRichTextField(
-            this.html, {
-                getLinkUrl: (itemId: string) => this.getLinkUrl(itemId, config),
-                getModularContentHtml: (itemCodename: string) => this.getHtmlOfModularContent(itemCodename, config)
+        const result = data.richTextHtmlParser.resolveRichTextField(
+            html, {
+                getLinkUrl: (itemId: string) => this.getLinkUrl({
+                    config: config,
+                    links: data.links,
+                    itemId: itemId,
+                    typeResolvers: data.typeResolvers
+                }),
+                getModularContentHtml: (itemCodename: string) => this.getHtmlOfModularContent({
+                    itemCodename: itemCodename,
+                    config: config,
+                    modularItems: data.modularItems,
+                })
             }, {
-                enableAdvancedLogging: this.enableAdvancedLogging,
-                queryConfig: this.queryConfig,
+                enableAdvancedLogging: data.enableAdvancedLogging,
+                queryConfig: data.queryConfig,
             });
 
         return result.resolvedHtml;
     }
 
-    private getHtmlOfModularContent(itemCodename: string, config: IHtmlResolverConfig): string {
+    private getHtmlOfModularContent(data: {
+        itemCodename: string,
+        config: IHtmlResolverConfig,
+        modularItems: ContentItem[],
+    }): string {
         // get modular content item
-        const modularContentItem = this.modularItems.find(m => m.system.codename === itemCodename);
+        const modularContentItem = data.modularItems.find(m => m.system.codename === data.itemCodename);
 
         // check if modular content really exists
         if (!modularContentItem) {
-            throw Error(`Cannot resolve modular content in 'RichTextField' for '${itemCodename}' content item`);
+            throw Error(`Cannot resolve modular content in 'RichTextField' for '${data.itemCodename}' content item`);
         }
 
         // create new replacement object
 
         // get html to replace object using Rich text resolver function
         let resolver: (<TItem extends ContentItem>(item: TItem) => string) | null = null;
-        if (config.queryConfig.richTextResolver) {
+        if (data.config.queryConfig.richTextResolver) {
             // use resolved defined by query if available
-            resolver = config.queryConfig.richTextResolver;
+            resolver = data.config.queryConfig.richTextResolver;
         } else {
             // use default resolver defined in models
             if (modularContentItem.richTextResolver) {
@@ -113,7 +100,7 @@ export class RichTextResolver {
 
         // check resolver
         if (!resolver) {
-            if (config.enableAdvancedLogging) {
+            if (data.config.enableAdvancedLogging) {
                 console.warn(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
                 return '';
             }
@@ -122,19 +109,24 @@ export class RichTextResolver {
         return resolver(modularContentItem);
     }
 
-    private getLinkUrl(itemId: string, config: IHtmlResolverConfig): string {
+    private getLinkUrl(data: {
+        itemId: string,
+        config: IHtmlResolverConfig,
+        links: Link[],
+        typeResolvers: TypeResolver[]
+    }): string {
         // find link with the id of content item
-        const link = this.links.find(m => m.itemId === itemId);
+        const link = data.links.find(m => m.itemId === data.itemId);
 
         if (!link) {
-            if (config.enableAdvancedLogging) {
-                console.warn(`Cannot resolve URL for item '${itemId}' because no link with this id was found`);
+            if (data.config.enableAdvancedLogging) {
+                console.warn(`Cannot resolve URL for item '${data.itemId}' because no link with this id was found`);
             }
             return '';
         }
 
         // try to resolve link using the resolver passed through the query config
-        const queryLinkResolver = config.queryConfig.linkResolver;
+        const queryLinkResolver = data.config.queryConfig.linkResolver;
 
         let url;
 
@@ -147,7 +139,7 @@ export class RichTextResolver {
             // url was not resolved, try to find global resolver for this particular type
             // and apply its url resolver
 
-            const emptyTypeItem = stronglyTypedResolver.createEmptyTypedObj<ContentItem>(link.type, this.typeResolvers);
+            const emptyTypeItem = stronglyTypedResolver.createEmptyTypedObj<ContentItem>(link.type, data.typeResolvers);
 
             if (!emptyTypeItem) {
                 throw Error(`Cannot resolve link for '${link.type}' type because mapping failed (have you registered this type in your config?)`);
@@ -161,8 +153,8 @@ export class RichTextResolver {
 
         // url still wasn't resolved
         if (!url) {
-            if (config.enableAdvancedLogging) {
-                console.warn(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null/undefiend`);
+            if (data.config.enableAdvancedLogging) {
+                console.warn(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null/undefined`);
             }
             return '';
         }
@@ -170,3 +162,5 @@ export class RichTextResolver {
         return url;
     }
 }
+
+export const richTextResolver = new RichTextResolver();

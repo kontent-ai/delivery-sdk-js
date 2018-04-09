@@ -2,20 +2,17 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen } from 'rxjs/operators';
 
 import { IDeliveryClientConfig } from '../config';
-import { IHeader } from '../interfaces/common/iheader.interface';
-import { IQueryParameter } from '../interfaces/common/iquery-parameter.interface';
-import { IQueryConfig } from '../interfaces/common/iquery.config';
-import { ISdkInfo } from '../interfaces/common/isdk-info.class';
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { ITaxonomyQueryConfig } from '../interfaces/taxonomy/itaxonomy-query.config';
-import { IContentTypeQueryConfig } from '../interfaces/type/icontent-type-query.config';
+import {
+    IContentTypeQueryConfig,
+    IHeader,
+    IItemQueryConfig,
+    IQueryConfig,
+    IQueryParameter,
+    ISdkInfo,
+    ITaxonomyQueryConfig,
+} from '../interfaces';
 import { ResponseMapper } from '../mappers';
-import { CloudError } from '../models/common/cloud-error.class';
-import { ElementResponses } from '../models/element/responses';
-import { ContentItem } from '../models/item/content-item.class';
-import { ItemResponses } from '../models/item/responses';
-import { TaxonomyResponses } from '../models/taxonomy/responses';
-import { TypeResponses } from '../models/type/responses';
+import { CloudError, ContentItem, ElementResponses, ItemResponses, TaxonomyResponses, TypeResponses } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 import { IBaseResponse } from '../services/http/models';
 import { IHttpService } from './http/ihttp.service';

@@ -1,16 +1,12 @@
-import { ElementMapper, ItemMapper, TaxonomyMapper } from '.';
-import { IDeliveryClientConfig } from '../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../config';
 import { ElementContracts, ItemContracts, TaxonomyContracts, TypeContracts } from '../data-contracts';
-import { ICloudResponseDebug } from '../interfaces/common/icloud-response-debug.interface';
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { Pagination } from '../models/common';
-import { ElementResponses } from '../models/element/responses';
-import { ContentItem } from '../models/item/content-item.class';
-import { ItemResponses } from '../models/item/responses';
-import { TaxonomyResponses } from '../models/taxonomy/responses';
-import { TypeResponses } from '../models/type/responses';
+import { ICloudResponseDebug, IItemQueryConfig } from '../interfaces';
+import { ContentItem, ElementResponses, ItemResponses, Pagination, TaxonomyResponses, TypeResponses } from '../models';
 import { IRichTextHtmlParser } from '../parser';
-import { IBaseResponse } from '../services/http/models';
+import { IBaseResponse } from '../services';
+import { ElementMapper } from './element.mapper';
+import { ItemMapper } from './item.mapper';
+import { TaxonomyMapper } from './taxonomy.mapper';
 import { TypeMapper } from './type-map.mapper';
 
 export class ResponseMapper {

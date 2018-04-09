@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { IHeader } from '../../interfaces/common/iheader.interface';
+import { IHeader } from '../../interfaces';
 import { IBaseResponse } from './models';
 
 export interface IHttpService {

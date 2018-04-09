@@ -1,12 +1,6 @@
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { ContentItem } from '../models/item/content-item.class';
-import { Link } from '../models/item/link.class';
-import { TypeResolver } from '../models/item/type-resolver.class';
-import { IRichTextHtmlParser } from '../parser';
 import { FieldInterfaces } from './field-interfaces';
 import { FieldModels } from './field-models';
 import { FieldType } from './field-type';
-import { RichTextResolver } from './rich-text-resolver.class';
 
 export namespace Fields {
 
@@ -99,6 +93,11 @@ export namespace Fields {
     export class RichTextField implements FieldInterfaces.IField {
 
         /**
+         * Function that is responsible for getting resolved HTML of the field
+         */
+        private resolveHtml: () => string;
+
+        /**
         * Resolved html in field - store here once the html was resolved to avoid resolving it multiple times
         */
         private resolvedHtml: string;
@@ -108,37 +107,18 @@ export namespace Fields {
         */
         public type: FieldType = FieldType.RichText;
 
-        public richTextHtmlParser: IRichTextHtmlParser;
-        public typeResolvers: TypeResolver[];
-        public name: string;
-        public value: any;
-        public modularItems: ContentItem[];
-        public links: Link[];
-        public enableAdvancedLogging: boolean;
-        public itemQueryConfig: IItemQueryConfig;
-
         /**
         * Represents rich text field of Kentico Cloud item
         * @constructor
-        * @param {IRichTextHtmlParser} richTextHtmlParser - Parser used for working with HTML elements
-        * @param {TypeResolver[]} typeResolvers - Type resolvers
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
-        * @param {ContentItem[]} modularItems - Modular items
-        * @param {Link[]} links - Links in rich text field
-        * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
-        * @param {IItemQueryConfig} itemQueryConfig - Item query config
+        * @param {() => string} resolveHtml - Function that resolves HTML
         */
         constructor(
+            public name: string,
+            public value: any,
             data: {
-                richTextHtmlParser: IRichTextHtmlParser,
-                typeResolvers: TypeResolver[],
-                name: string,
-                value: any,
-                modularItems: ContentItem[],
-                links: Link[],
-                enableAdvancedLogging: boolean,
-                itemQueryConfig: IItemQueryConfig
+                resolveHtml: () => string
             }
         ) {
             Object.assign(this, data);
@@ -150,17 +130,7 @@ export namespace Fields {
                 return this.resolvedHtml;
             }
 
-            const richTextHelper = new RichTextResolver({
-                typeResolvers: this.typeResolvers,
-                queryConfig: this.itemQueryConfig,
-                enableAdvancedLogging: this.enableAdvancedLogging,
-                html: this.value,
-                links: this.links,
-                modularItems: this.modularItems,
-                richTextHtmlParser: this.richTextHtmlParser
-            });
-
-            this.resolvedHtml = richTextHelper.resolveHtml();
+            this.resolvedHtml = this.resolveHtml();
 
             return this.resolvedHtml;
         }
@@ -237,6 +207,10 @@ export namespace Fields {
 
     export class UrlSlugField implements FieldInterfaces.IField {
 
+        private resolvedUrl?: string;
+
+        private resolveUrl: () => string;
+
         /**
         * Type of the field
         */
@@ -247,47 +221,26 @@ export namespace Fields {
         * @constructor
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
-        * @param {ContentItem} item - Content item, required in order to get link object used by resolver
-        * @param {((link: Link) => string) | undefined} linkResolver - Callback used to resolve links
-        * @param {boolean} enableAdvancedLogging - Indicates if advanced issues are logged in console
+        * @param {() => string | undefined} resolveUrl - Function to get url of the link
         */
         constructor(
             public name: string,
             public value: string,
-            public item: ContentItem,
-            public linkResolver: ((link: Link) => string) | undefined,
-            public enableAdvancedLogging: boolean
+            data: {
+                resolveUrl: () => string | undefined
+            }
         ) {
+            Object.assign(this, data);
         }
 
         getUrl(): string | undefined {
-            if (!this.linkResolver) {
-                if (this.enableAdvancedLogging) {
-                    console.warn(`You have to implement 'linkResolver' in your Model class or your query in order to get url of this item`);
-                }
-                return undefined;
+            if (this.resolvedUrl) {
+                return this.resolvedUrl;
             }
 
-            if (!this.item) {
-                if (this.enableAdvancedLogging) {
-                    console.warn(`Cannot resolve link for field '${this.name}' because no item was provided to URL slug field (item may be missing from response)`);
-                }
-                return undefined;
-            }
+            this.resolvedUrl = this.resolveUrl();
 
-            const url = this.linkResolver(new Link({
-                urlSlug: this.value,
-                type: this.type,
-                codename: this.item.system.codename,
-                itemId: this.item.system.id
-            }));
-
-            if (!url) {
-                console.warn(`'linkResolver' is configured, but url resolved for '${this.item.system.codename}' item of '${this.item.system.type}' type inside '${this.name}' field resolved to an undefined url.`);
-                return undefined;
-            }
-
-            return url;
+            return this.resolvedUrl;
         }
     }
 

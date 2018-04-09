@@ -1,12 +1,8 @@
 import { Observable } from 'rxjs';
 
-import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { Filters } from '../../models/common/filters';
-import { Parameters } from '../../models/common/parameters';
-import { SortOrder } from '../../models/common/sort-order.enum';
-import { ContentItem } from '../../models/item/content-item.class';
-import { ItemResponses } from '../../models/item/responses';
-import { QueryService } from '../../services/query.service';
+import { IDeliveryClientConfig } from '../../config';
+import { ContentItem, Filters, ItemResponses, Parameters, SortOrder } from '../../models';
+import { QueryService } from '../../services';
 import { BaseItemQuery } from './base-item-query.class';
 
 export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemListingResponse<TItem>> {

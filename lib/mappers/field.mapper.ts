@@ -1,14 +1,10 @@
-import { IDeliveryClientConfig } from '../config/delivery-client.config';
+import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { FieldDecorators } from '../fields/field-decorators';
-import { FieldInterfaces } from '../fields/field-interfaces';
-import { FieldType } from '../fields/field-type';
-import { Fields } from '../fields/field-types';
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
-import { Link } from '../models/item/link.class';
+import { FieldDecorators, FieldInterfaces, FieldType, Fields } from '../fields';
+import { IItemQueryConfig } from '../interfaces';
+import { ContentItem, Link } from '../models';
 import { IRichTextHtmlParser } from '../parser';
-import { stronglyTypedResolver } from '../resolvers';
-import { ContentItem } from '../models/item/content-item.class';
+import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
 
 export class FieldMapper {
 
@@ -143,16 +139,18 @@ export class FieldMapper {
         // extract and map links
         const links: Link[] = this.mapRichTextLinks(field.links);
 
-        return new Fields.RichTextField({
-            enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
-            value: field.value,
-            name: field.name,
-            typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
-            richTextHtmlParser: this.richTextHtmlParser,
-            modularItems: modularItems,
-            links: links,
-            itemQueryConfig: queryConfig
-        });
+        return new Fields.RichTextField(
+            field.name,
+            field.name, {
+                resolveHtml: () => richTextResolver.resolveHtml(field.value, {
+                    enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
+                    typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
+                    richTextHtmlParser: this.richTextHtmlParser,
+                    modularItems: modularItems,
+                    links: links,
+                    queryConfig: queryConfig
+                })
+            });
     }
 
     private mapDateTimeField(field: FieldInterfaces.IField): Fields.DateTimeField {
@@ -182,7 +180,19 @@ export class FieldMapper {
     private mapUrlSlugField(field: FieldInterfaces.IField, item: ContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
         const linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
 
-        return new Fields.UrlSlugField(field.name, field.value, item, linkResolver, this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false);
+        return new Fields.UrlSlugField(
+            field.name,
+            field.value,
+            {
+                resolveUrl: () => urlSlugResolver.resolveUrl({
+                    fieldName: field.name,
+                    type: field.type,
+                    fieldValue: field.value,
+                    item: item,
+                    enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
+                    linkResolver: linkResolver
+                })
+            });
     }
 
     private mapModularField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): any {

@@ -1,10 +1,9 @@
 import { Observable } from 'rxjs';
 
-import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { IHeader } from '../../interfaces/common/iheader.interface';
-import { ITaxonomyQueryConfig } from '../../interfaces/taxonomy/itaxonomy-query.config';
-import { TaxonomyResponses } from '../../models/taxonomy/responses';
-import { QueryService } from '../../services/query.service';
+import { IDeliveryClientConfig } from '../../config';
+import { IHeader, ITaxonomyQueryConfig } from '../../interfaces';
+import { TaxonomyResponses } from '../../models/';
+import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
 export abstract class BaseTaxonomyQuery<TResponse> extends BaseQuery<TResponse> {

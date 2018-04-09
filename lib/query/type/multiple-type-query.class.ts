@@ -1,9 +1,8 @@
 import { Observable } from 'rxjs';
 
-import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { Parameters } from '../../models/common/parameters';
-import { TypeResponses } from '../../models/type/responses';
-import { QueryService } from '../../services/query.service';
+import { IDeliveryClientConfig } from '../../config';
+import { Parameters, TypeResponses } from '../../models';
+import { QueryService } from '../../services';
 import { BaseTypeQuery } from './base-type-query.class';
 
 export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeListingResponse> {
@@ -15,10 +14,10 @@ export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeL
         super(config, queryService);
     }
 
-     /**
-     * Limits the number of types returned by query
-     * @param limit Number of types to load
-     */
+    /**
+    * Limits the number of types returned by query
+    * @param limit Number of types to load
+    */
     limitParameter(limit: number): this {
         this.parameters.push(new Parameters.LimitParameter(limit));
         return this;
@@ -33,16 +32,16 @@ export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeL
         return this;
     }
 
-     /**
-     * Gets the runnable Observable
-     */
+    /**
+    * Gets the runnable Observable
+    */
     get(): Observable<TypeResponses.DeliveryTypeListingResponse> {
         return super.runMultipleTypesQuery();
     }
 
-     /**
-     * Gets 'Url' representation of query
-     */
+    /**
+    * Gets 'Url' representation of query
+    */
     toString(): string {
         return super.getMultipleTypesQueryUrl();
     }

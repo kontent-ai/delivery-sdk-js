@@ -1,5 +1,5 @@
 import { ElementContracts } from '../data-contracts';
-import { Element } from '../models/element/element.class';
+import { Element } from '../models';
 
 export class ElementMapper {
 

@@ -1,7 +1,5 @@
 import { TaxonomyContracts } from '../data-contracts';
-import { TaxonomyGroup } from '../models/taxonomy/taxonomy-group.class';
-import { TaxonomySystemAttributes } from '../models/taxonomy/taxonomy-system-attributes.class';
-import { TaxonomyTerms } from '../models/taxonomy/taxonomy-terms.class';
+import { TaxonomyGroup, TaxonomySystemAttributes, TaxonomyTerms } from '../models';
 
 export class TaxonomyMapper {
 

@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 
-import { IDeliveryClientConfig } from '../../config/delivery-client.config';
-import { ElementResponses } from '../../models/element/responses';
-import { QueryService } from '../../services/query.service';
+import { IDeliveryClientConfig } from '../../config';
+import { ElementResponses } from '../../models';
+import { QueryService } from '../../services';
 import { BaseElementQuery } from './base-element-query.class';
 
 export class ElementQuery extends BaseElementQuery<ElementResponses.ElementResponse> {
