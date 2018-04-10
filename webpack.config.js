@@ -1,5 +1,7 @@
-const path = require("path");
-const webpack = require("webpack");
+const path = require('path');
+const webpack = require('webpack');
+
+const libName = 'kentico-cloud-delivery-sdk';
 
 module.exports = (env, argv) => ({
     entry: {
@@ -9,7 +11,7 @@ module.exports = (env, argv) => ({
     output: {
         // Puts the output at the root of the dist folder
         path: path.join(__dirname, '_bundles'),
-        filename: argv.mode === 'production' ? '[name].umd.min.js' : '[name].umd.js',
+        filename: libName + (argv.mode === 'production' ? '.umd.min.js' : '[name].umd.js'),
         libraryTarget: 'umd',
         umdNamedDefine: true
     },
@@ -19,8 +21,8 @@ module.exports = (env, argv) => ({
             {
                 test: /\.ts$/, loader: 'ts-loader',
                 include: [
-                    path.resolve(__dirname, "lib"), // library
-                    path.resolve(__dirname, "browser"), // browser specific code
+                    path.resolve(__dirname, 'lib'), // library
+                    path.resolve(__dirname, 'browser'), // browser specific code
                 ],
             },
 
