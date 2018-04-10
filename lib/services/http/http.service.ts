@@ -7,7 +7,7 @@ import { IHttpService } from './ihttp.service';
 import { IBaseResponse, IBaseResponseError } from './models';
 
 interface IHttpCallback {
-    data: JSON;
+    data: any;
     response: XMLHttpRequest | any;
     error?: string;
 }

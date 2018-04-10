@@ -34,7 +34,7 @@ export class TypeMapper {
 
         const elementNames = Object.getOwnPropertyNames(type.elements);
         elementNames.forEach(elementName => {
-            const typeElement = type.elements[elementName] as TypeContracts.IContentTypeElementContract;
+            const typeElement = type.elements.find(m => m.codename === elementName) as TypeContracts.IContentTypeElementContract;
 
             if (!typeElement) {
                 throw Error(`Cannot find element '${elementName}' on type '${type}'`);

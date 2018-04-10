@@ -61,7 +61,7 @@ export class FieldMapper {
 
         properties.forEach(fieldName => {
             const field = item.elements[fieldName] as FieldInterfaces.IField;
-            let propertyName;
+            let propertyName: string | undefined;
 
             // resolve field to a custom model property
             if (itemTyped.propertyResolver) {
@@ -83,7 +83,7 @@ export class FieldMapper {
         return itemTyped;
     }
 
-    private mapField(field: FieldInterfaces.IField, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): any {
+    private mapField(field: FieldInterfaces.IField, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldInterfaces.IField {
         const fieldType = field.type.toLowerCase();
 
         if (fieldType === FieldType.ModularContent.toString()) {

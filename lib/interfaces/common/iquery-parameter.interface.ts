@@ -1,4 +1,4 @@
 export interface IQueryParameter {
-    getParam();
-    getParamValue();
+    getParam(): string;
+    getParamValue(): string | undefined;
 }

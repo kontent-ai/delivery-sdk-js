@@ -21,7 +21,7 @@ export namespace Filters {
             return 'system.type';
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.type) {
                 return defaultValue;
             }
@@ -53,7 +53,7 @@ export namespace Filters {
             public value: string
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'EqualsFilter' is null or empty`);
+                throw Error(`Field specified in 'EqualsFilter' is undefined `);
             }
         }
 
@@ -62,7 +62,7 @@ export namespace Filters {
             return this.field.trim();
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -77,7 +77,7 @@ export namespace Filters {
             public values: string[]
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'AllFilter' is null or empty`);
+                throw Error(`Field specified in 'AllFilter' is undefined `);
             }
         }
 
@@ -85,7 +85,7 @@ export namespace Filters {
             return `${this.field.trim()}[all]`;
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -100,7 +100,7 @@ export namespace Filters {
             public values: string[]
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'AnyFilter' is null or empty`);
+                throw Error(`Field specified in 'AnyFilter' is undefined `);
             }
         }
 
@@ -108,7 +108,7 @@ export namespace Filters {
             return `${this.field.trim()}[any]`;
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -123,7 +123,7 @@ export namespace Filters {
             public values: string[]
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'ContainsFilter' is null or empty`);
+                throw Error(`Field specified in 'ContainsFilter' is undefined `);
             }
         }
 
@@ -131,7 +131,7 @@ export namespace Filters {
             return `${this.field.trim()}[contains]`;
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -146,7 +146,7 @@ export namespace Filters {
             public value: string
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'GreaterThanFilter' is null or empty`);
+                throw Error(`Field specified in 'GreaterThanFilter' is undefined `);
             }
         }
 
@@ -155,7 +155,7 @@ export namespace Filters {
             return `${this.field.trim()}[gt]`;
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -170,7 +170,7 @@ export namespace Filters {
             public value: string
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'GreaterThanOrEqualFilter' is null or empty`);
+                throw Error(`Field specified in 'GreaterThanOrEqualFilter' is undefined `);
             }
         }
 
@@ -179,7 +179,7 @@ export namespace Filters {
             return `${this.field.trim()}[gte]`;
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -194,7 +194,7 @@ export namespace Filters {
             public values: string[]
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'Infilter' is null or empty`);
+                throw Error(`Field specified in 'Infilter' is undefined`);
             }
         }
 
@@ -202,7 +202,7 @@ export namespace Filters {
             return `${this.field.trim()}[in]`;
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -220,7 +220,7 @@ export namespace Filters {
             public value: string
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'LessThanFilter' is null or empty`);
+                throw Error(`Field specified in 'LessThanFilter' is undefined `);
             }
         }
 
@@ -228,7 +228,7 @@ export namespace Filters {
             return `${this.field.trim()}[lt]`;
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -242,7 +242,7 @@ export namespace Filters {
             public value: string
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'LessThanOrEqualFilter' is null or empty`);
+                throw Error(`Field specified in 'LessThanOrEqualFilter' is undefined `);
             }
         }
 
@@ -251,7 +251,7 @@ export namespace Filters {
             return `${this.field.trim()}[lte]`;
         }
 
-        public getParamValue(): string | null {
+        public getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -267,7 +267,7 @@ export namespace Filters {
             public higherValue: number
         ) {
             if (!this.field) {
-                throw Error(`Field specified in 'RangeFilter' is null or empty`);
+                throw Error(`Field specified in 'RangeFilter' is undefined `);
             }
 
             if (lowerValue > higherValue) {

@@ -178,7 +178,7 @@ export namespace Fields {
         * Represents asset field of Kentico Cloud item
         * @constructor
         * @param {string} name - Name of the field
-        * @param {string} value - Value of the field
+        * @param {any} value - Value of the field
         */
         constructor(
             public name: string,
@@ -192,14 +192,13 @@ export namespace Fields {
                 throw Error(`Cannot bind assets because the provided value is not an array`);
             }
 
-            this.value.forEach(asset => {
-                const assetTemp = asset as FieldInterfaces.IAsset;
+            this.value.forEach((asset: FieldInterfaces.IAsset) => {
                 this.assets.push(new FieldModels.AssetModel(
-                    assetTemp.name,
-                    assetTemp.type,
-                    assetTemp.size,
-                    assetTemp.description,
-                    assetTemp.url
+                    asset.name,
+                    asset.type,
+                    asset.size,
+                    asset.description,
+                    asset.url
                 ));
             });
         }
