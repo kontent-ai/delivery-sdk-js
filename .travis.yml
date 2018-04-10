@@ -10,8 +10,8 @@ before_script:
 - npm install -g karma
 - npm install -g cat
 - npm install
-# build report
-- npm run build:prod
+# build all
+- npm run build:all
 script: 
 # run tests with travis config
 - karma start karma-travis.conf.js --single-run --browsers Firefox
