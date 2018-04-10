@@ -5,8 +5,8 @@
 
 # compiled output
 /definitions
-/dist
-/dist-esm
+/_commonjs
+/_es2015
 /_bundles
 /tmp
 /coverage
