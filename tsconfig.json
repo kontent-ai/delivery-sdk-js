@@ -2,21 +2,18 @@
   "compileOnSave": true,
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "module": "commonjs",
     "strictNullChecks": true,
+    "strictPropertyInitialization": false,
     "noImplicitReturns": true,
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "paths": {
-      "parse5": ["./node_modules/parse5/lib/index.d.ts"]
-    },
     "lib": [
       "es2015",
       "dom"

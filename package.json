@@ -29,16 +29,18 @@
     "test": "karma start karma.conf.js",
     "dev-test": "karma start karma-dev.conf.js",
     "travis-test": "karma start karma-travis.conf.js",
-    "prepublishOnly": "npm run build:prod && npm run travis-test && node test/test-completed",
+    "prepublishOnly": "npm run build:all && npm run travis-test && node test/test-completed",
     "new-patch": "npm version patch && npm run update-sdk-info",
     "new-minor": "npm version minor && npm run update-sdk-info",
     "new-major": "npm version major && npm run update-sdk-info",
     "update-sdk-info": "node ./misc/update-sdk-info-tasks.js",
     "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
     "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
-    "build:dev": "tsc && tsc -m es6 --outDir dist-esm && npm run webpack:dev",
-    "build:prod": "tsc && tsc -m es6 --outDir dist-esm && npm run webpack:prod",
-    "publish:beta": "npm publish --tag=next"
+    "publish:beta": "npm publish --tag=next",
+    "build-umd": "npm run webpack:dev && npm run webpack:prod",
+    "build-es2015": "tsc -m es2015 --outDir _es2015",
+    "build-commonjs": "tsc -m commonjs --outDir _commonjs",
+    "build:all": "npm run build-umd && npm run build-es2015 && npm run build-commonjs && npm run build-umd"
   },
   "private": false,
   "dependencies": {
@@ -72,6 +74,6 @@
     "webpack": "4.4.1",
     "webpack-cli": "2.0.13"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts"
+  "main": "./commonjs/index.js",
+  "types": "./commonjs/index.d.ts"
 }
