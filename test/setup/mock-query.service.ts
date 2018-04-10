@@ -1,4 +1,5 @@
-import { ContentItem, IDeliveryClientConfig, ISdkInfo, ResponseMapper, RichTextHtmlParser } from '../../lib';
+import { ContentItem, IDeliveryClientConfig, ISdkInfo, ResponseMapper } from '../../lib';
+import { RichTextHtmlParser } from '../../browser';
 import { IItemQueryConfig } from '../../lib/interfaces/item/iitem-query.config';
 import { ItemResponses } from '../../lib/models/item/responses';
 import { IHttpService } from '../../lib/services/http/ihttp.service';

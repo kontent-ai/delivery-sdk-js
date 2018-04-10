@@ -1,5 +1,6 @@
+import { HttpService } from '../browser';
 
-import { HttpService } from '../lib/services/http/http.service';
+
 describe('Developer testing', () => {
 
     const httpService = new HttpService();

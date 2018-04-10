@@ -10,11 +10,13 @@ module.exports = function (config) {
         ],
         files: [
             { pattern: "lib/**/*.ts" },
+            { pattern: "browser/**/*.ts" },
             { pattern: "test/**/*.ts" }
         ],
         exclude: [
         ],
         preprocessors: {
+            "browser/**/*.ts": ["karma-typescript", "coverage"],
             "lib/**/*.ts": ["karma-typescript", "coverage"],
             "test/**/*.ts": ["karma-typescript"]
         },

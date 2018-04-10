@@ -1,4 +1,4 @@
-import { RichTextHtmlParser } from '../../../lib';
+import { RichTextHtmlParser } from '../../../browser';
 import { ElementMapper, ItemMapper } from '../../../lib/mappers';
 import { Context, setup } from '../../setup';
 

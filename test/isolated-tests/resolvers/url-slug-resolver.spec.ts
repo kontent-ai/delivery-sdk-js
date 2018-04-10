@@ -1,6 +1,6 @@
-import { ContentItem, Fields, ItemResponses, TypeResolver, Link } from '../../../lib';
+import { HttpService } from '../../../browser';
+import { ContentItem, Fields, ItemResponses, Link, TypeResolver } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
-import { HttpService } from '../../../lib/services/http/http.service';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 class MockMovie extends ContentItem {

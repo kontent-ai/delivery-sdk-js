@@ -1,4 +1,5 @@
-import { DeliveryClient, IDeliveryClientConfig, IRichTextHtmlParser, RichTextHtmlParser, TypeResolver } from '../../lib';
+import { DeliveryClient, IDeliveryClientConfig, IRichTextHtmlParser, TypeResolver } from '../../lib';
+import { RichTextHtmlParser } from '../../browser';
 
 export class Context {
 

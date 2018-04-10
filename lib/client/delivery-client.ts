@@ -1,7 +1,7 @@
+import { HttpService, RichTextHtmlParser } from '../../browser';
 import { IDeliveryClientConfig } from '../config';
 import { packageId, repoHost, version } from '../library-version';
 import { ContentItem } from '../models';
-import { RichTextHtmlParser } from '../parser';
 import {
     ElementQuery,
     MultipleItemQuery,
@@ -11,7 +11,6 @@ import {
     TaxonomiesQuery,
     TaxonomyQuery,
 } from '../query';
-import { HttpService } from '../services/http/http.service';
 import { QueryService } from '../services/query.service';
 import { IDeliveryClient } from './idelivery-client.interface';
 

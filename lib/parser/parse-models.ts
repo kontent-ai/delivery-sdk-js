@@ -1,18 +1,15 @@
-import { IItemQueryConfig } from '../interfaces/item/iitem-query.config';
+import { IItemQueryConfig } from '../interfaces';
 
 export interface IRichTextHtmlParser {
     resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
 }
 
-export interface IModularContentObject {
-    node: Node;
-    dataType: string;
-    dataCodename: string;
+export interface IRichTextHtmlParser {
+    resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
 }
 
-export interface ILinkObject {
-    node: Node;
-    dataItemId: string;
+export interface IRichTextResolverResult extends IFeaturedObjects {
+    resolvedHtml: string;
 }
 
 export interface IFeaturedObjects {
@@ -20,16 +17,26 @@ export interface IFeaturedObjects {
     modularContentItems: IModularContentObject[];
 }
 
+
 export interface IRichTextReplacements {
     getModularContentHtml: (itemCodename: string) => string;
     getLinkUrl: (itemId: string) => string;
-}
-
-export interface IRichTextResolverResult extends IFeaturedObjects {
-    resolvedHtml: string;
 }
 
 export interface IHtmlResolverConfig {
     enableAdvancedLogging: boolean;
     queryConfig: IItemQueryConfig;
 }
+
+export interface IModularContentObject {
+    dataType: string;
+    dataCodename: string;
+}
+
+export interface ILinkObject {
+    dataItemId: string;
+}
+
+
+
+

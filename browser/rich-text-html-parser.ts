@@ -6,7 +6,7 @@ import {
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
-} from './parse-models';
+} from '../lib/parser';
 
 export class RichTextHtmlParser implements IRichTextHtmlParser {
 
@@ -61,7 +61,6 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
                 if (typeAttribute && typeAttribute.value && typeAttribute.value.toLowerCase() === this.modularContent.type.toLowerCase()) {
                     // node is modular content object
                     const modularItem: IModularContentObject = {
-                        node: node,
                         dataCodename: node.attributes.getNamedItem(this.modularContent.dataCodename).value,
                         dataType: node.attributes.getNamedItem(this.modularContent.dataType).value
                     };
@@ -90,7 +89,6 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
                     const dataItemIdAttribute = node.attributes.getNamedItem(this.link.dataItemId);
                     if (dataItemIdAttribute) {
                         const link: ILinkObject = {
-                            node: node,
                             dataItemId: node.attributes.getNamedItem(this.link.dataItemId).value
                         };
 

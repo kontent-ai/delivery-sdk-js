@@ -1,6 +1,6 @@
+import { HttpService } from '../../../browser';
 import { ItemResponses } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
-import { HttpService } from '../../../lib/services/http/http.service';
 import { Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 
 describe('Responses', () => {

@@ -9,12 +9,14 @@ module.exports = function (config) {
             require('karma-coverage'),
         ],
         files: [
+            { pattern: "browser/**/*.ts" },
             { pattern: "lib/**/*.ts" },
             { pattern: "test/**/*.ts" }
         ],
         exclude: [
         ],
         preprocessors: {
+            "browser/**/*.ts": ["karma-typescript", "coverage"],
             "lib/**/*.ts": ["karma-typescript", "coverage"],
             "test/**/*.ts": ["karma-typescript"]
         },

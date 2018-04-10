@@ -19,7 +19,8 @@ module.exports = (env, argv) => ({
             {
                 test: /\.ts$/, loader: 'ts-loader',
                 include: [
-                    path.resolve(__dirname, "lib"), // include only library
+                    path.resolve(__dirname, "lib"), // library
+                    path.resolve(__dirname, "browser"), // browser specific code
                 ],
             },
 

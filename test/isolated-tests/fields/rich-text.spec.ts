@@ -1,13 +1,13 @@
+import { RichTextHtmlParser } from '../../../browser';
 import {
     ContentItem,
     ContentItemSystemAttributes,
     Fields,
     IDeliveryClientConfig,
     Link,
-    RichTextHtmlParser,
+    richTextResolver,
     TypeResolver,
     urlSlugResolver,
-    richTextResolver,
 } from '../../../lib';
 
 class ActorMock extends ContentItem {

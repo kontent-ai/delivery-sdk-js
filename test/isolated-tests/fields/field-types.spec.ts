@@ -1,6 +1,6 @@
+import { HttpService } from '../../../browser';
 import { Fields, ItemResponses } from '../../../lib';
 import { packageId, repoHost, version } from '../../../lib/library-version';
-import { HttpService } from '../../../lib/services/http/http.service';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 
 describe('Field types', () => {

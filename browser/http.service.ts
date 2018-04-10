@@ -3,9 +3,8 @@ import { bindCallback, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as xhr from 'xhr';
 
-import { IHeader } from '../../interfaces';
-import { IHttpService } from './ihttp.service';
-import { IBaseResponse, IBaseResponseError } from './models';
+import { IHeader } from '../lib/interfaces';
+import { IBaseResponse, IBaseResponseError, IHttpService } from '../lib/services';
 
 interface IHttpCallback {
     data: any;
