@@ -1,6 +1,6 @@
 import { HttpService, RichTextHtmlParser } from '../../browser';
 import { IDeliveryClientConfig } from '../config';
-import { packageId, repoHost, version } from '../library-version';
+import { packageId, repoHost, version } from '../sdk-version';
 import { ContentItem } from '../models';
 import {
     ElementQuery,
