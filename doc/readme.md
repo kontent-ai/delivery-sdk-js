@@ -1,570 +1,90 @@
-## Kentico Cloud Delivery Typescript SDK - Docs
-
-A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and shipped with UMD bundles for easy browser use.
-
-## Installation
-
-```
-npm i kentico-cloud-delivery-typescript-sdk --save
-```
-
-### Quick start with TypeScript (ES6)
-
-```typescript
-import { ContentItem, Fields,TypeResolver,DeliveryClient,DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
-
-/**
- * This is optional, but it is considered a best practice to define your models
- * so you can leverage intellisense and so that you can extend your models with 
- * additional properties / methods.
- */
-export class Movie extends ContentItem {
-  public title: Fields.TextField;
-}
-
-/**
- * Type resolvers make sure instance of proper class is created for your content types.
- * If you don't use any custom models, return an empty array.
- */
-let typeResolvers: TypeResolver[] = [
-    new TypeResolver('movie', () => new Movie()),
-];
-
-/**
- * Create new instance of Delivery Client
- */
-var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig('projectId', typeResolvers)
-);
-
-/**
- * Get typed data from Cloud (note that the 'Movie' has to be registered in your type resolvers)
- */
-deliveryClient.items<Movie>()
-  .type('movie')
-  .get()
-  .subscribe(response => {
-    console.log(response);
-    // you can access strongly types properties
-    console.log(response.items[0].title.text);
-});
-
-/**
- * Get data without having custom models 
- */
-deliveryClient.items<ContentItem>()
-  .type('movie')
-  .get()
-  .subscribe(response => {
-    console.log(response);
-    // you can access properties same way as with strongly typed models, but note
-    // that you don't get any intellisense and the underlying boject 
-    // instance is of 'ContentItem' type
-    console.log(response.items[0].title.text);
-});
-```
-
-## API Documentation
-
-### Getting data (Observable)
-
-To get multiple content items, use the `items` method. You can specify the content type with the `type` method:
-
-```typescript
-deliveryClient.items<Movie>()
-  .type('movie')
-  .get()
-  .subscribe(response => console.log(response));
-
-deliveryClient.item<Movie>('warrior')
-  .get()
-  .subscribe(response => console.log(response));
-```
-
-### Getting data (Promise)
-
-Get methods return rxjs [Observable](http://reactivex.io/rxjs/manual/overview.html#introduction) which is more powerful than a Promise (they are easily cancellable, repeatable...), but you might want to use `Promises` instead depending on your scenario & application. Luckily, converting an `Observable` to a `Promise` is very easy with [toPromise()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-toPromise) method. Or you can use the built-in `getPromise` method that we introduced as a shortcut.
-
-```typescript
-deliveryClient.item<Movie>('warrior')
-  .get()
-  .toPromise()
-    .then(response => console.log(response))
-    .catch(err => console.log('error:' + err));
-
-deliveryClient.item<Movie>('warrior')
-  .getPromise()
-    .then(response => console.log(response))
-    .catch(err => console.log('error:' + err));
-```
-
-### Creating models
-
-Every content type needs to have a corresponding class defined in both JavaScript & TypeScript. Each model class needs to extend the `ContentItem` class and each element needs to use one of the supported fields. For example, if you define a Text element in your content type, you need to use a `TextField` in your model:
-
-```typescript
-import { ContentItem, Fields} from 'kentico-cloud-delivery-typescript-sdk';
-
-export class Movie extends ContentItem {
-  public title: Fields.TextField;
-  public plot: Fields.RichTextField;
-  public released: Fields.DateTimeField;
-  public length: Fields.NumberField;
-  public poster: Fields.AssetsField;
-  public category: Fields.MultipleChoiceField;
-}
-```
-
-Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField` and `TaxonomyField`
-
-#### Don't want to waste time creating models manually? 
-
-Try [Kentico Cloud model generator utility](https://www.npmjs.com/package/kentico-cloud-model-generator-utility) package that can generate `typescript` models out of your Kentico Cloud project automatically.
-
-### Initializing DeliveryClient
-
-```typescript
-import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-delivery-typescript-sdk';
-import { Movie } from './movie'; // use your own path to movie class model
-
-var projectId = 'projectId';
-
-let typeResolvers: TypeResolver[] = [
-    new TypeResolver("movie", () => new Movie()),
-];
-
-var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig(projectId, typeResolvers)
-)
-```
-
-### Use it
-
-```typescript
-deliveryClient.items<Movie>()
-  .type('movie')
-  .get()
-  .subscribe(response => console.log(response));
-```
-
-### Using query parameters
-
-You can combine query parameters. For more information about parameters, see the [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-response).
-
-Supported query parameters: `depthParameter`, `elementsParameter`, `limitParameter`, `orderParameter`, `skipParameter` and `languageParameter`.
-
-```typescript
-deliveryClient.items<Movie>()
-  .type('movie')
-  .limitParameter(5)
-  .skipParameter(2)
-  .get()
-  .subscribe(response => console.log(response));
-```
-
-### Filtering
-
-This example returns all **Movie** content items whose **title** element is equal to **Warrior**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Cloud API reference for more general examples.
-
-Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`.
-
-```typescript
-deliveryClient.items<Movie>()
-  .type('movie')
-  .equalsFilter('elements.title', 'Warrior')
-  .get()
-  .subscribe(response => console.log(response));
-```
-
-### Sorting
-
-```typescript
-deliveryClient.items<Movie>()
-  .type('movie')
-  .orderParameter('elements.title', SortOrder.desc)
-  .get()
-  .subscribe(response => console.log(response));
-```
-
-### Getting localized items
-
-You can specify the [language of items](https://developer.kenticocloud.com/v1/docs/localization) with `languageParameter` of a particular query. You can also specify default language that will be used if `languageParameter` is not used during the initialization of `DeliveryClientConfig`. 
-
-```typescript
-import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
-import { Movie } from './movie'; // use your own path to movie class model
-
-var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig('projectId', [],
-  {
-    defaultLanguage: 'es'
-  })
-)
-
-// gets items in 'es' language because it is marked as default
-deliveryClient.item<Movie>('warrior')
-  .get()
-  .subscribe(response => console.log(response));
-
-// gets items in 'en' language because language parameter has priority over the default one
-deliveryClient.item<Movie>('warrior')
-  .languageParameter(`en`)
-  .get()
-  .subscribe(response => console.log(response));
-```
-
-### Property binding in models
-
-Kentico Cloud returns all element names in **lowercase**. Because Javascript properties are case sensitive, the binding will fail if your property is called, for example, *firstName*. You can either use **codename() decorator** that comes with the SDK, or use the custom resolver:
-
-```typescript
-import { ContentItem, Fields, FieldDecorators  } from 'kentico-cloud-delivery-typescript-sdk';
-
-export class Actor extends ContentItem {
-
-  @FieldDecorators.codename('firstname')
-  public firstName: Fields.TextField;
-  public lastName: Fields.TextField;
-  public bio: Fields.RichTextField;
-
-    constructor() {
-    super({
-      propertyResolver: ((fieldName: string) => {
-        if (fieldName === 'lastname') {
-          return 'lastName';
-        }
-        return fieldName;
-      })
-    });
-  }
-}
-```
-
-### Preview mode
-
-You can enable the preview mode either globally (when initializing the DeliveryClient) or per query. For example, you might disable preview mode globally, but enable it for one particular query for testing purposes. In each case, you need to set `previewApiKey` in the DeliveryClientConfig.
-
-#### Enabling preview mode globally
-
-```typescript
-import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
-
-var previewApiKey = 'previewApiKey';
-var projectId = 'projectId';
-
-var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig(projectId, [], 
-        {
-            enablePreviewMode: true,
-            previewApiKey: previewApiKey
-        }
-  )
-)
-```
-
-#### Enabling preview mode per query
-
-```typescript
-deliveryClient.items<Movie>()
-  .type('movie')
-  .queryConfig({
-    usePreviewMode: true
-  })
-  .get()
-  .subscribe(response => console.log(response));
-```
-
-### Secured delivery API mode
-
-**Important:** Using secured delivery API is recommend only in cases where the query is not run on a client because otherwise you will expose the API Key publicly. For example, using secured delivery API in a node.js is ok, but using it in a web application is not because anyone could see the key.
-
-```typescript
-import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
-
-var securedApiKey= 'secret';
-var projectId = 'projectId';
-
-var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig(projectId, [], 
-        {
-            enableSecuredMode: true,
-            securedApiKey: securedApiKey
-        }
-  )
-)
-```
-
-As with preview mode, you can also override global settings on query level:
-
-```typescript
-deliveryClient.items<Movie>()
-  .type('movie')
-  .queryConfig({
-    useSecuredMode: true
-  })
-  .get()
-  .subscribe(response => console.log(response));
-```
-
-### URL Slugs (links)
-
-#### Resolving URL slugs (links) globally
-
-The URL slugs (links) can be resolved in `URLSlugField` or `RichTextField` fields. The way how links are resolved depends on the `linkResolver` which can be defined either globally in model definition, or by using the `queryConfig` method of a particular api call. The query resolver has priority over the globally defined one. 
-
-To access the URL, call `getUrl` method.
-
-Note that when resolving links in RichTextField, you resolve all of them with a single link resolver. For this reason, it is recommended that you specify the `type` of the content type you want to resolve.
-
-```typescript
-import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery-typescript-sdk';
-
-export class Actor extends ContentItem {
-  public title: Fields.TextField;
-  public slug: Fields.UrlSlugField;
-
-    constructor() {
-    super({
-      linkResolver: (link: ILink) => {
-        return `/actors/${url_slug}`;
-      }
-    })
-  }
-}
-
-// get url 
-deliveryClient.item<Actor>('tom_hardy')
-  .get()
-  .subscribe(response => console.log(response.item.slug.getUrl()));
-```
-
-#### Resolving URL slugs (links) per query
-
-```typescript
-import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery-typescript-sdk';
-
-deliveryClient.item<Actor>('tom_hardy')
-  .queryConfig({
-    linkResolver: (link: ILink) => {
-        if (link.type === 'actor'){
-          return `/actors/${urlSlug}`;
-        }
-        else if (link.type === 'movie'){
-          return `/movies/${urlSlug}`;
-        }
-        return 'unkown-type';
-      }
-  })
-  .get()
-  .subscribe(response => console.log(response.item.slug.getUrl()));
-```
-
-### Resolving modular content in Rich text fields
-
-If you have a modular content item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` modular items used in all your rich text fields.
-
-#### Globally
-
-```typescript
-import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
-
-class Actor extends ContentItem {
-  public name: Fields.TextField;
-
-  constructor() {
-    super({
-        richTextResolver: (item: Actor) => {
-          return `<h3>${item.name.text}</h3>`;
-        }
-      })
-    }
-}
-
-class Movie extends ContentItem {
-  public title: Fields.TextField;
-  public plot: Fields.RichTextField;
-}
-
-deliveryClient.item<Movie>('pain_and_gain')
-  .get()
-  .subscribe(response => {
-    console.log(response.item.plot.getHtml());
-    // Example output:
-    // {html from your rich text field before the modular content}
-    // <h3>Dwayne Johsnon</h3>
-    // {html from your rich text field after the modular content}
-  });
-```
-
-#### Locally per query
-
-You can specifically define a resolver for a particular query. Resolver defined this way has priority over the globally defined one.
-
-```typescript
-import { IContentItem } from 'kentico-cloud-delivery-typescript-sdk';
-
-deliveryClient.item<Movie>('pain_and_gain')
-    queryConfig({
-      richTextResolver: (item: IContentItem) => {
-        if (item.system.type == 'actor') {
-          var actor = item as Actor;
-          return `<h2>${actor.name.text}</h2>`;
-        }
-    })
-  })
-  .subscribe(response => {
-    console.log(response.item.plot.getHtml());
-    // Example output:
-    // {html from your rich text field before the modular content}
-    // <h3>Dwayne Johsnon</h3>
-    // {html from your rich text field after the modular content}
-  });
-```
-
-### Strongly typed nested property (TypeScript only)
-
-To include modular content, simply reference a given type class:
-
-```typescript
-import { ContentItem, Fields} from 'kentico-cloud-delivery-typescript-sdk';
-
-export class Actor extends ContentItem {
-  public name: Fields.TextField;
-}
-
-export class Movie extends ContentItem {
-  public title: Fields.TextField;
-  public stars: Actor[];
-}
-```
-
-## Getting content types
-
-To retrieve information about your content types, you can use the `type` and `types` methods.
-
-```typescript
-deliveryClient
-  .type('movie') // codename of the type
-  .get()
-  .subscribe(response => console.log(response));
-
-deliveryClient.types()
-  .get()
-  .subscribe(response => console.log(response));
-```
-
-## Working with taxonomies
-
-To retrieve information about your taxonomies, you can use the `taxonomy` and `taxonomies` methods.
-
-```typescript
-deliveryClient  
-  .taxonomy('taxonomyGroupName') // codename of the Taxonomy group
-  .get()
-  .subscribe(response => console.log(response));
-  });  
-
-deliveryClient  
-  .taxonomies()
-  .get()
-  .subscribe(response => console.log(response));
-  });
-```
-
-## Client configuration 
-
-Following table shows a list of properties that can be configured within `DeliveryClientConfig`:
-
-| Property        | type| description|
-| ------------- |:-------------:| -----:|
-| projectId      | string | ProjectId of your Kentico Cloud project|
-| typeResolvers| TypeResolver[] | List of resolvers that are used to create strongly typed objects from Kentico Cloud response|
-| enableAdvancedLogging| boolean | Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.|
-| previewApiKey| string| Preview API key used to get unpublished content items |
-| enablePreviewMode| boolean| Indicates if preview mode is enabled globally. This can be overriden on query level|
-| defaultLanguage| string| Sets default language that will be used for all queries unless overriden with query parameters|
-| baseUrl| string| Can be used to configure custom base url (i.e. for testing) |
-| basePreviewUrl| string| Can be used to configure custom preview url |
-| securedApiKey| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
-| enableSecuredMode| boolean| Indicates if secured mode is enabled globally. This can be overriden on query level |
-| retryAttempts| number | Number of retry attempts when error occures |
-
-## Handling errors
-
-Errors can be handled using the `error` parameter of the `subscribe` method (see [RxJS documentation](https://xgrommx.github.io/rx-book/content/getting_started_with_rxjs/creating_and_querying_observable_sequences/error_handling.html)) or the `catch` method. If the error originates with Kentico Cloud (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `CloudError` model with more specific information. Otherwise, you will get an original exception.
-
-```typescript
-import { CloudError } from 'kentico-cloud-delivery-typescript-sdk';
-
-deliveryClient.item<Movie>('terminator_9')
-  .get()
-  .subscribe(response => console.log(response), err => {
-    // handle Cloud specific errors
-    if (err instanceof CloudError) {
-      // outputs 'The requested content item 'terminator_9' was not found.'
-      console.log(err.message); 
-    }
-    else {
-      // handle generic errors
-      console.log(err);
-    }
-  });
-
-deliveryClient.item<Movie>('terminator_9')
-  .get()
-  .catch(err => {
-      // handle Cloud specific errors
-      if (err instanceof CloudError) {
-        // outputs 'The requested content item 'terminator_9' was not found.'
-        console.log(err.message);
-      }
-      else {
-        // handle generic errors
-        console.log(err);
-      }
-    return err;
-  })
-  .subscribe(response => console.log(response))
-```
-
-## Debugging
-
-### Accessing request data
-
-Every response from this SDK contains `debug` property which can be used to view the raw request. Depending on your environment (node.js/browser), you will get either `AjaxResponse` or `IncomingMessage` models.
-
-```typescript
-deliveryClient.items<IContentItem>()
-  .get()
-  .subscribe(response => {
-    console.log(response.debug); // AjaxResponse or IncomingMessage
-    // and many others..
-  });
-```
-
-### Getting URL of a query
-
-In case you need to get the raw URL of a request before calling it, use the `toString()` method on the `item` query.
-
-```typescript
-var queryText = deliveryClient.items<IContentItem>()
-  .type('movie')
-  .limitParameter(10)
-  .orderParameter('system.codename', SortOrder.desc)
-  .toString();
-
-console.log(queryText);
-// outputs:
-// https://deliver.kenticocloud.com/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
-```
-
-## Scripts
-
-- Use `npm test` to run all tests.
-- Use `npm run dev-test` to run developer tests created in `dev-test` folder. Use this for your testing purposes.
-- Use `npm run build` to generate definitions & dist from the contents of `lib` folder.
-- Use `npm run coveralls` to push coverage data directly to [https://coveralls.io](https://coveralls.io). Can be executed only after running `npm test`.
-
-## Feedback & Contribution
-
-Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
+## SDK Documentation overview
+
+<table>
+<tbody>
+<tr>
+<th>Sample apps</th>
+</tr>
+<tr>
+<td>Angular 5+ app (<a href="https://stackblitz.com/edit/kentico-cloud-angular-5-demo">live demo</a>, <a href="https://github.com/Enngage/KenticoCloudSampleAngularApp">github</a>)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudSampleJavascriptApp">JavaScript app</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#client-configuration">Client configuration</a></td>
+</tr>
+<tr>
+</tr>
+
+<tr>
+<th>API documentation</th>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#installation#getting-data-observable">Get items (Observable)</a></td>
+</tr>
+
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#creating-models">Creating models</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#dont-want-to-waste-time-creating-models-manually">Model generator</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#initializing-deliveryclient">Initialize client</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#using-query-parameters">Query parameters</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#filtering">Filtering</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#sorting">Sorting</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#getting-localized-items">Localization</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#property-binding-in-models">Property binding / Model decorators</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#preview-mode">Preview mode</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#secured-delivery-api-mode">Secured API mode</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#url-slugs-links">URL slugs</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#resolving-modular-content-in-rich-text-fields">Rich text resolver</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#strongly-typed-nested-property">Strongly typed nested property</a></td>
+</tr>
+
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#getting-content-types">Get types</a></td>
+</tr>
+
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#working-with-taxonomies">Get taxonomies</a></td>
+</tr>
+<tr>
+<th>Errors</th>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#handling-errors">Handling errors</a></td>
+</tr>
+<tr>
+<th>Debugging</th>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#accessing-request-data">Request data</a></td>
+</tr>
+<tr>
+<td><a href="https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc#installation#getting-url-of-a-query">Getting URL</a></td>
+</tr>
+</tbody>
+</table>
