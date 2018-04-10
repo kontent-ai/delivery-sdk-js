@@ -97,9 +97,6 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
 
                         const resolvedUrl = replacement.getLinkUrl(link.dataItemId);
 
-                        console.warn('resolving link: ' + dataItemIdAttribute.value);
-                        console.warn('reuslt:' + resolvedUrl);
-
                         // add url to link
                         const hrefAttribute = node.attributes.getNamedItem('href');
                         if (!hrefAttribute) {
