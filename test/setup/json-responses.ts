@@ -166,4 +166,4 @@ export let warriorMovieJson = {
       }
     }
   }
-}
+};

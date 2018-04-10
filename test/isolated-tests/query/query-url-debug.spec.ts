@@ -1,10 +1,5 @@
-// url parser
-import urlParser from 'url-parse';
+import { Context, setup } from '../../setup';
 
-// setup
-import { setup, Context } from '../../setup';
-
-// tests
 describe('Query url debug', () => {
 
   const context = new Context();

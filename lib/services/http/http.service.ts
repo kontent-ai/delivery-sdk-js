@@ -1,3 +1,4 @@
+/* Do NOT export this class, it should be used in browsers only as it depends on XMLHttpRequest */
 import { bindCallback, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as xhr from 'xhr';

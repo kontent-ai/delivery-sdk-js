@@ -1,5 +1,4 @@
-import { IQueryConfig } from '../../../lib/interfaces/common/iquery.config';
-import { IItemQueryConfig } from '../../../lib/interfaces/item/iitem-query.config';
+import { IQueryConfig, IItemQueryConfig } from '../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Query configurations', () => {

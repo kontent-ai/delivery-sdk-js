@@ -10,12 +10,12 @@ describe('Preview URL', () => {
 
     it(`origin should be 'https://preview-deliver.kenticocloud.com'`, () => {
         const url = new URL(context.deliveryClient.items().toString());
-        expect(url.origin).toEqual('https://preview-deliver.kenticocloud.com')
+        expect(url.origin).toEqual('https://preview-deliver.kenticocloud.com');
     });
 
     it(`preview pathname should contain project id'`, () => {
         const url = context.deliveryClient.items().toString();
-        expect(url).toContain(context.projectId)
+        expect(url).toContain(context.projectId);
     });
 });
 

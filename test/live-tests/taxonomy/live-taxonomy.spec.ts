@@ -1,10 +1,6 @@
-// setup
-import { setup, Context } from '../../setup';
+import { TaxonomyResponses } from '../../../lib';
+import { Context, setup } from '../../setup';
 
-// models
-import { FieldModels, TaxonomyResponses } from '../../../lib';
-
-// tests
 describe('Live taxonomy', () => {
 
   const context = new Context();
