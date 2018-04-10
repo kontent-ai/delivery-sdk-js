@@ -33,7 +33,8 @@ export class DeliveryClient implements IDeliveryClient {
 
         this.queryService = new QueryService(config,
             new HttpService(),
-            new RichTextHtmlParser(), {
+            new RichTextHtmlParser(),
+            {
                 host: repoHost,
                 name: packageId,
                 version: version

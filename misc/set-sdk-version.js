@@ -6,12 +6,12 @@ const packageId = require('../package.json').name;
 
 console.log(colors.cyan('\nRunning pre-build tasks'));
 
-const versionFilePath = path.join(__dirname + '/../lib/library-version.ts');
+const versionFilePath = path.join(__dirname + '/../lib/sdk-version.js');
 
 const src = `
-export const version = '${appVersion}';
-export const packageId = '${packageId}';
-export const repoHost = 'npmjs.com';
+exports.version = '${appVersion}';
+exports.packageId = '${packageId}';
+exports.repoHost = 'npmjs.com';
 `;
 
 // ensure version module pulls value from package.json

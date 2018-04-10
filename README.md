@@ -80,6 +80,7 @@ deliveryClient.items<ContentItem>()
 });
 
 ```
+
 ### JavaScript & CommonJS
 
 ```javascript
