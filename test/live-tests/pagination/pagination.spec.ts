@@ -14,7 +14,7 @@ describe('Pagination', () => {
       .type(type)
       .limitParameter(5)
       .skipParameter(1)
-      .get()
+      .getObservable()
       .subscribe(r => {
         response = r as ItemResponses.DeliveryItemListingResponse<Movie>;
         done();

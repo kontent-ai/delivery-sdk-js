@@ -22,14 +22,14 @@ export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.TaxonomyR
     /**
     * Gets the runnable Observable
     */
-    get(): Observable<TaxonomyResponses.TaxonomyResponse> {
+    getObservable(): Observable<TaxonomyResponses.TaxonomyResponse> {
         return super.runTaxonomyQuery(this.taxonomyCodename);
     }
 
     /**
     * Gets 'Url' representation of query
     */
-    toString(): string {
+    getUrl(): string {
         return super.getTaxonomyQueryUrl(this.taxonomyCodename);
     }
 }

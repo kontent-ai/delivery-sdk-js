@@ -22,7 +22,7 @@ describe('Retry functionality', () => {
         // this will fail
         spyOn(retryStrategy, 'debugLogAttempt').and.callThrough();
         context.deliveryClient.items()
-            .get()
+            .getObservable()
             .subscribe(response => {
             }, err => {
                 done();

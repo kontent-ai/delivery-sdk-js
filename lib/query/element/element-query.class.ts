@@ -27,14 +27,14 @@ export class ElementQuery extends BaseElementQuery<ElementResponses.ElementRespo
     /**
     * Gets the runnable Observable
     */
-    get(): Observable<ElementResponses.ElementResponse> {
+    getObservable(): Observable<ElementResponses.ElementResponse> {
         return super.runElementQuery(this.typeCodename, this.elementCodename);
     }
 
     /**
     * Gets 'Url' representation of query
     */
-    toString(): string {
+    getUrl(): string {
         return super.getElementQueryUrl(this.typeCodename, this.elementCodename);
     }
 }

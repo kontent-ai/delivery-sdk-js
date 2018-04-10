@@ -1,10 +1,5 @@
-// url parser
-import urlParser from 'url-parse';
-
-// setup
 import { Context, setup } from '../../setup';
 
-// tests
 describe('Type url', () => {
 
     const context = new Context();
@@ -15,18 +10,18 @@ describe('Type url', () => {
     });
 
     it(`type url with 'movie' codename should contain '/types/movie`, () => {
-        const url = context.deliveryClient.type('movie').toString();
+        const url = context.deliveryClient.type('movie').getUrl();
         expect(url).toContain(`/types/movie`);
     });
 
     it(`type url for all types should end with 'types'`, () => {
-        const url = context.deliveryClient.types().toString();
+        const url = context.deliveryClient.types().getUrl();
         expect(url).toContain(`/types`);
     });
 
     it(`type url should contain skip parameter`, () => {
         const skip: number = 549228429;
-        const url = context.deliveryClient.types().skipParameter(skip).toString();
+        const url = context.deliveryClient.types().skipParameter(skip).getUrl();
         expect(url).toContain('skip=' + skip.toString());
     });
 

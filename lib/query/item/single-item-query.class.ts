@@ -22,14 +22,14 @@ export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TI
     /**
     * Gets the runnable Observable
     */
-    get(): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
+    getObservable(): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return super.runSingleItemQuery(this.codename);
     }
 
     /**
     * Gets 'Url' representation of query
     */
-    toString(): string {
+    getUrl(): string {
         return super.getSingleItemQueryUrl(this.codename);
     }
 }

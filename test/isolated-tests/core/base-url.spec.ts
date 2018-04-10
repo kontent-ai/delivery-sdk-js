@@ -9,7 +9,7 @@ describe('Base URL', () => {
   let parsedUrl: URL;
 
   beforeAll(() => {
-    itemsUrl = context.deliveryClient.items().toString();
+    itemsUrl = context.deliveryClient.items().getUrl();
 
     parsedUrl = new URL(itemsUrl);
   });
@@ -28,14 +28,14 @@ describe('Base URL', () => {
     const baseUrl = 'http://custombase.com';
     const contextCustom = new Context({baseUrl: baseUrl});
     setup(contextCustom);
-    expect(contextCustom.deliveryClient.items().toString()).toContain(baseUrl);
+    expect(contextCustom.deliveryClient.items().getUrl()).toContain(baseUrl);
   });
 
   it(`custom preview URL should be used'`, () => {
     const previewUrl = 'http://custompreview.com';
     const contextCustom = new Context({basePreviewUrl: previewUrl, usePreviewMode: true});
     setup(contextCustom);
-    expect(contextCustom.deliveryClient.items().toString()).toContain(previewUrl);
+    expect(contextCustom.deliveryClient.items().getUrl()).toContain(previewUrl);
   });
 
 });

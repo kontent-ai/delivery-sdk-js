@@ -143,14 +143,22 @@ const deliveryClient = new DeliveryClient({
     ]
 });
 
-/**
- * Get typed data from Cloud (note that the 'Movie' has to be registered in your type resolvers)
- */
+/** Getting items from Kentico Cloud as Promise */
 deliveryClient.items<Movie>()
-  .type('movie')
-  .get()
-  .subscribe(response => {
-    const movieText = response.items[0].title.text)
+    .type('movie')
+    .getPromise()
+    .then(response => {
+        const movieText = response.items[0].title.text;
+    )
+});
+
+/** Getting items from Kentico Cloud as Observable */
+deliveryClient.items<Movie>()
+    .type('movie')
+    .getObservable()
+    .subscribe(response => {
+        const movieText = response.items[0].title.text;
+    )
 });
 
 /**
@@ -185,6 +193,24 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
     ]
 });
 
+/** Getting items from Kentico Cloud as Promise */
+deliveryClient.items()
+    .type('movie')
+    .getPromise()
+    .then(response => {
+        const movieText = response.items[0].title.text;
+    )
+});
+
+/** Getting items from Kentico Cloud as Observable */
+deliveryClient.items()
+    .type('movie')
+    .getObservable()
+    .subscribe(response => {
+        const movieText = response.items[0].title.text;
+    )
+});
+
 /**
  * Fetch all items of 'movie' type and given parameters from Kentico Cloud.
  * Important note: SDK will convert items to your type if you registered it. For example,
@@ -193,7 +219,7 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
  */
 deliveryClient.items()
     .type('movie')
-    .get()
+    .getObservable()
     .subscribe(response => console.log(response));
 ```
 

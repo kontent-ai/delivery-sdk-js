@@ -1,10 +1,5 @@
-// url parser
-import urlParser from 'url-parse';
-
-// setup
 import { Context, setup } from '../../setup';
 
-// tests
 describe('Item URL', () => {
 
     const context = new Context();
@@ -19,12 +14,12 @@ describe('Item URL', () => {
     });
 
     it(`item url with 'kyle' codename should end with '/items/kyle`, () => {
-        const url = new URL(context.deliveryClient.item('kyle').toString());
+        const url = new URL(context.deliveryClient.item('kyle').getUrl());
         expect(url.toString()).toContain(`/items/kyle`);
     });
 
     it(`item url with 'arnold' codename should end with '/items/arnold'`, () => {
-        const url = new URL(context.deliveryClient.item('arnold').toString());
+        const url = new URL(context.deliveryClient.item('arnold').getUrl());
         expect(url.toString()).toContain(`/items/arnold`);
     });
 });

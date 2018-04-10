@@ -20,11 +20,11 @@ describe('Live element', () => {
 
   beforeAll((done) => {
     context.deliveryClient.element(typeCodename, textElementCodename)
-      .get()
+      .getObservable()
       .pipe(map(r => textElementResponse = r as ElementResponses.ElementResponse),
-        flatMap(() => context.deliveryClient.element(typeCodename, multipleChoiceElementCodename).get())
+        flatMap(() => context.deliveryClient.element(typeCodename, multipleChoiceElementCodename).getObservable())
         , map(r => multipleChoiceElementResponse = r as ElementResponses.ElementResponse),
-        flatMap(() => context.deliveryClient.element(typeCodename, taxonomyElementCodename).get()),
+        flatMap(() => context.deliveryClient.element(typeCodename, taxonomyElementCodename).getObservable()),
         map(r => taxonomyElementResponse = r as ElementResponses.ElementResponse)
       )
       .subscribe(() => {

@@ -12,7 +12,7 @@ describe('Live items', () => {
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
       .type(type)
-      .get()
+      .getObservable()
       .subscribe(r => {
         response = r as ItemResponses.DeliveryItemListingResponse<Movie>;
         done();

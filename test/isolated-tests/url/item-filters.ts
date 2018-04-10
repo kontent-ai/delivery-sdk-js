@@ -1,12 +1,6 @@
-// url parser
-import urlParser from 'url-parse';
-
-// setup
+import { Filters } from '../../../lib';
 import { Context, setup } from '../../setup';
 
-import { Filters } from '../../../lib';
-
-// tests
 describe('Item url filters', () => {
 
     const context = new Context();
@@ -17,7 +11,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .type(type)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('system.type');
@@ -33,7 +27,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .types(types)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('system.type[in]');
@@ -45,7 +39,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .inFilter('elem1', ['val1'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[in]');
@@ -57,7 +51,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .inFilter('elem1', ['val1', 'val2'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[in]');
@@ -69,7 +63,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .anyFilter('elem1', ['val1'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[any]');
@@ -81,7 +75,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .anyFilter('elem1', ['val1', 'val2'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[any]');
@@ -93,7 +87,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .containsFilter('elem1', ['val1'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[contains]');
@@ -105,7 +99,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .containsFilter('elem1', ['val1', 'val2'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[contains]');
@@ -117,7 +111,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .equalsFilter('elem1', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1');
@@ -129,7 +123,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .greaterThanFilter('elem1', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[gt]');
@@ -141,7 +135,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .greaterThanOrEqualFilter('elem1', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[gte]');
@@ -153,7 +147,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .lessThanFilter('elem1', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[lt]');
@@ -165,7 +159,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .lessThanOrEqualFilter('elem1', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[lte]');
@@ -177,7 +171,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .allFilter('elem1', ['val1'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[all]');
@@ -189,7 +183,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .allFilter('elem1', ['val1', 'val2'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[all]');
@@ -201,7 +195,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .rangeFilter('elem1', 1, 10)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[range]');
@@ -306,7 +300,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .inFilter(' elem1 ', ['val1'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[in]');
@@ -318,7 +312,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .allFilter(' elem1 ', ['val1'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[all]');
@@ -330,7 +324,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .anyFilter(' elem1 ', ['val1'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[any]');
@@ -342,7 +336,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .containsFilter(' elem1 ', ['val1'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[contains]');
@@ -354,7 +348,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .equalsFilter(' elem1 ', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1');
@@ -366,7 +360,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .greaterThanFilter(' elem1 ', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[gt]');
@@ -378,7 +372,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .greaterThanOrEqualFilter(' elem1 ', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[gte]');
@@ -390,7 +384,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .lessThanFilter(' elem1 ', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[lt]');
@@ -402,7 +396,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .lessThanOrEqualFilter(' elem1 ', 'val1')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[lte]');
@@ -414,7 +408,7 @@ describe('Item url filters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .rangeFilter(' elem1 ', 1, 10)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elem1[range]');

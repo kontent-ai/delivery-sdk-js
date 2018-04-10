@@ -14,14 +14,14 @@ export abstract class BaseQuery<TResponse> {
     ) {
     }
 
-    abstract toString(): string;
-    abstract get(): Observable<TResponse>;
+    abstract getUrl(): string;
+    abstract getObservable(): Observable<TResponse>;
 
     getParameters(): IQueryParameter[] {
         return this.parameters;
     }
 
     getPromise(): Promise<TResponse> {
-        return this.get().toPromise();
+        return this.getObservable().toPromise();
     }
 }

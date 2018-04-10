@@ -1,13 +1,6 @@
-// url parser
-import urlParser from 'url-parse';
-
-// setup
+import { Parameters, SortOrder } from '../../../lib';
 import { Context, setup } from '../../setup';
 
-// models
-import { SortOrder, Parameters } from '../../../lib';
-
-// tests
 describe('Item url parameters', () => {
 
     const context = new Context();
@@ -17,47 +10,47 @@ describe('Item url parameters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .depthParameter(1)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('depth');
 
-        expect(param).toEqual('1')
+        expect(param).toEqual('1');
     });
 
     it(`negative depth parameter should throw error`, () => {
-        expect(() => context.deliveryClient.items().depthParameter(-1)).toThrowError()
+        expect(() => context.deliveryClient.items().depthParameter(-1)).toThrowError();
     });
 
     it(`multiple elements param should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .elementsParameter(['elem1', 'elem2'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elements');
 
-        expect(param).toEqual('elem1,elem2')
+        expect(param).toEqual('elem1,elem2');
     });
 
     it(`single elements param should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .elementsParameter(['elem1'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elements');
 
-        expect(param).toEqual('elem1')
+        expect(param).toEqual('elem1');
     });
 
     it(`limit parameter should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .limitParameter(1)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('limit');
@@ -66,14 +59,14 @@ describe('Item url parameters', () => {
     });
 
     it(`negative limit parameter should throw error`, () => {
-        expect(() => context.deliveryClient.items().limitParameter(-1)).toThrowError()
+        expect(() => context.deliveryClient.items().limitParameter(-1)).toThrowError();
     });
 
     it(`order (desc) parameter should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .orderParameter('elem1', SortOrder.desc)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('order');
@@ -85,7 +78,7 @@ describe('Item url parameters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .orderParameter('elem1', SortOrder.asc)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('order');
@@ -97,7 +90,7 @@ describe('Item url parameters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .orderParameter('elem1', null)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('order');
@@ -109,7 +102,7 @@ describe('Item url parameters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .skipParameter(1)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('skip');
@@ -118,14 +111,14 @@ describe('Item url parameters', () => {
     });
 
     it(`skip parameter with negative skip should throw error`, () => {
-        expect(() => context.deliveryClient.items().skipParameter(-1)).toThrowError()
+        expect(() => context.deliveryClient.items().skipParameter(-1)).toThrowError();
     });
 
     it(`language parameter should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .languageParameter('en')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('language');
@@ -140,11 +133,11 @@ describe('Item url parameters', () => {
     });
 
     it(`elements parameter with empty or not set elements should throw error`, () => {
-        expect(() => context.deliveryClient.items().elementsParameter([null]).toString()).toThrowError();
+        expect(() => context.deliveryClient.items().elementsParameter([null]).getUrl()).toThrowError();
     });
 
        it(`language parameter with empty or not set elements should throw error`, () => {
-        expect(() => context.deliveryClient.items().languageParameter(null).toString()).toThrowError();
+        expect(() => context.deliveryClient.items().languageParameter(null).getUrl()).toThrowError();
     });
 
     // trim checks
@@ -153,7 +146,7 @@ describe('Item url parameters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .elementsParameter([' elem1', 'elem2', ' elem3'])
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('elements');
@@ -165,7 +158,7 @@ describe('Item url parameters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .orderParameter(' elem1 ', SortOrder.asc)
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('order');
@@ -177,7 +170,7 @@ describe('Item url parameters', () => {
         const url = new URL(
             context.deliveryClient.items()
                 .languageParameter(' en ')
-                .toString()
+                .getUrl()
         );
 
         const param = url.searchParams.get('language');

@@ -22,14 +22,14 @@ export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeRes
     /**
     * Gets the runnable Observable
     */
-    get(): Observable<TypeResponses.DeliveryTypeResponse> {
+    getObservable(): Observable<TypeResponses.DeliveryTypeResponse> {
         return super.runSingleTypeQuery(this.typeCodename);
     }
 
     /**
     * Gets 'Url' representation of query
     */
-    toString(): string {
+    getUrl(): string {
         return super.getSingleTypeQueryUrl(this.typeCodename);
     }
 }

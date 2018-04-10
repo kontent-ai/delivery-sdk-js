@@ -17,7 +17,7 @@ describe('Live authorization headers', () => {
 
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(movieCodename)
-            .get()
+            .getObservable()
             .subscribe(r => {
                 response = r as ItemResponses.DeliveryItemResponse<Movie>;
                 done();
