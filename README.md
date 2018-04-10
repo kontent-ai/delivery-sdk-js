@@ -117,10 +117,15 @@ Visit <a href="https://github.com/Enngage/KenticoCloudDeliveryNodeSDK">GitHub re
 npm i kentico-cloud-delivery-typescript-sdk --save
 ```
 
-### TypeScript (ES6)
+### TypeScript & ES6
 
 ```typescript
-import { ContentItem, Fields,TypeResolver,DeliveryClient,DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
+import { 
+    ContentItem, 
+    Fields,
+    TypeResolver,
+    DeliveryClient
+    } from 'kentico-cloud-delivery-typescript-sdk';
 
 /**
  * This is optional, but it is considered a best practice to define your models
@@ -131,20 +136,12 @@ export class Movie extends ContentItem {
   public title: Fields.TextField;
 }
 
-/**
- * Type resolvers make sure instance of proper class is created for your content types.
- * If you don't use any custom models, return an empty array.
- */
-let typeResolvers: TypeResolver[] = [
-    new TypeResolver('movie', () => new Movie()),
-];
-
-/**
- * Create new instance of Delivery Client
- */
-var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig('projectId', typeResolvers)
-);
+const deliveryClient = new DeliveryClient({
+    projectId: 'xxx',
+    typeResolvers: [
+        new TypeResolver('movie', () => new Movie()),
+    ]
+});
 
 /**
  * Get typed data from Cloud (note that the 'Movie' has to be registered in your type resolvers)
@@ -153,9 +150,7 @@ deliveryClient.items<Movie>()
   .type('movie')
   .get()
   .subscribe(response => {
-    console.log(response);
-    // you can access strongly types properties
-    console.log(response.items[0].title.text);
+    const movieText = response.items[0].title.text)
 });
 
 /**
@@ -165,7 +160,6 @@ deliveryClient.items<ContentItem>()
   .type('movie')
   .get()
   .subscribe(response => {
-    console.log(response);
     // you can access properties same way as with strongly typed models, but note
     // that you don't get any intellisense and the underlying object 
     // instance is of 'ContentItem' type
@@ -173,39 +167,23 @@ deliveryClient.items<ContentItem>()
 });
 
 ```
-### JavaScript (CommonJS)
+### JavaScript & CommonJS
 
 ```javascript
-var KenticoCloud = require('kentico-cloud-delivery-typescript-sdk');
+const KenticoCloud = require('kentico-cloud-delivery-typescript-sdk');
 
-/**
- * This is optional, but it is considered a best practice to define your models
- * so that you can leverage intellisense and extend your models with 
- * additional methods.
- */
 class Movie extends KenticoCloud.ContentItem {
     constructor() {
         super();
     }
 }
 
-/**
- * Type resolvers make sure instance of proper class is created for your content types.
- * If you don't use any custom classes, return an empty array.
- */
-var typeResolvers = [
-    new KenticoCloud.TypeResolver('movie', () => new Movie()),
-];
-
-/**
- * Delivery client configuration object
- */
-var config = new KenticoCloud.DeliveryClientConfig(projectId, typeResolvers);
-
-/**
- * Create new instance of Delivery Client
- */
-var deliveryClient = new KenticoCloud.DeliveryClient(config);
+const deliveryClient = new KenticoCloud.DeliveryClient({
+    projectId: 'xxx',
+    typeResolvers: [
+        new KenticoCloud.TypeResolver('movie', () => new Movie()),
+    ]
+});
 
 /**
  * Fetch all items of 'movie' type and given parameters from Kentico Cloud.
