@@ -7,7 +7,7 @@ import { IBaseResponse } from '../services';
 import { ElementMapper } from './element.mapper';
 import { ItemMapper } from './item.mapper';
 import { TaxonomyMapper } from './taxonomy.mapper';
-import { TypeMapper } from './type-map.mapper';
+import { TypeMapper } from './type.mapper';
 
 export class ResponseMapper {
 

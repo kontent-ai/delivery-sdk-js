@@ -1,4 +1,4 @@
-import { TypeMapper } from '../../../lib/mappers/type-map.mapper';
+import { TypeMapper } from '../../../lib/';
 
 describe('TypeMapper', () => {
 
