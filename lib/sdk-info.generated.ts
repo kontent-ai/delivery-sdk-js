@@ -1,3 +1,4 @@
+
 import { ISDKInfo } from './interfaces';
 
 export const sdkInfo: ISDKInfo = {
@@ -5,6 +6,3 @@ export const sdkInfo: ISDKInfo = {
     version: '4.0.0-beta.1',
     name: 'kentico-cloud-delivery-typescript-sdk'
 };
-
-
-
