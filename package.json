@@ -72,6 +72,6 @@
     "webpack": "4.5.0",
     "webpack-cli": "2.0.14"
   },
-  "main": "./commonjs/index.js",
-  "types": "./commonjs/index.d.ts"
+  "main": "./_commonjs/index.js",
+  "types": "./_commonjs/index.d.ts"
 }
