@@ -10,7 +10,7 @@ before_script:
 - npm install -g karma
 - npm install -g cat
 - npm install
-- npm install rxjs ^6.0.0-rc.0
+- npm install rxjs 6.0.0-terrific-rc.3
 # build all
 - npm run build:all
 script: 
