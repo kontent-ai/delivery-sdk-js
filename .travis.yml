@@ -10,7 +10,7 @@ before_script:
 - npm install -g karma
 - npm install -g cat
 - npm install
-- npm install rxjs @rc
+- npm install rxjs@rc
 # build all
 - npm run build:all
 script: 
