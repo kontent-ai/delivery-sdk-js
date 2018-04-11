@@ -1,6 +1,6 @@
-## SDK Overview
+## SDK Documentation
 
-A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and shipped with UMD bundles for easy browser use.
+A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and as UMD bundle, ES2015 and CommonJs formats.
 
 ## Installation
 
@@ -492,6 +492,8 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | securedApiKey| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
 | enableSecuredMode| boolean| Indicates if secured mode is enabled globally. This can be overriden on query level |
 | retryAttempts| number | Number of retry attempts when error occures |
+| modularContentResolver.modularContentWrapperTag | string | HTML tag used to wrap resolved modular items in Rich text fields (defaults to 'p') |
+| modularContentResolver.modularContentWrapperClasses | string[] | Array of classes added to modular item wrapper. Defaults to a single class 'kc-modular-item-wrapper' |
 
 ## Handling errors
 
