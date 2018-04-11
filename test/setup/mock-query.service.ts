@@ -1,4 +1,4 @@
-import { ContentItem, IDeliveryClientConfig, ISdkInfo, ResponseMapper } from '../../lib';
+import { ContentItem, IDeliveryClientConfig, ISDKInfo, ResponseMapper } from '../../lib';
 import { RichTextHtmlParser } from '../../browser';
 import { IItemQueryConfig } from '../../lib/interfaces/item/iitem-query.config';
 import { ItemResponses } from '../../lib/models/item/responses';
@@ -13,7 +13,7 @@ export class MockQueryService extends QueryService {
     constructor(
         protected config: IDeliveryClientConfig,
         protected httpService: IHttpService,
-        protected sdkInfo: ISdkInfo
+        protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, new RichTextHtmlParser(), sdkInfo);
         this.responseMapper = new ResponseMapper(config, new RichTextHtmlParser);

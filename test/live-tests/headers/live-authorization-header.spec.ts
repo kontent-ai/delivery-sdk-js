@@ -1,6 +1,7 @@
-import { packageId, repoHost, version } from '../../../lib/library-version';
-import { Context, setup, Movie } from '../../setup';
+import { AxiosResponse } from 'axios';
+
 import { ItemResponses } from '../../../lib';
+import { Context, Movie, setup } from '../../setup';
 
 describe('Live authorization headers', () => {
 
@@ -25,8 +26,8 @@ describe('Live authorization headers', () => {
     });
 
     it(`Verifies authorization header is actually present in sent request`, () => {
-        const request = response.debug.response.rawRequest as XMLHttpRequest;
-        const header = request['headers'][authorizationHeader];
+        const debugResponse = response.debug.response as AxiosResponse;
+        const header = debugResponse.config.headers[authorizationHeader];
 
         expect(header).toBeTruthy();
     });

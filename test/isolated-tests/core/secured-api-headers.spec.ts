@@ -1,4 +1,3 @@
-import { packageId, repoHost, version } from '../../../lib/library-version';
 import { Context, setup } from '../../setup';
 
 describe('Secured headers', () => {

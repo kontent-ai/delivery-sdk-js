@@ -6,12 +6,16 @@ const packageId = require('../package.json').name;
 
 console.log(colors.cyan('\nRunning pre-build tasks'));
 
-const versionFilePath = path.join(__dirname + '/../lib/sdk-version.js');
+const versionFilePath = path.join(__dirname + '/../lib/sdk-info.generated.ts');
 
 const src = `
-exports.version = '${appVersion}';
-exports.packageId = '${packageId}';
-exports.repoHost = 'npmjs.com';
+import { ISDKInfo } from './interfaces';
+
+export const sdkInfo: ISDKInfo = {
+    host: 'npmjs.com',
+    version: '${appVersion}',
+    name: '${packageId}'
+};
 `;
 
 // ensure version module pulls value from package.json

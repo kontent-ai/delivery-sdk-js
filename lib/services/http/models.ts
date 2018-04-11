@@ -1,12 +1,14 @@
+import { CloudError } from '../../models';
+
 export interface IBaseResponse {
-    data: JSON;
+    data: any;
     response: any;
 }
 
 export interface IBaseResponseError {
-    response: any;
     message: string;
-    cloudError?: IBaseResponseCloudError;
+    originalError: any;
+    cloudError?: CloudError;
 }
 
 export interface IBaseResponseCloudError {
@@ -15,3 +17,5 @@ export interface IBaseResponseCloudError {
     errorCode: number;
     specificCode: number;
 }
+
+

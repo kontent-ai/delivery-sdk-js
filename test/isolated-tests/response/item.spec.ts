@@ -1,6 +1,5 @@
 import { HttpService } from '../../../browser';
-import { ItemResponses } from '../../../lib';
-import { packageId, repoHost, version } from '../../../lib/library-version';
+import { ItemResponses, sdkInfo } from '../../../lib';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 
 describe('Isolated item', () => {
@@ -9,9 +8,9 @@ describe('Isolated item', () => {
     setup(context);
 
     const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
-        host: repoHost,
-        name: packageId,
-        version: version
+        host: sdkInfo.host,
+        name: sdkInfo.name,
+        version: sdkInfo.version
     });
 
     let response: ItemResponses.DeliveryItemResponse<Movie>;

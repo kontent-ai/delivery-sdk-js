@@ -1,6 +1,6 @@
 import { HttpService, RichTextHtmlParser } from '../../browser';
 import { IDeliveryClientConfig } from '../config';
-import { packageId, repoHost, version } from '../sdk-version';
+import { sdkInfo } from '../sdk-info.generated';
 import { ContentItem } from '../models';
 import {
     ElementQuery,
@@ -35,9 +35,9 @@ export class DeliveryClient implements IDeliveryClient {
             new HttpService(),
             new RichTextHtmlParser(),
             {
-                host: repoHost,
-                name: packageId,
-                version: version
+                host: sdkInfo.host,
+                name: sdkInfo.name,
+                version: sdkInfo.version
             });
     }
 

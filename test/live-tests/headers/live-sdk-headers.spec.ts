@@ -1,6 +1,7 @@
-import { packageId, repoHost, version } from '../../../lib/library-version';
-import { Context, setup, Movie } from '../../setup';
+import { AxiosResponse } from 'axios';
+
 import { ItemResponses } from '../../../lib';
+import { Context, Movie, setup } from '../../setup';
 
 describe('Live SDK headers', () => {
 
@@ -22,8 +23,8 @@ describe('Live SDK headers', () => {
     });
 
     it(`Verifies SDK Id version header is actually present in sent request`, () => {
-        const request = response.debug.response.rawRequest as XMLHttpRequest;
-        const header = request['headers'][versionHeader];
+        const debugResponse = response.debug.response as AxiosResponse;
+        const header = debugResponse.config.headers[versionHeader];
 
         expect(header).toBeTruthy();
     });

@@ -1,6 +1,9 @@
 /* client */
 export * from './client';
 
+// sdk info */
+export * from './sdk-info.generated';
+
 /* config */
 export * from './config';
 

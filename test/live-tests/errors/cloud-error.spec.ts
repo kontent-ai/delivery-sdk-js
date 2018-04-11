@@ -38,7 +38,7 @@ describe('Cloud errors', () => {
         if (!(cloudError.errorCode >= 0) ||
             !cloudError.message ||
             !cloudError.requestId ||
-            !(cloudError.specifiCode >= 0)
+            !(cloudError.specificCode >= 0)
         ) {
             allPropertiesAreAssigned = false;
         }

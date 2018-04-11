@@ -1,6 +1,5 @@
 import { HttpService } from '../../../browser';
-import { ContentItem, Fields, ItemResponses, Link, TypeResolver } from '../../../lib';
-import { packageId, repoHost, version } from '../../../lib/library-version';
+import { ContentItem, Fields, ItemResponses, Link, sdkInfo, TypeResolver } from '../../../lib';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 class MockMovie extends ContentItem {
@@ -26,9 +25,9 @@ describe('URL slug resolver', () => {
     setup(context);
 
     const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
-        host: repoHost,
-        name: packageId,
-        version: version
+        host: sdkInfo.host,
+        name: sdkInfo.name,
+        version: sdkInfo.version
     });
 
     let response: ItemResponses.DeliveryItemResponse<MockMovie>;

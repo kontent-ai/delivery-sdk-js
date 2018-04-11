@@ -8,7 +8,7 @@ import {
     IItemQueryConfig,
     IQueryConfig,
     IQueryParameter,
-    ISdkInfo,
+    ISDKInfo,
     ITaxonomyQueryConfig,
 } from '../interfaces';
 import { ResponseMapper } from '../mappers';
@@ -73,7 +73,7 @@ export class QueryService {
       * Information about the SDK
       * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
       */
-        protected sdkInfo: ISdkInfo,
+        protected sdkInfo: ISDKInfo,
 
     ) {
         if (!config) {
@@ -247,10 +247,10 @@ export class QueryService {
     }
 
     /**
- * Http get response
- * @param url Url of request
- * @param queryConfig Query configuration
- */
+    * Http get response
+    * @param url Url of request
+    * @param queryConfig Query configuration
+    */
     protected getResponse(url: string, queryConfig: IQueryConfig): Observable<IBaseResponse> {
         // hold the attempt count
         const attempt = 1;
@@ -279,13 +279,8 @@ export class QueryService {
             console.error(error);
         }
 
-        if (error && error.cloudError) {
-            return new CloudError({
-                message: error.cloudError.message,
-                requestId: error.cloudError.requestId,
-                errorCode: error.cloudError.errorCode,
-                specifiCode: error.cloudError.specificCode,
-            });
+        if (error.cloudError) {
+            return error.cloudError;
         }
 
         return error;

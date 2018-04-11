@@ -1,4 +1,4 @@
-export interface ISdkInfo {
+export interface ISDKInfo {
 
     /**
      * Name of SDK

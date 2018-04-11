@@ -1,14 +1,14 @@
 export class CloudError {
     public message: string;
-    public requestId: number;
+    public requestId: string;
     public errorCode: number;
-    public specifiCode: number;
+    public specificCode: number;
 
     constructor(data: {
         message: string,
-        requestId: number,
+        requestId: string,
         errorCode: number,
-        specifiCode: number
+        specificCode: number
     }) {
         Object.assign(this, data);
     }
