@@ -43,7 +43,9 @@
   "private": false,
   "dependencies": {
     "axios": "^0.18.0",
-    "reflect-metadata": "^0.1.12",
+    "reflect-metadata": "^0.1.12"
+  },
+  "peerDependencies": {
     "rxjs": "^6.0.0-rc.0"
   },
   "devDependencies": {
