@@ -130,13 +130,13 @@ Try [Kentico Cloud model generator utility](https://www.npmjs.com/package/kentic
 import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-delivery-typescript-sdk';
 import { Movie } from './movie'; // use your own path to movie class model
 
-var projectId = 'projectId';
+const projectId = 'projectId';
 
-let typeResolvers: TypeResolver[] = [
+const typeResolvers: TypeResolver[] = [
     new TypeResolver("movie", () => new Movie()),
 ];
 
-var deliveryClient = new DeliveryClient(
+const deliveryClient = new DeliveryClient(
   new DeliveryClientConfig(projectId, typeResolvers)
 )
 ```
@@ -553,7 +553,7 @@ deliveryClient.items<IContentItem>()
 In case you need to get the raw URL of a request before calling it, use the `getUrl()` method on any query.
 
 ```typescript
-var queryText = deliveryClient.items<IContentItem>()
+const queryText = deliveryClient.items<IContentItem>()
   .type('movie')
   .limitParameter(10)
   .orderParameter('system.codename', SortOrder.desc)
