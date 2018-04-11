@@ -60,5 +60,19 @@ export interface IDeliveryClientConfig {
      */
     retryAttempts?: number;
 
+    /**
+     * Global settings for modular content resolver
+     */
+    modularContentResolver?: {
+        /**
+         * Element used for wrapping resolved modular items
+         */
+        modularContentWrapperTag?: string,
+        /**
+         * CSS classes applied to wrapper
+         */
+        modularContentWrapperClasses?: string[]
+    };
+
 }
 

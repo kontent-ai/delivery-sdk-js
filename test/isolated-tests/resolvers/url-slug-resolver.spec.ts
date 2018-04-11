@@ -1,5 +1,4 @@
-import { HttpService } from '../../../browser';
-import { ContentItem, Fields, ItemResponses, Link, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, Fields, AxiosHttpService, ItemResponses, Link, sdkInfo, TypeResolver } from '../../../lib';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 class MockMovie extends ContentItem {
@@ -24,7 +23,7 @@ describe('URL slug resolver', () => {
     context.typeResolvers = typeResolvers;
     setup(context);
 
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
+    const mockQueryService = new MockQueryService(context.getConfig(), new AxiosHttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version

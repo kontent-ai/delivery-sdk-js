@@ -1,9 +1,8 @@
-import { HttpService } from '../browser';
-
+import { AxiosHttpService } from '../lib';
 
 describe('Developer testing', () => {
 
-    const httpService = new HttpService();
+    const httpService = new AxiosHttpService();
 
     beforeAll((done) => {
         httpService.get('https://deliver.kenticocloud.com/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items/warrior', [])

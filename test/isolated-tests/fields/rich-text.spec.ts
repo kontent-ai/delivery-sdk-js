@@ -101,6 +101,8 @@ describe('RichTextField', () => {
             modularItems: modularItems,
             typeResolvers: config.typeResolvers,
             richTextHtmlParser: new RichTextHtmlParser(),
+            modularContentWrapperClasses: ['kc-wrapper-class'],
+            modularContentWrapperTag: 'kcelem',
             queryConfig: {
                 richTextResolver: (item: ActorMock) => {
                     return `<p class="testing_richtext">${item.firstName.text}</p>`;
@@ -139,6 +141,16 @@ describe('RichTextField', () => {
         expect(field.getHtml()).toContain(expectedHtml);
     });
 
+    it(`checks that html contains propper modular item wrapper`, () => {
+        const elem = `kcelem`;
+        expect(field.getHtml()).toContain(elem);
+    });
+
+    it(`checks that html contains propper modular item class`, () => {
+        const wrapperClass = `kc-wrapper-class`;
+        expect(field.getHtml()).toContain(wrapperClass);
+    });
+
     it(`checks that links are resolved even if the rich text resolver is not set`, () => {
 
         const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, {
@@ -148,6 +160,8 @@ describe('RichTextField', () => {
                 modularItems: modularItems,
                 typeResolvers: config.typeResolvers,
                 richTextHtmlParser: new RichTextHtmlParser(),
+                modularContentWrapperClasses: ['kc-wrapper-class'],
+                modularContentWrapperTag: 'kc-item-wrapper',
                 queryConfig: {
                     richTextResolver: null,
                     linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug

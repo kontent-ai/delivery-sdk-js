@@ -1,11 +1,11 @@
+import axios, { AxiosResponse } from 'axios';
 import { bindCallback, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import * as xhr from 'xhr';
-import axios, { AxiosResponse } from 'axios';
 
-import { IHeader } from '../lib/interfaces';
-import { CloudError } from '../lib/models';
-import { IBaseResponse, IBaseResponseError, IHttpService } from '../lib/services';
+import { IHeader } from '../../interfaces';
+import { CloudError } from '../../models';
+import { IHttpService } from './ihttp.service';
+import { IBaseResponse, IBaseResponseError } from './models';
 
 interface IHttpCallback {
     data?: any;
@@ -24,8 +24,7 @@ const KCErrorNames = {
     specificCode: 'specific_code'
 };
 
-export class HttpService implements IHttpService {
-
+export class AxiosHttpService implements IHttpService {
 
     get(url: string, headers: IHeader[]): Observable<IBaseResponse> {
         return this.getDataObservable(url, this.getHeadersJson(headers))

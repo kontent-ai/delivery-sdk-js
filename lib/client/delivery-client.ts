@@ -1,6 +1,5 @@
-import { HttpService, RichTextHtmlParser } from '../../browser';
+import { RichTextHtmlParser } from '../../browser';
 import { IDeliveryClientConfig } from '../config';
-import { sdkInfo } from '../sdk-info.generated';
 import { ContentItem } from '../models';
 import {
     ElementQuery,
@@ -11,7 +10,8 @@ import {
     TaxonomiesQuery,
     TaxonomyQuery,
 } from '../query';
-import { QueryService } from '../services/query.service';
+import { sdkInfo } from '../sdk-info.generated';
+import { AxiosHttpService, QueryService } from '../services';
 import { IDeliveryClient } from './idelivery-client.interface';
 
 export class DeliveryClient implements IDeliveryClient {
@@ -32,7 +32,7 @@ export class DeliveryClient implements IDeliveryClient {
         }
 
         this.queryService = new QueryService(config,
-            new HttpService(),
+            new AxiosHttpService(),
             new RichTextHtmlParser(),
             {
                 host: sdkInfo.host,

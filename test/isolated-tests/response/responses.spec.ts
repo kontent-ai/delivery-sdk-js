@@ -1,5 +1,4 @@
-import { HttpService } from '../../../browser';
-import { ItemResponses, sdkInfo } from '../../../lib';
+import { AxiosHttpService, ItemResponses, sdkInfo } from '../../../lib';
 import { Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 
 describe('Responses', () => {
@@ -7,7 +6,7 @@ describe('Responses', () => {
     const context = new Context();
     setup(context);
 
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
+    const mockQueryService = new MockQueryService(context.getConfig(), new AxiosHttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version

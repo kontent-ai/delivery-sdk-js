@@ -43,11 +43,15 @@ export class RichTextResolver {
             links: Link[],
             enableAdvancedLogging: boolean,
             queryConfig: IItemQueryConfig,
+            modularContentWrapperTag: string,
+            modularContentWrapperClasses: string[]
         }): string {
         // prepare config
         const config: IHtmlResolverConfig = {
             enableAdvancedLogging: data.enableAdvancedLogging,
             queryConfig: data.queryConfig,
+            modularContentWrapperTag: data.modularContentWrapperTag,
+            modularContentWrapperClasses: data.modularContentWrapperClasses
         };
 
         const result = data.richTextHtmlParser.resolveRichTextField(
@@ -66,6 +70,8 @@ export class RichTextResolver {
             }, {
                 enableAdvancedLogging: data.enableAdvancedLogging,
                 queryConfig: data.queryConfig,
+                modularContentWrapperTag: data.modularContentWrapperTag,
+                modularContentWrapperClasses: data.modularContentWrapperClasses
             });
 
         return result.resolvedHtml;

@@ -10,6 +10,8 @@ import {
 
 export class RichTextHtmlParser implements IRichTextHtmlParser {
 
+    private readonly modularContentWrapperElem = 'div';
+
     private readonly modularContent = {
         type: 'application/kenticocloud',
         dataType: 'data-type',
@@ -26,7 +28,7 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
             const doc = this.createWrapperElement(html);
 
             // get all modular content items
-            const result = this.processRichTextField(doc.childNodes, replacement, config, {
+            const result = this.processRichTextField(doc.children, replacement, config, {
                 links: [],
                 modularContentItems: []
             });
@@ -43,53 +45,57 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
     }
 
     private createWrapperElement(html: string): HTMLDivElement {
-        const element = document.createElement('div');
+        const element = document.createElement(this.modularContentWrapperElem);
         element.innerHTML = html;
 
         return element;
     }
 
-    private processRichTextField(nodeList: NodeList, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
-        if (!nodeList || nodeList.length === 0) {
+    private processRichTextField(htmlCollection: HTMLCollection, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
+        if (!htmlCollection || htmlCollection.length === 0) {
             // there are no more nodes
         } else {
             // extract objects
-            for (let i = 0; i < nodeList.length; i++) {
-                const node = nodeList[i];
-                const typeAttribute = node.attributes ? node.attributes.getNamedItem('type') : undefined;
-
-                if (typeAttribute && typeAttribute.value && typeAttribute.value.toLowerCase() === this.modularContent.type.toLowerCase()) {
+            for (let i = 0; i < htmlCollection.length; i++) {
+                const element = htmlCollection[i];
+                const typeAttribute = element.attributes ? element.attributes.getNamedItem('type') : undefined;
+                if (element.attributes && typeAttribute && typeAttribute.value && typeAttribute.value.toLowerCase() === this.modularContent.type.toLowerCase()) {
                     // node is modular content object
+                    const dataCodenameAttribute = element.attributes.getNamedItem(this.modularContent.dataCodename);
+                    const dataTypeAttribute = element.attributes.getNamedItem(this.modularContent.dataType);
+
                     const modularItem: IModularContentObject = {
-                        dataCodename: node.attributes.getNamedItem(this.modularContent.dataCodename).value,
-                        dataType: node.attributes.getNamedItem(this.modularContent.dataType).value
+                        dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
+                        dataType: dataTypeAttribute ? dataTypeAttribute.value : ''
                     };
 
                     // add to result
                     result.modularContentItems.push(modularItem);
 
                     // replace html
-                    const parentNode = node.parentNode;
-                    if (!parentNode) {
+                    const parentElement = element.parentElement;
+
+                    if (!parentElement) {
                         console.warn(`Could not replace modular content '${modularItem.dataCodename}' of '${modularItem.dataType}' because parent node is null. Please report this error if you are seeing this.`);
                     } else {
-                        // remove object node
-                        parentNode.removeChild(node);
-
                         // create new element
-                        const newElem = document.createElement('p');
+                        const newElem = document.createElement(config.modularContentWrapperTag);
                         newElem.innerHTML = replacement.getModularContentHtml(modularItem.dataCodename);
 
-                        // replace object node with resolved content
-                        parentNode.appendChild(newElem);
+                        // add classes
+                        newElem.className = config.modularContentWrapperClasses.map(m => m).join(', ');
+
+                        // remove original object element
+                        parentElement.replaceChild(newElem, element);
                     }
                 }
 
-                if (node.nodeName.toLowerCase() === this.link.nodeName.toLowerCase()) {
-                    const dataItemIdAttribute = node.attributes.getNamedItem(this.link.dataItemId);
+                if (element.nodeName.toLowerCase() === this.link.nodeName.toLowerCase()) {
+                    const dataItemIdAttribute = element.attributes.getNamedItem(this.link.dataItemId);
+
                     if (dataItemIdAttribute) {
                         const link: ILinkObject = {
-                            dataItemId: node.attributes.getNamedItem(this.link.dataItemId).value
+                            dataItemId: dataItemIdAttribute ? dataItemIdAttribute.value : ''
                         };
 
                         // add to result
@@ -98,7 +104,7 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
                         const resolvedUrl = replacement.getLinkUrl(link.dataItemId);
 
                         // add url to link
-                        const hrefAttribute = node.attributes.getNamedItem('href');
+                        const hrefAttribute = element.attributes.getNamedItem('href');
                         if (!hrefAttribute) {
                             // href attribute is missing
                             if (config.enableAdvancedLogging) {
@@ -111,8 +117,8 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
                 }
 
                 // recursively process child nodes
-                if (node.childNodes && node.childNodes.length > 0) {
-                    this.processRichTextField(node.childNodes, replacement, config, result);
+                if (element.children && element.children.length > 0) {
+                    this.processRichTextField(element.children, replacement, config, result);
                 }
             }
         }

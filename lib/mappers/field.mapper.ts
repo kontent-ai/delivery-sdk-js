@@ -8,6 +8,9 @@ import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../res
 
 export class FieldMapper {
 
+    private readonly defaultModularContentWrapperTag: string = 'p';
+    private readonly defaultModularContentWrapperClasses: string[] = ['kc-modular-item-wrapper'];
+
     constructor(
         private readonly config: IDeliveryClientConfig,
         private readonly richTextHtmlParser: IRichTextHtmlParser
@@ -141,14 +144,20 @@ export class FieldMapper {
 
         return new Fields.RichTextField(
             field.name,
-            field.name, {
+            field.value, {
                 resolveHtml: () => richTextResolver.resolveHtml(field.value, {
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
                     typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
                     richTextHtmlParser: this.richTextHtmlParser,
                     modularItems: modularItems,
                     links: links,
-                    queryConfig: queryConfig
+                    queryConfig: queryConfig,
+                    modularContentWrapperTag: this.config.modularContentResolver && this.config.modularContentResolver.modularContentWrapperTag
+                        ? this.config.modularContentResolver.modularContentWrapperTag
+                        : this.defaultModularContentWrapperTag,
+                    modularContentWrapperClasses: this.config.modularContentResolver && this.config.modularContentResolver.modularContentWrapperClasses
+                        ? this.config.modularContentResolver.modularContentWrapperClasses
+                        : this.defaultModularContentWrapperClasses
                 })
             });
     }

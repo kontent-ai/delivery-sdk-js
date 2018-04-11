@@ -1,5 +1,4 @@
-import { HttpService } from '../../../browser';
-import { ContentItem, FieldDecorators, Fields, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, FieldDecorators, Fields, AxiosHttpService, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 class MockMovie extends ContentItem {
@@ -33,7 +32,7 @@ describe('Property resolver', () => {
     setup(context);
 
     // mock query service
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
+    const mockQueryService = new MockQueryService(context.getConfig(), new AxiosHttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version
