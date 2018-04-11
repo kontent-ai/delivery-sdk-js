@@ -9,7 +9,7 @@
 
 A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and shipped with UMD bundles for easy browser use.
 
-### [Full Documentation ](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc)
+# [Full Documentation ](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc)
 
 ## Node.js support
 
