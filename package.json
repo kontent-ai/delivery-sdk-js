@@ -31,7 +31,7 @@
   },
   "scripts": {
     "test:browser": "karma start karma.conf.js",
-    "test:node": "npm run build-:commonjs && node test/node-js/all",
+    "test:node": "npm run build:commonjs && node test/node-js/all",
     "test:dev": "karma start karma-dev.conf.js",
     "test:travis": "karma start karma-travis.conf.js",
     "test:publish": "npm run test:node && npm run test:travis",
