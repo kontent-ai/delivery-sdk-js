@@ -1,5 +1,4 @@
-import { ContentItem, IDeliveryClientConfig, ISDKInfo, ResponseMapper } from '../../lib';
-import { RichTextHtmlParser } from '../../browser';
+import { ContentItem, getParserAdapter, IDeliveryClientConfig, ISDKInfo, ResponseMapper } from '../../lib';
 import { IItemQueryConfig } from '../../lib/interfaces/item/iitem-query.config';
 import { ItemResponses } from '../../lib/models/item/responses';
 import { IHttpService } from '../../lib/services/http/ihttp.service';
@@ -15,8 +14,8 @@ export class MockQueryService extends QueryService {
         protected httpService: IHttpService,
         protected sdkInfo: ISDKInfo
     ) {
-        super(config, httpService, new RichTextHtmlParser(), sdkInfo);
-        this.responseMapper = new ResponseMapper(config, new RichTextHtmlParser);
+        super(config, httpService, getParserAdapter(), sdkInfo);
+        this.responseMapper = new ResponseMapper(config, getParserAdapter());
     }
 
     mockGetSingleItem<TItem extends ContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {

@@ -6,9 +6,9 @@ import {
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
-} from '../lib/parser';
+} from '../parse-models';
 
-export class RichTextHtmlParser implements IRichTextHtmlParser {
+export class BrowserRichTextParser implements IRichTextHtmlParser {
 
     private readonly modularContentWrapperElem = 'div';
 
@@ -83,7 +83,7 @@ export class RichTextHtmlParser implements IRichTextHtmlParser {
                         newElem.innerHTML = replacement.getModularContentHtml(modularItem.dataCodename);
 
                         // add classes
-                        newElem.className = config.modularContentWrapperClasses.map(m => m).join(', ');
+                        newElem.className = config.modularContentWrapperClasses.map(m => m).join(' ');
 
                         // remove original object element
                         parentElement.replaceChild(newElem, element);

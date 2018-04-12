@@ -1,4 +1,3 @@
-import { RichTextHtmlParser } from '../../browser';
 import { IDeliveryClientConfig } from '../config';
 import { ContentItem } from '../models';
 import {
@@ -13,6 +12,7 @@ import {
 import { sdkInfo } from '../sdk-info.generated';
 import { AxiosHttpService, QueryService } from '../services';
 import { IDeliveryClient } from './idelivery-client.interface';
+import { getParserAdapter } from '../parser';
 
 export class DeliveryClient implements IDeliveryClient {
 
@@ -33,7 +33,7 @@ export class DeliveryClient implements IDeliveryClient {
 
         this.queryService = new QueryService(config,
             new AxiosHttpService(),
-            new RichTextHtmlParser(),
+            getParserAdapter(),
             {
                 host: sdkInfo.host,
                 name: sdkInfo.name,

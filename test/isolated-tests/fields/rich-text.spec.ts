@@ -1,4 +1,3 @@
-import { RichTextHtmlParser } from '../../../browser';
 import {
     ContentItem,
     ContentItemSystemAttributes,
@@ -8,6 +7,7 @@ import {
     richTextResolver,
     TypeResolver,
     urlSlugResolver,
+    getParserAdapter
 } from '../../../lib';
 
 class ActorMock extends ContentItem {
@@ -100,7 +100,7 @@ describe('RichTextField', () => {
             links: links,
             modularItems: modularItems,
             typeResolvers: config.typeResolvers,
-            richTextHtmlParser: new RichTextHtmlParser(),
+            richTextHtmlParser: getParserAdapter(),
             modularContentWrapperClasses: ['kc-wrapper-class'],
             modularContentWrapperTag: 'kcelem',
             queryConfig: {
@@ -159,7 +159,7 @@ describe('RichTextField', () => {
                 links: links,
                 modularItems: modularItems,
                 typeResolvers: config.typeResolvers,
-                richTextHtmlParser: new RichTextHtmlParser(),
+                richTextHtmlParser: getParserAdapter(),
                 modularContentWrapperClasses: ['kc-wrapper-class'],
                 modularContentWrapperTag: 'kc-item-wrapper',
                 queryConfig: {

@@ -26,29 +26,34 @@
     "node": ">= 8"
   },
   "scripts": {
-    "test": "karma start karma.conf.js",
-    "dev-test": "karma start karma-dev.conf.js",
-    "travis-test": "karma start karma-travis.conf.js",
-    "prepublishOnly": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run travis-test && node test/test-completed",
+    "test:browser": "karma start karma.conf.js",
+    "test:node": "npm run build-:commonjs && node test/node-js/all",
+    "test:dev": "karma start karma-dev.conf.js",
+    "test:travis": "karma start karma-travis.conf.js",
+    "test:publish": "npm run test:node && npm run test:travis",
+    "prepublishOnly": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:publish && node test/test-completed",
     "set-sdk-version": "node ./misc/set-sdk-version.js",
     "check-version": "ts-node ./misc/check-publish-version.ts",
     "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
     "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
+    "webpack:browser": "webpack --mode production --config webpack.browser.config.js --progress --colors",
     "publish:beta": "npm publish --tag=next",
-    "build-umd": "npm run webpack:dev && npm run webpack:prod",
-    "build-es2015": "tsc -m es2015 --outDir _es2015",
-    "build-commonjs": "tsc -m commonjs --outDir _commonjs",
-    "build:all": "npm run build-umd && npm run build-es2015 && npm run build-commonjs && npm run build-umd"
+    "build:umd": "npm run webpack:dev && npm run webpack:prod && npm run webpack:browser",
+    "build:es2015": "tsc -m es2015 --outDir _es2015",
+    "build:commonjs": "tsc -m commonjs --outDir _commonjs",
+    "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs"
   },
   "private": false,
   "dependencies": {
     "axios": "^0.18.0",
-    "reflect-metadata": "^0.1.12"
+    "reflect-metadata": "^0.1.12",
+    "parse5": "3.0.3"
   },
   "peerDependencies": {
     "rxjs": "^6.0.0-rc.0"
   },
   "devDependencies": {
+    "rxjs": "^6.0.0-rc.0",
     "@types/jasmine": "2.8.6",
     "@types/node": "9.6.4",
     "core-js": "2.5.5",
@@ -74,6 +79,6 @@
     "webpack": "4.5.0",
     "webpack-cli": "2.0.14"
   },
-  "main": "./_commonjs/lib/index.js",
-  "types": "./_commonjs/lib/index.d.ts"
+  "main": "./_commonjs/index.js",
+  "types": "./_commonjs/index.d.ts"
 }

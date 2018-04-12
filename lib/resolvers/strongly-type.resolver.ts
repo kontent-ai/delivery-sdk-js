@@ -42,6 +42,10 @@ export class StronglyTypedResolver {
     createTypedObj<TItem extends ContentItem>(type: string, item: ItemContracts.IContentItemContract, typeResolvers: TypeResolver[]): TItem {
         const typedItem = this.createEmptyTypedObj<TItem>(type, typeResolvers);
 
+        if (!typedItem) {
+            throw Error(`Cannot find resolver for type '${type}'. This error means that no class was registered as TypeResolver`);
+        }
+
         // use typed 'system' property
         typedItem.system = new ContentItemSystemAttributes({
             name: item.system.name,
@@ -61,7 +65,7 @@ export class StronglyTypedResolver {
      * @param type Type of the content item
      * @param resolvers Type resolvers
      */
-    createEmptyTypedObj<TItem extends ContentItem>(type: string, resolvers: TypeResolver[]): TItem {
+    createEmptyTypedObj<TItem extends ContentItem>(type: string, resolvers: TypeResolver[]): TItem | undefined {
         if (!type) {
             throw Error('Cannot resolve type because no type name was provided');
         }
@@ -69,7 +73,7 @@ export class StronglyTypedResolver {
         const typeResolver = resolvers.find(m => m.type === type);
 
         if (!typeResolver) {
-            throw Error(`Cannot find resolver for type '${type}'. This error means that no class was registered as TypeResolver for this type. Caller of this method should first check if type is available.`);
+            return undefined;
         }
 
         return typeResolver.resolve() as TItem;

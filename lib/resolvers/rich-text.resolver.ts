@@ -93,7 +93,7 @@ export class RichTextResolver {
         // create new replacement object
 
         // get html to replace object using Rich text resolver function
-        let resolver: (<TItem extends ContentItem>(item: TItem) => string) | null = null;
+        let resolver: (<TItem extends ContentItem>(item: TItem) => string) | undefined = undefined;
         if (data.config.queryConfig.richTextResolver) {
             // use resolved defined by query if available
             resolver = data.config.queryConfig.richTextResolver;
@@ -143,17 +143,17 @@ export class RichTextResolver {
 
         if (!url) {
             // url was not resolved, try to find global resolver for this particular type
-            // and apply its url resolver
+            const emptyTypedItem = stronglyTypedResolver.createEmptyTypedObj<ContentItem>(link.type, data.typeResolvers);
 
-            const emptyTypeItem = stronglyTypedResolver.createEmptyTypedObj<ContentItem>(link.type, data.typeResolvers);
-
-            if (!emptyTypeItem) {
-                throw Error(`Cannot resolve link for '${link.type}' type because mapping failed (have you registered this type in your config?)`);
-            }
-
-            const globalLinkResolver = emptyTypeItem.linkResolver;
-            if (globalLinkResolver) {
-                url = globalLinkResolver(link);
+            if (!emptyTypedItem) {
+                if (data.config.enableAdvancedLogging) {
+                    console.warn(`Cannot resolve link for link of '${link.type}' type with id '${link.itemId}' and url slug '${link.urlSlug}'`);
+                }
+            } else {
+                const globalLinkResolver = emptyTypedItem.linkResolver;
+                if (globalLinkResolver) {
+                    url = globalLinkResolver(link);
+                }
             }
         }
 

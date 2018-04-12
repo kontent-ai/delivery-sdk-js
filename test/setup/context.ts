@@ -1,12 +1,11 @@
-import { DeliveryClient, IDeliveryClientConfig, IRichTextHtmlParser, TypeResolver } from '../../lib';
-import { RichTextHtmlParser } from '../../browser';
+import { DeliveryClient, IDeliveryClientConfig, IRichTextHtmlParser, TypeResolver, getParserAdapter } from '../../lib';
 
 export class Context {
 
   /**
    * Use browser version of html parser when running tests in browser
    */
-  public richTextHtmlParser?: IRichTextHtmlParser = new RichTextHtmlParser();
+  public richTextHtmlParser?: IRichTextHtmlParser = getParserAdapter();
 
   public typeResolvers?: TypeResolver[];
   public projectId?: string;
