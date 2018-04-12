@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-delivery-typescript-sdk",
-  "version": "4.0.0-beta.4",
+  "version": "4.0.0-beta.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK"
@@ -12,6 +12,7 @@
     "Kentico API",
     "Kentico Javascript",
     "Kentico SDK",
+    "Kentico Node",
     "Kentico Cloud",
     "Kentico Cloud SDK",
     "Kentico Cloud Typescript",
@@ -19,7 +20,10 @@
     "Kentico Cloud Delivery",
     "Kentico Cloud Delivery SDK",
     "Kentico Delivery",
-    "Kentico Delivery SDK"
+    "Kentico Delivery SDK",
+    "Kentico Delivery Node",
+    "Kentico Node SDK",
+    "Kentico Node.js SDK"
   ],
   "license": "MIT",
   "engines": {
