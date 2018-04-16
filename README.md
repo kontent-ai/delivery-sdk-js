@@ -22,7 +22,7 @@ Visit <a href="https://github.com/Enngage/KenticoCloudDeliveryNodeSDK">GitHub re
 npm i kentico-cloud-delivery-typescript-sdk --save
 ```
 
-### TypeScript & ES6
+### TypeScript & ES2015
 
 ```typescript
 import { 
@@ -133,20 +133,10 @@ deliveryClient.items()
 
 Note: You need to have `Firefox` installed in order to run tests via Karma.
 
-- Use `npm test` to run all tests. 
-- Use `npm run dev-test` to run developer tests created in `dev-test` folder. Use this for your testing purposes.
-
-## Publishing
-
-In order to publish SDK first run one of following tasks to increase version & update sdk info file:
-
-- `npm run new-patch`
-- `npm run new-minor`
-- `npm run new-major`
-
-And then run (note that tests and necessary scripts are automatically executed using the `prepublishOnly` script):
-
-- `npm run publish`
+- `npm run test:browser` Runs tests in Firefox 
+- `npm run test:node` Runs tests in node.js
+- `npm run test:dev` Runs developer tests (useful for testing functionality)
+- `npm run test:travis` Runs browser tests that are executed by travis
 
 ## Feedback & Contribution
 
