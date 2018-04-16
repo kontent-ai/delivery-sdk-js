@@ -11,11 +11,6 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 
 # [Full Documentation ](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc)
 
-## Node.js support
-
-Visit <a href="https://github.com/Enngage/KenticoCloudDeliveryNodeSDK">GitHub repository 
-</a> to see how you can use this SDK in Node.js environment.
-
 ## Quick start
 
 ```
@@ -128,6 +123,15 @@ deliveryClient.items()
     .getObservable()
     .subscribe(response => console.log(response));
 ```
+
+## Rxjs
+
+Library is build with `rxjs`, however you can use this library without `rxjs` dependencz and use Promises. For this reason `rxjs` is marked as an optional dependency. See [rxjs demo](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/blob/major-version-node-js-support/demo/umd-rxjs/index.html) and [promise demo](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/blob/major-version-node-js-support/demo/umd-promise/index.html) to see  examples of usage.
+
+
+## Browser & Node.js support
+
+Both browser & node.js are supported by this library. However, due to some differences (especially around parsing HTML) library uses `parse5` to parse HTML in node.js environment and DOM in browsers. Since `parse5` is relatively bulky library, we are shipping a browser only UMD package without this dependency to keep the library size to a minimum. 
 
 ## Testing
 
