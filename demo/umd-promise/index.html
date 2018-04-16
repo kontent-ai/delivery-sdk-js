@@ -2,30 +2,16 @@
 <html>
 
 <head>
-	<title>Kentico Cloud SDK - UMD sample</title>
-	<script type="text/javascript" src="../../node_modules/rxjs/bundles/rxjs.umd.min.js"></script>
+	<title>Kentico Cloud SDK - UMD Promise sample</title>
 	<script type="text/javascript" src="../../_bundles/kentico-cloud-delivery-sdk.umd.min.js"></script>
 </head>
 
 <body>
 
 	<script type="text/javascript">
-
-		var Rx = window['rxjs'];
-
 		var deliveryClient = new DeliveryClient({
 			projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
 		});
-
-		deliveryClient.items()
-			.type('movie')
-			.getObservable()
-			.pipe(
-				Rx.operators.map(response => {
-					console.log(response);
-				})
-			)
-			.subscribe();
 
 		deliveryClient.items()
 			.type('movie')
