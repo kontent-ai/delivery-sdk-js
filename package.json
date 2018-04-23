@@ -48,12 +48,12 @@
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs"
   },
   "private": false,
-  "dependencies": {
+  "dependencies": {    
     "axios": "^0.18.0",
     "reflect-metadata": "^0.1.12",
     "parse5": "3.0.3"
   },
-  "optionalDependencies": {
+  "peerDependencies": {
     "rxjs": "^6.0.0-rc.0"
   },
   "devDependencies": {
