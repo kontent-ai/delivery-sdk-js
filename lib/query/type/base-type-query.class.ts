@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { IContentTypeQueryConfig, IHeader, IQueryParameter } from '../../interfaces';
+import { ICloudResponse, IContentTypeQueryConfig, IHeader, IQueryParameter } from '../../interfaces';
 import { TypeResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export abstract class BaseTypeQuery<TResponse> extends BaseQuery<TResponse> {
+export abstract class BaseTypeQuery<TResponse extends ICloudResponse> extends BaseQuery<TResponse> {
 
     protected parameters: IQueryParameter[] = [];
     protected _queryConfig: IContentTypeQueryConfig = {};

@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { IQueryParameter } from '../../interfaces';
+import { ICloudResponse, IQueryParameter } from '../../interfaces';
 import { QueryService } from '../../services';
 
-export abstract class BaseQuery<TResponse> {
+export abstract class BaseQuery<TResponse extends ICloudResponse> {
 
     protected parameters: IQueryParameter[] = [];
 

@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { IHeader, ITaxonomyQueryConfig } from '../../interfaces';
+import { ICloudResponse, IHeader, ITaxonomyQueryConfig } from '../../interfaces';
 import { TaxonomyResponses } from '../../models/';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export abstract class BaseTaxonomyQuery<TResponse> extends BaseQuery<TResponse> {
+export abstract class BaseTaxonomyQuery<TResponse extends ICloudResponse> extends BaseQuery<TResponse> {
 
     /**
      * Taxonomies endpoint URL action

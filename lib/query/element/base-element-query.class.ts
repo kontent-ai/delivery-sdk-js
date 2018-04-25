@@ -1,12 +1,12 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { IElementQueryConfig, IHeader } from '../../interfaces';
+import { ICloudResponse, IElementQueryConfig, IHeader } from '../../interfaces';
 import { ElementResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export abstract class BaseElementQuery<TResponse> extends BaseQuery<TResponse> {
+export abstract class BaseElementQuery<TResponse extends ICloudResponse> extends BaseQuery<TResponse> {
 
     protected _queryConfig: IElementQueryConfig = {};
 
