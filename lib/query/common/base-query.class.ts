@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ICloudResponse, IQueryParameter, IQueryConfig } from '../../interfaces';
+import { ICloudResponse, IQueryConfig, IQueryParameter } from '../../interfaces';
+import { Parameters } from '../../models';
 import { QueryService } from '../../services';
 
 export abstract class BaseQuery<TResponse extends ICloudResponse> {
@@ -19,6 +20,11 @@ export abstract class BaseQuery<TResponse extends ICloudResponse> {
 
     abstract getUrl(): string;
     abstract getObservable(): Observable<TResponse>;
+
+    customParameter(name: string, value: string): this {
+        this.parameters.push(new Parameters.CustomParameter(name, value));
+        return this;
+    }
 
     withUrl(url: string): this {
         this.customUrl = url;

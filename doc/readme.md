@@ -200,6 +200,17 @@ deliveryClient.items<Movie>()
   .subscribe(response => console.log(response));
 ```
 
+### Custom Parameters
+
+In case you need to use custom parameters to build up an URL, use `customParameter` method:
+
+```typescript
+deliveryClient.items<Movie>()
+  .customParameter('customParam', 'customVal')
+  .getObservable()
+  .subscribe(response => console.log(response));
+```
+
 ### Getting localized items
 
 You can specify the [language of items](https://developer.kenticocloud.com/v1/docs/localization) with `languageParameter` of a particular query. You can also specify default language that will be used if `languageParameter` is not used during the initialization of `DeliveryClientConfig`. 
