@@ -70,7 +70,7 @@ export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
-        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
+        return super.resolveUrlInternal(action);
     }
 
     protected getSingleItemQueryUrl(codename: string): string {
@@ -79,7 +79,7 @@ export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
-        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
+        return super.resolveUrlInternal(action);
     }
 
     protected runMultipleItemsQuery(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {

@@ -36,7 +36,7 @@ export abstract class BaseElementQuery<TResponse extends ICloudResponse> extends
     protected getElementQueryUrl(typeCodename: string, elementCodename: string): string {
         const action = '/types/' + typeCodename + '/elements/' + elementCodename;
 
-        return this.queryService.getUrl(action, this._queryConfig, super.getParameters());
+        return super.resolveUrlInternal(action);
     }
 
     protected runElementQuery(typeCodename: string, elementCodename: string): Observable<ElementResponses.ElementResponse> {

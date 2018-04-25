@@ -189,6 +189,17 @@ deliveryClient.items<Movie>()
   .subscribe(response => console.log(response));
 ```
 
+### Executing with custom URL
+
+When you have an URL (i.e. for `next page` in paging, for testing purposes or just if you prefer to build it on your own) and still want to leverage SDK functionality such as type mapping, property resolving etc., use `withUrl` parameter on any query such as:
+
+```typescript
+deliveryClient.items<Movie>()
+  .withUrl('https://deliver.kenticocloud.com/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items?system.type=movie')
+  .getObservable()
+  .subscribe(response => console.log(response));
+```
+
 ### Getting localized items
 
 You can specify the [language of items](https://developer.kenticocloud.com/v1/docs/localization) with `languageParameter` of a particular query. You can also specify default language that will be used if `languageParameter` is not used during the initialization of `DeliveryClientConfig`. 

@@ -37,13 +37,13 @@ export abstract class BaseTypeQuery<TResponse extends ICloudResponse> extends Ba
     protected getSingleTypeQueryUrl(codename: string): string {
         const action = '/types/' + codename;
 
-        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
+        return super.resolveUrlInternal(action);
     }
 
     protected getMultipleTypesQueryUrl(): string {
         const action = '/types';
 
-        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
+        return super.resolveUrlInternal(action);
     }
 
     protected runMultipleTypesQuery(): Observable<TypeResponses.DeliveryTypeListingResponse> {

@@ -44,13 +44,13 @@ export abstract class BaseTaxonomyQuery<TResponse extends ICloudResponse> extend
     protected getTaxonomyQueryUrl(taxonomyCodename: string): string {
         const action = '/' + this.taxonomiesEndpoint + '/' + taxonomyCodename;
 
-        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
+        return super.resolveUrlInternal(action);
     }
 
     protected getTaxonomiesQueryUrl(): string {
         const action = '/' + this.taxonomiesEndpoint;
 
-        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
+        return super.resolveUrlInternal(action);
     }
 
     protected runTaxonomyQuery(codename: string): Observable<TaxonomyResponses.TaxonomyResponse> {
