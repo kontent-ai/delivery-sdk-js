@@ -1,21 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
-import { bindCallback, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import axios from 'axios';
+import { from, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { IHeader } from '../../interfaces';
 import { CloudError } from '../../models';
 import { IHttpService } from './ihttp.service';
 import { IBaseResponse, IBaseResponseError } from './models';
-
-interface IHttpCallback {
-    data?: any;
-    response?: AxiosResponse<any>;
-    error?: {
-        message: string,
-        originalError: any,
-        cloudError?: CloudError
-    };
-}
 
 const KCErrorNames = {
     errorCode: 'error_code',
@@ -27,37 +17,16 @@ const KCErrorNames = {
 export class AxiosHttpService implements IHttpService {
 
     get(url: string, headers: IHeader[]): Observable<IBaseResponse> {
-        return this.getDataObservable(url, this.getHeadersJson(headers))
-            .pipe(
-                map((callback: IHttpCallback) => {
-                    // data should be already parsed as json by axios
-                    const data = callback.data ? callback.data : {};
-
-                    // check if request was successful by checking if error is defined
-                    if (callback.error) {
-                        throw <IBaseResponseError>(callback.error);
-                    }
-
-                    return <IBaseResponse>{
-                        data: data,
-                        response: callback.response
-                    };
-                }),
-        );
-    }
-
-    private getData(url: string, headers: any, callback: any): void {
-
-        axios.get(url, {
-            headers: headers
-        })
-            .then((response) => {
-                callback(<IHttpCallback>{
+        return from(axios.get(url, {
+            headers: this.getHeadersJson(headers)
+        })).pipe(
+            map(response => {
+                return <IBaseResponse>{
                     data: response.data,
-                    response: response,
-                });
-            })
-            .catch((error) => {
+                    response: response
+                };
+            }),
+            catchError(error => {
                 // Handling errors: https://github.com/axios/axios#handling-errors
                 if (error.response) {
                     // The request was made and the server responded with a status code
@@ -74,37 +43,28 @@ export class AxiosHttpService implements IHttpService {
                         });
                     }
 
-                    callback(<IHttpCallback>{
-                        error: {
-                            message: error.message,
-                            originalError: error,
-                            cloudError: cloudError
-                        }
-                    });
+                    return throwError((<IBaseResponseError>{
+                        message: error.message,
+                        originalError: error,
+                        cloudError: cloudError
+                    }));
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                     // http.ClientRequest in node.js
-                    callback(<IHttpCallback>{
-                        error: {
-                            message: error.message,
-                            originalError: error
-                        }
-                    });
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-                    callback(<IHttpCallback>{
-                        error: {
-                            message: error.message,
-                            originalError: error
-                        }
-                    });
+                    return throwError((<IBaseResponseError>{
+                        message: error.message,
+                        originalError: error
+                    }));
                 }
-            });
-    }
 
-    private getDataObservable(url: string, headers: any): Observable<any> {
-        return bindCallback(this.getData)(url, headers);
+                // Something happened in setting up the request that triggered an Error
+                return throwError((<IBaseResponseError>{
+                    message: error.message,
+                    originalError: error,
+                }));
+            })
+        );
     }
 
     private getHeadersJson(headers: IHeader[]): any {
