@@ -56,7 +56,7 @@ export interface IDeliveryClientConfig {
     basePreviewUrl?: string;
 
     /**
-     * Number of retry attempts when error occures. When not set, no retry attempts are made.
+     * Number of retry attempts when error occures. When not set, default number of attempts (3) are used. To disable set to 0.
      */
     retryAttempts?: number;
 

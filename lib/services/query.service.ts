@@ -24,7 +24,7 @@ export class QueryService {
     /**
      * Default number of retry attempts when user did not set any
      */
-    private readonly defaultRetryAttempts: number = 0;
+    private readonly defaultRetryAttempts: number = 3;
 
     /**
      * Excluded status code from retry functionality
@@ -252,8 +252,16 @@ export class QueryService {
     * @param queryConfig Query configuration
     */
     protected getResponse(url: string, queryConfig: IQueryConfig): Observable<IBaseResponse> {
-        // hold the attempt count
-        const attempt = 1;
+        // get the attempts
+        let attempts: number;
+
+        if (this.config.retryAttempts || this.config.retryAttempts === 0) {
+            // use custom defined number of attempts
+            attempts = this.config.retryAttempts;
+        } else {
+            // use default attempts
+            attempts = this.defaultRetryAttempts;
+        }
 
         return this.httpService.get(url, this.getHeaders(queryConfig))
             .pipe(
@@ -261,7 +269,7 @@ export class QueryService {
                     return response;
                 }),
                 retryWhen(retryStrategy.strategy({
-                    maxRetryAttempts: this.config.retryAttempts ? this.config.retryAttempts : this.defaultRetryAttempts,
+                    maxRetryAttempts: attempts,
                     excludedStatusCodes: this.retryExcludedStatuses
                 })),
                 catchError(err => {

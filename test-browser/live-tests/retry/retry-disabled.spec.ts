@@ -1,10 +1,10 @@
 import { retryStrategy } from '../../../lib';
 import { Context, setup } from '../../setup';
 
-describe('Retry', () => {
+describe('Retry disabled', () => {
     const context = new Context();
 
-    const retryAttempts = 3;
+    const retryAttempts = 0;
 
     // set retry attempts
     context.retryAttempts = retryAttempts;
