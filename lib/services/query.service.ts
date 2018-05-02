@@ -222,7 +222,7 @@ export class QueryService {
         headers.push(this.getSdkIdHeader());
 
         if (this.isPreviewModeEnabled(queryConfig) && this.isSecuredModeEnabled(queryConfig)) {
-            throw Error(`Preview & secured mode cannot be used at the same time.`);
+            throw Error(`Preview & secured modes cannot be used at the same time.`);
         }
 
         // add preview header is required
@@ -252,6 +252,27 @@ export class QueryService {
     * @param queryConfig Query configuration
     */
     protected getResponse(url: string, queryConfig: IQueryConfig): Observable<IBaseResponse> {
+
+
+        return this.httpService.get(url, this.getHeaders(queryConfig))
+            .pipe(
+                map((response: IBaseResponse) => {
+                    return response;
+                }),
+                retryWhen(retryStrategy.strategy({
+                    maxRetryAttempts: this.getRetryAttempts(),
+                    excludedStatusCodes: this.retryExcludedStatuses
+                })),
+                catchError(err => {
+                    return throwError(this.handleError(err));
+                })
+            );
+    }
+
+    /**
+     * Gets number of retry attempts used by queries
+     */
+    private getRetryAttempts(): number {
         // get the attempts
         let attempts: number;
 
@@ -263,19 +284,7 @@ export class QueryService {
             attempts = this.defaultRetryAttempts;
         }
 
-        return this.httpService.get(url, this.getHeaders(queryConfig))
-            .pipe(
-                map((response: IBaseResponse) => {
-                    return response;
-                }),
-                retryWhen(retryStrategy.strategy({
-                    maxRetryAttempts: attempts,
-                    excludedStatusCodes: this.retryExcludedStatuses
-                })),
-                catchError(err => {
-                    return throwError(this.handleError(err));
-                })
-            );
+        return attempts;
     }
 
     /**

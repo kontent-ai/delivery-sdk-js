@@ -5,5 +5,6 @@ describe('Delivery Client initialization', () => {
     expect(() => new DeliveryClient(null)).toThrowError();
     expect(() => new DeliveryClient(undefined)).toThrowError();
   });
+
 });
 
