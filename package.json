@@ -35,7 +35,7 @@
     "test:dev": "karma start karma-dev.conf.js",
     "test:travis": "karma start karma-travis.conf.js",
     "test:publish": "npm run test:node && npm run test:travis",
-    "prepublishOnly": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:publish && node test/test-completed",
+    "prepublishOnly": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:publish",
     "set-sdk-version": "node ./misc/set-sdk-version.js",
     "check-version": "ts-node ./misc/check-publish-version.ts",
     "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
