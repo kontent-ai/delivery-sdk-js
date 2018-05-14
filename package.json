@@ -2,7 +2,7 @@
 	"name": "kentico-cloud",
 	"private": true,
 	"author": "richard sustek",
-	"description": "Official Kentico Cloud Delivery SDK",
+	"description": "Kentico Cloud SDKs",
 	"engines": {
 		"node": ">= 8"
 	},
