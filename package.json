@@ -7,6 +7,8 @@
 		"node": ">= 8"
 	},
 	"scripts": {
+		"lerna:publish": "lerna publish",
+		"lerna:publish:beta": "lerna publish --npm-tag=next"
 	},
 	"devDependencies": {
 		"lerna": "^2.11.0"
