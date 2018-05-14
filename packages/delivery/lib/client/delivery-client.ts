@@ -12,7 +12,7 @@ import {
 import { sdkInfo } from '../sdk-info.generated';
 import { AxiosHttpService, QueryService } from '../services';
 import { IDeliveryClient } from './idelivery-client.interface';
-import { getParserAdapter } from '../parser';
+import { getParserAdapter } from '../parser/parser-adapter';
 
 export class DeliveryClient implements IDeliveryClient {
 

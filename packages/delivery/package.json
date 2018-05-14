@@ -1,0 +1,90 @@
+{
+  "name": "kentico-cloud-delivery-typescript-sdk",
+  "version": "4.0.0-beta.7",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK"
+  },
+  "private": false,
+  "author": "richard sustek",
+  "license": "MIT",
+  "description": "Official Kentico Cloud Delivery SDK",
+  "keywords": [
+    "Kentico",
+    "Kentico API",
+    "Kentico Javascript",
+    "Kentico SDK",
+    "Kentico Node",
+    "Kentico Cloud",
+    "Kentico Cloud SDK",
+    "Kentico Cloud Typescript",
+    "Kentico Cloud Javascript",
+    "Kentico Cloud Delivery",
+    "Kentico Cloud Delivery SDK",
+    "Kentico Delivery",
+    "Kentico Delivery SDK",
+    "Kentico Delivery Node",
+    "Kentico Node SDK",
+    "Kentico Node.js SDK"
+  ],
+  "engines": {
+    "node": ">= 8"
+  },
+  "main": "./_commonjs/index.js",
+  "types": "./_commonjs/index.d.ts",
+  "scripts": {
+    "test:node": "npm run build:commonjs && mocha \"test-node/**/*.js\"",
+    "test:browser": "karma start karma.conf.js",
+    "test:dev": "karma start karma-dev.conf.js",
+    "test:travis": "karma start karma-travis.conf.js",
+    "test:publish": "npm run test:node && npm run test:travis",
+    "prepublish": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:publish",
+    "set-sdk-version": "node ./misc/set-sdk-version.js",
+    "check-version": "ts-node ./misc/check-publish-version.ts",
+    "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
+    "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
+    "webpack:browser": "webpack --mode production --config webpack.browser.config.js --progress --colors",
+    "publish:beta": "npm publish --tag=next",
+    "build:umd": "npm run webpack:dev && npm run webpack:prod && npm run webpack:browser",
+    "build:es2015": "tsc -m es2015 --outDir _es2015",
+    "build:commonjs": "tsc -m commonjs --outDir _commonjs",
+    "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "reflect-metadata": "^0.1.12",
+    "parse5": "3.0.3"
+  },
+  "peerDependencies": {
+    "rxjs": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/jasmine": "2.8.6",
+    "@types/node": "9.6.6",
+    "core-js": "2.5.5",
+    "jasmine-core": "3.1.0",
+    "jasmine-spec-reporter": "4.2.1",
+    "karma": "2.0.2",
+    "karma-cli": "1.0.1",
+    "karma-coverage": "1.1.1",
+    "karma-coverage-istanbul-reporter": "1.4.2",
+    "karma-firefox-launcher": "1.1.0",
+    "karma-jasmine": "1.1.1",
+    "karma-jasmine-html-reporter": "1.0.0",
+    "karma-sourcemap-loader": "0.3.7",
+    "karma-typescript": "3.0.12",
+    "karma-typescript-es6-transform": "1.0.4",
+    "karma-webpack": "3.0.0",
+    "lcov-parse": "1.0.0",
+    "mocha": "^5.1.1",
+    "rxjs": "^6.0.0",
+    "ts-loader": "4.2.0",
+    "ts-node": "6.0.0",
+    "tslint": "5.9.1",
+    "typescript": "2.8.3",
+    "url-parse": "1.4.0",
+    "webpack": "4.6.0",
+    "webpack-cli": "2.0.15",
+    "colors": "1.2.5"
+  }
+}

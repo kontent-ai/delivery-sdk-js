@@ -1,9 +1,9 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { FieldDecorators, FieldInterfaces, FieldType, Fields } from '../fields';
+import { FieldDecorators, FieldInterfaces, Fields, FieldType } from '../fields';
 import { IItemQueryConfig } from '../interfaces';
 import { ContentItem, Link } from '../models';
-import { IRichTextHtmlParser } from '../parser';
+import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
 
 export class FieldMapper {

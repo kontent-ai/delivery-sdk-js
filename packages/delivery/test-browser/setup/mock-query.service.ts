@@ -1,6 +1,7 @@
-import { ContentItem, getParserAdapter, IDeliveryClientConfig, ISDKInfo, ResponseMapper } from '../../lib';
+import { ContentItem, IDeliveryClientConfig, ISDKInfo, ResponseMapper } from '../../lib';
 import { IItemQueryConfig } from '../../lib/interfaces/item/iitem-query.config';
 import { ItemResponses } from '../../lib/models/item/responses';
+import { getParserAdapter } from '../../lib/parser/parser-adapter';
 import { IHttpService } from '../../lib/services/http/ihttp.service';
 import { QueryService } from '../../lib/services/query.service';
 import { fakeResponseFactory } from '../setup';

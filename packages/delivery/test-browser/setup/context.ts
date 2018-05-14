@@ -1,4 +1,6 @@
-import { DeliveryClient, IDeliveryClientConfig, IRichTextHtmlParser, TypeResolver, getParserAdapter } from '../../lib';
+import { DeliveryClient, IDeliveryClientConfig, TypeResolver } from '../../lib';
+import { IRichTextHtmlParser } from '../../lib/parser/parse-models';
+import { getParserAdapter } from '../../lib/parser/parser-adapter';
 
 export class Context {
 
