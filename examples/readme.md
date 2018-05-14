@@ -4,7 +4,7 @@
 
 ## [Angular 6](https://github.com/Enngage/KenticoCloudSampleAngularApp)
 
-## [Angular Javascript + Browserify](https://github.com/Enngage/KenticoCloudSampleJavascriptApp)
+## [Javascript + Browserify](https://github.com/Enngage/KenticoCloudSampleJavascriptApp)
 
 ## [UMD + RxJS in browser](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/packages/delivery/demo/umd-rxjs/index.html)
 
