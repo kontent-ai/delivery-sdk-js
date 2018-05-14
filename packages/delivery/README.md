@@ -7,7 +7,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/Enngage/KenticoCloudDeliveryTypeScriptSDK/badge.svg?branch=master)](https://coveralls.io/github/Enngage/KenticoCloudDeliveryTypeScriptSDK?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/enngage/kenticoclouddeliverytypescriptsdk/badge.svg)](https://snyk.io/test/github/enngage/kenticoclouddeliverytypescriptsdk)
 
-A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and shipped with UMD bundles for easy browser use.
+A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) for both `Node` and `browsers`. Library supports `ES2015` and is fully written in `TypeScript`.
 
 # [Full Documentation ](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/major-version/doc)
 
