@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-delivery-typescript-sdk",
-  "version": "4.0.2-0",
+  "version": "4.0.0-beta.7",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK"
@@ -38,7 +38,8 @@
     "test:dev": "karma start karma-dev.conf.js",
     "test:travis": "karma start karma-travis.conf.js",
     "test:publish": "npm run test:node && npm run test:travis",
-    "prepublish": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:publish",
+    "prepare": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:publish",
+    "prepublishOnly": "npm run prepare",
     "set-sdk-version": "node ./misc/set-sdk-version.js",
     "check-version": "ts-node ./misc/check-publish-version.ts",
     "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
