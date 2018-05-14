@@ -6,10 +6,10 @@ This repository contains packages related to [Kentico Cloud](https://kenticoclou
 
 ## [Delivery SDK](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/packages/delivery) 
 
-## Bugs & new features
+### Bugs & new features
 
 Create GitHub issue.
 
-## Feedback & Contribution
+### Feedback & Contribution
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
