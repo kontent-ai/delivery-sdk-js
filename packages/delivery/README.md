@@ -9,7 +9,9 @@
 
 A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) for both `Node` and `browsers`. Library supports `ES2015` and is fully written in `TypeScript`.
 
-# [Full Documentation](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/doc/delivery.md)
+# [Full Documentation](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/doc/delivery)
+
+# [Example apps](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/examples)
 
 ## Quick start
 
