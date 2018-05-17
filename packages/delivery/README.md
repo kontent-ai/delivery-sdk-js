@@ -11,7 +11,7 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 
 # [Full Documentation](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/doc/delivery)
 
-# [Example apps](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/examples)
+# [Example apps](hhttps://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/master/examples)
 
 ## Quick start
 
