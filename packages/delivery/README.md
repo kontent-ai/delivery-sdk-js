@@ -1,11 +1,11 @@
 # Kentico Cloud Delivery SDK
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
-[![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Enngage/KenticoCloudDeliveryTypeScriptSDK)
+[![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Enngage/kentico-cloud-js)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-js.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
-[![Coverage Status](https://coveralls.io/repos/github/Enngage/kentico-cloud-js/badge.svg?branch=master)](https://coveralls.io/github/Enngage/KenticoCloudDeliveryTypeScriptSDK?branch=master)
-[![Known Vulnerabilities](https://snyk.io/test/github/enngage/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/enngage/kenticoclouddeliverytypescriptsdk)
+[![Coverage Status](https://coveralls.io/repos/github/Enngage/kentico-cloud-js/badge.svg?branch=master)](https://coveralls.io/github/Enngage/kentico-cloud-js?branch=master)
+[![Known Vulnerabilities](https://snyk.io/test/github/enngage/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/enngage/kentico-cloud-js)
 
 A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) for both `Node` and `browsers`. Library supports `ES2015` and is fully written in `TypeScript`.
 
