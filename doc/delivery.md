@@ -5,7 +5,7 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 ## Installation
 
 ```
-npm i kentico-cloud-delivery-typescript-sdk --save
+npm i kentico-cloud-delivery --save
 ```
 
 ### Quick start
@@ -16,7 +16,7 @@ import {
     Fields,
     TypeResolver,
     DeliveryClient
-    } from 'kentico-cloud-delivery-typescript-sdk';
+    } from 'kentico-cloud-delivery';
 
 /**
  * This is optional, but it is considered a best practice to define your models
@@ -106,7 +106,7 @@ deliveryClient.item<Movie>('warrior')
 Every content type needs to have a corresponding class defined in both JavaScript & TypeScript. Each model class needs to extend the `ContentItem` class and each element needs to use one of the supported fields. For example, if you define a Text element in your content type, you need to use a `TextField` in your model:
 
 ```typescript
-import { ContentItem, Fields} from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields} from 'kentico-cloud-delivery';
 
 export class Movie extends ContentItem {
   public title: Fields.TextField;
@@ -127,7 +127,7 @@ Try [Kentico Cloud model generator utility](https://www.npmjs.com/package/kentic
 ### Initializing DeliveryClient
 
 ```typescript
-import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-delivery-typescript-sdk';
+import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-delivery';
 import { Movie } from './movie'; // use your own path to movie class model
 
 const projectId = 'projectId';
@@ -216,7 +216,7 @@ deliveryClient.items<Movie>()
 You can specify the [language of items](https://developer.kenticocloud.com/v1/docs/localization) with `languageParameter` of a particular query. You can also specify default language that will be used if `languageParameter` is not used during the initialization of `DeliveryClientConfig`. 
 
 ```typescript
-import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
+import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery';
 import { Movie } from './movie'; // use your own path to movie class model
 
 var deliveryClient = new DeliveryClient(
@@ -243,7 +243,7 @@ deliveryClient.item<Movie>('warrior')
 Kentico Cloud returns all element names in **lowercase**. Because Javascript properties are case sensitive, the binding will fail if your property is called, for example, *firstName*. You can either use **codename() decorator** that comes with the SDK, or use the custom resolver:
 
 ```typescript
-import { ContentItem, Fields, FieldDecorators  } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields, FieldDecorators  } from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
 
@@ -272,7 +272,7 @@ You can enable the preview mode either globally (when initializing the DeliveryC
 #### Enabling preview mode globally
 
 ```typescript
-import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
+import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery';
 
 var previewApiKey = 'previewApiKey';
 var projectId = 'projectId';
@@ -304,7 +304,7 @@ deliveryClient.items<Movie>()
 **Important:** Using secured delivery API is recommend only in cases where the query is not run on a client because otherwise you will expose the API Key publicly. For example, using secured delivery API in a node.js is ok, but using it in a web application is not because anyone could see the key.
 
 ```typescript
-import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery-typescript-sdk';
+import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery';
 
 var securedApiKey= 'secret';
 var projectId = 'projectId';
@@ -342,7 +342,7 @@ To access the URL, call `getUrl` method.
 Note that when resolving links in RichTextField, you resolve all of them with a single link resolver. For this reason, it is recommended that you specify the `type` of the content type you want to resolve.
 
 ```typescript
-import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
   public title: Fields.TextField;
@@ -366,7 +366,7 @@ deliveryClient.item<Actor>('tom_hardy')
 #### Resolving URL slugs (links) per query
 
 ```typescript
-import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery';
 
 deliveryClient.item<Actor>('tom_hardy')
   .queryConfig({
@@ -391,7 +391,7 @@ If you have a modular content item inside a Rich text element, you need to defin
 #### Globally
 
 ```typescript
-import { ContentItem, Fields } from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields } from 'kentico-cloud-delivery';
 
 class Actor extends ContentItem {
   public name: Fields.TextField;
@@ -426,7 +426,7 @@ deliveryClient.item<Movie>('pain_and_gain')
 You can define a resolver for a particular query. Resolver defined this way has priority over the globally defined one.
 
 ```typescript
-import { IContentItem } from 'kentico-cloud-delivery-typescript-sdk';
+import { IContentItem } from 'kentico-cloud-delivery';
 
 deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
@@ -452,7 +452,7 @@ deliveryClient.item<Movie>('pain_and_gain')
 To include modular content, simply reference a given type class:
 
 ```typescript
-import { ContentItem, Fields} from 'kentico-cloud-delivery-typescript-sdk';
+import { ContentItem, Fields} from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
   public name: Fields.TextField;
@@ -522,7 +522,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 Errors can be handled using the `error` parameter of the `subscribe` method (see [RxJS](https://github.com/ReactiveX/rxjs)) or by using the `catchError` rxjs parameter. If the error originates in Kentico Cloud (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `CloudError` model with more specific information. Otherwise, you will get an original exception.
 
 ```typescript
-import { CloudError } from 'kentico-cloud-delivery-typescript-sdk';
+import { CloudError } from 'kentico-cloud-delivery';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 

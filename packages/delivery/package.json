@@ -1,9 +1,9 @@
 {
-  "name": "kentico-cloud-delivery-typescript-sdk",
-  "version": "4.0.0-beta.7",
+  "name": "kentico-cloud-delivery",
+  "version": "4.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK"
+    "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/delivery"
   },
   "private": false,
   "author": "richard sustek",
