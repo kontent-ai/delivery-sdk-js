@@ -29,7 +29,7 @@ module.exports = (env, argv) => ({
     },
     performance: { hints: false }, // this disables warning about large output file (in our case its ~300Kb which is fine)
     plugins: [
-        /* Replace parser adapter with parser browser adapter */
+        /* Replaces parser adapter with parser browser adapter */
         new webpack.NormalModuleReplacementPlugin(
             /parser-adapter\.ts/,
             'parser-browser-adapter.ts'
