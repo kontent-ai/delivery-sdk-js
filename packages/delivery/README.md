@@ -1,4 +1,4 @@
-# Kentico Cloud Delivery JavaScript / TypeScript SDK
+# Kentico Cloud Delivery SDK
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Enngage/KenticoCloudDeliveryTypeScriptSDK)
