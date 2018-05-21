@@ -1,4 +1,4 @@
-import { retryStrategy } from '../../../lib';
+import { deliveryRetryStrategy } from '../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Retry disabled', () => {
@@ -20,7 +20,7 @@ describe('Retry disabled', () => {
 
     beforeAll((done) => {
         // this will fail
-        spyOn(retryStrategy, 'debugLogAttempt').and.callThrough();
+        spyOn(deliveryRetryStrategy, 'debugLogAttempt').and.callThrough();
         context.deliveryClient.items()
             .getObservable()
             .subscribe(response => {
@@ -30,7 +30,7 @@ describe('Retry disabled', () => {
     });
 
     it(`Warning for retry attempt should have been called '${retryAttempts}' times`, () => {
-        expect(retryStrategy.debugLogAttempt).toHaveBeenCalledTimes(retryAttempts);
+        expect(deliveryRetryStrategy.debugLogAttempt).toHaveBeenCalledTimes(retryAttempts);
     });
 });
 

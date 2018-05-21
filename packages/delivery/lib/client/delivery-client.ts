@@ -10,7 +10,7 @@ import {
     TaxonomyQuery,
 } from '../query';
 import { sdkInfo } from '../sdk-info.generated';
-import { AxiosHttpService, QueryService } from '../services';
+import { DeliveryHttpService, QueryService } from '../services';
 import { IDeliveryClient } from './idelivery-client.interface';
 import { getParserAdapter } from '../parser/parser-adapter';
 
@@ -32,7 +32,7 @@ export class DeliveryClient implements IDeliveryClient {
         }
 
         this.queryService = new QueryService(config,
-            new AxiosHttpService(),
+            new DeliveryHttpService(),
             getParserAdapter(),
             {
                 host: sdkInfo.host,

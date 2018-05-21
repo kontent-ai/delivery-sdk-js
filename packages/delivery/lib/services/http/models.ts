@@ -1,4 +1,4 @@
-import { CloudError } from '../../models';
+import { DeliveryCloudError } from '../../models';
 
 export interface IBaseResponse {
     data: any;
@@ -8,7 +8,7 @@ export interface IBaseResponse {
 export interface IBaseResponseError {
     message: string;
     originalError: any;
-    cloudError?: CloudError;
+    cloudError?: DeliveryCloudError;
 }
 
 export interface IBaseResponseCloudError {

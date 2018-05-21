@@ -1,4 +1,4 @@
-export * from './ihttp.service';
+export * from './idelivery-http-service';
 export * from './models';
-export * from './retry-strategy';
-export * from './axios-http.service';
+export * from './delivery-retry-strategy';
+export * from './delivery-http-service';

@@ -12,12 +12,19 @@ import {
     ITaxonomyQueryConfig,
 } from '../interfaces';
 import { ResponseMapper } from '../mappers';
-import { CloudError, ContentItem, ElementResponses, ItemResponses, TaxonomyResponses, TypeResponses } from '../models';
+import {
+    ContentItem,
+    DeliveryCloudError,
+    ElementResponses,
+    ItemResponses,
+    TaxonomyResponses,
+    TypeResponses,
+} from '../models';
 import { IRichTextHtmlParser } from '../parser';
 import { IBaseResponse } from '../services/http/models';
-import { IHttpService } from './http/ihttp.service';
+import { deliveryRetryStrategy } from './http/delivery-retry-strategy';
+import { IDeliveryHttpService } from './http/idelivery-http-service';
 import { IBaseResponseError } from './http/models';
-import { retryStrategy } from './http/retry-strategy';
 
 export class QueryService {
 
@@ -64,7 +71,7 @@ export class QueryService {
         /**
          * Http service for fetching data
          */
-        protected httpService: IHttpService,
+        protected httpService: IDeliveryHttpService,
         /**
         * Used for manipulating with rich text HTML (required for Node / Browser support)
         */
@@ -257,7 +264,7 @@ export class QueryService {
                 map((response: IBaseResponse) => {
                     return response;
                 }),
-                retryWhen(retryStrategy.strategy({
+                retryWhen(deliveryRetryStrategy.strategy({
                     maxRetryAttempts: this.getRetryAttempts(),
                     excludedStatusCodes: this.retryExcludedStatuses
                 })),
@@ -289,7 +296,7 @@ export class QueryService {
      * Handles given error
      * @param error Error to be handled
      */
-    private handleError(error: IBaseResponseError): CloudError | any {
+    private handleError(error: IBaseResponseError): DeliveryCloudError | any {
         if (this.config.enableAdvancedLogging) {
             console.error(error);
         }

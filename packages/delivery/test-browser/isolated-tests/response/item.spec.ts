@@ -1,4 +1,4 @@
-import { AxiosHttpService, ItemResponses, sdkInfo } from '../../../lib';
+import { DeliveryHttpService, ItemResponses, sdkInfo } from '../../../lib';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 
 describe('Isolated item', () => {
@@ -6,7 +6,7 @@ describe('Isolated item', () => {
     const context = new Context();
     setup(context);
 
-    const mockQueryService = new MockQueryService(context.getConfig(), new AxiosHttpService(), {
+    const mockQueryService = new MockQueryService(context.getConfig(), new DeliveryHttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version

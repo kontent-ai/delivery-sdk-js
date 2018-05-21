@@ -3,8 +3,8 @@ import { from, Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { IHeader } from '../../interfaces';
-import { CloudError } from '../../models';
-import { IHttpService } from './ihttp.service';
+import { DeliveryCloudError } from '../../models';
+import { IDeliveryHttpService } from './idelivery-http-service';
 import { IBaseResponse, IBaseResponseError } from './models';
 
 const KCErrorNames = {
@@ -14,7 +14,7 @@ const KCErrorNames = {
     specificCode: 'specific_code'
 };
 
-export class AxiosHttpService implements IHttpService {
+export class DeliveryHttpService implements IDeliveryHttpService {
 
     get(url: string, headers: IHeader[]): Observable<IBaseResponse> {
         return from(axios.get(url, {
@@ -32,10 +32,10 @@ export class AxiosHttpService implements IHttpService {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
 
-                    let cloudError: CloudError | undefined;
+                    let cloudError: DeliveryCloudError | undefined;
                     const data = error.response.data;
                     if (data[KCErrorNames.requestId]) {
-                        cloudError = new CloudError({
+                        cloudError = new DeliveryCloudError({
                             requestId: data[KCErrorNames.requestId],
                             message: data[KCErrorNames.message] ? data[KCErrorNames.message] : '',
                             errorCode: data[KCErrorNames.errorCode] ? data[KCErrorNames.errorCode] : 0,

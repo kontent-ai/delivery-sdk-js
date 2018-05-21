@@ -1,5 +1,5 @@
 import { Context, Movie, setup } from '../../setup';
-import { CloudError } from '../../../lib/models/common/cloud-error.class';
+import { DeliveryCloudError } from '../../../lib/models/common/cloud-error.class';
 
 describe('Cloud errors', () => {
 
@@ -8,7 +8,7 @@ describe('Cloud errors', () => {
 
     const invalidCodename: string = 'the_invalid_codename';
     let succeeded: boolean;
-    let error: any | CloudError;
+    let error: any | DeliveryCloudError;
 
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(invalidCodename)
@@ -29,12 +29,12 @@ describe('Cloud errors', () => {
     });
 
     it(`Error should be an instance of CloudError`, () => {
-        expect(error).toEqual(jasmine.any(CloudError));
+        expect(error).toEqual(jasmine.any(DeliveryCloudError));
     });
 
     it(`Error model should have all properties assigned`, () => {
         let allPropertiesAreAssigned = true;
-        const cloudError = error as CloudError;
+        const cloudError = error as DeliveryCloudError;
         if (!(cloudError.errorCode >= 0) ||
             !cloudError.message ||
             !cloudError.requestId ||

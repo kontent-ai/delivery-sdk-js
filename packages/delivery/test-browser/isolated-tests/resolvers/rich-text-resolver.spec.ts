@@ -1,4 +1,4 @@
-import { ContentItem, Fields, AxiosHttpService, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, Fields, DeliveryHttpService, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 class MockMovie extends ContentItem {
@@ -27,7 +27,7 @@ describe('Rich text resolver', () => {
     context.typeResolvers = typeResolvers;
     setup(context);
 
-    const mockQueryService = new MockQueryService(context.getConfig(), new AxiosHttpService(), {
+    const mockQueryService = new MockQueryService(context.getConfig(), new DeliveryHttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version

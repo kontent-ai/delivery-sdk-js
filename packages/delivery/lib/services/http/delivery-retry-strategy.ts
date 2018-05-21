@@ -1,7 +1,7 @@
 import { Observable, throwError, timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
-export class RetryStrategy {
+export class DeliveryRetryStrategy {
 
     strategy = (options: {
         maxRetryAttempts: number
@@ -50,4 +50,4 @@ export class RetryStrategy {
     }
 }
 
-export const retryStrategy = new RetryStrategy();
+export const deliveryRetryStrategy = new DeliveryRetryStrategy();
