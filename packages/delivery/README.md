@@ -18,6 +18,7 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 ## Quick start
 
 ```
+npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 

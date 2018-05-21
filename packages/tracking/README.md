@@ -35,7 +35,7 @@ client.recordNewSession({
     .subscribe();
 ```
 
-### Usage with Promise
+## Usage with Promise
 
 For whatever reason, you can still use good old Promises:
 
@@ -48,7 +48,7 @@ client.recordNewSession({
     .then();
 ```
 
-### Client configuration
+## Client configuration
 
 | Property        | type| description|
 | ------------- |:-------------:| -----:|
