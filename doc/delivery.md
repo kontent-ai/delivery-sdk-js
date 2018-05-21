@@ -127,17 +127,14 @@ Try [Kentico Cloud model generator utility](https://www.npmjs.com/package/kentic
 ### Initializing DeliveryClient
 
 ```typescript
-import { DeliveryClient, DeliveryClientConfig, TypeResolver } from 'kentico-cloud-delivery';
+import { DeliveryClient, TypeResolver } from 'kentico-cloud-delivery';
 import { Movie } from './movie'; // use your own path to movie class model
 
-const projectId = 'projectId';
-
-const typeResolvers: TypeResolver[] = [
-    new TypeResolver("movie", () => new Movie()),
-];
-
 const deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig(projectId, typeResolvers)
+  projectId: 'xxx',
+  typeResolver: [
+    new TypeResolver('movie', () => new Movie())
+  ]
 )
 ```
 
@@ -213,18 +210,16 @@ deliveryClient.items<Movie>()
 
 ### Getting localized items
 
-You can specify the [language of items](https://developer.kenticocloud.com/v1/docs/localization) with `languageParameter` of a particular query. You can also specify default language that will be used if `languageParameter` is not used during the initialization of `DeliveryClientConfig`. 
+You can specify the [language of items](https://developer.kenticocloud.com/v1/docs/localization) with `languageParameter` of a particular query. You can also specify default language that will be used if `languageParameter` is not used during the initialization of delivery client.
 
 ```typescript
-import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery';
+import { DeliveryClient } from 'kentico-cloud-delivery';
 import { Movie } from './movie'; // use your own path to movie class model
 
-var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig('projectId', [],
-  {
-    defaultLanguage: 'es'
-  })
-)
+var deliveryClient = new DeliveryClient({
+  projectId: 'xxx',
+  defaultLanguage: 'es'
+});
 
 // gets items in 'es' language because it is marked as default
 deliveryClient.item<Movie>('warrior')
@@ -267,24 +262,18 @@ export class Actor extends ContentItem {
 
 ### Preview mode
 
-You can enable the preview mode either globally (when initializing the DeliveryClient) or per query. For example, you might disable preview mode globally, but enable it for one particular query for testing purposes. In each case, you need to set `previewApiKey` in the DeliveryClientConfig.
+You can enable the preview mode either globally (when initializing the DeliveryClient) or per query. For example, you might disable preview mode globally, but enable it for one particular query for testing purposes. In each case, you need to set `previewApiKey` in the delivery client global configuration.
 
 #### Enabling preview mode globally
 
 ```typescript
-import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery';
+import { DeliveryClient } from 'kentico-cloud-delivery';
 
-var previewApiKey = 'previewApiKey';
-var projectId = 'projectId';
-
-var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig(projectId, [], 
-        {
-            enablePreviewMode: true,
-            previewApiKey: previewApiKey
-        }
-  )
-)
+const deliveryClient = new DeliveryClient({
+  enablePreviewMode: true,
+  projectId = 'xxx';
+  previewApiKey: 'yyy'
+});
 ```
 
 #### Enabling preview mode per query
@@ -304,19 +293,13 @@ deliveryClient.items<Movie>()
 **Important:** Using secured delivery API is recommend only in cases where the query is not run on a client because otherwise you will expose the API Key publicly. For example, using secured delivery API in a node.js is ok, but using it in a web application is not because anyone could see the key.
 
 ```typescript
-import { DeliveryClient, DeliveryClientConfig } from 'kentico-cloud-delivery';
+import { DeliveryClient } from 'kentico-cloud-delivery';
 
-var securedApiKey= 'secret';
-var projectId = 'projectId';
-
-var deliveryClient = new DeliveryClient(
-  new DeliveryClientConfig(projectId, [], 
-        {
-            enableSecuredMode: true,
-            securedApiKey: securedApiKey
-        }
-  )
-)
+const deliveryClient = new DeliveryClient({
+  projectId = 'xxx';
+  enableSecuredMode: true,
+  securedApiKey: 'yyy'
+});
 ```
 
 As with preview mode, you can also override global settings on query level:
