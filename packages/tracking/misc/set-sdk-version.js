@@ -9,7 +9,7 @@ console.log(colors.cyan('\nRunning pre-build tasks'));
 const versionFilePath = path.join(__dirname + '/../lib/sdk-info.generated.ts');
 
 const src = `
-import { ISDKInfo } from './interfaces';
+import { ISDKInfo } from './models';
 
 export const sdkInfo: ISDKInfo = {
     host: 'npmjs.com',
