@@ -70,9 +70,9 @@ export class QueryService {
         */
         private readonly richTextHtmlParser: IRichTextHtmlParser,
         /**
-      * Information about the SDK
-      * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
-      */
+        * Information about the SDK
+        * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
+        */
         protected sdkInfo: ISDKInfo,
 
     ) {
@@ -252,8 +252,6 @@ export class QueryService {
     * @param queryConfig Query configuration
     */
     protected getResponse(url: string, queryConfig: IQueryConfig): Observable<IBaseResponse> {
-
-
         return this.httpService.get(url, this.getHeaders(queryConfig))
             .pipe(
                 map((response: IBaseResponse) => {

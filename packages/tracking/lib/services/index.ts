@@ -1,1 +1,1 @@
-export * from './query-service';
+export * from './tracking-query-service.class';

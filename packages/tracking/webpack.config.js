@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const libName = 'kentico-cloud-delivery-sdk';
+const libName = 'kentico-cloud-tracking-sdk';
 
 module.exports = (env, argv) => ({
     entry: {
