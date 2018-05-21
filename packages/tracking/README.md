@@ -28,8 +28,8 @@ When creating a subscription, don't forget to unsubcribe when you don't need the
 
 ```typescript
 client.recordNewSession({
-    sid: 'x',
-    uid: 'y',
+    sid: '111114cc62300000',
+    uid: '1111136b4af00000',
 })
     .getObservable()
     .subscribe();
@@ -41,8 +41,8 @@ For whatever reason, you can still use good old Promises:
 
 ```typescript
 client.recordNewSession({
-    sid: 'x',
-    uid: 'y',
+    sid: '1111136b4af00000',
+    uid: '111114cc62300000',
 })
     .getPromise()
     .then();
