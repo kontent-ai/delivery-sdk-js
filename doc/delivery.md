@@ -5,6 +5,7 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 ## Installation
 
 ```
+npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 
@@ -69,7 +70,13 @@ deliveryClient.items<ContentItem>()
 
 ## API Documentation
 
-### Getting data (Observable)
+### Why Observable & RxJS?
+
+We strongly recommend using `Observable` instead of `Promise` as observables support all that Promises too, and much more. Using `Observables` is especially important if you are building any modern application (i.e. SPA with React or Angular) as it allows you to easily cancel requests, merge and flatten request or retry them very easily.  
+
+When creating a subscription, don't forget to unsubcribe when you don't need the result anymore (i.e. when navigating to different page)
+
+### Getting data (Observable - recommended)
 
 To get multiple content items, use the `items` method. You can specify the content type with the `type` method:
 
