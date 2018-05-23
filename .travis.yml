@@ -6,14 +6,12 @@ before_script:
 # ------ Global setup ---------#
 - npm i -g lerna
 # ------ Delivery setup -------#
-# karma - http://karma-runner.github.io/0.8/plus/Travis-CI.html
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
-- npm install -g karma
+- npm install -g karma # info - http://karma-runner.github.io/0.8/plus/Travis-CI.html
 - npm install -g cat
 - npm install
-- npm install rxjs@rc
-
+- npm install rxjs
 script: 
-# Tests
-- lerna bootstrap
+# Run all tests with global lerna command
+- npm run lerna:test
