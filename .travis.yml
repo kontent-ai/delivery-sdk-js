@@ -5,12 +5,13 @@ node_js:
 before_script:
 # ------ Global setup ---------#
 - npm i -g lerna
-# ------ Delivery setup -------#
+# ------ Test setup -------#
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - npm install -g karma # info - http://karma-runner.github.io/0.8/plus/Travis-CI.html
 - npm install -g cat
 - npm install rxjs
+- npm install mocha
 script: 
 # Run all tests with global lerna command
 - npm run lerna:travis
