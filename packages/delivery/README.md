@@ -15,14 +15,27 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 
 # [Example apps](https://github.com/Enngage/kentico-cloud-js/tree/master/examples)
 
-## Quick start
+## Installation
+
+### npm
 
 ```
 npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 
-### TypeScript & ES2015
+### unpkg - browser only & minified
+
+```
+https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+```
+
+### unpkg - node + browser & minified
+```
+https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+```
+
+### Getting data from cloud (TypeScript & ES2015)
 
 ```typescript
 import { 
@@ -81,7 +94,7 @@ deliveryClient.items<ContentItem>()
 
 ```
 
-### JavaScript & CommonJS
+### Getting data from cloud (JavaScript & CommonJS)
 
 ```javascript
 const KenticoCloud = require('kentico-cloud-delivery');
