@@ -35,7 +35,7 @@ https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-
 https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
 ```
 
-### Getting data from cloud (TypeScript & ES2015)
+## Getting data from cloud (TypeScript & ES2015)
 
 ```typescript
 import { 
@@ -94,7 +94,7 @@ deliveryClient.items<ContentItem>()
 
 ```
 
-### Getting data from cloud (JavaScript & CommonJS)
+## Getting data from cloud (JavaScript & CommonJS)
 
 ```javascript
 const KenticoCloud = require('kentico-cloud-delivery');
@@ -140,6 +140,33 @@ deliveryClient.items()
     .type('movie')
     .getObservable()
     .subscribe(response => console.log(response));
+```
+
+## Getting data from Cloud (Pure HTML)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Kentico Cloud SDK - Html sample</title>
+	<script type="text/javascript" src="https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		var deliveryClient = new DeliveryClient({
+			projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
+		});
+
+		deliveryClient.items()
+			.type('movie')
+			.getPromise()
+			.then(response => console.log(response));
+
+	</script>
+	<h1>See console</h1>
+</body>
+</html>
 ```
 
 ## Browser & Node.js support
