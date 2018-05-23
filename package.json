@@ -10,7 +10,7 @@
 		"lerna:build:all": "lerna exec npm run build:all",
 		"lerna:install:all": "lerna exec npm i",
 		"lerna:test:travis": "lerna exec npm run test:travis",
-		"lerna:travis": "npm run lerna:install:all && npm run lerna:build:all && npm run lerna:test:all",
+		"lerna:travis": "npm run lerna:install:all && npm run lerna:build:all && npm run lerna:test:travis",
 		"lerna:publish": "lerna publish",
 		"lerna:publish:beta": "lerna publish --npm-tag=next"
 	},
