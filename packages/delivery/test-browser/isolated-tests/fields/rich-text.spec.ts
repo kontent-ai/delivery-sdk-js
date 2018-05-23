@@ -95,6 +95,7 @@ describe('RichTextField', () => {
     `;
 
     const field = new Fields.RichTextField('name', html, {
+        links: links,
         resolveHtml: () => richTextResolver.resolveHtml(html, {
             enableAdvancedLogging: false,
             links: links,
@@ -151,9 +152,14 @@ describe('RichTextField', () => {
         expect(field.getHtml()).toContain(wrapperClass);
     });
 
+    it(`checks that links are present in rich text field`, () => {
+        expect(field.links.length).toEqual(links.length);
+    });
+
     it(`checks that links are resolved even if the rich text resolver is not set`, () => {
 
         const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, {
+            links: links,
             resolveHtml: () => richTextResolver.resolveHtml(html, {
                 enableAdvancedLogging: false,
                 links: links,

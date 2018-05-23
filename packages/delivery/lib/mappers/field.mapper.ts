@@ -145,6 +145,7 @@ export class FieldMapper {
         return new Fields.RichTextField(
             field.name,
             field.value, {
+                links: links,
                 resolveHtml: () => richTextResolver.resolveHtml(field.value, {
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
                     typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],

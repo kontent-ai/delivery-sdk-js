@@ -1,6 +1,7 @@
 import { FieldInterfaces } from './field-interfaces';
 import { FieldModels } from './field-models';
 import { FieldType } from './field-type';
+import { Link } from '..';
 
 export namespace Fields {
 
@@ -108,17 +109,24 @@ export namespace Fields {
         public type: FieldType = FieldType.RichText;
 
         /**
+         * Links
+         */
+        public links: Link[] = [];
+
+        /**
         * Represents rich text field of Kentico Cloud item
         * @constructor
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
         * @param {() => string} resolveHtml - Function that resolves HTML
+        * @param {Link[]} links - Links for this rich text field
         */
         constructor(
             public name: string,
             public value: any,
             data: {
-                resolveHtml: () => string
+                resolveHtml: () => string,
+                links: Link[]
             }
         ) {
             Object.assign(this, data);
