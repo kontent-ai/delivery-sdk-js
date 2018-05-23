@@ -18,6 +18,7 @@
     "build:commonjs": "tsc -m commonjs --outDir _commonjs",
     "build:all": "npm run build:commonjs",
     "test:all": "npm run build:all",
+    "test:travis": "npm run build:all",
     "test:generate-models": "node _commonjs/app --projectId=da5abe9f-fdad-4168-97cd-b3464be2ccb9 --moduleResolution=ES2015 --codeType=typescript"
   },
   "keywords": [
