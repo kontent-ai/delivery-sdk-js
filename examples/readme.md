@@ -6,7 +6,7 @@
 
 ## [Javascript + Browserify](https://github.com/Enngage/KenticoCloudSampleJavascriptApp)
 
-## [unpkg cdn](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/unpgk/index.html)
+## [unpkg cdn](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/unpkg/index.html)
 
 ## [UMD + RxJS in browser](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/umd-rxjs/index.html)
 
