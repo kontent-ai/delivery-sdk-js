@@ -7,6 +7,7 @@
 		"node": ">= 8"
 	},
 	"scripts": {
+		"lerna:test": "lerna exec npm run test:all",
 		"lerna:publish": "lerna publish",
 		"lerna:publish:beta": "lerna publish --npm-tag=next"
 	},
