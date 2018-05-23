@@ -13,7 +13,7 @@
   "main": "./_commonjs/app.js",
   "directories": {},
   "scripts": {
-    "prepare": "npm run build:all",
+    "prepublishOnly": "npm run build:all",
     "publish:beta": "npm publish --tag=next",
     "build:commonjs": "tsc -m commonjs --outDir _commonjs",
     "build:all": "npm run build:commonjs",
