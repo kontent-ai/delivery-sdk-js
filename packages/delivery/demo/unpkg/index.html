@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Kentico Cloud SDK - UMD Promise sample</title>
+	<script type="text/javascript" src="https://unpkg.com/kentico-cloud-delivery@4.0.2/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"></script>
+</head>
+
+<body>
+
+	<script type="text/javascript">
+		var deliveryClient = new DeliveryClient({
+			projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
+		});
+
+		deliveryClient.items()
+			.type('movie')
+			.getPromise()
+			.then(response => console.log(response));
+
+	</script>
+
+	<h1>See console</h1>
+
+</body>
+
+</html>
