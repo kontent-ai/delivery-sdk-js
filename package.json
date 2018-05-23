@@ -8,9 +8,9 @@
 	},
 	"scripts": {
 		"lerna:build:all": "lerna exec npm run build:all",
-		"lerna:install:all": "lerna exec npm i",
+		"lerna:install:all": "lerna exec npm install",
 		"lerna:test:all": "lerna exec npm run test:all",
-		"lerna:travis": "npm run lerna:install:all && npm run lerna:build:all && npm run lerna:test:all",
+		"lerna:travis": "npm run lerna:install:all && npm run lerna:test:all",
 		"lerna:publish": "lerna publish",
 		"lerna:publish:beta": "lerna publish --npm-tag=next"
 	},
