@@ -16,8 +16,8 @@ describe('Query custom parameter', () => {
   });
 
   it(`Custom param with invalid name should throw Error`, () => {
-    expect(() => context.deliveryClient.items().customParameter(undefined, 'customVal')).toThrowError();
-    expect(() => context.deliveryClient.items().customParameter(null, 'customVal')).toThrowError();
+    expect(() => context.deliveryClient.items().customParameter(undefined as any, 'customVal')).toThrowError();
+    expect(() => context.deliveryClient.items().customParameter(null as any, 'customVal')).toThrowError();
   });
 
 });

@@ -25,18 +25,18 @@ describe('FieldMapper', () => {
     const context = new Context();
     setup(context);
 
-    const fieldMapper = new FieldMapper(context.getConfig(), context.richTextHtmlParser);
+    const fieldMapper = new FieldMapper(context.getConfig(), context.richTextHtmlParser as any);
 
     it(`should throw an Error when invalid response is given`, () => {
-        expect(() => fieldMapper.mapFields(null, null, null, null)).toThrowError();
-        expect(() => fieldMapper.mapFields(undefined, undefined, undefined, undefined)).toThrowError();
+        expect(() => fieldMapper.mapFields(null as any, null, null as any, null as any)).toThrowError();
+        expect(() => fieldMapper.mapFields(undefined as any, undefined, undefined as any, undefined as any)).toThrowError();
 
         expect(() => {
             const item: FakeContentItem = {
                 elements: {},
                 system: {} as any
             };
-            fieldMapper.mapFields(item, undefined, undefined, undefined);
+            fieldMapper.mapFields(item, undefined, undefined as any, undefined as any);
         }).toThrowError();
 
         expect(() => {
@@ -44,7 +44,7 @@ describe('FieldMapper', () => {
                 elements: {},
                 system: {} as any
             };
-            fieldMapper.mapFields(item, undefined, undefined, undefined);
+            fieldMapper.mapFields(item, undefined, undefined as any, undefined as any);
         }).toThrowError();
 
         expect(() => {
@@ -52,7 +52,7 @@ describe('FieldMapper', () => {
                 elements: {},
                 system: {} as any
             };
-            fieldMapper.mapFields(item, {}, {}, undefined);
+            fieldMapper.mapFields(item, {}, {}, undefined as any);
         }).toThrowError();
 
     });

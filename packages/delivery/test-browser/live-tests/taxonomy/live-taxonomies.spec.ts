@@ -1,6 +1,6 @@
 import { setup, Context } from '../../setup';
 
-import { FieldModels, TaxonomyResponses, TaxonomyGroup } from '../../../lib';
+import { FieldModels, TaxonomyResponses, TaxonomyGroup, TaxonomyTerms } from '../../../lib';
 
 describe('Live taxonomies', () => {
 
@@ -20,7 +20,7 @@ describe('Live taxonomies', () => {
       .getObservable()
       .subscribe(r => {
         response = r as TaxonomyResponses.TaxonomiesResponse;
-        taxonomy = response.taxonomies.find(m => m.system.codename === existingTaxonomyCodename);
+        taxonomy = response.taxonomies.find(m => m.system.codename === existingTaxonomyCodename) as TaxonomyGroup;
         done();
       });
   });
@@ -42,6 +42,9 @@ describe('Live taxonomies', () => {
   });
 
   it(`taxomy system attributes should be defined`, () => {
+    if (!taxonomy) {
+      throw Error('undefined');
+    }
     expect(taxonomy.system).toBeDefined();
     expect(taxonomy.system.codename).toBeDefined();
     expect(taxonomy.system.id).toBeDefined();
@@ -50,20 +53,30 @@ describe('Live taxonomies', () => {
   });
 
   it(`taxonomy group should match requested type`, () => {
+    if (!taxonomy) {
+      throw Error('undefined');
+    }
     expect(taxonomy.system.codename).toEqual(existingTaxonomyCodename);
   });
 
   it(`taxonomy group should have defined terms`, () => {
+    if (!taxonomy) {
+      throw Error('undefined');
+    }
     expect(taxonomy.terms).toBeDefined();
   });
 
   it(`taxonomy group should have > 0 terms`, () => {
+    if (!taxonomy) {
+      throw Error('undefined');
+    }
     expect(taxonomy.terms.length).toBeGreaterThan(0);
   });
 
   it(`taxonomy group should contain nested taxonomies`, () => {
-    const termsWithNestedTerms = taxonomy.terms.find(m => m.codename === termsWithNestedTermsCodename);
+    const termsWithNestedTerms = taxonomy.terms.find(m => m.codename === termsWithNestedTermsCodename) as TaxonomyTerms;
     expect(termsWithNestedTerms).toBeDefined();
+
     expect(termsWithNestedTerms.terms).toBeDefined();
     expect(termsWithNestedTerms.terms.length).toEqual(numberOfNestedTerms);
   });

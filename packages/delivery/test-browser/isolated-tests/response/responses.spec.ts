@@ -24,10 +24,10 @@ describe('Responses', () => {
         const responseWithEmptyArray = new ItemResponses.DeliveryItemListingResponse([] as any, {} as any, {} as any);
 
         expect(response.isEmpty).toEqual(true);
-        expect(response.firstItem).toEqual(undefined);
-        expect(response.lastItem).toEqual(undefined);
-        expect(responseWithEmptyArray.firstItem).toEqual(undefined);
-        expect(responseWithEmptyArray.lastItem).toEqual(undefined);
+        expect(response.firstItem).toEqual(undefined as any);
+        expect(response.lastItem).toEqual(undefined as any);
+        expect(responseWithEmptyArray.firstItem).toEqual(undefined as any);
+        expect(responseWithEmptyArray.lastItem).toEqual(undefined as any);
     });
 
     it(`DeliveryItemListingResponse should be initialize properties for invalid item`, () => {

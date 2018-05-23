@@ -21,10 +21,11 @@
   },
   "include": [
     "lib/**/*",
-    "spec/**/*"
+    "test-browser/**/*",
+    "test-node/**/*"
   ],
   "exclude": [
     "node_modules",
-    "dev-test"
+    "dev-test",
   ]
 }

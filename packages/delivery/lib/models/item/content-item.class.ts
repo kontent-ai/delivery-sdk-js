@@ -41,7 +41,7 @@ export class ContentItem {
          * Callback used to bind fields returned from Kentico Cloud to a model property.
          * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
          */
-        propertyResolver?: (fieldName: string) => string,
+        propertyResolver?: (fieldName: string) => string | undefined,
 
         /**
          *  Callback used to resolve links or URL slug fields
@@ -52,8 +52,8 @@ export class ContentItem {
          * Callback used to resolve modular content in rich text fields to HTML
          */
         richTextResolver?: (contentItem: ContentItem) => string;
-    }) {
-        if (data) {
+        }) {
+            if (data) {
             Object.assign(this, data);
         }
     }

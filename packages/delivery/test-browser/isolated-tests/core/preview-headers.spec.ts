@@ -1,4 +1,5 @@
 import { Context, setup } from '../../setup';
+import { IHeader } from '../../../lib';
 
 describe('Preview headers', () => {
 
@@ -28,7 +29,7 @@ describe('Preview headers', () => {
 
     it(`preview authorization header should contain preview API key (global config)'`, () => {
         const headers = context.deliveryClient.items().getHeaders();
-        const authorizationHeader = headers.find(m => m.header === 'authorization');
+        const authorizationHeader = headers.find(m => m.header === 'authorization') as IHeader;
         const expectedValue = 'bearer ' + context.previewApiKey;
         expect(authorizationHeader.value).toEqual(expectedValue);
     });

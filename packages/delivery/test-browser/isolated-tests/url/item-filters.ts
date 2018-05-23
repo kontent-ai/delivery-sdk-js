@@ -210,89 +210,89 @@ describe('Item url filters', () => {
     // Null parameter checks
 
     it(`inFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().inFilter(null, ['val1'])).toThrowError();
+        expect(() => context.deliveryClient.items().inFilter(null as any, ['val1'])).toThrowError();
     });
 
     it(`anyFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().anyFilter(null, ['val1'])).toThrowError();
+        expect(() => context.deliveryClient.items().anyFilter(null as any, ['val1'])).toThrowError();
     });
 
     it(`containsFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().containsFilter(null, ['val1'])).toThrowError();
+        expect(() => context.deliveryClient.items().containsFilter(null as any, ['val1'])).toThrowError();
     });
 
     it(`greaterThanFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().greaterThanFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().greaterThanFilter(null as any, 'val1')).toThrowError();
     });
 
     it(`greaterThanOrEqualFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().greaterThanOrEqualFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().greaterThanOrEqualFilter(null as any, 'val1')).toThrowError();
     });
 
     it(`lessThanFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().lessThanFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().lessThanFilter(null as any, 'val1')).toThrowError();
     });
 
     it(`lessThanOrEqualFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().lessThanOrEqualFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().lessThanOrEqualFilter(null as any, 'val1')).toThrowError();
     });
 
     it(`allFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().allFilter(null, [])).toThrowError();
+        expect(() => context.deliveryClient.items().allFilter(null as any, [])).toThrowError();
     });
 
     it(`rangeFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().rangeFilter(null, 1, 4)).toThrowError();
+        expect(() => context.deliveryClient.items().rangeFilter(null as any, 1, 4)).toThrowError();
     });
 
     it(`equalsFilter without field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().equalsFilter(null, 'val1')).toThrowError();
+        expect(() => context.deliveryClient.items().equalsFilter(null as any, 'val1')).toThrowError();
     });
 
     // null value checks
 
     it(`EqualsFilter without value should return empty string as param value`, () => {
-        expect(new Filters.EqualsFilter('f', undefined).getParamValue()).toEqual('');
+        expect(new Filters.EqualsFilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`AllFilter without value should return empty string as param value`, () => {
-        expect(new Filters.AllFilter('f', undefined).getParamValue()).toEqual('');
+        expect(new Filters.AllFilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`AnyFilter without value should return empty string as param value`, () => {
-        expect(new Filters.AnyFilter('f', undefined).getParamValue()).toEqual('');
+        expect(new Filters.AnyFilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`ContainsFilter without value should return empty string as param value`, () => {
-        expect(new Filters.ContainsFilter('f', undefined).getParamValue()).toEqual('');
+        expect(new Filters.ContainsFilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`GreaterThanFilter without value should return empty string as param value`, () => {
-        expect(new Filters.GreaterThanFilter('f', undefined).getParamValue()).toEqual('');
+        expect(new Filters.GreaterThanFilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`GreaterThanOrEqualFilter without value should return empty string as param value`, () => {
-        expect(new Filters.GreaterThanOrEqualFilter('f', undefined).getParamValue()).toEqual('');
+        expect(new Filters.GreaterThanOrEqualFilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`Infilter without value should return empty string as param value`, () => {
-        expect(new Filters.Infilter('f', undefined).getParamValue()).toEqual('');
+        expect(new Filters.Infilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`LessThanFilter without value should return empty string as param value`, () => {
-        expect(new Filters.LessThanFilter('f', undefined).getParamValue()).toEqual('');
+        expect(new Filters.LessThanFilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`LessThanOrEqualFilter without value should return empty string as param value`, () => {
-        expect(new Filters.LessThanOrEqualFilter('f', undefined).getParamValue()).toEqual('');
+        expect(new Filters.LessThanOrEqualFilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`RangeFilter without value should return empty string as param value`, () => {
-        expect(new Filters.RangeFilter('f', undefined, 3).getParamValue()).toEqual(',3');
+        expect(new Filters.RangeFilter('f', undefined as any, 3).getParamValue()).toEqual(',3');
     });
 
     it(`RangeFilter without value should return empty string as param value`, () => {
-        expect(new Filters.RangeFilter('f', 3, undefined).getParamValue()).toEqual('3,');
+        expect(new Filters.RangeFilter('f', 3, undefined as any).getParamValue()).toEqual('3,');
     });
     // trim checks
 

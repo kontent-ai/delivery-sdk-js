@@ -20,7 +20,7 @@ class MockActor extends ContentItem {
 describe('Rich text resolver', () => {
 
     const context = new Context();
-    const typeResolvers = [];
+    const typeResolvers: TypeResolver[] = [];
     typeResolvers.push(new TypeResolver('movie', () => new MockMovie()));
     typeResolvers.push(new TypeResolver('actor', () => new MockActor()));
 

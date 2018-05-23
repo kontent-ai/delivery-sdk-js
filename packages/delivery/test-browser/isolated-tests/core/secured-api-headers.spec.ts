@@ -1,4 +1,5 @@
 import { Context, setup } from '../../setup';
+import { IHeader } from '../../../lib';
 
 describe('Secured headers', () => {
 
@@ -28,7 +29,7 @@ describe('Secured headers', () => {
 
     it(`secured authorization header should contain secured API key (global config)'`, () => {
         const headers = context.deliveryClient.items().getHeaders();
-        const authorizationHeader = headers.find(m => m.header === 'authorization');
+        const authorizationHeader = headers.find(m => m.header === 'authorization') as IHeader;
         const expectedValue = 'bearer ' + context.securedApiKey;
         expect(authorizationHeader.value).toEqual(expectedValue);
     });

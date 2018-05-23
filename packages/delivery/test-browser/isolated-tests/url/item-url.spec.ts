@@ -6,7 +6,7 @@ describe('Item URL', () => {
     setup(context);
 
     it(`item query should thrown error when item's codename is not set`, () => {
-        expect(() => context.deliveryClient.item(null)).toThrowError();
+        expect(() => context.deliveryClient.item(null as any)).toThrowError();
     });
 
     it(`item query should thrown error when item's codename is empty`, () => {

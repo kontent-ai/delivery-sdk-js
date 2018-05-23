@@ -1,6 +1,6 @@
 import { IBaseResponse } from '../../lib/services/http/models';
 
-class FakeResponseFactory {
+export class FakeResponseFactory {
 
     getFakeSuccessResponse(json: any): IBaseResponse {
         const fakeResponse: any = {};

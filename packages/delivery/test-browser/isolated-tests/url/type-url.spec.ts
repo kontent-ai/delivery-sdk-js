@@ -6,7 +6,7 @@ describe('Type url', () => {
     setup(context);
 
     it(`type query should thrown error when types's codename is not set`, () => {
-        expect(() => context.deliveryClient.type(null)).toThrowError();
+        expect(() => context.deliveryClient.type(null as any)).toThrowError();
     });
 
     it(`type url with 'movie' codename should contain '/types/movie`, () => {

@@ -89,7 +89,7 @@ describe('Item url parameters', () => {
     it(`order parameter with null 'SortOrder should be default to 'asc'`, () => {
         const url = new URL(
             context.deliveryClient.items()
-                .orderParameter('elem1', null)
+                .orderParameter('elem1', null as any)
                 .getUrl()
         );
 
@@ -129,15 +129,15 @@ describe('Item url parameters', () => {
     // Null parameter checks
 
     it(`order parameter with null or empty field should throw an error`, () => {
-        expect(() => context.deliveryClient.items().orderParameter(null, SortOrder.asc)).toThrowError();
+        expect(() => context.deliveryClient.items().orderParameter(null as any, SortOrder.asc)).toThrowError();
     });
 
     it(`elements parameter with empty or not set elements should throw error`, () => {
-        expect(() => context.deliveryClient.items().elementsParameter([null]).getUrl()).toThrowError();
+        expect(() => context.deliveryClient.items().elementsParameter([null as any]).getUrl()).toThrowError();
     });
 
        it(`language parameter with empty or not set elements should throw error`, () => {
-        expect(() => context.deliveryClient.items().languageParameter(null).getUrl()).toThrowError();
+        expect(() => context.deliveryClient.items().languageParameter(null as any).getUrl()).toThrowError();
     });
 
     // trim checks
@@ -180,7 +180,7 @@ describe('Item url parameters', () => {
 
     // empty value checks
     it(`ElementsParameter without value should return empty string as param value`, () => {
-        expect(new Parameters.ElementsParameter(undefined).getParamValue()).toEqual('');
+        expect(new Parameters.ElementsParameter(undefined as any).getParamValue()).toEqual('');
     });
 });
 

@@ -100,7 +100,7 @@ describe('RichTextField', () => {
             enableAdvancedLogging: false,
             links: links,
             modularItems: modularItems,
-            typeResolvers: config.typeResolvers,
+            typeResolvers: config.typeResolvers as any,
             richTextHtmlParser: getParserAdapter(),
             modularContentWrapperClasses: ['kc-wrapper-class'],
             modularContentWrapperTag: 'kcelem',
@@ -164,12 +164,12 @@ describe('RichTextField', () => {
                 enableAdvancedLogging: false,
                 links: links,
                 modularItems: modularItems,
-                typeResolvers: config.typeResolvers,
+                typeResolvers: config.typeResolvers as any,
                 richTextHtmlParser: getParserAdapter(),
                 modularContentWrapperClasses: ['kc-wrapper-class'],
                 modularContentWrapperTag: 'kc-item-wrapper',
                 queryConfig: {
-                    richTextResolver: null,
+                    richTextResolver: undefined as any,
                     linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
                 },
             })

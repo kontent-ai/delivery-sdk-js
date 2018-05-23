@@ -1,4 +1,4 @@
-import { sdkInfo } from '../../../lib';
+import { sdkInfo, IHeader } from '../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Core headers', () => {
@@ -15,7 +15,7 @@ describe('Core headers', () => {
 
     it(`Verifies SDK Id version format`, () => {
         const headers = context.deliveryClient.items().getHeaders();
-        const header = headers.find(m => m.header === 'X-KC-SDKID');
+        const header = headers.find(m => m.header === 'X-KC-SDKID') as IHeader;
         const expectedValue = `${sdkInfo.host};${sdkInfo.name};${sdkInfo.version}`;
         expect(header.value).toEqual(expectedValue);
     });

@@ -16,6 +16,8 @@ class MockMovie extends ContentItem {
                 if (fieldName === 'title') {
                     return 'titleTest';
                 }
+                // undefined because property resolved is prioritized over field decorator
+                return undefined;
             }
         });
     }
@@ -24,7 +26,7 @@ class MockMovie extends ContentItem {
 describe('Property resolver', () => {
 
     const context = new Context();
-    const typeResolvers = [];
+    const typeResolvers: TypeResolver[] = [];
     typeResolvers.push(new TypeResolver('movie', () => new MockMovie()));
     typeResolvers.push(new TypeResolver('actor', () => new Actor()));
 
@@ -42,6 +44,7 @@ describe('Property resolver', () => {
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
+        console.warn(response);
         done();
     });
 

@@ -62,45 +62,42 @@ describe('URLSlugField', () => {
     });
 
     it(`url should be undefined when no resolver is passed`, () => {
-        let url = 'test_url';
-        url = (new Fields.UrlSlugField('name', 'actor-slug', {
+        const url = (new Fields.UrlSlugField('name', 'actor-slug', {
             resolveUrl: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: false,
                 type: 'actor-type',
-                linkResolver: null
+                linkResolver: undefined
             })
         })).getUrl();
         expect(url).toBeUndefined();
     });
 
     it(`url should be undefined when invalid item is passed`, () => {
-        let url = 'test_url';
-        url = (new Fields.UrlSlugField('name', 'actor-slug', {
+        const url = (new Fields.UrlSlugField('name', 'actor-slug', {
             resolveUrl: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
-                item: undefined,
+                item: undefined as any,
                 enableAdvancedLogging: false,
                 type: 'actor-type',
-                linkResolver: null
+                linkResolver: undefined
             })
         })).getUrl();
         expect(url).toBeUndefined();
     });
 
     it(`url should be undefined`, () => {
-        let url = 'test_url';
-        url = (new Fields.UrlSlugField('name', 'actor-slug', {
+        const url = (new Fields.UrlSlugField('name', 'actor-slug', {
             resolveUrl: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: false,
                 type: 'actor-type',
-                linkResolver: () => null
+                linkResolver: () => undefined as any
             })
         })).getUrl();
         expect(url).toBeUndefined();
@@ -116,7 +113,7 @@ describe('URLSlugField', () => {
                 item: sharedActor,
                 enableAdvancedLogging: false,
                 type: 'actor-type',
-                linkResolver: () => null
+                linkResolver: () => undefined as any
             })
         })).getUrl();
 
@@ -129,7 +126,7 @@ describe('URLSlugField', () => {
                 item: sharedActor,
                 enableAdvancedLogging: true,
                 type: 'actor-type',
-                linkResolver: () => null
+                linkResolver: () => undefined as any
             })
         })).getUrl();
 
@@ -143,10 +140,10 @@ describe('URLSlugField', () => {
             resolveUrl: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
-                item: null,
+                item: undefined as any,
                 enableAdvancedLogging: false,
                 type: 'actor-type',
-                linkResolver: () => null
+                linkResolver: () => undefined as any
             })
         })).getUrl();
 
@@ -156,10 +153,10 @@ describe('URLSlugField', () => {
             resolveUrl: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
-                item: null,
+                item: undefined as any,
                 enableAdvancedLogging: true,
                 type: 'actor-type',
-                linkResolver: () => null
+                linkResolver: () => undefined as any
             })
         })).getUrl();
 

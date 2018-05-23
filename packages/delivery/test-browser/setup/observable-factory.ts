@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { IDeliveryClient, IQueryConfig } from '../../lib';
 import { AllTestObjects, Movie } from './models';
 
-class ObservableFactory {
+export class ObservableFactory {
 
     private readonly movieCodename: string = 'warrior';
     private readonly taxonomyCodename: string = 'movietype';
@@ -75,7 +75,7 @@ class ObservableFactory {
     }
 }
 
-export let observableFactory = new ObservableFactory();
+export const observableFactory = new ObservableFactory();
 
 
 

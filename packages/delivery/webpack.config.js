@@ -24,7 +24,7 @@ module.exports = (env, argv) => ({
                     path.resolve(__dirname, 'lib'), // library
                 ],
              
-            },
+            }
         ]
     },
     performance: { hints: false }, // this disables warning about large output file (in our case its ~300Kb which is fine)

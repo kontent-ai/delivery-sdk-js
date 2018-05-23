@@ -46,6 +46,7 @@ export class Movie extends ContentItem {
         if (fieldName === 'releasecategory') {
           return 'releaseCategory';
         }
+        return fieldName;
       },
       richTextResolver: (item: Movie) => {
         return `<p>${item.title.text}</p>`;
@@ -53,7 +54,8 @@ export class Movie extends ContentItem {
       linkResolver: (link: Link) => {
         return 'testSlugUrl/' + link.urlSlug;
       }
-    }, );
+    }
+  );
   }
 }
 

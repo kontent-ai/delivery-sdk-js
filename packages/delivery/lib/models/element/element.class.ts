@@ -24,7 +24,7 @@ export class Element {
     /**
      * Array of options if the field has some
      */
-    public options?: ElementOption[];
+    public options: ElementOption[] = [];
 
     constructor(
         data: {
@@ -32,7 +32,7 @@ export class Element {
             type: string,
             name: string,
             taxonomyGroup?: string,
-            options?: ElementOption[]
+            options: ElementOption[]
         }
     ) {
         Object.assign(this, data);

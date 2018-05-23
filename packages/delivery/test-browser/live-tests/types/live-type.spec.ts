@@ -1,4 +1,4 @@
-import { TypeResponses } from '../../../lib';
+import { TypeResponses, Element } from '../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Live type', () => {
@@ -38,15 +38,14 @@ describe('Live type', () => {
   });
 
   it(`Verifies taxonomy element - '${taxonomyElement}'`, () => {
-    const releaseCategoryElement = response.type.elements.find(m => m.codename === taxonomyElement);
-
+    const releaseCategoryElement = response.type.elements.find(m => m.codename === taxonomyElement) as Element;
     expect(releaseCategoryElement).toBeDefined();
     expect(releaseCategoryElement.taxonomyGroup).toBeDefined();
     expect(releaseCategoryElement.taxonomyGroup).toEqual('releasecategory');
   });
 
   it(`Verifies multiple_choice element - '${multipleChoiceElement}'`, () => {
-    const categoryElement = response.type.elements.find(m => m.codename === multipleChoiceElement);
+    const categoryElement = response.type.elements.find(m => m.codename === multipleChoiceElement) as Element;
 
     expect(categoryElement).toBeDefined();
     expect(categoryElement.options).toBeDefined();

@@ -1,4 +1,4 @@
-import { Parameters } from '../../../lib';
+import { Parameters, IQueryParameter } from '../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Language #1', () => {
@@ -14,7 +14,8 @@ describe('Language #1', () => {
 
     const languageParam = new Parameters.LanguageParameter('a');
 
-    const queryLanguageParam = query.getParameters().find(m => m.getParam() === languageParam.getParam());
+    const queryLanguageParam = query.getParameters().find(m => m.getParam() === languageParam.getParam()) as IQueryParameter;
+
 
     it(`language should be '${language}'`, () => {
         expect(queryLanguageParam.getParamValue()).toEqual(language);
@@ -35,7 +36,7 @@ describe('Language #2', () => {
 
     const languageParam = new Parameters.LanguageParameter('a');
 
-    const queryLanguageParam = query.getParameters().find(m => m.getParam() === languageParam.getParam());
+    const queryLanguageParam = query.getParameters().find(m => m.getParam() === languageParam.getParam()) as IQueryParameter;
 
     it(`language should be '${language}'`, () => {
         expect(queryLanguageParam.getParamValue()).toEqual(language);
