@@ -12,7 +12,7 @@ export class ElementMapper {
             codename: response.codename,
             name: response.name,
             type: response.type,
-            options: response.options,
+            options: response.options ? response.options : [],
             taxonomyGroup: response.taxonomy_group
         });
     }
