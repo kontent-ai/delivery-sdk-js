@@ -16,7 +16,7 @@ This repository contains packages related to [Kentico Cloud](https://kenticoclou
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
 [![Build Status](https://api.travis-ci.org/Enngage/KenticoCloudModelGeneratorUtility.svg?branch=master)](https://travis-ci.org/Enngage/KenticoCloudModelGeneratorUtility)
-[![npm](https://img.shields.io/npm/dt/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility))
+[![npm](https://img.shields.io/npm/dt/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
 
 
 ### Bugs & new features
