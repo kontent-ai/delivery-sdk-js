@@ -1,7 +1,7 @@
 const http = require('http');
 const https = require('https');
 const Rx = require('rxjs');
-const KenticoCloud = require('_commonjs');
+const KenticoCloud = require('../../_commonjs');
 const assert = require('assert');
 const projectId = 'da5abe9f-fdad-4168-97cd-b3464be2ccb9';
 
