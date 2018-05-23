@@ -1,0 +1,10 @@
+dist: trusty
+language: node_js
+node_js:
+- "stable"
+before_script:
+- npm install
+script: 
+# run build
+- npm run build:commonjs
+

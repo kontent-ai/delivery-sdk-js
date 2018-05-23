@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# But descend into directories
+
+# Recursively allow files under subtree
+!/src/**
+!/_commonjs/**
+!package.json
+!.npmignore
+!README.md
+
+

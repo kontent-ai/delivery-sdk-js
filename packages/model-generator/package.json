@@ -1,0 +1,42 @@
+{
+  "name": "kentico-cloud-model-generator-utility",
+  "version": "1.0.0",
+  "description": "This utility generates strongly-typed models based on Content Types in a Kentico Cloud project. The models are supposed to be used together with the Kentico Cloud Typescript SDK.",
+  "bin": {
+    "kc-generate": "./_commonjs/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/model-generator"
+  },
+  "author": "richard sustek",
+  "main": "./_commonjs/app.js",
+  "directories": {},
+  "scripts": {
+    "prepare": "npm run build:all",
+    "publish:beta": "npm publish --tag=next",
+    "build:commonjs": "tsc -m commonjs --outDir _commonjs",
+    "build:all": "npm run build:commonjs",
+    "test:generate-models": "node _commonjs/app --projectId=da5abe9f-fdad-4168-97cd-b3464be2ccb9 --moduleResolution=ES2015 --codeType=typescript"
+  },
+  "keywords": [
+    "Kentico",
+    "Kentico Cloud",
+    "Kentico Utility",
+    "Kentico generator",
+    "Kentico models"
+  ],
+  "preferGlobal": true,
+  "license": "MIT",
+  "dependencies": {
+    "kentico-cloud-delivery": "4.0.2",
+    "rxjs": "6.1.0",
+    "yargs": "11.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.1.2",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3",
+    "ts-node": "^6.0.3"
+  }
+}
