@@ -10,7 +10,6 @@ before_script:
 - sh -e /etc/init.d/xvfb start
 - npm install -g karma # info - http://karma-runner.github.io/0.8/plus/Travis-CI.html
 - npm install -g cat
-- npm install
 - npm install rxjs
 script: 
 # Run all tests with global lerna command
