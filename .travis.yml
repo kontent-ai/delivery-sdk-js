@@ -13,4 +13,4 @@ before_script:
 - npm install rxjs
 script: 
 # Run all tests with global lerna command
-- npm run lerna:test
+- npm run lerna:travis
