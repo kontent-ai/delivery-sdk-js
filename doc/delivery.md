@@ -14,12 +14,12 @@ npm i kentico-cloud-delivery --save
 ### unpkg - browser only & minified
 
 ```
-https://unpkg.com/kentico-cloud-delivery@4.0.2/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
 
 ### unpkg - node + browser & minified
 ```
-https://unpkg.com/kentico-cloud-delivery@4.0.2/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
 ```
 
 ### Quick start
