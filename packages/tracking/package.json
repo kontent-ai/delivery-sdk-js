@@ -44,11 +44,12 @@
     "axios": "0.18.0"
   },
   "peerDependencies": {
-    "rxjs": "^6.0.0"
+    "rxjs": "^6.2.0"
   },
   "devDependencies": {
     "@types/jasmine": "2.8.6",
-    "@types/node": "9.6.6",
+    "@types/node": "10.1.4 ",
+    "rxjs": "^6.2.0",
     "colors": "1.2.5",
     "core-js": "2.5.5",
     "jasmine-core": "3.1.0",
@@ -65,8 +66,7 @@
     "karma-typescript-es6-transform": "1.0.4",
     "karma-webpack": "3.0.0",
     "lcov-parse": "1.0.0",
-    "mocha": "^5.1.1",
-    "rxjs": "^6.0.0",
+    "mocha": "5.1.1",
     "ts-loader": "4.2.0",
     "ts-node": "6.0.0",
     "tslint": "5.9.1",

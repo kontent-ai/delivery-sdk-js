@@ -32,13 +32,13 @@
   "license": "MIT",
   "dependencies": {
     "kentico-cloud-delivery": "4.0.2",
-    "rxjs": "6.1.0",
+    "rxjs": "6.2.0",
     "yargs": "11.0.0"
   },
   "devDependencies": {
-    "@types/node": "^10.1.2",
-    "tslint": "^5.10.0",
-    "typescript": "^2.8.3",
-    "ts-node": "^6.0.3"
+    "@types/node": "10.1.4 ",
+    "tslint": "5.10.0",
+    "typescript": "2.8.3",
+    "ts-node": "6.0.3"
   }
 }
