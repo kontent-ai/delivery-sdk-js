@@ -1,10 +1,10 @@
 # Kentico Cloud
 
-This repository contains packages related to [Kentico Cloud](https://kenticocloud.com/). Currently, only `Delivery SDK` for browser & node is supported. More SDKs for Personalization & Content management are planned. 
+This repository contains TypeScript packages related to [Kentico Cloud](https://kenticocloud.com/) app development. Currently, only the SDK for the [Delivery API](https://developer.kenticocloud.com/v1/reference#delivery-api) is available, with both browser & node support. More SDKs for Personalization & Content management are planned.
 
-# SDKs Overview 
+# SDKs Overview
 
-## [Delivery SDK](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/master/packages/delivery) 
+## [Delivery SDK](https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK/tree/master/packages/delivery)
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Enngage/kentico-cloud-js)
