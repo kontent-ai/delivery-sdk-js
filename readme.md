@@ -1,6 +1,6 @@
 # Kentico Cloud
 
-This repository contains TypeScript packages related to [Kentico Cloud](https://kenticocloud.com/) app development. Currently, only the SDK for the [Delivery API](https://developer.kenticocloud.com/v1/reference#delivery-api) is available, with both browser & node support. More SDKs for Personalization & Content management are planned.
+This repository contains TypeScript packages related to [Kentico Cloud](https://kenticocloud.com/) app development. Currently, only the SDK for the [Delivery API](https://developer.kenticocloud.com/docs/getting-content) is available, with both browser & node support. More SDKs for Personalization & Content management are planned.
 
 # SDKs Overview
 
