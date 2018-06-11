@@ -1,5 +1,3 @@
-[![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js/blob/master/doc/delivery.md)](https://github.com/igrigorik/ga-beacon)
-
 ## SDK Documentation
 
 A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and as UMD bundle, ES2015 and CommonJs formats.
@@ -594,3 +592,7 @@ console.log(queryText);
 ## Feedback & Contribution
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js/blob/master/doc/delivery.md?pixel)](https://github.com/igrigorik/ga-beacon)
+
+
