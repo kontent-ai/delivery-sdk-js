@@ -1,5 +1,3 @@
-[![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js/blob/master/examples/readme.md)](https://github.com/igrigorik/ga-beacon)
-
 # Kentico Cloud SDK Examples
 
 ## [React](https://github.com/Kentico/cloud-sample-app-react)
@@ -31,3 +29,7 @@ A simple example of including the SDK and RxJS in plain HTML using [UMD](https:/
 ## [UMD + Promise in browser](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/umd-promise/index.html)
 
 A simple example of including the SDK in plain HTML using [UMD](https://github.com/umdjs/umd) (no RxJS, only promises). 
+
+[![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js/blob/master/examples/readme.md?pixel)](https://github.com/igrigorik/ga-beacon)
+
+
