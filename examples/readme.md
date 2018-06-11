@@ -1,3 +1,5 @@
+[![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js/blob/master/examples/readme.md)](https://github.com/igrigorik/ga-beacon)
+
 # Kentico Cloud SDK Examples
 
 ## [React](https://github.com/Kentico/cloud-sample-app-react)
