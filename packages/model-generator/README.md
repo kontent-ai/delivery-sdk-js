@@ -1,6 +1,7 @@
 [![npm version](https://badge.fury.io/js/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
 [![Build Status](https://api.travis-ci.org/Enngage/KenticoCloudModelGeneratorUtility.svg?branch=master)](https://travis-ci.org/Enngage/KenticoCloudModelGeneratorUtility)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
+[![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js/blob/master/packages/model-generator/README.md?pixel)](https://github.com/igrigorik/ga-beacon)
 
 # Kentico Cloud Model Generator Utility
 
