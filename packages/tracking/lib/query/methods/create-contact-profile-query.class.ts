@@ -22,6 +22,6 @@ export class CreateContactProfile extends BaseQuery<TrackingEmptySuccessResponse
   }
 
   getObservable(): Observable<TrackingEmptySuccessResponse> {
-    return this.queryService.recordNewSession(this.getUrl(), this.profileData);
+    return this.queryService.recordNewSession(this.getUrl(), this.profileData, this._queryConfig);
   }
 }
