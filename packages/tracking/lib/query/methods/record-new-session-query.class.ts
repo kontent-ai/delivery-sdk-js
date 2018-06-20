@@ -22,6 +22,6 @@ export class RecordNewSessionQuery extends BaseQuery<TrackingEmptySuccessRespons
   }
 
   getObservable(): Observable<TrackingEmptySuccessResponse> {
-    return this.queryService.recordNewSession(this.getUrl(),  this.contactData);
+    return this.queryService.recordNewSession(this.getUrl(),  this.contactData, this._queryConfig);
   }
 }

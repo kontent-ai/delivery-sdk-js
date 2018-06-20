@@ -4,13 +4,9 @@ import { createTestClient } from '../client-factory';
 describe('Retry', () => {
     const retryAttempts = 3;
 
-    const trackingClient = createTestClient();
-    // set retry attempts
-    const config = createTestClient().getConfig();
-    config.retryAttempts = retryAttempts;
-
-    // set fake base url because we want this to fail
-    config.baseUrl = 'http://fakeurl';
+    const trackingClient = createTestClient({
+        baseUrl: 'localhost'
+    });
 
     const MAX_SAFE_TIMEOUT = Math.pow(2, 31) - 1;
 
@@ -20,6 +16,9 @@ describe('Retry', () => {
         // this will fail
         spyOn(retryStrategy, 'debugLogAttempt').and.callThrough();
         trackingClient.recordNewSession({ uid: '1', sid: '1' })
+            .queryConfig({
+                forceRetry: true
+            })
             .getObservable()
             .subscribe(response => {
             }, err => {

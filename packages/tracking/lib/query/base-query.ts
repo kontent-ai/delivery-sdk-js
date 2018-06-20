@@ -1,11 +1,12 @@
 import { Observable } from 'rxjs';
 
 import { ITrackingClientConfig } from '../config/itracking-client-config.interface';
-import { IQueryParameter, ITrackingCloudResponse, Parameters } from '../models';
+import { IQueryParameter, ITrackingCloudResponse, Parameters, ITrackingQueryConfig } from '../models';
 import { TrackingQueryService } from '../services';
 
 export abstract class BaseQuery<TResponse extends ITrackingCloudResponse> {
 
+    protected _queryConfig?: ITrackingQueryConfig;
     protected parameters: IQueryParameter[] = [];
     protected customUrl?: string;
 
@@ -17,6 +18,11 @@ export abstract class BaseQuery<TResponse extends ITrackingCloudResponse> {
 
     abstract getUrl(): string;
     abstract getObservable(): Observable<TResponse>;
+
+    queryConfig(config: ITrackingQueryConfig): this {
+        this._queryConfig = config;
+        return this;
+    }
 
     customParameter(name: string, value: string): this {
         this.parameters.push(new Parameters.CustomParameter(name, value));

@@ -23,6 +23,6 @@ export class RecordCustomActivityQuery extends BaseQuery<TrackingEmptySuccessRes
   }
 
   getObservable(): Observable<TrackingEmptySuccessResponse> {
-    return this.queryService.recordCustomActivity(this.getUrl(), this.contactData, this.activityCodename);
+    return this.queryService.recordCustomActivity(this.getUrl(), this.contactData, this.activityCodename, this._queryConfig);
   }
 }

@@ -12,6 +12,7 @@ import {
     ISDKInfo,
     TrackingCloudError,
     TrackingEmptySuccessResponse,
+    ITrackingQueryConfig,
 } from '../models';
 
 export class TrackingQueryService {
@@ -39,11 +40,11 @@ export class TrackingQueryService {
         protected sdkInfo: ISDKInfo,
     ) { }
 
-    recordNewSession(url: string, contactData: IContactRequiredData): Observable<TrackingEmptySuccessResponse> {
+    recordNewSession(url: string, contactData: IContactRequiredData, config?: ITrackingQueryConfig): Observable<TrackingEmptySuccessResponse> {
         return this.postResponse(url, {
             uid: contactData.uid,
             sid: contactData.sid
-        })
+        }, config)
             .pipe(
                 map(response => {
                     return trackingResponseMapper.mapEmptyTrackingSuccessResponse(response);
@@ -54,12 +55,12 @@ export class TrackingQueryService {
             );
     }
 
-    recordCustomActivity(url: string, contactData: IContactRequiredData, activityCodename: string): Observable<TrackingEmptySuccessResponse> {
+    recordCustomActivity(url: string, contactData: IContactRequiredData, activityCodename: string,  config?: ITrackingQueryConfig): Observable<TrackingEmptySuccessResponse> {
         return this.postResponse(url, {
             uid: contactData.uid,
             sid: contactData.sid,
             name: activityCodename
-        })
+        }, config)
             .pipe(
                 map(response => {
                     return trackingResponseMapper.mapEmptyTrackingSuccessResponse(response);
@@ -70,7 +71,7 @@ export class TrackingQueryService {
             );
     }
 
-    createContactProfile(url: string, contactProfile: IContactProfileData): Observable<TrackingEmptySuccessResponse> {
+    createContactProfile(url: string, contactProfile: IContactProfileData, config?: ITrackingQueryConfig): Observable<TrackingEmptySuccessResponse> {
         return this.postResponse(url, {
             uid: contactProfile.uid,
             sid: contactProfile.sid,
@@ -80,7 +81,7 @@ export class TrackingQueryService {
             company: contactProfile.company,
             phone: contactProfile.phone,
             website: contactProfile.website
-        })
+        }, config)
             .pipe(
                 map(response => {
                     return trackingResponseMapper.mapEmptyTrackingSuccessResponse(response);
@@ -116,13 +117,18 @@ export class TrackingQueryService {
     * Http POST response
     * @param url Url of request
     * @param body Body of the request (names and values)
+    * @param config Query configuration
     */
-    protected postResponse(url: string, body: any): Observable<IBaseResponse> {
+    protected postResponse(url: string, body: any, config?: ITrackingQueryConfig): Observable<IBaseResponse> {
+        if (!config) {
+            config = {};
+        }
+
         return this.httpService.post(url, body, this.getHeaders())
             .pipe(
                 retryWhen(retryStrategy.strategy({
                     maxRetryAttempts: this.getRetryAttempts(),
-                    excludedStatusCodes: this.retryExcludedStatuses
+                    excludedStatusCodes: config.forceRetry ? [] : this.retryExcludedStatuses // excluded status only if force retry is not enabled
                 })),
                 catchError(err => {
                     return throwError(this.handleError(err));

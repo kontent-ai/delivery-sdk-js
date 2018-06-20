@@ -1,14 +1,15 @@
-import { TrackingClient, TrackingEmptySuccessResponse } from '../../lib';
+import { TrackingEmptySuccessResponse } from '../../lib';
 import { createTestClient } from '../client-factory';
 import { guidHelper } from '../utilities';
 import { map } from 'rxjs/operators';
 
 describe('New session query', () => {
 
-    const newSessionQuery = createTestClient().recordNewSession({
-        sid: guidHelper.newGuid(),
-        uid: guidHelper.newGuid()
-    });
+    const newSessionQuery = createTestClient()
+        .recordNewSession({
+            sid: guidHelper.testSid(),
+            uid: guidHelper.testUserId(),
+        });
 
     let response: TrackingEmptySuccessResponse;
 
@@ -21,12 +22,14 @@ describe('New session query', () => {
                 }))
             .subscribe(() => {
                 done();
+            }, err => {
             });
     });
 
-    // enable after tracking API enables CORS
-   // it(`Verifies response model`, () => expect(response).toEqual(jasmine.any(TrackingEmptySuccessResponse)));
+    it(`Verifies response model`, () => {
+        expect(response).toEqual(jasmine.any(TrackingEmptySuccessResponse));
+    });
 
-   // it(`Verifies debug in response model`, () => expect(response.debug).toBeDefined());
+    it(`Verifies debug in response model`, () => expect(response.debug).toBeDefined());
 });
 

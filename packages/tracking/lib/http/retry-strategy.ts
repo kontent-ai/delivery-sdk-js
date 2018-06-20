@@ -10,11 +10,18 @@ export class RetryStrategy {
         return attempts.pipe(
             mergeMap((error, i) => {
                 const retryAttempt = i + 1;
+                console.log(error);
                 // if maximum number of retries have been met
                 // or response is a status code we don't wish to retry, throw error
+
+                let statusCode = 0;
+                if (error.originalError.response.status) {
+                    statusCode = error.originalError.response.status;
+                }
+
                 if (
                     retryAttempt > options.maxRetryAttempts ||
-                    options.excludedStatusCodes.find(e => e === error.status)
+                    options.excludedStatusCodes.find(e => e === statusCode)
                 ) {
                     return throwError(error);
                 }
