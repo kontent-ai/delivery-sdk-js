@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/tracking"
   },
-  "private": true,
+  "private": false,
   "author": "richard sustek",
   "license": "MIT",
   "description": "Official Kentico Cloud Tracking SDK",
