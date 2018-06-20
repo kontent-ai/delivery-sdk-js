@@ -221,9 +221,14 @@ export class QueryService {
     /**
      * Gets proper set of headers for given request.
      * @param queryConfig Query configuration
+     * @param customHeaders Custom headers
      */
     getHeaders(queryConfig: IQueryConfig): IHeader[] {
-        const headers: IHeader[] = [];
+        let headers: IHeader[] = [];
+
+        if (queryConfig.customHeaders) {
+            headers = headers.concat(queryConfig.customHeaders);
+        }
 
         // add SDK Id header for monitoring SDK usage
         headers.push(this.getSdkIdHeader());

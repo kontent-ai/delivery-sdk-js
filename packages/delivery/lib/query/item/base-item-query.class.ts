@@ -27,15 +27,6 @@ export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends
     }
 
     /**
-    * Gets headers used by this query
-    */
-    getHeaders(): IHeader[] {
-        return this.queryService.getHeaders(this._queryConfig);
-    }
-
-    // shared parameters
-
-    /**
      * Language codename
      * @param languageCodename Codename of the language
      */
@@ -61,8 +52,6 @@ export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends
         this.parameters.push(new Parameters.DepthParameter(depth));
         return this;
     }
-
-
 
     protected getMultipleItemsQueryUrl(): string {
         const action = '/items';
