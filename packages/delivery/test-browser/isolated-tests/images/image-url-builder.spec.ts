@@ -48,6 +48,12 @@ describe('Image URL builder', () => {
         const ib = getImageBuilder();
         ib.withWidth(250);
         expect(ib.getUrl()).toContain('w=250');
+
+        ib.withWidth(0.5);
+        expect(ib.getUrl()).toContain('w=0.5');
+
+        ib.withWidth(97.012345678915);
+        expect(ib.getUrl()).toContain('w=97.012345678915');
     });
 
     it(`Checks height`, () => {
