@@ -27,7 +27,7 @@ export abstract class BaseQuery<TResponse extends ICloudResponse> {
      * @param value Value of parameter
      */
     withParameter(name: string, value: string): this {
-        this.parameters.push(new Parameters.CustomParameter(name, value));
+        this.parameters.push(new Parameters.QueryParameter(name, value));
         return this;
     }
 

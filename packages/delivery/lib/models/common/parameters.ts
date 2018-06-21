@@ -5,7 +5,7 @@ export namespace Parameters {
 
     const defaultValue: string = '';
 
-    export class CustomParameter implements IQueryParameter {
+    export class QueryParameter implements IQueryParameter {
 
         /**
         * Custom parameter

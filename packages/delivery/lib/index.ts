@@ -34,3 +34,6 @@ export * from './models';
 /* interfaces */
 export * from './interfaces';
 
+/* images */
+export * from './images';
+

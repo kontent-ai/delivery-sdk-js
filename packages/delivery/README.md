@@ -122,13 +122,18 @@ deliveryClient.items()
 });
 
 /** Getting items from Kentico Cloud as Observable */
-deliveryClient.items()
+const subscription = deliveryClient.items()
     .type('movie')
     .getObservable()
     .subscribe(response => {
         const movieText = response.items[0].title.text;
     )
 });
+
+/*
+Don't forget to unsubscribe from your Observables. You can use 'takeUntil' or 'unsubscribe' method for this purpose. Unsubsription is usually done when you no longer need to process the result of Observable. (Example: 'ngOnDestroy' event in Angular app)
+*/
+subscription.unsubscribe();
 
 /**
  * Fetch all items of 'movie' type and given parameters from Kentico Cloud.

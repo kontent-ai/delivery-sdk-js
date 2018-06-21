@@ -334,6 +334,27 @@ deliveryClient.items<Movie>()
   .subscribe(response => console.log(response));
 ```
 
+### Image transformations
+
+The `ImageUrlBuilder` exposes methods for applying image transformations on the Asset URL.
+
+```typescript
+import { ImageUrlBuilder, ImageCompressionEnum } from 'kentico-cloud-delivery';
+
+const assetUrl = `https://assets.kenticocloud.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/22504ba8-2075-48fa-9d4f-8fce3de1754a/warrior.jpg`
+
+const imageUrlBuilder = new ImageUrlBuilder(assetUrl)
+  .withDpr(2)
+  .withCompression(ImageCompressionEnum.Lossless)
+  .withQuality(4)
+  .withHeight(200)
+  .withWidth(100);
+
+// get url to image with query parameters
+const transformedUrl = imageUrlBuilder.getUrl();
+
+```
+
 ### URL Slugs (links)
 
 #### Resolving URL slugs (links) globally
