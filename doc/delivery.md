@@ -186,12 +186,20 @@ deliveryClient.items<Movie>()
 
 This example returns all **Movie** content items whose **title** element is equal to **Warrior**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Cloud API reference for more general examples.
 
-Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`.
+Filters accepting two parameters:  `type`,  `types`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`.
 
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')
   .equalsFilter('elements.title', 'Warrior')
+  .getObservable()
+  .subscribe(response => console.log(response));
+```
+The following filters accept multiple query arguments within a list: `inFilter`, `allFilter`, `anyFilter`, `containsFilter`.
+```typescript
+deliveryClient.items<Movie>()
+  .type('movie')
+  .containsFilter('elements.title', ['Warrior', 'Monk'])
   .getObservable()
   .subscribe(response => console.log(response));
 ```
