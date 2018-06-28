@@ -186,7 +186,7 @@ deliveryClient.items<Movie>()
 
 This example returns all **Movie** content items whose **title** element is equal to **Warrior**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Cloud API reference for more general examples.
 
-Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`.
+Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter``.
 
 ```typescript
 deliveryClient.items<Movie>()
@@ -195,6 +195,22 @@ deliveryClient.items<Movie>()
   .getObservable()
   .subscribe(response => console.log(response));
 ```
+#### Filtering methods
+
+| Filter | parameters | Description |
+| ------ | --------------------- | ----------- |
+| type | string value | Retrieve only content items based on the given type. |
+| types | string[ ] values| Retrieve only content items based on the given types. |
+| allFilter | string field, string[ ] value | Field with an array of values contains the specified list of values. |
+| anyFilter | string field, string[ ] value | Field with an array of values contains any value from the specified list of values. |
+| containsFilter | string field, string[ ] value | Field with an array of values contains the specified value. |
+| equalsFilter | string field, string value| Field value is the same as the specified value |
+| greaterThanFilter | string field, string value | Field value is greater than the specified value. |
+| greaterThanOrEqualFilter | string field, string value | Field value is greater than or equals the specified value. |
+| infilter | string field, string[ ] value | Field value is in the specified list of values. |
+| lessThanFilter | string field, string value | Field value is less than the specified value. |
+| lessThanOrEqualFilter | string field, string value | Field value is less than or equals the specified value |
+| rangeFilter | string field, number low, number high | Field value falls in the specified range of two values, both inclusive. |
 
 ### Sorting
 
@@ -528,7 +544,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | Property        | type| description|
 | ------------- |:-------------:| -----:|
 | projectId      | string | ProjectId of your Kentico Cloud project|
-| typeResolvers| TypeResolver[] | List of resolvers that are used to create strongly typed objects from Kentico Cloud response|
+| typeResolvers| TypeResolver[ ] | List of resolvers that are used to create strongly typed objects from Kentico Cloud response|
 | enableAdvancedLogging| boolean | Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.|
 | previewApiKey| string| Preview API key used to get unpublished content items |
 | enablePreviewMode| boolean| Indicates if preview mode is enabled globally. This can be overriden on query level|
