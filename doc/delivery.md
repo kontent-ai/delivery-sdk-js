@@ -201,16 +201,16 @@ deliveryClient.items<Movie>()
 | ------ | --------------------- | ----------- |
 | type | string value | Retrieve only content items based on the given type. |
 | types | string[ ] values| Retrieve only content items based on the given types. |
-| allFilter | string attribute, string[ ] value | Attribute with an array of values contains the specified list of values. |
-| anyFilter | string attribute, string[ ] value | Attribute with an array of values contains any value from the specified list of values. |
-| containsFilter | string attribute, string[ ] value | Attribute with an array of values contains the specified value. |
-| equalsFilter | string attribute, string value| Attribute value is the same as the specified value |
-| greaterThanFilter | string attribute, string value | Attribute value is greater than the specified value. |
-| greaterThanOrEqualFilter | string attribute, string value | Attribute value is greater than or equals the specified value. |
-| infilter | string attribute, string[ ] value | Attribute value is in the specified list of values. |
-| lessThanFilter | string attribute, string value | Attribute value is less than the specified value. |
-| lessThanOrEqualFilter | string attribute, string value | Attribute value is less than or equals the specified value |
-| rangeFilter | string attribute, number low, number high | Attribute value falls in the specified range of two values, both inclusive. |
+| allFilter | string field, string[ ] value | Field with an array of values contains the specified list of values. |
+| anyFilter | string field, string[ ] value | Field with an array of values contains any value from the specified list of values. |
+| containsFilter | string field, string[ ] value | Field with an array of values contains the specified value. |
+| equalsFilter | string field, string value| Field value is the same as the specified value |
+| greaterThanFilter | string field, string value | Field value is greater than the specified value. |
+| greaterThanOrEqualFilter | string field, string value | Field value is greater than or equals the specified value. |
+| infilter | string field, string[ ] value | Field value is in the specified list of values. |
+| lessThanFilter | string field, string value | Field value is less than the specified value. |
+| lessThanOrEqualFilter | string field, string value | Field value is less than or equals the specified value |
+| rangeFilter | string field, number low, number high | Field value falls in the specified range of two values, both inclusive. |
 
 ### Sorting
 
