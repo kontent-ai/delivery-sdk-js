@@ -4,7 +4,6 @@
 [![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Enngage/kentico-cloud-js)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
-[![Coverage Status](https://coveralls.io/repos/github/Enngage/kentico-cloud-js/badge.svg?branch=master)](https://coveralls.io/github/Enngage/kentico-cloud-js?branch=master)
 [![Known Vulnerabilities](https://snyk.io/test/github/enngage/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/enngage/kentico-cloud-js)
 [![GitHub license](https://img.shields.io/github/license/Enngage/kentico-cloud-js.svg)](https://github.com/Enngage/kentico-cloud-js)
 [![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js/tree/master/packages/delivery?pixel)](https://github.com/igrigorik/ga-beacon)
