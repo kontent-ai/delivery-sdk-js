@@ -1,5 +1,5 @@
 const assert = require('assert');
-const KenticoCloud = require('../../_commonjs');
+const KenticoCloud = require('../../_commonjs/lib');
 
 class Article extends KenticoCloud.ContentItem {
     constructor() {
