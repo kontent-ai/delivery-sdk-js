@@ -12,9 +12,7 @@ import {
 import * as parse5 from 'parse5/lib';
 import { AST } from 'parse5/lib';
 
-export class NodeRichTextParser implements IRichTextHtmlParser {
-
-    private readonly modularContentWrapperElem = 'div';
+export class Parse5RichTextParser implements IRichTextHtmlParser {
 
     private readonly modularContent = {
         type: 'application/kenticocloud',

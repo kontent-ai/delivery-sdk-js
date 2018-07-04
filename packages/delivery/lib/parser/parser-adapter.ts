@@ -5,10 +5,10 @@ export function getParserAdapter(): IRichTextHtmlParser {
     // Only Node.JS has a process variable that is of [[Class]] process
     if (typeof process !== 'undefined' && Object.prototype.toString.call(process) === '[object process]') {
         // For node use
-        const adapter = require('./adapters/node-rich-text.parser');
+        const adapter = require('./adapters/parse5-rich-text.parser');
 
         // instantiate class
-        parser = new adapter.NodeRichTextParser();
+        parser = new adapter.Parse5RichTextParser();
 
     } else if (typeof XMLHttpRequest !== 'undefined') {
         // For browsers use
