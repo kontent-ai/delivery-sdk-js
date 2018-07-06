@@ -36,8 +36,8 @@
     "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
     "publish:beta": "npm publish --tag=next",
     "build:umd": "npm run webpack:dev && npm run webpack:prod",
-    "build:es2015": "tsc -m es2015 --outDir _es2015",
-    "build:commonjs": "tsc -m commonjs --outDir _commonjs",
+    "build:es2015": "tsc -m es2015 --outDir _es2015 --p tsconfig.prod.json",
+    "build:commonjs": "tsc -m commonjs --outDir _commonjs --p tsconfig.prod.json",
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs"
   },
   "dependencies": {
