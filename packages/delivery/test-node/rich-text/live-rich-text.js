@@ -1,5 +1,5 @@
 const assert = require('assert');
-const KenticoCloud = require('../../_commonjs/lib');
+const KenticoCloud = require('../../_commonjs');
 
 class Actor extends KenticoCloud.ContentItem {
 
