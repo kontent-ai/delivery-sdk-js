@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-tracking",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/tracking"
@@ -29,6 +29,9 @@
     "test:dev": "karma start karma-dev.conf.js",
     "test:travis": "karma start karma-travis.conf.js",
     "test:all": "npm run test:node && npm run test:travis",
+    "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version",
+    "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version",
+    "new-major": "npm version major && npm run set-sdk-version && npm run check-version",
     "prepublishOnly": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:all",
     "set-sdk-version": "node ./misc/set-sdk-version.js",
     "check-version": "ts-node ./misc/check-publish-version.ts",
