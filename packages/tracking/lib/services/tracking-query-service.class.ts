@@ -59,7 +59,7 @@ export class TrackingQueryService {
         return this.postResponse(url, {
             uid: contactData.uid,
             sid: contactData.sid,
-            name: activityCodename
+            codename: activityCodename
         }, config)
             .pipe(
                 map(response => {
