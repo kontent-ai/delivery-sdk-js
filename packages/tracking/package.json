@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-tracking",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/tracking"
