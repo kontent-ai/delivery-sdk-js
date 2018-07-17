@@ -1,7 +1,9 @@
 # Kentico Cloud Tracking SDK
 
 
-A client library for tracking data with [Kentico Cloud](https://kenticocloud.com/) in `Node` and `browsers`. Library supports `ES2015` and is fully written in `TypeScript`.
+A client library for manually tracking visitor data with [Kentico Cloud](https://kenticocloud.com/) in `Node` and `browsers`. Abstracts calls to the Kentico Cloud Tracking API. For more information, see the [Tracking API Reference](https://developer.kenticocloud.com/v1/reference#tracking-api).
+
+The library supports ES2015 and is fully written in TypeScript.
 
 ## Installation
 
@@ -22,17 +24,41 @@ const client = new TrackingClient({
 
 ## Usage with RxJS (recommended)
 
-We strongly recommend using `Observable` instead of `Promise` as observables support all that Promises too, and much more. Using `Observables` is especially important if you are building any modern application (i.e. SPA with React or Angular) as it allows you to easily cancel requests, merge and flatten request or retry them very easily.  
+We strongly recommend using `Observable` instead of `Promise` as observables support all that Promises too, and much more. Using `Observables` is especially important if you are building any modern application (for example, single page apps with React or Angular) as it allows you to easily cancel, merge, flatten or retry requests.  
 
-When creating a subscription, don't forget to unsubcribe when you don't need the result anymore (i.e. when navigating to different page)
+After creating a subscription, don't forget to unsubscribe when you don't need the result anymore (for example, when navigating to a different page).
 
 ```typescript
+// Starts a new session
 client.recordNewSession({
     sid: '111114cc62300000',
     uid: '1111136b4af00000',
 })
     .getObservable()
     .subscribe();
+    
+// Record a custom activity
+client.recordCustomActivity({
+    sid: '111114cc62300000',
+    uid: '1111136b4af00000'
+  }, 
+"Clicked_facebook_icon")
+  .getObservable()
+  .subscribe();
+
+
+// Creates a contact profile
+client.createContactProfile({
+  sid: '111114cc62300000',
+  uid: '1111136b4af00000',
+  email: "john.snow@wall.north",
+  name: "John Snow",
+  company: "Night's Watch",
+  phone: "444-256-487",
+  website: "http://gameofthrones.wikia.com/wiki/Jon_Snow"
+})
+  .getObservable()
+  .subscribe();
 ```
 
 ## Usage with Promise
@@ -53,8 +79,8 @@ client.recordNewSession({
 | Property        | type| description|
 | ------------- |:-------------:| -----:|
 | projectId      | string | ProjectId of your Kentico Cloud project|
-| enableAdvancedLogging| boolean | Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.|
-| baseUrl| string| Can be used to configure custom base url (i.e. for testing) |
-| retryAttempts| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
+| enableAdvancedLogging| boolean | Indicates if advanced (developer's) issues are logged in the console. Enable for development and disable in production.|
+| baseUrl| string| Can be used to configure custom base URL (e.g., for testing) |
+| retryAttempts| number | Number of retry attempts when an error occurs. Defaults to '3'. Set to '0' to disable. |
 
 
