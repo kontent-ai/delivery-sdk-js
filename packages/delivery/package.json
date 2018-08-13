@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-delivery",
-  "version": "4.2.2",
+  "version": "4.3.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/delivery"
