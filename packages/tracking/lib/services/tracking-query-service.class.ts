@@ -128,7 +128,7 @@ export class TrackingQueryService {
             .pipe(
                 retryWhen(retryStrategy.strategy({
                     maxRetryAttempts: this.getRetryAttempts(),
-                    useRetryForResponseCodes: config.forceRetry ? [] : this.useRetryForResponseCodes
+                    useRetryForResponseCodes: this.useRetryForResponseCodes
                 })),
                 catchError(err => {
                     return throwError(this.handleError(err));

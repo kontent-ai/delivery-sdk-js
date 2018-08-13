@@ -31,14 +31,14 @@
   "preferGlobal": true,
   "license": "MIT",
   "dependencies": {
-    "kentico-cloud-delivery": "4.0.2",
-    "rxjs": "6.2.0",
-    "yargs": "11.0.0"
+    "kentico-cloud-delivery": "4.2.1",
+    "rxjs": "6.2.2",
+    "yargs": "12.0.1"
   },
   "devDependencies": {
-    "@types/node": "10.1.4 ",
-    "tslint": "5.10.0",
-    "typescript": "2.8.3",
-    "ts-node": "6.0.3"
+    "@types/node": "10.5.8",
+    "tslint": "5.11.0",
+    "typescript": "3.0.1",
+    "ts-node": "7.0.1"
   }
 }
