@@ -1,7 +1,8 @@
+import { IQueryParameter, Parameters } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 
 import { ITrackingClientConfig } from '../config/itracking-client-config.interface';
-import { IQueryParameter, ITrackingCloudResponse, Parameters, ITrackingQueryConfig } from '../models';
+import { ITrackingCloudResponse, ITrackingQueryConfig } from '../models';
 import { TrackingQueryService } from '../services';
 
 export abstract class BaseQuery<TResponse extends ITrackingCloudResponse> {

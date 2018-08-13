@@ -1,9 +1,14 @@
-import { IBaseResponse } from '../http';
-import { ITrackingCloudResponseDebug, TrackingEmptySuccessResponse } from '../models';
+import { IBaseResponse } from 'kentico-cloud-core';
+
+import {
+  ITrackingCloudResponseDebug,
+  TrackingEmptySuccessResponse
+} from '../models';
 
 export class TrackingResponseMapper {
-
-  mapEmptyTrackingSuccessResponse(response: IBaseResponse): TrackingEmptySuccessResponse {
+  mapEmptyTrackingSuccessResponse(
+    response: IBaseResponse
+  ): TrackingEmptySuccessResponse {
     return new TrackingEmptySuccessResponse(this.mapResponseDebug(response));
   }
 

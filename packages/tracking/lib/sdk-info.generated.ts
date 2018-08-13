@@ -1,5 +1,4 @@
-
-import { ISDKInfo } from './models';
+import { ISDKInfo } from 'kentico-cloud-core';
 
 export const sdkInfo: ISDKInfo = {
     host: 'npmjs.com',

@@ -1,7 +1,6 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "rootDir": ".",
     "baseUrl": ".",
     "sourceMap": true,
     "declaration": true,
@@ -27,5 +26,6 @@
   ],
   "exclude": [
     "node_modules",
+    "dev-test"
   ]
 }

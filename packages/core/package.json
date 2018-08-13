@@ -1,22 +1,16 @@
 {
-  "name": "kentico-cloud-tracking",
-  "version": "1.2.0",
+  "name": "kentico-cloud-core",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/tracking"
+    "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/core"
   },
-  "private": false,
+  "private": true,
   "author": "richard sustek",
   "license": "MIT",
-  "description": "Official Kentico Cloud Tracking SDK",
+  "description": "Core module containing shared functionality and used by individual packages",
   "keywords": [
-    "Kentico",
-    "Kentico API",
-    "Kentico Javascript",
-    "Kentico SDK",
-    "Kentico Tracking",
-    "Kentico Tracking API",
-    "Kentico Tracking SDK"
+    "Kentico Core"
   ],
   "engines": {
     "node": ">= 8"
@@ -33,8 +27,6 @@
     "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version",
     "new-major": "npm version major && npm run set-sdk-version && npm run check-version",
     "prepublishOnly": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:all",
-    "set-sdk-version": "node ./misc/set-sdk-version.js",
-    "check-version": "ts-node ./misc/check-publish-version.ts",
     "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
     "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
     "publish:beta": "npm publish --tag=next",
@@ -44,7 +36,7 @@
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs"
   },
   "dependencies": {
-    "kentico-cloud-core": "0.0.1"
+    "axios": "0.18.0"
   },
   "peerDependencies": {
     "rxjs": "~6.2.0"
