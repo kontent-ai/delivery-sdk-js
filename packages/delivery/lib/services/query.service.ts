@@ -34,9 +34,9 @@ export class QueryService {
     private readonly defaultRetryAttempts: number = 3;
 
     /**
-     * Excluded status code from retry functionality
+     * List of response codes that can be retried
      */
-    private readonly retryExcludedStatuses: number[] = [404, 401];
+    private readonly useRetryForResponseCodes: number[] = [500];
 
     /**
      * Header name for SDK usage
@@ -75,7 +75,7 @@ export class QueryService {
         /**
         * Used for manipulating with rich text HTML (required for Node / Browser support)
         */
-        private readonly richTextHtmlParser: IRichTextHtmlParser,
+        protected readonly richTextHtmlParser: IRichTextHtmlParser,
         /**
         * Information about the SDK
         * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
@@ -271,7 +271,7 @@ export class QueryService {
                 }),
                 retryWhen(deliveryRetryStrategy.strategy({
                     maxRetryAttempts: this.getRetryAttempts(),
-                    excludedStatusCodes: this.retryExcludedStatuses
+                    useRetryForResponseCodes: this.useRetryForResponseCodes
                 })),
                 catchError(err => {
                     return throwError(this.handleError(err));

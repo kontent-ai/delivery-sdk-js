@@ -17,8 +17,8 @@ export class ResponseMapper {
     private readonly elementMapper: ElementMapper;
 
     constructor(
-        private readonly config: IDeliveryClientConfig,
-        private readonly richTextHtmlParser: IRichTextHtmlParser
+        readonly config: IDeliveryClientConfig,
+        readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
         this.typeMapper = new TypeMapper();
         this.itemMapper = new ItemMapper(config, richTextHtmlParser);

@@ -30,9 +30,9 @@ export class TrackingQueryService {
     private readonly defaultRetryAttempts: number = 3;
 
     /**
-     * Excluded status code from retry functionality
+     * Allowed retry status codes
      */
-    private readonly retryExcludedStatuses: number[] = [404, 401, 400];
+    private readonly useRetryForResponseCodes: number[] = [500];
 
     constructor(
         protected config: ITrackingClientConfig,
@@ -128,7 +128,7 @@ export class TrackingQueryService {
             .pipe(
                 retryWhen(retryStrategy.strategy({
                     maxRetryAttempts: this.getRetryAttempts(),
-                    excludedStatusCodes: config.forceRetry ? [] : this.retryExcludedStatuses // excluded status only if force retry is not enabled
+                    useRetryForResponseCodes: config.forceRetry ? [] : this.useRetryForResponseCodes
                 })),
                 catchError(err => {
                     return throwError(this.handleError(err));

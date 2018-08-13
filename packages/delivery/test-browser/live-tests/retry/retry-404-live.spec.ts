@@ -1,10 +1,10 @@
 import { deliveryRetryStrategy } from '../../../lib';
 import { Context, setup } from '../../setup';
 
-describe('Retry disabled', () => {
+describe('Live 404 retry', () => {
     const context = new Context();
 
-    const retryAttempts = 0;
+    const retryAttempts = 3;
 
     // set retry attempts
     context.retryAttempts = retryAttempts;
@@ -29,8 +29,8 @@ describe('Retry disabled', () => {
             });
     });
 
-    it(`Warning for retry attempt should have been called '${retryAttempts}' times`, () => {
-        expect(deliveryRetryStrategy.debugLogAttempt).toHaveBeenCalledTimes(retryAttempts);
+    it(`Warning for retry attempt should have been called '0' times because 404 response codes should not be retried`, () => {
+        expect(deliveryRetryStrategy.debugLogAttempt).toHaveBeenCalledTimes(0);
     });
 });
 
