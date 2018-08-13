@@ -12,6 +12,7 @@ This repository contains TypeScript packages related to [Kentico Cloud](https://
 [![Known Vulnerabilities](https://snyk.io/test/github/enngage/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/enngage/kentico-cloud-js)
 [![GitHub license](https://img.shields.io/github/license/Enngage/kentico-cloud-js.svg)](https://github.com/Enngage/kentico-cloud-js)
 [![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js?pixel)](https://github.com/igrigorik/ga-beacon)
+![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
 
 Delivery JavaScript/TypeScript SDK is an official client library used for retrieving content from Kentico Cloud. Both browser and Node.js integrations are supported.
 
@@ -26,6 +27,7 @@ Delivery JavaScript/TypeScript SDK is an official client library used for retrie
 [![npm version](https://badge.fury.io/js/kentico-cloud-tracking.svg)](https://www.npmjs.com/package/kentico-cloud-tracking)
 [![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Enngage/kentico-cloud-tracking)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-tracking.svg)](https://www.npmjs.com/package/kentico-cloud-tracking)
+![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-tracking@latest/_bundles/kentico-cloud-tracking-sdk.umd.min.js?compression=gzip)
 
 Tracking JavaScript/TypeScript SDK is an official client library used for manually tracking visitors with Kentico Cloud. Both browser and Node.js integrations are supported.
 

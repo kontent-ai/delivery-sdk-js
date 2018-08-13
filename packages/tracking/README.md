@@ -1,3 +1,8 @@
+[![npm version](https://badge.fury.io/js/kentico-cloud-tracking.svg)](https://www.npmjs.com/package/kentico-cloud-tracking)
+[![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Enngage/kentico-cloud-tracking)
+[![npm](https://img.shields.io/npm/dt/kentico-cloud-tracking.svg)](https://www.npmjs.com/package/kentico-cloud-tracking)
+![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-tracking@latest/_bundles/kentico-cloud-tracking-sdk.umd.min.js?compression=gzip)
+
 # Kentico Cloud Tracking SDK
 
 
