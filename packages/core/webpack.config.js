@@ -1,13 +1,16 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const libName = 'kentico-cloud-tracking-sdk';
+const libName = 'kentico-cloud-core-sdk';
 
 module.exports = (env, argv) => ({
     entry: {
         'index': './lib/index.ts',
     },
-    resolve: { extensions: ['.ts', '.js'] },
+    externals: ['', /^test-browser\//], 
+    resolve: { 
+        extensions: ['.ts', '.js'],
+    },
     output: {
         // Puts the output at the root of the dist folder
         path: path.join(__dirname, '_bundles'),
@@ -23,7 +26,6 @@ module.exports = (env, argv) => ({
                 include: [
                     path.resolve(__dirname, 'lib'), // library
                 ],
-             
             },
         ]
     },

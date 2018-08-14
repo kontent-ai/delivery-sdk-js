@@ -47,10 +47,10 @@
     "kentico-cloud-core": "0.0.1"
   },
   "peerDependencies": {
-    "rxjs": "~6.2.0"
+    "rxjs": "^6.2.0"
   },
   "devDependencies": {
-    "rxjs": "6.2.2",
+    "rxjs": "^6.2.0",
     "@types/jasmine": "2.8.8",
     "@types/node": "10.5.8",
     "colors": "1.3.1",
