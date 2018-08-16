@@ -28,7 +28,7 @@ describe('Cloud errors', () => {
         expect(succeeded).toEqual(false);
     });
 
-    it(`Error should be an instance of CloudError`, () => {
+    it(`Error should be an instance of DeliveryCloudError`, () => {
         expect(error).toEqual(jasmine.any(DeliveryCloudError));
     });
 

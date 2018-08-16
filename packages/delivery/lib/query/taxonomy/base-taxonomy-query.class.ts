@@ -1,7 +1,8 @@
+import { IHeader } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ICloudResponse, IHeader, ITaxonomyQueryConfig } from '../../interfaces';
+import { ICloudResponse, ITaxonomyQueryConfig } from '../../interfaces';
 import { TaxonomyResponses } from '../../models/';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';

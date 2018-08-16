@@ -1,5 +1,6 @@
-import { ContentItem, Fields, DeliveryHttpService, ItemResponses, Link, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, Fields, ItemResponses, Link, sdkInfo, TypeResolver } from '../../../lib';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
+import { HttpService } from 'kentico-cloud-core';
 
 class MockMovie extends ContentItem {
     public seoname: Fields.UrlSlugField;
@@ -23,7 +24,7 @@ describe('URL slug resolver', () => {
     context.typeResolvers = typeResolvers;
     setup(context);
 
-    const mockQueryService = new MockQueryService(context.getConfig(), new DeliveryHttpService(), {
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version

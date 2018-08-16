@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ICloudResponse, IHeader, IItemQueryConfig } from '../../interfaces';
+import { ICloudResponse, IItemQueryConfig } from '../../interfaces';
 import { ContentItem, ItemResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';

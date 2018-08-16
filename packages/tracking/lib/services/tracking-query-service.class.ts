@@ -2,14 +2,15 @@ import {
     headerHelper,
     HttpService,
     IBaseResponse,
+    IBaseResponseError,
     IHeader,
     IHttpService,
     IQueryParameter,
     ISDKInfo,
     urlHelper,
 } from 'kentico-cloud-core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { ITrackingClientConfig } from '../config/itracking-client-config.interface';
 import { mapTrackingError, trackingResponseMapper } from '../mappers';
@@ -161,6 +162,10 @@ export class TrackingQueryService {
                 useRetryForResponseCodes: this.useRetryForResponseCodes,
                 logErrorToConsole: this.config.enableAdvancedLogging
             }
+        ).pipe(
+            catchError((error: IBaseResponseError<TrackingCloudError>) => {
+                return throwError(error.mappedError);
+            })
         );
     }
 

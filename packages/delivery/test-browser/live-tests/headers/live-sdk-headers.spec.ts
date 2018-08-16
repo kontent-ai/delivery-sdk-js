@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios';
-
 import { ItemResponses } from '../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
@@ -23,7 +21,7 @@ describe('Live SDK headers', () => {
     });
 
     it(`Verifies SDK Id version header is actually present in sent request`, () => {
-        const debugResponse = response.debug.response as AxiosResponse;
+        const debugResponse = response.debug.response as any;
         const header = debugResponse.config.headers[versionHeader];
 
         expect(header).toBeTruthy();

@@ -1,4 +1,4 @@
-import { IBaseResponse } from '../../lib/services/http/models';
+import { IBaseResponse } from 'kentico-cloud-core';
 
 export class FakeResponseFactory {
 

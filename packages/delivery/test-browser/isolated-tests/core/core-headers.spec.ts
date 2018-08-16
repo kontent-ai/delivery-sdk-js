@@ -1,5 +1,6 @@
-import { sdkInfo, IHeader } from '../../../lib';
+import { sdkInfo } from '../../../lib';
 import { Context, setup } from '../../setup';
+import { IHeader } from 'kentico-cloud-core';
 
 describe('Core headers', () => {
 

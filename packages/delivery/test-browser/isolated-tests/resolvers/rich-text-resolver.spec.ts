@@ -1,5 +1,6 @@
-import { ContentItem, Fields, DeliveryHttpService, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, Fields, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
+import { HttpService } from 'kentico-cloud-core';
 
 class MockMovie extends ContentItem {
     public plot: Fields.RichTextField;
@@ -27,7 +28,7 @@ describe('Rich text resolver', () => {
     context.typeResolvers = typeResolvers;
     setup(context);
 
-    const mockQueryService = new MockQueryService(context.getConfig(), new DeliveryHttpService(), {
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version

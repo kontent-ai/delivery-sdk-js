@@ -54,7 +54,7 @@
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs"
   },
   "dependencies": {
-    "axios": "0.18.0",
+    "kentico-cloud-core": "0.0.1",
     "parse5": "5.0.0",
     "reflect-metadata": "0.1.12"
   },

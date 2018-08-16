@@ -18,10 +18,11 @@
       "es2015",
       "dom"
     ],
-    "paths": 
-      {
-        "rxjs": ["./node_modules/rxjs"]
-      }
+    "paths": {
+      "rxjs": [
+        "./node_modules/rxjs"
+      ]
+    }
   },
   "include": [
     "lib/**/*",

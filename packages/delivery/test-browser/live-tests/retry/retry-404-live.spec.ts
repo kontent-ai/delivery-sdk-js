@@ -1,5 +1,5 @@
-import { deliveryRetryStrategy } from '../../../lib';
 import { Context, setup } from '../../setup';
+import { retryStrategy } from 'kentico-cloud-core';
 
 describe('Live 404 retry', () => {
     const context = new Context();
@@ -20,7 +20,7 @@ describe('Live 404 retry', () => {
 
     beforeAll((done) => {
         // this will fail
-        spyOn(deliveryRetryStrategy, 'debugLogAttempt').and.callThrough();
+        spyOn(retryStrategy, 'debugLogAttempt').and.callThrough();
         context.deliveryClient.items()
             .getObservable()
             .subscribe(response => {
@@ -30,7 +30,7 @@ describe('Live 404 retry', () => {
     });
 
     it(`Warning for retry attempt should have been called '0' times because 404 response codes should not be retried`, () => {
-        expect(deliveryRetryStrategy.debugLogAttempt).toHaveBeenCalledTimes(0);
+        expect(retryStrategy.debugLogAttempt).toHaveBeenCalledTimes(0);
     });
 });
 

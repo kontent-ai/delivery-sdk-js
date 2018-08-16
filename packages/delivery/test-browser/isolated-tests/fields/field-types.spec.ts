@@ -1,12 +1,13 @@
-import { Fields, ItemResponses, sdkInfo, DeliveryHttpService } from '../../../lib';
+import { Fields, ItemResponses, sdkInfo } from '../../../lib';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
+import { HttpService } from 'kentico-cloud-core';
 
 describe('Field types', () => {
 
   const context = new Context();
   setup(context);
 
-  const mockQueryService = new MockQueryService(context.getConfig(), new DeliveryHttpService(), {
+  const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
     host: sdkInfo.host,
     name: sdkInfo.name,
     version: sdkInfo.version

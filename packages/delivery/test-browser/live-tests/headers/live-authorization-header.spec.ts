@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios';
-
 import { ItemResponses } from '../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
@@ -26,7 +24,7 @@ describe('Live authorization headers', () => {
     });
 
     it(`Verifies authorization header is actually present in sent request`, () => {
-        const debugResponse = response.debug.response as AxiosResponse;
+        const debugResponse = response.debug.response as any;
         const header = debugResponse.config.headers[authorizationHeader];
 
         expect(header).toBeTruthy();
