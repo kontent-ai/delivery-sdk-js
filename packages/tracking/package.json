@@ -34,7 +34,7 @@
     "new-major": "npm version major && npm run set-sdk-version && npm run check-version",
     "prepublishOnly": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:all",
     "set-sdk-version": "node ./misc/set-sdk-version.js",
-    "check-version": "ts-node ./misc/check-publish-version.ts",
+    "check-version": "ts-node ./misc/verify-sdk-version.ts",
     "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
     "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
     "publish:beta": "npm publish --tag=next",

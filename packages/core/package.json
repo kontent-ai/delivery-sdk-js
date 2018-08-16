@@ -29,6 +29,8 @@
     "prepublishOnly": "npm run set-sdk-version && npm run check-version && npm run build:all && npm run test:all",
     "webpack:dev": "webpack --mode development --config webpack.config.js --progress --colors",
     "webpack:prod": "webpack --mode production --config webpack.config.js --progress --colors",
+    "set-sdk-version": "node ./misc/set-sdk-version.js",
+    "check-version": "ts-node ./misc/verify-sdk-version.ts",
     "publish:beta": "npm publish --tag=next",
     "build:umd": "npm run webpack:dev && npm run webpack:prod",
     "build:es2015": "tsc -m es2015 --outDir _es2015 --p tsconfig.prod.json",
