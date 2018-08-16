@@ -18,6 +18,9 @@ export interface IHttpPostQueryCall<TError extends any> extends IHttpQueryCall<T
     body: any;
 }
 
+export interface IHttpGetQueryCall<TError extends any> extends IHttpQueryCall<TError> {
+}
+
 export interface IHttpQueryOptions {
     useRetryForResponseCodes?: number[];
     maxRetryAttempts?: number;
