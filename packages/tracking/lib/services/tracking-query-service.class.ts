@@ -35,13 +35,9 @@ export class TrackingQueryService {
      */
     private readonly useRetryForResponseCodes: number[] = [500];
 
-    /**
-     * Service for making HTTP requests
-     */
-    private readonly httpService: IHttpService = new HttpService();
-
     constructor(
         protected config: ITrackingClientConfig,
+        protected httpService: IHttpService,
         protected sdkInfo: ISDKInfo
     ) { }
 

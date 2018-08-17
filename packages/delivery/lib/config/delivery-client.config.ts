@@ -1,3 +1,5 @@
+import { IHttpService } from 'kentico-cloud-core';
+
 import { TypeResolver } from '../models';
 
 export interface IDeliveryClientConfig {
@@ -59,6 +61,11 @@ export interface IDeliveryClientConfig {
      * Number of retry attempts when error occures. When not set, default number of attempts (3) are used. To disable set to 0.
      */
     retryAttempts?: number;
+
+    /**
+     * Can be used to inject custom Http service to perform requests
+     */
+    httpService?: IHttpService;
 
     /**
      * Global settings for modular content resolver

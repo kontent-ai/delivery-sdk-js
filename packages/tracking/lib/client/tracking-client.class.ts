@@ -1,3 +1,5 @@
+import { HttpService } from 'kentico-cloud-core';
+
 import { ITrackingClientConfig } from '../config';
 import { IContactProfileData, IContactRequiredData } from '../models';
 import { CreateContactProfile, RecordCustomActivityQuery, RecordNewSessionQuery } from '../query';
@@ -14,7 +16,10 @@ export class TrackingClient implements ITrackingClient {
          */
         protected config: ITrackingClientConfig
     ) {
-        this.queryService = new TrackingQueryService(config, {
+        this.queryService = new TrackingQueryService(
+            config,
+            config.httpService ? config.httpService : new HttpService(),
+            {
             host: sdkInfo.host,
             name: sdkInfo.name,
             version: sdkInfo.version

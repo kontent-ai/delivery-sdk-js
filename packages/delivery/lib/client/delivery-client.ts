@@ -31,7 +31,7 @@ export class DeliveryClient implements IDeliveryClient {
 
     this.queryService = new QueryService(
       config,
-      new HttpService(),
+      config.httpService ? config.httpService : new HttpService(),
       getParserAdapter(),
       {
         host: sdkInfo.host,
