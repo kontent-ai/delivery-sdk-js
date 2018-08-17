@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/core"
   },
-  "private": true,
+  "private": false,
   "author": "richard sustek",
   "license": "MIT",
   "description": "Core module containing shared functionality and used by individual packages",
