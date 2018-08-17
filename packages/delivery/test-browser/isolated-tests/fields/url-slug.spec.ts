@@ -16,7 +16,7 @@ describe('URLSlugField', () => {
 
     it(`checks that field is defined and correct`, () => {
         const field1 = new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 enableAdvancedLogging: false,
                 item: sharedActor,
                 fieldValue: 'actor-slug',
@@ -43,7 +43,7 @@ describe('URLSlugField', () => {
         });
 
         const field = new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: actor,
@@ -63,7 +63,7 @@ describe('URLSlugField', () => {
 
     it(`url should be undefined when no resolver is passed`, () => {
         const url = (new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: sharedActor,
@@ -77,7 +77,7 @@ describe('URLSlugField', () => {
 
     it(`url should be undefined when invalid item is passed`, () => {
         const url = (new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: undefined as any,
@@ -91,7 +91,7 @@ describe('URLSlugField', () => {
 
     it(`url should be undefined`, () => {
         const url = (new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: sharedActor,
@@ -107,7 +107,7 @@ describe('URLSlugField', () => {
         console.warn = jasmine.createSpy('warn');
 
        (new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: sharedActor,
@@ -120,7 +120,7 @@ describe('URLSlugField', () => {
         expect(console.warn).toHaveBeenCalledTimes(0);
 
          (new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: sharedActor,
@@ -137,7 +137,7 @@ describe('URLSlugField', () => {
         console.warn = jasmine.createSpy('warn');
 
         (new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: undefined as any,
@@ -150,7 +150,7 @@ describe('URLSlugField', () => {
         expect(console.warn).toHaveBeenCalledTimes(0);
 
         (new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: undefined as any,
@@ -167,7 +167,7 @@ describe('URLSlugField', () => {
         console.warn = jasmine.createSpy('warn');
 
         (new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: sharedActor,
@@ -180,7 +180,7 @@ describe('URLSlugField', () => {
         expect(console.warn).toHaveBeenCalledTimes(0);
 
         (new Fields.UrlSlugField('name', 'actor-slug', {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldValue: 'actor-slug',
                 fieldName: 'name',
                 item: sharedActor,

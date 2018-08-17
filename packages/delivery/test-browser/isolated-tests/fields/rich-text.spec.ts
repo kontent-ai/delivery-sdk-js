@@ -32,7 +32,7 @@ class ActorMock extends ContentItem {
         });
 
         this.url = new Fields.UrlSlugField('name', codename, {
-            resolveUrl: () => urlSlugResolver.resolveUrl({
+            resolveLink: () => urlSlugResolver.resolveUrl({
                 fieldName: 'name',
                 type: 'type',
                 item: this,
@@ -175,8 +175,8 @@ describe('RichTextField', () => {
             })
         });
 
-        const expectedHtml1 = `/actor-rt/slug_for_joel`;
-        const expectedHtml2 = `/actor-rt/slug_for_tom`;
+        const expectedHtml1 = `href="/actor-rt/slug_for_joel"`;
+        const expectedHtml2 = `href="/actor-rt/slug_for_tom"`;
         expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml1);
         expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml2);
     });

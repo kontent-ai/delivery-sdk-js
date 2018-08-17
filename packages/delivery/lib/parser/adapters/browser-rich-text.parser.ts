@@ -7,6 +7,7 @@ import {
     IRichTextReplacements,
     IRichTextResolverResult,
 } from '../parse-models';
+import { ILinkResolverResult } from '../../interfaces';
 
 export class BrowserRichTextParser implements IRichTextHtmlParser {
 
@@ -101,18 +102,44 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         // add to result
                         result.links.push(link);
 
-                        const resolvedUrl = replacement.getLinkUrl(link.dataItemId);
+                        const linkResult = replacement.getLinkResult(link.dataItemId);
+                        let useResultAsUrl: boolean = true;
 
-                        // add url to link
-                        const hrefAttribute = element.attributes.getNamedItem('href');
-                        if (!hrefAttribute) {
-                            // href attribute is missing
-                            if (config.enableAdvancedLogging) {
-                                console.warn(`Cannot set url '${resolvedUrl}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this.`);
-                            }
+                        if (typeof linkResult === 'string' ) {
+                            // use result as URL
+                            useResultAsUrl = true;
                         } else {
-                            hrefAttribute.value = resolvedUrl;
+                            useResultAsUrl = false;
                         }
+
+                        if (!useResultAsUrl) {
+                            // replace whole link (<a> tag)
+                            if (linkResult) {
+                                // html for link is defined
+                                const linkHtml = (<ILinkResolverResult>linkResult).asHtml;
+                                element.outerHTML = linkHtml ? linkHtml : '';
+                                const parent = element.parentNode;
+                                if (parent) {
+                                    parent.replaceChild(element, element);
+                                }
+                            }
+                        }
+
+                        if (useResultAsUrl) {
+                            // add url to link
+                            const hrefAttribute = element.attributes.getNamedItem('href');
+                            if (!hrefAttribute) {
+                                // href attribute is missing
+                                if (config.enableAdvancedLogging) {
+                                    console.warn(`Cannot set url '${linkResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this.`);
+                                }
+                            } else {
+                                // get link url
+                                const linkUrlResult: string | undefined = typeof linkResult === 'string' ? <string>linkResult : (<ILinkResolverResult>linkResult).asUrl;
+                                hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
+                            }
+                        }
+
                     }
                 }
 

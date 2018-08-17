@@ -55,13 +55,14 @@
   },
   "dependencies": {
     "kentico-cloud-core": "0.0.1",
-    "parse5": "5.0.0",
+    "parse5": "5.1.0",
     "reflect-metadata": "0.1.12"
   },
   "peerDependencies": {
     "rxjs": "^6.2.0"
   },
   "devDependencies": {
+    "@types/parse5": "5.0.0",
     "rxjs": "^6.2.0",
     "@types/jasmine": "2.8.8",
     "@types/node": "10.5.8",

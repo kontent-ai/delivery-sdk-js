@@ -1,7 +1,7 @@
 import { FieldInterfaces } from './field-interfaces';
 import { FieldModels } from './field-models';
 import { FieldType } from './field-type';
-import { Link } from '..';
+import { Link, ILinkResolverResult } from '..';
 
 export namespace Fields {
 
@@ -216,7 +216,7 @@ export namespace Fields {
 
         private resolvedUrl?: string;
 
-        private resolveUrl: () => string;
+        private resolveLink: () => string;
 
         /**
         * Type of the field
@@ -228,13 +228,15 @@ export namespace Fields {
         * @constructor
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
-        * @param {() => string | undefined} resolveUrl - Function to get url of the link
         */
         constructor(
             public name: string,
             public value: string,
             data: {
-                resolveUrl: () => string | undefined
+                /**
+                 * Callback for resolving link
+                 */
+                resolveLink: () => string | undefined | ILinkResolverResult
             }
         ) {
             Object.assign(this, data);
@@ -245,7 +247,7 @@ export namespace Fields {
                 return this.resolvedUrl;
             }
 
-            this.resolvedUrl = this.resolveUrl();
+            this.resolvedUrl = this.resolveLink();
 
             return this.resolvedUrl;
         }

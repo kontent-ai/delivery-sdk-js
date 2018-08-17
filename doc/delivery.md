@@ -424,6 +424,28 @@ deliveryClient.item<Actor>('tom_hardy')
   .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
+#### Resolving links in SPA
+
+When developing SPA (e.g. angular, react, vue ...), you might want to use links in a different way by completely removing the link tag (`<a>`) and replacing it with custom HTML. You can achieve this by returning an object according to `ILinkResolverResult` interface. See example:
+
+```typescript
+import { ContentItem, Fields, ILink, ILinkResolverResult } from 'kentico-cloud-delivery';
+
+deliveryClient.item<Actor>('tom_hardy')
+  .queryConfig({
+    linkResolver: (link: ILink) => {
+        if (link.type === 'actor'){
+          return <ILinkResolverResult>{
+            asHtml: '<div>ActorLink</div>'
+          }
+        }
+        return undefined;
+      }
+  })
+  .getObservable()
+  .subscribe(response => console.log(response.item.slug.getUrl()));
+```
+
 ### Resolving modular content in Rich text fields
 
 If you have a modular content item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` modular items used in all your rich text fields.
