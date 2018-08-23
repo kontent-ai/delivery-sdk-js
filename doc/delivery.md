@@ -271,14 +271,14 @@ deliveryClient.item<Movie>('warrior')
 
 ### Property binding in models
 
-Kentico Cloud returns all element names in **lowercase**. Because Javascript properties are case sensitive, the binding will fail if your property is called, for example, *firstName*. You can either use **codename() decorator** that comes with the SDK, or use the custom resolver:
+Kentico Cloud returns all element names in **lowercase** or with **underscores**. You can bind original field names to your own javascript properties with `FieldDecorators`. The following example binds `first_name` field name to `firstName` javascript property.
 
 ```typescript
 import { ContentItem, Fields, FieldDecorators  } from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
 
-  @FieldDecorators.codename('firstname')
+  @FieldDecorators.codename('first_name')
   public firstName: Fields.TextField;
   public lastName: Fields.TextField;
   public bio: Fields.RichTextField;
