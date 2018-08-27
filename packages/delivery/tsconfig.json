@@ -11,6 +11,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "noImplicitReturns": true,
+    "target": "es5",
     "typeRoots": [
       "./node_modules/@types"
     ],
