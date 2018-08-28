@@ -1,7 +1,6 @@
 [![npm version](https://badge.fury.io/js/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
 [![Build Status](https://api.travis-ci.org/Enngage/KenticoCloudModelGeneratorUtility.svg?branch=master)](https://travis-ci.org/Enngage/KenticoCloudModelGeneratorUtility)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
-[![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js/blob/master/packages/model-generator/README.md?pixel)](https://github.com/igrigorik/ga-beacon)
 ![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@4.3.0/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
 
 
@@ -124,4 +123,4 @@ export class Actor extends KenticoCloud.ContentItem {
 
 Contributions are welcomed. Simply make a pull request.
 
-
+![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Enngage/kentico-cloud-js/master/packages/model-generator/README.md?pixel)
