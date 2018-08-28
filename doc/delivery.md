@@ -630,6 +630,4 @@ console.log(queryText);
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
 
-[![Analytics](https://ga-beacon.appspot.com/UA-69014260-4/Enngage/kentico-cloud-js/blob/master/doc/delivery.md?pixel)](https://github.com/igrigorik/ga-beacon)
-
-
+![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Enngage/kentico-cloud-js/master/doc/delivery.md?pixel)
