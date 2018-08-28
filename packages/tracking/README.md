@@ -88,4 +88,4 @@ client.recordNewSession({
 | baseUrl| string| Can be used to configure custom base URL (e.g., for testing) |
 | retryAttempts| number | Number of retry attempts when an error occurs. Defaults to '3'. Set to '0' to disable. |
 
-
+![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Enngage/kentico-cloud-js/master/packages/tracking/README.md?pixel)
