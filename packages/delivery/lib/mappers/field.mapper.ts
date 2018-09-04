@@ -42,7 +42,7 @@ export class FieldMapper {
         }
 
         if (!Array.isArray(processedItems)) {
-            throw Error(`ProcessedItems need to be an array of 'IContentItems'`);
+            throw Error(`ProcessedItems need to be an array`);
         }
 
         const properties = Object.getOwnPropertyNames(item.elements);
@@ -82,6 +82,9 @@ export class FieldMapper {
             }
             itemTyped[propertyName] = this.mapField(field, modularContent, itemTyped, queryConfig, processedItems);
         });
+
+        // keep the elements property if devs wanted to use them directly and for potential debugging
+        itemTyped.elements = item.elements;
 
         return itemTyped;
     }

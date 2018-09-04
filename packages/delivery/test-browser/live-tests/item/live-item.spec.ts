@@ -120,5 +120,10 @@ describe('Live item', () => {
     const expectedHtml = `/actor/joel`;
     expect(response.item.plot.getHtml()).toContain(expectedHtml);
   });
+
+  it(`elements property should be set`, () => {
+    expect(response.item.elements).toBeDefined();
+    expect(response.item.elements.title.value).toEqual(response.item.title.text);
+  });
 });
 
