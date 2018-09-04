@@ -33,7 +33,7 @@
   "preferGlobal": true,
   "license": "MIT",
   "dependencies": {
-    "kentico-cloud-delivery": "4.2.1",
+    "kentico-cloud-delivery": "5.0.0-beta.0",
     "rxjs": "6.2.2",
     "yargs": "12.0.1"
   },
