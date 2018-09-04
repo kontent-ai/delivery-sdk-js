@@ -13,9 +13,11 @@
   "main": "./_commonjs/app.js",
   "directories": {},
   "scripts": {
+    "tsc-local": "./node_modules/.bin/tsc",
+    "ts-node-local": "./node_modules/.bin/ts-node",
     "prepublishOnly": "npm run build:all",
     "publish:beta": "npm publish --tag=next",
-    "build:commonjs": "tsc -m commonjs --outDir _commonjs",
+    "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs",
     "build:all": "npm run build:commonjs",
     "test:all": "npm run build:all",
     "test:travis": "npm run build:all",
@@ -36,9 +38,9 @@
     "yargs": "12.0.1"
   },
   "devDependencies": {
-    "@types/node": "10.5.8",
+    "@types/node": "10.9.4",
     "tslint": "5.11.0",
-    "typescript": "3.0.1",
+    "typescript": "3.0.3",
     "ts-node": "7.0.1"
   }
 }
