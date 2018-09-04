@@ -8,6 +8,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "commonjs",
+    "target": "es5",
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "noImplicitReturns": true,
@@ -17,7 +18,12 @@
     "lib": [
       "es2015",
       "dom"
-    ]
+    ],
+    "paths": {
+      "rxjs": [
+        "./node_modules/rxjs"
+      ]
+    }
   },
   "include": [
     "lib/**/*",
@@ -26,6 +32,5 @@
   ],
   "exclude": [
     "node_modules",
-    "dev-test"
   ]
 }

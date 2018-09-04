@@ -1,3 +1,5 @@
+import { IHttpService } from 'kentico-cloud-core';
+
 export interface ITrackingClientConfig {
     /**
      * Kentico Cloud project id
@@ -18,4 +20,9 @@ export interface ITrackingClientConfig {
     * Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production
     */
     enableAdvancedLogging?: boolean;
+
+     /**
+     * Can be used to inject custom Http service to perform requests
+     */
+    httpService?: IHttpService;
 }

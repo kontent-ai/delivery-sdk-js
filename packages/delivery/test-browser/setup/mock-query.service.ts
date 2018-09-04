@@ -2,9 +2,9 @@ import { ContentItem, IDeliveryClientConfig, ISDKInfo, ResponseMapper } from '..
 import { IItemQueryConfig } from '../../lib/interfaces/item/iitem-query.config';
 import { ItemResponses } from '../../lib/models/item/responses';
 import { getParserAdapter } from '../../lib/parser/parser-adapter';
-import { IDeliveryHttpService } from '../../lib/services/http/idelivery-http-service';
 import { QueryService } from '../../lib/services/query.service';
 import { fakeResponseFactory } from '../setup';
+import { IHttpService } from 'kentico-cloud-core';
 
 export class MockQueryService extends QueryService {
 
@@ -12,7 +12,7 @@ export class MockQueryService extends QueryService {
 
     constructor(
         protected config: IDeliveryClientConfig,
-        protected httpService: IDeliveryHttpService,
+        protected httpService: IHttpService,
         protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, getParserAdapter(), sdkInfo);

@@ -1,4 +1,4 @@
-import { IHeader } from './iheader.interface';
+import { IHeader } from 'kentico-cloud-core';
 
 export interface IQueryConfig {
   /**

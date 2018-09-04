@@ -52,7 +52,8 @@ export function setup(context: Context) {
         securedApiKey: securedApiKey,
         enableSecuredMode: context.useSecuredMode,
         retryAttempts: context.retryAttempts,
-        enableAdvancedLogging: context.enableAdvancedLogging
+        enableAdvancedLogging: context.enableAdvancedLogging,
+        globalHeaders: context.globalHeaders
     };
 
     // set context
@@ -65,6 +66,7 @@ export function setup(context: Context) {
     context.securedApiKey = securedApiKey;
     context.retryAttempts = context.retryAttempts;
     context.enableAdvancedLogging = context.enableAdvancedLogging;
+    context.globalHeaders = context.globalHeaders;
 
     // set delivery client
     context.deliveryClient = new DeliveryClient(deliveryClientConfig);

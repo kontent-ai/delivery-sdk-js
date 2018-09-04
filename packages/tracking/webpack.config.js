@@ -7,7 +7,9 @@ module.exports = (env, argv) => ({
     entry: {
         'index': './lib/index.ts',
     },
-    resolve: { extensions: ['.ts', '.js'] },
+    resolve: { 
+        extensions: ['.ts', '.js'],
+    },
     output: {
         // Puts the output at the root of the dist folder
         path: path.join(__dirname, '_bundles'),
@@ -19,11 +21,14 @@ module.exports = (env, argv) => ({
     module: {
         rules: [
             {
-                test: /\.ts$/, loader: 'ts-loader',
+                test: /\.ts$/, 
+                loader: 'ts-loader',
                 include: [
                     path.resolve(__dirname, 'lib'), // library
                 ],
-             
+                options: {
+                    configFile: require.resolve('./tsconfig.webpack.json')
+                }
             },
         ]
     },

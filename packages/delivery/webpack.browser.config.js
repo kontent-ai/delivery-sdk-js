@@ -20,10 +20,14 @@ module.exports = (env, argv) => ({
     module: {
         rules: [
             {
-                test: /\.ts$/, loader: 'ts-loader',
+                test: /\.ts$/, 
+                loader: 'ts-loader',
                 include: [
                     path.resolve(__dirname, 'lib'), // library
                 ],
+                options: {
+                    configFile: require.resolve('./tsconfig.webpack.json')
+                }
             },  
         ]
     },

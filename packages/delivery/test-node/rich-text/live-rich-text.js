@@ -51,7 +51,7 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
     }
 });
 
-describe('#Rich text field test', () => {
+describe('#Rich text field', () => {
 
     let result;
     let plot; // resolved plot (rich text)

@@ -1,3 +1,5 @@
+import { IHttpService, IHeader } from 'kentico-cloud-core';
+
 import { TypeResolver } from '../models';
 
 export interface IDeliveryClientConfig {
@@ -61,6 +63,11 @@ export interface IDeliveryClientConfig {
     retryAttempts?: number;
 
     /**
+     * Can be used to inject custom Http service to perform requests
+     */
+    httpService?: IHttpService;
+
+    /**
      * Global settings for modular content resolver
      */
     modularContentResolver?: {
@@ -73,6 +80,11 @@ export interface IDeliveryClientConfig {
          */
         modularContentWrapperClasses?: string[]
     };
+
+    /**
+     * Array of headers added to each and every http request made with SDK
+     */
+    globalHeaders?: IHeader[];
 
 }
 

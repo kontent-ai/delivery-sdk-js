@@ -1,7 +1,6 @@
 import { of, throwError } from 'rxjs';
 import { catchError, retryWhen, switchMap } from 'rxjs/operators';
-
-import { deliveryRetryStrategy } from '../../../lib';
+import { retryStrategy } from 'kentico-cloud-core';
 
 describe('Retry - isolated - do not retry', () => {
     const retryAttempts = 3;
@@ -10,7 +9,7 @@ describe('Retry - isolated - do not retry', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = MAX_SAFE_TIMEOUT;
 
     beforeAll((done) => {
-        spyOn(deliveryRetryStrategy, 'debugLogAttempt').and.callThrough();
+        spyOn(retryStrategy, 'debugLogAttempt').and.callThrough();
 
         // fake error
         const error: any = {
@@ -26,7 +25,7 @@ describe('Retry - isolated - do not retry', () => {
                 switchMap(() => {
                     return throwError(error);
                 }),
-                retryWhen(deliveryRetryStrategy.strategy({
+                retryWhen(retryStrategy.strategy({
                     maxRetryAttempts: retryAttempts,
                     useRetryForResponseCodes: [500]
                 })),
@@ -39,7 +38,7 @@ describe('Retry - isolated - do not retry', () => {
     });
 
     it(`Warning for retry attempt should have been called '${retryAttempts}' times`, () => {
-        expect(deliveryRetryStrategy.debugLogAttempt).toHaveBeenCalledTimes(0);
+        expect(retryStrategy.debugLogAttempt).toHaveBeenCalledTimes(0);
     });
 });
 

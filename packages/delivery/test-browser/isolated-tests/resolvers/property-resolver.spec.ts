@@ -1,5 +1,6 @@
-import { ContentItem, FieldDecorators, Fields, DeliveryHttpService, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, FieldDecorators, Fields, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
+import { HttpService } from 'kentico-cloud-core';
 
 class MockMovie extends ContentItem {
     public titleTest: Fields.TextField;
@@ -34,7 +35,7 @@ describe('Property resolver', () => {
     setup(context);
 
     // mock query service
-    const mockQueryService = new MockQueryService(context.getConfig(), new DeliveryHttpService(), {
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version
@@ -44,7 +45,6 @@ describe('Property resolver', () => {
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
-        console.warn(response);
         done();
     });
 

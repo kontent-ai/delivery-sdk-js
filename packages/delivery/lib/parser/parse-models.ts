@@ -1,4 +1,4 @@
-import { IItemQueryConfig } from '../interfaces';
+import { IItemQueryConfig, ILinkResolverResult } from '../interfaces';
 
 export interface IRichTextHtmlParser {
     resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
@@ -17,10 +17,9 @@ export interface IFeaturedObjects {
     modularContentItems: IModularContentObject[];
 }
 
-
 export interface IRichTextReplacements {
     getModularContentHtml: (itemCodename: string) => string;
-    getLinkUrl: (itemId: string) => string;
+    getLinkResult: (itemId: string) => string | undefined | ILinkResolverResult;
 }
 
 export interface IHtmlResolverConfig {

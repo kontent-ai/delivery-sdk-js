@@ -42,6 +42,7 @@ export class ItemMapper {
         if (item == null) {
             throw Error(`Could not map item because its undefined`);
         }
+
         return this.fieldMapper.mapFields<TItem>(item, modularContent, queryConfig, []);
     }
 }

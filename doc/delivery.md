@@ -271,14 +271,14 @@ deliveryClient.item<Movie>('warrior')
 
 ### Property binding in models
 
-Kentico Cloud returns all element names in **lowercase**. Because Javascript properties are case sensitive, the binding will fail if your property is called, for example, *firstName*. You can either use **codename() decorator** that comes with the SDK, or use the custom resolver:
+Kentico Cloud returns all element names in **lowercase** or with **underscores**. You can bind original field names to your own javascript properties with `FieldDecorators`. The following example binds `first_name` field name to `firstName` javascript property.
 
 ```typescript
 import { ContentItem, Fields, FieldDecorators  } from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
 
-  @FieldDecorators.codename('firstname')
+  @FieldDecorators.codename('first_name')
   public firstName: Fields.TextField;
   public lastName: Fields.TextField;
   public bio: Fields.RichTextField;
@@ -424,6 +424,28 @@ deliveryClient.item<Actor>('tom_hardy')
   .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
+#### Resolving links in SPA
+
+When developing SPA (e.g. angular, react, vue ...), you might want to use links in a different way by completely removing the link tag (`<a>`) and replacing it with custom HTML. You can achieve this by returning an object according to `ILinkResolverResult` interface. See example:
+
+```typescript
+import { ContentItem, Fields, ILink, ILinkResolverResult } from 'kentico-cloud-delivery';
+
+deliveryClient.item<Actor>('tom_hardy')
+  .queryConfig({
+    linkResolver: (link: ILink) => {
+        if (link.type === 'actor'){
+          return <ILinkResolverResult>{
+            asHtml: '<div>ActorLink</div>'
+          }
+        }
+        return undefined;
+      }
+  })
+  .getObservable()
+  .subscribe(response => console.log(response.item.slug.getUrl()));
+```
+
 ### Resolving modular content in Rich text fields
 
 If you have a modular content item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` modular items used in all your rich text fields.
@@ -556,7 +578,8 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | retryAttempts| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
 | modularContentResolver.modularContentWrapperTag | string | HTML tag used to wrap resolved modular items in Rich text fields (defaults to 'p') |
 | modularContentResolver.modularContentWrapperClasses | string[] | Array of classes added to modular item wrapper. Defaults to a single class 'kc-modular-item-wrapper' |
-
+| httpService | IHttpService | Can be useud to inject custom http service for performing requests |
+| globalHeaders | IHeader[] |  Array of headers added to each and every http request made with SDK |
 ## Handling errors
 
 Errors can be handled using the `error` parameter of the `subscribe` method (see [RxJS](https://github.com/ReactiveX/rxjs)) or by using the `catchError` rxjs parameter. If the error originates in Kentico Cloud (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `CloudError` model with more specific information. Otherwise, you will get an original exception.

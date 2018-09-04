@@ -6,31 +6,6 @@ import { stronglyTypedResolver } from './strongly-type.resolver';
 export class RichTextResolver {
 
     /**
-    * Type identifying nested modular content in Rich text fields
-    */
-    private readonly modularContentobjectType = 'application/kenticocloud';
-
-    /**
-     * This tag wil be used instead of 'object'
-     */
-    private readonly modularContentTagWrapper = 'div';
-
-    /**
-     * Attribute used to identify modular item based on its codename
-     */
-    private readonly modularContentCodenameAttributeName = 'data-codename';
-
-    /**
-     * Tag identifying links
-     */
-    private readonly linkTag = 'a';
-
-    /**
-     * Attributes that identifies if of the content item referenced in links
-     */
-    private readonly linkContentItemIdAttributeName = 'data-item-id';
-
-    /**
      * Resolves modular content inside the Rich text field.
      * Rich text resolved needs to be configured either on the model or query level
      */
@@ -56,7 +31,7 @@ export class RichTextResolver {
 
         const result = data.richTextHtmlParser.resolveRichTextField(
             html, {
-                getLinkUrl: (itemId: string) => this.getLinkUrl({
+                getLinkResult: (itemId: string) => this.getLinkResult({
                     config: config,
                     links: data.links,
                     itemId: itemId,
@@ -115,7 +90,7 @@ export class RichTextResolver {
         return resolver(modularContentItem);
     }
 
-    private getLinkUrl(data: {
+    private getLinkResult(data: {
         itemId: string,
         config: IHtmlResolverConfig,
         links: Link[],

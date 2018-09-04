@@ -1,7 +1,7 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { FieldDecorators, FieldInterfaces, Fields, FieldType } from '../fields';
-import { IItemQueryConfig } from '../interfaces';
+import { IItemQueryConfig, ILinkResolverResult } from '../interfaces';
 import { ContentItem, Link } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
@@ -42,7 +42,7 @@ export class FieldMapper {
         }
 
         if (!Array.isArray(processedItems)) {
-            throw Error(`ProcessedItems need to be an array of 'IContentItems'`);
+            throw Error(`ProcessedItems need to be an array`);
         }
 
         const properties = Object.getOwnPropertyNames(item.elements);
@@ -82,6 +82,9 @@ export class FieldMapper {
             }
             itemTyped[propertyName] = this.mapField(field, modularContent, itemTyped, queryConfig, processedItems);
         });
+
+        // keep the elements property if devs wanted to use them directly and for potential debugging
+        itemTyped.elements = item.elements;
 
         return itemTyped;
     }
@@ -194,7 +197,7 @@ export class FieldMapper {
             field.name,
             field.value,
             {
-                resolveUrl: () => urlSlugResolver.resolveUrl({
+                resolveLink: () => urlSlugResolver.resolveUrl({
                     fieldName: field.name,
                     type: field.type,
                     fieldValue: field.value,
@@ -249,9 +252,9 @@ export class FieldMapper {
         return modularContentItems;
     }
 
-    private getLinkResolverForUrlSlugField(item: ContentItem, queryConfig: IItemQueryConfig): ((link: Link) => string) | undefined {
+    private getLinkResolverForUrlSlugField(item: ContentItem, queryConfig: IItemQueryConfig): ((link: Link) => string | undefined | ILinkResolverResult) | undefined {
         // link resolver defined by the query config (= by calling method) has priority over type's global link resolver
-        let linkResolver: ((value: Link) => string) | undefined = undefined;
+        let linkResolver: ((value: Link) => string | undefined | ILinkResolverResult) | undefined = undefined;
 
         if (queryConfig.linkResolver) {
             linkResolver = queryConfig.linkResolver;

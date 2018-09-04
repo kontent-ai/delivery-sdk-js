@@ -1,12 +1,13 @@
-import { DeliveryHttpService, ItemResponses, sdkInfo } from '../../../lib';
+import { ItemResponses, sdkInfo } from '../../../lib';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
+import { HttpService } from 'kentico-cloud-core';
 
 describe('Isolated item', () => {
 
     const context = new Context();
     setup(context);
 
-    const mockQueryService = new MockQueryService(context.getConfig(), new DeliveryHttpService(), {
+    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version
