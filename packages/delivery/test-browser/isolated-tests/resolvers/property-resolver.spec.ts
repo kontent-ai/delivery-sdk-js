@@ -45,7 +45,6 @@ describe('Property resolver', () => {
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
-        console.warn(response);
         done();
     });
 

@@ -1,6 +1,7 @@
 import { DeliveryClient, IDeliveryClientConfig, TypeResolver } from '../../lib';
 import { IRichTextHtmlParser } from '../../lib/parser/parse-models';
 import { getParserAdapter } from '../../lib/parser/parser-adapter';
+import { IHeader } from 'kentico-cloud-core';
 
 export class Context {
 
@@ -21,6 +22,7 @@ export class Context {
   public basePreviewUrl?: string;
   public retryAttempts?: number;
   public enableAdvancedLogging?: boolean;
+  public globalHeaders?: IHeader[];
 
   constructor(
     options?: {
@@ -35,7 +37,8 @@ export class Context {
       securedApiKey?: string,
       useSecuredMode?: boolean,
       retryAttempts?: number,
-      enableAdvancedLogging?: boolean
+      enableAdvancedLogging?: boolean,
+      globalHeaders?: IHeader[]
     }
   ) {
     if (options) {
@@ -56,6 +59,7 @@ export class Context {
       enableSecuredMode: this.useSecuredMode,
       securedApiKey: this.securedApiKey,
       retryAttempts: this.retryAttempts,
+      globalHeaders: this.globalHeaders
     };
   }
 }

@@ -1,4 +1,4 @@
-import { IHttpService } from 'kentico-cloud-core';
+import { IHttpService, IHeader } from 'kentico-cloud-core';
 
 import { TypeResolver } from '../models';
 
@@ -80,6 +80,11 @@ export interface IDeliveryClientConfig {
          */
         modularContentWrapperClasses?: string[]
     };
+
+    /**
+     * Array of headers added to each and every http request made with SDK
+     */
+    globalHeaders?: IHeader[];
 
 }
 

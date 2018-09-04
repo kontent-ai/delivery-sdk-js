@@ -578,8 +578,8 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | retryAttempts| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
 | modularContentResolver.modularContentWrapperTag | string | HTML tag used to wrap resolved modular items in Rich text fields (defaults to 'p') |
 | modularContentResolver.modularContentWrapperClasses | string[] | Array of classes added to modular item wrapper. Defaults to a single class 'kc-modular-item-wrapper' |
-| httpService      | IHttpService | Can be useud to inject custom http service for performing requests |
-
+| httpService | IHttpService | Can be useud to inject custom http service for performing requests |
+| globalHeaders | IHeader[] |  Array of headers added to each and every http request made with SDK |
 ## Handling errors
 
 Errors can be handled using the `error` parameter of the `subscribe` method (see [RxJS](https://github.com/ReactiveX/rxjs)) or by using the `catchError` rxjs parameter. If the error originates in Kentico Cloud (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `CloudError` model with more specific information. Otherwise, you will get an original exception.

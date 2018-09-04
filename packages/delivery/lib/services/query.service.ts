@@ -231,6 +231,12 @@ export class QueryService {
   getHeaders(queryConfig: IQueryConfig): IHeader[] {
     let headers: IHeader[] = [];
 
+    // add headers from global config
+    if (this.config.globalHeaders && this.config.globalHeaders.length > 0) {
+      headers = headers.concat(this.config.globalHeaders);
+    }
+
+    // add headers from query config
     if (queryConfig.customHeaders) {
       headers = headers.concat(queryConfig.customHeaders);
     }
