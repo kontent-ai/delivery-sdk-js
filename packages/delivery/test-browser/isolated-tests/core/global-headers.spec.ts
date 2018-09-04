@@ -17,8 +17,6 @@ describe('Global headers', () => {
 
     setup(context);
 
-    console.warn('CONTEXt', context);
-
     it(`Global headers should be set`, () => {
         const headers = context.deliveryClient.items().getHeaders();
         const header1 = headers.find(m => m.header === 'gl1') as IHeader;
