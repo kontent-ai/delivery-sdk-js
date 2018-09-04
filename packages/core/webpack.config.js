@@ -9,23 +9,27 @@ module.exports = (env, argv) => ({
     },
     externals: ['', /^test-browser\//], 
     resolve: { 
-        extensions: ['.ts', '.js'],
+        extensions: ['.ts', '.js']
     },
     output: {
         // Puts the output at the root of the dist folder
         path: path.join(__dirname, '_bundles'),
         filename: libName + (argv.mode === 'production' ? '.umd.min.js' : '.umd.js'),
         libraryTarget: 'umd',
-        umdNamedDefine: true
+        umdNamedDefine: true,
     },
     devtool: 'source-map',
     module: {
         rules: [
             {
-                test: /\.ts$/, loader: 'ts-loader',
+                test: /\.ts$/, 
+                loader: 'ts-loader',
                 include: [
                     path.resolve(__dirname, 'lib'), // library
                 ],
+                options: {
+                    configFile: require.resolve('./tsconfig.webpack.json')
+                }
             },
         ]
     },
