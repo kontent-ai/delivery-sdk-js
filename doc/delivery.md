@@ -580,6 +580,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | modularContentResolver.modularContentWrapperClasses | string[] | Array of classes added to modular item wrapper. Defaults to a single class 'kc-modular-item-wrapper' |
 | httpService | IHttpService | Can be useud to inject custom http service for performing requests |
 | globalHeaders | IHeader[] |  Array of headers added to each and every http request made with SDK |
+
 ## Handling errors
 
 Errors can be handled using the `error` parameter of the `subscribe` method (see [RxJS](https://github.com/ReactiveX/rxjs)) or by using the `catchError` rxjs parameter. If the error originates in Kentico Cloud (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `CloudError` model with more specific information. Otherwise, you will get an original exception.
@@ -648,6 +649,49 @@ console.log(queryText);
 // outputs:
 // https://deliver.kenticocloud.com/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
 ```
+
+### Using custom Http service
+
+SDK allows you to inject your own instance of class implementing `IHttpService` interface. This way you can easily mock responses, implement your own http service or modify the requests in some other way. Example `IHttpService` class:
+
+```typescript
+import {
+    DeliveryClient,
+    IHttpService,
+    IHttpGetQueryCall,
+    IHttpPostQueryCall,
+    IHttpQueryOptions,
+    IBaseResponse
+} from 'kentico-cloud-core';
+import { Observable, of } from 'rxjs';
+
+class CustomHttpService implements IHttpService {
+    get<TError extends any>(
+        call: IHttpGetQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse> {
+
+        // your code for executing GET requests
+        return of(<IBaseResponse>{
+            data: undefined,
+            response: undefined
+        });
+    }
+
+    post<TError extends any>(
+        call: IHttpPostQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse> {
+
+      // your code for executing POST requests
+        return of(<IBaseResponse>{
+            data: undefined,
+            response: undefined
+        });
+    }
+}
+```
+
 
 ## Feedback & Contribution
 
