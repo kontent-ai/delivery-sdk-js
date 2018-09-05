@@ -1,17 +1,11 @@
-import axios from 'axios';
-import { from, Observable, throwError } from 'rxjs';
+import { bindCallback, Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen } from 'rxjs/operators';
 
-import {
-  IBaseResponse,
-  IBaseResponseError,
-  IHeader,
-  IHttpGetQueryCall,
-  IHttpPostQueryCall,
-  IHttpQueryOptions,
-} from './http.models';
+import * as HttpFunctions from './http.functions';
+import { IBaseResponse, IBaseResponseError, IHttpGetQueryCall, IHttpPostQueryCall, IHttpQueryOptions, IHttpRequestResult } from './http.models';
 import { IHttpService } from './ihttp.service';
 import { retryStrategy } from './retry-strategy';
+import { AxiosResponse } from 'axios';
 
 export class HttpService implements IHttpService {
 
@@ -19,13 +13,11 @@ export class HttpService implements IHttpService {
     call: IHttpGetQueryCall<TError>,
     options?: IHttpQueryOptions
   ): Observable<IBaseResponse> {
-    return from(
-      axios.get(call.url, {
-        headers: this.getHeadersJson(
-          options && options.headers ? options.headers : []
-        )
-      })
-    ).pipe(
+
+    // bind callback from axios promise
+    const axiosObservable = bindCallback(HttpFunctions.getCallback);
+
+    return axiosObservable(call, options).pipe(
       retryWhen(
         retryStrategy.strategy({
           maxRetryAttempts:
@@ -36,12 +28,7 @@ export class HttpService implements IHttpService {
               : []
         })
       ),
-      map(response => {
-        return <IBaseResponse>{
-          data: response.data,
-          response: response
-        };
-      }),
+      map((result: IHttpRequestResult<AxiosResponse>) => this.mapResult(result)),
       catchError(error => {
         // Handling errors: https://github.com/axios/axios#handling-errors
         if (options && options.logErrorToConsole) {
@@ -63,13 +50,11 @@ export class HttpService implements IHttpService {
     call: IHttpPostQueryCall<TError>,
     options?: IHttpQueryOptions
   ): Observable<IBaseResponse> {
-    return from(
-      axios.post(call.url, call.body, {
-        headers: this.getHeadersJson(
-          options && options.headers ? options.headers : []
-        )
-      })
-    ).pipe(
+
+    // bind callback from axios promise
+    const axiosObservable = bindCallback(HttpFunctions.postCallback);
+
+    return axiosObservable(call, options).pipe(
       retryWhen(
         retryStrategy.strategy({
           maxRetryAttempts:
@@ -80,12 +65,7 @@ export class HttpService implements IHttpService {
               : []
         })
       ),
-      map(response => {
-        return <IBaseResponse>{
-          data: response.data,
-          response: response
-        };
-      }),
+      map((result: IHttpRequestResult<AxiosResponse>) => this.mapResult(result)),
       catchError(error => {
         // Handling errors: https://github.com/axios/axios#handling-errors
         if (options && options.logErrorToConsole) {
@@ -103,19 +83,21 @@ export class HttpService implements IHttpService {
     );
   }
 
-  private getHeadersJson(headers: IHeader[]): any {
-    const headerJson: any = {
-      'Content-Type': 'application/json'
-    };
 
-    if (!headers) {
-      return headerJson;
+  private mapResult(result: IHttpRequestResult<AxiosResponse>): IBaseResponse {
+    // if error is set, throw it
+    if (result.error) {
+      throw result.error;
     }
 
-    headers.forEach(header => {
-      headerJson[header.header] = header.value;
-    });
+    // if neither error nor response is set, throw an error
+    if (!result.response) {
+      throw Error('Response is not set and no error was thrown');
+    }
 
-    return headerJson;
+    return <IBaseResponse>{
+      data: result.response.data,
+      response: result.response
+    };
   }
 }

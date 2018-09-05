@@ -33,3 +33,10 @@ export interface IHeader {
     value: string;
 }
 
+export class IHttpRequestResult<TResponse> {
+    constructor(
+        public response?: TResponse,
+        public error?: any
+    ) { }
+}
+
