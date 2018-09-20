@@ -70,11 +70,11 @@ export class QueryService {
     /**
      * Delivery client configuration
      */
-    protected config: IDeliveryClientConfig,
+    protected readonly config: IDeliveryClientConfig,
     /**
      * Http service for fetching data
      */
-    protected httpService: IHttpService,
+    protected readonly httpService: IHttpService,
     /**
      * Used for manipulating with rich text HTML (required for Node / Browser support)
      */
@@ -83,7 +83,7 @@ export class QueryService {
      * Information about the SDK
      * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
      */
-    protected sdkInfo: ISDKInfo
+    protected readonly sdkInfo: ISDKInfo
   ) {
     if (!config) {
       throw Error(`Invalid configuration has been provided`);
