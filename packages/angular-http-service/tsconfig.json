@@ -1,0 +1,38 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "sourceMap": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "commonjs",
+    "target": "es5",
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "noImplicitReturns": true,
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "paths": {
+      "rxjs": [
+        "./node_modules/rxjs"
+      ]
+    }
+  },
+  "include": [
+    "lib/**/*",
+    "test-browser/**/*",
+    "test-node/**/*",
+    "polyfills.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dev-test"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "name": "kentico-cloud-angular-http-service",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/angular-http-service"
+  },
+  "private": false,
+  "author": "richard sustek",
+  "license": "MIT",
+  "description": "Implementation of IHttpService using Angular HttpClient",
+  "keywords": [
+    "Kentico Cloud",
+    "Kentico Cloud delivery",
+    "Kentico Cloud core",
+    "Kentico Cloud Angular",
+    "Kentico Cloud Http service"
+  ],
+  "engines": {
+    "node": ">= 8"
+  },
+  "main": "./_commonjs/index.js",
+  "types": "./_commonjs/index.d.ts",
+  "scripts": {
+    "tsc-local": "./node_modules/.bin/tsc",
+    "karma-local": "./node_modules/.bin/karma",
+    "ts-node-local": "./node_modules/.bin/ts-node",
+    "test:travis": "node fake-test",
+    "test:all": "node fake-test",
+    "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version",
+    "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version",
+    "new-major": "npm version major && npm run set-sdk-version && npm run check-version",
+    "prepublishOnly": "npm run build:all && npm run test:all",
+    "publish:beta": "npm publish --tag=next",
+    "build:es2015": "npm run tsc-local -- -m es2015 --outDir _es2015 --p tsconfig.prod.json",
+    "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs --p tsconfig.prod.json",
+    "build:all": "npm run build:es2015 && npm run build:commonjs"
+  },
+  "dependencies": {
+    "kentico-cloud-core": "0.0.1"
+  },
+  "peerDependencies": {
+    "rxjs": "^6.2.0",
+    "@angular/core": "^6.1.0",
+    "@angular/common": "^6.1.0"
+  },
+  "devDependencies": {
+    "@angular/common": "6.1.8",
+    "@angular/core": "6.1.8",
+    "@types/node": "10.9.4",
+    "rxjs": "^6.2.0",
+    "ts-loader": "5.0.0",
+    "ts-node": "7.0.1",
+    "tslint": "5.11.0",
+    "typescript": "3.0.3"
+  }
+}
