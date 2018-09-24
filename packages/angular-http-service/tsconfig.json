@@ -17,8 +17,8 @@
       "dom"
     ],
     "paths": {
-      "kentico-cloud-http-service": [
-        "dist/kentico-cloud-http-service"
+      "kentico-cloud-angular-http-service": [
+        "dist/kentico-cloud-angular-http-service"
       ]
     }
   }
