@@ -14,6 +14,10 @@ An official single-page sample application built on Vue.js. Pulls content from t
 
 A community-made sample Angular application. Pulls and displays strongly-typed content from Kentico Cloud.
 
+## [Angular Universal](https://github.com/Enngage/kentico-cloud-js-angular-universal-starter)
+
+A community-made sample Angular Universal application. Showcases pre-rendering and SSR using `delivery-js-sdk` in combination with `kentico-cloud-angular-http-service` package that uses Angular's built-in http client.
+
 ## [Javascript + Browserify](https://github.com/Enngage/KenticoCloudSampleJavascriptApp)
 
 A community-made bare-bones application built using plain JavaScript and Browserify.
