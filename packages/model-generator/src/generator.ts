@@ -13,45 +13,25 @@ export class Generator {
     public readonly type: string;
     public readonly moduleResolution: ModuleResolution;
     public readonly codeType: CodeType;
+    public readonly secureAccessKey?: string;
 
     constructor(
         config: {
             projectId: string,
             type: string,
             moduleResolution: ModuleResolution,
-            codeType: CodeType
+            codeType: CodeType,
+            secureAccessKey?: string
         }) {
 
         (<any>Object).assign(this, config);
 
         // init delivery client
         this.deliveryClient = new DeliveryClient({
-            projectId: this.projectId
+            projectId: this.projectId,
+            securedApiKey: config.secureAccessKey,
+            enableSecuredMode: config.secureAccessKey ? true : false
         });
-    }
-
-    startConfigGenerator(): void {
-        console.log('Generator started ...');
-
-         // get data from Kentico Cloud and generate classes out of given project
-         this.deliveryClient.types()
-         .getObservable()
-         .pipe(
-             map(typesResponse => {
-                 typesResponse.types.forEach(type => {
-                     // generate class
-                     this.generateClass(type);
-                 });
-             }),
-             finalize(() => {
-                 console.log('Generator finished');
-             })
-         )
-         .subscribe(() => undefined, err => {
-             console.log(`Generator failed with error: ${err.message ? err.message : err}`);
-             console.log(err);
-             throw Error(err);
-         });
     }
 
     startModelGenerator(): void {
@@ -72,26 +52,10 @@ export class Generator {
                 })
             )
             .subscribe(() => undefined, err => {
-                console.log(`Generator failed with error: ${err.message ? err.message : err}`);
+                console.log(`Generator failed with error:`);
                 console.log(err);
                 throw Error(err);
             });
-    }
-
-    private generateConfig(type: ContentType): void {
-        if (!type) {
-            throw Error('Invalid type');
-        }
-        const classFileName = modelHelper.getFullClassFileName(type, this.codeType);
-        const classContent = modelHelper.getClassDefinition(type, this.moduleResolution, this.codeType);
-
-        // create class file
-        fs.writeFile('./' + classFileName, classContent, (error) => {
-            if (error) {
-                throw Error(`Could not create class file '${classFileName}'`);
-            }
-            console.log(`Class '${classFileName}' was created`);
-        });
     }
 
     private generateClass(type: ContentType): void {

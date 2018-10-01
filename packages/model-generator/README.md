@@ -26,6 +26,7 @@ To generate models with e.g. `ES2015` and `TypeScript` navigate to folder where 
 - `codeType` - available options are `TypeScript` and `JavaScript`
 - `moduleResolution` - available options are `CommonJs` and `ES2015`
 - `projectId` - represents the Kentico Cloud Project Id from which models will be generated
+- `secureAccessKey`- Secure access key required to authenticate requests with enabled secure access in Kentico Cloud project.
 
 ## Strongly typed linked item fields
 

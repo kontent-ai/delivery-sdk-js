@@ -3,7 +3,6 @@ import * as yargs from 'yargs';
 
 import { generatorConfig } from './config';
 import { Generator } from './generator';
-import { modelHelper } from './model-helper';
 import { utilities } from './utilities';
 
 const argv = yargs['argv'];
@@ -12,6 +11,7 @@ const argv = yargs['argv'];
 const projectId = argv.projectId;
 const moduleResolution = argv.moduleResolution;
 const codeType = argv.codeType;
+const secureAccessKey = argv.secureAccessKey;
 
 if (!moduleResolution) {
   throw Error(`Please specify 'moduleResolution' argument. Available options are: ${generatorConfig.moduleOptions.join(',')}`);
@@ -30,7 +30,8 @@ const generator = new Generator({
   projectId: projectId,
   type: moduleResolution,
   codeType: utilities.getCodeType(codeType),
-  moduleResolution: utilities.getModuleResolution(moduleResolution)
+  moduleResolution: utilities.getModuleResolution(moduleResolution),
+  secureAccessKey: secureAccessKey
 });
 
 generator.startModelGenerator();
