@@ -2,7 +2,7 @@ import {
     IFeaturedObjects,
     IHtmlResolverConfig,
     ILinkObject,
-    IModularContentObject,
+    ILinkedItemContentObject,
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
@@ -11,9 +11,9 @@ import { ILinkResolverResult } from '../../interfaces';
 
 export class BrowserRichTextParser implements IRichTextHtmlParser {
 
-    private readonly modularContentWrapperElem = 'div';
+    private readonly linkedItemWrapperElem = 'div';
 
-    private readonly modularContent = {
+    private readonly modularContentElementData = {
         type: 'application/kenticocloud',
         dataType: 'data-type',
         dataCodename: 'data-codename'
@@ -28,15 +28,15 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         try {
             const doc = this.createWrapperElement(html);
 
-            // get all modular content items
+            // get all linked items
             const result = this.processRichTextField(doc.children, replacement, config, {
                 links: [],
-                modularContentItems: []
+                linkedItems: []
             });
 
             return {
                 links: result.links,
-                modularContentItems: result.modularContentItems,
+                linkedItems: result.linkedItems,
                 resolvedHtml: doc.innerHTML
             };
 
@@ -46,7 +46,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
     }
 
     private createWrapperElement(html: string): HTMLDivElement {
-        const element = document.createElement(this.modularContentWrapperElem);
+        const element = document.createElement(this.linkedItemWrapperElem);
         element.innerHTML = html;
 
         return element;
@@ -60,31 +60,31 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
             for (let i = 0; i < htmlCollection.length; i++) {
                 const element = htmlCollection[i];
                 const typeAttribute = element.attributes ? element.attributes.getNamedItem('type') : undefined;
-                if (element.attributes && typeAttribute && typeAttribute.value && typeAttribute.value.toLowerCase() === this.modularContent.type.toLowerCase()) {
+                if (element.attributes && typeAttribute && typeAttribute.value && typeAttribute.value.toLowerCase() === this.modularContentElementData.type.toLowerCase()) {
                     // node is modular content object
-                    const dataCodenameAttribute = element.attributes.getNamedItem(this.modularContent.dataCodename);
-                    const dataTypeAttribute = element.attributes.getNamedItem(this.modularContent.dataType);
+                    const dataCodenameAttribute = element.attributes.getNamedItem(this.modularContentElementData.dataCodename);
+                    const dataTypeAttribute = element.attributes.getNamedItem(this.modularContentElementData.dataType);
 
-                    const modularItem: IModularContentObject = {
+                    const linkItem: ILinkedItemContentObject = {
                         dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
                         dataType: dataTypeAttribute ? dataTypeAttribute.value : ''
                     };
 
                     // add to result
-                    result.modularContentItems.push(modularItem);
+                    result.linkedItems.push(linkItem);
 
                     // replace html
                     const parentElement = element.parentElement;
 
                     if (!parentElement) {
-                        console.warn(`Could not replace modular content '${modularItem.dataCodename}' of '${modularItem.dataType}' because parent node is null. Please report this error if you are seeing this.`);
+                        console.warn(`Could not replace linked item '${linkItem.dataCodename}' of '${linkItem.dataType}' because parent node is null. Please report this error if you are seeing this.`);
                     } else {
                         // create new element
-                        const newElem = document.createElement(config.modularContentWrapperTag);
-                        newElem.innerHTML = replacement.getModularContentHtml(modularItem.dataCodename);
+                        const newElem = document.createElement(config.linkedItemWrapperTag);
+                        newElem.innerHTML = replacement.getLinkedItemHtml(linkItem.dataCodename);
 
                         // add classes
-                        newElem.className = config.modularContentWrapperClasses.map(m => m).join(' ');
+                        newElem.className = config.linkedItemWrapperClasses.map(m => m).join(' ');
 
                         // remove original object element
                         parentElement.replaceChild(newElem, element);

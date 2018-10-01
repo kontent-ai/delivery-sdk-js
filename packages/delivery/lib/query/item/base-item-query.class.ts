@@ -45,7 +45,7 @@ export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends
     }
 
     /**
-     * Indicates how deep nested modular content items are resolved.
+     * Indicates depth of query that affects loading of nested linked items.
      * @param depth Depth of the query (> 0)
      */
     depthParameter(depth: number): this {

@@ -1,11 +1,11 @@
-import { FieldInterfaces } from './field-interfaces';
+import { FieldContracts } from './field-contracts';
 import { FieldModels } from './field-models';
 import { FieldType } from './field-type';
 import { Link, ILinkResolverResult } from '..';
 
 export namespace Fields {
 
-    export class TextField implements FieldInterfaces.IField {
+    export class TextField implements FieldContracts.IField {
 
         /**
         * Text stored in the field
@@ -31,7 +31,7 @@ export namespace Fields {
         }
     }
 
-    export class MultipleChoiceField implements FieldInterfaces.IField {
+    export class MultipleChoiceField implements FieldContracts.IField {
 
         /**
         * Multiple choice options
@@ -55,7 +55,7 @@ export namespace Fields {
         ) {
             if (this.value && Array.isArray(this.value)) {
                 this.value.forEach(option => {
-                    const optionTemp = option as FieldInterfaces.IMultipleChoiceOption;
+                    const optionTemp = option as FieldContracts.IMultipleChoiceOption;
                     this.options.push(new FieldModels.MultipleChoiceOption(
                         optionTemp.name,
                         optionTemp.codename
@@ -65,7 +65,7 @@ export namespace Fields {
         }
     }
 
-    export class DateTimeField implements FieldInterfaces.IField {
+    export class DateTimeField implements FieldContracts.IField {
 
         /**
         * Date time value
@@ -91,7 +91,7 @@ export namespace Fields {
         }
     }
 
-    export class RichTextField implements FieldInterfaces.IField {
+    export class RichTextField implements FieldContracts.IField {
 
         /**
          * Function that is responsible for getting resolved HTML of the field
@@ -144,7 +144,7 @@ export namespace Fields {
         }
     }
 
-    export class NumberField implements FieldInterfaces.IField {
+    export class NumberField implements FieldContracts.IField {
 
         /**
         * Type of the field
@@ -170,7 +170,7 @@ export namespace Fields {
         }
     }
 
-    export class AssetsField implements FieldInterfaces.IField {
+    export class AssetsField implements FieldContracts.IField {
 
         /**
         * Type of the field
@@ -200,7 +200,7 @@ export namespace Fields {
                 throw Error(`Cannot bind assets because the provided value is not an array`);
             }
 
-            this.value.forEach((asset: FieldInterfaces.IAsset) => {
+            this.value.forEach((asset: FieldContracts.IAsset) => {
                 this.assets.push(new FieldModels.AssetModel(
                     asset.name,
                     asset.type,
@@ -212,7 +212,7 @@ export namespace Fields {
         }
     }
 
-    export class UrlSlugField implements FieldInterfaces.IField {
+    export class UrlSlugField implements FieldContracts.IField {
 
         private resolvedUrl?: string;
 
@@ -253,7 +253,7 @@ export namespace Fields {
         }
     }
 
-    export class TaxonomyField implements FieldInterfaces.IField {
+    export class TaxonomyField implements FieldContracts.IField {
 
         /**
         * Type of the field
@@ -285,7 +285,7 @@ export namespace Fields {
                 throw Error(`Cannot get taxonomy field because the provided value is not an array`);
             }
 
-            const taxonomyList = value as FieldInterfaces.ITaxonomyTerm[];
+            const taxonomyList = value as FieldContracts.ITaxonomyTerm[];
 
             taxonomyList.forEach(term => {
                 this.taxonomyTerms.push(new FieldModels.TaxonomyTerm(term.name, term.codename));

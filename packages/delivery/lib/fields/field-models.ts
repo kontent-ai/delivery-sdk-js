@@ -1,8 +1,8 @@
-import { FieldInterfaces} from './field-interfaces';
+import { FieldContracts } from './field-contracts';
 
 export namespace FieldModels {
 
-    export class AssetModel implements FieldInterfaces.IAsset {
+    export class AssetModel implements FieldContracts.IAsset {
 
         /**
         * Represents Kentico Cloud's asset
@@ -22,7 +22,7 @@ export namespace FieldModels {
         ) { }
     }
 
-    export class MultipleChoiceOption implements FieldInterfaces.IMultipleChoiceOption {
+    export class MultipleChoiceOption implements FieldContracts.IMultipleChoiceOption {
 
         /**
         * Represents Kentico Cloud's multiple choice option
@@ -36,7 +36,7 @@ export namespace FieldModels {
         ) { }
     }
 
-    export class TaxonomyTerm implements FieldInterfaces.ITaxonomyTerm {
+    export class TaxonomyTerm implements FieldContracts.ITaxonomyTerm {
 
         /**
        * Represents taxonomy term

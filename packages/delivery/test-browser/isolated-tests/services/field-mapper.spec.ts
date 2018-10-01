@@ -1,5 +1,5 @@
 import { ItemContracts } from '../../../lib';
-import { FieldInterfaces } from '../../../lib/fields/field-interfaces';
+import { FieldContracts } from '../../../lib/fields/field-contracts';
 import { FieldType } from '../../../lib/fields/field-type';
 import { FieldMapper } from '../../../lib/mappers';
 import { Context, setup } from '../../setup';
@@ -8,7 +8,7 @@ describe('FieldMapper', () => {
 
     const fieldType = 'invalid';
 
-    class FakeField implements FieldInterfaces.IField {
+    class FakeField implements FieldContracts.IField {
         public type: FieldType = fieldType as any;
         constructor(
             public name: string,

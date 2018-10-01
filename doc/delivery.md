@@ -446,9 +446,9 @@ deliveryClient.item<Actor>('tom_hardy')
   .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
-### Resolving modular content in Rich text fields
+### Resolving linked items in Rich text fields
 
-If you have a modular content item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` modular items used in all your rich text fields.
+If you have a linked item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` linked items used in all your rich text fields.
 
 #### Globally
 
@@ -477,9 +477,9 @@ deliveryClient.item<Movie>('pain_and_gain')
   .subscribe(response => {
     console.log(response.item.plot.getHtml());
     // Example output:
-    // {html from your rich text field before the modular content}
+    // {html from your rich text field before the linked item}
     // <h3>Dwayne Johsnon</h3>
-    // {html from your rich text field after the modular content}
+    // {html from your rich text field after the linked item}
   });
 ```
 
@@ -503,15 +503,15 @@ deliveryClient.item<Movie>('pain_and_gain')
   .subscribe(response => {
     console.log(response.item.plot.getHtml());
     // Example output:
-    // {html from your rich text field before the modular content}
+    // {html from your rich text field before the linked item}
     // <h3>Dwayne Johsnon</h3>
-    // {html from your rich text field after the modular content}
+    // {html from your rich text field after the linked item}
   });
 ```
 
 ### Strongly typed nested property (TypeScript only)
 
-To include modular content, simply reference a given type class:
+To include linked item, simply reference a given type class:
 
 ```typescript
 import { ContentItem, Fields} from 'kentico-cloud-delivery';
@@ -576,8 +576,8 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | securedApiKey| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
 | enableSecuredMode| boolean| Indicates if secured mode is enabled globally. This can be overriden on query level |
 | retryAttempts| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
-| modularContentResolver.modularContentWrapperTag | string | HTML tag used to wrap resolved modular items in Rich text fields (defaults to 'p') |
-| modularContentResolver.modularContentWrapperClasses | string[] | Array of classes added to modular item wrapper. Defaults to a single class 'kc-modular-item-wrapper' |
+| linkedItemResolver.linkedItemWrapperTag | string | HTML tag used to wrap resolved linked items in Rich text fields (defaults to 'p') |
+| linkedItemResolver.linkedItemWrapperClasses | string[] | Array of classes added to linked item wrapper. Defaults to a single class 'kc-linked-item-wrapper' |
 | httpService | IHttpService | Can be useud to inject custom http service for performing requests |
 | globalHeaders | IHeader[] |  Array of headers added to each and every http request made with SDK |
 

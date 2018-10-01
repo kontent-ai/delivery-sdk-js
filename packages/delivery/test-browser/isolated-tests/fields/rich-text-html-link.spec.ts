@@ -58,8 +58,8 @@ describe('RichTextField with Html links', () => {
         typeResolvers: typeResolvers
     };
 
-    // prepare modular items
-    const modularItems: ActorMock[] = [];
+    // prepare linked items
+    const linkedItems: ActorMock[] = [];
 
     const tomHardyId = 'd1557cb1-d7ec-4d04-9742-f86b52bc34fc';
     const joelEdgertonId = '3294e4b0-e58b-49d7-85fa-5bc9a86556ec';
@@ -86,8 +86,8 @@ describe('RichTextField with Html links', () => {
         })
     ];
 
-    modularItems.push(tomHardy);
-    modularItems.push(joelEdgerton);
+    linkedItems.push(tomHardy);
+    linkedItems.push(joelEdgerton);
 
     const beforeLinkText = 'BEFORELINK';
     const afterLinkText = 'AFTERLINK';
@@ -106,11 +106,11 @@ describe('RichTextField with Html links', () => {
             resolveHtml: () => richTextResolver.resolveHtml(html, {
                 enableAdvancedLogging: false,
                 links: links,
-                modularItems: modularItems,
+                linkedItems: linkedItems,
                 typeResolvers: config.typeResolvers as any,
                 richTextHtmlParser: getParserAdapter(),
-                modularContentWrapperClasses: ['kc-wrapper-class'],
-                modularContentWrapperTag: 'kc-item-wrapper',
+                linkedItemWrapperClasses: ['kc-wrapper-class'],
+                linkedItemWrapperTag: 'kc-item-wrapper',
                 queryConfig: {
                     richTextResolver: undefined as any,
                     linkResolver: (link) => <ILinkResolverResult>{

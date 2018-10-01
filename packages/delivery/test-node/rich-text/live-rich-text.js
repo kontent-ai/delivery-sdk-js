@@ -45,9 +45,9 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
         new KenticoCloud.TypeResolver('movie', () => new Movie()),
         new KenticoCloud.TypeResolver('actor', () => new Actor())
     ],
-    modularContentResolver: {
-        modularContentWrapperTag: richTextWrapper,
-        modularContentWrapperClasses: [classA, classB]
+    linkedItemResolver: {
+        linkedItemWrapperTag: richTextWrapper,
+        linkedItemWrapperClasses: [classA, classB]
     }
 });
 

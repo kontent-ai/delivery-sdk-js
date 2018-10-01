@@ -6,7 +6,7 @@ import { stronglyTypedResolver } from './strongly-type.resolver';
 export class RichTextResolver {
 
     /**
-     * Resolves modular content inside the Rich text field.
+     * Resolves linked items inside the Rich text field.
      * Rich text resolved needs to be configured either on the model or query level
      */
     resolveHtml(
@@ -14,19 +14,19 @@ export class RichTextResolver {
         data: {
             richTextHtmlParser: IRichTextHtmlParser,
             typeResolvers: TypeResolver[],
-            modularItems: ContentItem[],
+            linkedItems: ContentItem[],
             links: Link[],
             enableAdvancedLogging: boolean,
             queryConfig: IItemQueryConfig,
-            modularContentWrapperTag: string,
-            modularContentWrapperClasses: string[]
+            linkedItemWrapperTag: string,
+            linkedItemWrapperClasses: string[]
         }): string {
         // prepare config
         const config: IHtmlResolverConfig = {
             enableAdvancedLogging: data.enableAdvancedLogging,
             queryConfig: data.queryConfig,
-            modularContentWrapperTag: data.modularContentWrapperTag,
-            modularContentWrapperClasses: data.modularContentWrapperClasses
+            linkedItemWrapperTag: data.linkedItemWrapperTag,
+            linkedItemWrapperClasses: data.linkedItemWrapperClasses
         };
 
         const result = data.richTextHtmlParser.resolveRichTextField(
@@ -37,32 +37,32 @@ export class RichTextResolver {
                     itemId: itemId,
                     typeResolvers: data.typeResolvers
                 }),
-                getModularContentHtml: (itemCodename: string) => this.getHtmlOfModularContent({
+                getLinkedItemHtml: (itemCodename: string) => this.getLinkedItemHtml({
                     itemCodename: itemCodename,
                     config: config,
-                    modularItems: data.modularItems,
+                    linkedItems: data.linkedItems,
                 })
             }, {
                 enableAdvancedLogging: data.enableAdvancedLogging,
                 queryConfig: data.queryConfig,
-                modularContentWrapperTag: data.modularContentWrapperTag,
-                modularContentWrapperClasses: data.modularContentWrapperClasses
+                linkedItemWrapperTag: data.linkedItemWrapperTag,
+                linkedItemWrapperClasses: data.linkedItemWrapperClasses
             });
 
         return result.resolvedHtml;
     }
 
-    private getHtmlOfModularContent(data: {
+    private getLinkedItemHtml(data: {
         itemCodename: string,
         config: IHtmlResolverConfig,
-        modularItems: ContentItem[],
+        linkedItems: ContentItem[],
     }): string {
-        // get modular content item
-        const modularContentItem = data.modularItems.find(m => m.system.codename === data.itemCodename);
+        // get linked item
+        const linkedItem = data.linkedItems.find(m => m.system.codename === data.itemCodename);
 
-        // check if modular content really exists
-        if (!modularContentItem) {
-            throw Error(`Cannot resolve modular content in 'RichTextField' for '${data.itemCodename}' content item`);
+        // check if linked item really exists
+        if (!linkedItem) {
+            throw Error(`Cannot resolve linked item html in 'RichTextField' for '${data.itemCodename}' linked item`);
         }
 
         // create new replacement object
@@ -74,20 +74,20 @@ export class RichTextResolver {
             resolver = data.config.queryConfig.richTextResolver;
         } else {
             // use default resolver defined in models
-            if (modularContentItem.richTextResolver) {
-                resolver = modularContentItem.richTextResolver;
+            if (linkedItem.richTextResolver) {
+                resolver = linkedItem.richTextResolver;
             }
         }
 
         // check resolver
         if (!resolver) {
             if (data.config.enableAdvancedLogging) {
-                console.warn(`Cannot resolve modular content of '${modularContentItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
+                console.warn(`Cannot resolve html of '${linkedItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
                 return '';
             }
             return '';
         }
-        return resolver(modularContentItem);
+        return resolver(linkedItem);
     }
 
     private getLinkResult(data: {

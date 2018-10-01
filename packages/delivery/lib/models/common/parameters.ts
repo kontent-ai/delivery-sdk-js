@@ -144,9 +144,9 @@ export namespace Parameters {
     export class DepthParameter implements IQueryParameter {
 
         /**
-        * Configures the depth of the response. Content items might reference modular content items using the Modular content element.
-        * Recursively, these modular content items can reference another modular content items.
-        * By default, only one level of modular content is returned.
+        * Configures the depth of the response. Content items might reference another 'linked items' using the Linked items element.
+        * Recursively, these linked items can reference another linked items.
+        * By default, only one level of linked content is returned.
         * @constructor
         * @param {number} depth - Depth fo the response
         */

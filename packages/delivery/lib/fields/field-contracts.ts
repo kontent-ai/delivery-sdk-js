@@ -1,6 +1,4 @@
-import { FieldType } from './field-type';
-
-export namespace FieldInterfaces {
+export namespace FieldContracts {
 
     export interface IField {
         name: string;

@@ -57,8 +57,8 @@ describe('RichTextField', () => {
         typeResolvers: typeResolvers
     };
 
-    // prepare modular items
-    const modularItems: ActorMock[] = [];
+    // prepare linked items
+    const linkedItems: ActorMock[] = [];
 
     const tomHardyId = 'd1557cb1-d7ec-4d04-9742-f86b52bc34fc';
     const joelEdgertonId = '3294e4b0-e58b-49d7-85fa-5bc9a86556ec';
@@ -85,8 +85,8 @@ describe('RichTextField', () => {
         })
     ];
 
-    modularItems.push(tomHardy);
-    modularItems.push(joelEdgerton);
+    linkedItems.push(tomHardy);
+    linkedItems.push(joelEdgerton);
 
     // prepare html
     // tslint:disable:max-line-length
@@ -99,11 +99,11 @@ describe('RichTextField', () => {
         resolveHtml: () => richTextResolver.resolveHtml(html, {
             enableAdvancedLogging: false,
             links: links,
-            modularItems: modularItems,
+            linkedItems: linkedItems,
             typeResolvers: config.typeResolvers as any,
             richTextHtmlParser: getParserAdapter(),
-            modularContentWrapperClasses: ['kc-wrapper-class'],
-            modularContentWrapperTag: 'kcelem',
+            linkedItemWrapperClasses: ['kc-wrapper-class'],
+            linkedItemWrapperTag: 'kcelem',
             queryConfig: {
                 richTextResolver: (item: ActorMock) => {
                     return `<p class="testing_richtext">${item.firstName.text}</p>`;
@@ -122,12 +122,12 @@ describe('RichTextField', () => {
         expect(field.value).toEqual(html);
     });
 
-    it(`checks that html contains resolved modular content #1`, () => {
+    it(`checks that html contains resolved linked item content #1`, () => {
         const expectedHtml = `<p class="testing_richtext">Tom</p>`;
         expect(field.getHtml()).toContain(expectedHtml);
     });
 
-    it(`checks that html contains resolved modular content #2`, () => {
+    it(`checks that html contains resolved linked item content #2`, () => {
         const expectedHtml = `<p class="testing_richtext">Joel</p>`;
         expect(field.getHtml()).toContain(expectedHtml);
     });
@@ -142,12 +142,12 @@ describe('RichTextField', () => {
         expect(field.getHtml()).toContain(expectedHtml);
     });
 
-    it(`checks that html contains propper modular item wrapper`, () => {
+    it(`checks that html contains propper linked item wrapper`, () => {
         const elem = `kcelem`;
         expect(field.getHtml()).toContain(elem);
     });
 
-    it(`checks that html contains propper modular item class`, () => {
+    it(`checks that html contains propper linked item class`, () => {
         const wrapperClass = `kc-wrapper-class`;
         expect(field.getHtml()).toContain(wrapperClass);
     });
@@ -163,11 +163,11 @@ describe('RichTextField', () => {
             resolveHtml: () => richTextResolver.resolveHtml(html, {
                 enableAdvancedLogging: false,
                 links: links,
-                modularItems: modularItems,
+                linkedItems: linkedItems,
                 typeResolvers: config.typeResolvers as any,
                 richTextHtmlParser: getParserAdapter(),
-                modularContentWrapperClasses: ['kc-wrapper-class'],
-                modularContentWrapperTag: 'kc-item-wrapper',
+                linkedItemWrapperClasses: ['kc-wrapper-class'],
+                linkedItemWrapperTag: 'kc-item-wrapper',
                 queryConfig: {
                     richTextResolver: undefined as any,
                     linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug

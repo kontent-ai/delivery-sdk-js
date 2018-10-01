@@ -38,7 +38,7 @@ describe('Live item', () => {
     expect(response.item.title.text).toEqual('Warrior');
   });
 
-  it(`verify 'plot' rich text field with modular content contains expected html`, () => {
+  it(`verify 'plot' rich text field with linked items contains expected html`, () => {
     const html = response.item.plot.getHtml();
     expect(html).toContain('<p>Tom</p>');
   });
@@ -77,7 +77,7 @@ describe('Live item', () => {
     expect(response.item.category.options[1]).toEqual(jasmine.any(FieldModels.MultipleChoiceOption));
   });
 
-  it(`stars modular items should be defined`, () => {
+  it(`stars linked items should be defined`, () => {
     expect(response.item.stars).toBeDefined();
   });
 
@@ -89,7 +89,7 @@ describe('Live item', () => {
     expect(response.item.stars[0]).toEqual(jasmine.any(Actor));
   });
 
-  it(`Check that modular item (Actor) has 'firstName' text properly assigned`, () => {
+  it(`Check that linked item (Actor) has 'firstName' text properly assigned`, () => {
     expect(response.item.stars[0].firstName.text).toEqual('Tom');
   });
 
@@ -101,12 +101,12 @@ describe('Live item', () => {
     expect(response.item.seoname.getUrl()).toEqual('testSlugUrl/warrior');
   });
 
-  it(`checks that html contains resolved modular content #1`, () => {
+  it(`checks that html contains resolved linked item content #1`, () => {
     const expectedHtml = `<p>Tom</p>`;
     expect(response.item.plot.getHtml()).toContain(expectedHtml);
   });
 
-  it(`checks that html contains resolved modular content #2`, () => {
+  it(`checks that html contains resolved linked item content #2`, () => {
     const expectedHtml = `<p>Joel</p>`;
     expect(response.item.plot.getHtml()).toContain(expectedHtml);
   });

@@ -3,7 +3,7 @@ import {
     IFeaturedObjects,
     IHtmlResolverConfig,
     ILinkObject,
-    IModularContentObject,
+    ILinkedItemContentObject,
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
@@ -15,7 +15,7 @@ import { ILinkResolverResult } from '../../interfaces';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
 
-    private readonly modularContent = {
+    private readonly modularContentElementData = {
         type: 'application/kenticocloud',
         dataType: 'data-type',
         dataCodename: 'data-codename'
@@ -31,17 +31,17 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
             // create document
             const documentFragment = parse5.parseFragment(html) as parse5.DefaultTreeDocumentFragment;
 
-            // get all modular content items
+            // get all linked items
             const result = this.processRichTextField(this.getChildNodes(documentFragment), replacement, config, {
                 links: [],
-                modularContentItems: []
+                linkedItems: []
             });
 
             const resolvedHtml = parse5.serialize(documentFragment);
 
             return {
                 links: result.links,
-                modularContentItems: result.modularContentItems,
+                linkedItems: result.linkedItems,
                 resolvedHtml: resolvedHtml
             };
 
@@ -137,38 +137,38 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     private processModularContent(element: parse5.DefaultTreeElement, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): void {
         const attributes = element.attrs;
 
-        const dataTypeAttribute = attributes.find(m => m.value === this.modularContent.type);
+        const dataTypeAttribute = attributes.find(m => m.value === this.modularContentElementData.type);
         if (!dataTypeAttribute) {
             // node is not of modular content type
             return;
         }
 
         // get codename of the modular content
-        const dataCodenameAttribute: parse5.Attribute | undefined = attributes.find(m => m.name === this.modularContent.dataCodename);
+        const dataCodenameAttribute: parse5.Attribute | undefined = attributes.find(m => m.name === this.modularContentElementData.dataCodename);
         if (dataCodenameAttribute == null) {
-            throw Error(`The '${this.modularContent.dataCodename}' attribute is missing and therefore modular content item cannot be retrieved`);
+            throw Error(`The '${this.modularContentElementData.dataCodename}' attribute is missing and therefore linked item cannot be retrieved`);
         }
 
         const itemCodename = dataCodenameAttribute.value;
 
-        const modularItem: IModularContentObject = {
+        const linkedItem: ILinkedItemContentObject = {
             dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
             dataType: dataTypeAttribute ? dataTypeAttribute.value : ''
         };
 
         // add to result
-        result.modularContentItems.push(modularItem);
+        result.linkedItems.push(linkedItem);
 
         // get html
-        const resultHtml = replacement.getModularContentHtml(itemCodename);
+        const resultHtml = replacement.getLinkedItemHtml(itemCodename);
 
         // replace 'object' tag name
-        element.tagName = config.modularContentWrapperTag;
+        element.tagName = config.linkedItemWrapperTag;
 
         // add classes
         element.attrs.push({
             name: 'class',
-            value: config.modularContentWrapperClasses.map(m => m).join(' ')
+            value: config.linkedItemWrapperClasses.map(m => m).join(' ')
         });
 
         // get serialized set of nodes from HTML

@@ -138,18 +138,6 @@ if (codeType === CodeType.TypeScript) {
         return type.system.codename;
     }
 
-    private typeHasModularContent(type: ContentType): boolean {
-        let hasModularContentField = false;
-        Object.keys(type.elements).forEach(function (key) {
-            const element = type.elements[key];
-            if (element.type === 'modular_content') {
-                hasModularContentField = true;
-                return;
-            }
-        });
-        return hasModularContentField;
-    }
-
     private mapFieldTypeToName(fieldType: string): string {
         let result;
         if (fieldType === 'text') {
@@ -157,7 +145,7 @@ if (codeType === CodeType.TypeScript) {
         } else if (fieldType === 'number') {
             result = 'NumberField';
         } else if (fieldType === 'modular_content') {
-            // we don't what type of modular content there can be or if its an array or single object
+            // we don't what type of linked item there can be or if its an array or single object
             // => use base content item class
             return generatorConfig.modularFieldReplacement;
         } else if (fieldType === 'asset') {

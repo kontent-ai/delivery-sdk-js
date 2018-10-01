@@ -21,5 +21,8 @@
         "dist/kentico-cloud-angular-http-service"
       ]
     }
-  }
+  },
+  "exclude": [
+    "node_modules",
+  ]
 }

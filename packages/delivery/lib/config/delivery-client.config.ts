@@ -68,17 +68,17 @@ export interface IDeliveryClientConfig {
     httpService?: IHttpService;
 
     /**
-     * Global settings for modular content resolver
+     * Global settings for linked item resolver
      */
-    modularContentResolver?: {
+    linkedItemResolver?: {
         /**
-         * Element used for wrapping resolved modular items
+         * Element used for wrapping resolved linked item
          */
-        modularContentWrapperTag?: string,
+        linkedItemWrapperTag?: string,
         /**
          * CSS classes applied to wrapper
          */
-        modularContentWrapperClasses?: string[]
+        linkedItemWrapperClasses?: string[]
     };
 
     /**

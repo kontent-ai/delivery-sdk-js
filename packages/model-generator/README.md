@@ -27,9 +27,9 @@ To generate models with e.g. `ES2015` and `TypeScript` navigate to folder where 
 - `moduleResolution` - available options are `CommonJs` and `ES2015`
 - `projectId` - represents the Kentico Cloud Project Id from which models will be generated
 
-## Strongly typed modular content fields
+## Strongly typed linked item fields
 
-There is no direct link between a field and a modular item type that can be used inside that field. For this reason, you need to manually swap `ContentItem` types with the types that represents that field.
+There is no direct link between a field and a linked item that can be used inside that field. For this reason, you need to manually swap `ContentItem` types with the types that represents that field.
 
 ## Examples
 

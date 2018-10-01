@@ -1,6 +1,6 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { FieldDecorators, FieldInterfaces, Fields, FieldType } from '../fields';
+import { FieldDecorators, FieldContracts, Fields, FieldType } from '../fields';
 import { IItemQueryConfig, ILinkResolverResult } from '../interfaces';
 import { ContentItem, Link } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
@@ -8,8 +8,8 @@ import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../res
 
 export class FieldMapper {
 
-    private readonly defaultModularContentWrapperTag: string = 'p';
-    private readonly defaultModularContentWrapperClasses: string[] = ['kc-modular-item-wrapper'];
+    private readonly defaultLinkedItemWrapperTag: string = 'p';
+    private readonly defaultLinkedItemWrapperClasses: string[] = ['kc-linked-item-wrapper'];
 
     constructor(
         private readonly config: IDeliveryClientConfig,
@@ -63,7 +63,7 @@ export class FieldMapper {
         }
 
         properties.forEach(fieldName => {
-            const field = item.elements[fieldName] as FieldInterfaces.IField;
+            const field = item.elements[fieldName] as FieldContracts.IField;
             let propertyName: string | undefined;
 
             // resolve field to a custom model property
@@ -89,11 +89,11 @@ export class FieldMapper {
         return itemTyped;
     }
 
-    private mapField(field: FieldInterfaces.IField, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldInterfaces.IField {
+    private mapField(field: FieldContracts.IField, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldContracts.IField {
         const fieldType = field.type.toLowerCase();
 
         if (fieldType === FieldType.ModularContent.toString()) {
-            return this.mapModularField(field, modularContent, queryConfig, processedItems);
+            return this.mapLinkedItemsField(field, modularContent, queryConfig, processedItems);
         } else if (fieldType === FieldType.Text.toLowerCase()) {
             return this.mapTextField(field);
         } else if (fieldType === FieldType.Asset.toLowerCase()) {
@@ -105,7 +105,7 @@ export class FieldMapper {
         } else if (fieldType === FieldType.DateTime.toLowerCase()) {
             return this.mapDateTimeField(field);
         } else if (fieldType === FieldType.RichText.toLowerCase()) {
-            return this.mapRichTextField(field as FieldInterfaces.IRichTextField, modularContent, queryConfig, processedItems);
+            return this.mapRichTextField(field as FieldContracts.IRichTextField, modularContent, queryConfig, processedItems);
         } else if (fieldType === FieldType.UrlSlug.toLowerCase()) {
             return this.mapUrlSlugField(field, item, queryConfig);
         } else if (fieldType === FieldType.Taxonomy.toLowerCase()) {
@@ -117,26 +117,26 @@ export class FieldMapper {
         throw Error(error);
     }
 
-    private mapRichTextField(field: FieldInterfaces.IRichTextField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): Fields.RichTextField {
-        // get all modular content items nested in rich text
-        const modularItems: ContentItem[] = [];
+    private mapRichTextField(field: FieldContracts.IRichTextField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): Fields.RichTextField {
+        // get all linked items nested in rich text
+        const linkedItems: ContentItem[] = [];
 
         if (field.modular_content) {
             if (Array.isArray(field.modular_content)) {
                 field.modular_content.forEach(codename => {
-                    // get modular item and check if it exists (it might not be included in response due to 'Depth' parameter)
-                    const modularContentItem = modularContent[codename];
+                    // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
+                    const linkedItemFromModularContent = modularContent[codename];
 
-                    if (!modularContentItem) {
-                        throw Error(`Modular content item with codename '${codename}' is not present in Delivery response.
-                        This modular item was requested by '${field.name}' field.
+                    if (!linkedItemFromModularContent) {
+                        throw Error(`Linked item with codename '${codename}' is not present in Delivery response.
+                        This linked item was requested by '${field.name}' field.
                         Error can usually be solved by increasing 'Depth' parameter of your query.`);
                     }
 
-                    const modularItem = this.mapFields(modularContent[codename], modularContent, queryConfig, processedItems);
+                    const linkedItem = this.mapFields(modularContent[codename], modularContent, queryConfig, processedItems);
 
-                    if (modularItem != null) {
-                        modularItems.push(modularItem);
+                    if (linkedItem != null) {
+                        linkedItems.push(linkedItem);
                     }
                 });
             }
@@ -153,44 +153,44 @@ export class FieldMapper {
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
                     typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
                     richTextHtmlParser: this.richTextHtmlParser,
-                    modularItems: modularItems,
+                    linkedItems: linkedItems,
                     links: links,
                     queryConfig: queryConfig,
-                    modularContentWrapperTag: this.config.modularContentResolver && this.config.modularContentResolver.modularContentWrapperTag
-                        ? this.config.modularContentResolver.modularContentWrapperTag
-                        : this.defaultModularContentWrapperTag,
-                    modularContentWrapperClasses: this.config.modularContentResolver && this.config.modularContentResolver.modularContentWrapperClasses
-                        ? this.config.modularContentResolver.modularContentWrapperClasses
-                        : this.defaultModularContentWrapperClasses
+                    linkedItemWrapperTag: this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperTag
+                        ? this.config.linkedItemResolver.linkedItemWrapperTag
+                        : this.defaultLinkedItemWrapperTag,
+                    linkedItemWrapperClasses: this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperClasses
+                        ? this.config.linkedItemResolver.linkedItemWrapperClasses
+                        : this.defaultLinkedItemWrapperClasses
                 })
             });
     }
 
-    private mapDateTimeField(field: FieldInterfaces.IField): Fields.DateTimeField {
+    private mapDateTimeField(field: FieldContracts.IField): Fields.DateTimeField {
         return new Fields.DateTimeField(field.name, field.value);
     }
 
-    private mapMultipleChoiceField(field: FieldInterfaces.IField): Fields.MultipleChoiceField {
+    private mapMultipleChoiceField(field: FieldContracts.IField): Fields.MultipleChoiceField {
         return new Fields.MultipleChoiceField(field.name, field.value);
     }
 
-    private mapNumberField(field: FieldInterfaces.IField): Fields.NumberField {
+    private mapNumberField(field: FieldContracts.IField): Fields.NumberField {
         return new Fields.NumberField(field.name, field.value);
     }
 
-    private mapTextField(field: FieldInterfaces.IField): Fields.TextField {
+    private mapTextField(field: FieldContracts.IField): Fields.TextField {
         return new Fields.TextField(field.name, field.value);
     }
 
-    private mapAssetsField(field: FieldInterfaces.IField): Fields.AssetsField {
+    private mapAssetsField(field: FieldContracts.IField): Fields.AssetsField {
         return new Fields.AssetsField(field.name, field.value);
     }
 
-    private mapTaxonomyField(field: FieldInterfaces.IField): Fields.TaxonomyField {
+    private mapTaxonomyField(field: FieldContracts.IField): Fields.TaxonomyField {
         return new Fields.TaxonomyField(field.name, field.value, field.taxonomy_group);
     }
 
-    private mapUrlSlugField(field: FieldInterfaces.IField, item: ContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
+    private mapUrlSlugField(field: FieldContracts.IField, item: ContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
         const linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
 
         return new Fields.UrlSlugField(
@@ -208,48 +208,48 @@ export class FieldMapper {
             });
     }
 
-    private mapModularField(field: FieldInterfaces.IField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): any {
+    private mapLinkedItemsField(field: FieldContracts.IField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): any {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
-                console.warn(`Cannot map modular content field because field does not exist`);
+                console.warn(`Cannot map linked item field because field does not exist`);
             }
             return null;
         }
 
         if (!field.value) {
             if (this.config.enableAdvancedLogging) {
-                console.warn(`Cannot map modular content of '${field.name}' because its value does not exist`);
+                console.warn(`Cannot map linked item of '${field.name}' because its value does not exist`);
             }
             return null;
         }
 
-        // modular content is always returned in an array
-        const modularContentItems: any[] = [];
+        // linked items is always returned as array of item codenames
+        const linkedItems: any[] = [];
         const fieldModularContent = field.value as Array<string>;
-        fieldModularContent.forEach(modularItemCodename => {
-            const modularItem = modularContent[modularItemCodename];
+        fieldModularContent.forEach(linkedItemCodename => {
+            const linkedItem = modularContent[linkedItemCodename];
 
-            if (!modularItem) {
+            if (!linkedItem) {
                 if (this.config.enableAdvancedLogging) {
-                    console.warn(`Cannot map '${field.name}' modular content item. Make sure you use 'DepthParameter' in case your modular content is nested.`);
+                    console.warn(`Cannot map '${field.name}' linked item. Try increasing 'DepthParameter' so that nested items are included in the response.`);
                 }
             }
 
-            // try to map only if the modular item was present in response
-            if (modularItem) {
+            // try to map only if the linked item was present in response
+            if (linkedItem) {
                 // add/taken item to processed items to avoid infinite recursion
-                let processedItem = processedItems.find(m => m.system.codename === modularItem.system.codename);
+                let processedItem = processedItems.find(m => m.system.codename === linkedItem.system.codename);
                 if (processedItem) {
-                    modularContentItems.push(processedItem);
+                    linkedItems.push(processedItem);
                 } else {
-                    const newModularItem = this.mapFields<any>(modularItem, modularContent, queryConfig, processedItems);
-                    modularContentItems.push(newModularItem);
-                    processedItem = newModularItem;
+                    const newLinkedItem = this.mapFields<any>(linkedItem, modularContent, queryConfig, processedItems);
+                    linkedItems.push(newLinkedItem);
+                    processedItem = newLinkedItem;
                 }
             }
         });
 
-        return modularContentItems;
+        return linkedItems;
     }
 
     private getLinkResolverForUrlSlugField(item: ContentItem, queryConfig: IItemQueryConfig): ((link: Link) => string | undefined | ILinkResolverResult) | undefined {

@@ -26,7 +26,7 @@ export class ContentItem {
     public linkResolver?: (link: Link) => string | ILinkResolverResult;
 
     /**
-    * Callback used to resolve modular content in rich text fields to HTML
+    * Callback used to resolve linked items in rich text fields to HTML
     */
     public richTextResolver?: (contentItem: ContentItem) => string;
 
@@ -47,7 +47,7 @@ export class ContentItem {
         linkResolver?: (link: Link) => string | ILinkResolverResult,
 
         /**
-         * Callback used to resolve modular content in rich text fields to HTML
+         * Callback used to resolve linked items in rich text fields to HTML
          */
         richTextResolver?: (contentItem: ContentItem) => string;
     }) {

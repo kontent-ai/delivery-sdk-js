@@ -14,22 +14,22 @@ export interface IRichTextResolverResult extends IFeaturedObjects {
 
 export interface IFeaturedObjects {
     links: ILinkObject[];
-    modularContentItems: IModularContentObject[];
+    linkedItems: ILinkedItemContentObject[];
 }
 
 export interface IRichTextReplacements {
-    getModularContentHtml: (itemCodename: string) => string;
+    getLinkedItemHtml: (itemCodename: string) => string;
     getLinkResult: (itemId: string) => string | undefined | ILinkResolverResult;
 }
 
 export interface IHtmlResolverConfig {
     enableAdvancedLogging: boolean;
     queryConfig: IItemQueryConfig;
-    modularContentWrapperTag: string;
-    modularContentWrapperClasses: string[];
+    linkedItemWrapperTag: string;
+    linkedItemWrapperClasses: string[];
 }
 
-export interface IModularContentObject {
+export interface ILinkedItemContentObject {
     dataType: string;
     dataCodename: string;
 }
