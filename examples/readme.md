@@ -22,7 +22,7 @@ A community-made sample Angular Universal application. Showcases pre-rendering a
 
 A community-made bare-bones application built using plain JavaScript and Browserify.
 
-## [unpkg cdn](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/unpkg/index.html)
+## [unpkg-cdn](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/unpkg/index.html)
 
 A simple example of including the SDK in plain HTML using [unpkg](https://unpkg.com/#/).
 
