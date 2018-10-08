@@ -37,3 +37,6 @@ export * from './interfaces';
 /* images */
 export * from './images';
 
+/* enums */
+export * from './enums';
+

@@ -7,8 +7,10 @@ import {
     richTextResolver,
     TypeResolver,
     urlSlugResolver,
-    getParserAdapter
+    getParserAdapter,
+    IRichTextResolverContext
 } from '../../../lib';
+import { RichTextContentType } from '../../../lib/enums';
 
 class ActorMock extends ContentItem {
     firstName: Fields.TextField;
@@ -91,7 +93,14 @@ describe('RichTextField', () => {
     // prepare html
     // tslint:disable:max-line-length
     const html = `
-    <p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"></object>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"></object>\n<p>See more in profile of <a data-item-id=\"3294e4b0-e58b-49d7-85fa-5bc9a86556ec\" href=\"\">Joel Edgerton</a> and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>
+    <p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for
+    competition in a mixed martial arts tournament - a path that puts the fighter on a collision course
+    with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n
+    <object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"></object>
+    \n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"></object>\n<p>
+    See more in profile of <a data-item-id=\"3294e4b0-e58b-49d7-85fa-5bc9a86556ec\" href=\"\">Joel Edgerton</a>
+    and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>
+    <p>Leading actor: <object type=\"application/kenticocloud\" data-type=\"component\" data-codename=\"tom_hardy\"></object></p>
     `;
 
     const field = new Fields.RichTextField('name', html, {
@@ -105,7 +114,10 @@ describe('RichTextField', () => {
             linkedItemWrapperClasses: ['kc-wrapper-class'],
             linkedItemWrapperTag: 'kcelem',
             queryConfig: {
-                richTextResolver: (item: ActorMock) => {
+                richTextResolver: (item: ActorMock, context) => {
+                    if (context.contentType === RichTextContentType.Component) {
+                        return `<p class="resolved-component-item">${item.firstName.text}</p>`;
+                    }
                     return `<p class="testing_richtext">${item.firstName.text}</p>`;
                 },
                 linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
@@ -129,6 +141,11 @@ describe('RichTextField', () => {
 
     it(`checks that html contains resolved linked item content #2`, () => {
         const expectedHtml = `<p class="testing_richtext">Joel</p>`;
+        expect(field.getHtml()).toContain(expectedHtml);
+    });
+
+    it(`checks that html contains resolved component item #1`, () => {
+        const expectedHtml = `<p class="resolved-component-item">Tom</p>`;
         expect(field.getHtml()).toContain(expectedHtml);
     });
 
@@ -179,6 +196,36 @@ describe('RichTextField', () => {
         const expectedHtml2 = `href="/actor-rt/slug_for_tom"`;
         expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml1);
         expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml2);
+    });
+
+    it(`checks that rich text context is set`, () => {
+        const contexts: IRichTextResolverContext[] = [];
+
+        const fieldWithRichTextResolver = new Fields.RichTextField('name', html, {
+            links: links,
+            resolveHtml: () => richTextResolver.resolveHtml(html, {
+                enableAdvancedLogging: false,
+                links: links,
+                linkedItems: linkedItems,
+                typeResolvers: config.typeResolvers as any,
+                richTextHtmlParser: getParserAdapter(),
+                linkedItemWrapperClasses: ['kc-wrapper-class'],
+                linkedItemWrapperTag: 'kc-item-wrapper',
+                queryConfig: {
+                    richTextResolver: (item, context) => {
+                        contexts.push(context);
+                        return '';
+                    }
+                },
+            })
+        });
+
+        const result = fieldWithRichTextResolver.getHtml();
+
+        expect(contexts).toBeDefined();
+        expect(contexts.length).toEqual(3);
+        expect(contexts.filter(m => m.contentType === RichTextContentType.Component).length).toEqual(1);
+        expect(contexts.filter(m => m.contentType === RichTextContentType.Item).length).toEqual(2);
     });
 });
 

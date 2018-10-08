@@ -1,7 +1,8 @@
-import { IItemQueryConfig } from '../interfaces';
+import { IItemQueryConfig, IRichTextResolverContext } from '../interfaces';
 import { ContentItem, Link, TypeResolver } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 import { stronglyTypedResolver } from './strongly-type.resolver';
+import { RichTextContentType } from '../enums';
 
 export class RichTextResolver {
 
@@ -37,10 +38,11 @@ export class RichTextResolver {
                     itemId: itemId,
                     typeResolvers: data.typeResolvers
                 }),
-                getLinkedItemHtml: (itemCodename: string) => this.getLinkedItemHtml({
+                getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => this.getLinkedItemHtml({
                     itemCodename: itemCodename,
                     config: config,
                     linkedItems: data.linkedItems,
+                    itemType: itemType
                 })
             }, {
                 enableAdvancedLogging: data.enableAdvancedLogging,
@@ -56,6 +58,7 @@ export class RichTextResolver {
         itemCodename: string,
         config: IHtmlResolverConfig,
         linkedItems: ContentItem[],
+        itemType: RichTextContentType
     }): string {
         // get linked item
         const linkedItem = data.linkedItems.find(m => m.system.codename === data.itemCodename);
@@ -68,7 +71,7 @@ export class RichTextResolver {
         // create new replacement object
 
         // get html to replace object using Rich text resolver function
-        let resolver: (<TItem extends ContentItem>(item: TItem) => string) | undefined = undefined;
+        let resolver: (<TItem extends ContentItem>(item: TItem, context: IRichTextResolverContext) => string) | undefined = undefined;
         if (data.config.queryConfig.richTextResolver) {
             // use resolved defined by query if available
             resolver = data.config.queryConfig.richTextResolver;
@@ -87,7 +90,9 @@ export class RichTextResolver {
             }
             return '';
         }
-        return resolver(linkedItem);
+        return resolver(linkedItem, {
+            contentType: data.itemType
+        });
     }
 
     private getLinkResult(data: {

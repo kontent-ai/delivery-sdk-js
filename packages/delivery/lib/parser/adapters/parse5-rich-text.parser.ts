@@ -12,6 +12,7 @@ import {
 import * as parse5 from 'parse5';
 import { parse5Utils } from './parse5utils';
 import { ILinkResolverResult } from '../../interfaces';
+import { RichTextContentType } from '../../enums';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
 
@@ -127,20 +128,40 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                 // html for link is defined
                 const linkHtml = (<ILinkResolverResult>linkResult).asHtml ? (<ILinkResolverResult>linkResult).asHtml : '';
                 if (linkHtml) {
-                   const newNode = parse5.parseFragment(parse5Utils.createTextNode(''), linkHtml);
+                    const newNode = parse5.parseFragment(parse5Utils.createTextNode(''), linkHtml);
                     parse5Utils.replaceNode(element, (newNode as any).childNodes[0]);
                 }
             }
         }
     }
 
-    private processModularContent(element: parse5.DefaultTreeElement, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): void {
+    private processModularContent(
+        element: parse5.DefaultTreeElement,
+        replacement: IRichTextReplacements,
+        config: IHtmlResolverConfig,
+        result: IFeaturedObjects): void {
         const attributes = element.attrs;
 
-        const dataTypeAttribute = attributes.find(m => m.value === this.modularContentElementData.type);
-        if (!dataTypeAttribute) {
-            // node is not of modular content type
+        const typeAttribute = attributes.find(m => m.value === this.modularContentElementData.type);
+        if (!typeAttribute) {
+            // node is not kentico cloud data type
             return;
+        }
+
+        const dataTypeAttribute = attributes.find(m => m.name === this.modularContentElementData.dataType);
+
+        if (!dataTypeAttribute) {
+            throw Error(`Object tag in rich text field is missing a data type attribute '${this.modularContentElementData.dataType}'`);
+        }
+
+        // get type of resolving item
+        let type: RichTextContentType | undefined;
+        if (dataTypeAttribute.value === 'item') {
+            type = RichTextContentType.Item;
+        } else if (dataTypeAttribute.value === 'component') {
+            type = RichTextContentType.Component;
+        } else {
+            throw Error(`Unknown data type '${type}' found in rich text field response. `);
         }
 
         // get codename of the modular content
@@ -160,7 +181,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         result.linkedItems.push(linkedItem);
 
         // get html
-        const resultHtml = replacement.getLinkedItemHtml(itemCodename);
+        const resultHtml = replacement.getLinkedItemHtml(itemCodename, type);
 
         // replace 'object' tag name
         element.tagName = config.linkedItemWrapperTag;

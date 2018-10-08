@@ -8,6 +8,7 @@ import {
     IRichTextResolverResult,
 } from '../parse-models';
 import { ILinkResolverResult } from '../../interfaces';
+import { RichTextContentType } from '../../enums';
 
 export class BrowserRichTextParser implements IRichTextHtmlParser {
 
@@ -65,6 +66,10 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                     const dataCodenameAttribute = element.attributes.getNamedItem(this.modularContentElementData.dataCodename);
                     const dataTypeAttribute = element.attributes.getNamedItem(this.modularContentElementData.dataType);
 
+                    if (!dataTypeAttribute) {
+                        throw Error('Missing data type attribute. This is likely an error caused by invalid response.');
+                    }
+
                     const linkItem: ILinkedItemContentObject = {
                         dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
                         dataType: dataTypeAttribute ? dataTypeAttribute.value : ''
@@ -81,12 +86,23 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                     } else {
                         // create new element
                         const newElem = document.createElement(config.linkedItemWrapperTag);
-                        newElem.innerHTML = replacement.getLinkedItemHtml(linkItem.dataCodename);
+
+                        // get type of resolving item
+                        let type: RichTextContentType | undefined;
+                        if (dataTypeAttribute.value === 'item') {
+                            type = RichTextContentType.Item;
+                        } else if (dataTypeAttribute.value === 'component') {
+                            type = RichTextContentType.Component;
+                        } else {
+                            throw Error(`Unknown data type '${type}' found in rich text field.`);
+                        }
+
+                        newElem.innerHTML = replacement.getLinkedItemHtml(linkItem.dataCodename, type);
 
                         // add classes
                         newElem.className = config.linkedItemWrapperClasses.map(m => m).join(' ');
 
-                        // remove original object element
+                        // replace original node with new one
                         parentElement.replaceChild(newElem, element);
                     }
                 }

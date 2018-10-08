@@ -27,7 +27,7 @@ export let warriorMovieJson = {
           'tom_hardy',
           'joel_edgerton'
         ],
-        'value': '<p>The youngest son of an alcoholic former boxer returns home, where he\'s trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type="application/kenticocloud" data-type="item" data-codename="tom_hardy"></object><object type="application/kenticocloud" data-type="item" data-codename="joel_edgerton"></object>'
+        'value': '<p>The youngest son of an alcoholic former boxer returns home, where he\'s trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type="application/kenticocloud" data-type="item" data-codename="tom_hardy"></object><object type="application/kenticocloud" data-type="item" data-codename="joel_edgerton"></object><p>Leading actor: <object type=\"application/kenticocloud\" data-type=\"component\" data-codename=\"tom_hardy\"></object></p>'
       },
       'released': {
         'type': 'date_time',

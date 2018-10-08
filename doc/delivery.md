@@ -446,22 +446,28 @@ deliveryClient.item<Actor>('tom_hardy')
   .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
-### Resolving linked items in Rich text fields
+### Resolving linked & component items in Rich text fields
 
 If you have a linked item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` linked items used in all your rich text fields.
+
+Additionally, you can determine whether an item is a `component` (aka non-reusable item) or `item` (linked item) using the `context` parameter. 
 
 #### Globally
 
 ```typescript
-import { ContentItem, Fields } from 'kentico-cloud-delivery';
+import { ContentItem, Fields, RichTextContentType } from 'kentico-cloud-delivery';
 
 class Actor extends ContentItem {
   public name: Fields.TextField;
 
   constructor() {
     super({
-        richTextResolver: (item: Actor) => {
-          return `<h3>${item.name.text}</h3>`;
+        richTextResolver: (item: Actor, context) => {
+          if (context.contentType === RichTextContentType.Component) {
+            return `<h3 class="resolved-component">${item.first_name.text}</h3>`;
+          }
+
+          return `<h3 class="resolved-item">${item.name.text}</h3>`;
         }
       })
     }
@@ -492,7 +498,7 @@ import { IContentItem } from 'kentico-cloud-delivery';
 
 deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
-      richTextResolver: (item: IContentItem) => {
+      richTextResolver: (item: IContentItem, context) => {
         if (item.system.type == 'actor') {
           var actor = item as Actor;
           return `<h2>${actor.name.text}</h2>`;

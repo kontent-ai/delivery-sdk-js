@@ -1,4 +1,4 @@
-import { ILinkResolverResult } from '../../interfaces';
+import { ILinkResolverResult, IRichTextResolverContext } from '../../interfaces';
 import { ContentItemSystemAttributes } from './content-item-system-attributes';
 import { Link } from './link.class';
 
@@ -28,7 +28,7 @@ export class ContentItem {
     /**
     * Callback used to resolve linked items in rich text fields to HTML
     */
-    public richTextResolver?: (contentItem: ContentItem) => string;
+    public richTextResolver?: (contentItem: ContentItem, context: IRichTextResolverContext) => string;
 
     /**
     * Base class representing content item type. All content type models need to extend this class.
@@ -49,7 +49,7 @@ export class ContentItem {
         /**
          * Callback used to resolve linked items in rich text fields to HTML
          */
-        richTextResolver?: (contentItem: ContentItem) => string;
+        richTextResolver?: (contentItem: ContentItem, context: IRichTextResolverContext) => string;
     }) {
         if (data) {
             Object.assign(this, data);

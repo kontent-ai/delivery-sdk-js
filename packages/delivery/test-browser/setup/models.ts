@@ -15,7 +15,7 @@ export class Actor extends ContentItem {
 
   constructor() {
     super({
-      richTextResolver: (item: Actor) => {
+      richTextResolver: (item: Actor, context) => {
         return `<p>${item.firstName.text}</p>`;
       },
       linkResolver: (link: Link) => {
@@ -48,7 +48,7 @@ export class Movie extends ContentItem {
         }
         return fieldName;
       },
-      richTextResolver: (item: Movie) => {
+      richTextResolver: (item: Movie, context) => {
         return `<p>${item.title.text}</p>`;
       },
       linkResolver: (link: Link) => {

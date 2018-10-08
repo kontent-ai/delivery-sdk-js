@@ -1,4 +1,5 @@
 import { IItemQueryConfig, ILinkResolverResult } from '../interfaces';
+import { RichTextContentType } from '../enums';
 
 export interface IRichTextHtmlParser {
     resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
@@ -18,7 +19,7 @@ export interface IFeaturedObjects {
 }
 
 export interface IRichTextReplacements {
-    getLinkedItemHtml: (itemCodename: string) => string;
+    getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => string;
     getLinkResult: (itemId: string) => string | undefined | ILinkResolverResult;
 }
 

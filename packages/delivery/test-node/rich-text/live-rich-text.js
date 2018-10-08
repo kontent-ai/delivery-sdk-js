@@ -5,7 +5,7 @@ class Actor extends KenticoCloud.ContentItem {
 
     constructor() {
         super({
-            richTextResolver: (item) => {
+            richTextResolver: (item, context) => {
                 return `<p>${item.first_name.text}</p>`;
             },
             linkResolver: (link) => {
@@ -24,7 +24,7 @@ class Movie extends KenticoCloud.ContentItem {
                     return 'releaseCategory';
                 }
             },
-            richTextResolver: (item) => {
+            richTextResolver: (item, context) => {
                 return `<p>${item.title.text}</p>`;
             },
             linkResolver: (link) => {
