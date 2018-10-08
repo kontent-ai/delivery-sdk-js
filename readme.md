@@ -1,6 +1,6 @@
 # Kentico Cloud
 
-This repository contains TypeScript packages related to [Kentico Cloud](https://kenticocloud.com/) app development. Currently, only the SDK for the [Delivery API](https://developer.kenticocloud.com/docs/getting-content) is available, with both browser & node support. More SDKs for Personalization & Content management are planned.
+This repository contains TypeScript packages related to [Kentico Cloud](https://kenticocloud.com/) app development.
 
 # SDKs Overview
 
@@ -18,21 +18,6 @@ Delivery JavaScript/TypeScript SDK is an official client library used for retrie
 * [Quickstart](https://github.com/Enngage/kentico-cloud-js/tree/master/packages/delivery)
 * [Full documentation](https://github.com/Enngage/kentico-cloud-js/blob/master/doc/delivery.md)
 * [Example apps](https://github.com/Enngage/kentico-cloud-js/tree/master/examples)
-
-
-
-## [Tracking SDK](https://github.com/Enngage/kentico-cloud-js/tree/master/packages/tracking)
-
-[![npm version](https://badge.fury.io/js/kentico-cloud-tracking.svg)](https://www.npmjs.com/package/kentico-cloud-tracking)
-[![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Enngage/kentico-cloud-tracking)
-[![npm](https://img.shields.io/npm/dt/kentico-cloud-tracking.svg)](https://www.npmjs.com/package/kentico-cloud-tracking)
-![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-tracking@latest/_bundles/kentico-cloud-tracking-sdk.umd.min.js?compression=gzip)
-
-Tracking JavaScript/TypeScript SDK is an official client library used for manually tracking visitors with Kentico Cloud. Both browser and Node.js integrations are supported.
-
-* [Documentation](https://github.com/Enngage/kentico-cloud-js/tree/master/packages/tracking)
-* [Tracking API Reference](https://developer.kenticocloud.com/v1/reference#tracking-api)
-
 
 ## [Model generator for Delivery SDK](https://github.com/Enngage/kentico-cloud-js/tree/master/packages/model-generator)
 

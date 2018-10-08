@@ -1,22 +1,22 @@
 {
-  "name": "kentico-cloud-tracking",
-  "version": "2.0.0-beta.1",
+  "name": "kentico-cloud-cm",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/tracking"
+    "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/content-management"
   },
-  "private": false,
+  "private": true,
   "author": "richard sustek",
   "license": "MIT",
-  "description": "Official Kentico Cloud Tracking SDK",
+  "description": "Official Kentico Cloud Content management SDK",
   "keywords": [
     "Kentico",
     "Kentico API",
     "Kentico Javascript",
     "Kentico SDK",
-    "Kentico Tracking",
-    "Kentico Tracking API",
-    "Kentico Tracking SDK"
+    "Kentico Management",
+    "Kentico Content Management",
+    "Kentico Content API"
   ],
   "engines": {
     "node": ">= 8"
