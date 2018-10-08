@@ -33,8 +33,6 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
         return this;
     }
 
-    // filters
-
     /**
      * Equals filter condition
      * @param field Element to filter. Example: 'elements.movie'
@@ -150,6 +148,24 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
      */
     orderParameter(field: string, sortOrder: SortOrder): this {
         this.parameters.push(new Parameters.OrderParameter(field, sortOrder));
+        return this;
+    }
+
+    /**
+     * Sets descending order on given field
+     * @param field Element by which to order
+     */
+    orderByDescending(field: string): this {
+        this.parameters.push(new Parameters.OrderParameter(field, SortOrder.desc));
+        return this;
+    }
+
+      /**
+     * Sets Ascending order on given field
+     * @param field Element by which to order
+     */
+    orderByAscending(field: string): this {
+        this.parameters.push(new Parameters.OrderParameter(field, SortOrder.asc));
         return this;
     }
 

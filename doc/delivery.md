@@ -214,6 +214,24 @@ deliveryClient.items<Movie>()
 
 ### Sorting
 
+You may sort using 3 methods: `OrderByAscending`, `OrderByDescending` or `OrderBy` with sort order as string enum. 
+
+```typescript
+deliveryClient.items<Movie>()
+  .type('movie')
+  .orderByDescending('elements.title')
+  .getObservable()
+  .subscribe(response => console.log(response));
+```
+
+```typescript
+deliveryClient.items<Movie>()
+  .type('movie')
+  .orderByAscending('elements.title')
+  .getObservable()
+  .subscribe(response => console.log(response));
+```
+
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')

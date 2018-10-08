@@ -98,6 +98,30 @@ describe('Item url parameters', () => {
         expect(param).toEqual('elem1[asc]');
     });
 
+    it(`orderByDescending should be set`, () => {
+        const url = new URL(
+            context.deliveryClient.items()
+                .orderByDescending('elem1')
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('order');
+
+        expect(param).toEqual('elem1[desc]');
+    });
+
+    it(`orderByAscending should be set`, () => {
+        const url = new URL(
+            context.deliveryClient.items()
+                .orderByAscending('elem1')
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('order');
+
+        expect(param).toEqual('elem1[asc]');
+    });
+
     it(`skip parameter should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()
