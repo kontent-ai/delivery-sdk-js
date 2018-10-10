@@ -118,12 +118,14 @@ export namespace Fields {
         * @constructor
         * @param {string} name - Name of the field
         * @param {string} value - Value of the field
+        * @param {string[]} linkedItemCodenames - Array of linked codenames
         * @param {() => string} resolveHtml - Function that resolves HTML
         * @param {Link[]} links - Links for this rich text field
         */
         constructor(
             public name: string,
             public value: any,
+            public linkedItemCodenames: string[],
             data: {
                 resolveHtml: () => string,
                 links: Link[]

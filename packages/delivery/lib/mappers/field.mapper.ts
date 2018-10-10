@@ -145,9 +145,12 @@ export class FieldMapper {
         // extract and map links
         const links: Link[] = this.mapRichTextLinks(field.links);
 
+        console.log('THIUS IS IS', field);
         return new Fields.RichTextField(
             field.name,
-            field.value, {
+            field.value,
+            field.modular_content,
+            {
                 links: links,
                 resolveHtml: () => richTextResolver.resolveHtml(field.value, {
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,

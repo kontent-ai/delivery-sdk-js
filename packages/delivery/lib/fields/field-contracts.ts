@@ -30,7 +30,7 @@ export namespace FieldContracts {
         /**
          * Modular content items
          */
-        modular_content?: string[];
+        modular_content: string[];
 
         /**
          * Json with links identified by item Id

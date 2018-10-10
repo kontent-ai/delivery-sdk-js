@@ -85,6 +85,13 @@ describe('Live item', () => {
     expect(response.item.stars.length).toEqual(2);
   });
 
+  it(`checks that linkedItemCodenames field is mapped and container proper data`, () => {
+    expect(response.item.plot.linkedItemCodenames).toBeDefined();
+    expect(response.item.plot.linkedItemCodenames.length).toEqual(2);
+    expect(response.item.plot.linkedItemCodenames).toContain('tom_hardy');
+    expect(response.item.plot.linkedItemCodenames).toContain('joel_edgerton');
+  });
+
   it(`check that type of stars property is correct`, () => {
     expect(response.item.stars[0]).toEqual(jasmine.any(Actor));
   });

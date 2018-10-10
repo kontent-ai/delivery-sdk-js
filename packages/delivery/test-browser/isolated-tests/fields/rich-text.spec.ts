@@ -104,7 +104,7 @@ describe('RichTextField', () => {
     and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>
     `;
 
-    const field = new Fields.RichTextField('name', html, {
+    const field = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
         links: links,
         resolveHtml: () => richTextResolver.resolveHtml(html, {
             enableAdvancedLogging: false,
@@ -130,6 +130,10 @@ describe('RichTextField', () => {
 
     it(`checks value`, () => {
         expect(field.value).toEqual(html);
+    });
+
+    it(`checks that linkedItemCodenames field is mapped`, () => {
+        expect(field.linkedItemCodenames).toBeDefined();
     });
 
     it(`checks that html contains resolved linked item content #1`, () => {
@@ -168,7 +172,7 @@ describe('RichTextField', () => {
 
     it(`checks that links are resolved even if the rich text resolver is not set`, () => {
 
-        const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, {
+        const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: links,
             resolveHtml: () => richTextResolver.resolveHtml(html, {
                 enableAdvancedLogging: false,
@@ -194,7 +198,7 @@ describe('RichTextField', () => {
     it(`checks that rich text context is set`, () => {
         const contexts: IRichTextResolverContext[] = [];
 
-        const fieldWithRichTextResolver = new Fields.RichTextField('name', html, {
+        const fieldWithRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: links,
             resolveHtml: () => richTextResolver.resolveHtml(html, {
                 enableAdvancedLogging: false,
