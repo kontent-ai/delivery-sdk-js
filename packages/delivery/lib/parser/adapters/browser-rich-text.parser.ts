@@ -70,19 +70,19 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         throw Error('Missing data type attribute. This is likely an error caused by invalid response.');
                     }
 
-                    const linkItem: ILinkedItemContentObject = {
+                    const linkItemContentObject: ILinkedItemContentObject = {
                         dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
                         dataType: dataTypeAttribute ? dataTypeAttribute.value : ''
                     };
 
                     // add to result
-                    result.linkedItems.push(linkItem);
+                    result.linkedItems.push(linkItemContentObject);
 
                     // replace html
                     const parentElement = element.parentElement;
 
                     if (!parentElement) {
-                        console.warn(`Could not replace linked item '${linkItem.dataCodename}' of '${linkItem.dataType}' because parent node is null. Please report this error if you are seeing this.`);
+                        console.warn(`Could not replace linked item '${linkItemContentObject.dataCodename}' of '${linkItemContentObject.dataType}' because parent node is undefined. Please report this error if you are seeing this.`);
                     } else {
                         // create new element
                         const newElem = document.createElement(config.linkedItemWrapperTag);
@@ -97,7 +97,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                             throw Error(`Unknown data type '${type}' found in rich text field.`);
                         }
 
-                        newElem.innerHTML = replacement.getLinkedItemHtml(linkItem.dataCodename, type);
+                        newElem.innerHTML = replacement.getLinkedItemHtml(linkItemContentObject.dataCodename, type);
 
                         // add classes
                         newElem.className = config.linkedItemWrapperClasses.map(m => m).join(' ');

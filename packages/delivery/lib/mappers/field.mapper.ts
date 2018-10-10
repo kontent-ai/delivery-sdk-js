@@ -89,7 +89,7 @@ export class FieldMapper {
         return itemTyped;
     }
 
-    private mapField(field: FieldContracts.IField, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldContracts.IField {
+    private mapField(field: FieldContracts.IField, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldContracts.IField | ContentItem[] | undefined {
         const fieldType = field.type.toLowerCase();
 
         if (fieldType === FieldType.ModularContent.toString()) {
@@ -153,7 +153,7 @@ export class FieldMapper {
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
                     typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
                     richTextHtmlParser: this.richTextHtmlParser,
-                    linkedItems: linkedItems,
+                    getLinkedItem: (codename) => this.getOrSaveLinkedItem(codename, field, queryConfig, modularContent, linkedItems),
                     links: links,
                     queryConfig: queryConfig,
                     linkedItemWrapperTag: this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperTag
@@ -208,48 +208,34 @@ export class FieldMapper {
             });
     }
 
-    private mapLinkedItemsField(field: FieldContracts.IField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): any {
+    private mapLinkedItemsField(field: FieldContracts.IField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): ContentItem[] | undefined {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
                 console.warn(`Cannot map linked item field because field does not exist`);
             }
-            return null;
+            return undefined;
         }
 
         if (!field.value) {
             if (this.config.enableAdvancedLogging) {
                 console.warn(`Cannot map linked item of '${field.name}' because its value does not exist`);
             }
-            return null;
+            return undefined;
         }
 
-        // linked items is always returned as array of item codenames
-        const linkedItems: any[] = [];
-        const fieldModularContent = field.value as Array<string>;
-        fieldModularContent.forEach(linkedItemCodename => {
-            const linkedItem = modularContent[linkedItemCodename];
+        // result is always an array of content items
+        const result: ContentItem[] = [];
 
-            if (!linkedItem) {
-                if (this.config.enableAdvancedLogging) {
-                    console.warn(`Cannot map '${field.name}' linked item. Try increasing 'DepthParameter' so that nested items are included in the response.`);
-                }
-            }
-
-            // try to map only if the linked item was present in response
+        // value = array of item codenames
+        const linkedItemCodenames = field.value as string[];
+        linkedItemCodenames.forEach(codename => {
+            const linkedItem = processedItems.find(m => m.system.codename === codename);
             if (linkedItem) {
-                // add/taken item to processed items to avoid infinite recursion
-                let processedItem = processedItems.find(m => m.system.codename === linkedItem.system.codename);
-                if (processedItem) {
-                    linkedItems.push(processedItem);
-                } else {
-                    const newLinkedItem = this.mapFields<any>(linkedItem, modularContent, queryConfig, processedItems);
-                    linkedItems.push(newLinkedItem);
-                    processedItem = newLinkedItem;
-                }
+                result.push(linkedItem);
             }
         });
 
-        return linkedItems;
+        return result;
     }
 
     private getLinkResolverForUrlSlugField(item: ContentItem, queryConfig: IItemQueryConfig): ((link: Link) => string | undefined | ILinkResolverResult) | undefined {
@@ -263,6 +249,32 @@ export class FieldMapper {
         }
 
         return linkResolver;
+    }
+
+    private getOrSaveLinkedItem(codename: string, field: FieldContracts.IField, queryConfig: IItemQueryConfig, modularContent: any, processedItems: ContentItem[]): ContentItem | undefined {
+        const rawLinkedItem = modularContent[codename] as ItemContracts.IContentItemContract;
+
+            if (!rawLinkedItem) {
+                if (this.config.enableAdvancedLogging) {
+                    console.warn(`Cannot map '${field.name}' linked item. Try increasing 'DepthParameter' so that nested items are included in the response.`);
+                }
+            }
+
+            // try to map only if the linked item was present in response
+            if (rawLinkedItem) {
+                // check item first to avoid infinite recursion
+                const existingItem = processedItems.find(m => m.system.codename === rawLinkedItem.system.codename);
+                if (existingItem) {
+                    return existingItem;
+                } else {
+                    // or create new item and add it to processed array
+                    const newLinkedItem = this.mapFields<any>(rawLinkedItem, modularContent, queryConfig, processedItems);
+                    processedItems.push(newLinkedItem);
+                    return newLinkedItem;
+                }
+            }
+
+        return undefined;
     }
 
     private mapRichTextLinks(linksJson: any): Link[] {

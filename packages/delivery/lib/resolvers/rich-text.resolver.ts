@@ -15,7 +15,7 @@ export class RichTextResolver {
         data: {
             richTextHtmlParser: IRichTextHtmlParser,
             typeResolvers: TypeResolver[],
-            linkedItems: ContentItem[],
+            getLinkedItem: (codename: string) => ContentItem | undefined,
             links: Link[],
             enableAdvancedLogging: boolean,
             queryConfig: IItemQueryConfig,
@@ -41,7 +41,7 @@ export class RichTextResolver {
                 getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => this.getLinkedItemHtml({
                     itemCodename: itemCodename,
                     config: config,
-                    linkedItems: data.linkedItems,
+                    getLinkedItem: data.getLinkedItem,
                     itemType: itemType
                 })
             }, {
@@ -57,11 +57,12 @@ export class RichTextResolver {
     private getLinkedItemHtml(data: {
         itemCodename: string,
         config: IHtmlResolverConfig,
-        linkedItems: ContentItem[],
+        getLinkedItem: (codename: string) => ContentItem | undefined,
         itemType: RichTextContentType
     }): string {
+
         // get linked item
-        const linkedItem = data.linkedItems.find(m => m.system.codename === data.itemCodename);
+        const linkedItem = data.getLinkedItem(data.itemCodename);
 
         // check if linked item really exists
         if (!linkedItem) {

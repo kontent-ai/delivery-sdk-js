@@ -10,8 +10,8 @@ export class ItemMapper {
     private readonly fieldMapper: FieldMapper;
 
     constructor(
-        private readonly config: IDeliveryClientConfig,
-        private readonly richTextHtmlParser: IRichTextHtmlParser
+        readonly config: IDeliveryClientConfig,
+        readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
         this.fieldMapper = new FieldMapper(config, richTextHtmlParser);
     }
@@ -39,7 +39,7 @@ export class ItemMapper {
     }
 
     private mapItem<TItem extends ContentItem>(item: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig): TItem {
-        if (item == null) {
+        if (!item) {
             throw Error(`Could not map item because its undefined`);
         }
 

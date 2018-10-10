@@ -90,6 +90,8 @@ describe('RichTextField', () => {
     linkedItems.push(tomHardy);
     linkedItems.push(joelEdgerton);
 
+    const getLinkedItem: (codename: string) => ContentItem | undefined = (codename) => linkedItems.find(m => m.system.codename === codename);
+
     // prepare html
     // tslint:disable:max-line-length
     const html = `
@@ -108,7 +110,7 @@ describe('RichTextField', () => {
         resolveHtml: () => richTextResolver.resolveHtml(html, {
             enableAdvancedLogging: false,
             links: links,
-            linkedItems: linkedItems,
+            getLinkedItem: getLinkedItem,
             typeResolvers: config.typeResolvers as any,
             richTextHtmlParser: getParserAdapter(),
             linkedItemWrapperClasses: ['kc-wrapper-class'],
@@ -180,7 +182,7 @@ describe('RichTextField', () => {
             resolveHtml: () => richTextResolver.resolveHtml(html, {
                 enableAdvancedLogging: false,
                 links: links,
-                linkedItems: linkedItems,
+                getLinkedItem: getLinkedItem,
                 typeResolvers: config.typeResolvers as any,
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: ['kc-wrapper-class'],
@@ -206,7 +208,7 @@ describe('RichTextField', () => {
             resolveHtml: () => richTextResolver.resolveHtml(html, {
                 enableAdvancedLogging: false,
                 links: links,
-                linkedItems: linkedItems,
+                getLinkedItem: getLinkedItem,
                 typeResolvers: config.typeResolvers as any,
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: ['kc-wrapper-class'],
