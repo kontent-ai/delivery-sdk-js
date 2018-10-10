@@ -91,8 +91,6 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         let type: RichTextContentType | undefined;
                         if (dataTypeAttribute.value === 'item') {
                             type = RichTextContentType.Item;
-                        } else if (dataTypeAttribute.value === 'component') {
-                            type = RichTextContentType.Component;
                         } else {
                             throw Error(`Unknown data type '${type}' found in rich text field.`);
                         }

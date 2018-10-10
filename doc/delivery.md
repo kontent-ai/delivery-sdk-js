@@ -464,11 +464,9 @@ deliveryClient.item<Actor>('tom_hardy')
   .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
-### Resolving linked & component items in Rich text fields
+### Resolving linked items in Rich text fields
 
 If you have a linked item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` linked items used in all your rich text fields.
-
-Additionally, you can determine whether an item is a `component` (aka non-reusable item) or `item` (linked item) using the `context` parameter. 
 
 #### Globally
 
@@ -481,10 +479,6 @@ class Actor extends ContentItem {
   constructor() {
     super({
         richTextResolver: (item: Actor, context) => {
-          if (context.contentType === RichTextContentType.Component) {
-            return `<h3 class="resolved-component">${item.first_name.text}</h3>`;
-          }
-
           return `<h3 class="resolved-item">${item.name.text}</h3>`;
         }
       })

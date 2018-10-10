@@ -1,7 +1,6 @@
 import { ContentItem, Fields, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 import { HttpService } from 'kentico-cloud-core';
-import { RichTextContentType } from '../../../lib/enums';
 
 class MockMovie extends ContentItem {
     public plot: Fields.RichTextField;
@@ -13,9 +12,6 @@ class MockActor extends ContentItem {
     constructor() {
         super({
             richTextResolver: (item: MockActor, context) => {
-                if (context.contentType === RichTextContentType.Component) {
-                    return `<h1 class="resolved-component">${item.first_name.text}</h1>`;
-                }
                 return `<h1>${item.first_name.text}</h1>`;
             }
         });
@@ -61,11 +57,5 @@ describe('Rich text resolver', () => {
         const containsHtml = '<h2>Tom</h2>';
         expect(responseWithQueryConfig.item.plot.getHtml()).toContain(containsHtml);
     });
-
-    it(`verifies globally defined rich text contains resolved component item`, () => {
-        const containsHtml = '<h1 class="resolved-component">Tom</h1>';
-        expect(response.item.plot.getHtml()).toContain(containsHtml);
-    });
-
 });
 
