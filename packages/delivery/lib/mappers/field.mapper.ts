@@ -145,7 +145,6 @@ export class FieldMapper {
         // extract and map links
         const links: Link[] = this.mapRichTextLinks(field.links);
 
-        console.log('THIUS IS IS', field);
         return new Fields.RichTextField(
             field.name,
             field.value,
