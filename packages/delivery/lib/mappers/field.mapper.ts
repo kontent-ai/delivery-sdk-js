@@ -231,9 +231,13 @@ export class FieldMapper {
         // value = array of item codenames
         const linkedItemCodenames = field.value as string[];
         linkedItemCodenames.forEach(codename => {
-            const linkedItem = processedItems.find(m => m.system.codename === codename);
+            const linkedItem = this.getOrSaveLinkedItem(codename, field, queryConfig, modularContent, processedItems);
             if (linkedItem) {
+                // add item to result
                 result.push(linkedItem);
+            } else {
+                // item was not found
+                console.warn(`Linked item with codename '${codename}' in linked items field '${field.name}' could not be found.`);
             }
         });
 
