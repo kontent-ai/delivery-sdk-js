@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-model-generator-utility",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "This utility generates strongly-typed models based on Content Types in a Kentico Cloud project. The models are supposed to be used together with the Kentico Cloud Typescript SDK.",
   "bin": {
     "kc-generate": "./_commonjs/app.js"
@@ -33,9 +33,9 @@
   "preferGlobal": true,
   "license": "MIT",
   "dependencies": {
-    "kentico-cloud-delivery": "5.0.0-beta.2",
-    "rxjs": "6.2.2",
-    "yargs": "12.0.1"
+    "kentico-cloud-delivery": "5.0.0",
+    "rxjs": "6.3.3",
+    "yargs": "12.0.2"
   },
   "devDependencies": {
     "@types/node": "10.9.4",
