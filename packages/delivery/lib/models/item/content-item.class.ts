@@ -1,4 +1,4 @@
-import { ILinkResolverResult, IRichTextResolverContext } from '../../interfaces';
+import { ILinkResolverResult, IRichTextResolverContext, ILinkResolverContext } from '../../interfaces';
 import { ContentItemSystemAttributes } from './content-item-system-attributes';
 import { Link } from './link.class';
 
@@ -23,7 +23,7 @@ export class ContentItem {
     /**
      *  Callback used to resolve links or URL slug fields
      */
-    public linkResolver?: (link: Link) => string | ILinkResolverResult;
+    public linkResolver?: (link: Link, context: ILinkResolverContext) => string | ILinkResolverResult;
 
     /**
     * Callback used to resolve linked items in rich text fields to HTML
@@ -44,7 +44,7 @@ export class ContentItem {
         /**
          *  Callback used to resolve links or URL slug fields
          */
-        linkResolver?: (link: Link) => string | ILinkResolverResult,
+        linkResolver?: (link: Link, context: ILinkResolverContext) => string | ILinkResolverResult,
 
         /**
          * Callback used to resolve linked items in rich text fields to HTML

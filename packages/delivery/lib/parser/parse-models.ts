@@ -20,7 +20,7 @@ export interface IFeaturedObjects {
 
 export interface IRichTextReplacements {
     getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => string;
-    getLinkResult: (itemId: string) => string | undefined | ILinkResolverResult;
+    getLinkResult: (itemId: string, linkText: string) => string | undefined | ILinkResolverResult;
 }
 
 export interface IHtmlResolverConfig {

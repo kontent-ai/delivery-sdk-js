@@ -1,6 +1,8 @@
 const assert = require('assert');
 const KenticoCloud = require('../../_commonjs');
 
+const linkContexts = {};
+
 class Actor extends KenticoCloud.ContentItem {
 
     constructor() {
@@ -8,7 +10,8 @@ class Actor extends KenticoCloud.ContentItem {
             richTextResolver: (item, context) => {
                 return `<p>${item.first_name.text}</p>`;
             },
-            linkResolver: (link) => {
+            linkResolver: (link, context) => {
+                linkContexts[link.codename] = context;
                 return {
                     asHtml: `<test>${link.urlSlug}</test>`
                 }
@@ -68,6 +71,23 @@ describe('#Rich text field with HTML links', () => {
 
     it('Rich text should contain expected resolved HTML link B', () => {
         assert.ok(plot.includes(expectedLinkHtmlB));
+    });
+
+    it('Links in rich text should have context along with original link text', () => {
+        assert.ok(plot.includes(expectedLinkHtmlB));
+
+        const joelLink = linkContexts['joel_edgerton'];
+        const tomLink = linkContexts['tom_hardy'];
+
+        assert.ok(joelLink);
+        if (joelLink) {
+            assert.equal(joelLink.linkText, 'Joel Edgerton');
+        }
+
+        assert.ok(tomLink);
+        if (tomLink) {
+            assert.equal(tomLink.linkText, 'Tom Hardy');
+        }
     });
 
 });

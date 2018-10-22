@@ -26,7 +26,7 @@ export class Link {
             itemId: string,
             codename: string,
             type: string,
-            urlSlug: string
+            urlSlug: string,
         }
     ) {
         Object.assign(this, data);

@@ -1,7 +1,7 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { FieldDecorators, FieldContracts, Fields, FieldType } from '../fields';
-import { IItemQueryConfig, ILinkResolverResult } from '../interfaces';
+import { IItemQueryConfig, ILinkResolverResult, ILinkResolverContext } from '../interfaces';
 import { ContentItem, Link } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
@@ -244,9 +244,9 @@ export class FieldMapper {
         return result;
     }
 
-    private getLinkResolverForUrlSlugField(item: ContentItem, queryConfig: IItemQueryConfig): ((link: Link) => string | undefined | ILinkResolverResult) | undefined {
+    private getLinkResolverForUrlSlugField(item: ContentItem, queryConfig: IItemQueryConfig): ((link: Link, context: ILinkResolverContext) => string | undefined | ILinkResolverResult) | undefined {
         // link resolver defined by the query config (= by calling method) has priority over type's global link resolver
-        let linkResolver: ((value: Link) => string | undefined | ILinkResolverResult) | undefined = undefined;
+        let linkResolver: ((value: Link, context: ILinkResolverContext) => string | undefined | ILinkResolverResult) | undefined = undefined;
 
         if (queryConfig.linkResolver) {
             linkResolver = queryConfig.linkResolver;
@@ -292,7 +292,7 @@ export class FieldMapper {
                 codename: linkRaw.codename,
                 itemId: linkItemId,
                 urlSlug: linkRaw.url_slug,
-                type: linkRaw.type
+                type: linkRaw.type,
             }));
         }
 

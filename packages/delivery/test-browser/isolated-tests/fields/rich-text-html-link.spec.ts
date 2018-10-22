@@ -76,13 +76,13 @@ describe('RichTextField with Html links', () => {
             itemId: tomHardy.system.id,
             codename: tomHardy.system.codename,
             type: tomHardy.system.type,
-            urlSlug: 'slug_for_tom'
+            urlSlug: 'slug_for_tom',
         }),
         new Link({
             itemId: joelEdgerton.system.id,
             codename: joelEdgerton.system.codename,
             type: joelEdgerton.system.type,
-            urlSlug: 'slug_for_joel'
+            urlSlug: 'slug_for_joel',
         })
     ];
 

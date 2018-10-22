@@ -1,4 +1,4 @@
-import { IItemQueryConfig, IRichTextResolverContext } from '../interfaces';
+import { IItemQueryConfig, IRichTextResolverContext, ILinkResolverContext } from '../interfaces';
 import { ContentItem, Link, TypeResolver } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 import { stronglyTypedResolver } from './strongly-type.resolver';
@@ -32,11 +32,12 @@ export class RichTextResolver {
 
         const result = data.richTextHtmlParser.resolveRichTextField(
             html, {
-                getLinkResult: (itemId: string) => this.getLinkResult({
+                getLinkResult: (itemId: string, linkText: string) => this.getLinkResult({
                     config: config,
                     links: data.links,
                     itemId: itemId,
-                    typeResolvers: data.typeResolvers
+                    typeResolvers: data.typeResolvers,
+                    linkText: linkText
                 }),
                 getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => this.getLinkedItemHtml({
                     itemCodename: itemCodename,
@@ -100,7 +101,8 @@ export class RichTextResolver {
         itemId: string,
         config: IHtmlResolverConfig,
         links: Link[],
-        typeResolvers: TypeResolver[]
+        typeResolvers: TypeResolver[],
+        linkText: string
     }): string {
         // find link with the id of content item
         const link = data.links.find(m => m.itemId === data.itemId);
@@ -117,9 +119,14 @@ export class RichTextResolver {
 
         let url;
 
+        // prepare link context
+        const linkContext: ILinkResolverContext = {
+            linkText: data.linkText
+        };
+
         if (queryLinkResolver) {
             // try to resolve url using the query config
-            url = queryLinkResolver(link);
+            url = queryLinkResolver(link, linkContext);
         }
 
         if (!url) {
@@ -133,7 +140,7 @@ export class RichTextResolver {
             } else {
                 const globalLinkResolver = emptyTypedItem.linkResolver;
                 if (globalLinkResolver) {
-                    url = globalLinkResolver(link);
+                    url = globalLinkResolver(link, linkContext);
                 }
             }
         }

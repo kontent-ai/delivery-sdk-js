@@ -33,11 +33,16 @@ describe('URL slug resolver', () => {
     let response: ItemResponses.DeliveryItemResponse<MockMovie>;
     let responseWithQueryConfig: ItemResponses.DeliveryItemResponse<MockMovie>;
 
+    const links: Link[] = [];
+
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
 
         responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {
             linkResolver: (link: Link) => {
+                // store links
+                links.push(link);
+
                 return 'querySlug/' + link.urlSlug;
             }
         });

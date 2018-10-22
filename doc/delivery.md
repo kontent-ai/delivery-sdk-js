@@ -397,10 +397,10 @@ The URL slugs (links) can be resolved in `URLSlugField` or `RichTextField` field
 
 To access the URL, call `getUrl` method.
 
-Note that when resolving links in RichTextField, you resolve all of them with a single link resolver. For this reason, it is recommended that you specify the `type` of the content type you want to resolve.
+Note that when resolving links in RichTextField, you resolve all of them with a single link resolver. For this reason, it is recommended that you specify the `type` of the content type you want to resolve. Also, if a link is inside RichTextField, you may access the original link text using the `context` parameter.
 
 ```typescript
-import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery';
+import { ContentItem, Fields, ILink, ILinkResolverContext } from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
   public title: Fields.TextField;
@@ -408,7 +408,7 @@ export class Actor extends ContentItem {
 
     constructor() {
     super({
-      linkResolver: (link: ILink) => {
+      linkResolver: (link: ILink, context: ILinkResolverContext) => {
         return `/actors/${url_slug}`;
       }
     })

@@ -116,7 +116,10 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         // add to result
                         result.links.push(link);
 
-                        const linkResult = replacement.getLinkResult(link.dataItemId);
+                        // get original link text (the one inside <a> tag)
+                        const linkText = element.innerHTML;
+
+                        const linkResult = replacement.getLinkResult(link.dataItemId, linkText);
                         let useResultAsUrl: boolean = true;
 
                         if (typeof linkResult === 'string' ) {

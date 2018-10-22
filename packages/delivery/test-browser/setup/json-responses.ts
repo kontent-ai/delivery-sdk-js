@@ -22,12 +22,23 @@ export let warriorMovieJson = {
         'type': 'rich_text',
         'name': 'Plot',
         'images': {},
-        'links': {},
+        'links': {
+          '3294e4b0-e58b-49d7-85fa-5bc9a86556ec': {
+            'codename': 'joel_edgerton',
+            'type': 'actor',
+            'url_slug': 'joel-edgerton'
+          },
+          'd1557cb1-d7ec-4d04-9742-f86b52bc34fc': {
+            'codename': 'tom_hardy',
+            'type': 'actor',
+            'url_slug': 'tom-hardy'
+          }
+        },
         'modular_content': [
           'tom_hardy',
           'joel_edgerton'
         ],
-        'value': '<p>The youngest son of an alcoholic former boxer returns home, where he\'s trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type="application/kenticocloud" data-type="item" data-codename="tom_hardy"></object><object type="application/kenticocloud" data-type="item" data-codename="joel_edgerton"></object>'
+        'value': '<p>The youngest son of an alcoholic former boxer returns home, where he\'s trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type="application/kenticocloud" data-type="item" data-codename="tom_hardy"></object><object type="application/kenticocloud" data-type="item" data-codename="joel_edgerton"></object><p>See more in profile of <a data-item-id=\"3294e4b0-e58b-49d7-85fa-5bc9a86556ec\" href=\"\">Joel Edgerton</a> and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>'
       },
       'released': {
         'type': 'date_time',

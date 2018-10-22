@@ -1,4 +1,4 @@
-import { ILinkResolverResult } from '../interfaces';
+import { ILinkResolverResult, ILinkResolverContext } from '../interfaces';
 import { ContentItem, Link } from '../models';
 
 export class UrlSlugResolver {
@@ -7,7 +7,7 @@ export class UrlSlugResolver {
     fieldValue: string;
     fieldName: string;
     item: ContentItem;
-    linkResolver: ((link: Link) => string | undefined | ILinkResolverResult) | undefined;
+    linkResolver: ((link: Link, context: ILinkResolverContext) => string | undefined | ILinkResolverResult) | undefined;
     enableAdvancedLogging: boolean;
   }): string | ILinkResolverResult | undefined {
     if (!data.linkResolver) {
@@ -35,8 +35,10 @@ export class UrlSlugResolver {
         urlSlug: data.fieldValue,
         type: data.type,
         codename: data.item.system.codename,
-        itemId: data.item.system.id
-      })
+        itemId: data.item.system.id,
+      }), {
+        linkText: undefined // link text is available only for links inside rich text field
+      }
     );
 
     if (!url) {

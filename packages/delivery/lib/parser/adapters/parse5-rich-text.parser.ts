@@ -90,14 +90,23 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
             return;
         }
 
+        // prepare link object
         const link: ILinkObject = {
             dataItemId: dataItemIdAttribute ? dataItemIdAttribute.value : ''
         };
 
-        // add to result
+        // add link to result
         result.links.push(link);
 
-        const linkResult = replacement.getLinkResult(link.dataItemId);
+        // get original link text (the one inside <a> tag from response)
+        let originalLinkText: string | undefined = undefined;
+
+        const linkTextNode = element.childNodes[0] as parse5.DefaultTreeTextNode;
+        if (linkTextNode) {
+            originalLinkText = linkTextNode.value;
+        }
+
+        const linkResult = replacement.getLinkResult(link.dataItemId, originalLinkText || '');
         let useResultAsUrl: boolean = true;
 
         if (typeof linkResult === 'string') {
