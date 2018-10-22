@@ -2,29 +2,30 @@ import { ContentItem, Fields, ItemResponses, sdkInfo, TypeResolver, Link, ILinkR
 import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 import { HttpService } from 'kentico-cloud-core';
 
-const globalLinkContexts: { [s: string]: ILinkResolverContext } = {};
-
-class MockMovie extends ContentItem {
-    public plot: Fields.RichTextField;
-}
-
-class MockActor extends ContentItem {
-    public first_name: Fields.TextField;
-
-    constructor() {
-        super({
-            richTextResolver: (item: MockActor, richTextContext) => {
-                return `<h1>${item.first_name.text}</h1>`;
-            },
-            linkResolver: (link, linkContext) => {
-                globalLinkContexts[link.codename] = linkContext;
-                return `/global-actor/${link.urlSlug}/global-link`;
-            }
-        });
-    }
-}
-
 describe('Rich text resolver', () => {
+
+    const localLinkContexts: { [s: string]: ILinkResolverContext } = {};
+    const globalLinkContexts: { [s: string]: ILinkResolverContext } = {};
+
+    class MockMovie extends ContentItem {
+        public plot: Fields.RichTextField;
+    }
+
+    class MockActor extends ContentItem {
+        public first_name: Fields.TextField;
+
+        constructor() {
+            super({
+                richTextResolver: (item: MockActor, richTextContext) => {
+                    return `<h1>${item.first_name.text}</h1>`;
+                },
+                linkResolver: (link, linkContext) => {
+                    globalLinkContexts[link.codename] = linkContext;
+                    return `/global-actor/${link.urlSlug}/global-link`;
+                }
+            });
+        }
+    }
 
     const context = new Context();
     const typeResolvers: TypeResolver[] = [];
@@ -42,7 +43,9 @@ describe('Rich text resolver', () => {
 
     let response: ItemResponses.DeliveryItemResponse<MockMovie>;
     let responseWithQueryConfig: ItemResponses.DeliveryItemResponse<MockMovie>;
-    const localLinkContexts: { [s: string]: ILinkResolverContext } = {};
+
+    let globalPlot: string = '';
+    let localPlot: string = '';
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
@@ -56,33 +59,36 @@ describe('Rich text resolver', () => {
                 return `/local-actor/${link.urlSlug}/local-link`;
             }
         });
+
+        globalPlot = response.item.plot.getHtml();
+        localPlot = responseWithQueryConfig.item.plot.getHtml();
         done();
     });
 
     it(`verifies globally defined rich text contains correct html of linked item`, () => {
         const containsHtml = '<h1>Tom</h1>';
-        expect(response.item.plot.getHtml()).toContain(containsHtml);
+        expect(globalPlot).toContain(containsHtml);
     });
 
     it(`verifies locally defined rich text resolver override global resolvers and contains correct html`, () => {
         const containsHtml = '<h2>Tom</h2>';
-        expect(responseWithQueryConfig.item.plot.getHtml()).toContain(containsHtml);
+        expect(localPlot).toContain(containsHtml);
     });
 
     it(`verifies globally defined rich text contains correct link`, () => {
         const containsHtml1 = '/global-actor/tom-hardy/global-link';
-        expect(response.item.plot.getHtml()).toContain(containsHtml1);
+        expect(globalPlot).toContain(containsHtml1);
 
         const containsHtml2 = '/global-actor/joel-edgerton/global-link';
-        expect(response.item.plot.getHtml()).toContain(containsHtml2);
+        expect(globalPlot).toContain(containsHtml2);
     });
 
     it(`verifies locally defined rich text contains correct link`, () => {
         const containsHtml1 = '/local-actor/tom-hardy/local-link';
-        expect(responseWithQueryConfig.item.plot.getHtml()).toContain(containsHtml1);
+        expect(localPlot).toContain(containsHtml1);
 
         const containsHtml2 = '/local-actor/joel-edgerton/local-link';
-        expect(responseWithQueryConfig.item.plot.getHtml()).toContain(containsHtml2);
+        expect(localPlot).toContain(containsHtml2);
     });
 
     it(`verifies that global links contains original texts of links`, () => {
