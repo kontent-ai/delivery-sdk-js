@@ -464,9 +464,13 @@ deliveryClient.item<Actor>('tom_hardy')
   .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
-### Resolving linked items in Rich text fields
+### Resolving content items and components in Rich text fields
 
-If you have a linked item inside a Rich text element, you need to define how each content type resolves to the HTML that will be rendered. This can be done globally for each type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` linked items used in all your rich text fields.
+[Rich text elements](https://developer.kenticocloud.com/v1/reference#section-rich-text-element) in Kentico Cloud can contain other content items and [components](https://help.kenticocloud.com/composing-and-linking-content/components/structuring-editorial-articles-with-components). For example, if you write a blog post, you might want to insert a video or testimonial to a specific place in your article.
+
+You need to define how these objects resolve to the HTML that will be rendered. This can be done globally for each content type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` content items or components used in all your rich text fields.
+
+Note: Items and components are resolved using the same mechanism; your application does not need to differentiate them. You can learn more about the differences between items and components in our [API Reference](https://developer.kenticocloud.com/v1/reference#linked-content).
 
 #### Globally
 
