@@ -2,7 +2,10 @@ import {
   IBaseResponse,
   IHttpService,
   IHeader,
-  IBaseResponseError
+  IBaseResponseError,
+  urlHelper,
+  CloudError,
+  mapCloudError
 } from 'kentico-cloud-core';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -16,10 +19,9 @@ import {
   ISDKInfo,
   ITaxonomyQueryConfig
 } from '../interfaces';
-import { mapDeliveryError, ResponseMapper } from '../mappers';
+import { ResponseMapper } from '../mappers';
 import {
   ContentItem,
-  DeliveryCloudError,
   ElementResponses,
   ItemResponses,
   TaxonomyResponses,
@@ -102,7 +104,7 @@ export class QueryService {
     queryConfig: IQueryConfig,
     options?: IQueryParameter[]
   ): string {
-    return this.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
+    return urlHelper.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
   }
 
   /**
@@ -286,10 +288,10 @@ export class QueryService {
     }
 
     return this.httpService
-      .get<IBaseResponseError<DeliveryCloudError>>(
+      .get<IBaseResponseError<CloudError>>(
         {
           url: url,
-          mapError: error => mapDeliveryError(error)
+          mapError: error => mapCloudError(error)
         },
         {
           headers: this.getHeaders(queryConfig),
@@ -299,7 +301,7 @@ export class QueryService {
         }
       )
       .pipe(
-        catchError((error: IBaseResponseError<DeliveryCloudError> ) => {
+        catchError((error: IBaseResponseError<CloudError> ) => {
           return throwError(error.mappedError);
         })
       );
@@ -381,24 +383,6 @@ export class QueryService {
    */
   private getBaseUrl(queryConfig: IQueryConfig): string {
     return this.getDeliveryUrl(queryConfig) + '/' + this.config.projectId;
-  }
-
-  /**
-   * Adds query parameters to given url
-   * @param url Url to which options will be added
-   * @param options Query parameters to add
-   */
-  private addOptionsToUrl(url: string, options?: IQueryParameter[]): string {
-    if (options) {
-      options.forEach(filter => {
-        if (url.indexOf('?') > -1) {
-          url = url + '&' + filter.getParam() + '=' + filter.getParamValue();
-        } else {
-          url = url + '?' + filter.getParam() + '=' + filter.getParamValue();
-        }
-      });
-    }
-    return url;
   }
 
   /**

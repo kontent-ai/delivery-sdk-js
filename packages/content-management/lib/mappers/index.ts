@@ -1,2 +1,1 @@
-export * from './tracking-response-mapper';
-export * from './tracking-error.mapper';
+export * from './content-management-response-mapper';

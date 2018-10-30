@@ -1,4 +1,4 @@
-export class DeliveryCloudError {
+export class CloudError {
     public message: string;
     public requestId: string;
     public errorCode: number;

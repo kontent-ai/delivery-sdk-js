@@ -28,7 +28,7 @@
   "include": [
     "lib/**/*",
     "test-browser/**/*",
-    "test-node/**/*"
+    "test-node/**/*",
   ],
   "exclude": [
     "node_modules",

@@ -1,1 +1,1 @@
-export * from './tracking-query-service.class';
+export * from './content-management-query-service.class';

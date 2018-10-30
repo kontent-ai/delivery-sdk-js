@@ -1,2 +1,2 @@
-export * from './itracking-client.interface';
-export * from './tracking-client.class';
+export * from './icontent-management-client.interface';
+export * from './content-management-client.class';

@@ -1,4 +1,4 @@
-import { DeliveryCloudError } from '../models';
+import { CloudError } from './cloud-error';
 
 const KCErrorNames = {
     errorCode: 'error_code',
@@ -7,12 +7,12 @@ const KCErrorNames = {
     specificCode: 'specific_code'
 };
 
-export function mapDeliveryError(error: any): DeliveryCloudError | any {
+export function mapCloudError(error: any): CloudError | any {
     if (error.response && error.response.data && error.response.data[KCErrorNames.requestId]) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         const data = error.response.data;
-        return new DeliveryCloudError({
+        return new CloudError({
             requestId: data[KCErrorNames.requestId],
             message: data[KCErrorNames.message] ? data[KCErrorNames.message] : '',
             errorCode: data[KCErrorNames.errorCode] ? data[KCErrorNames.errorCode] : 0,

@@ -1,1 +1,1 @@
-export * from './itracking-client-config.interface';
+export * from './icontent-management-client-config.interface';
