@@ -35,7 +35,7 @@ describe('Cloud errors', () => {
     it(`Error model should have all properties assigned`, () => {
         const cloudError = error as CloudError;
         expect(cloudError.errorCode).toBeGreaterThan(0);
-        expect(cloudError.specificCode).toBeGreaterThan(0);
+        expect(cloudError.specificCode).toBeGreaterThanOrEqual(0);
         expect(cloudError.message).toBeDefined();
         expect(cloudError.requestId).toBeDefined();
     });
