@@ -1,5 +1,5 @@
 import { ContentItemsResponse } from '../../lib';
-import * as listingResponseJson from '../fake-responses/fake-list-content-items.json';
+import * as listingResponseJson from '../fake-responses/content-items/fake-list-content-items.json';
 import { getTestClientWithJson } from '../setup';
 
 describe('List content items', () => {
@@ -35,11 +35,12 @@ describe('List content items', () => {
         response.data.items.forEach(m => {
             expect(m.codename).toBeDefined();
             expect(m.id).toBeDefined();
-            expect(m.last_modified).toBeDefined();
+            expect(m.lastModified).toBeDefined();
             expect(m.name).toBeDefined();
             expect(m.type).toBeDefined();
-            expect(m.sitemap_locations).toBeDefined();
+            expect(m.sitemapLocations).toBeDefined();
             expect(m.type.id).toBeDefined();
+            expect(m.lastModified).toEqual(jasmine.any(Date));
         });
     });
 

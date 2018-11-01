@@ -8,13 +8,13 @@ import {
 } from './http.models';
 
 export interface IHttpService {
-  post<TError extends any>(
+  post<TError extends any, TRawData extends any>(
     call: IHttpPostQueryCall<TError>,
     options?: IHttpQueryOptions
-  ): Observable<IBaseResponse>;
+  ): Observable<IBaseResponse<TRawData>>;
 
-  get<TError extends any>(
+  get<TError extends any, TRawData extends any>(
     call: IHttpGetQueryCall<TError>,
     options?: IHttpQueryOptions
-  ): Observable<IBaseResponse>;
+  ): Observable<IBaseResponse<TRawData>>;
 }

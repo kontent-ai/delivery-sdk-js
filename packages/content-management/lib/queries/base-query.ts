@@ -2,13 +2,12 @@ import { IQueryParameter, Parameters } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { IContentItemsListingResponseContract } from '../contracts';
 import { IContentManagementQueryConfig } from '../models';
 import { ContentManagementActions, contentManagementActions } from '../models/content-management-actions';
 import { IContentManagementResponse } from '../responses';
 import { ContentManagementQueryService } from '../services';
 
-export abstract class BaseQuery<TResponse extends IContentManagementResponse<IContentItemsListingResponseContract>> {
+export abstract class BaseQuery<TResponse extends IContentManagementResponse> {
 
     protected queryConfig?: IContentManagementQueryConfig;
     protected parameters: IQueryParameter[] = [];

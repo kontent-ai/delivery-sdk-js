@@ -9,10 +9,10 @@ import { AxiosResponse } from 'axios';
 
 export class HttpService implements IHttpService {
 
-  get<TError extends any>(
+  get<TError extends any, TRawData extends any>(
     call: IHttpGetQueryCall<TError>,
     options?: IHttpQueryOptions
-  ): Observable<IBaseResponse> {
+  ): Observable<IBaseResponse<TRawData>> {
 
     // bind callback from axios promise
     const axiosObservable = bindCallback(HttpFunctions.getCallback);
@@ -28,7 +28,7 @@ export class HttpService implements IHttpService {
               : []
         })
       ),
-      map((result: IHttpRequestResult<AxiosResponse>) => this.mapResult(result)),
+      map((result: IHttpRequestResult<AxiosResponse>) => this.mapResult<TRawData>(result)),
       catchError(error => {
         // Handling errors: https://github.com/axios/axios#handling-errors
         if (options && options.logErrorToConsole) {
@@ -46,10 +46,10 @@ export class HttpService implements IHttpService {
     );
   }
 
-  post<TError extends any>(
+  post<TError extends any, TRawData extends any>(
     call: IHttpPostQueryCall<TError>,
     options?: IHttpQueryOptions
-  ): Observable<IBaseResponse> {
+  ): Observable<IBaseResponse<TRawData>> {
 
     // bind callback from axios promise
     const axiosObservable = bindCallback(HttpFunctions.postCallback);
@@ -65,7 +65,7 @@ export class HttpService implements IHttpService {
               : []
         })
       ),
-      map((result: IHttpRequestResult<AxiosResponse>) => this.mapResult(result)),
+      map((result: IHttpRequestResult<AxiosResponse>) => this.mapResult<TRawData>(result)),
       catchError(error => {
         // Handling errors: https://github.com/axios/axios#handling-errors
         if (options && options.logErrorToConsole) {
@@ -83,8 +83,7 @@ export class HttpService implements IHttpService {
     );
   }
 
-
-  private mapResult(result: IHttpRequestResult<AxiosResponse>): IBaseResponse {
+  private mapResult<TRawData>(result: IHttpRequestResult<AxiosResponse>): IBaseResponse<TRawData> {
     // if error is set, throw it
     if (result.error) {
       throw result.error;
@@ -95,7 +94,7 @@ export class HttpService implements IHttpService {
       throw Error('Response is not set and no error was thrown');
     }
 
-    return <IBaseResponse>{
+    return <IBaseResponse<TRawData>>{
       data: result.response.data,
       response: result.response
     };

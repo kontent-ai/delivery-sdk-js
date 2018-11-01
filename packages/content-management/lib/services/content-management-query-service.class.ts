@@ -2,10 +2,11 @@ import { IHttpService, ISDKInfo } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ContentItemsResponse } from '..//responses';
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { contentManagementResponseMapper } from '../mappers';
+import { IContentItemsListingResponseContract, IViewContentItemResponseContract } from '../contracts';
+import { contentItemsResponseMapper } from '../mappers';
 import { IContentManagementQueryConfig } from '../models';
+import { ContentItemsResponse, ViewContentItemResponse } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
 export class ContentManagementQueryService extends BaseContentManagementQueryService {
@@ -22,12 +23,26 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         url: string,
         config?: IContentManagementQueryConfig
     ): Observable<ContentItemsResponse> {
-        return this.getResponse(
+        return this.getResponse<IContentItemsListingResponseContract>(
             url,
             config
         ).pipe(
             map(response => {
-                return contentManagementResponseMapper.mapListingItemsResponse(response);
+                return contentItemsResponseMapper.mapListingItemsResponse(response);
+            })
+        );
+    }
+
+    viewContentItem(
+        url: string,
+        config?: IContentManagementQueryConfig
+    ): Observable<ViewContentItemResponse> {
+        return this.getResponse<IViewContentItemResponseContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return contentItemsResponseMapper.mapViewContentItemResponse(response);
             })
         );
     }

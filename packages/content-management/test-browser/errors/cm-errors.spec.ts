@@ -1,7 +1,7 @@
 import { CloudError } from 'kentico-cloud-core';
 
-import { cmTestClientWithInvalidApiKey, getTestClientWithCloudError } from '../setup';
 import * as fakeErrorJson from '../fake-responses/fake-error.json';
+import { getTestClientWithCloudError } from '../setup';
 
 describe('Error handling', () => {
 

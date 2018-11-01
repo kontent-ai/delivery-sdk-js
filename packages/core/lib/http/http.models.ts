@@ -1,6 +1,6 @@
 
-export interface IBaseResponse {
-    data: any;
+export interface IBaseResponse<TRawData> {
+    data: TRawData;
     response: any;
 }
 

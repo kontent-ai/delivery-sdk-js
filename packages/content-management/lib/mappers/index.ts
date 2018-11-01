@@ -1,1 +1,2 @@
-export * from './content-management-response-mapper';
+export * from './base-mapper';
+export * from './content-items-response-mapper';

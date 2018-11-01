@@ -71,15 +71,15 @@ export abstract class BaseContentManagementQueryService {
      * @param url Url of request
      * @param config Query configuration
      */
-    protected getResponse(
+    protected getResponse<TRawData>(
         url: string,
         config?: IContentManagementQueryConfig
-    ): Observable<IBaseResponse> {
+    ): Observable<IBaseResponse<TRawData>> {
         if (!config) {
             config = {};
         }
 
-        return this.httpService.get<CloudError | any>(
+        return this.httpService.get<CloudError | any, TRawData>(
             {
                 url: url,
                 mapError: error => mapCloudError(error)
@@ -103,16 +103,16 @@ export abstract class BaseContentManagementQueryService {
      * @param body Body of the request (names and values)
      * @param config Query configuration
      */
-    protected postResponse(
+    protected postResponse<TRawData>(
         url: string,
         body: any,
         config?: IContentManagementQueryConfig
-    ): Observable<IBaseResponse> {
+    ): Observable<IBaseResponse<TRawData>> {
         if (!config) {
             config = {};
         }
 
-        return this.httpService.post<CloudError | any>(
+        return this.httpService.post<CloudError | any, TRawData>(
             {
                 url: url,
                 body: body,

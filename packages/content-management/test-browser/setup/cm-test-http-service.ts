@@ -22,10 +22,10 @@ export class CMTestHttpService implements IHttpService {
         Object.assign(this, config);
     }
 
-    get<TError extends any>(
+    get<TError extends any, TRawData extends any>(
         call: IHttpGetQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse> {
+    ): Observable<IBaseResponse<TRawData>> {
 
         // throw cloud error
         if (this.throwCloudError) {
@@ -41,16 +41,16 @@ export class CMTestHttpService implements IHttpService {
         }
 
         // return fake response
-        return of(<IBaseResponse>{
+        return of(<IBaseResponse<TRawData>>{
             data: this.fakeResponseJson,
             response: undefined
         });
     }
 
-    post<TError extends any>(
+    post<TError extends any, TRawData extends any>(
         call: IHttpPostQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse> {
+    ): Observable<IBaseResponse<TRawData>> {
 
         // throw cloud error
         if (this.throwCloudError) {
@@ -66,7 +66,7 @@ export class CMTestHttpService implements IHttpService {
         }
 
         // return fake response
-        return of(<IBaseResponse>{
+        return of(<IBaseResponse<TRawData>>{
             data: this.fakeResponseJson,
             response: undefined
         });
