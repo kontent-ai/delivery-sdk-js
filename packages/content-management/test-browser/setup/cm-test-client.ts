@@ -18,12 +18,13 @@ export const cmTestClientWithInvalidApiKey: IContentManagementClient = new Conte
     apiKey: 'xxx'
 });
 
-export const getTestClientWithCloudError: () => IContentManagementClient = () => new ContentManagementClient({
+export const getTestClientWithCloudError: (errorJson: any) => IContentManagementClient = (errorJson: any) => new ContentManagementClient({
     projectId: testProjectId,
     apiKey: 'xxx',
     httpService: new CMTestHttpService({
         fakeResponseJson: undefined,
-        throwCloudError: true
+        throwCloudError: true,
+        errorJson: errorJson
     })
 });
 

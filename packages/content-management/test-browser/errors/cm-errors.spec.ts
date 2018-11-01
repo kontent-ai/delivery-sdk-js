@@ -1,6 +1,7 @@
 import { CloudError } from 'kentico-cloud-core';
 
 import { cmTestClientWithInvalidApiKey, getTestClientWithCloudError } from '../setup';
+import * as fakeErrorJson from '../fake-responses/fake-error.json';
 
 describe('Error handling', () => {
 
@@ -8,7 +9,7 @@ describe('Error handling', () => {
     let error: any | CloudError;
 
     beforeAll((done) => {
-        getTestClientWithCloudError().listContentItems()
+        getTestClientWithCloudError(fakeErrorJson).listContentItems()
             .getObservable()
             .subscribe(response => {
                 succeeded = true;
@@ -31,9 +32,10 @@ describe('Error handling', () => {
 
     it(`Error model should have all properties assigned`, () => {
         const cloudError = error as CloudError;
-        expect(cloudError.errorCode).toBeGreaterThan(0);
-        expect(cloudError.message).toBeDefined();
-        expect(cloudError.requestId).toBeDefined();
+        expect(cloudError.errorCode).toEqual(fakeErrorJson.error_code);
+        expect(cloudError.message).toEqual(fakeErrorJson.message);
+        expect(cloudError.requestId).toEqual(fakeErrorJson.request_id);
+        expect(cloudError.specificCode).toEqual(fakeErrorJson.specific_code);
     });
 });
 

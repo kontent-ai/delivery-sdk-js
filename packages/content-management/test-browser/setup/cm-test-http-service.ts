@@ -8,16 +8,16 @@ import {
 } from 'kentico-cloud-core';
 import { Observable, of, throwError } from 'rxjs';
 
-import * as fakeErrorJson from '../fake-responses/fake-error.json';
-
 export class CMTestHttpService implements IHttpService {
 
     public throwCloudError: boolean = false;
     public fakeResponseJson: any = undefined;
+    public errorJson: any = undefined;
 
     constructor(config: {
-        fakeResponseJson: any,
-        throwCloudError: boolean
+        fakeResponseJson?: any,
+        throwCloudError?: boolean,
+        errorJson?: any
     }) {
         Object.assign(this, config);
     }
@@ -31,7 +31,7 @@ export class CMTestHttpService implements IHttpService {
         if (this.throwCloudError) {
             const fakeError = {
                 response: {
-                    data: fakeErrorJson
+                    data: this.errorJson
                 }
             };
             return throwError(<IBaseResponseError<TError>>{
@@ -56,7 +56,7 @@ export class CMTestHttpService implements IHttpService {
         if (this.throwCloudError) {
             const fakeError = {
                 response: {
-                    data: fakeErrorJson
+                    data: this.errorJson
                 }
             };
             return throwError(<IBaseResponseError<TError>>{
