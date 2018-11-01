@@ -1,6 +1,6 @@
 import { CloudError } from 'kentico-cloud-core';
 
-import { cmTestClientWithInvalidApiKey } from '../setup';
+import { cmTestClientWithInvalidApiKey, getTestClientWithCloudError } from '../setup';
 
 describe('Error handling', () => {
 
@@ -8,7 +8,7 @@ describe('Error handling', () => {
     let error: any | CloudError;
 
     beforeAll((done) => {
-        cmTestClientWithInvalidApiKey.listContentItems()
+        getTestClientWithCloudError().listContentItems()
             .getObservable()
             .subscribe(response => {
                 succeeded = true;

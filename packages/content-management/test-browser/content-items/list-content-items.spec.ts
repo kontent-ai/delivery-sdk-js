@@ -1,12 +1,12 @@
 import { ContentItemsResponse } from '../../lib';
-import { cmTestClient } from '../setup';
+import * as listingResponseJson from '../fake-responses/fake-list-content-items.json';
+import { getTestClientWithJson } from '../setup';
 
 describe('List content items', () => {
-
     let response: ContentItemsResponse;
 
     beforeAll((done) => {
-        cmTestClient.listContentItems()
+        getTestClientWithJson(listingResponseJson).listContentItems()
             .getObservable()
             .subscribe(result => {
                 response = result;

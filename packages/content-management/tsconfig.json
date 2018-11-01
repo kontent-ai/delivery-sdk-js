@@ -12,6 +12,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "noImplicitReturns": true,
+    "resolveJsonModule": true,
     "typeRoots": [
       "./node_modules/@types"
     ],
@@ -23,7 +24,7 @@
       "rxjs": [
         "./node_modules/rxjs"
       ]
-    }
+    },
   },
   "include": [
     "lib/**/*",

@@ -30,7 +30,8 @@ module.exports = function (config) {
                 "lib": ["es2015", "es2017", "dom"],
                 "exclude": [
                     "node_modules"
-                ]
+                ],
+                "resolveJsonModule": true,
             },
         },
         coverageReporter: {
