@@ -1,1 +1,1 @@
-export * from './query.service';
+export * from './delivery-query.service';

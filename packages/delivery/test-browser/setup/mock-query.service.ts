@@ -2,7 +2,7 @@ import { ContentItem, IDeliveryClientConfig, ISDKInfo, ResponseMapper } from '..
 import { IItemQueryConfig } from '../../lib/interfaces/item/iitem-query.config';
 import { ItemResponses } from '../../lib/models/item/responses';
 import { getParserAdapter } from '../../lib/parser/parser-adapter';
-import { QueryService } from '../../lib/services/query.service';
+import { QueryService } from '../../lib/services/delivery-query.service';
 import { fakeResponseFactory } from '../setup';
 import { IHttpService } from 'kentico-cloud-core';
 

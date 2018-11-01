@@ -31,12 +31,11 @@ export class ResponseMapper {
    * @param response Response data
    */
   mapSingleTypeResponse(
-    response: IBaseResponse
+    response: IBaseResponse<TypeContracts.ITypeResponseContract>
   ): TypeResponses.DeliveryTypeResponse {
-    const cloudResponse = (response.data as any) as TypeContracts.ITypeResponseContract;
 
     // map type
-    const type = this.typeMapper.mapSingleType(cloudResponse);
+    const type = this.typeMapper.mapSingleType(response.data);
 
     return new TypeResponses.DeliveryTypeResponse(
       type,
@@ -50,19 +49,18 @@ export class ResponseMapper {
    * @param options Options
    */
   mapMultipleTypeResponse(
-    response: IBaseResponse
+    response: IBaseResponse<TypeContracts.ITypesResponseContract>
   ): TypeResponses.DeliveryTypeListingResponse {
-    const cloudResponse = (response.data as any) as TypeContracts.ITypesResponseContract;
 
     // map types
-    const types = this.typeMapper.mapMultipleTypes(cloudResponse);
+    const types = this.typeMapper.mapMultipleTypes(response.data);
 
     // pagination
     const pagination: Pagination = new Pagination({
-      skip: cloudResponse.pagination.skip,
-      count: cloudResponse.pagination.count,
-      limit: cloudResponse.pagination.limit,
-      next_page: cloudResponse.pagination.next_page
+      skip: response.data.pagination.skip,
+      count: response.data.pagination.count,
+      limit: response.data.pagination.limit,
+      next_page: response.data.pagination.next_page
     });
 
     return new TypeResponses.DeliveryTypeListingResponse(
@@ -78,14 +76,13 @@ export class ResponseMapper {
    * @param queryConfig Query configuration
    */
   mapSingleResponse<TItem extends ContentItem>(
-    response: IBaseResponse,
+    response: IBaseResponse<ItemContracts.IItemResponseContract>,
     queryConfig: IItemQueryConfig
   ): ItemResponses.DeliveryItemResponse<TItem> {
-    const cloudResponse = (response.data as any) as ItemContracts.IItemResponseContract;
 
     // map item
     const item = this.itemMapper.mapSingleItem<TItem>(
-      cloudResponse,
+      response.data,
       queryConfig
     );
 
@@ -101,23 +98,22 @@ export class ResponseMapper {
    * @param queryConfig Query configuration
    */
   mapMultipleResponse<TItem extends ContentItem>(
-    response: IBaseResponse,
+    response: IBaseResponse<ItemContracts.IItemsResponseContract>,
     queryConfig: IItemQueryConfig
   ): ItemResponses.DeliveryItemListingResponse<TItem> {
-    const cloudResponse = (response.data as any) as ItemContracts.IItemsResponseContract;
 
     // map items
     const items = this.itemMapper.mapMultipleItems<TItem>(
-      cloudResponse,
+      response.data,
       queryConfig
     );
 
     // pagination
     const pagination: Pagination = new Pagination({
-      skip: cloudResponse.pagination.skip,
-      count: cloudResponse.pagination.count,
-      limit: cloudResponse.pagination.limit,
-      next_page: cloudResponse.pagination.next_page
+      skip: response.data.pagination.skip,
+      count: response.data.pagination.count,
+      limit: response.data.pagination.limit,
+      next_page: response.data.pagination.next_page
     });
 
     return new ItemResponses.DeliveryItemListingResponse(
@@ -132,14 +128,13 @@ export class ResponseMapper {
    * @param response Response data
    */
   mapTaxonomyResponse(
-    response: IBaseResponse
+    response: IBaseResponse<TaxonomyContracts.ITaxonomyResponseContract>
   ): TaxonomyResponses.TaxonomyResponse {
-    const cloudResponse = (response.data as any) as TaxonomyContracts.ITaxonomyResponseContract;
 
     // map taxonomy
     const taxonomy = this.taxonomyMapper.mapTaxonomy(
-      cloudResponse.system,
-      cloudResponse.terms
+      response.data.system,
+      response.data.terms
     );
 
     return new TaxonomyResponses.TaxonomyResponse(
@@ -153,21 +148,20 @@ export class ResponseMapper {
    * @param response Response data
    */
   mapTaxonomiesResponse(
-    response: IBaseResponse
+    response: IBaseResponse<TaxonomyContracts.ITaxonomiesResponseContract>
   ): TaxonomyResponses.TaxonomiesResponse {
-    const cloudResponse = (response.data as any) as TaxonomyContracts.ITaxonomiesResponseContract;
 
     // map taxonomies
     const taxonomies = this.taxonomyMapper.mapTaxonomies(
-      cloudResponse.taxonomies
+      response.data.taxonomies
     );
 
     // pagination
     const pagination: Pagination = new Pagination({
-      skip: cloudResponse.pagination.skip,
-      count: cloudResponse.pagination.count,
-      limit: cloudResponse.pagination.limit,
-      next_page: cloudResponse.pagination.next_page
+      skip: response.data.pagination.skip,
+      count: response.data.pagination.count,
+      limit: response.data.pagination.limit,
+      next_page: response.data.pagination.next_page
     });
 
     return new TaxonomyResponses.TaxonomiesResponse(
@@ -182,12 +176,11 @@ export class ResponseMapper {
    * @param response Response data
    */
   mapElementResponse(
-    response: IBaseResponse
+    response: IBaseResponse<ElementContracts.IElementResponseContract>
   ): ElementResponses.ElementResponse {
-    const cloudResponse = (response.data as any) as ElementContracts.IElementResponseContract;
 
     // map element
-    const element = this.elementMapper.mapElement(cloudResponse);
+    const element = this.elementMapper.mapElement(response.data);
 
     return new ElementResponses.ElementResponse(
       element,
@@ -195,7 +188,7 @@ export class ResponseMapper {
     );
   }
 
-  mapResponseDebug(response: IBaseResponse): ICloudResponseDebug {
+  mapResponseDebug(response: IBaseResponse<any>): ICloudResponseDebug {
     if (!response) {
       throw Error(`Cannot map 'debug' model from the response`);
     }

@@ -1,4 +1,4 @@
-import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
+import { IQueryParameter } from 'kentico-cloud-core';
 
 export namespace Filters {
 

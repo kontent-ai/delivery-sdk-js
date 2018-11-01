@@ -1,30 +1,25 @@
-import { DeliveryClient } from '../../../lib';
-import {
-    IHttpService,
-    IHttpGetQueryCall,
-    IHttpPostQueryCall,
-    IHttpQueryOptions,
-    IBaseResponse
-} from 'kentico-cloud-core';
+import { IBaseResponse, IHttpGetQueryCall, IHttpPostQueryCall, IHttpQueryOptions, IHttpService } from 'kentico-cloud-core';
 import { Observable, of } from 'rxjs';
 
+import { DeliveryClient } from '../../../lib';
+
 class CustomHttpService implements IHttpService {
-    get<TError extends any>(
+    get<TError extends any, TRawData extends any>(
         call: IHttpGetQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse> {
-        return of(<IBaseResponse>{
-            data: undefined,
+    ): Observable<IBaseResponse<TRawData>> {
+        return of(<IBaseResponse<TRawData>>{
+            data: {},
             response: undefined
         });
     }
 
-    post<TError extends any>(
+    post<TError extends any, TRawData extends any>(
         call: IHttpPostQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse> {
-        return of(<IBaseResponse>{
-            data: undefined,
+    ): Observable<IBaseResponse<TRawData>> {
+        return of(<IBaseResponse<TRawData>>{
+            data: {},
             response: undefined
         });
     }

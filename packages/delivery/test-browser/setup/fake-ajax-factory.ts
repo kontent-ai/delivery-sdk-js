@@ -2,7 +2,7 @@ import { IBaseResponse } from 'kentico-cloud-core';
 
 export class FakeResponseFactory {
 
-    getFakeSuccessResponse(json: any): IBaseResponse {
+    getFakeSuccessResponse(json: any): IBaseResponse<any> {
         const fakeResponse: any = {};
 
         fakeResponse.response = json;

@@ -22,7 +22,7 @@ describe('Retry - isolated - do not retry', () => {
 
         of(true)
             .pipe(
-                switchMap(() => {
+                switchMap((response) => {
                     return throwError(error);
                 }),
                 retryWhen(retryStrategy.strategy({

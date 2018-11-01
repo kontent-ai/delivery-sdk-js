@@ -1,10 +1,7 @@
-import { IQueryParameter } from '../interfaces';
+import { IQueryParameter } from 'kentico-cloud-core';
+
 import { Parameters } from '../models';
-import {
-  ImageCompressionEnum,
-  ImageFormatEnum,
-  ImageFitModeEnum
-} from './image.models';
+import { ImageCompressionEnum, ImageFitModeEnum, ImageFormatEnum } from './image.models';
 
 export class ImageUrlBuilder {
   private queryParams: IQueryParameter[] = [];
@@ -12,7 +9,7 @@ export class ImageUrlBuilder {
   constructor(
     /** Image url */
     public imageUrl: string
-  ) {}
+  ) { }
 
   /**
    * The dpr transformation is used to serve correctly sized images for devices that expose a device pixel ratio.

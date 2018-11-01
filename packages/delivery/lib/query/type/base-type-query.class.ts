@@ -1,19 +1,15 @@
+import { IHeader, IQueryParameter } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import {
-  ICloudResponse,
-  IContentTypeQueryConfig,
-  IQueryParameter
-} from '../../interfaces';
+import { ICloudResponse, IContentTypeQueryConfig } from '../../interfaces';
 import { TypeResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
-import { IHeader } from 'kentico-cloud-core';
 
 export abstract class BaseTypeQuery<
   TResponse extends ICloudResponse
-> extends BaseQuery<TResponse> {
+  > extends BaseQuery<TResponse> {
   protected parameters: IQueryParameter[] = [];
   protected _queryConfig: IContentTypeQueryConfig = {};
 
@@ -54,7 +50,7 @@ export abstract class BaseTypeQuery<
 
   protected runMultipleTypesQuery(): Observable<
     TypeResponses.DeliveryTypeListingResponse
-  > {
+    > {
     return this.queryService.getMultipleTypes(
       this.getMultipleTypesQueryUrl(),
       this._queryConfig

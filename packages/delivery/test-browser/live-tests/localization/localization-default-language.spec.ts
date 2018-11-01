@@ -1,4 +1,6 @@
-import { Parameters, IQueryParameter } from '../../../lib';
+import { IQueryParameter } from 'kentico-cloud-core';
+
+import { Parameters } from '../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Language #1', () => {

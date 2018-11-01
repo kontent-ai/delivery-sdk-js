@@ -1,4 +1,5 @@
-import { IQueryParameter } from '../../interfaces/common/iquery-parameter.interface';
+import { IQueryParameter } from 'kentico-cloud-core';
+
 import { SortOrder } from './sort-order.enum';
 
 export namespace Parameters {
