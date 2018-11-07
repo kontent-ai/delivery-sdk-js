@@ -142,7 +142,7 @@ Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichText
 
 #### Don't want to waste time creating models manually? 
 
-Try [Kentico Cloud model generator utility](https://www.npmjs.com/package/kentico-cloud-model-generator-utility) package that can generate `typescript` models out of your Kentico Cloud project automatically.
+Use the [Kentico Cloud model generator utility](https://www.npmjs.com/package/kentico-cloud-model-generator-utility) to automatically generate TypeScript or JavaScript models based on the content types in your Kentico Cloud project
 
 ### Initializing DeliveryClient
 
