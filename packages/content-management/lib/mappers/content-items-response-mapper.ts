@@ -42,6 +42,21 @@ export class ContentItemsResponseMapper {
         });
         return new ContentItemResponses.ViewContentItemResponse(baseMapper.mapResponseDebug(response), response.data, item);
     }
+
+    mapAddContentItemResponse(
+        response: IBaseResponse<ContentItemContracts.IAddContentItemResponseContract>
+    ): ContentItemResponses.AddContentItemResponse {
+        const item = new ContentItemResponses.ContentItemModel({
+            codename: response.data.codename,
+            externalId: response.data.external_id,
+            id: response.data.id,
+            lastModified: new Date(response.data.last_modified),
+            name: response.data.name,
+            sitemapLocations: response.data.sitemap_locations,
+            type: response.data.type
+        });
+        return new ContentItemResponses.AddContentItemResponse(baseMapper.mapResponseDebug(response), response.data, item);
+    }
 }
 
 export const contentItemsResponseMapper = new ContentItemsResponseMapper();

@@ -15,6 +15,10 @@ export class ContentManagementActions {
     viewContentItemByExternalId(id: string): string {
         return `items/external-id/${id}`;
     }
+
+    addContentItem(): string {
+        return `items`;
+    }
 }
 
 export const contentManagementActions = new ContentManagementActions();
