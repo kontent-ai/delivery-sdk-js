@@ -680,6 +680,8 @@ SDK allows you to inject your own instance of class implementing `IHttpService` 
 import {
     DeliveryClient,
     IHttpService,
+    IHttpPutQueryCall,
+    IHttpDeleteQueryCall
     IHttpGetQueryCall,
     IHttpPostQueryCall,
     IHttpQueryOptions,
@@ -688,25 +690,49 @@ import {
 import { Observable, of } from 'rxjs';
 
 class CustomHttpService implements IHttpService {
-    get<TError extends any>(
+    get<TError extends any, TRawData extends any>(
         call: IHttpGetQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse> {
+    ): Observable<IBaseResponse<TRawData>> {
 
         // your code for executing GET requests
-        return of(<IBaseResponse>{
+        return of(<IBaseResponse<any>>{
             data: undefined,
             response: undefined
         });
     }
 
-    post<TError extends any>(
+    post<TError extends any, TRawData extends any>(
         call: IHttpPostQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse> {
+    ): Observable<IBaseResponse<TRawData>> {
 
       // your code for executing POST requests
-        return of(<IBaseResponse>{
+        return of(<IBaseResponse<any>>{
+            data: undefined,
+            response: undefined
+        });
+    }
+
+    put<TError extends any, TRawData extends any>(
+        call: IHttpPutQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse<TRawData>> {
+
+      // your code for executing PUT requests
+        return of(<IBaseResponse<any>>{
+            data: undefined,
+            response: undefined
+        });
+    }
+
+    delete<TError extends any, TRawData extends any>(
+        call: IHttpDeleteQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse<TRawData>> {
+
+      // your code for executing DELETE requests
+        return of(<IBaseResponse<any>>{
             data: undefined,
             response: undefined
         });

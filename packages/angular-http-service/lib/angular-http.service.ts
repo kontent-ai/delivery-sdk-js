@@ -4,8 +4,11 @@ import {
     IBaseResponse,
     IBaseResponseError,
     IHeader,
+    IHttpDeleteQueryCall,
     IHttpGetQueryCall,
     IHttpPostQueryCall,
+    IHttpPutQueryCall,
+    IHttpQueryCall,
     IHttpQueryOptions,
     IHttpService,
     retryStrategy,
@@ -20,56 +23,59 @@ export class AngularHttpService implements IHttpService {
         private http: HttpClient
     ) { }
 
-    get<TError extends any>(
+    get<TError extends any, TRawData extends any>(
         call: IHttpGetQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse> {
+    ): Observable<IBaseResponse<TRawData>> {
 
-        return this.http.get(call.url, {
+        const angularObs = this.http.get(call.url, {
             headers: this.getAngularHeaders(options ? options.headers : undefined)
-        }).pipe(
-            map(response => <IBaseResponse>{
-                data: response,
-                response: undefined
-            }),
-            retryWhen(
-                retryStrategy.strategy({
-                    maxRetryAttempts:
-                        options && options.maxRetryAttempts ? options.maxRetryAttempts : 0,
-                    useRetryForResponseCodes:
-                        options && options.useRetryForResponseCodes
-                            ? options.useRetryForResponseCodes
-                            : []
-                })
-            ),
-            catchError(error => {
-                if (options && options.logErrorToConsole) {
-                    console.warn(
-                        `Kentico Cloud SDK encountered an error posting data: `,
-                        error
-                    );
-                }
+        });
 
-                return throwError(<IBaseResponseError<TError>>{
-                    originalError: error,
-                    mappedError: call.mapError(error)
-                });
-            })
-        );
+        return this.mapAngularObservable(angularObs, call, options);
     }
 
-    post<TError extends any>(
+    post<TError extends any, TRawData extends any>(
         call: IHttpPostQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse> {
+    ): Observable<IBaseResponse<TRawData>> {
 
-        return this.http.post(call.url, call.body, {
+        const angularObs = this.http.post(call.url, call.body, {
             headers: this.getAngularHeaders(options ? options.headers : undefined),
+        });
 
-        }).pipe(
-            map(response => <IBaseResponse>{
+        return this.mapAngularObservable(angularObs, call, options);
+    }
+
+    put<TError extends any, TRawData extends any>(
+        call: IHttpPutQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse<TRawData>> {
+
+        const angularObs = this.http.put(call.url, call.body, {
+            headers: this.getAngularHeaders(options ? options.headers : undefined),
+        });
+
+        return this.mapAngularObservable(angularObs, call, options);
+    }
+
+    delete<TError extends any, TRawData extends any>(
+        call: IHttpDeleteQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse<TRawData>> {
+
+        const angularObs = this.http.delete(call.url, {
+            headers: this.getAngularHeaders(options ? options.headers : undefined),
+        });
+
+        return this.mapAngularObservable(angularObs, call, options);
+    }
+
+    private mapAngularObservable<TError extends any, TRawData extends any>(obs: Observable<any>, call: IHttpQueryCall<TError>, options: IHttpQueryOptions): Observable<IBaseResponse<TRawData>> {
+        return obs.pipe(
+            map(response => <IBaseResponse<TRawData>>{
                 data: response,
-                response: undefined
+                response: undefined,
             }),
             retryWhen(
                 retryStrategy.strategy({

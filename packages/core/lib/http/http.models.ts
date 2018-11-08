@@ -18,6 +18,13 @@ export interface IHttpPostQueryCall<TError extends any> extends IHttpQueryCall<T
     body: any;
 }
 
+export interface IHttpPutQueryCall<TError extends any> extends IHttpQueryCall<TError> {
+    body: any;
+}
+
+export interface IHttpDeleteQueryCall<TError extends any> extends IHttpQueryCall<TError> {
+}
+
 export interface IHttpGetQueryCall<TError extends any> extends IHttpQueryCall<TError> {
 }
 
