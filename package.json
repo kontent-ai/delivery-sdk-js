@@ -7,6 +7,7 @@
 		"node": ">= 8"
 	},
 	"scripts": {
+		"lerna:bootstrap": "lerna bootstrap && npm run lerna:build:all && lerna bootstrap",
 		"lerna:build:all": "lerna exec npm run build:all",
 		"lerna:install:all": "lerna exec npm i",
 		"lerna:test:all": "lerna exec npm run test:all",
