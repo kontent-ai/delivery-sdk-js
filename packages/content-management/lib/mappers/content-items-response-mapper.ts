@@ -1,17 +1,17 @@
 import { IBaseResponse } from 'kentico-cloud-core';
 
-import { IContentItemModelContract, IContentItemsListingResponseContract } from '../contracts';
-import { ContentItemModel, ContentItemsResponse, ViewContentItemResponse } from '../responses';
+import { ContentItemContracts } from '../contracts';
+import { ContentItemResponses } from '../responses';
 import { baseMapper } from './base-mapper';
 
 export class ContentItemsResponseMapper {
 
     mapListingItemsResponse(
-        response: IBaseResponse<IContentItemsListingResponseContract>
-    ): ContentItemsResponse {
+        response: IBaseResponse<ContentItemContracts.IContentItemsListingResponseContract>
+    ): ContentItemResponses.ContentItemsResponse {
 
         const pagination = baseMapper.mapPagination(response.data.pagination);
-        const items = response.data.items.map(m => new ContentItemModel({
+        const items = response.data.items.map(m => new ContentItemResponses.ContentItemModel({
             codename: m.codename,
             externalId: m.external_id,
             id: m.id,
@@ -22,16 +22,16 @@ export class ContentItemsResponseMapper {
         })
         );
 
-        return new ContentItemsResponse(baseMapper.mapResponseDebug(response), response.data, {
+        return new ContentItemResponses.ContentItemsResponse(baseMapper.mapResponseDebug(response), response.data, {
             pagination: pagination,
             items: items
         });
     }
 
     mapViewContentItemResponse(
-        response: IBaseResponse<IContentItemModelContract>
-    ): ViewContentItemResponse {
-        const item = new ContentItemModel({
+        response: IBaseResponse<ContentItemContracts.IContentItemModelContract>
+    ): ContentItemResponses.ViewContentItemResponse {
+        const item = new ContentItemResponses.ContentItemModel({
             codename: response.data.codename,
             externalId: response.data.external_id,
             id: response.data.id,
@@ -40,7 +40,7 @@ export class ContentItemsResponseMapper {
             sitemapLocations: response.data.sitemap_locations,
             type: response.data.type
         });
-        return new ViewContentItemResponse(baseMapper.mapResponseDebug(response), response.data, item);
+        return new ContentItemResponses.ViewContentItemResponse(baseMapper.mapResponseDebug(response), response.data, item);
     }
 }
 

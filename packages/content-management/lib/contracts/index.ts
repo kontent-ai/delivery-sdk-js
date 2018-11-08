@@ -1,2 +1,2 @@
 export * from './content-item-contracts';
-export * from './pagination-contracts';
+export * from './shared-contracts';

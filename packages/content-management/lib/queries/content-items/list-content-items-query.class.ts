@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
 
 import { IContentManagementClientConfig } from '../../config';
-import { ContentItemsResponse } from '../../responses';
+import { ContentItemResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
 
-export class ListContentItemsQuery extends BaseQuery<ContentItemsResponse> {
+export class ListContentItemsQuery extends BaseQuery<ContentItemResponses.ContentItemsResponse> {
 
   constructor(
     protected config: IContentManagementClientConfig,
@@ -14,7 +14,7 @@ export class ListContentItemsQuery extends BaseQuery<ContentItemsResponse> {
     super(config, queryService);
   }
 
-  getObservable(): Observable<ContentItemsResponse> {
+  getObservable(): Observable<ContentItemResponses.ContentItemsResponse> {
     return this.queryService.listContentItems(this.getUrl(), this.queryConfig);
   }
 

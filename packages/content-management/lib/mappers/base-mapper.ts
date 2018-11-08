@@ -1,13 +1,13 @@
 import { IBaseResponse } from 'kentico-cloud-core';
 
-import { IPaginationModelContract } from '../contracts';
-import { IContentManagementResponseDebug, PaginationModel } from '../responses';
+import { SharedContracts } from '../contracts';
+import { BaseResponses, ContentItemResponses, SharedResponses } from '../responses';
 
 export class BaseMapper {
 
     mapResponseDebug(
         baseResponse: IBaseResponse<any>
-    ): IContentManagementResponseDebug {
+    ): BaseResponses.IContentManagementResponseDebug {
         if (!baseResponse) {
             throw Error(`Cannot map debug model from the response`);
         }
@@ -17,8 +17,8 @@ export class BaseMapper {
         };
     }
 
-    mapPagination(rawPagination: IPaginationModelContract): PaginationModel {
-        return new PaginationModel(rawPagination.continuation_token, rawPagination.next_page);
+    mapPagination(rawPagination: SharedContracts.IPaginationModelContract): SharedResponses.PaginationModel {
+        return new SharedResponses.PaginationModel(rawPagination.continuation_token, rawPagination.next_page);
     }
 }
 

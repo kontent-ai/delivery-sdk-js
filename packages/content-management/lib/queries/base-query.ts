@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
 import { IContentManagementQueryConfig } from '../models';
 import { ContentManagementActions, contentManagementActions } from '../models/content-management-actions';
-import { IContentManagementResponse } from '../responses';
+import { BaseResponses } from '../responses';
 import { ContentManagementQueryService } from '../services';
 
-export abstract class BaseQuery<TResponse extends IContentManagementResponse> {
+export abstract class BaseQuery<TResponse extends BaseResponses.IContentManagementResponse> {
 
     protected queryConfig?: IContentManagementQueryConfig;
     protected parameters: IQueryParameter[] = [];

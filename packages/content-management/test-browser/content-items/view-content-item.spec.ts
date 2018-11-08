@@ -1,9 +1,9 @@
-import { ViewContentItemResponse } from '../../lib';
+import { ContentItemResponses } from '../../lib';
 import * as viewContentItemJson from '../fake-responses/content-items/view-content-item.json';
 import { getTestClientWithJson } from '../setup';
 
 describe('View content item', () => {
-    let response: ViewContentItemResponse;
+    let response: ContentItemResponses.ViewContentItemResponse;
 
     beforeAll((done) => {
         getTestClientWithJson(viewContentItemJson).viewContentItem().byCodename(viewContentItemJson.codename)
@@ -15,7 +15,7 @@ describe('View content item', () => {
     });
 
     it(`response should be instance of ViewContentItemResponse class`, () => {
-        expect(response).toEqual(jasmine.any(ViewContentItemResponse));
+        expect(response).toEqual(jasmine.any(ContentItemResponses.ViewContentItemResponse));
     });
 
     it(`response should contain debug data`, () => {

@@ -1,9 +1,9 @@
-import { ContentItemsResponse } from '../../lib';
+import { ContentItemResponses } from '../../lib';
 import * as listingResponseJson from '../fake-responses/content-items/fake-list-content-items.json';
 import { getTestClientWithJson } from '../setup';
 
 describe('List content items', () => {
-    let response: ContentItemsResponse;
+    let response: ContentItemResponses.ContentItemsResponse;
 
     beforeAll((done) => {
         getTestClientWithJson(listingResponseJson).listContentItems()
@@ -15,7 +15,7 @@ describe('List content items', () => {
     });
 
     it(`response should be instance of ContentItemsResponse class`, () => {
-        expect(response).toEqual(jasmine.any(ContentItemsResponse));
+        expect(response).toEqual(jasmine.any(ContentItemResponses.ContentItemsResponse));
     });
 
     it(`response should contain debug data`, () => {

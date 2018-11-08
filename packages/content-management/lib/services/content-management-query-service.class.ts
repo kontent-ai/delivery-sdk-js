@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { IContentItemsListingResponseContract, IViewContentItemResponseContract } from '../contracts';
+import { ContentItemContracts } from '../contracts';
 import { contentItemsResponseMapper } from '../mappers';
 import { IContentManagementQueryConfig } from '../models';
-import { ContentItemsResponse, ViewContentItemResponse } from '../responses';
+import { ContentItemResponses } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
 export class ContentManagementQueryService extends BaseContentManagementQueryService {
@@ -22,8 +22,8 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     listContentItems(
         url: string,
         config?: IContentManagementQueryConfig
-    ): Observable<ContentItemsResponse> {
-        return this.getResponse<IContentItemsListingResponseContract>(
+    ): Observable<ContentItemResponses.ContentItemsResponse> {
+        return this.getResponse<ContentItemContracts.IContentItemsListingResponseContract>(
             url,
             config
         ).pipe(
@@ -36,8 +36,8 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     viewContentItem(
         url: string,
         config?: IContentManagementQueryConfig
-    ): Observable<ViewContentItemResponse> {
-        return this.getResponse<IViewContentItemResponseContract>(
+    ): Observable<ContentItemResponses.ViewContentItemResponse> {
+        return this.getResponse<ContentItemContracts.IViewContentItemResponseContract>(
             url,
             config
         ).pipe(
