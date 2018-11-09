@@ -1,6 +1,6 @@
 import { ContentItemResponses } from '../../lib';
 import * as viewContentItemJson from '../fake-responses/content-items/view-content-item.json';
-import { getTestClientWithJson } from '../setup';
+import { getTestClientWithJson, cmTestClient, testProjectId } from '../setup';
 
 describe('View content item', () => {
     let response: ContentItemResponses.ViewContentItemResponse;
@@ -12,6 +12,16 @@ describe('View content item', () => {
                 response = result;
                 done();
             });
+    });
+
+    it(`url should be correct`, () => {
+        const codenameUrl = cmTestClient.viewContentItem().byCodename('xCodename').getUrl();
+        const internalIdUrl = cmTestClient.viewContentItem().byInternalId('xInternalId').getUrl();
+        const externalIdUrl = cmTestClient.viewContentItem().byExternalId('xExternalId').getUrl();
+
+        expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/codename/xCodename`);
+        expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/xInternalId`);
+        expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/external-id/xExternalId`);
     });
 
     it(`response should be instance of ViewContentItemResponse class`, () => {

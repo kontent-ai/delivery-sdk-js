@@ -1,5 +1,5 @@
-export class ContentManagementActions {
 
+class ContentManagementContentItemActions {
     items(): string {
         return 'items';
     }
@@ -19,6 +19,22 @@ export class ContentManagementActions {
     addContentItem(): string {
         return `items`;
     }
+
+    updateContentItemByCodename(codename: string): string {
+        return `items/codename/${codename}`;
+    }
+
+    updateContentItemByInternalId(id: string): string {
+        return `items/${id}`;
+    }
+
+    updateContentItemByExternalId(id: string): string {
+        return `items/external-id/${id}`;
+    }
+}
+
+export class ContentManagementActions {
+    public contentItemActions: ContentManagementContentItemActions = new ContentManagementContentItemActions();
 }
 
 export const contentManagementActions = new ContentManagementActions();

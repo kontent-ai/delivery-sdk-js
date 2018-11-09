@@ -132,6 +132,72 @@ export abstract class BaseContentManagementQueryService {
     }
 
     /**
+    * Http PUT response
+    * @param url Url of request
+    * @param body Body of the request (names and values)
+    * @param config Query configuration
+    */
+    protected putResponse<TRawData>(
+        url: string,
+        body: any,
+        config?: IContentManagementQueryConfig
+    ): Observable<IBaseResponse<TRawData>> {
+        if (!config) {
+            config = {};
+        }
+
+        return this.httpService.put<CloudError | any, TRawData>(
+            {
+                url: url,
+                body: body,
+                mapError: error => mapCloudError(error)
+            },
+            {
+                headers: this.getHeaders(),
+                maxRetryAttempts: this.getRetryAttempts(),
+                useRetryForResponseCodes: this.useRetryForResponseCodes,
+                logErrorToConsole: true
+            }
+        ).pipe(
+            catchError((error: IBaseResponseError<CloudError>) => {
+                return throwError(error.mappedError);
+            })
+        );
+    }
+
+    /**
+    * Http Delete response
+    * @param url Url of request
+    * @param body Body of the request (names and values)
+    * @param config Query configuration
+    */
+    protected deleteResponse<TRawData>(
+        url: string,
+        config?: IContentManagementQueryConfig
+    ): Observable<IBaseResponse<TRawData>> {
+        if (!config) {
+            config = {};
+        }
+
+        return this.httpService.delete<CloudError | any, TRawData>(
+            {
+                url: url,
+                mapError: error => mapCloudError(error)
+            },
+            {
+                headers: this.getHeaders(),
+                maxRetryAttempts: this.getRetryAttempts(),
+                useRetryForResponseCodes: this.useRetryForResponseCodes,
+                logErrorToConsole: true
+            }
+        ).pipe(
+            catchError((error: IBaseResponseError<CloudError>) => {
+                return throwError(error.mappedError);
+            })
+        );
+    }
+
+    /**
     * Gets authorization header. This is used for 'preview' functionality
     */
     private getAuthorizationHeader(key?: string): IHeader {

@@ -1,6 +1,6 @@
 import { ContentItemResponses } from '../../lib';
 import * as addContentItemResponseJson from '../fake-responses/content-items/fake-add-content-item.json';
-import { getTestClientWithJson } from '../setup';
+import { getTestClientWithJson, cmTestClient, testProjectId } from '../setup';
 
 describe('Add content item', () => {
     let response: ContentItemResponses.AddContentItemResponse;
@@ -19,6 +19,12 @@ describe('Add content item', () => {
                 response = result;
                 done();
             });
+    });
+
+    it(`url should be correct`, () => {
+        const addUrl = cmTestClient.addContentItem({} as any).getUrl();
+
+        expect(addUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items`);
     });
 
     it(`response should be instance of AddContentItemResponse class`, () => {

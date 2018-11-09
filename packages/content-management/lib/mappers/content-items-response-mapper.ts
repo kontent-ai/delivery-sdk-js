@@ -11,16 +11,7 @@ export class ContentItemsResponseMapper {
     ): ContentItemResponses.ContentItemsResponse {
 
         const pagination = baseMapper.mapPagination(response.data.pagination);
-        const items = response.data.items.map(m => new ContentItemResponses.ContentItemModel({
-            codename: m.codename,
-            externalId: m.external_id,
-            id: m.id,
-            lastModified: new Date(m.last_modified),
-            name: m.name,
-            sitemapLocations: m.sitemap_locations,
-            type: m.type
-        })
-        );
+        const items = response.data.items.map(m => this.mapContentItem(m));
 
         return new ContentItemResponses.ContentItemsResponse(baseMapper.mapResponseDebug(response), response.data, {
             pagination: pagination,
@@ -31,31 +22,31 @@ export class ContentItemsResponseMapper {
     mapViewContentItemResponse(
         response: IBaseResponse<ContentItemContracts.IContentItemModelContract>
     ): ContentItemResponses.ViewContentItemResponse {
-        const item = new ContentItemResponses.ContentItemModel({
-            codename: response.data.codename,
-            externalId: response.data.external_id,
-            id: response.data.id,
-            lastModified: new Date(response.data.last_modified),
-            name: response.data.name,
-            sitemapLocations: response.data.sitemap_locations,
-            type: response.data.type
-        });
-        return new ContentItemResponses.ViewContentItemResponse(baseMapper.mapResponseDebug(response), response.data, item);
+        return new ContentItemResponses.ViewContentItemResponse(baseMapper.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
     }
 
     mapAddContentItemResponse(
         response: IBaseResponse<ContentItemContracts.IAddContentItemResponseContract>
     ): ContentItemResponses.AddContentItemResponse {
-        const item = new ContentItemResponses.ContentItemModel({
-            codename: response.data.codename,
-            externalId: response.data.external_id,
-            id: response.data.id,
-            lastModified: new Date(response.data.last_modified),
-            name: response.data.name,
-            sitemapLocations: response.data.sitemap_locations,
-            type: response.data.type
+        return new ContentItemResponses.AddContentItemResponse(baseMapper.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
+    }
+
+    mapUpdateContentItemResponse(
+        response: IBaseResponse<ContentItemContracts.IUpdateContentItemResponseContract>
+    ): ContentItemResponses.UpdateContentItemResponse {
+        return new ContentItemResponses.UpdateContentItemResponse(baseMapper.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
+    }
+
+    private mapContentItem(rawItem: ContentItemContracts.IContentItemModelContract): ContentItemResponses.ContentItemModel {
+        return new ContentItemResponses.ContentItemModel({
+            codename: rawItem.codename,
+            externalId: rawItem.external_id,
+            id: rawItem.id,
+            lastModified: new Date(rawItem.last_modified),
+            name: rawItem.name,
+            sitemapLocations: rawItem.sitemap_locations,
+            type: rawItem.type
         });
-        return new ContentItemResponses.AddContentItemResponse(baseMapper.mapResponseDebug(response), response.data, item);
     }
 }
 

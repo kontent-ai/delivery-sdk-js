@@ -75,5 +75,15 @@ export namespace ContentItemResponses {
             super(debug, rawData, data);
         }
     }
+
+    export class UpdateContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IUpdateContentItemResponseContract, ContentItemModel> {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: ContentItemContracts.IAddContentItemResponseContract,
+            data: ContentItemModel
+        ) {
+            super(debug, rawData, data);
+        }
+    }
 }
 

@@ -29,6 +29,16 @@ export namespace ContentItemContracts {
     }
 
     // tslint:disable-next-line:no-empty-interface
+    export interface IUpdateContentItemResponseContract extends IContentItemModelContract {
+    }
+
+    export interface IUpdateContentItemPostContract {
+        name: string;
+        sitemap_locations: [{
+            codename: string
+        }] | [];
+    }
+
     export interface IAddContentItemPostContract {
         name: string;
         type: {

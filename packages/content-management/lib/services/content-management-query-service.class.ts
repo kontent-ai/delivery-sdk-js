@@ -62,4 +62,20 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
             })
         );
     }
+
+    updateContentItem(
+        url: string,
+        data: ContentItemContracts.IUpdateContentItemPostContract,
+        config?: IContentManagementQueryConfig
+    ): Observable<ContentItemResponses.AddContentItemResponse> {
+        return this.putResponse<ContentItemContracts.IUpdateContentItemResponseContract>(
+            url,
+            data,
+            config
+        ).pipe(
+            map(response => {
+                return contentItemsResponseMapper.mapUpdateContentItemResponse(response);
+            })
+        );
+    }
 }
