@@ -2,6 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "baseUrl": ".",
+    "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
     "moduleResolution": "node",
@@ -11,8 +12,8 @@
     "target": "es5",
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
-    "noImplicitReturns": true,
     "resolveJsonModule": true,
+    "noImplicitReturns": true,
     "typeRoots": [
       "./node_modules/@types"
     ],
@@ -28,8 +29,8 @@
   },
   "include": [
     "lib/**/*",
-    "test-browser/**/*",
-    "test-node/**/*"
+    "test-node/**/*",
+    "test-browser/**/*"
   ],
   "exclude": [
     "node_modules",
