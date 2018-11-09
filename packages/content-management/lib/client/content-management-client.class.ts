@@ -1,11 +1,17 @@
 import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
-import { ListContentItemsQuery, ViewContentItemQueryInit, AddContentItemQuery, UpdateContentItemQueryInit } from '../queries';
+import { ContentItemContracts } from '../contracts';
+import {
+    AddContentItemQuery,
+    DeleteContentItemQueryInit,
+    ListContentItemsQuery,
+    UpdateContentItemQueryInit,
+    ViewContentItemQueryInit,
+} from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
 import { IContentManagementClient } from './icontent-management-client.interface';
-import { ContentItemContracts } from '../contracts';
 
 export class ContentManagementClient implements IContentManagementClient {
     private queryService: ContentManagementQueryService;
@@ -49,6 +55,13 @@ export class ContentManagementClient implements IContentManagementClient {
             this.config,
             this.queryService,
             item
+        );
+    }
+
+    deleteContentItem(): DeleteContentItemQueryInit {
+        return new DeleteContentItemQueryInit(
+            this.config,
+            this.queryService,
         );
     }
 }

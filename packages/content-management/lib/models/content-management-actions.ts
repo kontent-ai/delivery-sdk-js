@@ -31,6 +31,18 @@ class ContentManagementContentItemActions {
     updateContentItemByExternalId(id: string): string {
         return `items/external-id/${id}`;
     }
+
+    deleteContentItemByCodename(codename: string): string {
+        return `items/codename/${codename}`;
+    }
+
+    deleteContentItemByInternalId(id: string): string {
+        return `items/${id}`;
+    }
+
+    deleteContentItemByExternalId(id: string): string {
+        return `items/external-id/${id}`;
+    }
 }
 
 export class ContentManagementActions {

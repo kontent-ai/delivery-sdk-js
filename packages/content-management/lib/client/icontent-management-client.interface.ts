@@ -1,6 +1,7 @@
 import { ContentItemContracts } from '../contracts';
 import {
     AddContentItemQuery,
+    DeleteContentItemQueryInit,
     ListContentItemsQuery,
     UpdateContentItemQueryInit,
     ViewContentItemQueryInit,
@@ -27,4 +28,9 @@ export interface IContentManagementClient {
      * Gets update content item query
      */
     updateContentItem(item: ContentItemContracts.IUpdateContentItemPostContract): UpdateContentItemQueryInit;
+
+    /**
+     * Gets delete content item query
+     */
+    deleteContentItem(): DeleteContentItemQueryInit;
 }

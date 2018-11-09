@@ -78,4 +78,18 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
             })
         );
     }
+
+    deleteContentItem(
+        url: string,
+        config?: IContentManagementQueryConfig
+    ): Observable<ContentItemResponses.DeleteContentItemResponse> {
+        return this.deleteResponse<ContentItemContracts.IDeleteContentItemResponseContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return contentItemsResponseMapper.mapDeleteContentItemResponse(response);
+            })
+        );
+    }
 }
