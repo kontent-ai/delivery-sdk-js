@@ -174,7 +174,7 @@ deliveryClient.items()
 
 ## Browser & Node.js support
 
-Both browser & node.js are supported by this library. However, due to some differences (especially around parsing HTML) library uses `parse5` to parse HTML in node.js environment and DOM in browsers. Since `parse5` is relatively bulky library, we are shipping a browser only UMD package without this dependency to keep the library size to a minimum. 
+Both browser & node.js are supported by this library. However, due to some differences (especially around parsing HTML) library uses `parse5` to parse HTML in node.js environment and DOM in browsers. Since `parse5` is relatively bulky library, we are shipping a browser-only UMD package without this dependency to keep the library size at a minimum. 
 
 ## Testing
 
