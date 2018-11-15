@@ -1,105 +1,54 @@
 import { ContentItemContracts } from '../contracts';
-import { ReferenceModel } from '../models';
+import { ContentItemModels, SharedModels } from '../models';
 import { BaseResponses } from './base-responses';
-import { SharedResponses } from './shared-responses';
 
 export namespace ContentItemResponses {
 
-    export class ContentItemModel {
-        public id: string;
-        public name: string;
-        public codename: string;
-        public type: {
-            id: string
-        };
-        public sitemapLocations: [{
-            id: string
-        }];
-        public externalId?: string;
-        public lastModified: Date;
-
-        constructor(
-            data: {
-                id: string,
-                name: string,
-                codename: string,
-                type: {
-                    id: string
-                },
-                sitemapLocations: [{
-                    id: string
-                }],
-                externalId?: string,
-                lastModified: Date
-            }
-        ) {
-            Object.assign(this, data);
-        }
-    }
-
-    export class ContentItemLanguageVariant {
-        public item: ReferenceModel;
-        public elements: any;
-        public language: ReferenceModel;
-        public lastModified: Date;
-
-        constructor(
-            data: {
-                item: ReferenceModel;
-                elements: any;
-                language: ReferenceModel;
-                lastModified: Date;
-            }
-        ) {
-            Object.assign(this, data);
-        }
-    }
-
     export class ContentItemsResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IContentItemsListingResponseContract,
         {
-            items: ContentItemModel[],
-            pagination: SharedResponses.PaginationModel
+            items: ContentItemModels.ContentItemModel[],
+            pagination: SharedModels.PaginationModel
         }>  {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
             rawData: ContentItemContracts.IContentItemsListingResponseContract,
             data: {
-                items: ContentItemModel[],
-                pagination: SharedResponses.PaginationModel
+                items: ContentItemModels.ContentItemModel[],
+                pagination: SharedModels.PaginationModel
             }
         ) {
             super(debug, rawData, data);
         }
     }
 
-    export class ViewContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IViewContentItemResponseContract, ContentItemModel> {
+    export class ViewContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IViewContentItemResponseContract, ContentItemModels.ContentItemModel> {
 
-        data: ContentItemModel;
+        data: ContentItemModels.ContentItemModel;
 
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
             rawData: ContentItemContracts.IViewContentItemResponseContract,
-            data: ContentItemModel
+            data: ContentItemModels.ContentItemModel
         ) {
             super(debug, rawData, data);
         }
     }
 
-    export class AddContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IAddContentItemResponseContract, ContentItemModel> {
+    export class AddContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IAddContentItemResponseContract, ContentItemModels.ContentItemModel> {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
             rawData: ContentItemContracts.IAddContentItemResponseContract,
-            data: ContentItemModel
+            data: ContentItemModels.ContentItemModel
         ) {
             super(debug, rawData, data);
         }
     }
 
-    export class UpdateContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IUpdateContentItemResponseContract, ContentItemModel> {
+    export class UpdateContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IUpdateContentItemResponseContract, ContentItemModels.ContentItemModel> {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
             rawData: ContentItemContracts.IAddContentItemResponseContract,
-            data: ContentItemModel
+            data: ContentItemModels.ContentItemModel
         ) {
             super(debug, rawData, data);
         }
@@ -117,15 +66,15 @@ export namespace ContentItemResponses {
         }
     }
 
-    export class ListLanguageVariantsResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IListLanguageVariantsResponseContract[],
+    export class ListLanguageVariantsResponse<TElements extends ContentItemModels.IContentItemVariantElements> extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IListLanguageVariantsResponseContract[],
         {
-            variants: ContentItemLanguageVariant[],
+            variants: ContentItemModels.ContentItemLanguageVariant<TElements>[],
         }>  {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
             rawData: ContentItemContracts.IListLanguageVariantsResponseContract[],
             data: {
-                variants: ContentItemLanguageVariant[],
+                variants: ContentItemModels.ContentItemLanguageVariant<TElements>[],
             }
         ) {
             super(debug, rawData, data);

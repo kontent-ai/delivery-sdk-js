@@ -7,6 +7,7 @@ import {
     ViewContentItemQueryInit,
     ListLanguageVariantsQueryInit,
 } from '../queries';
+import { ContentItemModels } from '../models';
 
 export interface IContentManagementClient {
 
@@ -38,5 +39,5 @@ export interface IContentManagementClient {
     /**
      * List language variants query
      */
-    listLanguageVariants(): ListLanguageVariantsQueryInit;
+    listLanguageVariants<TElements extends ContentItemModels.IContentItemVariantElements>(): ListLanguageVariantsQueryInit<TElements>;
 }

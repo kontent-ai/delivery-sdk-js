@@ -1,13 +1,30 @@
-import { ContentItemResponses, ReferenceModel } from '../../lib';
+import { ContentItemElements, ContentItemResponses, ReferenceModel, ContentItemModels } from '../../lib';
 import * as listLanguageVariantsJson from '../fake-responses/content-items/fake-list-language-variants.json';
-import { getTestClientWithJson, cmTestClient, testProjectId } from '../setup';
+import { cmTestClient, getTestClientWithJson, testProjectId } from '../setup';
+
+class ArticleElements extends ContentItemModels.ContentItemVariantElements {
+
+    public title: ContentItemElements.TextElement;
+    public postDate: ContentItemElements.DateElement;
+
+}
 
 describe('List language variants', () => {
-    let response: ContentItemResponses.ListLanguageVariantsResponse;
+    let response: ContentItemResponses.ListLanguageVariantsResponse<ArticleElements>;
 
     beforeAll((done) => {
-        getTestClientWithJson(listLanguageVariantsJson).listLanguageVariants()
+        getTestClientWithJson(listLanguageVariantsJson).listLanguageVariants<ArticleElements>()
             .byCodename('xxx')
+            .withFields(() => new ArticleElements(), [{
+                name: 'title',
+                propertyName: 'newTitle',
+                type: ContentItemElements.ContentElementTypeEnum.text
+            },
+            {
+                name: 'post_date',
+                propertyName: 'postDate',
+                type: ContentItemElements.ContentElementTypeEnum.date
+            }])
             .getObservable()
             .subscribe(result => {
                 response = result;
@@ -38,12 +55,10 @@ describe('List language variants', () => {
         expect(response.data.variants).toBeDefined();
     });
 
-    it(`item properties should be mapped`, () => {
+    it(`item basic properties should be mapped`, () => {
         expect(response.data.variants).toBeDefined();
         expect(Array.isArray(response.data.variants)).toBeTruthy();
         expect(response.data.variants.length).toBeGreaterThan(0);
-
-        console.warn(response);
 
         response.data.variants.forEach(m => {
             expect(m.item).toBeDefined();
@@ -56,6 +71,13 @@ describe('List language variants', () => {
         });
     });
 
+    it(`elements should be mapped`, () => {
+        response.data.variants.forEach(m => {
+            expect(m.elements).toEqual(jasmine.any(ArticleElements));
+            expect(m.elements.title).toEqual(jasmine.any(ContentItemElements.TextElement));
+            expect(m.elements.postDate).toEqual(jasmine.any(ContentItemElements.DateElement));
+        });
+    });
 
 });
 

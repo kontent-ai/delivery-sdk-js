@@ -1,12 +1,15 @@
 import { Observable } from 'rxjs';
 
 import { IContentManagementClientConfig } from '../../config';
-import { ContentItemIdentifier } from '../../models';
+import { ContentItemElements, ContentItemIdentifier, ContentItemModels } from '../../models';
 import { ContentItemResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
 
-export class ListLanguageVariantsQuery extends BaseQuery<ContentItemResponses.ListLanguageVariantsResponse> {
+export class ListLanguageVariantsQuery<TElements extends ContentItemModels.IContentItemVariantElements> extends BaseQuery<ContentItemResponses.ListLanguageVariantsResponse<TElements>> {
+
+  private fieldDefinitions?: ContentItemElements.IContentItemElementDefinition[];
+  private createElements?: () => TElements;
 
   constructor(
     protected config: IContentManagementClientConfig,
@@ -17,8 +20,14 @@ export class ListLanguageVariantsQuery extends BaseQuery<ContentItemResponses.Li
     super(config, queryService);
   }
 
-  getObservable(): Observable<ContentItemResponses.ListLanguageVariantsResponse> {
-    return this.queryService.listLanguageVariants(this.getUrl(), this.queryConfig);
+  getObservable(): Observable<ContentItemResponses.ListLanguageVariantsResponse<TElements>> {
+    return this.queryService.listLanguageVariants<TElements>(this.getUrl(), this.fieldDefinitions ? this.fieldDefinitions : [], this.getCreateElements(), this.queryConfig);
+  }
+
+  withFields(createElements: () => TElements, fieldDefinitions: ContentItemElements.IContentItemElementDefinition[]): this {
+    this.fieldDefinitions = fieldDefinitions;
+    this.createElements = createElements;
+    return this;
   }
 
   protected getAction(): string {
@@ -34,9 +43,13 @@ export class ListLanguageVariantsQuery extends BaseQuery<ContentItemResponses.Li
 
     throw Error(`Item identifier type '${this.identifier}' is not supported`);
   }
+
+  private getCreateElements(): () => TElements {
+    return this.createElements ? this.createElements : () => new ContentItemModels.ContentItemVariantElements() as TElements;
+  }
 }
 
-export class ListLanguageVariantsQueryInit {
+export class ListLanguageVariantsQueryInit<TElements extends ContentItemModels.IContentItemVariantElements> {
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService
@@ -47,7 +60,7 @@ export class ListLanguageVariantsQueryInit {
    * Gets query for content item using internal Id
    * @param id Internal Id of content item
    */
-  byInternalId(id: string): ListLanguageVariantsQuery {
+  byInternalId(id: string): ListLanguageVariantsQuery<TElements> {
     return new ListLanguageVariantsQuery(this.config, this.queryService, ContentItemIdentifier.InternalId, id);
   }
 
@@ -55,7 +68,7 @@ export class ListLanguageVariantsQueryInit {
  * Gets query for content item using external Id
  * @param id External Id of content item
  */
-  byExternalId(id: string): ListLanguageVariantsQuery {
+  byExternalId(id: string): ListLanguageVariantsQuery<TElements> {
     return new ListLanguageVariantsQuery(this.config, this.queryService, ContentItemIdentifier.ExternalId, id);
   }
 
@@ -63,7 +76,8 @@ export class ListLanguageVariantsQueryInit {
  * Gets query for content item using codename
  * @param codename Codename of content item
  */
-  byCodename(codename: string): ListLanguageVariantsQuery {
+  byCodename(codename: string): ListLanguageVariantsQuery<TElements> {
     return new ListLanguageVariantsQuery(this.config, this.queryService, ContentItemIdentifier.Codename, codename);
   }
 }
+

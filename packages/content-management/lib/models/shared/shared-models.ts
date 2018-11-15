@@ -1,5 +1,4 @@
-export namespace SharedResponses {
-
+export namespace SharedModels {
     export class PaginationModel {
         constructor(
             public continuationToken: string | null,

@@ -1,8 +1,10 @@
 import { IBaseResponse } from 'kentico-cloud-core';
 
 import { ContentItemContracts } from '../contracts';
+import { ContentItemModels, ContentItemElements } from '../models';
 import { ContentItemResponses } from '../responses';
 import { baseMapper } from './base-mapper';
+import { elementsMapper } from './elements-mapper';
 
 export class ContentItemsResponseMapper {
 
@@ -43,26 +45,30 @@ export class ContentItemsResponseMapper {
         return new ContentItemResponses.DeleteContentItemResponse(baseMapper.mapResponseDebug(response), response.data);
     }
 
-    mapLanguageVariantsResponse(
-        response: IBaseResponse<ContentItemContracts.IListLanguageVariantsResponseContract[]>
-    ): ContentItemResponses.ListLanguageVariantsResponse {
-        const variants = response.data.map(m => this.mapLanguageVariant(m));
+    mapLanguageVariantsResponse<TElements extends ContentItemModels.IContentItemVariantElements>(
+        response: IBaseResponse<ContentItemContracts.IListLanguageVariantsResponseContract[]>,
+        fieldDefinitions: ContentItemElements.IContentItemElementDefinition[],
+        createElements: () => TElements
+    ): ContentItemResponses.ListLanguageVariantsResponse<TElements> {
+        const variants = response.data.map(m => this.mapLanguageVariant(m, fieldDefinitions, createElements));
         return new ContentItemResponses.ListLanguageVariantsResponse(baseMapper.mapResponseDebug(response), response.data, {
             variants: variants
         });
     }
 
-    private mapLanguageVariant(rawVariant: ContentItemContracts.ILanguageVariantModelContract): ContentItemResponses.ContentItemLanguageVariant {
-        return new ContentItemResponses.ContentItemLanguageVariant({
-            elements: rawVariant.elements,
+    private mapLanguageVariant<TElements extends ContentItemModels.IContentItemVariantElements>
+        (rawVariant: ContentItemContracts.ILanguageVariantModelContract, fieldDefinitions: ContentItemElements.IContentItemElementDefinition[], createElements: () => TElements): ContentItemModels.ContentItemLanguageVariant<TElements> {
+
+        return new ContentItemModels.ContentItemLanguageVariant({
+            elements: elementsMapper.mapElements<TElements>(rawVariant.elements, fieldDefinitions, createElements()),
             item: baseMapper.mapReference(rawVariant.item),
             language: baseMapper.mapReference(rawVariant.language),
             lastModified: new Date(rawVariant.last_modified)
         });
     }
 
-    private mapContentItem(rawItem: ContentItemContracts.IContentItemModelContract): ContentItemResponses.ContentItemModel {
-        return new ContentItemResponses.ContentItemModel({
+    private mapContentItem(rawItem: ContentItemContracts.IContentItemModelContract): ContentItemModels.ContentItemModel {
+        return new ContentItemModels.ContentItemModel({
             codename: rawItem.codename,
             externalId: rawItem.external_id,
             id: rawItem.id,

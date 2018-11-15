@@ -2,6 +2,7 @@ import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
 import { ContentItemContracts } from '../contracts';
+import { ContentItemModels } from '../models';
 import {
     AddContentItemQuery,
     DeleteContentItemQueryInit,
@@ -66,8 +67,8 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    listLanguageVariants(): ListLanguageVariantsQueryInit {
-        return new ListLanguageVariantsQueryInit(
+    listLanguageVariants<TElements extends ContentItemModels.IContentItemVariantElements = ContentItemModels.ContentItemVariantElements>(): ListLanguageVariantsQueryInit<TElements> {
+        return new ListLanguageVariantsQueryInit<TElements>(
             this.config,
             this.queryService,
         );

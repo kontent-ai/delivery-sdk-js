@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
 import { ContentItemContracts } from '../contracts';
 import { contentItemsResponseMapper } from '../mappers';
-import { IContentManagementQueryConfig } from '../models';
+import { IContentManagementQueryConfig, ContentItemModels, ContentItemElements } from '../models';
 import { ContentItemResponses } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
@@ -93,16 +93,18 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         );
     }
 
-    listLanguageVariants(
+    listLanguageVariants<TElements extends ContentItemModels.IContentItemVariantElements>(
         url: string,
+        fieldDefinitions: ContentItemElements.IContentItemElementDefinition[],
+        createElements: () => TElements,
         config?: IContentManagementQueryConfig
-    ): Observable<ContentItemResponses.ListLanguageVariantsResponse> {
+    ): Observable<ContentItemResponses.ListLanguageVariantsResponse<TElements>> {
         return this.getResponse<ContentItemContracts.IListLanguageVariantsResponseContract[]>(
             url,
             config
         ).pipe(
             map(response => {
-                return contentItemsResponseMapper.mapLanguageVariantsResponse(response);
+                return contentItemsResponseMapper.mapLanguageVariantsResponse<TElements>(response, fieldDefinitions, createElements);
             })
         );
     }
