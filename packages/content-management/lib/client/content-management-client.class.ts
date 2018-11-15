@@ -6,6 +6,7 @@ import {
     AddContentItemQuery,
     DeleteContentItemQueryInit,
     ListContentItemsQuery,
+    ListLanguageVariantsQueryInit,
     UpdateContentItemQueryInit,
     ViewContentItemQueryInit,
 } from '../queries';
@@ -60,6 +61,13 @@ export class ContentManagementClient implements IContentManagementClient {
 
     deleteContentItem(): DeleteContentItemQueryInit {
         return new DeleteContentItemQueryInit(
+            this.config,
+            this.queryService,
+        );
+    }
+
+    listLanguageVariants(): ListLanguageVariantsQueryInit {
+        return new ListLanguageVariantsQueryInit(
             this.config,
             this.queryService,
         );

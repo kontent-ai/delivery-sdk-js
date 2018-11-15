@@ -1,4 +1,5 @@
 import { ContentItemContracts } from '../contracts';
+import { ReferenceModel } from '../models';
 import { BaseResponses } from './base-responses';
 import { SharedResponses } from './shared-responses';
 
@@ -30,6 +31,24 @@ export namespace ContentItemResponses {
                 }],
                 externalId?: string,
                 lastModified: Date
+            }
+        ) {
+            Object.assign(this, data);
+        }
+    }
+
+    export class ContentItemLanguageVariant {
+        public item: ReferenceModel;
+        public elements: any;
+        public language: ReferenceModel;
+        public lastModified: Date;
+
+        constructor(
+            data: {
+                item: ReferenceModel;
+                elements: any;
+                language: ReferenceModel;
+                lastModified: Date;
             }
         ) {
             Object.assign(this, data);
@@ -95,6 +114,21 @@ export namespace ContentItemResponses {
             rawData: ContentItemContracts.IDeleteContentItemResponseContract,
         ) {
             super(debug, rawData, undefined);
+        }
+    }
+
+    export class ListLanguageVariantsResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IListLanguageVariantsResponseContract[],
+        {
+            variants: ContentItemLanguageVariant[],
+        }>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: ContentItemContracts.IListLanguageVariantsResponseContract[],
+            data: {
+                variants: ContentItemLanguageVariant[],
+            }
+        ) {
+            super(debug, rawData, data);
         }
     }
 }

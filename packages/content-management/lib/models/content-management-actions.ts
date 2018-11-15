@@ -43,6 +43,18 @@ class ContentManagementContentItemActions {
     deleteContentItemByExternalId(id: string): string {
         return `items/external-id/${id}`;
     }
+
+    listLanguageVariantsByCodename(codename: string): string {
+        return `items/codename/${codename}/variants`;
+    }
+
+    listLanguageVariantsByInternalId(id: string): string {
+        return `items/${id}/variants`;
+    }
+
+    listLanguageVariantsByExternalId(id: string): string {
+        return `items/external-id/${id}/variants`;
+    }
 }
 
 export class ContentManagementActions {

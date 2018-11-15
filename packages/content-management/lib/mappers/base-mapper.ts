@@ -1,7 +1,8 @@
 import { IBaseResponse } from 'kentico-cloud-core';
 
 import { SharedContracts } from '../contracts';
-import { BaseResponses, ContentItemResponses, SharedResponses } from '../responses';
+import { ReferenceModel } from '../models';
+import { BaseResponses, SharedResponses } from '../responses';
 
 export class BaseMapper {
 
@@ -20,7 +21,14 @@ export class BaseMapper {
     mapPagination(rawPagination: SharedContracts.IPaginationModelContract): SharedResponses.PaginationModel {
         return new SharedResponses.PaginationModel(rawPagination.continuation_token, rawPagination.next_page);
     }
-}
 
+    mapReference(rawReference: SharedContracts.IReferenceObjectContract): ReferenceModel {
+        return new ReferenceModel({
+            codename: rawReference.codename,
+            externalId: rawReference.external_id,
+            id: rawReference.id
+        });
+    }
+}
 
 export const baseMapper = new BaseMapper();

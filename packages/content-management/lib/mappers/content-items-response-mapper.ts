@@ -43,6 +43,24 @@ export class ContentItemsResponseMapper {
         return new ContentItemResponses.DeleteContentItemResponse(baseMapper.mapResponseDebug(response), response.data);
     }
 
+    mapLanguageVariantsResponse(
+        response: IBaseResponse<ContentItemContracts.IListLanguageVariantsResponseContract[]>
+    ): ContentItemResponses.ListLanguageVariantsResponse {
+        const variants = response.data.map(m => this.mapLanguageVariant(m));
+        return new ContentItemResponses.ListLanguageVariantsResponse(baseMapper.mapResponseDebug(response), response.data, {
+            variants: variants
+        });
+    }
+
+    private mapLanguageVariant(rawVariant: ContentItemContracts.ILanguageVariantModelContract): ContentItemResponses.ContentItemLanguageVariant {
+        return new ContentItemResponses.ContentItemLanguageVariant({
+            elements: rawVariant.elements,
+            item: baseMapper.mapReference(rawVariant.item),
+            language: baseMapper.mapReference(rawVariant.language),
+            lastModified: new Date(rawVariant.last_modified)
+        });
+    }
+
     private mapContentItem(rawItem: ContentItemContracts.IContentItemModelContract): ContentItemResponses.ContentItemModel {
         return new ContentItemResponses.ContentItemModel({
             codename: rawItem.codename,

@@ -15,9 +15,20 @@ export namespace ContentItemContracts {
         last_modified: Date;
     }
 
+    export interface ILanguageVariantModelContract {
+        item: SharedContracts.IReferenceObjectContract;
+        elements: any;
+        language: SharedContracts.IReferenceObjectContract;
+        last_modified: string;
+    }
+
     export interface IContentItemsListingResponseContract {
         items: IContentItemModelContract[];
         pagination: SharedContracts.IPaginationModelContract;
+    }
+
+    // tslint:disable-next-line:no-empty-interface
+    export interface IListLanguageVariantsResponseContract extends ILanguageVariantModelContract {
     }
 
     // tslint:disable-next-line:no-empty-interface

@@ -5,32 +5,38 @@ import {
     ListContentItemsQuery,
     UpdateContentItemQueryInit,
     ViewContentItemQueryInit,
+    ListLanguageVariantsQueryInit,
 } from '../queries';
 
 export interface IContentManagementClient {
 
     /**
-     * Gets list of content items query
+     * List of content items query
      */
     listContentItems(): ListContentItemsQuery;
 
     /**
-     * Gets view content item query
+     *Ciew content item query
      */
     viewContentItem(): ViewContentItemQueryInit;
 
     /**
-     * Gets add content item query
+     * Add content item query
      */
     addContentItem(item: ContentItemContracts.IAddContentItemPostContract): AddContentItemQuery;
 
     /**
-     * Gets update content item query
+     * Update content item query
      */
     updateContentItem(item: ContentItemContracts.IUpdateContentItemPostContract): UpdateContentItemQueryInit;
 
     /**
-     * Gets delete content item query
+     * Delete content item query
      */
     deleteContentItem(): DeleteContentItemQueryInit;
+
+    /**
+     * List language variants query
+     */
+    listLanguageVariants(): ListLanguageVariantsQueryInit;
 }

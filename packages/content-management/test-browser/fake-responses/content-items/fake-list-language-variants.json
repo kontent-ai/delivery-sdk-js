@@ -1,0 +1,65 @@
+[
+    {
+      "item": {
+        "id": "f4b3fc05-e988-4dae-9ac1-a94aba566474"
+      },
+      "elements": {
+        "personas": [
+          {
+            "id": "6a372f43-ccd7-e524-6308-c2094e7b6596"
+          },
+          {
+            "id": "4fa27320-c363-3ebe-5ab5-b531300f053f"
+          }
+        ],
+        "title": "On Roasts",
+        "post_date": "2014-11-07T00:00:00Z",
+        "summary": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee, with varying concentration of caffeine and intensity of the original flavor.",
+        "related_articles": [
+          {
+            "id": "117cdfae-52cf-4885-b271-66aef6825612"
+          },
+          {
+            "id": "b2fea94c-73fd-42ec-a22f-f409878de187"
+          }
+        ],
+        "meta_keywords": "roasts, coffee",
+        "meta_description": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee.",
+        "url_pattern": "on-roasts"
+      },
+      "language": {
+        "id": "00000000-0000-0000-0000-000000000000"
+      },
+      "last_modified": "2017-04-04T13:45:30.7692802Z"
+    },
+    {
+      "item": {
+        "id": "f4b3fc05-e988-4dae-9ac1-a94aba566474"
+      },
+      "elements": {
+        "personas": [
+          {
+            "id": "6a372f43-ccd7-e524-6308-c2094e7b6596"
+          },
+          {
+            "id": "4fa27320-c363-3ebe-5ab5-b531300f053f"
+          }
+        ],
+        "title": "En Asados",
+        "post_date": "2014-11-07T00:00:00Z",
+        "summary": "Tostar granos de café puede tardar de 6 a 13 minutos. Diferentes tiempos de asado producen diferentes tipos de café, con diferentes concentraciones de cafeína y intensidad de sabor.",
+        "related_articles": [
+          {
+            "id": "b2fea94c-73fd-42ec-a22f-f409878de187"
+          }
+        ],
+        "meta_keywords": "asados, café",
+        "meta_description": "Tostar granos de café puede tardar de 6 a 13 minutos. Diferentes tiempos de asado producen diferentes tipos de café, con diferentes concentraciones de cafeína y intensidad de sabor.",
+        "url_pattern": "on-roasts"
+      },
+      "language": {
+        "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+      },
+      "last_modified": "2017-07-20T12:18:13.2848024Z"
+    }
+  ]
