@@ -3,7 +3,10 @@
   "dest": "dist",
   "deleteDestPath": false,
   "lib": {
-    "entryFile": "lib/public_api.ts"
+    "entryFile": "lib/public_api.ts",
+    "umdModuleIds": {
+      "kentico-cloud-core" : "KenticoCloudCore"
+    }
   },
   "whitelistedNonPeerDependencies": [
   ]
