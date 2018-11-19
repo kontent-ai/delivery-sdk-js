@@ -39,5 +39,5 @@ export interface IContentManagementClient {
     /**
      * List language variants query
      */
-    listLanguageVariants<TElements extends ContentItemModels.IContentItemVariantElements>(): ListLanguageVariantsQueryInit<TElements>;
+    listLanguageVariants<TElements extends ContentItemModels.ContentItemVariantElements>(): ListLanguageVariantsQueryInit<TElements>;
 }

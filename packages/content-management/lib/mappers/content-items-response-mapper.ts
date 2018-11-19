@@ -45,7 +45,7 @@ export class ContentItemsResponseMapper {
         return new ContentItemResponses.DeleteContentItemResponse(baseMapper.mapResponseDebug(response), response.data);
     }
 
-    mapLanguageVariantsResponse<TElements extends ContentItemModels.IContentItemVariantElements>(
+    mapLanguageVariantsResponse<TElements extends ContentItemModels.ContentItemVariantElements>(
         response: IBaseResponse<ContentItemContracts.IListLanguageVariantsResponseContract[]>,
         fieldDefinitions: ContentItemElements.IContentItemElementDefinition[],
         createElements: () => TElements
@@ -56,10 +56,11 @@ export class ContentItemsResponseMapper {
         });
     }
 
-    private mapLanguageVariant<TElements extends ContentItemModels.IContentItemVariantElements>
+    private mapLanguageVariant<TElements extends ContentItemModels.ContentItemVariantElements>
         (rawVariant: ContentItemContracts.ILanguageVariantModelContract, fieldDefinitions: ContentItemElements.IContentItemElementDefinition[], createElements: () => TElements): ContentItemModels.ContentItemLanguageVariant<TElements> {
 
         return new ContentItemModels.ContentItemLanguageVariant({
+            rawElements: rawVariant.elements,
             elements: elementsMapper.mapElements<TElements>(rawVariant.elements, fieldDefinitions, createElements()),
             item: baseMapper.mapReference(rawVariant.item),
             language: baseMapper.mapReference(rawVariant.language),

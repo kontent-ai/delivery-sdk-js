@@ -67,7 +67,7 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    listLanguageVariants<TElements extends ContentItemModels.IContentItemVariantElements = ContentItemModels.ContentItemVariantElements>(): ListLanguageVariantsQueryInit<TElements> {
+    listLanguageVariants<TElements extends ContentItemModels.ContentItemVariantElements = ContentItemModels.ContentItemVariantElements>(): ListLanguageVariantsQueryInit<TElements> {
         return new ListLanguageVariantsQueryInit<TElements>(
             this.config,
             this.queryService,

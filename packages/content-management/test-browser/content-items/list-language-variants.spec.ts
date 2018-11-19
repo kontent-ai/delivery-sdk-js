@@ -17,7 +17,7 @@ describe('List language variants', () => {
             .byCodename('xxx')
             .withFields(() => new ArticleElements(), [{
                 name: 'title',
-                propertyName: 'newTitle',
+                propertyName: 'title',
                 type: ContentItemElements.ContentElementTypeEnum.text
             },
             {
@@ -61,6 +61,7 @@ describe('List language variants', () => {
         expect(response.data.variants.length).toBeGreaterThan(0);
 
         response.data.variants.forEach(m => {
+            expect(m.rawElements).toBeDefined();
             expect(m.item).toBeDefined();
             expect(m.language).toBeDefined();
             expect(m.elements).toBeDefined();
@@ -73,6 +74,11 @@ describe('List language variants', () => {
 
     it(`elements should be mapped`, () => {
         response.data.variants.forEach(m => {
+            // raw elements
+            expect(m.rawElements.title).toEqual(m.elements.title.text);
+            expect(new Date(m.rawElements.post_date)).toEqual(m.elements.postDate.date || new Date());
+
+            // strongly typed elements
             expect(m.elements).toEqual(jasmine.any(ArticleElements));
             expect(m.elements.title).toEqual(jasmine.any(ContentItemElements.TextElement));
             expect(m.elements.postDate).toEqual(jasmine.any(ContentItemElements.DateElement));

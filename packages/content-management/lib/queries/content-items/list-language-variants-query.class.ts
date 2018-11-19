@@ -6,7 +6,7 @@ import { ContentItemResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
 
-export class ListLanguageVariantsQuery<TElements extends ContentItemModels.IContentItemVariantElements> extends BaseQuery<ContentItemResponses.ListLanguageVariantsResponse<TElements>> {
+export class ListLanguageVariantsQuery<TElements extends ContentItemModels.ContentItemVariantElements> extends BaseQuery<ContentItemResponses.ListLanguageVariantsResponse<TElements>> {
 
   private fieldDefinitions?: ContentItemElements.IContentItemElementDefinition[];
   private createElements?: () => TElements;
@@ -49,7 +49,7 @@ export class ListLanguageVariantsQuery<TElements extends ContentItemModels.ICont
   }
 }
 
-export class ListLanguageVariantsQueryInit<TElements extends ContentItemModels.IContentItemVariantElements> {
+export class ListLanguageVariantsQueryInit<TElements extends ContentItemModels.ContentItemVariantElements> {
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService

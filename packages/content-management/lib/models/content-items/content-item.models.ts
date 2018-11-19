@@ -34,15 +34,11 @@ export namespace ContentItemModels {
         }
     }
 
-    export interface IContentItemVariantElements {
-        rawElements: any;
-    }
-
-    export class ContentItemVariantElements implements IContentItemVariantElements {
-        public rawElements: any;
+    export class ContentItemVariantElements  {
     }
 
     export class ContentItemLanguageVariant<TElements extends ContentItemVariantElements> {
+        public rawElements: any;
         public item: ReferenceModel;
         public elements: TElements;
         public language: ReferenceModel;
@@ -50,6 +46,7 @@ export namespace ContentItemModels {
 
         constructor(
             data: {
+                rawElements: any;
                 item: ReferenceModel;
                 elements: TElements;
                 language: ReferenceModel;

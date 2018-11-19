@@ -66,7 +66,7 @@ export namespace ContentItemResponses {
         }
     }
 
-    export class ListLanguageVariantsResponse<TElements extends ContentItemModels.IContentItemVariantElements> extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IListLanguageVariantsResponseContract[],
+    export class ListLanguageVariantsResponse<TElements extends ContentItemModels.ContentItemVariantElements> extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IListLanguageVariantsResponseContract[],
         {
             variants: ContentItemModels.ContentItemLanguageVariant<TElements>[],
         }>  {

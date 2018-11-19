@@ -93,7 +93,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         );
     }
 
-    listLanguageVariants<TElements extends ContentItemModels.IContentItemVariantElements>(
+    listLanguageVariants<TElements extends ContentItemModels.ContentItemVariantElements>(
         url: string,
         fieldDefinitions: ContentItemElements.IContentItemElementDefinition[],
         createElements: () => TElements,
