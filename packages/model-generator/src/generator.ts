@@ -9,10 +9,10 @@ export class Generator {
 
     private readonly deliveryClient: DeliveryClient;
 
-    public readonly projectId: string;
-    public readonly type: string;
-    public readonly moduleResolution: ModuleResolution;
-    public readonly codeType: CodeType;
+    public readonly projectId!: string;
+    public readonly type!: string;
+    public readonly moduleResolution!: ModuleResolution;
+    public readonly codeType!: CodeType;
     public readonly secureAccessKey?: string;
 
     constructor(

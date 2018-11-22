@@ -1,6 +1,6 @@
 import { ContentType } from 'kentico-cloud-delivery';
 
-import { generatorConfig, GeneratorConfig } from './config';
+import { generatorConfig } from './config';
 import { CodeType, ModuleResolution } from './enums';
 import { utilities } from './utilities';
 

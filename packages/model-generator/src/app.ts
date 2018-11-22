@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import * as yargs from 'yargs';
+const yargs = require('yargs');
 
 import { generatorConfig } from './config';
 import { Generator } from './generator';
