@@ -71,7 +71,7 @@ export class AngularHttpService implements IHttpService {
         return this.mapAngularObservable(angularObs, call, options);
     }
 
-    private mapAngularObservable<TError extends any, TRawData extends any>(obs: Observable<any>, call: IHttpQueryCall<TError>, options: IHttpQueryOptions): Observable<IBaseResponse<TRawData>> {
+    private mapAngularObservable<TError extends any, TRawData extends any>(obs: Observable<any>, call: IHttpQueryCall<TError>, options?: IHttpQueryOptions): Observable<IBaseResponse<TRawData>> {
         return obs.pipe(
             map(response => <IBaseResponse<TRawData>>{
                 data: response,
