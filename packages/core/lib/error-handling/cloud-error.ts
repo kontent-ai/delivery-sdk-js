@@ -1,8 +1,8 @@
 export class CloudError {
-    public message: string;
-    public requestId: string;
-    public errorCode: number;
-    public specificCode: number;
+    public message!: string;
+    public requestId!: string;
+    public errorCode!: number;
+    public specificCode!: number;
 
     constructor(data: {
         message: string,
