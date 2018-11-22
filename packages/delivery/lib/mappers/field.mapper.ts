@@ -1,7 +1,7 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { FieldDecorators, FieldContracts, Fields, FieldType } from '../fields';
-import { IItemQueryConfig, ILinkResolverResult, ILinkResolverContext } from '../interfaces';
+import { FieldContracts, FieldDecorators, Fields, FieldType } from '../fields';
+import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult } from '../interfaces';
 import { ContentItem, Link } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
@@ -260,25 +260,25 @@ export class FieldMapper {
     private getOrSaveLinkedItem(codename: string, field: FieldContracts.IField, queryConfig: IItemQueryConfig, modularContent: any, processedItems: ContentItem[]): ContentItem | undefined {
         const rawLinkedItem = modularContent[codename] as ItemContracts.IContentItemContract;
 
-            if (!rawLinkedItem) {
-                if (this.config.enableAdvancedLogging) {
-                    console.warn(`Cannot map '${field.name}' linked item. Try increasing 'DepthParameter' so that nested items are included in the response.`);
-                }
+        if (!rawLinkedItem) {
+            if (this.config.enableAdvancedLogging) {
+                console.warn(`Cannot map '${field.name}' linked item. Try increasing 'DepthParameter' so that nested items are included in the response.`);
             }
+        }
 
-            // try to map only if the linked item was present in response
-            if (rawLinkedItem) {
-                // check item first to avoid infinite recursion
-                const existingItem = processedItems.find(m => m.system.codename === rawLinkedItem.system.codename);
-                if (existingItem) {
-                    return existingItem;
-                } else {
-                    // or create new item and add it to processed array
-                    const newLinkedItem = this.mapFields<any>(rawLinkedItem, modularContent, queryConfig, processedItems);
-                    processedItems.push(newLinkedItem);
-                    return newLinkedItem;
-                }
+        // try to map only if the linked item was present in response
+        if (rawLinkedItem) {
+            // check item first to avoid infinite recursion
+            const existingItem = processedItems.find(m => m.system.codename === rawLinkedItem.system.codename);
+            if (existingItem) {
+                return existingItem;
+            } else {
+                // or create new item and add it to processed array
+                const newLinkedItem = this.mapFields<any>(rawLinkedItem, modularContent, queryConfig, processedItems);
+                processedItems.push(newLinkedItem);
+                return newLinkedItem;
             }
+        }
 
         return undefined;
     }

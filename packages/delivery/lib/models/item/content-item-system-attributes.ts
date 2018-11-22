@@ -4,37 +4,37 @@ export class ContentItemSystemAttributes {
     /**
     * Id of the item
     */
-    public id: string;
+    public id!: string;
 
     /**
      * Name of the item
      */
-    public name: string;
+    public name!: string;
 
     /**
      * Codename of the item
      */
-    public codename: string;
+    public codename!: string;
 
     /**
      * Codename of the type this item is using
      */
-    public type: string;
+    public type!: string;
 
     /**
      * Date when the item was last modified
      */
-    public lastModified: Date;
+    public lastModified!: Date;
 
     /**
      * Codename of the language
      */
-    public language: string;
+    public language!: string;
 
     /**
      * Array of sitemap locatoins
      */
-    public sitemapLocations: string[];
+    public sitemapLocations!: string[];
 
     constructor(
         data: {

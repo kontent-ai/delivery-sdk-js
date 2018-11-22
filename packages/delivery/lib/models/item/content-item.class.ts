@@ -5,9 +5,14 @@ import { Link } from './link.class';
 export class ContentItem {
 
     /**
+     * Indexer
+     */
+    [key: string]: any;
+
+    /**
      * Content item system elements
      */
-    public system: ContentItemSystemAttributes;
+    public system!: ContentItemSystemAttributes;
 
     /**
      * Elements of the item

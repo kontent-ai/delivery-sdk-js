@@ -1,7 +1,7 @@
+import { ILinkResolverResult, Link } from '..';
 import { FieldContracts } from './field-contracts';
 import { FieldModels } from './field-models';
 import { FieldType } from './field-type';
-import { Link, ILinkResolverResult } from '..';
 
 export namespace Fields {
 
@@ -96,12 +96,12 @@ export namespace Fields {
         /**
          * Function that is responsible for getting resolved HTML of the field
          */
-        private resolveHtml: () => string;
+        private resolveHtml!: () => string;
 
         /**
         * Resolved html in field - store here once the html was resolved to avoid resolving it multiple times
         */
-        private resolvedHtml: string;
+        private resolvedHtml?: string;
 
         /**
         * Type of the field
@@ -218,7 +218,7 @@ export namespace Fields {
 
         private resolvedUrl?: string;
 
-        private resolveLink: () => string;
+        private resolveLink!: () => string;
 
         /**
         * Type of the field

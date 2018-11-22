@@ -1,9 +1,9 @@
 export class TaxonomySystemAttributes {
 
-    public id: string;
-    public name: string;
-    public codename: string;
-    public lastModified: Date;
+    public id!: string;
+    public name!: string;
+    public codename!: string;
+    public lastModified!: Date;
 
     constructor(
         data: {

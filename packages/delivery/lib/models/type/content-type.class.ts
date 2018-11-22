@@ -6,12 +6,12 @@ export class ContentType {
     /**
     * Content type system attributes
     */
-    public system: ContentTypeSystemAttributes;
+    public system!: ContentTypeSystemAttributes;
 
     /**
     * Elements (fields) assigned to content type
     */
-    public elements: Element[];
+    public elements!: Element[];
 
     constructor(
         data: {

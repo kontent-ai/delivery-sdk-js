@@ -60,7 +60,7 @@ export class ResponseMapper {
       skip: response.data.pagination.skip,
       count: response.data.pagination.count,
       limit: response.data.pagination.limit,
-      next_page: response.data.pagination.next_page
+      nextPage: response.data.pagination.next_page
     });
 
     return new TypeResponses.DeliveryTypeListingResponse(
@@ -113,7 +113,7 @@ export class ResponseMapper {
       skip: response.data.pagination.skip,
       count: response.data.pagination.count,
       limit: response.data.pagination.limit,
-      next_page: response.data.pagination.next_page
+      nextPage: response.data.pagination.next_page
     });
 
     return new ItemResponses.DeliveryItemListingResponse(
@@ -161,7 +161,7 @@ export class ResponseMapper {
       skip: response.data.pagination.skip,
       count: response.data.pagination.count,
       limit: response.data.pagination.limit,
-      next_page: response.data.pagination.next_page
+      nextPage: response.data.pagination.next_page
     });
 
     return new TaxonomyResponses.TaxonomiesResponse(

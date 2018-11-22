@@ -4,22 +4,22 @@ export class ContentTypeSystemAttributes {
     /**
     * Id of the type
     */
-    public id: string;
+    public id!: string;
 
     /**
      * Name of the type
      */
-    public name: string;
+    public name!: string;
 
     /**
      * Codename of the type
      */
-    public codename: string;
+    public codename!: string;
 
     /**
      * Date of last modification
      */
-    public lastModified: Date;
+    public lastModified!: Date;
 
     constructor(
         data: {

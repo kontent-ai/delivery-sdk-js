@@ -1,8 +1,8 @@
 export class TaxonomyTerms {
 
-    public name: string;
-    public codename: string;
-    public terms: TaxonomyTerms[];
+    public name!: string;
+    public codename!: string;
+    public terms!: TaxonomyTerms[];
 
     constructor(
         data: {

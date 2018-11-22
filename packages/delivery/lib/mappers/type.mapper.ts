@@ -1,10 +1,10 @@
-import { IElementOptionContract, TypeContracts } from '../data-contracts';
+import { ElementContracts, IElementOptionContract, TypeContracts } from '../data-contracts';
 import { ContentType, ContentTypeSystemAttributes, Element, ElementOption } from '../models';
 
 export class TypeMapper {
 
     mapSingleType(response: TypeContracts.ITypeResponseContract): ContentType {
-        return this.mapType(response as TypeContracts.IContentTypeContract);
+        return this.mapType(response);
     }
 
     mapMultipleTypes(response: TypeContracts.ITypesResponseContract): ContentType[] {
@@ -33,8 +33,8 @@ export class TypeMapper {
         const elements: Element[] = [];
 
         const elementNames = Object.getOwnPropertyNames(type.elements);
-        elementNames.forEach(elementName => {
-            const typeElement = type.elements[elementName] as TypeContracts.IContentTypeElementContract;
+        elementNames.forEach((elementName: string) => {
+            const typeElement = type.elements[elementName] as ElementContracts.IElementResponseContract;
 
             if (!typeElement) {
                 throw Error(`Cannot find element '${elementName}' on type '${type}'`);

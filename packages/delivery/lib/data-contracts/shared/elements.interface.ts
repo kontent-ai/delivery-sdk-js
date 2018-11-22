@@ -1,4 +1,6 @@
 export interface IElementContract {
+    [key: string]: any;
+
     codename: string;
     type: string;
     name: string;

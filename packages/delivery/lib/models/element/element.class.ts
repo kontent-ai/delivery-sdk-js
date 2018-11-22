@@ -1,20 +1,26 @@
 import { ElementOption } from './element-option.class';
 
 export class Element {
+
+    /**
+     * Indexer
+     */
+    [key: string]: any;
+
     /**
      * Codename of the element
      */
-    public codename: string;
+    public codename!: string;
 
     /**
      * Type of the element
      */
-    public type: string;
+    public type!: string;
 
     /**
      * Name of the element
      */
-    public name: string;
+    public name!: string;
 
     /**
      * Taxonomy group in case the element is a taxonomy

@@ -20,8 +20,6 @@ export class QueryService extends BaseDeliveryQueryService {
     super(config, httpService, richTextHtmlParser, sdkInfo);
   }
 
-
-
   /**
    * Gets single item from given url
    * @param url Url used to get single item

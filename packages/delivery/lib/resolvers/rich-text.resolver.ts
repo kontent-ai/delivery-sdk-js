@@ -1,8 +1,8 @@
-import { IItemQueryConfig, IRichTextResolverContext, ILinkResolverContext } from '../interfaces';
+import { RichTextContentType } from '../enums';
+import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult, IRichTextResolverContext } from '../interfaces';
 import { ContentItem, Link, TypeResolver } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 import { stronglyTypedResolver } from './strongly-type.resolver';
-import { RichTextContentType } from '../enums';
 
 export class RichTextResolver {
 
@@ -103,7 +103,7 @@ export class RichTextResolver {
         links: Link[],
         typeResolvers: TypeResolver[],
         linkText: string
-    }): string {
+    }): string | ILinkResolverResult {
         // find link with the id of content item
         const link = data.links.find(m => m.itemId === data.itemId);
 
@@ -121,7 +121,7 @@ export class RichTextResolver {
 
         // prepare link context
         const linkContext: ILinkResolverContext = {
-            linkText: data.linkText
+            linkText: data.linkText,
         };
 
         if (queryLinkResolver) {

@@ -1,4 +1,4 @@
-import { IElementContract, IElementOptionContract } from './shared/elements.interface';
+import { IElementContract } from './shared/elements.interface';
 import { IPaginationContract } from './shared/ipagination.interface';
 
 export namespace TypeContracts {
@@ -12,7 +12,7 @@ export namespace TypeContracts {
 
     export interface IContentTypeContract {
         system: IContentTypeSystemAttributesContract;
-        elements: IElementContract[];
+        elements: IElementContract;
     }
 
     export interface ITypesResponseContract {
@@ -20,16 +20,7 @@ export namespace TypeContracts {
         pagination: IPaginationContract;
     }
 
-    export interface ITypeResponseContract {
-        system: IContentTypeSystemAttributesContract;
-        elements: IContentTypeElementContract[];
-    }
-
-    export interface IContentTypeElementContract {
-        codename: string;
-        type: string;
-        name: string;
-        taxonomy_group?: string;
-        options?: IElementOptionContract[];
+    // tslint:disable-next-line:no-empty-interface
+    export interface ITypeResponseContract extends IContentTypeContract {
     }
 }

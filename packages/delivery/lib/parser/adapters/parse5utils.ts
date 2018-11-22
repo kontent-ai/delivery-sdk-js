@@ -2,26 +2,26 @@ export class Parse5utils {
 
     private readonly namespaceURI = 'http://www.w3.org/1999/xhtml';
 
-    append(parent, node): any {
+    append(parent: any, node: any): any {
         node.parentNode = parent;
         parent.childNodes.push(node);
         return node;
     }
 
-    setText(node, text): any {
+    setText(node: any, text: string): any {
         node.childNodes = [];
         this.append(node, this.createTextNode(text || ''));
         return node;
     }
 
-    createTextNode(text): any {
+    createTextNode(text: string): any {
         return {
             nodeName: '#text',
             value: text
         };
     }
 
-    createNode(tagName) {
+    createNode(tagName: String) {
         return {
             nodeName: tagName,
             tagName: tagName,
@@ -31,7 +31,7 @@ export class Parse5utils {
         };
     }
 
-    replaceNode(original, node): any | undefined {
+    replaceNode(original: any, node: any): any | undefined {
         const children = original.parentNode.childNodes;
         const index = children.indexOf(original);
         if (!index) { return; }

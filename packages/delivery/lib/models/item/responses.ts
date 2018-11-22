@@ -15,12 +15,12 @@ export namespace ItemResponses {
         /**
         * First item or undefined if none is found
         */
-        public firstItem: TItem;
+        public firstItem?: TItem;
 
         /**
         * Last item or undefined if response contains no items
         */
-        public lastItem: TItem;
+        public lastItem?: TItem;
 
         /**
         * Response containing multiple item
@@ -34,19 +34,19 @@ export namespace ItemResponses {
             public pagination: Pagination,
             public debug: ICloudResponseDebug
         ) {
-            this.initIsEmpty();
-            this.initFirstAndLastItem();
+            this.isEmpty = this.getIsEmpty();
+            this.lastItem = this.getLastItem();
+            this.firstItem = this.getFirstItem();
         }
 
-        private initIsEmpty(): void {
+        getIsEmpty(): boolean {
             if (!this.items) {
-                this.isEmpty = true;
-            } else {
-                this.isEmpty = this.items.length <= 0;
+                return true;
             }
+            return this.items.length <= 0;
         }
 
-        private initFirstAndLastItem(): void {
+        getFirstItem(): TItem | undefined {
             if (!this.items) {
                 return;
             }
@@ -55,8 +55,19 @@ export namespace ItemResponses {
                 return;
             }
 
-            this.firstItem = this.items[0];
-            this.lastItem = this.items[this.items.length - 1];
+            return this.items[0];
+        }
+
+        getLastItem(): TItem | undefined {
+            if (!this.items) {
+                return;
+            }
+
+            if (this.items.length < 1) {
+                return;
+            }
+
+            return this.items[this.items.length - 1];
         }
     }
 
@@ -77,15 +88,14 @@ export namespace ItemResponses {
             public item: TItem,
             public debug: ICloudResponseDebug
         ) {
-            this.initIsEmpty();
+            this.isEmpty = this.getIsEmpty();
         }
 
-        private initIsEmpty(): void {
+        getIsEmpty(): boolean {
             if (!this.item) {
-                this.isEmpty = true;
-            } else {
-                this.isEmpty = false;
+                return true;
             }
+            return false;
         }
     }
 }

@@ -38,7 +38,7 @@ describe('Pagination', () => {
   });
 
   it(`check pagination count`, () => {
-    expect(response.pagination.next_page).toEqual('');
+    expect(response.pagination.nextPage).toEqual('');
   });
 });
 
