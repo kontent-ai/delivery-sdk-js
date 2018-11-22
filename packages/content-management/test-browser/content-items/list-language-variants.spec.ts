@@ -4,9 +4,8 @@ import { cmTestClient, getTestClientWithJson, testProjectId } from '../setup';
 
 class ArticleElements extends ContentItemModels.ContentItemVariantElements {
 
-    public title: ContentItemElements.TextElement;
-    public postDate: ContentItemElements.DateElement;
-
+    public title!: ContentItemElements.TextElement;
+    public postDate!: ContentItemElements.DateElement;
 }
 
 describe('List language variants', () => {

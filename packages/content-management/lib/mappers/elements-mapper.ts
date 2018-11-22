@@ -1,8 +1,8 @@
-import { ContentItemElements } from '../models';
+import { ContentItemElements, ContentItemModels } from '../models';
 
 export class ElementsMapper {
 
-    mapElements<TElements>(rawElementsJson: any, fieldDefinitions: ContentItemElements.IContentItemElementDefinition[], model: TElements): TElements {
+    mapElements<TElements extends ContentItemModels.ContentItemVariantElements>(rawElementsJson: any, fieldDefinitions: ContentItemElements.IContentItemElementDefinition[], model: TElements): TElements {
         for (const fieldDefinition of fieldDefinitions) {
             // set property of model based on json value and field configuration
             model[this.getPropertyName(fieldDefinition)] = this.mapElement(rawElementsJson, fieldDefinition);

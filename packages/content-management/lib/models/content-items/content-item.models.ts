@@ -3,17 +3,19 @@ import { ReferenceModel } from '../reference-model';
 export namespace ContentItemModels {
 
     export class ContentItemModel {
-        public id: string;
-        public name: string;
-        public codename: string;
-        public type: {
+
+        public id!: string;
+        public name!: string;
+        public codename!: string;
+        public type!: {
             id: string
         };
-        public sitemapLocations: [{
+        public sitemapLocations!: [{
             id: string
         }];
         public externalId?: string;
-        public lastModified: Date;
+        public lastModified!: Date;
+
 
         constructor(
             data: {
@@ -35,14 +37,16 @@ export namespace ContentItemModels {
     }
 
     export class ContentItemVariantElements  {
+        // indexer for properties
+        [key: string]: any;
     }
 
     export class ContentItemLanguageVariant<TElements extends ContentItemVariantElements> {
-        public rawElements: any;
-        public item: ReferenceModel;
-        public elements: TElements;
-        public language: ReferenceModel;
-        public lastModified: Date;
+        public rawElements!: any;
+        public item!: ReferenceModel;
+        public elements!: TElements;
+        public language!: ReferenceModel;
+        public lastModified!: Date;
 
         constructor(
             data: {

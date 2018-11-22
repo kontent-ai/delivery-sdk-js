@@ -23,8 +23,6 @@ export namespace ContentItemResponses {
 
     export class ViewContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IViewContentItemResponseContract, ContentItemModels.ContentItemModel> {
 
-        data: ContentItemModels.ContentItemModel;
-
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
             rawData: ContentItemContracts.IViewContentItemResponseContract,
