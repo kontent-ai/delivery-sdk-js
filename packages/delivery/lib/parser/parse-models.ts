@@ -9,13 +9,13 @@ export interface IRichTextHtmlParser {
     resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
 }
 
-export interface IRichTextResolverResult extends IFeaturedObjects {
-    resolvedHtml: string;
-}
-
 export interface IFeaturedObjects {
     links: ILinkObject[];
     linkedItems: ILinkedItemContentObject[];
+}
+
+export interface IRichTextResolverResult extends IFeaturedObjects {
+    resolvedHtml: string;
 }
 
 export interface IRichTextReplacements {

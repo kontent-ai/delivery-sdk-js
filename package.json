@@ -8,6 +8,8 @@
 	},
 	"scripts": {
 		"prepare": "lerna bootstrap && npm run lerna:build:all && lerna bootstrap",
+		"lerna:tslint:check:all": "lerna exec npm run ts-lint:check",
+		"lerna:tslint:fix:all": "lerna exec npm run ts-lint:fix",
 		"lerna:build:all": "lerna exec npm run build:all",
 		"lerna:install:all": "lerna exec npm i",
 		"lerna:test:all": "lerna exec npm run test:all",

@@ -1,5 +1,5 @@
 {
-    "message": "Query parameter 'limit' must be a positive integer.",
+    "message": "Query parameter \"limit\" must be a positive integer.",
     "request_id": "GMAQvDLeLbE=",
     "error_code": 1005,
     "specific_code": 0

@@ -15,13 +15,16 @@
   "scripts": {
     "tsc-local": "./node_modules/.bin/tsc",
     "ts-node-local": "./node_modules/.bin/ts-node",
-    "prepublishOnly": "npm run build:all",
+    "prepublishOnly": "npm run ts-lint:check && npm run build:all",
     "publish:beta": "npm publish --tag=next",
     "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs",
     "build:all": "npm run build:commonjs",
     "test:all": "npm run build:all",
     "test:travis": "npm run build:all",
-    "test:generate-models": "node _commonjs/app --projectId=da5abe9f-fdad-4168-97cd-b3464be2ccb9 --moduleResolution=ES2015 --codeType=typescript"
+    "test:generate-models": "node _commonjs/app --projectId=da5abe9f-fdad-4168-97cd-b3464be2ccb9 --moduleResolution=ES2015 --codeType=typescript",
+    "ts-lint-local": "./node_modules/.bin/tslint",
+    "ts-lint:fix": "npm run ts-lint:check -- --fix",
+    "ts-lint:check": "npm run ts-lint-local -- --project ./tsconfig.json"
   },
   "keywords": [
     "Kentico",
