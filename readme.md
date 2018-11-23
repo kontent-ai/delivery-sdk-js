@@ -4,7 +4,7 @@ This repository contains TypeScript packages related to [Kentico Cloud](https://
 
 # SDKs Overview
 
-## [Delivery SDK](https://github.com/Kentico/KenticoCloudDeliveryTypeScriptSDK/tree/master/packages/delivery)
+## [Delivery SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery)
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Build Status](https://api.travis-ci.org/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Kentico/kentico-cloud-js)
