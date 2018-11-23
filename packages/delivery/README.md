@@ -1,18 +1,18 @@
 # Kentico Cloud Delivery SDK
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
-[![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Enngage/kentico-cloud-js)
+[![Build Status](https://api.travis-ci.org/Enngage/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Kentico/kentico-cloud-js)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
-[![Known Vulnerabilities](https://snyk.io/test/github/enngage/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/enngage/kentico-cloud-js)
-[![GitHub license](https://img.shields.io/github/license/Enngage/kentico-cloud-js.svg)](https://github.com/Enngage/kentico-cloud-js)
+[![Known Vulnerabilities](https://snyk.io/test/github/enngage/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/kentico/kentico-cloud-js)
+[![GitHub license](https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg)](https://github.com/Kentico/kentico-cloud-js)
 ![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
 
 A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) for both `Node` and `browsers`. Library supports `ES2015` and is fully written in `TypeScript`.
 
-# [Full Documentation](https://github.com/Enngage/kentico-cloud-js/blob/master/doc/delivery.md)
+# [Full Documentation](https://github.com/Kentico/kentico-cloud-js/blob/master/doc/delivery.md)
 
-# [Example apps](https://github.com/Enngage/kentico-cloud-js/tree/master/examples)
+# [Example apps](https://github.com/Kentico/kentico-cloud-js/tree/master/examples)
 
 ## Installation
 
