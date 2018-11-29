@@ -73,6 +73,9 @@ describe('Item resolver', () => {
             }
         });
 
+        // there should be items mapped
+        expect(response.item.stars.length).toEqual(2);
+
         for (const star of response.item.stars) {
             expect(star).toEqual(jasmine.any(CustomActor));
             expect((star as any as CustomActor).customName).toEqual('testName');
