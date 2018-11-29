@@ -531,9 +531,11 @@ deliveryClient.item<Movie>('pain_and_gain')
   });
 ```
 
-### Strongly typed nested property (TypeScript only)
+### Strongly typed nested items
 
-To include linked item, simply reference a given type class:
+If your item has linked items, they will be resolved using the `typeResolver` defined for that type. This is recursive and will be applied for all items in your response. 
+
+If you are using typescript, you would define fields such as:
 
 ```typescript
 import { ContentItem, Fields} from 'kentico-cloud-delivery';
@@ -546,6 +548,45 @@ export class Movie extends ContentItem {
   public title: Fields.TextField;
   public stars: Actor[];
 }
+```
+
+### Custom resolving for content items
+
+If, for any reason, you need to use some custom resolving for specific item instead of default one. You may use `itemResolver` property in `queryConfig` of your query. 
+
+```typescript
+import { IContentItem } from 'kentico-cloud-delivery';
+
+class FakeActor extends ContentItem {
+    constructor(
+      public fakeName: string
+    ) {
+      super();
+    }
+}
+
+deliveryClient.item<Movie>('pain_and_gain')
+    queryConfig({
+      itemResolver: (field: FieldContracts.IRichTextField, itemCodename: string, modularContent: any, queryConfig: IItemQueryConfig, rawItem?: ItemContracts.IContentItemContract) => {
+        if (itemCodename === 'itemCodename') {
+          return {
+            item: new CustomActor('testName'),
+            // set 'useOriginalResolver' to false so that default resolver is not used
+            useOriginalResolver: false
+            };
+          }
+        return {
+          item: undefined,
+          // set 'useOriginalResolver' to true if you want default resolver to resolve the item
+          useOriginalResolver: true
+        };
+    })
+  })
+  .getObservable()
+  .subscribe(response => {
+    // 'actor' will be an instance of 'FakeActor' class
+    const actor = response.item.stars[0];
+  });
 ```
 
 ## Getting content types

@@ -125,18 +125,44 @@ export class FieldMapper {
             if (Array.isArray(field.modular_content)) {
                 field.modular_content.forEach(codename => {
                     // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
-                    const linkedItemFromModularContent = modularContent[codename];
+                    const rawItem = modularContent[codename] as ItemContracts.IContentItemContract;
 
-                    if (!linkedItemFromModularContent) {
-                        throw Error(`Linked item with codename '${codename}' is not present in Delivery response.
-                        This linked item was requested by '${field.name}' field.
-                        Error can usually be solved by increasing 'Depth' parameter of your query.`);
+                    let throwErrorForMissingLinkedItems: boolean = true;
+                    let resolveItem = true;
+                    let mappedLinkedItem: ContentItem | undefined;
+
+                    // check if errors should be thrown for missing linked items
+                    if (queryConfig.skipMissingLinkedItems === false || queryConfig.skipMissingLinkedItems === true) {
+                        // variable is a boolean
+                        throwErrorForMissingLinkedItems = !queryConfig.skipMissingLinkedItems;
                     }
 
-                    const linkedItem = this.mapFields(modularContent[codename], modularContent, queryConfig, processedItems);
+                    // try resolving item using custom item resolver if there is any
+                    if (queryConfig.itemResolver) {
+                        const itemResolverResult = queryConfig.itemResolver(field, codename, modularContent, queryConfig, rawItem);
 
-                    if (linkedItem != null) {
-                        linkedItems.push(linkedItem);
+                        if (!itemResolverResult.useOriginalResolver) {
+                            resolveItem = false;
+                            mappedLinkedItem = itemResolverResult.item;
+                        }
+                    }
+
+                    // original resolving
+                    if (resolveItem && rawItem) {
+                        mappedLinkedItem = this.mapFields(rawItem, modularContent, queryConfig, processedItems);
+                    } else {
+                        // Throw exception is mapped linked item is not available and flag is enabled
+                        if (throwErrorForMissingLinkedItems && !mappedLinkedItem) {
+                            throw Error(`Linked item with codename '${codename}' is not present in Delivery response.
+                            This linked item was requested by '${field.name}' field.
+                            Error can usually be solved by increasing 'Depth' parameter of your query. Alternatively, you may register
+                            your own 'itemResolver' via 'queryConfig' configuration option or prevent this error by enabling 'skipMissingLinkedItems`);
+                        }
+                    }
+
+                    // add mapped linked item to result
+                    if (mappedLinkedItem) {
+                        linkedItems.push(mappedLinkedItem);
                     }
                 });
             }

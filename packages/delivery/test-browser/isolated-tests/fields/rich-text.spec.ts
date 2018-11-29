@@ -13,9 +13,9 @@ import {
 import { RichTextContentType } from '../../../lib/enums';
 
 class ActorMock extends ContentItem {
-    firstName: Fields.TextField;
-    system: ContentItemSystemAttributes;
-    url: Fields.UrlSlugField;
+    firstName!: Fields.TextField;
+    system!: ContentItemSystemAttributes;
+    url!: Fields.UrlSlugField;
 
     constructor() {
         super();
@@ -115,8 +115,8 @@ describe('RichTextField', () => {
             linkedItemWrapperClasses: ['kc-wrapper-class'],
             linkedItemWrapperTag: 'kcelem',
             queryConfig: {
-                richTextResolver: (item: ActorMock, context) => {
-                    return `<p class="testing_richtext">${item.firstName.text}</p>`;
+                richTextResolver: (item: ContentItem, context) => {
+                    return `<p class="testing_richtext">${(<ActorMock>item).firstName.text}</p>`;
                 },
                 linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
             },

@@ -8,16 +8,16 @@ describe('Rich text resolver', () => {
     const globalLinkContexts: { [s: string]: ILinkResolverContext } = {};
 
     class MockMovie extends ContentItem {
-        public plot: Fields.RichTextField;
+        public plot!: Fields.RichTextField;
     }
 
     class MockActor extends ContentItem {
-        public first_name: Fields.TextField;
+        public first_name!: Fields.TextField;
 
         constructor() {
             super({
-                richTextResolver: (item: MockActor, richTextContext) => {
-                    return `<h1>${item.first_name.text}</h1>`;
+                richTextResolver: (item, richTextContext) => {
+                    return `<h1>${(<MockActor>item).first_name.text}</h1>`;
                 },
                 linkResolver: (link, linkContext) => {
                     globalLinkContexts[link.codename] = linkContext;
@@ -51,8 +51,8 @@ describe('Rich text resolver', () => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
 
         responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {
-            richTextResolver: (item: MockActor, richTextContext) => {
-                return `<h2>${item.first_name.text}</h2>`;
+            richTextResolver: (item, richTextContext) => {
+                return `<h2>${(<MockActor>item).first_name.text}</h2>`;
             },
             linkResolver: (link, linkContext) => {
                 localLinkContexts[link.codename] = linkContext;

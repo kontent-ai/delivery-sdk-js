@@ -3,7 +3,7 @@ import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../..
 import { HttpService } from 'kentico-cloud-core';
 
 class MockMovie extends ContentItem {
-    public seoname: Fields.UrlSlugField;
+    public seoname!: Fields.UrlSlugField;
 
     constructor() {
         super({

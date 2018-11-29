@@ -3,13 +3,13 @@ import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../..
 import { HttpService } from 'kentico-cloud-core';
 
 class MockMovie extends ContentItem {
-    public titleTest: Fields.TextField;
+    public titleTest!: Fields.TextField;
 
     @FieldDecorators.codename('released')
-    public test_released: Fields.DateTimeField;
+    public test_released!: Fields.DateTimeField;
 
     @FieldDecorators.codename('length')
-    public justNumber: Fields.NumberField;
+    public justNumber!: Fields.NumberField;
 
     constructor() {
         super({
