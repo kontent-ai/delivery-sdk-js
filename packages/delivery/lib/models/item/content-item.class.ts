@@ -1,8 +1,8 @@
-import { ILinkResolverResult, IRichTextResolverContext, ILinkResolverContext } from '../../interfaces';
+import { ILinkResolverResult, IRichTextResolverContext, ILinkResolverContext, IContentItem } from '../../interfaces';
 import { ContentItemSystemAttributes } from './content-item-system-attributes';
 import { Link } from './link.class';
 
-export class ContentItem {
+export class ContentItem implements IContentItem {
 
     /**
      * Indexer

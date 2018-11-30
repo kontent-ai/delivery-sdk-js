@@ -15,20 +15,13 @@ export class StronglyTypedResolver {
     }
 
     /**
-     * Creates non generic ContentItem used when content type does not have a strongly typed model
+     * Creates base ContentItem when content type does not have a strongly typed model
      */
     createContentItem(item: ItemContracts.IContentItemContract): ContentItem {
         const contentItem = new ContentItem();
         // use typed 'system' property
-        contentItem.system = new ContentItemSystemAttributes({
-            name: item.system.name,
-            codename: item.system.codename,
-            id: item.system.id,
-            lastModified: item.system.last_modified,
-            language: item.system.language,
-            type: item.system.type,
-            sitemapLocations: item.system.sitemap_locations
-        });
+        contentItem.system = this.mapSystemAttributes(item.system);
+        contentItem.elements = item.elements;
 
         return contentItem;
     }
@@ -47,15 +40,8 @@ export class StronglyTypedResolver {
         }
 
         // use typed 'system' property
-        typedItem.system = new ContentItemSystemAttributes({
-            name: item.system.name,
-            codename: item.system.codename,
-            id: item.system.id,
-            lastModified: item.system.last_modified,
-            language: item.system.language,
-            type: item.system.type,
-            sitemapLocations: item.system.sitemap_locations
-        });
+        typedItem.system = this.mapSystemAttributes(item.system);
+        typedItem.elements = item.elements;
 
         return typedItem;
     }
@@ -77,6 +63,22 @@ export class StronglyTypedResolver {
         }
 
         return typeResolver.resolve() as TItem;
+    }
+
+    /**
+     * Maps raw system response to strongly typed class
+     * @param rawSystem Raw system response
+     */
+    mapSystemAttributes(rawSystem: ItemContracts.IContentItemSystemAttributesContract): ContentItemSystemAttributes {
+        return new ContentItemSystemAttributes({
+            name: rawSystem.name,
+            codename: rawSystem.codename,
+            id: rawSystem.id,
+            lastModified: rawSystem.last_modified,
+            language: rawSystem.language,
+            type: rawSystem.type,
+            sitemapLocations: rawSystem.sitemap_locations
+        });
     }
 }
 

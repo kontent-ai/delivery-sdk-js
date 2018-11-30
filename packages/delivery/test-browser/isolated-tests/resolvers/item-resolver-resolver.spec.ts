@@ -1,7 +1,15 @@
 import { HttpService } from 'kentico-cloud-core';
 
-import { sdkInfo, TypeResolver, ContentItem } from '../../../lib';
-import { Actor, Context, MockQueryService, Movie, setup, warriorMovieWithoutModularContentJson } from '../../setup';
+import { ContentItem, ContentItemSystemAttributes, sdkInfo, TypeResolver } from '../../../lib';
+import {
+    Actor,
+    Context,
+    MockQueryService,
+    Movie,
+    setup,
+    warriorMovieJson,
+    warriorMovieWithoutModularContentJson,
+} from '../../setup';
 
 class CustomActor extends ContentItem {
 
@@ -58,29 +66,46 @@ describe('Item resolver', () => {
     });
 
     it(`Custom item resolver should be used and resolve items correctly`, () => {
-        const response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-            itemResolver: (field, itemCodename , modularContent, queryConfig, rawItem) => {
-                if (itemCodename === 'tom_hardy' || itemCodename === 'joel_edgerton') {
-                    return {
-                        item: new CustomActor('testName'),
-                        useOriginalResolver: false
-                    };
+        const response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {
+            itemResolver: (field, rawItem, modularContent, queryConfig) => {
+                if (rawItem.system.codename === 'tom_hardy' || rawItem.system.codename === 'joel_edgerton') {
+                    return new CustomActor('testName');
                 }
-                return {
-                    item: undefined,
-                    useOriginalResolver: true
-                };
+                return undefined;
             }
         });
 
-        // there should be items mapped
+        // there should be some items mapped
         expect(response.item.stars.length).toEqual(2);
 
         for (const star of response.item.stars) {
+
+            expect(star.elements).toBeDefined();
+            expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));
+
             expect(star).toEqual(jasmine.any(CustomActor));
             expect((star as any as CustomActor).customName).toEqual('testName');
         }
 
+    });
+
+    it(`Default resolver should be used when content item resolver resolves to undefined`, () => {
+        const response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {
+            itemResolver: (field, rawItem, modularContent, queryConfig) => {
+                return undefined;
+            }
+        });
+
+        // there should be some items mapped
+        expect(response.item.stars.length).toEqual(2);
+
+        for (const star of response.item.stars) {
+
+            expect(star.elements).toBeDefined();
+            expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));
+
+            expect(star).toEqual(jasmine.any(Actor));
+        }
     });
 });
 

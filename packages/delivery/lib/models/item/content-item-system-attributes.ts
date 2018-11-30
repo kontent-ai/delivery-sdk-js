@@ -1,5 +1,6 @@
+import { IContentItemSystemAttributes } from '../../interfaces';
 
-export class ContentItemSystemAttributes {
+export class ContentItemSystemAttributes implements IContentItemSystemAttributes {
 
     /**
     * Id of the item

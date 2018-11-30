@@ -510,11 +510,11 @@ deliveryClient.item<Movie>('pain_and_gain')
 You can define a resolver for a particular query. Resolver defined this way has priority over the globally defined one.
 
 ```typescript
-import { IContentItem } from 'kentico-cloud-delivery';
+import { ContentItem } from 'kentico-cloud-delivery';
 
 deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
-      richTextResolver: (item: IContentItem, context) => {
+      richTextResolver: (item: ContentItem, context) => {
         if (item.system.type == 'actor') {
           var actor = item as Actor;
           return `<h2>${actor.name.text}</h2>`;
@@ -550,12 +550,27 @@ export class Movie extends ContentItem {
 }
 ```
 
+### Skipping errors for missing linked items
+
+You may see an Error in scenarios where certain elements such as 'Rich text fields' reference linked items that are not present in response (e.g. due to insufficient 'depth' parameter). This is because SDK will automatically try to recursively map all referenced items, however you might not need use that data. For that reason, you may skip these errors using `skipMissingLinkedItems` flag in your `queryConfig`.
+
+```typescript
+deliveryClient.item<Movie>('pain_and_gain')
+    queryConfig({
+      skipMissingLinkedItems: true,
+    })
+  .getObservable()
+  .subscribe(response => {
+    console.log(response);
+  });
+```
+
 ### Custom resolving for content items
 
 If, for any reason, you need to use some custom resolving for specific item instead of default one. You may use `itemResolver` property in `queryConfig` of your query. 
 
 ```typescript
-import { IContentItem } from 'kentico-cloud-delivery';
+import { ContentItem } from 'kentico-cloud-delivery';
 
 class FakeActor extends ContentItem {
     constructor(
@@ -569,17 +584,10 @@ deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
       itemResolver: (field: FieldContracts.IRichTextField, itemCodename: string, modularContent: any, queryConfig: IItemQueryConfig, rawItem?: ItemContracts.IContentItemContract) => {
         if (itemCodename === 'itemCodename') {
-          return {
-            item: new CustomActor('testName'),
-            // set 'useOriginalResolver' to false so that default resolver is not used
-            useOriginalResolver: false
-            };
-          }
-        return {
-          item: undefined,
-          // set 'useOriginalResolver' to true if you want default resolver to resolve the item
-          useOriginalResolver: true
-        };
+          return new FakeActor('xxx'),
+        }
+        // if you return 'undefined' default resolver will take place
+        return undefined;
     })
   })
   .getObservable()
@@ -690,7 +698,7 @@ deliveryClient.item<Movie>('terminator_9')
 Every response from this SDK contains `debug` property which can be used to inspect raw response.
 
 ```typescript
-deliveryClient.items<IContentItem>()
+deliveryClient.items<ContentItem>()
   .get()
   .subscribe(response => {
     console.log(response.debug); 
@@ -702,7 +710,7 @@ deliveryClient.items<IContentItem>()
 In case you need to get the raw URL of a request before calling it, use the `getUrl()` method on any query.
 
 ```typescript
-const queryText = deliveryClient.items<IContentItem>()
+const queryText = deliveryClient.items<ContentItem>()
   .type('movie')
   .limitParameter(10)
   .orderParameter('system.codename', SortOrder.desc)
