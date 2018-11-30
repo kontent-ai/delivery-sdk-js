@@ -1,4 +1,4 @@
-import { ILinkResolverResult, ILinkResolverContext } from '../interfaces';
+import { ILinkResolverContext, ILinkResolverResult } from '../interfaces';
 import { ContentItem, Link } from '../models';
 
 export class UrlSlugResolver {
@@ -13,7 +13,7 @@ export class UrlSlugResolver {
     if (!data.linkResolver) {
       if (data.enableAdvancedLogging) {
         console.warn(
-          `You have to implement 'linkResolver' in your Model class or your query in order to get url of this item`
+          `You have to implement 'linkResolver' in your Model class or your query in order to get url of this item. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
         );
       }
       return undefined;
@@ -23,8 +23,8 @@ export class UrlSlugResolver {
       if (data.enableAdvancedLogging) {
         console.warn(
           `Cannot resolve link for field '${
-            data.fieldName
-          }' because no item was provided to URL slug field (item may be missing from response)`
+          data.fieldName
+          }' because no item was provided to URL slug field (item may be missing from response). This warning can be turned off by disabling 'enableAdvancedLogging' option.`
         );
       }
       return undefined;
@@ -45,10 +45,10 @@ export class UrlSlugResolver {
       if (data.enableAdvancedLogging) {
         console.warn(
           `'linkResolver' is configured, but url resolved for '${
-            data.item.system.codename
+          data.item.system.codename
           }' item of '${data.item.system.type}' type inside '${
-            data.fieldName
-          }' field resolved to an undefined url.`
+          data.fieldName
+          }' field resolved to an undefined url. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
         );
       }
       return undefined;

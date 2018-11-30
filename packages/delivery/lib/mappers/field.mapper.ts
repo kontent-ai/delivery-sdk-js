@@ -230,14 +230,14 @@ export class FieldMapper {
     private mapLinkedItemsField(field: FieldContracts.IField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): ContentItem[] | undefined {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
-                console.warn(`Cannot map linked item field because field does not exist`);
+                console.warn(`Cannot map linked item field because field does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
             return undefined;
         }
 
         if (!field.value) {
             if (this.config.enableAdvancedLogging) {
-                console.warn(`Cannot map linked item of '${field.name}' because its value does not exist`);
+                console.warn(`Cannot map linked item of '${field.name}' because its value does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
             return undefined;
         }
@@ -254,7 +254,9 @@ export class FieldMapper {
                 result.push(linkedItem);
             } else {
                 // item was not found
-                console.warn(`Linked item with codename '${codename}' in linked items field '${field.name}' could not be found.`);
+                if (this.config.enableAdvancedLogging) {
+                    console.warn(`Linked item with codename '${codename}' in linked items field '${field.name}' could not be found. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                }
             }
         });
 

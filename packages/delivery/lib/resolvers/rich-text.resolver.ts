@@ -87,7 +87,7 @@ export class RichTextResolver {
         // check resolver
         if (!resolver) {
             if (data.config.enableAdvancedLogging) {
-                console.warn(`Cannot resolve html of '${linkedItem.system.type}' type in 'RichTextField' because no rich text resolved was configured`);
+                console.warn(`Cannot resolve html of '${linkedItem.system.type}' type in 'RichTextField' because no rich text resolved was configured.  This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 return '';
             }
             return '';
@@ -109,7 +109,7 @@ export class RichTextResolver {
 
         if (!link) {
             if (data.config.enableAdvancedLogging) {
-                console.warn(`Cannot resolve URL for item '${data.itemId}' because no link with this id was found`);
+                console.warn(`Cannot resolve URL for item '${data.itemId}' because no link with this id was found. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
             return '';
         }
@@ -135,7 +135,7 @@ export class RichTextResolver {
 
             if (!emptyTypedItem) {
                 if (data.config.enableAdvancedLogging) {
-                    console.warn(`Cannot resolve link for link of '${link.type}' type with id '${link.itemId}' and url slug '${link.urlSlug}'`);
+                    console.warn(`Cannot resolve link for link of '${link.type}' type with id '${link.itemId}' and url slug '${link.urlSlug}'. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 }
             } else {
                 const globalLinkResolver = emptyTypedItem.linkResolver;
@@ -148,7 +148,7 @@ export class RichTextResolver {
         // url still wasn't resolved
         if (!url) {
             if (data.config.enableAdvancedLogging) {
-                console.warn(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null/undefined`);
+                console.warn(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null/undefined. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
             return '';
         }

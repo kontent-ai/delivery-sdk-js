@@ -122,7 +122,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
             if (!hrefAttribute) {
                 // href attribute is missing
                 if (config.enableAdvancedLogging) {
-                    console.warn(`Cannot set url '${linkResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this.`);
+                    console.warn(`Cannot set url '${linkResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 }
             } else {
                 // get link url
