@@ -142,7 +142,7 @@ export class FieldMapper {
                         // throw error if raw item is not available and errors are not skipped
                         if (!rawItem) {
                             const msg = `Mapping RichTextField field '${field.name}' failed because referenced linked item with codename '${codename}' could not be found in Delivery response.
-                            Increasing 'depth' parameter may solve this issue as it will include nested items. Alternatively you may enable 'skipMissingLinkedItems' in your query`;
+                            Increasing 'depth' parameter may solve this issue as it will include nested items. Alternatively you may disable 'throwErrorForMissingLinkedItems' in your query`;
 
                             if (throwErrorForMissingLinkedItems) {
                                 throw Error(msg);
@@ -304,7 +304,7 @@ export class FieldMapper {
             const msg = `Linked item with codename '${codename}' could not be found in Delivery response.
             This linked item was requested by '${field.name}' field of '${field.type}'.
             Error can usually be solved by increasing 'Depth' parameter of your query.
-            Alternatively, you may prevent this error by enabling 'skipMissingLinkedItems' in query configuration.`;
+            Alternatively, you may prevent this error by disabling 'throwErrorForMissingLinkedItems' in query configuration.`;
 
             if (throwErrorForMissingLinkedItems) {
                 throw Error(msg);
