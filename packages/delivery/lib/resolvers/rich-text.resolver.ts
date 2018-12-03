@@ -65,12 +65,10 @@ export class RichTextResolver {
         // get linked item
         const linkedItem = data.getLinkedItem(data.itemCodename);
 
-        // check if linked item really exists
+        // resolving cannot be done if the item is not present in response
         if (!linkedItem) {
-            throw Error(`Cannot resolve linked item html in 'RichTextField' for '${data.itemCodename}' linked item`);
+            throw Error(`Linked item with codename '${data.itemCodename}' could not be found in response and therefore the HTML of rich text field could not be evaluated. Increasing 'depth' parameter of your query may solve this issue.`);
         }
-
-        // create new replacement object
 
         // get html to replace object using Rich text resolver function
         let resolver: (<TItem extends ContentItem>(item: TItem, context: IRichTextResolverContext) => string) | undefined = undefined;

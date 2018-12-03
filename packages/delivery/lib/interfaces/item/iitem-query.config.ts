@@ -8,7 +8,7 @@ import { ILinkResolverResult } from './ilink-resolver-result';
 import { IRichTextResolverContext } from './irich-text-resolver-context';
 
 export interface IItemQueryConfig extends IQueryConfig {
-  skipMissingLinkedItems?: boolean;
+  throwErrorForMissingLinkedItems?: boolean;
   linkResolver?: (link: Link, context: ILinkResolverContext) => string | undefined | ILinkResolverResult;
   richTextResolver?: (contentItem: ContentItem, context: IRichTextResolverContext) => string;
   itemResolver?: (field: FieldContracts.IField, rawItem: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig, ) => ContentItem | undefined;

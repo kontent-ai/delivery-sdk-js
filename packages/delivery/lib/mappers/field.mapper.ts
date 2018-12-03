@@ -131,18 +131,22 @@ export class FieldMapper {
                         // item was found, add it to linked items
                         linkedItems.push(existingLinkedItem);
                     } else {
-                        let throwErrorForMissingLinkedItems = true;
+                        let throwErrorForMissingLinkedItems = false;
 
                         // check if errors should be thrown for missing linked items
-                        if (queryConfig.skipMissingLinkedItems === false || queryConfig.skipMissingLinkedItems === true) {
+                        if (queryConfig.throwErrorForMissingLinkedItems === false || queryConfig.throwErrorForMissingLinkedItems === true) {
                             // variable is a boolean
-                            throwErrorForMissingLinkedItems = !queryConfig.skipMissingLinkedItems;
+                            throwErrorForMissingLinkedItems = queryConfig.throwErrorForMissingLinkedItems;
                         }
 
                         // throw error if raw item is not available and errors are not skipped
-                        if (!rawItem && throwErrorForMissingLinkedItems) {
-                            throw Error(`RichTextField '${field.name}' contains linked item with codename '${codename}' which could not be found in response.
-                            Increasing 'depth' parameter of your query may solve this issue. Alternatively you may enable 'skipMissingLinkedItems' in your query`);
+                        if (!rawItem) {
+                            const msg = `Mapping RichTextField field '${field.name}' failed because referenced linked item with codename '${codename}' could not be found in Delivery response.
+                            Increasing 'depth' parameter may solve this issue as it will include nested items. Alternatively you may enable 'skipMissingLinkedItems' in your query`;
+
+                            if (throwErrorForMissingLinkedItems) {
+                                throw Error(msg);
+                            }
                         }
 
                         // item was not found or not yet resolved
@@ -255,7 +259,8 @@ export class FieldMapper {
             } else {
                 // item was not found
                 if (this.config.enableAdvancedLogging) {
-                    console.warn(`Linked item with codename '${codename}' in linked items field '${field.name}' could not be found. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                    // tslint:disable-next-line:max-line-length
+                    console.warn(`Linked item with codename '${codename}' in linked items field '${field.name}' of '${field.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 }
             }
         });
@@ -285,24 +290,29 @@ export class FieldMapper {
 
         const rawItem = modularContent[codename] as ItemContracts.IContentItemContract | undefined;
 
-        let throwErrorForMissingLinkedItems: boolean = true;
+        // by default errors are not thrown
+        let throwErrorForMissingLinkedItems: boolean = false;
 
         // check if errors should be thrown for missing linked items
-        if (queryConfig.skipMissingLinkedItems === false || queryConfig.skipMissingLinkedItems === true) {
+        if (queryConfig.throwErrorForMissingLinkedItems === false || queryConfig.throwErrorForMissingLinkedItems === true) {
             // variable is a boolean
-            throwErrorForMissingLinkedItems = !queryConfig.skipMissingLinkedItems;
+            throwErrorForMissingLinkedItems = queryConfig.throwErrorForMissingLinkedItems;
         }
 
         // throw error if item is not in response and errors are not skipped
-        if (!rawItem && throwErrorForMissingLinkedItems) {
-            throw Error(`
-                Linked item with codename '${codename}' is not present in Delivery response.
-                This linked item was requested by '${field.name}' field.
-                Error can usually be solved by increasing 'Depth' parameter of your query. Alternatively, you may prevent this error by enabling 'skipMissingLinkedItems' in query configuration.`);
+        if (!rawItem ) {
+            const msg = `Linked item with codename '${codename}' could not be found in Delivery response.
+            This linked item was requested by '${field.name}' field of '${field.type}'.
+            Error can usually be solved by increasing 'Depth' parameter of your query.
+            Alternatively, you may prevent this error by enabling 'skipMissingLinkedItems' in query configuration.`;
+
+            if (throwErrorForMissingLinkedItems) {
+                throw Error(msg);
+            }
         }
 
         if (!rawItem) {
-            // nothing to do when item is not in response
+            // nothing else to do when item is not in response
             return undefined;
         }
 
