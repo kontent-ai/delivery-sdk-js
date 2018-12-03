@@ -550,14 +550,18 @@ export class Movie extends ContentItem {
 }
 ```
 
-### Skipping errors for missing linked items
+### Handling missing referenced linked items
 
-You may see an Error in scenarios where certain elements such as 'Rich text fields' reference linked items that are not present in response (e.g. due to insufficient 'depth' parameter). This is because SDK will automatically try to recursively map all referenced items, however you might not need use that data. For that reason, you may skip these errors using `skipMissingLinkedItems` flag in your `queryConfig`.
+If one of your fields references linked items which are not present in response due to low 'depth' parameter, you may choose to throw an Error by enabling `throwErrorForMissingLinkedItems` in your `queryConfig`.
+
+Also, if you enable advanced logging, you will see a warning in console if such situation occurs. By default, sdk does not enforce you to load all items unless they are required for resolving (e.g. rich text resolver).
+
+Following example shows how to enforce that all referenced linked items are present in response:
 
 ```typescript
 deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
-      skipMissingLinkedItems: true,
+      throwErrorForMissingLinkedItems: true
     })
   .getObservable()
   .subscribe(response => {

@@ -19,8 +19,7 @@ class CustomActor extends ContentItem {
     }
 }
 
-describe('Item resolver', () => {
-
+function getQueryService(advancedLogging: boolean = false): MockQueryService {
     const context = new Context();
     const typeResolvers: TypeResolver[] = [];
     typeResolvers.push(new TypeResolver('movie', () => new Movie()));
@@ -29,44 +28,61 @@ describe('Item resolver', () => {
     context.typeResolvers = typeResolvers;
     setup(context);
 
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
+    const config = context.getConfig();
+    config.enableAdvancedLogging = advancedLogging;
+
+    return new MockQueryService(config, new HttpService(), {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version
     });
+}
+
+describe('Item resolver', () => {
 
     beforeAll((done) => {
         done();
     });
 
-    it(`Resolving linked items should throw exception because modular content item is missing (defualt behavior)`, () => {
+    it(`Resolving linked items should NOT throw exception because modular content item is missing (default behavior)`, () => {
         expect(() => {
-            mockQueryService.mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-            });
-        }).toThrowError();
-    });
-
-    it(`Resolving linked items should throw exception because modular content item is missing and skip errors is disabled`, () => {
-        expect(() => {
-            mockQueryService.mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-                skipMissingLinkedItems: false,
-            });
-        }).toThrowError();
-    });
-
-    it(`Resolving linked items should NOT throw exception because modular content item is missing when skip errors is enabled`, () => {
-        mockQueryService.mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-            skipMissingLinkedItems: true,
-        });
-        expect(() => {
-            mockQueryService.mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-                skipMissingLinkedItems: true,
+            getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
             });
         }).not.toThrowError();
     });
 
-    it(`Custom item resolver should be used and resolve items correctly`, () => {
-        const response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {
+    it(`Resolving linked items should throw exception when linked item is missing and 'throwErrorForMissingLinkedItems' is enabled`, () => {
+        expect(() => {
+            getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
+                throwErrorForMissingLinkedItems: true,
+            });
+        }).toThrowError();
+    });
+
+    it(`Resolving linked items in rich text field should always throw exception because items are not present in response and could not be parsed`, () => {
+        expect(() => {
+            const result = getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
+                throwErrorForMissingLinkedItems: false,
+            });
+
+            result.item.plot.getHtml();
+
+        }).toThrowError();
+    });
+
+    it(`Resolving linked items should NOT throw exception when linked content item is missing and 'throwErrorForMissingLinkedItems' is disabled`, () => {
+        getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
+            throwErrorForMissingLinkedItems: false,
+        });
+        expect(() => {
+            getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
+                throwErrorForMissingLinkedItems: false,
+            });
+        }).not.toThrowError();
+    });
+
+    it(`Custom item resolver should be used to resolve items`, () => {
+        const response = getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {
             itemResolver: (field, rawItem, modularContent, queryConfig) => {
                 if (rawItem.system.codename === 'tom_hardy' || rawItem.system.codename === 'joel_edgerton') {
                     return new CustomActor('testName');
@@ -90,7 +106,7 @@ describe('Item resolver', () => {
     });
 
     it(`Default resolver should be used when content item resolver resolves to undefined`, () => {
-        const response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {
+        const response = getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {
             itemResolver: (field, rawItem, modularContent, queryConfig) => {
                 return undefined;
             }
@@ -107,5 +123,19 @@ describe('Item resolver', () => {
             expect(star).toEqual(jasmine.any(Actor));
         }
     });
+
+    it(`Resolving linked items should NOT throw exception, but warning should be logged for each missing linked item`, () => {
+        const expectedNumberOfWarning = 2;
+
+        console.warn = jasmine.createSpy('warn');
+
+        getQueryService(true).mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
+            throwErrorForMissingLinkedItems: false,
+        });
+
+        expect(console.warn).toHaveBeenCalledTimes(expectedNumberOfWarning); // 2 times because there are 2 missing linked items
+
+    });
+
 });
 

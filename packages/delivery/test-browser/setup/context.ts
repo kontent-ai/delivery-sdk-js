@@ -10,11 +10,11 @@ export class Context {
    */
   public richTextHtmlParser?: IRichTextHtmlParser = getParserAdapter();
 
-  public typeResolvers: TypeResolver[];
-  public projectId: string;
+  public typeResolvers!: TypeResolver[];
+  public projectId!: string;
   public previewApiKey?: string;
   public securedApiKey?: string;
-  public deliveryClient: DeliveryClient;
+  public deliveryClient!: DeliveryClient;
   public usePreviewMode: boolean = false;
   public useSecuredMode: boolean = false;
   public defaultLanguage?: string;
