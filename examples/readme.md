@@ -22,6 +22,10 @@ A community-made sample Angular Universal application. Showcases pre-rendering a
 
 A community-made bare-bones application built using plain JavaScript and Browserify.
 
+## [Express.js](https://github.com/Kentico/cloud-expressjs-app) 
+
+A demonstration of the Dancing Goat sample site running on [Express.js](https://expressjs.com/) and using [Pug templates](https://github.com/pugjs/pug).
+
 ## [unpkg cdn](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/unpkg/index.html)
 
 A simple example of including the SDK in plain HTML using [unpkg](https://unpkg.com/#/).
