@@ -72,6 +72,7 @@ describe('List language variants', () => {
     });
 
     it(`elements should be mapped`, () => {
+        console.warn(response);
         response.data.variants.forEach(m => {
             // raw elements
             expect(m.rawElements.title).toEqual(m.elements.title.text);

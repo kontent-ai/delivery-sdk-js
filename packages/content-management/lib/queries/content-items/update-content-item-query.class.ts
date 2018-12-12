@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
 
 import { IContentManagementClientConfig } from '../../config';
+import { ContentItemContracts } from '../../contracts';
+import { ContentItemIdentifier } from '../../models';
 import { ContentItemResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
-import { ContentItemContracts } from '../../contracts';
-import { ContentItemIdentifier } from '../../models';
 
 export class UpdateContentItemQuery extends BaseQuery<ContentItemResponses.UpdateContentItemResponse> {
 
@@ -38,11 +38,12 @@ export class UpdateContentItemQuery extends BaseQuery<ContentItemResponses.Updat
   }
 }
 
-export class UpdateContentItemQueryInit {
+export class UpdateContentItemQueryData {
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected item: ContentItemContracts.IUpdateContentItemPostContract
+    protected identifier: ContentItemIdentifier,
+    protected identifierValue: string
   ) {
   }
 
@@ -50,23 +51,39 @@ export class UpdateContentItemQueryInit {
    * Gets query for content item using internal Id
    * @param id Internal Id of content item
    */
-  byInternalId(id: string): UpdateContentItemQuery {
-    return new UpdateContentItemQuery(this.config, this.queryService, this.item, ContentItemIdentifier.InternalId, id);
+  withData(item: ContentItemContracts.IUpdateContentItemPostContract): UpdateContentItemQuery {
+    return new UpdateContentItemQuery(this.config, this.queryService, item, this.identifier, this.identifierValue);
+  }
+}
+
+export class UpdateContentItemQueryInit {
+  constructor(
+    protected config: IContentManagementClientConfig,
+    protected queryService: ContentManagementQueryService,
+  ) {
+  }
+
+  /**
+   * Gets query for content item using internal Id
+   * @param id Internal Id of content item
+   */
+  byInternalId(id: string): UpdateContentItemQueryData {
+    return new UpdateContentItemQueryData(this.config, this.queryService, ContentItemIdentifier.InternalId, id);
   }
 
   /**
  * Gets query for content item using external Id
  * @param id External Id of content item
  */
-  byExternalId(id: string): UpdateContentItemQuery {
-    return new UpdateContentItemQuery(this.config, this.queryService, this.item, ContentItemIdentifier.ExternalId, id);
+  byExternalId(id: string): UpdateContentItemQueryData {
+    return new UpdateContentItemQueryData(this.config, this.queryService, ContentItemIdentifier.ExternalId, id);
   }
 
   /**
  * Gets query for content item using codename
  * @param codename Codename of content item
  */
-  byCodename(codename: string): UpdateContentItemQuery {
-    return new UpdateContentItemQuery(this.config, this.queryService, this.item, ContentItemIdentifier.Codename, codename);
+  byCodename(codename: string): UpdateContentItemQueryData {
+    return new UpdateContentItemQueryData(this.config, this.queryService, ContentItemIdentifier.Codename, codename);
   }
 }

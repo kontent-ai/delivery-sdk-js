@@ -6,14 +6,17 @@ describe('Add content item', () => {
     let response: ContentItemResponses.AddContentItemResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(addContentItemResponseJson).addContentItem({
-            external_id: undefined,
-            name: 'Add article test',
-            type: {
-                codename: 'article'
-            },
-            sitemap_locations: undefined
-        })
+        getTestClientWithJson(addContentItemResponseJson).addContentItem()
+            .withData(
+                {
+                    external_id: undefined,
+                    name: 'Add article test',
+                    type: {
+                        codename: 'article'
+                    },
+                    sitemap_locations: undefined
+                }
+            )
             .getObservable()
             .subscribe(result => {
                 response = result;
@@ -22,7 +25,7 @@ describe('Add content item', () => {
     });
 
     it(`url should be correct`, () => {
-        const addUrl = cmTestClient.addContentItem({} as any).getUrl();
+        const addUrl = cmTestClient.addContentItem().withData({} as any).getUrl();
 
         expect(addUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items`);
     });

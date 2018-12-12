@@ -1,10 +1,9 @@
 import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
-import { ContentItemContracts } from '../contracts';
 import { ContentItemModels } from '../models';
 import {
-    AddContentItemQuery,
+    AddContentItemQueryInit,
     DeleteContentItemQueryInit,
     ListContentItemsQuery,
     ListLanguageVariantsQueryInit,
@@ -48,15 +47,14 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    addContentItem(item: ContentItemContracts.IAddContentItemPostContract): AddContentItemQuery {
-        return new AddContentItemQuery(this.config, this.queryService, item);
+    addContentItem(): AddContentItemQueryInit {
+        return new AddContentItemQueryInit(this.config, this.queryService);
     }
 
-    updateContentItem(item: ContentItemContracts.IUpdateContentItemPostContract): UpdateContentItemQueryInit {
+    updateContentItem(): UpdateContentItemQueryInit {
         return new UpdateContentItemQueryInit(
             this.config,
-            this.queryService,
-            item
+            this.queryService
         );
     }
 

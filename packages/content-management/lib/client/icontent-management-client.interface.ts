@@ -1,13 +1,12 @@
-import { ContentItemContracts } from '../contracts';
+import { ContentItemModels } from '../models';
 import {
-    AddContentItemQuery,
+    AddContentItemQueryInit,
     DeleteContentItemQueryInit,
     ListContentItemsQuery,
+    ListLanguageVariantsQueryInit,
     UpdateContentItemQueryInit,
     ViewContentItemQueryInit,
-    ListLanguageVariantsQueryInit,
 } from '../queries';
-import { ContentItemModels } from '../models';
 
 export interface IContentManagementClient {
 
@@ -24,12 +23,12 @@ export interface IContentManagementClient {
     /**
      * Add content item query
      */
-    addContentItem(item: ContentItemContracts.IAddContentItemPostContract): AddContentItemQuery;
+    addContentItem(): AddContentItemQueryInit;
 
     /**
      * Update content item query
      */
-    updateContentItem(item: ContentItemContracts.IUpdateContentItemPostContract): UpdateContentItemQueryInit;
+    updateContentItem(): UpdateContentItemQueryInit;
 
     /**
      * Delete content item query

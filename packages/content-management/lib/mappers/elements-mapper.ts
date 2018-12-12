@@ -17,7 +17,7 @@ export class ElementsMapper {
         // get the value from json
         const fieldValue = rawElementsJson[fieldDefinition.name];
         if (!fieldValue) {
-            throw Error(`Could not map field '${fieldDefinition.name}' in in JSON source: ${rawElementsJson}`);
+            throw Error(`Could not map field '${fieldDefinition.name}' in JSON source`);
         }
 
         if (fieldDefinition.type === ContentItemElements.ContentElementTypeEnum.text) {

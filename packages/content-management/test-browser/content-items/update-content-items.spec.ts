@@ -1,16 +1,17 @@
 import { ContentItemResponses } from '../../lib';
 import * as updateContentItemResponseJson from '../fake-responses/content-items/fake-update-content-item.json';
-import { getTestClientWithJson, cmTestClient, testProjectId } from '../setup';
+import { cmTestClient, getTestClientWithJson, testProjectId } from '../setup';
 
 describe('Update content item', () => {
     let response: ContentItemResponses.UpdateContentItemResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(updateContentItemResponseJson).updateContentItem({
-            name: 'Test article xxx',
-            sitemap_locations: [],
-        })
-            .byCodename('test_article')
+        getTestClientWithJson(updateContentItemResponseJson).updateContentItem()
+            .byCodename('x')
+            .withData({
+                name: 'y',
+                sitemap_locations: [],
+            })
             .getObservable()
             .subscribe(result => {
                 response = result;
@@ -19,9 +20,9 @@ describe('Update content item', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrl = cmTestClient.updateContentItem({} as any).byCodename('xCodename').getUrl();
-        const internalIdUrl = cmTestClient.updateContentItem({} as any).byInternalId('xInternalId').getUrl();
-        const externalIdUrl = cmTestClient.updateContentItem({} as any).byExternalId('xExternalId').getUrl();
+        const codenameUrl = cmTestClient.updateContentItem().byCodename('xCodename').withData({} as any).getUrl();
+        const internalIdUrl = cmTestClient.updateContentItem().byInternalId('xInternalId').withData({} as any).getUrl();
+        const externalIdUrl = cmTestClient.updateContentItem().byExternalId('xExternalId').withData({} as any).getUrl();
 
         expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename`);
         expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId`);

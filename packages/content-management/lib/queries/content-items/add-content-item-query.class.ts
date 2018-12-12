@@ -1,10 +1,10 @@
 import { Observable } from 'rxjs';
 
 import { IContentManagementClientConfig } from '../../config';
+import { ContentItemContracts } from '../../contracts';
 import { ContentItemResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
-import { ContentItemContracts } from '../../contracts';
 
 export class AddContentItemQuery extends BaseQuery<ContentItemResponses.AddContentItemResponse> {
 
@@ -22,5 +22,17 @@ export class AddContentItemQuery extends BaseQuery<ContentItemResponses.AddConte
 
   protected getAction(): string {
     return this.actions.contentItemActions.addContentItem();
+  }
+}
+
+export class AddContentItemQueryInit {
+  constructor(
+    protected config: IContentManagementClientConfig,
+    protected queryService: ContentManagementQueryService,
+  ) {
+  }
+
+  withData(item: ContentItemContracts.IAddContentItemPostContract): AddContentItemQuery {
+    return new AddContentItemQuery(this.config, this.queryService, item);
   }
 }
