@@ -5,9 +5,11 @@ import { ContentItemModels } from '../models';
 import {
     AddContentItemQueryInit,
     DeleteContentItemQueryInit,
+    ListAssetsQuery,
     ListContentItemsQuery,
     ListLanguageVariantsQueryInit,
     UpdateContentItemQueryInit,
+    ViewAssetsQueryInit,
     ViewContentItemQueryInit,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
@@ -31,6 +33,20 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    viewAsset(): ViewAssetsQueryInit {
+        return new ViewAssetsQueryInit(
+            this.config,
+            this.queryService
+        );
+    }
+
+    listAssets(): ListAssetsQuery {
+        return new ListAssetsQuery(
+            this.config,
+            this.queryService
+        );
     }
 
     listContentItems(): ListContentItemsQuery {

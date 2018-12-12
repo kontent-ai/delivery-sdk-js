@@ -1,5 +1,18 @@
 
 class ContentManagementContentItemActions {
+
+    listAssets(): string {
+        return 'assets';
+    }
+
+    viewAssetByInternalId(id: string): string {
+        return `assets/${id}`;
+    }
+
+    viewAssetByExternalId(id: string): string {
+        return `assets/external-id/${id}`;
+    }
+
     items(): string {
         return 'items';
     }

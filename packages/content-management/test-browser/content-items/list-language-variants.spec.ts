@@ -1,4 +1,4 @@
-import { ContentItemElements, ContentItemResponses, ReferenceModel, ContentItemModels } from '../../lib';
+import { ContentItemElements, ContentItemModels, ContentItemResponses, SharedModels } from '../../lib';
 import * as listLanguageVariantsJson from '../fake-responses/content-items/fake-list-language-variants.json';
 import { cmTestClient, getTestClientWithJson, testProjectId } from '../setup';
 
@@ -66,13 +66,12 @@ describe('List language variants', () => {
             expect(m.elements).toBeDefined();
             expect(m.lastModified).toEqual(jasmine.any(Date));
 
-            expect(m.item).toEqual(jasmine.any(ReferenceModel));
-            expect(m.language).toEqual(jasmine.any(ReferenceModel));
+            expect(m.item).toEqual(jasmine.any(SharedModels.ReferenceObject));
+            expect(m.language).toEqual(jasmine.any(SharedModels.ReferenceObject));
         });
     });
 
     it(`elements should be mapped`, () => {
-        console.warn(response);
         response.data.variants.forEach(m => {
             // raw elements
             expect(m.rawElements.title).toEqual(m.elements.title.text);

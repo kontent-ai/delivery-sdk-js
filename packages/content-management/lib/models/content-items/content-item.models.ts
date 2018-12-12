@@ -1,8 +1,8 @@
-import { ReferenceModel } from '../reference-model';
+import { SharedModels } from '../shared/shared-models';
 
 export namespace ContentItemModels {
 
-    export class ContentItemModel {
+    export class ContentItem {
 
         public id!: string;
         public name!: string;
@@ -36,24 +36,24 @@ export namespace ContentItemModels {
         }
     }
 
-    export class ContentItemVariantElements  {
+    export class ContentItemVariantElements {
         // indexer for properties
         [key: string]: any;
     }
 
     export class ContentItemLanguageVariant<TElements extends ContentItemVariantElements> {
         public rawElements!: any;
-        public item!: ReferenceModel;
+        public item!: SharedModels.ReferenceObject;
         public elements!: TElements;
-        public language!: ReferenceModel;
+        public language!: SharedModels.ReferenceObject;
         public lastModified!: Date;
 
         constructor(
             data: {
                 rawElements: any;
-                item: ReferenceModel;
+                item: SharedModels.ReferenceObject;
                 elements: TElements;
-                language: ReferenceModel;
+                language: SharedModels.ReferenceObject;
                 lastModified: Date;
             }
         ) {

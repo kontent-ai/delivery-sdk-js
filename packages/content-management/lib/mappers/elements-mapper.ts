@@ -1,6 +1,7 @@
 import { ContentItemElements, ContentItemModels } from '../models';
+import { BaseMapper } from './base-mapper';
 
-export class ElementsMapper {
+export class ElementsMapper extends BaseMapper {
 
     mapElements<TElements extends ContentItemModels.ContentItemVariantElements>(rawElementsJson: any, fieldDefinitions: ContentItemElements.IContentItemElementDefinition[], model: TElements): TElements {
         for (const fieldDefinition of fieldDefinitions) {

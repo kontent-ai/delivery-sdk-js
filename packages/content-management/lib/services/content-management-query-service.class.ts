@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { ContentItemContracts } from '../contracts';
-import { contentItemsResponseMapper } from '../mappers';
-import { IContentManagementQueryConfig, ContentItemModels, ContentItemElements } from '../models';
-import { ContentItemResponses } from '../responses';
+import { AssetContracts, ContentItemContracts } from '../contracts';
+import { assetsResponseMapper, contentItemsResponseMapper } from '../mappers';
+import { ContentItemElements, ContentItemModels, IContentManagementQueryConfig } from '../models';
+import { AssetResponses, ContentItemResponses } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
 export class ContentManagementQueryService extends BaseContentManagementQueryService {
@@ -17,6 +17,34 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, sdkInfo);
+    }
+
+    viewAsset(
+        url: string,
+        config?: IContentManagementQueryConfig
+    ): Observable<AssetResponses.ViewAssetResponse> {
+        return this.getResponse<AssetContracts.IAssetModelContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return assetsResponseMapper.mapViewAssetResponse(response);
+            })
+        );
+    }
+
+    listAssets(
+        url: string,
+        config?: IContentManagementQueryConfig
+    ): Observable<AssetResponses.AssetsListResponse> {
+        return this.getResponse<AssetContracts.IAssetsListingResponseContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return assetsResponseMapper.mapListingAssetsResponse(response);
+            })
+        );
     }
 
     listContentItems(

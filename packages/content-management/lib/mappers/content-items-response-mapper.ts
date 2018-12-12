@@ -1,21 +1,21 @@
 import { IBaseResponse } from 'kentico-cloud-core';
 
 import { ContentItemContracts } from '../contracts';
-import { ContentItemModels, ContentItemElements } from '../models';
+import { ContentItemElements, ContentItemModels } from '../models';
 import { ContentItemResponses } from '../responses';
-import { baseMapper } from './base-mapper';
+import { BaseMapper } from './base-mapper';
 import { elementsMapper } from './elements-mapper';
 
-export class ContentItemsResponseMapper {
+export class ContentItemsResponseMapper extends BaseMapper {
 
     mapListingItemsResponse(
         response: IBaseResponse<ContentItemContracts.IContentItemsListingResponseContract>
     ): ContentItemResponses.ContentItemsResponse {
 
-        const pagination = baseMapper.mapPagination(response.data.pagination);
+        const pagination = super.mapPagination(response.data.pagination);
         const items = response.data.items.map(m => this.mapContentItem(m));
 
-        return new ContentItemResponses.ContentItemsResponse(baseMapper.mapResponseDebug(response), response.data, {
+        return new ContentItemResponses.ContentItemsResponse(super.mapResponseDebug(response), response.data, {
             pagination: pagination,
             items: items
         });
@@ -24,25 +24,25 @@ export class ContentItemsResponseMapper {
     mapViewContentItemResponse(
         response: IBaseResponse<ContentItemContracts.IContentItemModelContract>
     ): ContentItemResponses.ViewContentItemResponse {
-        return new ContentItemResponses.ViewContentItemResponse(baseMapper.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
+        return new ContentItemResponses.ViewContentItemResponse(super.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
     }
 
     mapAddContentItemResponse(
         response: IBaseResponse<ContentItemContracts.IAddContentItemResponseContract>
     ): ContentItemResponses.AddContentItemResponse {
-        return new ContentItemResponses.AddContentItemResponse(baseMapper.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
+        return new ContentItemResponses.AddContentItemResponse(super.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
     }
 
     mapUpdateContentItemResponse(
         response: IBaseResponse<ContentItemContracts.IUpdateContentItemResponseContract>
     ): ContentItemResponses.UpdateContentItemResponse {
-        return new ContentItemResponses.UpdateContentItemResponse(baseMapper.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
+        return new ContentItemResponses.UpdateContentItemResponse(super.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
     }
 
     mapDeleteContentItemResponse(
         response: IBaseResponse<ContentItemContracts.IDeleteContentItemResponseContract>
     ): ContentItemResponses.DeleteContentItemResponse {
-        return new ContentItemResponses.DeleteContentItemResponse(baseMapper.mapResponseDebug(response), response.data);
+        return new ContentItemResponses.DeleteContentItemResponse(super.mapResponseDebug(response), response.data);
     }
 
     mapLanguageVariantsResponse<TElements extends ContentItemModels.ContentItemVariantElements>(
@@ -51,7 +51,7 @@ export class ContentItemsResponseMapper {
         createElements: () => TElements
     ): ContentItemResponses.ListLanguageVariantsResponse<TElements> {
         const variants = response.data.map(m => this.mapLanguageVariant(m, fieldDefinitions, createElements));
-        return new ContentItemResponses.ListLanguageVariantsResponse(baseMapper.mapResponseDebug(response), response.data, {
+        return new ContentItemResponses.ListLanguageVariantsResponse(super.mapResponseDebug(response), response.data, {
             variants: variants
         });
     }
@@ -62,14 +62,14 @@ export class ContentItemsResponseMapper {
         return new ContentItemModels.ContentItemLanguageVariant({
             rawElements: rawVariant.elements,
             elements: elementsMapper.mapElements<TElements>(rawVariant.elements, fieldDefinitions, createElements()),
-            item: baseMapper.mapReference(rawVariant.item),
-            language: baseMapper.mapReference(rawVariant.language),
+            item: super.mapReference(rawVariant.item),
+            language: super.mapReference(rawVariant.language),
             lastModified: new Date(rawVariant.last_modified)
         });
     }
 
-    private mapContentItem(rawItem: ContentItemContracts.IContentItemModelContract): ContentItemModels.ContentItemModel {
-        return new ContentItemModels.ContentItemModel({
+    private mapContentItem(rawItem: ContentItemContracts.IContentItemModelContract): ContentItemModels.ContentItem {
+        return new ContentItemModels.ContentItem({
             codename: rawItem.codename,
             externalId: rawItem.external_id,
             id: rawItem.id,
