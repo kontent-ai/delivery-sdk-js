@@ -19,9 +19,9 @@ describe('Delete content item', () => {
         const internalIdUrl = cmTestClient.deleteContentItem().byInternalId('xInternalId').getUrl();
         const externalIdUrl = cmTestClient.deleteContentItem().byExternalId('xExternalId').getUrl();
 
-        expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/codename/xCodename`);
-        expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/xInternalId`);
-        expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/external-id/xExternalId`);
+        expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename`);
+        expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId`);
+        expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/external-id/xExternalId`);
     });
 
     it(`response should be instance of DeleteContentItemResponse class`, () => {

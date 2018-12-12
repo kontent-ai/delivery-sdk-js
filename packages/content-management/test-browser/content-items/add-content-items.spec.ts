@@ -24,7 +24,7 @@ describe('Add content item', () => {
     it(`url should be correct`, () => {
         const addUrl = cmTestClient.addContentItem({} as any).getUrl();
 
-        expect(addUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items`);
+        expect(addUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items`);
     });
 
     it(`response should be instance of AddContentItemResponse class`, () => {

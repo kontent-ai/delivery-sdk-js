@@ -23,9 +23,9 @@ describe('Update content item', () => {
         const internalIdUrl = cmTestClient.updateContentItem({} as any).byInternalId('xInternalId').getUrl();
         const externalIdUrl = cmTestClient.updateContentItem({} as any).byExternalId('xExternalId').getUrl();
 
-        expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/codename/xCodename`);
-        expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/xInternalId`);
-        expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/external-id/xExternalId`);
+        expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename`);
+        expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId`);
+        expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/external-id/xExternalId`);
     });
 
     it(`response should be instance of UpdateContentItemResponse class`, () => {

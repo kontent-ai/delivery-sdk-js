@@ -17,7 +17,7 @@ describe('List content items', () => {
     it(`url should be correct`, () => {
         const listUrl = cmTestClient.listContentItems().getUrl();
 
-        expect(listUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items`);
+        expect(listUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items`);
     });
 
     it(`response should be instance of ContentItemsResponse class`, () => {
@@ -31,6 +31,11 @@ describe('List content items', () => {
     it(`response should contain data`, () => {
         expect(response.data).toBeDefined();
         expect(response.data.pagination).toBeDefined();
+    });
+
+    it(`pagiantion should be correct`, () => {
+        expect(response.data.pagination.continuationToken).toEqual(listingResponseJson.pagination.continuation_token);
+        expect(response.data.pagination.nextPage).toEqual(listingResponseJson.pagination.next_page);
     });
 
     it(`item properties should be mapped`, () => {

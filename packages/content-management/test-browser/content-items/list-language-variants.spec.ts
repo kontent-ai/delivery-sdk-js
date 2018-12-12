@@ -36,9 +36,9 @@ describe('List language variants', () => {
         const internalIdUrl = cmTestClient.listLanguageVariants().byInternalId('xInternalId').getUrl();
         const externalIdUrl = cmTestClient.listLanguageVariants().byExternalId('xExternalId').getUrl();
 
-        expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/codename/xCodename/variants`);
-        expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/xInternalId/variants`);
-        expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v1/projects/${testProjectId}/items/external-id/xExternalId/variants`);
+        expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename/variants`);
+        expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId/variants`);
+        expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/external-id/xExternalId/variants`);
     });
 
     it(`response should be instance of ListLanguageVariantsResponse class`, () => {

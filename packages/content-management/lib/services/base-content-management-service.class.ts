@@ -21,7 +21,7 @@ export abstract class BaseContentManagementQueryService {
     /**
      * Default base url for content management API
      */
-    private readonly defaultBaseCMUrl: string = 'https://manage.kenticocloud.com/v1/projects';
+    private readonly defaultBaseCMUrl: string = 'https://manage.kenticocloud.com/v2/projects';
 
     /**
      * Default number of retry attempts when user did not set any
