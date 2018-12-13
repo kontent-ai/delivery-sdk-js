@@ -99,8 +99,8 @@ export function postCallback<TError>(call: IHttpPostQueryCall<TError>, options: 
     });
 }
 
-export function getHeadersJson(headers: IHeader[]): any {
-    const headerJson: {[header: string]: string} = {};
+export function getHeadersJson(headers: IHeader[]): { [header: string]: string } {
+    const headerJson: { [header: string]: string } = {};
 
     headers.forEach(header => {
         headerJson[header.header] = header.value;
