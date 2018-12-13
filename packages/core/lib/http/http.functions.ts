@@ -100,17 +100,18 @@ export function postCallback<TError>(call: IHttpPostQueryCall<TError>, options: 
 }
 
 export function getHeadersJson(headers: IHeader[]): any {
-    const headerJson: any = {
-        'Content-Type': 'application/json'
-    };
-
-    if (!headers) {
-        return headerJson;
-    }
+    const headerJson: {[header: string]: string} = {};
 
     headers.forEach(header => {
         headerJson[header.header] = header.value;
     });
+
+    // add default content type header if not present
+    const contentTypeHeader = headers.find(m => m.header.toLowerCase() === 'Content-Type'.toLowerCase());
+
+    if (!contentTypeHeader) {
+        headerJson['Content-Type'] = 'application/json';
+    }
 
     return headerJson;
 }
