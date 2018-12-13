@@ -17,7 +17,7 @@ export class DeleteContentItemQuery extends BaseQuery<ContentItemResponses.Delet
     super(config, queryService);
   }
 
-  getObservable(): Observable<ContentItemResponses.DeleteContentItemResponse> {
+  toObservable(): Observable<ContentItemResponses.DeleteContentItemResponse> {
     return this.queryService.deleteContentItem(this.getUrl(), this.queryConfig);
   }
 

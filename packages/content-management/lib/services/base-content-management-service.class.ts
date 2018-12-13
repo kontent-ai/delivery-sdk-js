@@ -51,8 +51,8 @@ export abstract class BaseContentManagementQueryService {
     /**
      * Gets proper set of headers for given request.
      */
-    getHeaders(): IHeader[] {
-        const headers: IHeader[] = [
+    getHeaders(extraHeaders?: IHeader[]): IHeader[] {
+        let headers: IHeader[] = [
             // sdk tracking header
             headerHelper.getSdkIdHeader({
                 host: this.sdkInfo.host,
@@ -62,6 +62,10 @@ export abstract class BaseContentManagementQueryService {
             // add authorization header
             this.getAuthorizationHeader(this.config.apiKey)
         ];
+
+        if (extraHeaders) {
+            headers = headers.concat(extraHeaders);
+        }
 
         return headers;
     }
@@ -102,11 +106,13 @@ export abstract class BaseContentManagementQueryService {
      * @param url Url of request
      * @param body Body of the request (names and values)
      * @param config Query configuration
+     * @param extraHeaders Extra headers
      */
     protected postResponse<TRawData>(
         url: string,
         body: any,
-        config?: IContentManagementQueryConfig
+        config: IContentManagementQueryConfig,
+        extraHeaders?: IHeader[]
     ): Observable<IBaseResponse<TRawData>> {
         if (!config) {
             config = {};
@@ -119,7 +125,7 @@ export abstract class BaseContentManagementQueryService {
                 mapError: error => mapCloudError(error)
             },
             {
-                headers: this.getHeaders(),
+                headers: this.getHeaders(extraHeaders),
                 maxRetryAttempts: this.getRetryAttempts(),
                 useRetryForResponseCodes: this.useRetryForResponseCodes,
                 logErrorToConsole: true
@@ -136,11 +142,13 @@ export abstract class BaseContentManagementQueryService {
     * @param url Url of request
     * @param body Body of the request (names and values)
     * @param config Query configuration
+    * @param extraHeaders Extra headers
     */
     protected putResponse<TRawData>(
         url: string,
         body: any,
-        config?: IContentManagementQueryConfig
+        config: IContentManagementQueryConfig,
+        extraHeaders?: IHeader[]
     ): Observable<IBaseResponse<TRawData>> {
         if (!config) {
             config = {};
@@ -153,7 +161,7 @@ export abstract class BaseContentManagementQueryService {
                 mapError: error => mapCloudError(error)
             },
             {
-                headers: this.getHeaders(),
+                headers: this.getHeaders(extraHeaders),
                 maxRetryAttempts: this.getRetryAttempts(),
                 useRetryForResponseCodes: this.useRetryForResponseCodes,
                 logErrorToConsole: true
@@ -170,10 +178,12 @@ export abstract class BaseContentManagementQueryService {
     * @param url Url of request
     * @param body Body of the request (names and values)
     * @param config Query configuration
+    * @param extraHeaders Extra headers
     */
     protected deleteResponse<TRawData>(
         url: string,
-        config?: IContentManagementQueryConfig
+        config: IContentManagementQueryConfig,
+        extraHeaders?: IHeader[]
     ): Observable<IBaseResponse<TRawData>> {
         if (!config) {
             config = {};
@@ -185,7 +195,7 @@ export abstract class BaseContentManagementQueryService {
                 mapError: error => mapCloudError(error)
             },
             {
-                headers: this.getHeaders(),
+                headers: this.getHeaders(extraHeaders),
                 maxRetryAttempts: this.getRetryAttempts(),
                 useRetryForResponseCodes: this.useRetryForResponseCodes,
                 logErrorToConsole: true

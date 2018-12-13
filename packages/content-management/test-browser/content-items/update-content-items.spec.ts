@@ -12,7 +12,7 @@ describe('Update content item', () => {
                 name: 'y',
                 sitemap_locations: [],
             })
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 response = result;
                 done();

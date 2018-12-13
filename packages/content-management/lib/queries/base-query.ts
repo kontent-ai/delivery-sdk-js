@@ -9,7 +9,7 @@ import { ContentManagementQueryService } from '../services';
 
 export abstract class BaseQuery<TResponse extends BaseResponses.IContentManagementResponse> {
 
-    protected queryConfig?: IContentManagementQueryConfig;
+    protected queryConfig: IContentManagementQueryConfig = {};
     protected parameters: IQueryParameter[] = [];
     protected actions: ContentManagementActions = contentManagementActions;
     protected customUrl?: string;
@@ -36,8 +36,8 @@ export abstract class BaseQuery<TResponse extends BaseResponses.IContentManageme
     /**
      * Gets Promise to resolve this query
      */
-    getPromise(): Promise<TResponse> {
-        return this.getObservable().toPromise();
+    toPromise(): Promise<TResponse> {
+        return this.toObservable().toPromise();
     }
 
     /**
@@ -78,7 +78,7 @@ export abstract class BaseQuery<TResponse extends BaseResponses.IContentManageme
     /**
      * Gets Observable to resolve this query
      */
-    abstract getObservable(): Observable<TResponse>;
+    abstract toObservable(): Observable<TResponse>;
 
     /**
      * Gets action for this query

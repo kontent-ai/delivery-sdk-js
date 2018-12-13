@@ -7,7 +7,7 @@ describe('List content items', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(listingResponseJson).listContentItems()
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 response = result;
                 done();

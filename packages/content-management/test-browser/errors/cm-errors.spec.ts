@@ -10,7 +10,7 @@ describe('Error handling', () => {
 
     beforeAll((done) => {
         getTestClientWithCloudError(fakeErrorJson).listContentItems()
-            .getObservable()
+            .toObservable()
             .subscribe(response => {
                 succeeded = true;
                 done();

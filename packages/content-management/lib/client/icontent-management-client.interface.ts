@@ -1,4 +1,4 @@
-import { ContentItemModels } from '../models';
+import { AssetModels, ContentItemModels } from '../models';
 import {
     AddContentItemQueryInit,
     DeleteContentItemQueryInit,
@@ -6,12 +6,18 @@ import {
     ListContentItemsQuery,
     ListLanguageVariantsQueryInit,
     UpdateContentItemQueryInit,
+    UploadBinaryFileQuery,
     ViewAssetsQueryInit,
     ViewContentItemQueryInit,
 } from '../queries';
 
 
 export interface IContentManagementClient {
+
+    /**
+     * Query to upload file
+     */
+    uploadBinaryFile(data: AssetModels.IUploadBinaryFileRequestData): UploadBinaryFileQuery;
 
     /**
      * Query to view asset

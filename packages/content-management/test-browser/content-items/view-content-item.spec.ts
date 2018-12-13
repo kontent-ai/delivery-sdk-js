@@ -7,7 +7,7 @@ describe('View content item', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(viewContentItemJson).viewContentItem().byCodename(viewContentItemJson.codename)
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 response = result;
                 done();

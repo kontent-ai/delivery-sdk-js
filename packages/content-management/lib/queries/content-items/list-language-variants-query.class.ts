@@ -20,7 +20,7 @@ export class ListLanguageVariantsQuery<TElements extends ContentItemModels.Conte
     super(config, queryService);
   }
 
-  getObservable(): Observable<ContentItemResponses.ListLanguageVariantsResponse<TElements>> {
+  toObservable(): Observable<ContentItemResponses.ListLanguageVariantsResponse<TElements>> {
     return this.queryService.listLanguageVariants<TElements>(this.getUrl(), this.fieldDefinitions ? this.fieldDefinitions : [], this.getCreateElements(), this.queryConfig);
   }
 

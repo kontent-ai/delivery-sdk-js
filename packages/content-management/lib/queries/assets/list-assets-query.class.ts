@@ -14,7 +14,7 @@ export class ListAssetsQuery extends BaseQuery<AssetResponses.AssetsListResponse
     super(config, queryService);
   }
 
-  getObservable(): Observable<AssetResponses.AssetsListResponse> {
+  toObservable(): Observable<AssetResponses.AssetsListResponse> {
     return this.queryService.listAssets(this.getUrl(), this.queryConfig);
   }
 

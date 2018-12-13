@@ -7,7 +7,7 @@ describe('Delete content item', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(deleteContentItemJson).deleteContentItem().byCodename('xxx')
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 response = result;
                 done();

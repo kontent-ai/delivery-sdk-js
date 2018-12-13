@@ -8,7 +8,7 @@ describe('List assets', () => {
     beforeAll((done) => {
         getTestClientWithJson(viewAssetResponseJson).viewAsset()
             .byInternalId('xxx')
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 response = result;
                 done();

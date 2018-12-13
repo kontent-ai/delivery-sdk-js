@@ -30,5 +30,15 @@ export namespace AssetResponses {
             super(debug, rawData, data);
         }
     }
+
+    export class UploadBinaryFileResponse extends BaseResponses.BaseContentManagementResponse<AssetContracts.IUploadBinaryFileResponseContract, AssetModels.AssetFileReference>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: AssetContracts.IUploadBinaryFileResponseContract,
+            data: AssetModels.AssetFileReference
+        ) {
+            super(debug, rawData, data);
+        }
+    }
 }
 

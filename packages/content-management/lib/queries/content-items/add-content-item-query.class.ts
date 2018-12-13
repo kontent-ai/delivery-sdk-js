@@ -16,7 +16,7 @@ export class AddContentItemQuery extends BaseQuery<ContentItemResponses.AddConte
     super(config, queryService);
   }
 
-  getObservable(): Observable<ContentItemResponses.AddContentItemResponse> {
+  toObservable(): Observable<ContentItemResponses.AddContentItemResponse> {
     return this.queryService.addContentItem(this.getUrl(), this.data, this.queryConfig);
   }
 

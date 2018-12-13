@@ -1,7 +1,8 @@
+/*
+
 import { ContentItemElements, ContentItemModels, ContentItemResponses, SharedModels } from '../../lib';
 import * as listLanguageVariantsJson from '../fake-responses/content-items/fake-list-language-variants.json';
 import { cmTestClient, getTestClientWithJson, testProjectId } from '../setup';
-
 class ArticleElements extends ContentItemModels.ContentItemVariantElements {
 
     public title!: ContentItemElements.TextElement;
@@ -85,4 +86,4 @@ describe('List language variants', () => {
     });
 
 });
-
+*/

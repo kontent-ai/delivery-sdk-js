@@ -62,4 +62,11 @@ export namespace AssetModels {
             Object.assign(this, data);
         }
     }
+
+    export interface IUploadBinaryFileRequestData {
+        binaryData: any;
+        contentType: string;
+        contentLength: number;
+        filename: string;
+    }
 }

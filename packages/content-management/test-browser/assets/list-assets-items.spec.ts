@@ -7,7 +7,7 @@ describe('List assets', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(listingAssetsResponseJson).listAssets()
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 response = result;
                 done();

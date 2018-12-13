@@ -19,7 +19,7 @@ export class UpdateContentItemQuery extends BaseQuery<ContentItemResponses.Updat
     super(config, queryService);
   }
 
-  getObservable(): Observable<ContentItemResponses.UpdateContentItemResponse> {
+  toObservable(): Observable<ContentItemResponses.UpdateContentItemResponse> {
     return this.queryService.updateContentItem(this.getUrl(), this.data, this.queryConfig);
   }
 

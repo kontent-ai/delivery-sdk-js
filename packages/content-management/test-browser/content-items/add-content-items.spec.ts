@@ -17,7 +17,7 @@ describe('Add content item', () => {
                     sitemap_locations: undefined
                 }
             )
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 response = result;
                 done();

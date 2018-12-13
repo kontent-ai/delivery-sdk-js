@@ -1,7 +1,7 @@
 import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
-import { ContentItemModels } from '../models';
+import { AssetModels, ContentItemModels } from '../models';
 import {
     AddContentItemQueryInit,
     DeleteContentItemQueryInit,
@@ -9,6 +9,7 @@ import {
     ListContentItemsQuery,
     ListLanguageVariantsQueryInit,
     UpdateContentItemQueryInit,
+    UploadBinaryFileQuery,
     ViewAssetsQueryInit,
     ViewContentItemQueryInit,
 } from '../queries';
@@ -33,6 +34,14 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    uploadBinaryFile(data: AssetModels.IUploadBinaryFileRequestData): UploadBinaryFileQuery {
+        return new UploadBinaryFileQuery(
+            this.config,
+            this.queryService,
+            data
+        );
     }
 
     viewAsset(): ViewAssetsQueryInit {

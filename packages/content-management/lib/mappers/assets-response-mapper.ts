@@ -27,6 +27,21 @@ export class AssetsResponseMapper extends BaseMapper {
         return new AssetResponses.ViewAssetResponse(super.mapResponseDebug(response), response.data, this.mapAsset(response.data));
     }
 
+    mapUploadBinaryFileResponse(
+        response: IBaseResponse<AssetContracts.IUploadBinaryFileResponseContract>
+    ): AssetResponses.UploadBinaryFileResponse {
+        return new AssetResponses.UploadBinaryFileResponse(super.mapResponseDebug(response), response.data, this.mapAssetReference(response.data));
+    }
+
+    private mapAssetReference(
+        rawFileReference: AssetContracts.IAssetFileReferenceContract
+    ): AssetModels.AssetFileReference {
+        return new AssetModels.AssetFileReference({
+            id: rawFileReference.id,
+            type: rawFileReference.type
+        });
+    }
+
     private mapAsset(rawAsset: AssetContracts.IAssetModelContract): AssetModels.Asset {
         return new AssetModels.Asset({
             descriptions: rawAsset.descriptions.map(m => new AssetModels.AssetFileDescription({
@@ -35,10 +50,7 @@ export class AssetsResponseMapper extends BaseMapper {
             })),
             externalId: rawAsset.external_id,
             fileName: rawAsset.file_name,
-            fileReference: new AssetModels.AssetFileReference({
-                id: rawAsset.file_reference.id,
-                type: rawAsset.file_reference.type
-            }),
+            fileReference: this.mapAssetReference(rawAsset.file_reference),
             id: rawAsset.id,
             imageHeight: rawAsset.image_height,
             imageWidth: rawAsset.image_width,

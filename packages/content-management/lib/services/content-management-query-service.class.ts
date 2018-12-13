@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
 import { AssetContracts, ContentItemContracts } from '../contracts';
 import { assetsResponseMapper, contentItemsResponseMapper } from '../mappers';
-import { ContentItemElements, ContentItemModels, IContentManagementQueryConfig } from '../models';
+import { ContentItemElements, ContentItemModels, IContentManagementQueryConfig, AssetModels } from '../models';
 import { AssetResponses, ContentItemResponses } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
@@ -19,9 +19,31 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         super(config, httpService, sdkInfo);
     }
 
+    uploadBinaryFile(
+        url: string,
+        data: AssetModels.IUploadBinaryFileRequestData,
+        config: IContentManagementQueryConfig
+    ): Observable<AssetResponses.UploadBinaryFileResponse> {
+        return this.postResponse<AssetContracts.IUploadBinaryFileResponseContract>(
+            url,
+            {
+                binary: data.binaryData
+            },
+            config,
+            [
+                { header: 'Content-type', value: data.contentType },
+                { header: 'Content-length', value: data.contentLength.toString() }
+            ]
+        ).pipe(
+            map(response => {
+                return assetsResponseMapper.mapUploadBinaryFileResponse(response);
+            })
+        );
+    }
+
     viewAsset(
         url: string,
-        config?: IContentManagementQueryConfig
+        config: IContentManagementQueryConfig
     ): Observable<AssetResponses.ViewAssetResponse> {
         return this.getResponse<AssetContracts.IAssetModelContract>(
             url,
@@ -78,7 +100,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     addContentItem(
         url: string,
         data: ContentItemContracts.IAddContentItemPostContract,
-        config?: IContentManagementQueryConfig
+        config: IContentManagementQueryConfig
     ): Observable<ContentItemResponses.AddContentItemResponse> {
         return this.postResponse<ContentItemContracts.IAddContentItemResponseContract>(
             url,
@@ -94,7 +116,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     updateContentItem(
         url: string,
         data: ContentItemContracts.IUpdateContentItemPostContract,
-        config?: IContentManagementQueryConfig
+        config: IContentManagementQueryConfig
     ): Observable<ContentItemResponses.AddContentItemResponse> {
         return this.putResponse<ContentItemContracts.IUpdateContentItemResponseContract>(
             url,
@@ -109,7 +131,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
 
     deleteContentItem(
         url: string,
-        config?: IContentManagementQueryConfig
+        config: IContentManagementQueryConfig
     ): Observable<ContentItemResponses.DeleteContentItemResponse> {
         return this.deleteResponse<ContentItemContracts.IDeleteContentItemResponseContract>(
             url,
@@ -125,7 +147,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         url: string,
         fieldDefinitions: ContentItemElements.IContentItemElementDefinition[],
         createElements: () => TElements,
-        config?: IContentManagementQueryConfig
+        config: IContentManagementQueryConfig
     ): Observable<ContentItemResponses.ListLanguageVariantsResponse<TElements>> {
         return this.getResponse<ContentItemContracts.IListLanguageVariantsResponseContract[]>(
             url,

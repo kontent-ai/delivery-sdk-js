@@ -15,7 +15,7 @@ export namespace AssetContracts {
         last_modified: string;
     }
 
-    export interface IAssetFileReferenceContract {
+    export interface IAssetFileReferenceContract  {
         id: string;
         type: string;
     }
@@ -28,6 +28,10 @@ export namespace AssetContracts {
     export interface IAssetsListingResponseContract {
         assets: IAssetModelContract[];
         pagination: SharedContracts.IPaginationModelContract;
+    }
+
+    // tslint:disable-next-line:no-empty-interface
+    export interface IUploadBinaryFileResponseContract extends IAssetFileReferenceContract {
     }
 
 }
