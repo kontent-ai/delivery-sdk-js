@@ -19,6 +19,59 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         super(config, httpService, sdkInfo);
     }
 
+    deleteAsset(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<AssetResponses.DeleteAssetResponse> {
+        return this.deleteResponse<AssetContracts.IDeleteAssetResponseContract>(
+            url,
+            config,
+        ).pipe(
+            map(response => {
+                return assetsResponseMapper.mapDeleteAssetResponse(response);
+            })
+        );
+    }
+
+    upsertAsset(
+        url: string,
+        data: AssetModels.IUpsertAssetRequestData,
+        config: IContentManagementQueryConfig
+    ): Observable<AssetResponses.UpdateAssetResponse> {
+        return this.postResponse<AssetContracts.IUpsertAssetResponseContract>(
+            url,
+            {
+                file_reference: data.fileReference,
+                title: data.title,
+                descriptions: data.descriptions
+            },
+            config,
+        ).pipe(
+            map(response => {
+                return assetsResponseMapper.mapUpsertAssetResponse(response);
+            })
+        );
+    }
+
+    updateAsset(
+        url: string,
+        data: AssetModels.IUpdateAssetRequestData,
+        config: IContentManagementQueryConfig
+    ): Observable<AssetResponses.UpdateAssetResponse> {
+        return this.postResponse<AssetContracts.IUpdateAssetResponseContract>(
+            url,
+            {
+                title: data.title,
+                descriptions: data.descriptions
+            },
+            config,
+        ).pipe(
+            map(response => {
+                return assetsResponseMapper.mapUpdateAssetResponse(response);
+            })
+        );
+    }
+
     addAsset(
         url: string,
         data: AssetModels.IAddAssetRequestData,
@@ -26,7 +79,12 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     ): Observable<AssetResponses.AddAssetResponse> {
         return this.postResponse<AssetContracts.IAddAssetResponseContract>(
             url,
-            data,
+            {
+                file_reference: data.fileReference,
+                title: data.title,
+                external_id: data.externalId,
+                descriptions: data.descriptions
+            },
             config,
         ).pipe(
             map(response => {

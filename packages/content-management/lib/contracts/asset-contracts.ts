@@ -30,14 +30,20 @@ export namespace AssetContracts {
         pagination: SharedContracts.IPaginationModelContract;
     }
 
-    // tslint:disable-next-line:no-empty-interface
     export interface IUploadBinaryFileResponseContract extends IAssetFileReferenceContract {
     }
 
-    // tslint:disable-next-line:no-empty-interface
     export interface IAddAssetResponseContract extends IAssetModelContract {
     }
 
+    export interface IUpdateAssetResponseContract extends IAssetModelContract {
+    }
+
+    export interface IUpsertAssetResponseContract extends IAssetModelContract {
+    }
+
+    export interface IDeleteAssetResponseContract {
+    }
 }
 
 

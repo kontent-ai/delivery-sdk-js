@@ -39,6 +39,24 @@ export class AssetsResponseMapper extends BaseMapper {
         return new AssetResponses.AddAssetResponse(super.mapResponseDebug(response), response.data, this.mapAsset(response.data));
     }
 
+    mapUpdateAssetResponse(
+        response: IBaseResponse<AssetContracts.IUpdateAssetResponseContract>
+    ): AssetResponses.UpdateAssetResponse {
+        return new AssetResponses.UpdateAssetResponse(super.mapResponseDebug(response), response.data, this.mapAsset(response.data));
+    }
+
+    mapUpsertAssetResponse(
+        response: IBaseResponse<AssetContracts.IUpsertAssetResponseContract>
+    ): AssetResponses.UpsertAssertResponse {
+        return new AssetResponses.UpsertAssertResponse(super.mapResponseDebug(response), response.data, this.mapAsset(response.data));
+    }
+
+    mapDeleteAssetResponse(
+        response: IBaseResponse<AssetContracts.IDeleteAssetResponseContract>
+    ): AssetResponses.DeleteAssetResponse {
+        return new AssetResponses.DeleteAssetResponse(super.mapResponseDebug(response), response.data, undefined);
+    }
+
     private mapAssetReference(
         rawFileReference: AssetContracts.IAssetFileReferenceContract
     ): AssetModels.AssetFileReference {

@@ -1,19 +1,37 @@
 import { AssetModels, ContentItemModels } from '../models';
 import {
+    AddAssetQuery,
     AddContentItemQueryInit,
+    DeleteAssetQueryInit,
     DeleteContentItemQueryInit,
     ListAssetsQuery,
     ListContentItemsQuery,
     ListLanguageVariantsQueryInit,
+    UpdateAssetQuery,
     UpdateContentItemQueryInit,
     UploadBinaryFileQuery,
+    UpsertAssetQuery,
     ViewAssetsQueryInit,
     ViewContentItemQueryInit,
-    AddAssetQuery,
 } from '../queries';
 
 
 export interface IContentManagementClient {
+
+    /**
+     * Query to delete an asset
+     */
+    deleteAsset(): DeleteAssetQueryInit;
+
+    /**
+    * Query to upsert an asset from uploaded binary file
+    */
+    upsertAsset(data: AssetModels.IUpsertAssetRequestData): UpsertAssetQuery;
+
+    /**
+     * Query to update an asset from uploaded binary file
+     */
+    updateAsset(data: AssetModels.IUpdateAssetRequestData): UpdateAssetQuery;
 
     /**
      * Query to add an asset from uploaded binary file

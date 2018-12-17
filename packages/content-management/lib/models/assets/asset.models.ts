@@ -82,9 +82,22 @@ export namespace AssetModels {
     }
 
     export interface IAddAssetRequestData {
-        file_reference: IAssetFileReference;
+        fileReference: IAssetFileReference;
         title?: string;
-        external_id?: string;
+        externalId?: string;
         descriptions: IAssetFileDescription[];
+    }
+
+    export interface IUpdateAssetRequestData {
+        assetId: string;
+        title?: string;
+        descriptions: IAssetFileDescription[];
+    }
+
+    export interface IUpsertAssetRequestData {
+        assetExternalId: string;
+        descriptions: IAssetFileDescription[];
+        title?: string;
+        fileReference?: IAssetFileReference;
     }
 }

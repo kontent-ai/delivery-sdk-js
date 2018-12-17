@@ -13,6 +13,10 @@ import {
     UploadBinaryFileQuery,
     ViewAssetsQueryInit,
     ViewContentItemQueryInit,
+    UpdateAssetQuery,
+    UpsertAssetQuery,
+    DeleteAssetQuery,
+    DeleteAssetQueryInit,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -35,6 +39,29 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    deleteAsset(): DeleteAssetQueryInit {
+        return new DeleteAssetQueryInit(
+            this.config,
+            this.queryService,
+        );
+    }
+
+    upsertAsset(data: AssetModels.IUpsertAssetRequestData): UpsertAssetQuery {
+        return new UpsertAssetQuery(
+            this.config,
+            this.queryService,
+            data
+        );
+    }
+
+    updateAsset(data: AssetModels.IUpdateAssetRequestData): UpdateAssetQuery {
+        return new UpdateAssetQuery(
+            this.config,
+            this.queryService,
+            data
+        );
     }
 
     addAsset(data: AssetModels.IAddAssetRequestData): AddAssetQuery {

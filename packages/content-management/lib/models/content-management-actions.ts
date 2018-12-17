@@ -5,6 +5,26 @@ class ContentManagementContentItemActions {
         return `assets`;
     }
 
+    updateAsset(assetId: string): string {
+        return `assets/${assetId}`;
+    }
+
+    deleteAssetByCodename(codename: string): string {
+        return `assets/codename/${codename}`;
+    }
+
+    deleteAssetByInternalId(id: string): string {
+        return `assets/${id}`;
+    }
+
+    deleteAssetByExternalId(id: string): string {
+        return `assets/external-id/${id}`;
+    }
+
+    upsertAsset(assetExternalId: string): string {
+        return `assets/external-id/${assetExternalId}`;
+    }
+
     uploadBinaryFile(filename: string): string {
         return `files/${filename}`;
     }

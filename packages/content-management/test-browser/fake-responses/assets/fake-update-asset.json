@@ -1,0 +1,28 @@
+{
+    "id": "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
+    "file_name": "which-brewing-fits-you-1080px.jpg",
+    "title": "Coffee Brewing Techniques",
+    "size": 125770,
+    "type": "image/jpeg",
+    "image_width": 1000,
+    "image_height": 666,
+    "file_reference": {
+      "id": "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
+      "type": "internal"
+    },
+    "descriptions": [
+      {
+        "language": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        },
+        "description": "Coffee Brewing Techniques"
+      },
+      {
+        "language": {
+          "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+        },
+        "description": "Técnicas para hacer café"
+      }
+    ],
+    "last_modified": "2017-09-12T08:29:36.1645977Z"
+  }

@@ -20,7 +20,7 @@ export namespace TypeContracts {
         pagination: IPaginationContract;
     }
 
-    // tslint:disable-next-line:no-empty-interface
+    
     export interface ITypeResponseContract extends IContentTypeContract {
     }
 }

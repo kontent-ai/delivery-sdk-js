@@ -50,5 +50,35 @@ export namespace AssetResponses {
             super(debug, rawData, data);
         }
     }
+
+    export class UpdateAssetResponse extends BaseResponses.BaseContentManagementResponse<AssetContracts.IUpdateAssetResponseContract, AssetModels.Asset>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: AssetContracts.IUpdateAssetResponseContract,
+            data: AssetModels.Asset
+        ) {
+            super(debug, rawData, data);
+        }
+    }
+
+    export class UpsertAssertResponse extends BaseResponses.BaseContentManagementResponse<AssetContracts.IUpsertAssetResponseContract, AssetModels.Asset>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: AssetContracts.IUpsertAssetResponseContract,
+            data: AssetModels.Asset
+        ) {
+            super(debug, rawData, data);
+        }
+    }
+
+    export class DeleteAssetResponse extends BaseResponses.BaseContentManagementResponse<AssetContracts.IDeleteAssetResponseContract, void>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: AssetContracts.IDeleteAssetResponseContract,
+            data: void
+        ) {
+            super(debug, rawData, data);
+        }
+    }
 }
 

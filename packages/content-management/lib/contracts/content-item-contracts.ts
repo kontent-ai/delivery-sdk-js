@@ -27,23 +27,18 @@ export namespace ContentItemContracts {
         pagination: SharedContracts.IPaginationModelContract;
     }
 
-    // tslint:disable-next-line:no-empty-interface
     export interface IListLanguageVariantsResponseContract extends ILanguageVariantModelContract {
     }
 
-    // tslint:disable-next-line:no-empty-interface
     export interface IAddContentItemResponseContract extends IContentItemModelContract {
     }
 
-    // tslint:disable-next-line:no-empty-interface
     export interface IViewContentItemResponseContract extends IContentItemModelContract {
     }
 
-    // tslint:disable-next-line:no-empty-interface
     export interface IUpdateContentItemResponseContract extends IContentItemModelContract {
     }
 
-    // tslint:disable-next-line:no-empty-interface
     export interface IDeleteContentItemResponseContract {
     }
 
