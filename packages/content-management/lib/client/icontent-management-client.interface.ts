@@ -9,10 +9,16 @@ import {
     UploadBinaryFileQuery,
     ViewAssetsQueryInit,
     ViewContentItemQueryInit,
+    AddAssetQuery,
 } from '../queries';
 
 
 export interface IContentManagementClient {
+
+    /**
+     * Query to add an asset from uploaded binary file
+     */
+    addAsset(data: AssetModels.IAddAssetRequestData): AddAssetQuery;
 
     /**
      * Query to upload file

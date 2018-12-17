@@ -33,6 +33,12 @@ export class AssetsResponseMapper extends BaseMapper {
         return new AssetResponses.UploadBinaryFileResponse(super.mapResponseDebug(response), response.data, this.mapAssetReference(response.data));
     }
 
+    mapAddAssetResponse(
+        response: IBaseResponse<AssetContracts.IAddAssetResponseContract>
+    ): AssetResponses.AddAssetResponse {
+        return new AssetResponses.AddAssetResponse(super.mapResponseDebug(response), response.data, this.mapAsset(response.data));
+    }
+
     private mapAssetReference(
         rawFileReference: AssetContracts.IAssetFileReferenceContract
     ): AssetModels.AssetFileReference {

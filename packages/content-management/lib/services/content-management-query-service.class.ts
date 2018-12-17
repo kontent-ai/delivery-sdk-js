@@ -19,6 +19,22 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         super(config, httpService, sdkInfo);
     }
 
+    addAsset(
+        url: string,
+        data: AssetModels.IAddAssetRequestData,
+        config: IContentManagementQueryConfig
+    ): Observable<AssetResponses.AddAssetResponse> {
+        return this.postResponse<AssetContracts.IAddAssetResponseContract>(
+            url,
+            data,
+            config,
+        ).pipe(
+            map(response => {
+                return assetsResponseMapper.mapAddAssetResponse(response);
+            })
+        );
+    }
+
     uploadBinaryFile(
         url: string,
         data: AssetModels.IUploadBinaryFileRequestData,
@@ -26,9 +42,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     ): Observable<AssetResponses.UploadBinaryFileResponse> {
         return this.postResponse<AssetContracts.IUploadBinaryFileResponseContract>(
             url,
-            {
-                binary: data.binaryData
-            },
+            data.binaryData,
             config,
             [
                 { header: 'Content-type', value: data.contentType },

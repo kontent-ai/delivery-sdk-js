@@ -34,6 +34,10 @@ export namespace AssetContracts {
     export interface IUploadBinaryFileResponseContract extends IAssetFileReferenceContract {
     }
 
+    // tslint:disable-next-line:no-empty-interface
+    export interface IAddAssetResponseContract extends IAssetModelContract {
+    }
+
 }
 
 

@@ -40,5 +40,15 @@ export namespace AssetResponses {
             super(debug, rawData, data);
         }
     }
+
+    export class AddAssetResponse extends BaseResponses.BaseContentManagementResponse<AssetContracts.IAddAssetResponseContract, AssetModels.Asset>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: AssetContracts.IAddAssetResponseContract,
+            data: AssetModels.Asset
+        ) {
+            super(debug, rawData, data);
+        }
+    }
 }
 

@@ -1,4 +1,5 @@
 import { SharedModels } from '../shared/shared-models';
+import { SharedContracts } from '../../contracts';
 
 export namespace AssetModels {
 
@@ -34,7 +35,12 @@ export namespace AssetModels {
         }
     }
 
-    export class AssetFileReference {
+    export interface IAssetFileReference {
+        id: string;
+        type: string;
+    }
+
+    export class AssetFileReference implements IAssetFileReference {
 
         public id!: string;
         public type!: string;
@@ -47,6 +53,11 @@ export namespace AssetModels {
         ) {
             Object.assign(this, data);
         }
+    }
+
+    export interface IAssetFileDescription {
+        language: SharedContracts.IReferenceObjectContract;
+        description: string;
     }
 
     export class AssetFileDescription {
@@ -68,5 +79,12 @@ export namespace AssetModels {
         contentType: string;
         contentLength: number;
         filename: string;
+    }
+
+    export interface IAddAssetRequestData {
+        file_reference: IAssetFileReference;
+        title?: string;
+        external_id?: string;
+        descriptions: IAssetFileDescription[];
     }
 }

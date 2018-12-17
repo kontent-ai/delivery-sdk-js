@@ -1,6 +1,10 @@
 
 class ContentManagementContentItemActions {
 
+    addAsset(): string {
+        return `assets`;
+    }
+
     uploadBinaryFile(filename: string): string {
         return `files/${filename}`;
     }
