@@ -33,28 +33,3 @@ export class ViewAssetsQuery extends BaseQuery<AssetResponses.ViewAssetResponse>
   }
 }
 
-export class ViewAssetsQueryInit {
-  constructor(
-    protected config: IContentManagementClientConfig,
-    protected queryService: ContentManagementQueryService,
-  ) {
-  }
-
-  /**
-   * Gets query for content item using internal Id
-   * @param id Internal Id of content item
-   */
-  byInternalId(id: string): ViewAssetsQuery {
-    return new ViewAssetsQuery(this.config, this.queryService, ContentItemIdentifier.InternalId, id);
-  }
-
-  /**
- * Gets query for content item using external Id
- * @param id External Id of content item
- */
-  byExternalId(id: string): ViewAssetsQuery {
-    return new ViewAssetsQuery(this.config, this.queryService, ContentItemIdentifier.ExternalId, id);
-  }
-
-}
-

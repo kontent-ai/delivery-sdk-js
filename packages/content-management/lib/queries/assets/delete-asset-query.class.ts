@@ -32,41 +32,9 @@ export class DeleteAssetQuery extends BaseQuery<AssetResponses.DeleteAssetRespon
       return this.actions.contentItemActions.deleteAssetByExternalId(this.identifierValue);
     }
 
-
     throw Error(`Item identifier type '${this.identifier}' is not supported`);
   }
 }
 
-export class DeleteAssetQueryInit {
-  constructor(
-    protected config: IContentManagementClientConfig,
-    protected queryService: ContentManagementQueryService
-  ) {
-  }
-
-  /**
-   * Gets query for content item using internal Id
-   * @param id Internal Id of content item
-   */
-  byInternalId(id: string): DeleteAssetQuery {
-    return new DeleteAssetQuery(this.config, this.queryService, ContentItemIdentifier.InternalId, id);
-  }
-
-  /**
- * Gets query for content item using external Id
- * @param id External Id of content item
- */
-  byExternalId(id: string): DeleteAssetQuery {
-    return new DeleteAssetQuery(this.config, this.queryService, ContentItemIdentifier.ExternalId, id);
-  }
-
-  /**
- * Gets query for content item using codename
- * @param codename Codename of content item
- */
-  byCodename(codename: string): DeleteAssetQuery {
-    return new DeleteAssetQuery(this.config, this.queryService, ContentItemIdentifier.Codename, codename);
-  }
-}
 
 

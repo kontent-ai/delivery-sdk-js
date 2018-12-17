@@ -2,17 +2,19 @@ import { AssetModels, ContentItemModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQueryInit,
-    DeleteAssetQueryInit,
-    DeleteContentItemQueryInit,
+    DeleteAssetQuery,
+    DeleteContentItemQuery,
+    FullIdentifierQuery,
+    IdIdentifierQuery,
     ListAssetsQuery,
     ListContentItemsQuery,
-    ListLanguageVariantsQueryInit,
+    ListLanguageVariantsQuery,
     UpdateAssetQuery,
     UpdateContentItemQueryInit,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
-    ViewAssetsQueryInit,
-    ViewContentItemQueryInit,
+    ViewAssetsQuery,
+    ViewContentItemQuery,
 } from '../queries';
 
 
@@ -21,7 +23,7 @@ export interface IContentManagementClient {
     /**
      * Query to delete an asset
      */
-    deleteAsset(): DeleteAssetQueryInit;
+    deleteAsset(): FullIdentifierQuery<DeleteAssetQuery>;
 
     /**
     * Query to upsert an asset from uploaded binary file
@@ -46,7 +48,7 @@ export interface IContentManagementClient {
     /**
      * Query to view asset
      */
-    viewAsset(): ViewAssetsQueryInit;
+    viewAsset(): IdIdentifierQuery<ViewAssetsQuery>;
 
     /**
      * Query for listing assets
@@ -61,7 +63,7 @@ export interface IContentManagementClient {
     /**
      *Ciew content item query
      */
-    viewContentItem(): ViewContentItemQueryInit;
+    viewContentItem(): FullIdentifierQuery<ViewContentItemQuery>;
 
     /**
      * Add content item query
@@ -76,10 +78,10 @@ export interface IContentManagementClient {
     /**
      * Delete content item query
      */
-    deleteContentItem(): DeleteContentItemQueryInit;
+    deleteContentItem(): FullIdentifierQuery<DeleteContentItemQuery>;
 
     /**
      * List language variants query
      */
-    listLanguageVariants<TElements extends ContentItemModels.ContentItemVariantElements>(): ListLanguageVariantsQueryInit<TElements>;
+    listLanguageVariants<TElements extends ContentItemModels.ContentItemVariantElements>(): FullIdentifierQuery<ListLanguageVariantsQuery<TElements>>;
 }
