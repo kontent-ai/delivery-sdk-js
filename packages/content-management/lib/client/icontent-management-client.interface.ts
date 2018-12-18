@@ -1,7 +1,9 @@
+import { ContentItemContracts } from '../contracts';
 import { AssetModels, ContentItemModels } from '../models';
 import {
     AddAssetQuery,
-    AddContentItemQueryInit,
+    AddContentItemQuery,
+    DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
     FullIdentifierQuery,
@@ -10,7 +12,7 @@ import {
     ListContentItemsQuery,
     ListLanguageVariantsQuery,
     UpdateAssetQuery,
-    UpdateContentItemQueryInit,
+    UpdateContentItemQuery,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
     ViewAssetsQuery,
@@ -28,22 +30,22 @@ export interface IContentManagementClient {
     /**
     * Query to upsert an asset from uploaded binary file
     */
-    upsertAsset(data: AssetModels.IUpsertAssetRequestData): UpsertAssetQuery;
+    upsertAsset(): DataQuery<UpsertAssetQuery, AssetModels.IUpsertAssetRequestData>;
 
     /**
      * Query to update an asset from uploaded binary file
      */
-    updateAsset(data: AssetModels.IUpdateAssetRequestData): UpdateAssetQuery;
+    updateAsset(): DataQuery<UpdateAssetQuery, AssetModels.IUpdateAssetRequestData>;
 
     /**
      * Query to add an asset from uploaded binary file
      */
-    addAsset(data: AssetModels.IAddAssetRequestData): AddAssetQuery;
+    addAsset(): DataQuery<AddAssetQuery, AssetModels.IAddAssetRequestData>;
 
     /**
      * Query to upload file
      */
-    uploadBinaryFile(data: AssetModels.IUploadBinaryFileRequestData): UploadBinaryFileQuery;
+    uploadBinaryFile(): DataQuery<UploadBinaryFileQuery, AssetModels.IUploadBinaryFileRequestData>;
 
     /**
      * Query to view asset
@@ -68,12 +70,12 @@ export interface IContentManagementClient {
     /**
      * Add content item query
      */
-    addContentItem(): AddContentItemQueryInit;
+    addContentItem(): DataQuery<AddContentItemQuery, ContentItemContracts.IAddContentItemPostContract>;
 
     /**
      * Update content item query
      */
-    updateContentItem(): UpdateContentItemQueryInit;
+    updateContentItem(): FullIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>;
 
     /**
      * Delete content item query

@@ -7,7 +7,7 @@ describe('Upload binary file', () => {
 
     beforeAll((done) => {
 
-        getTestClientWithJson(uploadBinaryResponseJson).uploadBinaryFile({
+        getTestClientWithJson(uploadBinaryResponseJson).uploadBinaryFile().withData({
             binaryData: '',
             contentLength: 1212,
             contentType: 'image/jpeg',
@@ -21,7 +21,7 @@ describe('Upload binary file', () => {
     });
 
     it(`url should be correct`, () => {
-        const url = cmTestClient.uploadBinaryFile({
+        const url = cmTestClient.uploadBinaryFile().withData({
             binaryData: 'c',
             contentLength: 9,
             contentType: 'x',

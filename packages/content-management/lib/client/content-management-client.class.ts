@@ -1,10 +1,12 @@
 import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
+import { ContentItemContracts } from '../contracts';
 import { AssetModels, ContentItemModels } from '../models';
 import {
     AddAssetQuery,
-    AddContentItemQueryInit,
+    AddContentItemQuery,
+    DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
     FullIdentifierQuery,
@@ -13,7 +15,7 @@ import {
     ListContentItemsQuery,
     ListLanguageVariantsQuery,
     UpdateAssetQuery,
-    UpdateContentItemQueryInit,
+    UpdateContentItemQuery,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
     ViewAssetsQuery,
@@ -50,35 +52,35 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    upsertAsset(data: AssetModels.IUpsertAssetRequestData): UpsertAssetQuery {
-        return new UpsertAssetQuery(
+    upsertAsset(): DataQuery<UpsertAssetQuery, AssetModels.IUpsertAssetRequestData> {
+        return new DataQuery<UpsertAssetQuery, AssetModels.IUpsertAssetRequestData>(
             this.config,
             this.queryService,
-            data
+            (config, queryService, data) => new UpsertAssetQuery(config, queryService, data)
         );
     }
 
-    updateAsset(data: AssetModels.IUpdateAssetRequestData): UpdateAssetQuery {
-        return new UpdateAssetQuery(
+    updateAsset(): DataQuery<UpdateAssetQuery, AssetModels.IUpdateAssetRequestData> {
+        return new DataQuery<UpdateAssetQuery, AssetModels.IUpdateAssetRequestData>(
             this.config,
             this.queryService,
-            data
+            (config, queryService, data) => new UpdateAssetQuery(config, queryService, data)
         );
     }
 
-    addAsset(data: AssetModels.IAddAssetRequestData): AddAssetQuery {
-        return new AddAssetQuery(
+    addAsset(): DataQuery<AddAssetQuery, AssetModels.IAddAssetRequestData> {
+        return new DataQuery<AddAssetQuery, AssetModels.IAddAssetRequestData>(
             this.config,
             this.queryService,
-            data
+            (config, queryService, data) => new AddAssetQuery(config, queryService, data)
         );
     }
 
-    uploadBinaryFile(data: AssetModels.IUploadBinaryFileRequestData): UploadBinaryFileQuery {
-        return new UploadBinaryFileQuery(
+    uploadBinaryFile(): DataQuery<UploadBinaryFileQuery, AssetModels.IUploadBinaryFileRequestData> {
+        return new DataQuery<UploadBinaryFileQuery, AssetModels.IUploadBinaryFileRequestData>(
             this.config,
             this.queryService,
-            data
+            (config, queryService, data) => new UploadBinaryFileQuery(config, queryService, data)
         );
     }
 
@@ -112,14 +114,20 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    addContentItem(): AddContentItemQueryInit {
-        return new AddContentItemQueryInit(this.config, this.queryService);
+    addContentItem(): DataQuery<AddContentItemQuery, ContentItemContracts.IAddContentItemPostContract> {
+        return new DataQuery<AddContentItemQuery, ContentItemContracts.IAddContentItemPostContract>(
+            this.config,
+            this.queryService,
+            (config, queryService, data) => new AddContentItemQuery(config, queryService, data)
+        );
     }
 
-    updateContentItem(): UpdateContentItemQueryInit {
-        return new UpdateContentItemQueryInit(
-            this.config,
-            this.queryService
+    updateContentItem(): FullIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>> {
+        return new FullIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>(
+            this.config, this.queryService, (
+                config, queryService, identifier, identifierValue) => new DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>(
+                    config, queryService, (nConfig, nQueryService, data) => new UpdateContentItemQuery(nConfig, nQueryService, data, identifier, identifierValue)
+                )
         );
     }
 

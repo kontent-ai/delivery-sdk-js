@@ -30,7 +30,7 @@ describe('Upload real binary file', () => {
 
             cmTestClient.uploadBinaryFile(data).toObservable().pipe(
                 flatMap(r => {
-                    return cmTestClient.addAsset({
+                    return cmTestClient.addAsset().withData({
                         title: 'my new file',
                         descriptions: [],
                         file_reference: {

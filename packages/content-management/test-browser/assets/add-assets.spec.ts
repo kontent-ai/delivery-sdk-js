@@ -6,13 +6,14 @@ describe('Add asset', () => {
     let response: AssetResponses.AddAssetResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(addAssetResponseJson).addAsset({
-            descriptions: [],
-            fileReference: {
-                id: 'x',
-                type: 'y'
-            }
-        })
+        getTestClientWithJson(addAssetResponseJson).addAsset()
+            .withData({
+                descriptions: [],
+                fileReference: {
+                    id: 'x',
+                    type: 'y'
+                }
+            })
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -21,13 +22,14 @@ describe('Add asset', () => {
     });
 
     it(`url should be correct`, () => {
-        const listUrl = cmTestClient.addAsset({
-            descriptions: [],
-            fileReference: {
-                id: 'x',
-                type: 'y'
-            }
-        }).getUrl();
+        const listUrl = cmTestClient.addAsset()
+            .withData({
+                descriptions: [],
+                fileReference: {
+                    id: 'x',
+                    type: 'y'
+                }
+            }).getUrl();
 
         expect(listUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/assets`);
     });

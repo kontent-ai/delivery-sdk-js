@@ -6,10 +6,11 @@ describe('Update asset', () => {
     let response: AssetResponses.UpdateAssetResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(updateAssetResponseJson).updateAsset({
-            descriptions: [],
-            assetId: 'x'
-        })
+        getTestClientWithJson(updateAssetResponseJson).updateAsset()
+            .withData({
+                descriptions: [],
+                assetId: 'x'
+            })
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -18,7 +19,7 @@ describe('Update asset', () => {
     });
 
     it(`url should be correct`, () => {
-        const listUrl = cmTestClient.updateAsset({
+        const listUrl = cmTestClient.updateAsset().withData({
             descriptions: [],
             assetId: 'x'
         }).getUrl();

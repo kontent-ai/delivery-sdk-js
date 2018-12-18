@@ -1,9 +1,8 @@
 import { IContentManagementClientConfig } from '../../config';
 import { ContentItemIdentifier } from '../../models';
 import { ContentManagementQueryService } from '../../services';
-import { BaseQuery } from '../base-query';
 
-export class FullIdentifierQuery<TQuery extends BaseQuery<any>> {
+export class FullIdentifierQuery<TResult> {
 
     constructor(
         protected config: IContentManagementClientConfig,
@@ -12,7 +11,7 @@ export class FullIdentifierQuery<TQuery extends BaseQuery<any>> {
             config: IContentManagementClientConfig,
             queryService: ContentManagementQueryService,
             identifier: ContentItemIdentifier,
-            identifierValue: string) => TQuery
+            identifierValue: string) => TResult
     ) {
     }
 
@@ -20,7 +19,7 @@ export class FullIdentifierQuery<TQuery extends BaseQuery<any>> {
    * Gets using internal Id
    * @param id Internal Id of content item
    */
-    byInternalId(id: string): TQuery {
+    byInternalId(id: string): TResult {
         return this.constructQuery(this.config, this.queryService, ContentItemIdentifier.InternalId, id);
     }
 
@@ -28,7 +27,7 @@ export class FullIdentifierQuery<TQuery extends BaseQuery<any>> {
    * Gets query using external Id
    * @param id External Id of content item
    */
-    byExternalId(id: string): TQuery {
+    byExternalId(id: string): TResult {
         return this.constructQuery(this.config, this.queryService, ContentItemIdentifier.ExternalId, id);
     }
 
@@ -36,7 +35,7 @@ export class FullIdentifierQuery<TQuery extends BaseQuery<any>> {
    * Gets query using codename
    * @param codename Codename of content item
    */
-    byCodename(codename: string): TQuery {
+    byCodename(codename: string): TResult {
         return this.constructQuery(this.config, this.queryService, ContentItemIdentifier.Codename, codename);
     }
 }

@@ -6,7 +6,7 @@ describe('Upsert asset', () => {
     let response: AssetResponses.UpsertAssertResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(upsertAssetResponseJson).upsertAsset({
+        getTestClientWithJson(upsertAssetResponseJson).upsertAsset().withData({
             descriptions: [],
             assetExternalId: 'x'
         })
@@ -18,7 +18,7 @@ describe('Upsert asset', () => {
     });
 
     it(`url should be correct`, () => {
-        const listUrl = cmTestClient.upsertAsset({
+        const listUrl = cmTestClient.upsertAsset().withData({
             descriptions: [],
             assetExternalId: 'x'
         }).getUrl();

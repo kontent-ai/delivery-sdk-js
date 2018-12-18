@@ -1,8 +1,7 @@
 import { IContentManagementClientConfig } from '../../config';
 import { ContentManagementQueryService } from '../../services';
-import { BaseQuery } from '../base-query';
 
-export class DataQuery<TQuery extends BaseQuery<any>, TData> {
+export class DataQuery<TResult, TData> {
 
     constructor(
         protected config: IContentManagementClientConfig,
@@ -10,7 +9,7 @@ export class DataQuery<TQuery extends BaseQuery<any>, TData> {
         protected constructQuery: (
             config: IContentManagementClientConfig,
             queryService: ContentManagementQueryService,
-            data: TData) => TQuery
+            data: TData) => TResult
     ) {
     }
 
@@ -18,7 +17,7 @@ export class DataQuery<TQuery extends BaseQuery<any>, TData> {
      * Gets query with data
      * @param data Data for query
      */
-    withData(data: TData): TQuery {
+    withData(data: TData): TResult {
         return this.constructQuery(this.config, this.queryService, data);
     }
 }
