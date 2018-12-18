@@ -26,17 +26,17 @@ A community-made bare-bones application built using plain JavaScript and Browser
 
 A demonstration of the Dancing Goat sample site running on [Express.js](https://expressjs.com/) and using [Pug templates](https://github.com/pugjs/pug).
 
-## [unpkg cdn](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/unpkg/index.html)
+## [unpkg cdn](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/demo/unpkg/index.html)
 
 A simple example of including the SDK in plain HTML using [unpkg](https://unpkg.com/#/).
 
-## [UMD + RxJS in browser](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/umd-rxjs/index.html)
+## [UMD + RxJS in browser](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/demo/umd-rxjs/index.html)
 
 A simple example of including the SDK and RxJS in plain HTML using [UMD](https://github.com/umdjs/umd). 
 
-## [UMD + Promise in browser](https://github.com/Enngage/kentico-cloud-js/blob/master/packages/delivery/demo/umd-promise/index.html)
+## [UMD + Promise in browser](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/demo/umd-promise/index.html)
 
 A simple example of including the SDK in plain HTML using [UMD](https://github.com/umdjs/umd) (no RxJS, only promises). 
 
-![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Enngage/kentico-cloud-js/master/examples/readme.md?pixel)
+![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-cloud-js/master/examples/readme.md?pixel)
 
