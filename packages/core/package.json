@@ -3,7 +3,7 @@
   "version": "1.2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/core"
+    "url": "https://github.com/Kentico/kentico-cloud-js/tree/master/packages/core"
   },
   "private": false,
   "author": "richard sustek",
