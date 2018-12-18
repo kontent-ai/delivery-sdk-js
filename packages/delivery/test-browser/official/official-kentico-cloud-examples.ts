@@ -20,7 +20,7 @@ class Article extends ContentItem {
 describe('Official Kentico cloud examples (used in API reference https://developer.kenticocloud.com/v1/reference#delivery-api)', () => {
 
     /* ----------- Initial setup ----------- */
-    // Create strongly typed models according to https://github.com/Enngage/KenticoCloudDeliveryTypeScriptSDK#creating-models
+    // Create strongly typed models according to https://github.com/Kentico/kentico-cloud-js/blob/master/doc/delivery.md#creating-models
     const typeResolvers = [
         new TypeResolver('article', () => new Article())
     ];
