@@ -7,7 +7,7 @@ export class FullIdentifierQuery<TResult> {
     constructor(
         protected config: IContentManagementClientConfig,
         protected queryService: ContentManagementQueryService,
-        protected constructQuery: (
+        protected buildResult: (
             config: IContentManagementClientConfig,
             queryService: ContentManagementQueryService,
             identifier: ContentItemIdentifier,
@@ -20,7 +20,7 @@ export class FullIdentifierQuery<TResult> {
    * @param id Internal Id of content item
    */
     byInternalId(id: string): TResult {
-        return this.constructQuery(this.config, this.queryService, ContentItemIdentifier.InternalId, id);
+        return this.buildResult(this.config, this.queryService, ContentItemIdentifier.InternalId, id);
     }
 
     /**
@@ -28,7 +28,7 @@ export class FullIdentifierQuery<TResult> {
    * @param id External Id of content item
    */
     byExternalId(id: string): TResult {
-        return this.constructQuery(this.config, this.queryService, ContentItemIdentifier.ExternalId, id);
+        return this.buildResult(this.config, this.queryService, ContentItemIdentifier.ExternalId, id);
     }
 
     /**
@@ -36,6 +36,6 @@ export class FullIdentifierQuery<TResult> {
    * @param codename Codename of content item
    */
     byCodename(codename: string): TResult {
-        return this.constructQuery(this.config, this.queryService, ContentItemIdentifier.Codename, codename);
+        return this.buildResult(this.config, this.queryService, ContentItemIdentifier.Codename, codename);
     }
 }

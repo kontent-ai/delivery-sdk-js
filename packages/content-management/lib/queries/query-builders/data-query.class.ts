@@ -6,7 +6,7 @@ export class DataQuery<TResult, TData> {
     constructor(
         protected config: IContentManagementClientConfig,
         protected queryService: ContentManagementQueryService,
-        protected constructQuery: (
+        protected buildResult: (
             config: IContentManagementClientConfig,
             queryService: ContentManagementQueryService,
             data: TData) => TResult
@@ -18,6 +18,6 @@ export class DataQuery<TResult, TData> {
      * @param data Data for query
      */
     withData(data: TData): TResult {
-        return this.constructQuery(this.config, this.queryService, data);
+        return this.buildResult(this.config, this.queryService, data);
     }
 }
