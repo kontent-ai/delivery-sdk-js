@@ -1,4 +1,7 @@
-import { ContentItemElements, ContentItemModels } from '../models';
+import { enumHelper } from 'kentico-cloud-core';
+
+import { ElementContracts } from '../contracts';
+import { ContentItemElements, ContentItemModels, ElementModels, ElementTypeEnum } from '../models';
 import { BaseMapper } from './base-mapper';
 
 export class ElementsMapper extends BaseMapper {
@@ -10,6 +13,23 @@ export class ElementsMapper extends BaseMapper {
         }
 
         return model;
+    }
+
+    mapElementModels(rawElements: ElementContracts.IElementContract[]): ElementModels.ElementModel[] {
+        return rawElements.map(m => this.mapElementModel(m));
+    }
+
+    mapElementModel(rawElement: ElementContracts.IElementContract): ElementModels.ElementModel {
+        return new ElementModels.ElementModel({
+            codename: rawElement.codename,
+            id: rawElement.id,
+            name: rawElement.name,
+            type: this.mapElementType(rawElement.type)
+        });
+    }
+
+    private mapElementType(rawElementType: string): ElementTypeEnum {
+        return enumHelper.getEnumFromValue<ElementTypeEnum>(ElementTypeEnum, rawElementType, ElementTypeEnum.unknown);
     }
 
     private mapElement(rawElementsJson: any, fieldDefinition: ContentItemElements.IContentItemElementDefinition):

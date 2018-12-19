@@ -1,0 +1,66 @@
+{
+    "types": [
+      {
+        "id": "269202ad-1d9d-47fd-b3e8-bdb05b3e3cf0",
+        "codename": "hosted_video",
+        "last_modified": "2017-06-27T12:55:39.054Z",
+        "name": "Hosted video",
+        "elements": [
+          {
+            "name": "Video ID",
+            "guidelines": "",
+            "type": "text",
+            "id": "116a2441-6441-7124-c85b-46a4fef5dcb9",
+            "codename": "video_id"
+          }
+        ]
+      },
+      {
+        "id": "a29399c3-5281-47ab-9916-acd4a6f887b7",
+        "codename": "home",
+        "last_modified": "2018-02-27T18:57:30.238Z",
+        "name": "Home",
+        "elements": [
+          {
+            "guidelines": "",
+            "type": "guidelines",
+            "id": "9367da14-3d08-4ed1-4841-24bf8055f916",
+            "codename": "n9367da14_3d08_4ed1_4841_24bf8055f916"
+          },
+          {
+            "name": "Hero unit",
+            "guidelines": "Assign 1 Hero unit that has been prepared for a home page. ",
+            "type": "modular_content",
+            "id": "2b15a8f3-2e5f-7d01-4d8e-5b22e222aa76",
+            "codename": "hero_unit"
+          },
+          {
+            "name": "Articles",
+            "guidelines": "Assign all articles which should be displayed on the home page.",
+            "type": "modular_content",
+            "id": "222f3a69-a54f-3e92-83ac-05f8a08e667f",
+            "codename": "articles"
+          },
+          {
+            "name": "Our story",
+            "guidelines": "Assign 1 Fact about us which will be displayed on the home page.",
+            "type": "modular_content",
+            "id": "617bccc0-4844-4beb-4ede-6247e954633a",
+            "codename": "our_story"
+          },
+          {
+            "snippet": {
+              "id": "baf884be-531f-441f-ae88-64205efdd0f6"
+            },
+            "type": "snippet",
+            "id": "255d6748-ba3a-1b59-af5c-afd4a7d6cb4f",
+            "codename": "metadata"
+          }
+        ]
+      }
+    ],
+    "pagination": {
+      "continuation_token": null,
+      "next_page": null
+    }
+  }

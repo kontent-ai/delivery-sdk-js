@@ -1,4 +1,3 @@
-
 import { ContentItemContracts } from '../contracts';
 import { AssetModels, ContentItemModels, TaxonomyModels } from '../models';
 import {
@@ -8,10 +7,13 @@ import {
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
+    DeleteTaxonomyQuery,
     FullIdentifierQuery,
+    IdCodenameIdentifierQuery,
     IdIdentifierQuery,
     ListAssetsQuery,
     ListContentItemsQuery,
+    ListContentTypesQuery,
     ListLanguageVariantsQuery,
     ListTaxonomiesQuery,
     UpdateAssetQuery,
@@ -20,11 +22,20 @@ import {
     UpsertAssetQuery,
     ViewAssetsQuery,
     ViewContentItemQuery,
-    DeleteTaxonomyQuery
+    ViewContentTypeQuery,
 } from '../queries';
 
-
 export interface IContentManagementClient {
+
+    /**
+     * Query to view content type
+     */
+    viewContentType(): IdCodenameIdentifierQuery<ViewContentTypeQuery>;
+
+    /**
+     * Query to list content types
+     */
+    listContentTypes(): ListContentTypesQuery;
 
     /**
     * Query to delete a taxonomy

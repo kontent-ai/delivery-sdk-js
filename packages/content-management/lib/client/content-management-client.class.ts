@@ -12,9 +12,11 @@ import {
     DeleteContentItemQuery,
     DeleteTaxonomyQuery,
     FullIdentifierQuery,
+    IdCodenameIdentifierQuery,
     IdIdentifierQuery,
     ListAssetsQuery,
     ListContentItemsQuery,
+    ListContentTypesQuery,
     ListLanguageVariantsQuery,
     ListTaxonomiesQuery,
     UpdateAssetQuery,
@@ -23,6 +25,7 @@ import {
     UpsertAssetQuery,
     ViewAssetsQuery,
     ViewContentItemQuery,
+    ViewContentTypeQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -45,6 +48,21 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    viewContentType(): IdCodenameIdentifierQuery<ViewContentTypeQuery> {
+        return new IdCodenameIdentifierQuery<ViewContentTypeQuery>(
+            this.config,
+            this.queryService,
+            (config, queryService, identifier, identifierValue) => new ViewContentTypeQuery(config, queryService, identifier, identifierValue)
+        );
+    }
+
+    listContentTypes(): ListContentTypesQuery {
+        return new ListContentTypesQuery(
+            this.config,
+            this.queryService
+        );
     }
 
     deleteTaxonomy(): FullIdentifierQuery<DeleteTaxonomyQuery> {

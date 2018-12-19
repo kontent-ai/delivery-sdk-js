@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { AssetContracts, ContentItemContracts, TaxonomyContracts } from '../contracts';
-import { assetsResponseMapper, contentItemsResponseMapper, taxonomyResponseMapper } from '../mappers';
+import { AssetContracts, ContentItemContracts, ContentTypeContracts, TaxonomyContracts } from '../contracts';
+import { assetsResponseMapper, contentItemsResponseMapper, contentTypeMapper, taxonomyResponseMapper } from '../mappers';
 import {
     AssetModels,
     ContentItemElements,
@@ -12,7 +12,12 @@ import {
     IContentManagementQueryConfig,
     TaxonomyModels,
 } from '../models';
-import { AssetResponses, ContentItemResponses, TaxonomyResponses as TaxonomyResponses } from '../responses';
+import {
+    AssetResponses,
+    ContentItemResponses,
+    ContentTypeResponses,
+    TaxonomyResponses as TaxonomyResponses,
+} from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
 export class ContentManagementQueryService extends BaseContentManagementQueryService {
@@ -23,6 +28,34 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, sdkInfo);
+    }
+
+    viewContentType(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<ContentTypeResponses.ViewContentTypeResponse> {
+        return this.getResponse<ContentTypeContracts.IViewContentTypeResponse>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return contentTypeMapper.mapViewContentTypeResponse(response);
+            })
+        );
+    }
+
+    listContentTypes(
+        url: string,
+        config?: IContentManagementQueryConfig
+    ): Observable<ContentTypeResponses.ContentTypeListResponse> {
+        return this.getResponse<ContentTypeContracts.IContentTypeListResponse>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return contentTypeMapper.mapListingResponse(response);
+            })
+        );
     }
 
     addTaxonomy(

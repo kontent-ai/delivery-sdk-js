@@ -1,6 +1,18 @@
 
 class ContentManagementContentItemActions {
 
+    listContentTypes(): string {
+        return `types`;
+    }
+
+    viewContentTypeByInternalId(id: string): string {
+        return `types/${id}`;
+    }
+
+    viewContentTypeByCodename(codename: string): string {
+        return `types/codename/${codename}`;
+    }
+
     addTaxonomy(): string {
         return `taxonomies`;
     }
