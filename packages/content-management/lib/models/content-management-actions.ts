@@ -1,6 +1,22 @@
 
 class ContentManagementContentItemActions {
 
+    addTaxonomy(): string {
+        return `taxonomies`;
+    }
+
+    deleteTaxonomyByCodename(codename: string): string {
+        return `taxonomies/codename/${codename}`;
+    }
+
+    deleteTaxonomyByInternalId(id: string): string {
+        return `taxonomies/${id}`;
+    }
+
+    deleteTaxonomyByExternalId(id: string): string {
+        return `taxonomies/external-id/${id}`;
+    }
+
     listTaxonomies(): string {
         return `taxonomies`;
     }

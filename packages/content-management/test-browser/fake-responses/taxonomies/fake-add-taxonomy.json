@@ -1,0 +1,53 @@
+{
+    "last_modified": "2018-11-14T13:03:39.6318181Z",
+    "name": "Personas",
+    "external_id": "Tax-Group-123",
+    "terms": [
+      {
+        "name": "Coffee expert",
+        "external_id": "Tax-term-456",
+        "terms": [
+          {
+            "name": "Barista",
+            "external_id": "Tax-term-789",
+            "terms": [],
+            "id": "9bee9779-a9c6-5d66-875b-aaf7093b4ac2",
+            "codename": "barista"
+          },
+          {
+            "name": "Cafe owner",
+            "external_id": "Tax-term-101",
+            "terms": [],
+            "id": "9b897d7b-ded7-5de1-aee1-1e90e43db747",
+            "codename": "cafe_owner"
+          }
+        ],
+        "id": "012a94e4-76b4-5a5d-95ce-164577c9b5e5",
+        "codename": "coffee_expert"
+      },
+      {
+        "name": "Coffee enthusiast",
+        "external_id": "Tax-term-112",
+        "terms": [
+          {
+            "name": "Coffee lover",
+            "external_id": "Tax-term-131",
+            "terms": [],
+            "id": "146c5e35-dffe-5977-b943-16f0e862af2e",
+            "codename": "coffee_lover"
+          },
+          {
+            "name": "Coffee blogger",
+            "external_id": "Tax-term-145",
+            "terms": [],
+            "id": "8d980871-c510-5a58-aad1-f40fc5f28bbd",
+            "codename": "coffee_blogger"
+          }
+        ],
+        "id": "6104cfd7-59db-51ff-a042-f82e1df18262",
+        "codename": "coffee_enthusiast"
+      }
+    ],
+    "id": "0be13600-e57c-577d-8108-c8d860330985",
+    "codename": "personas"
+  }

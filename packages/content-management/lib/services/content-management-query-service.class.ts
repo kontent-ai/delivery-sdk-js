@@ -3,9 +3,15 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { AssetContracts, ContentItemContracts, TaxonomiesContracts } from '../contracts';
+import { AssetContracts, ContentItemContracts, TaxonomyContracts } from '../contracts';
 import { assetsResponseMapper, contentItemsResponseMapper, taxonomyResponseMapper } from '../mappers';
-import { AssetModels, ContentItemElements, ContentItemModels, IContentManagementQueryConfig } from '../models';
+import {
+    AssetModels,
+    ContentItemElements,
+    ContentItemModels,
+    IContentManagementQueryConfig,
+    TaxonomyModels,
+} from '../models';
 import { AssetResponses, ContentItemResponses, TaxonomyResponses as TaxonomyResponses } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
@@ -19,11 +25,45 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         super(config, httpService, sdkInfo);
     }
 
+    addTaxonomy(
+        url: string,
+        data: TaxonomyModels.IAddTaxonomyRequestModel,
+        config: IContentManagementQueryConfig
+    ): Observable<TaxonomyResponses.AddTaxonomyResponse> {
+        return this.postResponse<TaxonomyContracts.IAddTaxonomyResponseContract>(
+            url,
+            {
+                name: data.name,
+                external_id: data.externalId,
+                terms: data.terms
+            },
+            config,
+        ).pipe(
+            map(response => {
+                return taxonomyResponseMapper.mapAddTaxonomyResponse(response);
+            })
+        );
+    }
+
+    deleteTaxonomy(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<TaxonomyResponses.DeleteTaxonomyResponse> {
+        return this.deleteResponse<TaxonomyContracts.IDeleteTaxonomyResponseContract>(
+            url,
+            config,
+        ).pipe(
+            map(response => {
+                return taxonomyResponseMapper.mapDeleteTaxonomyResponse(response);
+            })
+        );
+    }
+
     listTaxonomies(
         url: string,
         config?: IContentManagementQueryConfig
     ): Observable<TaxonomyResponses.TaxonomyListResponse> {
-        return this.getResponse<TaxonomiesContracts.ITaxonomyContract[]>(
+        return this.getResponse<TaxonomyContracts.ITaxonomyContract[]>(
             url,
             config
         ).pipe(

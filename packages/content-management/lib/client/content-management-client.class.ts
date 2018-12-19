@@ -2,25 +2,27 @@ import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, ContentItemModels } from '../models';
+import { AssetModels, ContentItemModels, TaxonomyModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
+    AddTaxonomyQuery,
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
+    DeleteTaxonomyQuery,
     FullIdentifierQuery,
     IdIdentifierQuery,
     ListAssetsQuery,
     ListContentItemsQuery,
     ListLanguageVariantsQuery,
+    ListTaxonomiesQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
     ViewAssetsQuery,
     ViewContentItemQuery,
-    ListTaxonomiesQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -43,6 +45,22 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    deleteTaxonomy(): FullIdentifierQuery<DeleteTaxonomyQuery> {
+        return new FullIdentifierQuery<DeleteTaxonomyQuery>(
+            this.config,
+            this.queryService,
+            (config, queryService, identifier, identifierValue) => new DeleteTaxonomyQuery(config, queryService, identifier, identifierValue)
+        );
+    }
+
+    addTaxonomy(): DataQuery<AddTaxonomyQuery, TaxonomyModels.IAddTaxonomyRequestModel> {
+        return new DataQuery<AddTaxonomyQuery, TaxonomyModels.IAddTaxonomyRequestModel>(
+            this.config,
+            this.queryService,
+            (config, queryService, data) => new AddTaxonomyQuery(config, queryService, data)
+        );
     }
 
     listTaxonomies(): ListTaxonomiesQuery {

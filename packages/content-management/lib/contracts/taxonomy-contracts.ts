@@ -1,4 +1,4 @@
-export namespace TaxonomiesContracts {
+export namespace TaxonomyContracts {
 
     export interface ITaxonomyContract {
         last_modified: string;
@@ -14,6 +14,6 @@ export namespace TaxonomiesContracts {
     export interface IAddTaxonomyResponseContract extends ITaxonomyContract {
     }
 
-    export interface IDeleteResponseContract {
+    export interface IDeleteTaxonomyResponseContract {
     }
 }

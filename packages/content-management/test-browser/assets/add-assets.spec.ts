@@ -22,7 +22,7 @@ describe('Add asset', () => {
     });
 
     it(`url should be correct`, () => {
-        const listUrl = cmTestClient.addAsset()
+        const url = cmTestClient.addAsset()
             .withData({
                 descriptions: [],
                 fileReference: {
@@ -31,7 +31,7 @@ describe('Add asset', () => {
                 }
             }).getUrl();
 
-        expect(listUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/assets`);
+        expect(url).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/assets`);
     });
 
     it(`response should be instance of AddAssetResponse class`, () => {

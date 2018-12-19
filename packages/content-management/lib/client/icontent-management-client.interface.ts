@@ -1,8 +1,10 @@
+
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, ContentItemModels } from '../models';
+import { AssetModels, ContentItemModels, TaxonomyModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
+    AddTaxonomyQuery,
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
@@ -18,10 +20,21 @@ import {
     UpsertAssetQuery,
     ViewAssetsQuery,
     ViewContentItemQuery,
+    DeleteTaxonomyQuery
 } from '../queries';
 
 
 export interface IContentManagementClient {
+
+    /**
+    * Query to delete a taxonomy
+    */
+    deleteTaxonomy(): FullIdentifierQuery<DeleteTaxonomyQuery>;
+
+    /**
+    * Query to add a taxonomy
+    */
+    addTaxonomy(): DataQuery<AddTaxonomyQuery, TaxonomyModels.IAddTaxonomyRequestModel>;
 
     /**
      * Query to list taxonomies

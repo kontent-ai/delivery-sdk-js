@@ -19,4 +19,9 @@ export namespace TaxonomyModels {
         }
     }
 
+    export interface IAddTaxonomyRequestModel {
+        name: string;
+        externalId?: string;
+        terms: IAddTaxonomyRequestModel[];
+    }
 }
