@@ -1,6 +1,10 @@
 
 class ContentManagementContentItemActions {
 
+    listTaxonomies(): string {
+        return `taxonomies`;
+    }
+
     addAsset(): string {
         return `assets`;
     }

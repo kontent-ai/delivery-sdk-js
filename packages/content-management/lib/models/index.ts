@@ -5,4 +5,5 @@ export * from './content-items/content-item.models';
 export * from './shared/shared-models';
 export * from './content-items/content-item-element.models';
 export * from './assets/asset.models';
+export * from './taxonomies/taxonomy-models';
 

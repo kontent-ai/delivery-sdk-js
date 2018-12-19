@@ -11,6 +11,7 @@ import {
     ListAssetsQuery,
     ListContentItemsQuery,
     ListLanguageVariantsQuery,
+    ListTaxonomiesQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
@@ -21,6 +22,11 @@ import {
 
 
 export interface IContentManagementClient {
+
+    /**
+     * Query to list taxonomies
+     */
+    listTaxonomies(): ListTaxonomiesQuery;
 
     /**
      * Query to delete an asset

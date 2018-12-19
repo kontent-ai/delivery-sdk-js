@@ -20,6 +20,7 @@ import {
     UpsertAssetQuery,
     ViewAssetsQuery,
     ViewContentItemQuery,
+    ListTaxonomiesQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -42,6 +43,13 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    listTaxonomies(): ListTaxonomiesQuery {
+        return new ListTaxonomiesQuery(
+            this.config,
+            this.queryService
+        );
     }
 
     deleteAsset(): FullIdentifierQuery<DeleteAssetQuery> {

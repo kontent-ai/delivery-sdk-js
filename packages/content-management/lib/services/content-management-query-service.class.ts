@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { AssetContracts, ContentItemContracts } from '../contracts';
-import { assetsResponseMapper, contentItemsResponseMapper } from '../mappers';
-import { ContentItemElements, ContentItemModels, IContentManagementQueryConfig, AssetModels } from '../models';
-import { AssetResponses, ContentItemResponses } from '../responses';
+import { AssetContracts, ContentItemContracts, TaxonomiesContracts } from '../contracts';
+import { assetsResponseMapper, contentItemsResponseMapper, taxonomyResponseMapper } from '../mappers';
+import { AssetModels, ContentItemElements, ContentItemModels, IContentManagementQueryConfig } from '../models';
+import { AssetResponses, ContentItemResponses, TaxonomyResponses as TaxonomyResponses } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
 export class ContentManagementQueryService extends BaseContentManagementQueryService {
@@ -17,6 +17,20 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, sdkInfo);
+    }
+
+    listTaxonomies(
+        url: string,
+        config?: IContentManagementQueryConfig
+    ): Observable<TaxonomyResponses.TaxonomyListResponse> {
+        return this.getResponse<TaxonomiesContracts.ITaxonomyContract[]>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return taxonomyResponseMapper.mapListingTaxonomysResponse(response);
+            })
+        );
     }
 
     deleteAsset(
