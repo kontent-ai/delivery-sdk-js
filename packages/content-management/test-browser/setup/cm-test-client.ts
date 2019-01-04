@@ -1,5 +1,5 @@
 import { ContentManagementClient, IContentManagementClient } from '../../lib';
-import { CMTestHttpService } from './cm-test-http-service';
+import { TestHttpService } from 'kentico-cloud-core';
 
 export const testProjectId: string = 'fb11eb58-5b77-01b1-2343-a1b57cccc4e1';
 
@@ -21,7 +21,7 @@ export const cmTestClientWithInvalidApiKey: IContentManagementClient = new Conte
 export const getTestClientWithCloudError: (errorJson: any) => IContentManagementClient = (errorJson: any) => new ContentManagementClient({
     projectId: testProjectId,
     apiKey: 'xxx',
-    httpService: new CMTestHttpService({
+    httpService: new TestHttpService({
         fakeResponseJson: undefined,
         throwCloudError: true,
         errorJson: errorJson
@@ -31,7 +31,7 @@ export const getTestClientWithCloudError: (errorJson: any) => IContentManagement
 export const getTestClientWithJson: (json: any) => IContentManagementClient = (json: any) => new ContentManagementClient({
     projectId: testProjectId,
     apiKey: 'xxx',
-    httpService: new CMTestHttpService({
+    httpService: new TestHttpService({
         fakeResponseJson: json,
         throwCloudError: false
     })

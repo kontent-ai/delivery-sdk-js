@@ -52,7 +52,7 @@
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs"
   },
   "dependencies": {
-    "kentico-cloud-core": "1.2.0"
+    "kentico-cloud-core": "1.3.0"
   },
   "peerDependencies": {
     "rxjs": "^6.0.0"

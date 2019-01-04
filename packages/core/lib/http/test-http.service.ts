@@ -1,3 +1,5 @@
+import { Observable, of, throwError } from 'rxjs';
+
 import {
     IBaseResponse,
     IBaseResponseError,
@@ -6,11 +8,10 @@ import {
     IHttpPostQueryCall,
     IHttpPutQueryCall,
     IHttpQueryOptions,
-    IHttpService,
-} from 'kentico-cloud-core';
-import { Observable, of, throwError } from 'rxjs';
+} from './http.models';
+import { IHttpService } from './ihttp.service';
 
-export class CMTestHttpService implements IHttpService {
+export class TestHttpService implements IHttpService {
 
     public throwCloudError: boolean = false;
     public fakeResponseJson: any = undefined;
