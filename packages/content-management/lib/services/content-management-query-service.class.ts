@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { AssetContracts, ContentItemContracts, ContentTypeContracts, TaxonomyContracts } from '../contracts';
-import { assetsResponseMapper, contentItemsResponseMapper, contentTypeMapper, taxonomyResponseMapper } from '../mappers';
+import { AssetContracts, ContentItemContracts, ContentTypeContracts, TaxonomyContracts, ProjectContracts } from '../contracts';
+import { assetsResponseMapper, contentItemsResponseMapper, contentTypeMapper, taxonomyResponseMapper, projectMapper } from '../mappers';
 import {
     AssetModels,
     ContentItemElements,
@@ -17,6 +17,7 @@ import {
     ContentItemResponses,
     ContentTypeResponses,
     TaxonomyResponses as TaxonomyResponses,
+    ProjectResponses,
 } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
@@ -28,6 +29,24 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, sdkInfo);
+    }
+
+    validateProjectContent(
+        url: string,
+        data: {
+            projectId: string
+        },
+        config: IContentManagementQueryConfig
+    ): Observable<ProjectResponses.ValidateProjectContentResponse> {
+        return this.postResponse<ProjectContracts.IProjectReportResponseContract>(
+            url,
+            data,
+            config,
+        ).pipe(
+            map(response => {
+                return projectMapper.mapValidateProjectContentResponse(response);
+            })
+        );
     }
 
     viewContentType(

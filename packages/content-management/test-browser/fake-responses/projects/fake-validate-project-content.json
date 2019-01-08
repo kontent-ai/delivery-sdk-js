@@ -1,0 +1,88 @@
+{
+    "project": {
+      "id": "975bf280-fd91-488c-994c-2f04416e5ee3",
+      "name": "Sample Project"
+    },
+    "variant_issues": [
+      {
+        "item": {
+          "id": "b2fea94c-73fd-42ec-a22f-f409878de187",
+          "name": "Origins of Arabica Bourbon",
+          "codename": "origins_of_arabica_bourbon"
+        },
+        "language": {
+          "id": "00000000-0000-0000-0000-000000000000",
+          "name": "English (United States)",
+          "codename": "en-US"
+        },
+        "issues": [
+          {
+            "element": {
+              "id": "ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5",
+              "name": "Related articles",
+              "codename": "related_articles"
+            },
+            "messages": [
+              "Element 'Related articles' contains a content module Colombia Carlos Imbachi of type Coffee that is not allowed in this context."
+            ]
+          }
+        ]
+      },
+      {
+        "item": {
+          "id": "cf106f4e-30a4-42ef-b313-b8ea3fd3e5c5",
+          "name": "Coffee Beverages Explained",
+          "codename": "coffee_beverages_explained"
+        },
+        "language": {
+          "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8",
+          "name": "Spanish (Spain)",
+          "codename": "es-ES"
+        },
+        "issues": [
+          {
+            "element": {
+              "id": "ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5",
+              "name": "Related articles",
+              "codename": "related_articles"
+            },
+            "messages": [
+              "Element 'Related articles' is required but has no value",
+              "Element 'Related articles' should have at least 1 content module(s) but has 0 content module(s)."
+            ]
+          },
+          {
+            "element": {
+              "id": "b9dc537c-2518-e4f5-8325-ce4fce26171e",
+              "name": "Meta description",
+              "codename": "meta_description"
+            },
+            "messages": [
+              "Element 'Meta description' should have at most 160 characters(s) but has 174 character(s)."
+            ]
+          }
+        ]
+      }
+    ],
+    "type_issues": [
+      {
+        "type": {
+          "id": "929985ac-4aa5-436b-85a2-94c2d4fbbebd",
+          "name": "Coffee",
+          "codename": "coffee"
+        },
+        "issues": [
+          {
+            "element": {
+              "id": "1ee64175-fde7-fc1e-5259-511a31c326c3",
+              "name": "Product status",
+              "codename": "product_status"
+            },
+            "messages": [
+              "Element 'Product status' contains references to non-existing taxonomy group with ID 79b1c5b6-30bc-d076-a236-d9ec9f1ff01b."
+            ]
+          }
+        ]
+      }
+    ]
+  }

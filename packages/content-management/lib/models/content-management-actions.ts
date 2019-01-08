@@ -1,6 +1,10 @@
 
 class ContentManagementContentItemActions {
 
+    validateProjectContent(): string {
+        return `validate`;
+    }
+
     listContentTypes(): string {
         return `types`;
     }

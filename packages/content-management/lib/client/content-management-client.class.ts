@@ -19,10 +19,12 @@ import {
     ListContentTypesQuery,
     ListLanguageVariantsQuery,
     ListTaxonomiesQuery,
+    ProjectIdIdentifierQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
+    ValidateProjectContentQuery,
     ViewAssetsQuery,
     ViewContentItemQuery,
     ViewContentTypeQuery,
@@ -48,6 +50,14 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    validateProjectContent(): ProjectIdIdentifierQuery<ValidateProjectContentQuery> {
+        return new ProjectIdIdentifierQuery<ValidateProjectContentQuery>(
+            this.config,
+            this.queryService,
+            (config, queryService, projectId) => new ValidateProjectContentQuery(config, queryService, projectId)
+        );
     }
 
     viewContentType(): IdCodenameIdentifierQuery<ViewContentTypeQuery> {

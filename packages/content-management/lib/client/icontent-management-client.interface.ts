@@ -16,16 +16,23 @@ import {
     ListContentTypesQuery,
     ListLanguageVariantsQuery,
     ListTaxonomiesQuery,
+    ProjectIdIdentifierQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
+    ValidateProjectContentQuery,
     ViewAssetsQuery,
     ViewContentItemQuery,
     ViewContentTypeQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
+
+    /**
+     * Query to validate project content
+     */
+    validateProjectContent(): ProjectIdIdentifierQuery<ValidateProjectContentQuery>;
 
     /**
      * Query to view content type

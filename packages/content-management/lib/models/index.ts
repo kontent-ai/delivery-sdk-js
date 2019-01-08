@@ -9,4 +9,5 @@ export * from './taxonomies/taxonomy-models';
 export * from './content-types/content-type.models';
 export * from './elements/element-type';
 export * from './elements/elements.models';
+export * from './projects/project-report.models';
 
