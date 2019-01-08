@@ -20,7 +20,6 @@ export namespace TypeContracts {
         pagination: IPaginationContract;
     }
 
-    
     export interface ITypeResponseContract extends IContentTypeContract {
     }
 }
