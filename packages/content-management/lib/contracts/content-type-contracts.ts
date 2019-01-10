@@ -11,11 +11,14 @@ export namespace ContentTypeContracts {
         elements: ElementContracts.IElementContract[];
     }
 
-    export interface IContentTypeListResponse {
+    export interface IContentTypeListResponseContract {
         types: IContentTypeContract[];
         pagination: SharedContracts.IPaginationModelContract;
     }
 
-    export interface IViewContentTypeResponse extends IContentTypeContract {
+    export interface IViewContentTypeResponseContract extends IContentTypeContract {
+    }
+
+    export interface IDeleteContentTypeResponseContract {
     }
 }

@@ -10,6 +10,7 @@ import {
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
+    DeleteContentTypeQuery,
     DeleteTaxonomyQuery,
     FullIdentifierQuery,
     IdCodenameIdentifierQuery,
@@ -57,6 +58,14 @@ export class ContentManagementClient implements IContentManagementClient {
             this.config,
             this.queryService,
             (config, queryService, projectId) => new ValidateProjectContentQuery(config, queryService, projectId)
+        );
+    }
+
+    deleteContentType(): IdCodenameIdentifierQuery<DeleteContentTypeQuery> {
+        return new IdCodenameIdentifierQuery<DeleteContentTypeQuery>(
+            this.config,
+            this.queryService,
+            (config, queryService, identifier, identifierValue) => new DeleteContentTypeQuery(config, queryService, identifier, identifierValue)
         );
     }
 

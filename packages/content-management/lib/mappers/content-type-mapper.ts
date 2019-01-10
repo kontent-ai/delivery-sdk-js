@@ -8,7 +8,7 @@ import { elementsMapper } from './elements-mapper';
 
 export class ContentTypeMapper extends BaseMapper {
 
-    mapListingResponse(response: IBaseResponse<ContentTypeContracts.IContentTypeListResponse>): ContentTypeResponses.ContentTypeListResponse {
+    mapListingResponse(response: IBaseResponse<ContentTypeContracts.IContentTypeListResponseContract>): ContentTypeResponses.ContentTypeListResponse {
         return new ContentTypeResponses.ContentTypeListResponse(
             super.mapResponseDebug(response), response.data, {
                 types: response.data.types.map(m => this.mapContentType(m)),
@@ -17,7 +17,13 @@ export class ContentTypeMapper extends BaseMapper {
         );
     }
 
-    mapViewContentTypeResponse(response: IBaseResponse<ContentTypeContracts.IViewContentTypeResponse>): ContentTypeResponses.ViewContentTypeResponse {
+    mapDeleteContentTypeResponse(response: IBaseResponse<ContentTypeContracts.IDeleteContentTypeResponseContract>): ContentTypeResponses.DeleteContentTypeResponse {
+        return new ContentTypeResponses.DeleteContentTypeResponse(
+            super.mapResponseDebug(response), response.data, undefined
+        );
+    }
+
+    mapViewContentTypeResponse(response: IBaseResponse<ContentTypeContracts.IViewContentTypeResponseContract>): ContentTypeResponses.ViewContentTypeResponse {
         return new ContentTypeResponses.ViewContentTypeResponse(
             super.mapResponseDebug(response), response.data, this.mapContentType(response.data)
         );

@@ -25,6 +25,7 @@ import {
     ViewAssetsQuery,
     ViewContentItemQuery,
     ViewContentTypeQuery,
+    DeleteContentTypeQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
@@ -33,6 +34,11 @@ export interface IContentManagementClient {
      * Query to validate project content
      */
     validateProjectContent(): ProjectIdIdentifierQuery<ValidateProjectContentQuery>;
+
+    /**
+     * Query to view content type
+     */
+    deleteContentType(): IdCodenameIdentifierQuery<DeleteContentTypeQuery>;
 
     /**
      * Query to view content type

@@ -13,6 +13,14 @@ class ContentManagementContentItemActions {
         return `types/${id}`;
     }
 
+    deleteContentTypeByCodename(codename: string): string {
+        return `types/codename/${codename}`;
+    }
+
+    deleteContentTypeByInternalId(id: string): string {
+        return `types/${id}`;
+    }
+
     viewContentTypeByCodename(codename: string): string {
         return `types/codename/${codename}`;
     }

@@ -4,14 +4,14 @@ import { BaseResponses } from '../base-responses';
 
 export namespace ContentTypeResponses {
 
-    export class ContentTypeListResponse extends BaseResponses.BaseContentManagementResponse<ContentTypeContracts.IContentTypeListResponse,
+    export class ContentTypeListResponse extends BaseResponses.BaseContentManagementResponse<ContentTypeContracts.IContentTypeListResponseContract,
         {
             types: ContentTypeModels.ContentType[],
             pagination: SharedModels.Pagination
         }>  {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
-            rawData: ContentTypeContracts.IContentTypeListResponse,
+            rawData: ContentTypeContracts.IContentTypeListResponseContract,
             data: {
                 types: ContentTypeModels.ContentType[],
                 pagination: SharedModels.Pagination
@@ -21,11 +21,21 @@ export namespace ContentTypeResponses {
         }
     }
 
-    export class ViewContentTypeResponse extends BaseResponses.BaseContentManagementResponse<ContentTypeContracts.IViewContentTypeResponse, ContentTypeModels.ContentType>  {
+    export class ViewContentTypeResponse extends BaseResponses.BaseContentManagementResponse<ContentTypeContracts.IViewContentTypeResponseContract, ContentTypeModels.ContentType>  {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
-            rawData: ContentTypeContracts.IViewContentTypeResponse,
+            rawData: ContentTypeContracts.IViewContentTypeResponseContract,
             data: ContentTypeModels.ContentType
+        ) {
+            super(debug, rawData, data);
+        }
+    }
+
+    export class DeleteContentTypeResponse extends BaseResponses.BaseContentManagementResponse<ContentTypeContracts.IDeleteContentTypeResponseContract, undefined>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: ContentTypeContracts.IDeleteContentTypeResponseContract,
+            data: undefined
         ) {
             super(debug, rawData, data);
         }

@@ -49,11 +49,25 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         );
     }
 
+    deleteContentType(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<ContentTypeResponses.DeleteContentTypeResponse> {
+        return this.deleteResponse<ContentTypeContracts.IDeleteContentTypeResponseContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return contentTypeMapper.mapDeleteContentTypeResponse(response);
+            })
+        );
+    }
+
     viewContentType(
         url: string,
         config: IContentManagementQueryConfig
     ): Observable<ContentTypeResponses.ViewContentTypeResponse> {
-        return this.getResponse<ContentTypeContracts.IViewContentTypeResponse>(
+        return this.getResponse<ContentTypeContracts.IViewContentTypeResponseContract>(
             url,
             config
         ).pipe(
@@ -67,7 +81,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         url: string,
         config?: IContentManagementQueryConfig
     ): Observable<ContentTypeResponses.ContentTypeListResponse> {
-        return this.getResponse<ContentTypeContracts.IContentTypeListResponse>(
+        return this.getResponse<ContentTypeContracts.IContentTypeListResponseContract>(
             url,
             config
         ).pipe(
