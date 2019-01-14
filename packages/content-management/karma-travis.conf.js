@@ -59,5 +59,7 @@ module.exports = function (config) {
             clearContext: false // leave Jasmine Spec Runner output visible in browser
         },
         logLevel: config.LOG_ERROR,
+        browserDisconnectTolerance: 2,
+        browserNoActivityTimeout: 50000
     });
 };

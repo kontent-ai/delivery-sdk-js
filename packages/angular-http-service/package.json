@@ -31,7 +31,7 @@
     "@angular/common": "^7.0.0",
     "@angular/core": "^7.0.0",
     "kentico-cloud-core": "1.2.0",
-    "rxjs": "^7.0.0"
+    "rxjs": "^6.0.0"
   },
   "devDependencies": {
     "@angular/animations": "7.1.0",
