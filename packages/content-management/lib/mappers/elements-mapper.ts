@@ -1,5 +1,5 @@
-import { ElementContracts } from '../contracts';
-import { ElementModels } from '../models';
+import { ElementContracts, SharedContracts } from '../contracts';
+import { ElementModels, SharedModels } from '../models';
 import { BaseMapper } from './base-mapper';
 
 export class ElementsMapper extends BaseMapper {
@@ -25,8 +25,16 @@ export class ElementsMapper extends BaseMapper {
     mapElement(rawElement: ElementContracts.IContentItemElementContract): ElementModels.ContentItemElement {
         return new ElementModels.ContentItemElement({
             element: super.mapReference(rawElement.element),
-            value: rawElement.value
+            value: this.mapElementValue(rawElement.value)
         });
+    }
+
+    private mapElementValue(rawValue: string | number | SharedContracts.IReferenceObjectContract[]): string | number | SharedModels.ReferenceObject[] {
+        if (Array.isArray(rawValue)) {
+            return rawValue.map(m => super.mapReference(m));
+        }
+
+        return rawValue;
     }
 }
 

@@ -68,7 +68,13 @@ describe('List language variants', () => {
                     throw Error(`Original element with id '${element.element.id}' was not found`);
                 }
 
-                expect(element.value).toEqual(originalElement.value);
+                if (Array.isArray(element.value)) {
+                    element.value.forEach(elementReference => {
+                        expect(elementReference).toEqual(jasmine.any(SharedModels.ReferenceObject));
+                    });
+                } else {
+                    expect(element.value).toEqual(originalElement.value as string | number);
+                }
             });
         });
     });
