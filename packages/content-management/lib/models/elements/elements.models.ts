@@ -1,23 +1,36 @@
-import { ElementTypeEnum } from './element-type';
+import { SharedModels } from '../shared/shared-models';
 
 export namespace ElementModels {
 
-    export class ElementModel {
-
-        public name?: string;
-
-        public id!: string;
-        public codename!: string;
-        public type!: ElementTypeEnum;
+    export class ContentItemElement {
+        public element!: SharedModels.ReferenceObject;
+        public value!: string | number | SharedModels.ReferenceObject[];
 
         constructor(
             data: {
-                id: string;
-                name?: string;
-                codename: string;
-                type: ElementTypeEnum
+                element: SharedModels.ReferenceObject;
+                value: string | number | SharedModels.ReferenceObject[];
             }
         ) {
+            Object.assign(this, data);
+        }
+    }
+
+    export class ContentTypeElementModel {
+
+        public id!: string;
+        public name!: string;
+        public codename!: string;
+        public type!: string;
+        public guidelines!: string;
+
+        constructor(data: {
+            id: string,
+            name: string,
+            codename: string,
+            type: string,
+            guidelines: string
+        }) {
             Object.assign(this, data);
         }
     }

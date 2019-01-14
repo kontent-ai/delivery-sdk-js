@@ -34,7 +34,7 @@ export class ContentTypeMapper extends BaseMapper {
             codename: rawContentType.codename,
             id: rawContentType.id,
             name: rawContentType.name,
-            elements: elementsMapper.mapElementModels(rawContentType.elements),
+            elements: elementsMapper.mapTypeElements(rawContentType.elements),
             lastModified: new Date(rawContentType.last_modified)
         });
     }

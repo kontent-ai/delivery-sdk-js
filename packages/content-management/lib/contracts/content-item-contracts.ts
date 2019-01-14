@@ -15,19 +15,9 @@ export namespace ContentItemContracts {
         last_modified: Date;
     }
 
-    export interface ILanguageVariantModelContract {
-        item: SharedContracts.IReferenceObjectContract;
-        elements: any;
-        language: SharedContracts.IReferenceObjectContract;
-        last_modified: string;
-    }
-
     export interface IContentItemsListingResponseContract {
         items: IContentItemModelContract[];
         pagination: SharedContracts.IPaginationModelContract;
-    }
-
-    export interface IListLanguageVariantsResponseContract extends ILanguageVariantModelContract {
     }
 
     export interface IAddContentItemResponseContract extends IContentItemModelContract {

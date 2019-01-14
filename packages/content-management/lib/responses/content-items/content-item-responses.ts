@@ -63,20 +63,5 @@ export namespace ContentItemResponses {
             super(debug, rawData, undefined);
         }
     }
-
-    export class ListLanguageVariantsResponse<TElements extends ContentItemModels.ContentItemVariantElements> extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IListLanguageVariantsResponseContract[],
-        {
-            variants: ContentItemModels.ContentItemLanguageVariant<TElements>[],
-        }>  {
-        constructor(
-            debug: BaseResponses.IContentManagementResponseDebug,
-            rawData: ContentItemContracts.IListLanguageVariantsResponseContract[],
-            data: {
-                variants: ContentItemModels.ContentItemLanguageVariant<TElements>[],
-            }
-        ) {
-            super(debug, rawData, data);
-        }
-    }
 }
 

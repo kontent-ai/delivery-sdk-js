@@ -66,7 +66,10 @@ describe('List content types', () => {
                 }
 
                 expect(element.codename).toEqual(originalElement.codename);
-                expect(element.name).toEqual(originalElement.name);
+
+                if (originalElement.name) {
+                    expect(element.name).toEqual(originalElement.name);
+                }
                 expect(element.type.toString().toLowerCase()).toEqual(originalElement.type.toLowerCase());
             });
         });

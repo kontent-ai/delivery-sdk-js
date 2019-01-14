@@ -8,7 +8,7 @@ export namespace ContentTypeContracts {
         name: string;
         codename: string;
         last_modified: string;
-        elements: ElementContracts.IElementContract[];
+        elements: ElementContracts.IContentTypeElementContract[];
     }
 
     export interface IContentTypeListResponseContract {

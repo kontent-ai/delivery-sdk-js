@@ -5,4 +5,5 @@ export * from './assets-response-mapper';
 export * from './taxonomy-response-mapper';
 export * from './content-type-mapper';
 export * from './project-mapper';
+export * from './language-variant-response-mapper';
 

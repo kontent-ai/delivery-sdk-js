@@ -2,7 +2,7 @@ import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, ContentItemModels, TaxonomyModels } from '../models';
+import { AssetModels, TaxonomyModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
@@ -202,11 +202,11 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    listLanguageVariants<TElements extends ContentItemModels.ContentItemVariantElements>(): FullIdentifierQuery<ListLanguageVariantsQuery<TElements>> {
-        return new FullIdentifierQuery<ListLanguageVariantsQuery<TElements>>(
+    listLanguageVariants(): FullIdentifierQuery<ListLanguageVariantsQuery> {
+        return new FullIdentifierQuery<ListLanguageVariantsQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new ListLanguageVariantsQuery<TElements>(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier, identifierValue) => new ListLanguageVariantsQuery(config, queryService, identifier, identifierValue)
         );
     }
 }

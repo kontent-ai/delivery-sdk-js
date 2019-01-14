@@ -8,7 +8,7 @@ export namespace ContentTypeModels {
         public name!: string;
         public codename!: string;
         public lastModified!: Date;
-        public elements!: ElementModels.ElementModel[];
+        public elements!: ElementModels.ContentTypeElementModel[];
 
         constructor(
             data: {
@@ -16,7 +16,7 @@ export namespace ContentTypeModels {
                 name: string,
                 codename: string,
                 lastModified: Date,
-                elements: ElementModels.ElementModel[]
+                elements: ElementModels.ContentTypeElementModel[]
             }
         ) {
             Object.assign(this, data);

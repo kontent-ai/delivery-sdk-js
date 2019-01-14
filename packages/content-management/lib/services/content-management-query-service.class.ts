@@ -3,21 +3,30 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { AssetContracts, ContentItemContracts, ContentTypeContracts, TaxonomyContracts, ProjectContracts } from '../contracts';
-import { assetsResponseMapper, contentItemsResponseMapper, contentTypeMapper, taxonomyResponseMapper, projectMapper } from '../mappers';
 import {
-    AssetModels,
-    ContentItemElements,
-    ContentItemModels,
-    IContentManagementQueryConfig,
-    TaxonomyModels,
-} from '../models';
+    AssetContracts,
+    ContentItemContracts,
+    ContentTypeContracts,
+    LanguageVariantContracts,
+    ProjectContracts,
+    TaxonomyContracts,
+} from '../contracts';
+import {
+    assetsResponseMapper,
+    contentItemsResponseMapper,
+    contentTypeMapper,
+    projectMapper,
+    taxonomyResponseMapper,
+    languageVariantResponseMapper,
+} from '../mappers';
+import { AssetModels, IContentManagementQueryConfig, TaxonomyModels } from '../models';
 import {
     AssetResponses,
     ContentItemResponses,
     ContentTypeResponses,
-    TaxonomyResponses as TaxonomyResponses,
+    LanguageVariantResponses,
     ProjectResponses,
+    TaxonomyResponses as TaxonomyResponses,
 } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
@@ -335,18 +344,16 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         );
     }
 
-    listLanguageVariants<TElements extends ContentItemModels.ContentItemVariantElements>(
+    listLanguageVariants(
         url: string,
-        fieldDefinitions: ContentItemElements.IContentItemElementDefinition[],
-        createElements: () => TElements,
         config: IContentManagementQueryConfig
-    ): Observable<ContentItemResponses.ListLanguageVariantsResponse<TElements>> {
-        return this.getResponse<ContentItemContracts.IListLanguageVariantsResponseContract[]>(
+    ): Observable<LanguageVariantResponses.ListLanguageVariantsResponse> {
+        return this.getResponse<LanguageVariantContracts.IListLanguageVariantsResponseContract[]>(
             url,
             config
         ).pipe(
             map(response => {
-                return contentItemsResponseMapper.mapLanguageVariantsResponse<TElements>(response, fieldDefinitions, createElements);
+                return languageVariantResponseMapper.mapLanguageVariantsResponse(response);
             })
         );
     }

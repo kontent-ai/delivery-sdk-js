@@ -1,5 +1,5 @@
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, ContentItemModels, TaxonomyModels } from '../models';
+import { AssetModels, TaxonomyModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
@@ -7,6 +7,7 @@ import {
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
+    DeleteContentTypeQuery,
     DeleteTaxonomyQuery,
     FullIdentifierQuery,
     IdCodenameIdentifierQuery,
@@ -25,7 +26,6 @@ import {
     ViewAssetsQuery,
     ViewContentItemQuery,
     ViewContentTypeQuery,
-    DeleteContentTypeQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
@@ -128,5 +128,5 @@ export interface IContentManagementClient {
     /**
      * List language variants query
      */
-    listLanguageVariants<TElements extends ContentItemModels.ContentItemVariantElements>(): FullIdentifierQuery<ListLanguageVariantsQuery<TElements>>;
+    listLanguageVariants(): FullIdentifierQuery<ListLanguageVariantsQuery>;
 }
