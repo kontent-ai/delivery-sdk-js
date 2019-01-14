@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management"
   },
-  "private": true,
+  "private": false,
   "author": "richard sustek",
   "license": "MIT",
   "description": "Official Kentico Cloud Content management SDK",
