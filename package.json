@@ -19,7 +19,7 @@
 		"lerna:publish:beta": "lerna publish --npm-tag=next"
 	},
 	"devDependencies": {
-		"lerna": "3.0.4",
-		"typescript": "3.0.3"
+		"lerna": "3.10.5",
+		"typescript": "3.2.2"
 	}
 }
