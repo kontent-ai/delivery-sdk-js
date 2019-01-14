@@ -1,10 +1,12 @@
+const path = require('path');
+
 module.exports = function (config) {
     config.set({
-        frameworks: ["jasmine", "karma-typescript"],
+        frameworks: ["jasmine"],
         plugins: [
             require("karma-jasmine"),
-            require("karma-typescript"),
-            require('karma-firefox-launcher'),
+            require("karma-webpack"),
+            require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
             require('karma-coverage'),
         ],
@@ -15,23 +17,31 @@ module.exports = function (config) {
         exclude: [
         ],
         preprocessors: {
-            "lib/**/*.ts": ["karma-typescript", "coverage"],
-            "test-browser/**/*.ts": ["karma-typescript"]
+            "lib/**/*.ts": ["webpack", "coverage"],
+            "test-browser/**/*.ts": ["webpack"]
         },
         reporters: ["kjhtml", "progress", "coverage"],
-        browsers: ["Firefox"],
-        karmaTypescriptConfig: {
-            bundlerOptions: {
-                transforms: [require("karma-typescript-es6-transform")()]
+        browsers: ["Chrome"],
+        webpack: {
+            resolve: { 
+                extensions: ['.ts', '.js', '.json'],
             },
-            compilerOptions: {
-                "module": "commonjs",
-                "target": "es6", // use es6 only for karma compiler (using es6 will help increase coverage because less junk code required for es5 is needed)
-                "lib": ["es2015", "es2017", "dom"],
-                "exclude": [
-                    "node_modules"
-                ],
-                "resolveJsonModule": true,
+            mode: 'development',
+            devtool: 'source-map',
+            module: {
+                rules: [
+                    {
+                        test: /\.ts$/, 
+                        loader: 'ts-loader',
+                        include: [
+                            path.resolve(__dirname, 'lib'), // lib
+                            path.resolve(__dirname, 'test-browser'), // tests
+                        ],
+                        options: {
+                            configFile: require.resolve('./tsconfig.webpack.json')
+                        }
+                    },
+                ]
             },
         },
         coverageReporter: {
@@ -44,7 +54,6 @@ module.exports = function (config) {
         port: 9669,
         colors: true,
         autoWatch: true,
-        browsers: ["Firefox"],
         singleRun: false,
         client: {
             clearContext: false // leave Jasmine Spec Runner output visible in browser

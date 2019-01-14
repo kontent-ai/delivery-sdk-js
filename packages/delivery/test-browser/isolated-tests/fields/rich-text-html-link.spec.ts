@@ -12,9 +12,9 @@ import {
 } from '../../../lib';
 
 class ActorMock extends ContentItem {
-    firstName: Fields.TextField;
-    system: ContentItemSystemAttributes;
-    url: Fields.UrlSlugField;
+    firstName!: Fields.TextField;
+    system!: ContentItemSystemAttributes;
+    url!: Fields.UrlSlugField;
 
     constructor() {
         super();

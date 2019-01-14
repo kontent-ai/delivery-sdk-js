@@ -1,4 +1,4 @@
-import { AllTestObjects, Context, observableFactory, setup } from '../../setup';
+import { Context, setup } from '../../setup';
 
 describe('Wait for loading new content', () => {
 
@@ -6,16 +6,6 @@ describe('Wait for loading new content', () => {
   setup(context);
 
   const waitForLoadingNewContentHeader: string = 'X-KC-Wait-For-Loading-New-Content';
-
-  let all: AllTestObjects;
-
-  beforeAll((done) => {
-    observableFactory.getAllTestObjects(context.deliveryClient, { waitForLoadingNewContent: true })
-      .subscribe((reponse: AllTestObjects) => {
-        all = reponse;
-        done();
-      });
-  });
 
   it(`'X-KC-Wait-For-Loading-New-Content' header should NOT be set when Query configuration does not set it`, () => {
     const itemHeaders = context.deliveryClient.item('any').getHeaders();
@@ -36,7 +26,7 @@ describe('Wait for loading new content', () => {
     expect(itemsHeader).toBeUndefined();
     expect(taxonomyHeader).toBeUndefined();
     expect(taxonomiesHeader).toBeUndefined();
-    expect(typesHeader).toBeUndefined();
+    expect(typeHeader).toBeUndefined();
     expect(typesHeader).toBeUndefined();
   });
 
@@ -59,7 +49,7 @@ describe('Wait for loading new content', () => {
     expect(itemsHeader).toBeDefined();
     expect(taxonomyHeader).toBeDefined();
     expect(taxonomiesHeader).toBeDefined();
-    expect(typesHeader).toBeDefined();
+    expect(typeHeader).toBeDefined();
     expect(typesHeader).toBeDefined();
   });
 });

@@ -2,13 +2,13 @@ import {
     ContentItem,
     ContentItemSystemAttributes,
     Fields,
+    getParserAdapter,
     IDeliveryClientConfig,
+    IRichTextResolverContext,
     Link,
     richTextResolver,
     TypeResolver,
     urlSlugResolver,
-    getParserAdapter,
-    IRichTextResolverContext
 } from '../../../lib';
 import { RichTextContentType } from '../../../lib/enums';
 
@@ -217,7 +217,7 @@ describe('RichTextField', () => {
             })
         });
 
-        const result = fieldWithRichTextResolver.getHtml();
+        fieldWithRichTextResolver.getHtml();
 
         expect(contexts).toBeDefined();
         expect(contexts.length).toEqual(2);

@@ -1,8 +1,8 @@
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
-import { ContentItem, ItemResponses } from '../../../lib';
-import { Context, Movie, setup } from '../../setup';
+import { ContentItem } from '../../../lib';
+import { Context, setup } from '../../setup';
 
 describe('Unsubscriptions', () => {
   const context = new Context();
@@ -10,7 +10,6 @@ describe('Unsubscriptions', () => {
 
   let subscription: Subscription | undefined = undefined;
   let finalizeCalled: boolean = false;
-  let response: ItemResponses.DeliveryItemListingResponse<ContentItem>;
 
   beforeAll(done => {
     subscription = context.deliveryClient
@@ -22,7 +21,6 @@ describe('Unsubscriptions', () => {
         })
       )
       .subscribe(r => {
-        response = r as ItemResponses.DeliveryItemListingResponse<Movie>;
         done();
       });
   });

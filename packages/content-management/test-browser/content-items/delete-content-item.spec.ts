@@ -32,7 +32,7 @@ describe('Delete content item', () => {
         expect(response.debug).toBeDefined();
     });
 
-    it(`response should be emmpty`, () => {
+    it(`response should be empty`, () => {
         expect(response.data).toBeUndefined();
     });
 });

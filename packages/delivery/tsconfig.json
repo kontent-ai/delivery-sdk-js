@@ -37,7 +37,7 @@
   "include": [
     "lib/**/*",
     "test-node/**/*",
-    "test-browser/**/*", "../content-management/test-browser/assets/add-assets-items.spec.ts"
+    "test-browser/**/*",
   ],
   "exclude": [
     "node_modules",

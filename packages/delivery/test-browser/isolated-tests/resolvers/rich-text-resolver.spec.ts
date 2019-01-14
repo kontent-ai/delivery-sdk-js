@@ -1,6 +1,7 @@
-import { ContentItem, Fields, ItemResponses, sdkInfo, TypeResolver, Link, ILinkResolverContext } from '../../../lib';
-import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 import { HttpService } from 'kentico-cloud-core';
+
+import { ContentItem, Fields, ILinkResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
+import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 describe('Rich text resolver', () => {
 

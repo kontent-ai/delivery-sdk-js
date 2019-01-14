@@ -7,7 +7,7 @@ describe('Errored http request', () => {
     beforeAll((done) => {
         spyOn(httpDebugger, 'debugFailedHttpRequest').and.callThrough();
 
-        const observable = httpService.get({
+        httpService.get({
             mapError: (err) => console.error('Debugging error', err),
             url: 'https://deliver.kenticocloud.com/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items/invalidItemShouldGet404'
         })

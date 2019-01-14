@@ -36,10 +36,13 @@ describe('Live items', () => {
   });
 
   it(`'firstItem' should be correctly assigned`, () => {
-    expect(response.firstItem.system.codename).toEqual(response.items[0].system.codename);
+    expect(response.items[0].system.codename).toEqual(response.items[0].system.codename);
   });
 
   it(`'lastItem' should be correctly assigned`, () => {
+    if (!response.lastItem) {
+      throw Error('invalid last item');
+    }
     expect(response.lastItem.system.codename).toEqual(response.items[response.items.length - 1].system.codename);
   });
 

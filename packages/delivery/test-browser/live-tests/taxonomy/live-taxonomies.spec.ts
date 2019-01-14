@@ -1,6 +1,5 @@
-import { setup, Context } from '../../setup';
-
-import { FieldModels, TaxonomyResponses, TaxonomyGroup, TaxonomyTerms } from '../../../lib';
+import { TaxonomyGroup, TaxonomyResponses, TaxonomyTerms } from '../../../lib';
+import { Context, setup } from '../../setup';
 
 describe('Live taxonomies', () => {
 

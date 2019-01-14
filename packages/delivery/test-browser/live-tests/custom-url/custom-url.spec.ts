@@ -8,7 +8,6 @@ describe('Custom URL', () => {
   const context = new Context();
   setup(context);
 
-  const type: string = 'movie';
   let responseItems: ItemResponses.DeliveryItemListingResponse<Movie>;
 
   beforeAll((done) => {
