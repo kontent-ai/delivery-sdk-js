@@ -4,7 +4,7 @@ import { TestHttpService } from 'kentico-cloud-core';
 export const testProjectId: string = 'fb11eb58-5b77-01b1-2343-a1b57cccc4e1';
 
 // tslint:disable-next-line:max-line-length
-export const testProjectIdApiKey: string = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI5MTUwZTM5ZWEzZTQ0ZDE4YTg4MjY2YTg4N2ZjMjAyNCIsImlhdCI6IjE1NDEwNTYzMDAiLCJleHAiOiIxNTQ4ODMyMzAwIiwicHJvamVjdF9pZCI6ImZiMTFlYjU4NWI3NzAxYjEyMzQzYTFiNTdjY2NjNGUxIiwidmVyIjoiMi4xLjAiLCJ1aWQiOiJ1c3JfMHZRWUJDcUF2cm5vNXJpZkhuaVlFRyIsImF1ZCI6Im1hbmFnZS5rZW50aWNvY2xvdWQuY29tIn0.hrxsrhPfMwZ2gLENdXH5T2D0G732H_z_3xRLP_d9mSY';
+export const testProjectIdApiKey: string = '';
 
 export const cmTestClient: IContentManagementClient = new ContentManagementClient({
     projectId: testProjectId,
