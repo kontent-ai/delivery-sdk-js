@@ -39,7 +39,7 @@ export class ContentItem implements IContentItem {
     * Base class representing content item type. All content type models need to extend this class.
     * @constructor
     */
-    constructor(public data?: {
+    constructor(data?: {
         /**
          * Callback used to bind fields returned from Kentico Cloud to a model property.
          * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
