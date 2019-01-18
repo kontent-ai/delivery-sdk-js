@@ -1,4 +1,4 @@
-import { ContentType } from 'kentico-cloud-delivery';
+import { ContentType, FieldType } from 'kentico-cloud-delivery';
 
 import { generatorConfig } from './config';
 import { CodeType, ModuleResolution } from './enums';
@@ -140,26 +140,28 @@ if (codeType === CodeType.TypeScript) {
 
     private mapFieldTypeToName(fieldType: string): string {
         let result;
-        if (fieldType === 'text') {
+        if (fieldType.toLowerCase() === FieldType.Text.toLowerCase()) {
             result = 'TextField';
-        } else if (fieldType === 'number') {
+        } else if (fieldType.toLowerCase()  === FieldType.Number.toLowerCase() ) {
             result = 'NumberField';
-        } else if (fieldType === 'modular_content') {
+        } else if (fieldType.toLowerCase()  === FieldType.ModularContent.toLowerCase() ) {
             // we don't what type of linked item there can be or if its an array or single object
             // => use base content item class
             return generatorConfig.modularFieldReplacement;
-        } else if (fieldType === 'asset') {
+        } else if (fieldType.toLowerCase()  === FieldType.Asset.toLowerCase() ) {
             result = 'AssetsField';
-        } else if (fieldType === 'date_time') {
+        } else if (fieldType.toLowerCase()  === FieldType.DateTime.toLowerCase() ) {
             result = 'DateTimeField';
-        } else if (fieldType === 'rich_text') {
+        } else if (fieldType.toLowerCase()  === FieldType.RichText.toLowerCase() ) {
             result = 'RichTextField';
-        } else if (fieldType === 'multiple_choice') {
+        } else if (fieldType.toLowerCase()  === FieldType.MultipleChoice.toLowerCase() ) {
             result = 'MultipleChoiceField';
-        } else if (fieldType === 'url_slug') {
+        } else if (fieldType.toLowerCase()  === FieldType.UrlSlug.toLowerCase() ) {
             result = 'UrlSlugField';
-        } else if (fieldType === 'taxonomy') {
+        } else if (fieldType.toLowerCase()  === FieldType.Taxonomy.toLowerCase() ) {
             result = 'TaxonomyField';
+        } else if (fieldType.toLowerCase()  === FieldType.Custom.toLowerCase() ) {
+            result = 'CustomField';
         } else {
             console.log(`Unsupported field type '${fieldType}'`);
         }
