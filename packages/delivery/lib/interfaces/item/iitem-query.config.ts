@@ -11,5 +11,5 @@ export interface IItemQueryConfig extends IQueryConfig {
   throwErrorForMissingLinkedItems?: boolean;
   linkResolver?: (link: Link, context: ILinkResolverContext) => string | undefined | ILinkResolverResult;
   richTextResolver?: (contentItem: ContentItem, context: IRichTextResolverContext) => string;
-  itemResolver?: (field: FieldContracts.IField, rawItem: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig, ) => ContentItem | undefined;
+  itemResolver?: (field: FieldContracts.IFieldContract, rawItem: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig, ) => ContentItem | undefined;
 }

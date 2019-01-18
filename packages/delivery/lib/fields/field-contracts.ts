@@ -1,13 +1,13 @@
 export namespace FieldContracts {
 
-    export interface IField {
+    export interface IFieldContract {
         name: string;
         type: string;
         value: any;
         taxonomy_group?: string;
     }
 
-    export interface IAsset {
+    export interface IAssetContract {
         name: string;
         type: string;
         size: number;
@@ -15,7 +15,7 @@ export namespace FieldContracts {
         url: string;
     }
 
-    export interface IMultipleChoiceOption {
+    export interface IMultipleChoiceOptionContract {
         name: string;
         codename: string;
     }
@@ -25,7 +25,7 @@ export namespace FieldContracts {
         codename: string;
     }
 
-    export interface IRichTextField extends IField {
+    export interface IRichTextFieldContract extends IFieldContract {
 
         /**
          * Modular content items

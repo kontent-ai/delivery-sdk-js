@@ -5,7 +5,7 @@ import { FieldType } from './field-type';
 
 export namespace Fields {
 
-    export class TextField implements FieldContracts.IField {
+    export class TextField implements FieldModels.IField {
 
         /**
         * Text stored in the field
@@ -25,13 +25,13 @@ export namespace Fields {
         */
         constructor(
             public name: string,
-            public value: any
+            public value: string
         ) {
             this.text = this.value;
         }
     }
 
-    export class MultipleChoiceField implements FieldContracts.IField {
+    export class MultipleChoiceField implements FieldModels.IField {
 
         /**
         * Multiple choice options
@@ -55,7 +55,7 @@ export namespace Fields {
         ) {
             if (this.value && Array.isArray(this.value)) {
                 this.value.forEach(option => {
-                    const optionTemp = option as FieldContracts.IMultipleChoiceOption;
+                    const optionTemp = option as FieldContracts.IMultipleChoiceOptionContract;
                     this.options.push(new FieldModels.MultipleChoiceOption(
                         optionTemp.name,
                         optionTemp.codename
@@ -65,7 +65,7 @@ export namespace Fields {
         }
     }
 
-    export class DateTimeField implements FieldContracts.IField {
+    export class DateTimeField implements FieldModels.IField {
 
         /**
         * Date time value
@@ -91,7 +91,7 @@ export namespace Fields {
         }
     }
 
-    export class RichTextField implements FieldContracts.IField {
+    export class RichTextField implements FieldModels.IField {
 
         /**
          * Function that is responsible for getting resolved HTML of the field
@@ -146,7 +146,7 @@ export namespace Fields {
         }
     }
 
-    export class NumberField implements FieldContracts.IField {
+    export class NumberField implements FieldModels.IField {
 
         /**
         * Type of the field
@@ -162,17 +162,17 @@ export namespace Fields {
         * Represents number field of Kentico Cloud item
         * @constructor
         * @param {string} name - Name of the field
-        * @param {string} value - Value of the field
+        * @param {number} value - Value of the field
         */
         constructor(
             public name: string,
-            public value: any
+            public value: number
         ) {
             this.number = value;
         }
     }
 
-    export class AssetsField implements FieldContracts.IField {
+    export class AssetsField implements FieldModels.IField {
 
         /**
         * Type of the field
@@ -202,7 +202,7 @@ export namespace Fields {
                 throw Error(`Cannot bind assets because the provided value is not an array`);
             }
 
-            this.value.forEach((asset: FieldContracts.IAsset) => {
+            this.value.forEach((asset: FieldContracts.IAssetContract) => {
                 this.assets.push(new FieldModels.AssetModel(
                     asset.name,
                     asset.type,
@@ -214,7 +214,7 @@ export namespace Fields {
         }
     }
 
-    export class UrlSlugField implements FieldContracts.IField {
+    export class UrlSlugField implements FieldModels.IField {
 
         private resolvedUrl?: string;
 
@@ -255,7 +255,7 @@ export namespace Fields {
         }
     }
 
-    export class TaxonomyField implements FieldContracts.IField {
+    export class TaxonomyField implements FieldModels.IField {
 
         /**
         * Type of the field
@@ -292,6 +292,26 @@ export namespace Fields {
             taxonomyList.forEach(term => {
                 this.taxonomyTerms.push(new FieldModels.TaxonomyTerm(term.name, term.codename));
             });
+        }
+    }
+
+    export class CustomField implements FieldModels.IField {
+
+        /**
+        * Type of the field
+        */
+        public type: FieldType = FieldType.Custom;
+
+        /**
+        * Represents base custom field
+        * @constructor
+        * @param {string} name - Name of the field
+        * @param {string} value - Value of the field
+        */
+        constructor(
+            public name: string,
+            public value: string
+        ) {
         }
     }
 }

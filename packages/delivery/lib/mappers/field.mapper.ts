@@ -63,7 +63,7 @@ export class FieldMapper {
         }
 
         properties.forEach(fieldName => {
-            const field = item.elements[fieldName] as FieldContracts.IField;
+            const field = item.elements[fieldName] as FieldContracts.IFieldContract;
             let propertyName: string | undefined;
 
             // resolve field to a custom model property
@@ -86,27 +86,45 @@ export class FieldMapper {
         return itemTyped;
     }
 
-    private mapField(field: FieldContracts.IField, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldContracts.IField | ContentItem[] | undefined {
+    private mapField(field: FieldContracts.IFieldContract, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldContracts.IFieldContract | ContentItem[] | undefined {
         const fieldType = field.type.toLowerCase();
 
-        if (fieldType === FieldType.ModularContent.toString()) {
+        if (fieldType.toLowerCase() === FieldType.ModularContent.toLowerCase()) {
             return this.mapLinkedItemsField(field, modularContent, queryConfig, processedItems);
-        } else if (fieldType === FieldType.Text.toLowerCase()) {
+        }
+
+        if (fieldType.toLowerCase() === FieldType.Text.toLowerCase()) {
             return this.mapTextField(field);
-        } else if (fieldType === FieldType.Asset.toLowerCase()) {
+        }
+        if (fieldType.toLowerCase() === FieldType.Asset.toLowerCase()) {
             return this.mapAssetsField(field);
-        } else if (fieldType === FieldType.Number.toLowerCase()) {
+        }
+
+        if (fieldType.toLowerCase() === FieldType.Number.toLowerCase()) {
             return this.mapNumberField(field);
-        } else if (fieldType === FieldType.MultipleChoice.toLowerCase()) {
+        }
+        if (fieldType.toLowerCase() === FieldType.MultipleChoice.toLowerCase()) {
             return this.mapMultipleChoiceField(field);
-        } else if (fieldType === FieldType.DateTime.toLowerCase()) {
+        }
+
+        if (fieldType.toLowerCase() === FieldType.DateTime.toLowerCase()) {
             return this.mapDateTimeField(field);
-        } else if (fieldType === FieldType.RichText.toLowerCase()) {
-            return this.mapRichTextField(field as FieldContracts.IRichTextField, modularContent, queryConfig, processedItems);
-        } else if (fieldType === FieldType.UrlSlug.toLowerCase()) {
+        }
+
+        if (fieldType.toLowerCase() === FieldType.RichText.toLowerCase()) {
+            return this.mapRichTextField(field as FieldContracts.IRichTextFieldContract, modularContent, queryConfig, processedItems);
+        }
+
+        if (fieldType.toLowerCase() === FieldType.UrlSlug.toLowerCase()) {
             return this.mapUrlSlugField(field, item, queryConfig);
-        } else if (fieldType === FieldType.Taxonomy.toLowerCase()) {
+        }
+
+        if (fieldType.toLowerCase() === FieldType.Taxonomy.toLowerCase()) {
             return this.mapTaxonomyField(field);
+        }
+
+        if (fieldType.toLowerCase() === FieldType.Custom.toLowerCase()) {
+            return this.mapCustomField(field);
         }
 
         const error = `Unsupported field type '${field.type}'`;
@@ -114,7 +132,7 @@ export class FieldMapper {
         throw Error(error);
     }
 
-    private mapRichTextField(field: FieldContracts.IRichTextField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): Fields.RichTextField {
+    private mapRichTextField(field: FieldContracts.IRichTextFieldContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): Fields.RichTextField {
         // get all linked items nested in rich text
         const linkedItems: ContentItem[] = [];
 
@@ -189,31 +207,35 @@ export class FieldMapper {
             });
     }
 
-    private mapDateTimeField(field: FieldContracts.IField): Fields.DateTimeField {
+    private mapDateTimeField(field: FieldContracts.IFieldContract): Fields.DateTimeField {
         return new Fields.DateTimeField(field.name, field.value);
     }
 
-    private mapMultipleChoiceField(field: FieldContracts.IField): Fields.MultipleChoiceField {
+    private mapMultipleChoiceField(field: FieldContracts.IFieldContract): Fields.MultipleChoiceField {
         return new Fields.MultipleChoiceField(field.name, field.value);
     }
 
-    private mapNumberField(field: FieldContracts.IField): Fields.NumberField {
+    private mapNumberField(field: FieldContracts.IFieldContract): Fields.NumberField {
         return new Fields.NumberField(field.name, field.value);
     }
 
-    private mapTextField(field: FieldContracts.IField): Fields.TextField {
+    private mapTextField(field: FieldContracts.IFieldContract): Fields.TextField {
         return new Fields.TextField(field.name, field.value);
     }
 
-    private mapAssetsField(field: FieldContracts.IField): Fields.AssetsField {
+    private mapAssetsField(field: FieldContracts.IFieldContract): Fields.AssetsField {
         return new Fields.AssetsField(field.name, field.value);
     }
 
-    private mapTaxonomyField(field: FieldContracts.IField): Fields.TaxonomyField {
+    private mapTaxonomyField(field: FieldContracts.IFieldContract): Fields.TaxonomyField {
         return new Fields.TaxonomyField(field.name, field.value, field.taxonomy_group);
     }
 
-    private mapUrlSlugField(field: FieldContracts.IField, item: ContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
+    private mapCustomField(field: FieldContracts.IFieldContract): Fields.CustomField {
+        return new Fields.CustomField(field.name, field.value);
+    }
+
+    private mapUrlSlugField(field: FieldContracts.IFieldContract, item: ContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
         const linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
 
         return new Fields.UrlSlugField(
@@ -231,7 +253,7 @@ export class FieldMapper {
             });
     }
 
-    private mapLinkedItemsField(field: FieldContracts.IField, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): ContentItem[] | undefined {
+    private mapLinkedItemsField(field: FieldContracts.IFieldContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): ContentItem[] | undefined {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
                 console.warn(`Cannot map linked item field because field does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
@@ -281,7 +303,7 @@ export class FieldMapper {
         return linkResolver;
     }
 
-    private getOrSaveLinkedItem(codename: string, field: FieldContracts.IField, queryConfig: IItemQueryConfig, modularContent: any, processedItems: ContentItem[]): ContentItem | undefined {
+    private getOrSaveLinkedItem(codename: string, field: FieldContracts.IFieldContract, queryConfig: IItemQueryConfig, modularContent: any, processedItems: ContentItem[]): ContentItem | undefined {
         // first check if item was already resolved and return it if it was
         const existingItem = processedItems.find(m => m.system.codename === codename);
         if (existingItem) {
@@ -300,7 +322,7 @@ export class FieldMapper {
         }
 
         // throw error if item is not in response and errors are not skipped
-        if (!rawItem ) {
+        if (!rawItem) {
             const msg = `Linked item with codename '${codename}' could not be found in Delivery response.
             This linked item was requested by '${field.name}' field of '${field.type}'.
             Error can usually be solved by increasing 'Depth' parameter of your query.

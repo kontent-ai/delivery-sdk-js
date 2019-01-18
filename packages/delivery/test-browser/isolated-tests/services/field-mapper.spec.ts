@@ -8,7 +8,7 @@ describe('FieldMapper', () => {
 
     const fieldType = 'invalid';
 
-    class FakeField implements FieldContracts.IField {
+    class FakeField implements FieldContracts.IFieldContract {
         public type: FieldType = fieldType as any;
         constructor(
             public name: string,

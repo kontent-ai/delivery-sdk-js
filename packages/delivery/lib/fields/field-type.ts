@@ -10,5 +10,6 @@ export enum FieldType {
     RichText = 'rich_text',
     MultipleChoice = 'multiple_choice',
     UrlSlug = 'url_slug',
-    Taxonomy = 'taxonomy'
+    Taxonomy = 'taxonomy',
+    Custom = 'custom'
 }

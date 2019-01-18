@@ -1,0 +1,47 @@
+{
+    "items": [
+      {
+        "system": {
+          "id": "a3dde145-2456-445d-ac33-3d3f6a092da8",
+          "name": "Color item",
+          "codename": "color_item",
+          "language": "default",
+          "type": "with_color_picker",
+          "sitemap_locations": [],
+          "last_modified": "2019-01-04T09:56:04.372261Z"
+        },
+        "elements": {
+          "rich": {
+            "type": "rich_text",
+            "name": "Rich",
+            "images": {},
+            "links": {},
+            "modular_content": [],
+            "value": "<p><br></p>"
+          },
+          "color": {
+            "type": "custom",
+            "name": "Color",
+            "value": "{\"red\":167,\"green\":96,\"blue\":197}"
+          },
+          "markdown": {
+            "type": "custom",
+            "name": "markdown",
+            "value": "**Super value**"
+          },
+          "simple_text": {
+            "type": "text",
+            "name": "Simple text",
+            "value": "simple text"
+          }
+        }
+      }
+    ],
+    "modular_content": {},
+    "pagination": {
+      "skip": 0,
+      "limit": 0,
+      "count": 1,
+      "next_page": ""
+    }
+  }
