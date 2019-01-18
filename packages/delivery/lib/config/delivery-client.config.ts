@@ -1,7 +1,7 @@
 import { IHttpService, IHeader } from 'kentico-cloud-core';
 
 import { TypeResolver } from '../models';
-import { FieldResolver } from 'lib/fields';
+import { FieldResolver } from '../fields';
 
 export interface IDeliveryClientConfig {
 
