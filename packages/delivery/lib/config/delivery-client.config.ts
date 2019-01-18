@@ -1,6 +1,7 @@
 import { IHttpService, IHeader } from 'kentico-cloud-core';
 
 import { TypeResolver } from '../models';
+import { FieldResolver } from 'lib/fields';
 
 export interface IDeliveryClientConfig {
 
@@ -10,10 +11,15 @@ export interface IDeliveryClientConfig {
     projectId: string;
 
     /**
-     * List of resolvers that are used to create strongly typed objects from Kentico Cloud response.
-     * If not set, items will use IContentItem
+     * Array of resolvers that are used to create instances of registered classes automatically.
+     * If not set, items will be instances of 'ContentItem' class
      */
     typeResolvers?: TypeResolver[];
+
+    /**
+     * Field resolver used to map custom fields to models.
+     */
+    fieldResolver?: FieldResolver;
 
     /**
     * Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production

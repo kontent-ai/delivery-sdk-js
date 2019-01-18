@@ -1,6 +1,6 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { FieldContracts, FieldDecorators, Fields, FieldType } from '../fields';
+import { FieldContracts, FieldDecorators, FieldModels, Fields, FieldType } from '../fields';
 import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult } from '../interfaces';
 import { ContentItem, Link } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
@@ -86,7 +86,7 @@ export class FieldMapper {
         return itemTyped;
     }
 
-    private mapField(field: FieldContracts.IFieldContract, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldContracts.IFieldContract | ContentItem[] | undefined {
+    private mapField(field: FieldContracts.IFieldContract, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldModels.IField | ContentItem[] {
         const fieldType = field.type.toLowerCase();
 
         if (fieldType.toLowerCase() === FieldType.ModularContent.toLowerCase()) {
@@ -124,7 +124,7 @@ export class FieldMapper {
         }
 
         if (fieldType.toLowerCase() === FieldType.Custom.toLowerCase()) {
-            return this.mapCustomField(field);
+            return this.mapCustomField(field, item.system.type);
         }
 
         const error = `Unsupported field type '${field.type}'`;
@@ -231,7 +231,16 @@ export class FieldMapper {
         return new Fields.TaxonomyField(field.name, field.value, field.taxonomy_group);
     }
 
-    private mapCustomField(field: FieldContracts.IFieldContract): Fields.CustomField {
+    private mapCustomField(field: FieldContracts.IFieldContract, contentType: string): Fields.CustomField | FieldModels.IField {
+        // try to find field resolver
+        if (this.config.fieldResolver) {
+            const customModel = this.config.fieldResolver(contentType, field.name, field.value);
+
+            if (customModel) {
+                return customModel;
+            }
+
+        }
         return new Fields.CustomField(field.name, field.value);
     }
 
@@ -253,19 +262,19 @@ export class FieldMapper {
             });
     }
 
-    private mapLinkedItemsField(field: FieldContracts.IFieldContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): ContentItem[] | undefined {
+    private mapLinkedItemsField(field: FieldContracts.IFieldContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): ContentItem[] {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
                 console.warn(`Cannot map linked item field because field does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
-            return undefined;
+            return [];
         }
 
         if (!field.value) {
             if (this.config.enableAdvancedLogging) {
                 console.warn(`Cannot map linked item of '${field.name}' because its value does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
-            return undefined;
+            return [];
         }
 
         // result is always an array of content items

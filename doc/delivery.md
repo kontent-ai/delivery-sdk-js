@@ -138,7 +138,60 @@ export class Movie extends ContentItem {
 }
 ```
 
-Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField` and `TaxonomyField`
+Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField`, `TaxonomyField` and `CustomField`
+
+#### Using custom models for custom elements
+
+You can register `FieldResolver` to map custom elements into dedicated field models and work with data more effectively. For example if you have a custom 'color' field such as:
+
+```
+ "color": {
+  "type": "custom",
+  "name": "Color",
+  "value": "{\"red\":167,\"green\":96,\"blue\":197}"
+  }
+```
+
+You may create `ColorElement` class (or object) implementing `IField` interface and extract color values into dedicated properties (red, green, blue) so that they are easier to work with.
+
+```typescript
+import { FieldModels } from 'kentico-cloud-delivery';
+
+class ColorElement implements FieldModels.IField {
+
+    public red: number;
+    public green: number;
+    public blue: number;
+
+    constructor(
+        public name: string,
+        public type: string,
+        public value: string // = "{\"red\":167,\"green\":96,\"blue\":197}"
+    ) {
+        const parsed = JSON.parse(value);
+        this.red = parsed.red;
+        this.green = parsed.green;
+        this.blue = parsed.blue;
+    }
+}
+```
+
+Currently, API does not contain information about the type of custom field so you need add this binding manually for all elements that you want to map based on the content type and element codename. `FieldResolver` can be registered during `DeliverClient` initialization:
+
+```typescript
+const client = new DeliveryClient(
+  {
+    projectId: ''.
+    fieldResolver: (type: string, element: string, data: string) => {
+      if (type === 'contentType' && element === 'colorElementCodename') {
+        return new ColorElement(colorElement.name, 'color', data);
+      }
+
+      return undefined;
+    }
+  }
+);
+```
 
 #### Don't want to waste time creating models manually? 
 
@@ -641,20 +694,21 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | Property        | type| description|
 | ------------- |:-------------:| -----:|
 | projectId      | string | ProjectId of your Kentico Cloud project|
-| typeResolvers| TypeResolver[ ] | List of resolvers that are used to create strongly typed objects from Kentico Cloud response|
-| enableAdvancedLogging| boolean | Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.|
-| previewApiKey| string| Preview API key used to get unpublished content items |
-| enablePreviewMode| boolean| Indicates if preview mode is enabled globally. This can be overriden on query level|
-| defaultLanguage| string| Sets default language that will be used for all queries unless overriden with query parameters|
-| baseUrl| string| Can be used to configure custom base url (i.e. for testing) |
-| basePreviewUrl| string| Can be used to configure custom preview url |
-| securedApiKey| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
-| enableSecuredMode| boolean| Indicates if secured mode is enabled globally. This can be overriden on query level |
-| retryAttempts| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
-| linkedItemResolver.linkedItemWrapperTag | string | HTML tag used to wrap resolved linked items in Rich text fields (defaults to 'p') |
-| linkedItemResolver.linkedItemWrapperClasses | string[] | Array of classes added to linked item wrapper. Defaults to a single class 'kc-linked-item-wrapper' |
-| httpService | IHttpService | Can be useud to inject custom http service for performing requests |
-| globalHeaders | IHeader[] |  Array of headers added to each and every http request made with SDK |
+| typeResolvers?| TypeResolver[] | Array of resolvers that are used to create instances of registered classes automatically. If not set, items will be instances of 'ContentItem' class|
+| fieldResolver?| FieldResolver | Field resolver used to map custom fields to models |
+| enableAdvancedLogging?| boolean | Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.|
+| previewApiKey?| string| Preview API key used to get unpublished content items |
+| enablePreviewMode?| boolean| Indicates if preview mode is enabled globally. This can be overriden on query level|
+| defaultLanguage?| string| Sets default language that will be used for all queries unless overriden with query parameters|
+| baseUrl?| string| Can be used to configure custom base url (i.e. for testing) |
+| basePreviewUrl?| string| Can be used to configure custom preview url |
+| securedApiKey?| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
+| enableSecuredMode?| boolean| Indicates if secured mode is enabled globally. This can be overriden on query level |
+| retryAttempts?| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
+| linkedItemResolver.linkedItemWrapperTag? | string | HTML tag used to wrap resolved linked items in Rich text fields (defaults to 'p') |
+| linkedItemResolver.linkedItemWrapperClasses? | string[] | Array of classes added to linked item wrapper. Defaults to a single class 'kc-linked-item-wrapper' |
+| httpService ?| IHttpService | Can be useud to inject custom http service for performing requests |
+| globalHeaders? | IHeader[] |  Array of headers added to each and every http request made with SDK |
 
 ## Handling errors
 
