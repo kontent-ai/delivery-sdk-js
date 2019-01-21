@@ -34,6 +34,7 @@
     "ts-lint:check": "npm run ts-lint-local -- --project ./tsconfig.json",
     "test:browser": "npm run karma-local start karma.conf.js",
     "test:travis": "npm run karma-local start karma-travis.conf.js",
+    "test:node": "npm run build:commonjs && npm run mocha-local -- \"test-node/**/*.js\"",
     "test:all": "npm run test:node && npm run test:travis",
     "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version",
     "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version",
