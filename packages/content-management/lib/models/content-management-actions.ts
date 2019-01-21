@@ -143,7 +143,7 @@ class ContentManagementContentItemActions {
         return `items/external-id/${id}/variants`;
     }
 
-    upsertLanguageVariant(itemIdentifier: ContentItemIdentifier, itemIdentifierValue: string, langaugeIdentifier: LanguageIdentifier, languageIdentifierValue: string): string {
+    viewOrUpsertLanguageVariant(itemIdentifier: ContentItemIdentifier, itemIdentifierValue: string, langaugeIdentifier: LanguageIdentifier, languageIdentifierValue: string): string {
         let action = '';
 
         if (itemIdentifier === ContentItemIdentifier.Codename) {

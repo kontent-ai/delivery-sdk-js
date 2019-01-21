@@ -362,6 +362,20 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         );
     }
 
+    viewLanguageVariant(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<LanguageVariantResponses.ViewLanguageVariantResponse> {
+        return this.getResponse<LanguageVariantContracts.IViewLanguageVariantResponseContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return languageVariantResponseMapper.mapViewLanguageVariantResponse(response);
+            })
+        );
+    }
+
     listLanguageVariants(
         url: string,
         config: IContentManagementQueryConfig

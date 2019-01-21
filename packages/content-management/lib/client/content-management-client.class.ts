@@ -32,6 +32,7 @@ import {
     ViewAssetsQuery,
     ViewContentItemQuery,
     ViewContentTypeQuery,
+    ViewLanguageVariantQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -54,6 +55,15 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    viewLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>> {
+        return new FullIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>(
+            this.config, this.queryService, (
+                config, queryService, contentItemIdentifier, contentItemIdentifierValue) => new LanguageIdentifierQuery<ViewLanguageVariantQuery>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier, languageIdentifierValue) => new ViewLanguageVariantQuery(nConfig, nQueryService, contentItemIdentifier, contentItemIdentifierValue, languageIdentifier, languageIdentifierValue)
+                )
+        );
     }
 
     upsertLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>> {

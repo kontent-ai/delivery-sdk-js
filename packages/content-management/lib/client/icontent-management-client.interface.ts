@@ -29,9 +29,15 @@ import {
     ViewAssetsQuery,
     ViewContentItemQuery,
     ViewContentTypeQuery,
+    ViewLanguageVariantQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
+
+    /**
+     * Query to view language variant
+     */
+    viewLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>;
 
     /**
     * Query to upsert language variant

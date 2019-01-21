@@ -15,6 +15,13 @@ export class LanguageVariantResponseMapper extends BaseMapper {
         return new LanguageVariantResponses.UpsertLanguageVariantResponse(super.mapResponseDebug(response), response.data, variant);
     }
 
+    mapViewLanguageVariantResponse(
+        response: IBaseResponse<LanguageVariantContracts.IViewLanguageVariantResponseContract>,
+    ): LanguageVariantResponses.ViewLanguageVariantResponse {
+        const variant = this.mapLanguageVariant(response.data);
+        return new LanguageVariantResponses.ViewLanguageVariantResponse(super.mapResponseDebug(response), response.data, variant);
+    }
+
     mapLanguageVariantListResponse(
         response: IBaseResponse<LanguageVariantContracts.IListLanguageVariantsResponseContract[]>,
     ): LanguageVariantResponses.ListLanguageVariantsResponse {
