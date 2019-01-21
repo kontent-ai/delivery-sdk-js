@@ -15,6 +15,8 @@ import {
     FullIdentifierQuery,
     IdCodenameIdentifierQuery,
     IdIdentifierQuery,
+    LanguageIdentifierQuery,
+    LanguageVariantElementsQuery,
     ListAssetsQuery,
     ListContentItemsQuery,
     ListContentTypesQuery,
@@ -25,6 +27,7 @@ import {
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
+    UpsertLanguageVariantQuery,
     ValidateProjectContentQuery,
     ViewAssetsQuery,
     ViewContentItemQuery,
@@ -51,6 +54,17 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    upsertLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>> {
+        return new FullIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>(
+            this.config, this.queryService, (
+                config, queryService, contentItemIdentifier, contentItemIdentifierValue) => new LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier, languageIdentifierValue) => new LanguageVariantElementsQuery(nConfig, nQueryService, (
+                        mConfig, mQueryService, elements) => new UpsertLanguageVariantQuery(mConfig, mQueryService, contentItemIdentifier, contentItemIdentifierValue, languageIdentifier, languageIdentifierValue, elements)
+                    )
+                )
+        );
     }
 
     validateProjectContent(): ProjectIdIdentifierQuery<ValidateProjectContentQuery> {

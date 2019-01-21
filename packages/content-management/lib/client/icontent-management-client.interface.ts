@@ -12,6 +12,8 @@ import {
     FullIdentifierQuery,
     IdCodenameIdentifierQuery,
     IdIdentifierQuery,
+    LanguageIdentifierQuery,
+    LanguageVariantElementsQuery,
     ListAssetsQuery,
     ListContentItemsQuery,
     ListContentTypesQuery,
@@ -22,6 +24,7 @@ import {
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
+    UpsertLanguageVariantQuery,
     ValidateProjectContentQuery,
     ViewAssetsQuery,
     ViewContentItemQuery,
@@ -29,6 +32,11 @@ import {
 } from '../queries';
 
 export interface IContentManagementClient {
+
+    /**
+    * Query to upsert language variant
+    */
+    upsertLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>;
 
     /**
      * Query to validate project content
@@ -106,7 +114,7 @@ export interface IContentManagementClient {
     listContentItems(): ListContentItemsQuery;
 
     /**
-     *Ciew content item query
+     * View content item query
      */
     viewContentItem(): FullIdentifierQuery<ViewContentItemQuery>;
 

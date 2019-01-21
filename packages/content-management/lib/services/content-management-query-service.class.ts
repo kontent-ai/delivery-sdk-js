@@ -15,11 +15,11 @@ import {
     assetsResponseMapper,
     contentItemsResponseMapper,
     contentTypeMapper,
+    languageVariantResponseMapper,
     projectMapper,
     taxonomyResponseMapper,
-    languageVariantResponseMapper,
 } from '../mappers';
-import { AssetModels, IContentManagementQueryConfig, TaxonomyModels } from '../models';
+import { AssetModels, IContentManagementQueryConfig, LanguageVariantModels, TaxonomyModels } from '../models';
 import {
     AssetResponses,
     ContentItemResponses,
@@ -344,6 +344,24 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         );
     }
 
+    upsertLanguageVariant(
+        url: string,
+        elements: LanguageVariantModels.ILanguageVariantElement[],
+        config: IContentManagementQueryConfig
+    ): Observable<LanguageVariantResponses.UpsertLanguageVariantResponse> {
+        return this.putResponse<LanguageVariantContracts.IUpsertLanguageVariantResponseContract>(
+            url,
+            {
+                elements: elements
+            },
+            config
+        ).pipe(
+            map(response => {
+                return languageVariantResponseMapper.mapUpsertLanguageVariantResponse(response);
+            })
+        );
+    }
+
     listLanguageVariants(
         url: string,
         config: IContentManagementQueryConfig
@@ -353,7 +371,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
             config
         ).pipe(
             map(response => {
-                return languageVariantResponseMapper.mapLanguageVariantsResponse(response);
+                return languageVariantResponseMapper.mapLanguageVariantListResponse(response);
             })
         );
     }

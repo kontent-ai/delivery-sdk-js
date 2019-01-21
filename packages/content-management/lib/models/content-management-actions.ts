@@ -1,3 +1,5 @@
+import { ContentItemIdentifier } from './content-items/content-item-identifier';
+import { LanguageIdentifier } from './language-variants/language-identifier';
 
 class ContentManagementContentItemActions {
 
@@ -139,6 +141,30 @@ class ContentManagementContentItemActions {
 
     listLanguageVariantsByExternalId(id: string): string {
         return `items/external-id/${id}/variants`;
+    }
+
+    upsertLanguageVariant(itemIdentifier: ContentItemIdentifier, itemIdentifierValue: string, langaugeIdentifier: LanguageIdentifier, languageIdentifierValue: string): string {
+        let action = '';
+
+        if (itemIdentifier === ContentItemIdentifier.Codename) {
+            action += `items/codename/${itemIdentifierValue}/variants/`;
+        } else if (itemIdentifier === ContentItemIdentifier.InternalId) {
+            action += `items/${itemIdentifierValue}/variants/`;
+        } else if (itemIdentifier === ContentItemIdentifier.ExternalId) {
+            action += `items/external-id/${itemIdentifierValue}/variants/`;
+        } else {
+            throw Error(`Unsupported item identifier '${itemIdentifier}' for upsert language variant`);
+        }
+
+        if (langaugeIdentifier === LanguageIdentifier.Codename) {
+            action += `codename/${languageIdentifierValue}`;
+        } else if (langaugeIdentifier === LanguageIdentifier.InternalId) {
+            action += `${languageIdentifierValue}`;
+        } else {
+            throw Error(`Unsupported language identifier '${LanguageIdentifier}' for upsert language variant`);
+        }
+
+        return action;
     }
 }
 

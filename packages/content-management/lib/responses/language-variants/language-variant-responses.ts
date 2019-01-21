@@ -18,5 +18,15 @@ export namespace LanguageVariantResponses {
             super(debug, rawData, data);
         }
     }
+
+    export class UpsertLanguageVariantResponse extends BaseResponses.BaseContentManagementResponse<LanguageVariantContracts.IUpsertLanguageVariantResponseContract, LanguageVariantModels.ContentItemLanguageVariant> {
+    constructor(
+        debug: BaseResponses.IContentManagementResponseDebug,
+        rawData: LanguageVariantContracts.IUpsertLanguageVariantResponseContract,
+        data: LanguageVariantModels.ContentItemLanguageVariant,
+    ) {
+        super(debug, rawData, data);
+    }
+}
 }
 

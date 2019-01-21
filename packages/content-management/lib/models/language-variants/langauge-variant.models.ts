@@ -3,6 +3,26 @@ import { SharedModels } from '../shared/shared-models';
 
 export namespace LanguageVariantModels {
 
+    export interface ILangaugeVariantReference {
+        id?: string;
+        codename?: string;
+        external_id?: string;
+    }
+
+    export interface ILanguageVariantElementInfo {
+        codename: string;
+    }
+
+    export interface ILanguageVariantElement {
+        element: ILanguageVariantElementInfo;
+        value: string | number | undefined | ILangaugeVariantReference[];
+    }
+
+    export interface ILanguageVariantElementCodename {
+        codename: string;
+        value: string | number | undefined | ILangaugeVariantReference[];
+    }
+
     export class ContentItemLanguageVariant {
         public item!: SharedModels.ReferenceObject;
         public elements!: ElementModels.ContentItemElement[];

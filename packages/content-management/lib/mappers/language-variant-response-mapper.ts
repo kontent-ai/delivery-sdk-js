@@ -8,7 +8,14 @@ import { elementsMapper } from './elements-mapper';
 
 export class LanguageVariantResponseMapper extends BaseMapper {
 
-    mapLanguageVariantsResponse(
+    mapUpsertLanguageVariantResponse(
+        response: IBaseResponse<LanguageVariantContracts.IUpsertLanguageVariantResponseContract>,
+    ): LanguageVariantResponses.UpsertLanguageVariantResponse {
+        const variant = this.mapLanguageVariant(response.data);
+        return new LanguageVariantResponses.UpsertLanguageVariantResponse(super.mapResponseDebug(response), response.data, variant);
+    }
+
+    mapLanguageVariantListResponse(
         response: IBaseResponse<LanguageVariantContracts.IListLanguageVariantsResponseContract[]>,
     ): LanguageVariantResponses.ListLanguageVariantsResponse {
         const variants = response.data.map(m => this.mapLanguageVariant(m));

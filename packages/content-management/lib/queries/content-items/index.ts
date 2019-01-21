@@ -3,4 +3,3 @@ export * from './view-content-item-query.class';
 export * from './add-content-item-query.class';
 export * from './update-content-item-query.class';
 export * from './delete-content-item-query.class';
-export * from './list-language-variants-query.class';

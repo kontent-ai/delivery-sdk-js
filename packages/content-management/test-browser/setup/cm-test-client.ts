@@ -12,6 +12,11 @@ export const cmTestClient: IContentManagementClient = new ContentManagementClien
     apiKey: testProjectIdApiKey
 });
 
+export const getTestClient = (projectId: string, apiKey: string) => new ContentManagementClient({
+    apiKey: apiKey,
+    projectId: projectId
+});
+
 export const cmTestClientWithInvalidApiKey: IContentManagementClient = new ContentManagementClient({
     projectId: testProjectId,
     // tslint:disable-next-line:max-line-length

@@ -12,4 +12,7 @@ export namespace LanguageVariantContracts {
 
     export interface IListLanguageVariantsResponseContract extends ILanguageVariantModelContract {
     }
+
+    export interface IUpsertLanguageVariantResponseContract extends ILanguageVariantModelContract {
+    }
 }

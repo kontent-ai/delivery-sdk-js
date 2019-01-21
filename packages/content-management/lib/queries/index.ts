@@ -5,4 +5,5 @@ export * from './assets';
 export * from './taxonomies';
 export * from './content-types';
 export * from './projects';
+export * from './language-variants';
 
