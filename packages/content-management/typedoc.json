@@ -1,0 +1,16 @@
+{
+    "mode": "modules",
+    "out": "./docs/content-management",
+    "name": "kentico-cloud-content-management",
+    "theme": "default",
+    "ignoreCompilerErrors": "false",
+    "experimentalDecorators": "true",
+    "emitDecoratorMetadata": "true",
+    "target": "ES6",
+    "moduleResolution": "node",
+    "preserveConstEnums": "true",
+    "stripInternal": "true",
+    "suppressExcessPropertyErrors": "true",
+    "suppressImplicitAnyIndexErrors": "true",
+    "module": "commonjs"
+  }
