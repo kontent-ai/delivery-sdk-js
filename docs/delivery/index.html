@@ -1,0 +1,617 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>kentico-cloud-delivery</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">kentico-cloud-delivery</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1> kentico-cloud-delivery</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<h1 id="kentico-cloud-delivery-sdk">Kentico Cloud Delivery SDK</h1>
+				<p><a href="https://www.npmjs.com/package/kentico-cloud-delivery"><img src="https://badge.fury.io/js/kentico-cloud-delivery.svg" alt="npm version"></a>
+					<a href="https://travis-ci.org/Kentico/kentico-cloud-js"><img src="https://api.travis-ci.org/Kentico/kentico-cloud-js.svg?branch=master" alt="Build Status"></a>
+					<a href="https://www.npmjs.com/package/kentico-cloud-delivery"><img src="https://img.shields.io/npm/dt/kentico-cloud-delivery.svg" alt="npm"></a>
+					<a href="https://forums.kenticocloud.com"><img src="https://img.shields.io/badge/chat-on%20forums-orange.svg" alt="Forums"></a>
+					<a href="https://snyk.io/test/github/kentico/kentico-cloud-js"><img src="https://snyk.io/test/github/Kentico/kentico-cloud-js/badge.svg" alt="Known Vulnerabilities"></a>
+					<a href="https://github.com/Kentico/kentico-cloud-js"><img src="https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg" alt="GitHub license"></a>
+				<img src="http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip" alt="Gzip browser bundle"></p>
+				<p>A client library for retrieving content from <a href="https://kenticocloud.com/">Kentico Cloud</a> for both <code>Node</code> and <code>browsers</code>. Library supports <code>ES2015</code> and is fully written in <code>TypeScript</code>.</p>
+				<h1 id="full-documentation"><a href="https://github.com/Kentico/kentico-cloud-js/blob/master/doc/delivery.md">Full Documentation</a></h1>
+				<h1 id="example-apps"><a href="https://github.com/Kentico/kentico-cloud-js/tree/master/examples">Example apps</a></h1>
+				<h2 id="installation">Installation</h2>
+				<h3 id="npm">npm</h3>
+				<pre><code>npm <span class="hljs-selector-tag">i</span> rxjs --save
+npm <span class="hljs-selector-tag">i</span> kentico-cloud-delivery --save</code></pre><h3 id="unpkg-browser-only-minified">unpkg - browser only &amp; minified</h3>
+				<pre><code>http<span class="hljs-variable">s:</span>//unpkg.<span class="hljs-keyword">com</span>/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.<span class="hljs-built_in">min</span>.js</code></pre><h3 id="unpkg-node-browser-minified">unpkg - node + browser &amp; minified</h3>
+				<pre><code>http<span class="hljs-variable">s:</span>//unpkg.<span class="hljs-keyword">com</span>/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.<span class="hljs-built_in">min</span>.js</code></pre><h2 id="getting-data-from-cloud-typescript-es2015-">Getting data from cloud (TypeScript &amp; ES2015)</h2>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {
+    ContentItem, 
+    Fields,
+    TypeResolver,
+    DeliveryClient
+    } <span class="hljs-keyword">from</span> <span class="hljs-string">'kentico-cloud-delivery'</span>;
+
+<span class="hljs-comment">/**
+ * This is optional, but it is considered a best practice to define your models
+ * so you can leverage intellisense and so that you can extend your models with 
+ * additional properties / methods.
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Movie <span class="hljs-keyword">extends</span> ContentItem {
+  <span class="hljs-keyword">public</span> title: Fields.TextField;
+}
+
+<span class="hljs-keyword">const</span> deliveryClient = <span class="hljs-keyword">new</span> DeliveryClient({
+    projectId: <span class="hljs-string">'xxx'</span>,
+    typeResolvers: [
+        <span class="hljs-keyword">new</span> TypeResolver(<span class="hljs-string">'movie'</span>, <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">new</span> Movie()),
+    ]
+});
+
+<span class="hljs-comment">/** Getting items from Kentico Cloud as Promise */</span>
+deliveryClient.items&lt;Movie&gt;()
+    .type(<span class="hljs-string">'movie'</span>)
+    .getPromise()
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> movieText = response.items[<span class="hljs-number">0</span>].title.text;
+    )
+});
+
+<span class="hljs-comment">/** Getting items from Kentico Cloud as Observable */</span>
+deliveryClient.items&lt;Movie&gt;()
+    .type(<span class="hljs-string">'movie'</span>)
+    .getObservable()
+    .subscribe(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> movieText = response.items[<span class="hljs-number">0</span>].title.text;
+    )
+});
+
+<span class="hljs-comment">/**
+ * Get data without having custom models 
+ */</span>
+deliveryClient.items&lt;ContentItem&gt;()
+  .type(<span class="hljs-string">'movie'</span>)
+  .get()
+  .subscribe(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+    <span class="hljs-comment">// you can access properties same way as with strongly typed models, but note</span>
+    <span class="hljs-comment">// that you don't get any intellisense and the underlying object </span>
+    <span class="hljs-comment">// instance is of 'ContentItem' type</span>
+    <span class="hljs-built_in">console</span>.log(response.items[<span class="hljs-number">0</span>].title.text);
+});
+</code></pre>
+				<h2 id="getting-data-from-cloud-javascript-commonjs-">Getting data from cloud (JavaScript &amp; CommonJS)</h2>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> KenticoCloud = <span class="hljs-built_in">require</span>(<span class="hljs-string">'kentico-cloud-delivery'</span>);
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Movie</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">KenticoCloud</span>.<span class="hljs-title">ContentItem</span> </span>{
+    <span class="hljs-keyword">constructor</span>() {
+        <span class="hljs-keyword">super</span>();
+    }
+}
+
+<span class="hljs-keyword">const</span> deliveryClient = <span class="hljs-keyword">new</span> KenticoCloud.DeliveryClient({
+    <span class="hljs-attr">projectId</span>: <span class="hljs-string">'xxx'</span>,
+    <span class="hljs-attr">typeResolvers</span>: [
+        <span class="hljs-keyword">new</span> KenticoCloud.TypeResolver(<span class="hljs-string">'movie'</span>, () =&gt; <span class="hljs-keyword">new</span> Movie()),
+    ]
+});
+
+<span class="hljs-comment">/** Getting items from Kentico Cloud as Promise */</span>
+deliveryClient.items()
+    .type(<span class="hljs-string">'movie'</span>)
+    .getPromise()
+    .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> movieText = response.items[<span class="hljs-number">0</span>].title.text;
+    )
+});
+
+<span class="hljs-comment">/** Getting items from Kentico Cloud as Observable */</span>
+<span class="hljs-keyword">const</span> subscription = deliveryClient.items()
+    .type(<span class="hljs-string">'movie'</span>)
+    .getObservable()
+    .subscribe(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+        <span class="hljs-keyword">const</span> movieText = response.items[<span class="hljs-number">0</span>].title.text;
+    });
+
+<span class="hljs-comment">/*
+Don't forget to unsubscribe from your Observables. You can use 'takeUntil' or 'unsubscribe' method for this purpose. Unsubsription is usually done when you no longer need to process the result of Observable. (Example: 'ngOnDestroy' event in Angular app)
+*/</span>
+subscription.unsubscribe();
+
+<span class="hljs-comment">/**
+ * Fetch all items of 'movie' type and given parameters from Kentico Cloud.
+ * Important note: SDK will convert items to your type if you registered it. For example,
+ * in this case the objects will be of 'Movie' type we defined above. 
+ * If you don't use custom models, 'ContentItem' object instances will be returned.
+ */</span>
+deliveryClient.items()
+    .type(<span class="hljs-string">'movie'</span>)
+    .getObservable()
+    .subscribe(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(response));</code></pre>
+				<h2 id="getting-data-from-cloud-pure-html-">Getting data from Cloud (Pure HTML)</h2>
+				<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Kentico Cloud SDK - Html sample<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+        <span class="hljs-keyword">var</span> deliveryClient = <span class="hljs-keyword">new</span> DeliveryClient({
+            <span class="hljs-attr">projectId</span>: <span class="hljs-string">'da5abe9f-fdad-4168-97cd-b3464be2ccb9'</span>
+        });
+
+        deliveryClient.items()
+            .type(<span class="hljs-string">'movie'</span>)
+            .getPromise()
+            .then(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(response));
+
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>See console<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+				<h2 id="browser-node-js-support">Browser &amp; Node.js support</h2>
+				<p>Both browser &amp; node.js are supported by this library. However, due to some differences (especially around parsing HTML) library uses <code>parse5</code> to parse HTML in node.js environment and DOM in browsers. Since <code>parse5</code> is relatively bulky library, we are shipping a browser-only UMD package without this dependency to keep the library size at a minimum. </p>
+				<h2 id="testing">Testing</h2>
+				<p>Note: You need to have <code>Firefox</code> installed in order to run tests via Karma.</p>
+				<ul>
+					<li><code>npm run test:browser</code> Runs tests in Firefox </li>
+					<li><code>npm run test:node</code> Runs tests in node.js</li>
+					<li><code>npm run test:dev</code> Runs developer tests (useful for testing functionality)</li>
+					<li><code>npm run test:travis</code> Runs browser tests that are executed by travis</li>
+				</ul>
+				<h2 id="feedback-contribution">Feedback &amp; Contribution</h2>
+				<p>Feedback &amp; Contributions are welcomed. Feel free to take/start an issue &amp; submit PR.</p>
+				<p><img src="https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-cloud-js/master/packages/delivery?pixel" alt="Analytics"></p>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_client_delivery_client_.html">"client/delivery-<wbr>client"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_client_idelivery_client_interface_.html">"client/idelivery-<wbr>client.interface"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_client_index_.html">"client/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_config_delivery_client_config_.html">"config/delivery-<wbr>client.config"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_config_index_.html">"config/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_data_contracts_element_contracts_.html">"data-<wbr>contracts/element-<wbr>contracts"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_data_contracts_index_.html">"data-<wbr>contracts/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_data_contracts_item_contracts_.html">"data-<wbr>contracts/item-<wbr>contracts"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_data_contracts_shared_elements_interface_.html">"data-<wbr>contracts/shared/elements.interface"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_data_contracts_shared_ipagination_interface_.html">"data-<wbr>contracts/shared/ipagination.interface"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_data_contracts_taxonomy_contracts_.html">"data-<wbr>contracts/taxonomy-<wbr>contracts"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_data_contracts_type_contracts_.html">"data-<wbr>contracts/type-<wbr>contracts"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_enums_index_.html">"enums/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_enums_modular_item_type_enum_.html">"enums/modular-<wbr>item-<wbr>type.enum"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_fields_field_contracts_.html">"fields/field-<wbr>contracts"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_fields_field_decorators_.html">"fields/field-<wbr>decorators"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_fields_field_models_.html">"fields/field-<wbr>models"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_fields_field_resolver_.html">"fields/field-<wbr>resolver"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_fields_field_type_.html">"fields/field-<wbr>type"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_fields_field_types_.html">"fields/field-<wbr>types"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_fields_index_.html">"fields/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_images_image_url_builder_.html">"images/image-<wbr>url-<wbr>builder"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_images_image_models_.html">"images/image.models"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_images_index_.html">"images/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_common_icloud_response_debug_interface_.html">"interfaces/common/icloud-<wbr>response-<wbr>debug.interface"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_common_icloud_response_interface_.html">"interfaces/common/icloud-<wbr>response.interface"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_common_index_.html">"interfaces/common/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_common_iquery_config_.html">"interfaces/common/iquery.config"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_common_isdk_info_class_.html">"interfaces/common/isdk-<wbr>info.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_element_ielement_query_config_.html">"interfaces/element/ielement-<wbr>query.config"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_element_index_.html">"interfaces/element/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_index_.html">"interfaces/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_item_icontent_item_system_attributes_interface_.html">"interfaces/item/icontent-<wbr>item-<wbr>system-<wbr>attributes.interface"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_item_icontent_item_interface_.html">"interfaces/item/icontent-<wbr>item.interface"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_item_iitem_query_config_.html">"interfaces/item/iitem-<wbr>query.config"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_item_ilink_resolver_context_.html">"interfaces/item/ilink-<wbr>resolver-<wbr>context"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_item_ilink_resolver_result_.html">"interfaces/item/ilink-<wbr>resolver-<wbr>result"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_item_index_.html">"interfaces/item/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_item_irich_text_resolver_context_.html">"interfaces/item/irich-<wbr>text-<wbr>resolver-<wbr>context"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_taxonomy_index_.html">"interfaces/taxonomy/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_taxonomy_itaxonomy_query_config_.html">"interfaces/taxonomy/itaxonomy-<wbr>query.config"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_type_icontent_type_query_config_.html">"interfaces/type/icontent-<wbr>type-<wbr>query.config"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_interfaces_type_index_.html">"interfaces/type/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mappers_element_mapper_.html">"mappers/element.mapper"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mappers_field_mapper_.html">"mappers/field.mapper"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mappers_index_.html">"mappers/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mappers_item_mapper_.html">"mappers/item.mapper"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mappers_response_mapper_.html">"mappers/response.mapper"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mappers_taxonomy_mapper_.html">"mappers/taxonomy.mapper"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mappers_type_mapper_.html">"mappers/type.mapper"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_common_filters_.html">"models/common/filters"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_common_index_.html">"models/common/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_common_pagination_class_.html">"models/common/pagination.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_common_parameters_.html">"models/common/parameters"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_common_sort_order_enum_.html">"models/common/sort-<wbr>order.enum"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_element_element_option_class_.html">"models/element/element-<wbr>option.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_element_element_class_.html">"models/element/element.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_element_index_.html">"models/element/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_element_responses_.html">"models/element/responses"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_index_.html">"models/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_item_content_item_system_attributes_.html">"models/item/content-<wbr>item-<wbr>system-<wbr>attributes"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_item_content_item_class_.html">"models/item/content-<wbr>item.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_item_index_.html">"models/item/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_item_link_class_.html">"models/item/link.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_item_responses_.html">"models/item/responses"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_item_type_resolver_class_.html">"models/item/type-<wbr>resolver.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_taxonomy_index_.html">"models/taxonomy/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_taxonomy_responses_.html">"models/taxonomy/responses"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_taxonomy_taxonomy_group_class_.html">"models/taxonomy/taxonomy-<wbr>group.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_taxonomy_taxonomy_system_attributes_class_.html">"models/taxonomy/taxonomy-<wbr>system-<wbr>attributes.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_taxonomy_taxonomy_terms_class_.html">"models/taxonomy/taxonomy-<wbr>terms.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_type_content_type_system_attributes_class_.html">"models/type/content-<wbr>type-<wbr>system-<wbr>attributes.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_type_content_type_class_.html">"models/type/content-<wbr>type.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_type_index_.html">"models/type/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_type_responses_.html">"models/type/responses"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_parser_adapters_browser_rich_text_parser_.html">"parser/adapters/browser-<wbr>rich-<wbr>text.parser"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_parser_adapters_parse5_rich_text_parser_.html">"parser/adapters/parse5-<wbr>rich-<wbr>text.parser"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_parser_adapters_parse5utils_.html">"parser/adapters/parse5utils"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_parser_index_.html">"parser/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_parser_parse_models_.html">"parser/parse-<wbr>models"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_parser_parser_adapter_.html">"parser/parser-<wbr>adapter"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_parser_parser_browser_adapter_.html">"parser/parser-<wbr>browser-<wbr>adapter"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_common_base_query_class_.html">"query/common/base-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_element_base_element_query_class_.html">"query/element/base-<wbr>element-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_element_element_query_class_.html">"query/element/element-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_index_.html">"query/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_item_base_item_query_class_.html">"query/item/base-<wbr>item-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_item_multiple_item_query_class_.html">"query/item/multiple-<wbr>item-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_item_single_item_query_class_.html">"query/item/single-<wbr>item-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_taxonomy_base_taxonomy_query_class_.html">"query/taxonomy/base-<wbr>taxonomy-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_taxonomy_taxonomies_query_class_.html">"query/taxonomy/taxonomies-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_taxonomy_taxonomy_query_class_.html">"query/taxonomy/taxonomy-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_type_base_type_query_class_.html">"query/type/base-<wbr>type-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_type_multiple_type_query_class_.html">"query/type/multiple-<wbr>type-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_query_type_single_type_query_class_.html">"query/type/single-<wbr>type-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_resolvers_index_.html">"resolvers/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_resolvers_rich_text_resolver_.html">"resolvers/rich-<wbr>text.resolver"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_resolvers_strongly_type_resolver_.html">"resolvers/strongly-<wbr>type.resolver"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_resolvers_url_slug_resolver_.html">"resolvers/url-<wbr>slug.resolver"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_sdk_info_generated_.html">"sdk-<wbr>info.generated"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_services_base_delivery_query_service_.html">"services/base-<wbr>delivery-<wbr>query.service"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_services_delivery_query_service_.html">"services/delivery-<wbr>query.service"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_services_index_.html">"services/index"</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

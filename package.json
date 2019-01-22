@@ -7,6 +7,7 @@
 		"node": ">= 8"
 	},
 	"scripts": {
+		"typedoc:local": "./node_modules/.bin/typedoc",
 		"prepare": "lerna bootstrap && npm run lerna:build:all && lerna bootstrap",
 		"lerna:tslint:check:all": "lerna exec npm run ts-lint:check",
 		"lerna:tslint:fix:all": "lerna exec npm run ts-lint:fix",
@@ -16,10 +17,12 @@
 		"lerna:test:travis": "lerna exec npm run test:travis",
 		"lerna:travis": "npm run lerna:install:all && npm run lerna:build:all && npm run lerna:test:travis",
 		"lerna:publish": "lerna publish",
-		"lerna:publish:beta": "lerna publish --npm-tag=next"
+		"lerna:publish:beta": "lerna publish --npm-tag=next",
+		"docs:delivery": "npm run typedoc:local -- --options packages/delivery/typedoc.json packages/delivery/lib/"
 	},
 	"devDependencies": {
 		"lerna": "3.10.5",
+		"typedoc": "0.14.2",
 		"typescript": "3.2.2"
 	}
 }
