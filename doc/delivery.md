@@ -140,9 +140,9 @@ export class Movie extends ContentItem {
 
 Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField`, `TaxonomyField` and `CustomField`
 
-#### Using custom models for custom elements
+#### Using custom models for Custom elements
 
-You can register `FieldResolver` to map custom elements into dedicated field models and work with data more effectively. For example if you have a custom 'color' field such as:
+You can register `FieldResolver` to map Custom elements into dedicated field models and work with data more effectively. For example, if you have a custom 'color' field such as:
 
 ```
  "color": {
@@ -152,7 +152,7 @@ You can register `FieldResolver` to map custom elements into dedicated field mod
   }
 ```
 
-You may create `ColorElement` class (or object) implementing `IField` interface and extract color values into dedicated properties (red, green, blue) so that they are easier to work with.
+You can create `ColorElement` class (or object) implementing `IField` interface and extract color values into dedicated properties (red, green, blue) so that they are easier to work with.
 
 ```typescript
 import { FieldModels } from 'kentico-cloud-delivery';
@@ -176,7 +176,7 @@ class ColorElement implements FieldModels.IField {
 }
 ```
 
-Currently, API does not contain information about the type of custom field so you need add this binding manually for all elements that you want to map based on the content type and element codename. `FieldResolver` can be registered during `DeliverClient` initialization:
+Currently, the API does not contain information about the type of the custom field so you need to add this binding manually for all elements that you want to map based on the content type and element codename. `FieldResolver` can be registered during `DeliverClient` initialization:
 
 ```typescript
 const client = new DeliveryClient(
@@ -192,6 +192,8 @@ const client = new DeliveryClient(
   }
 );
 ```
+
+Note that Custom elements are only supported in the latest version of the JavaScript SDK.
 
 #### Don't want to waste time creating models manually? 
 
