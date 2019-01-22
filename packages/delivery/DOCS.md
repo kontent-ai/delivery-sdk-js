@@ -1,6 +1,6 @@
 ## SDK Documentation
 
-A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and as UMD bundle, ES2015 and CommonJs formats.
+A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
 
 ## Installation
 
@@ -11,13 +11,13 @@ npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 
-### unpkg - browser only & minified
+### unpkg - browser only & minified (latest version)
 
 ```
 https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
 
-### unpkg - node + browser & minified
+### unpkg - node + browser & minified (latest version)
 ```
 https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
 ```

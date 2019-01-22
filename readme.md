@@ -13,11 +13,12 @@ This repository contains TypeScript packages related to [Kentico Cloud](https://
 [![GitHub license](https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg)](https://github.com/Kentico/kentico-cloud-js)
 ![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
 
-Delivery JavaScript/TypeScript SDK is an official client library used for retrieving content from Kentico Cloud. Both browser and Node.js integrations are supported.
+A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
 
 * [Quickstart](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery)
-* [Full documentation](https://github.com/Kentico/kentico-cloud-js/blob/master/doc/delivery.md)
+* [Full documentation](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery/DOCS.md)
 * [Example apps](https://github.com/Kentico/kentico-cloud-js/tree/master/examples)
+* [API Reference](https://kentico.github.io/kentico-cloud-js/delivery/)
 
 ## [Model generator for Delivery SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/model-generator)
 

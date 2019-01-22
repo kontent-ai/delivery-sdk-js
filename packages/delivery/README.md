@@ -8,11 +8,14 @@
 [![GitHub license](https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg)](https://github.com/Kentico/kentico-cloud-js)
 ![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
 
-A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) for both `Node` and `browsers`. Library supports `ES2015` and is fully written in `TypeScript`.
+A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
 
-# [Full Documentation](https://github.com/Kentico/kentico-cloud-js/blob/master/doc/delivery.md)
+|  Resources 
+|---|
+|  [Full Documentation](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery/DOCS.md) |
+|  [Example apps](https://github.com/Kentico/kentico-cloud-js/tree/master/examples) | 
+|  [API Reference](https://kentico.github.io/kentico-cloud-js/delivery/) | 
 
-# [Example apps](https://github.com/Kentico/kentico-cloud-js/tree/master/examples)
 
 ## Installation
 
@@ -34,7 +37,7 @@ https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-
 https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
 ```
 
-## Getting data from cloud (TypeScript & ES2015)
+## Quick start (TypeScript & ES2015)
 
 ```typescript
 import { 
@@ -93,7 +96,7 @@ deliveryClient.items<ContentItem>()
 
 ```
 
-## Getting data from cloud (JavaScript & CommonJS)
+## Quick start (JavaScript & CommonJS)
 
 ```javascript
 const KenticoCloud = require('kentico-cloud-delivery');
@@ -145,7 +148,7 @@ deliveryClient.items()
     .subscribe(response => console.log(response));
 ```
 
-## Getting data from Cloud (Pure HTML)
+## Quick start (HTML & UMD)
 
 ```html
 <!DOCTYPE html>
@@ -174,7 +177,7 @@ deliveryClient.items()
 
 ## Browser & Node.js support
 
-Both browser & node.js are supported by this library. However, due to some differences (especially around parsing HTML) library uses `parse5` to parse HTML in node.js environment and DOM in browsers. Since `parse5` is relatively bulky library, we are shipping a browser-only UMD package without this dependency to keep the library size at a minimum. 
+Both browser & node.js are supported by this library. However, due to some differences (especially around parsing HTML) library uses `parse5` to parse HTML in node.js environment and DOM in browsers. Since `parse5` is quite bulky library, we are shipping a browser-only UMD package without this dependency to keep the library size at a minimum. 
 
 ## Testing
 
