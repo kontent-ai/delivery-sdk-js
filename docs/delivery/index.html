@@ -72,15 +72,29 @@
 					<a href="https://snyk.io/test/github/kentico/kentico-cloud-js"><img src="https://snyk.io/test/github/Kentico/kentico-cloud-js/badge.svg" alt="Known Vulnerabilities"></a>
 					<a href="https://github.com/Kentico/kentico-cloud-js"><img src="https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg" alt="GitHub license"></a>
 				<img src="http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip" alt="Gzip browser bundle"></p>
-				<p>A client library for retrieving content from <a href="https://kenticocloud.com/">Kentico Cloud</a> for both <code>Node</code> and <code>browsers</code>. Library supports <code>ES2015</code> and is fully written in <code>TypeScript</code>.</p>
-				<h1 id="full-documentation"><a href="https://github.com/Kentico/kentico-cloud-js/blob/master/doc/delivery.md">Full Documentation</a></h1>
-				<h1 id="example-apps"><a href="https://github.com/Kentico/kentico-cloud-js/tree/master/examples">Example apps</a></h1>
+				<p>A client library for retrieving content from <a href="https://kenticocloud.com/">Kentico Cloud</a> written in TypeScript and published in following formats: <code>UMD</code>, <code>ES2015</code> and <code>CommonJs</code>. Works both in browser &amp; node.</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Resources </th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><a href="https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery/DOCS.md">Full Documentation</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://github.com/Kentico/kentico-cloud-js/tree/master/examples">Example apps</a></td>
+						</tr>
+						<tr>
+							<td><a href="https://kentico.github.io/kentico-cloud-js/delivery/">API Reference</a></td>
+						</tr>
+				</tbody></table>
 				<h2 id="installation">Installation</h2>
 				<h3 id="npm">npm</h3>
 				<pre><code>npm <span class="hljs-selector-tag">i</span> rxjs --save
 npm <span class="hljs-selector-tag">i</span> kentico-cloud-delivery --save</code></pre><h3 id="unpkg-browser-only-minified">unpkg - browser only &amp; minified</h3>
 				<pre><code>http<span class="hljs-variable">s:</span>//unpkg.<span class="hljs-keyword">com</span>/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.<span class="hljs-built_in">min</span>.js</code></pre><h3 id="unpkg-node-browser-minified">unpkg - node + browser &amp; minified</h3>
-				<pre><code>http<span class="hljs-variable">s:</span>//unpkg.<span class="hljs-keyword">com</span>/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.<span class="hljs-built_in">min</span>.js</code></pre><h2 id="getting-data-from-cloud-typescript-es2015-">Getting data from cloud (TypeScript &amp; ES2015)</h2>
+				<pre><code>http<span class="hljs-variable">s:</span>//unpkg.<span class="hljs-keyword">com</span>/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.<span class="hljs-built_in">min</span>.js</code></pre><h2 id="quick-start-typescript-es2015-">Quick start (TypeScript &amp; ES2015)</h2>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {
     ContentItem, 
     Fields,
@@ -135,7 +149,7 @@ deliveryClient.items&lt;ContentItem&gt;()
     <span class="hljs-built_in">console</span>.log(response.items[<span class="hljs-number">0</span>].title.text);
 });
 </code></pre>
-				<h2 id="getting-data-from-cloud-javascript-commonjs-">Getting data from cloud (JavaScript &amp; CommonJS)</h2>
+				<h2 id="quick-start-javascript-commonjs-">Quick start (JavaScript &amp; CommonJS)</h2>
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> KenticoCloud = <span class="hljs-built_in">require</span>(<span class="hljs-string">'kentico-cloud-delivery'</span>);
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Movie</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">KenticoCloud</span>.<span class="hljs-title">ContentItem</span> </span>{
@@ -183,7 +197,7 @@ deliveryClient.items()
     .type(<span class="hljs-string">'movie'</span>)
     .getObservable()
     .subscribe(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> <span class="hljs-built_in">console</span>.log(response));</code></pre>
-				<h2 id="getting-data-from-cloud-pure-html-">Getting data from Cloud (Pure HTML)</h2>
+				<h2 id="quick-start-html-umd-">Quick start (HTML &amp; UMD)</h2>
 				<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
@@ -207,7 +221,7 @@ deliveryClient.items()
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 				<h2 id="browser-node-js-support">Browser &amp; Node.js support</h2>
-				<p>Both browser &amp; node.js are supported by this library. However, due to some differences (especially around parsing HTML) library uses <code>parse5</code> to parse HTML in node.js environment and DOM in browsers. Since <code>parse5</code> is relatively bulky library, we are shipping a browser-only UMD package without this dependency to keep the library size at a minimum. </p>
+				<p>Both browser &amp; node.js are supported by this library. However, due to some differences (especially around parsing HTML) library uses <code>parse5</code> to parse HTML in node.js environment and DOM in browsers. Since <code>parse5</code> is quite bulky library, we are shipping a browser-only UMD package without this dependency to keep the library size at a minimum. </p>
 				<h2 id="testing">Testing</h2>
 				<p>Note: You need to have <code>Firefox</code> installed in order to run tests via Karma.</p>
 				<ul>

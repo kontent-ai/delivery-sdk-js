@@ -17,8 +17,7 @@
 		"lerna:test:travis": "lerna exec npm run test:travis",
 		"lerna:travis": "npm run lerna:install:all && npm run lerna:build:all && npm run lerna:test:travis",
 		"lerna:publish": "lerna publish",
-		"lerna:publish:beta": "lerna publish --npm-tag=next",
-		"docs:delivery": "npm run typedoc:local -- --options packages/delivery/typedoc.json packages/delivery/lib/"
+		"lerna:publish:beta": "lerna publish --npm-tag=next"
 	},
 	"devDependencies": {
 		"lerna": "3.10.5",
