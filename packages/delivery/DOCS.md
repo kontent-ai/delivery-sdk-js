@@ -308,11 +308,11 @@ deliveryClient.items<Movie>()
 
 ### Custom Parameters
 
-In case you need to use custom parameters to build up an URL, use `customParameter` method:
+In case you need to use custom parameters to build up an URL, use `withParameter` method:
 
 ```typescript
 deliveryClient.items<Movie>()
-  .customParameter('customParam', 'customVal')
+  .withParameter('customParam', 'customVal')
   .getObservable()
   .subscribe(response => console.log(response));
 ```
