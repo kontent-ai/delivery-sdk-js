@@ -1,0 +1,22 @@
+{
+  "id": "baf884be-531f-441f-ae88-64205efdd0f6",
+  "codename": "metadata",
+  "last_modified": "2018-06-20T10:25:49.133Z",
+  "name": "Metadata",
+  "elements": [
+    {
+      "name": "Meta title",
+      "guidelines": "Length: 30–60 characters",
+      "type": "text",
+      "id": "09398b24-61ed-512e-5b5c-affd54a098e5",
+      "codename": "meta_title"
+    },
+    {
+      "name": "Meta description",
+      "guidelines": "Length: 70–150 characters",
+      "type": "text",
+      "id": "2e555cc1-1eae-520c-189e-28548904f529",
+      "codename": "meta_description"
+    }
+  ]
+}

@@ -16,6 +16,7 @@ import {
     LanguageVariantElementsQuery,
     ListAssetsQuery,
     ListContentItemsQuery,
+    ListContentTypeSnippetsQuery,
     ListContentTypesQuery,
     ListLanguageVariantsQuery,
     ListTaxonomiesQuery,
@@ -29,10 +30,21 @@ import {
     ViewAssetsQuery,
     ViewContentItemQuery,
     ViewContentTypeQuery,
+    ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
+
+    /**
+     * Query to view content type snippet
+     */
+    viewContentTypeSnippet(): IdCodenameIdentifierQuery<ViewContentTypeSnippetQuery>;
+
+    /**
+     * Query to list content types
+     */
+    listContentTypeSnippets(): ListContentTypeSnippetsQuery;
 
     /**
      * Query to view language variant

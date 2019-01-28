@@ -19,6 +19,7 @@ import {
     LanguageVariantElementsQuery,
     ListAssetsQuery,
     ListContentItemsQuery,
+    ListContentTypeSnippetsQuery,
     ListContentTypesQuery,
     ListLanguageVariantsQuery,
     ListTaxonomiesQuery,
@@ -32,6 +33,7 @@ import {
     ViewAssetsQuery,
     ViewContentItemQuery,
     ViewContentTypeQuery,
+    ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
@@ -55,6 +57,21 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    listContentTypeSnippets(): ListContentTypeSnippetsQuery {
+        return new ListContentTypeSnippetsQuery(
+            this.config,
+            this.queryService,
+        );
+    }
+
+    viewContentTypeSnippet(): IdCodenameIdentifierQuery<ViewContentTypeSnippetQuery> {
+        return new IdCodenameIdentifierQuery<ViewContentTypeSnippetQuery>(
+            this.config,
+            this.queryService,
+            (config, queryService, identifier, identifierValue) => new ViewContentTypeSnippetQuery(config, queryService, identifier, identifierValue)
+        );
     }
 
     viewLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>> {

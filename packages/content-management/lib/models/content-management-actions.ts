@@ -3,6 +3,18 @@ import { LanguageIdentifier } from './language-variants/language-identifier';
 
 class ContentManagementContentItemActions {
 
+    listContentTypeSnippets(): string {
+        return `snippets`;
+    }
+
+    viewContentTypeSnippetByInternalId(id: string): string {
+        return `snippets/${id}`;
+    }
+
+    viewContentTypeSnippetByCodename(codename: string): string {
+        return `snippets/codename/${codename}`;
+    }
+
     validateProjectContent(): string {
         return `validate`;
     }

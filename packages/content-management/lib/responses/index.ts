@@ -5,3 +5,4 @@ export * from './taxonomies/taxonomy-responses';
 export * from './content-types/content-type-responses';
 export * from './projects/project-responses';
 export * from './language-variants/language-variant-responses';
+export * from './content-type-snippets/content-type-snippet-responses';

@@ -7,6 +7,7 @@ import {
     AssetContracts,
     ContentItemContracts,
     ContentTypeContracts,
+    ContentTypeSnippetContracts,
     LanguageVariantContracts,
     ProjectContracts,
     TaxonomyContracts,
@@ -15,6 +16,7 @@ import {
     assetsResponseMapper,
     contentItemsResponseMapper,
     contentTypeMapper,
+    contentTypeSnippetMapper,
     languageVariantResponseMapper,
     projectMapper,
     taxonomyResponseMapper,
@@ -24,6 +26,7 @@ import {
     AssetResponses,
     ContentItemResponses,
     ContentTypeResponses,
+    ContentTypeSnippetResponses,
     LanguageVariantResponses,
     ProjectResponses,
     TaxonomyResponses as TaxonomyResponses,
@@ -38,6 +41,34 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, sdkInfo);
+    }
+
+    viewContentTypeSnippet(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<ContentTypeSnippetResponses.ViewContentTypeSnippetResponse> {
+        return this.getResponse<ContentTypeSnippetContracts.IViewContentTypeSnippetResponseContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return contentTypeSnippetMapper.mapViewContentTypeSnippetResponse(response);
+            })
+        );
+    }
+
+    listContentTypeSnippets(
+        url: string,
+        config?: IContentManagementQueryConfig
+    ): Observable<ContentTypeSnippetResponses.ContentTypeSnippetListResponse> {
+        return this.getResponse<ContentTypeSnippetContracts.IContentTypeSnippetListResponseContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return contentTypeSnippetMapper.mapListingResponse(response);
+            })
+        );
     }
 
     validateProjectContent(
