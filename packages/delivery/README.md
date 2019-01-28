@@ -181,9 +181,9 @@ Both browser & node.js are supported by this library. However, due to some diffe
 
 ## Testing
 
-Note: You need to have `Firefox` installed in order to run tests via Karma.
+Note: You need to have `Chrome` installed in order to run tests via Karma.
 
-- `npm run test:browser` Runs tests in Firefox 
+- `npm run test:browser` Runs tests in Chrome 
 - `npm run test:node` Runs tests in node.js
 - `npm run test:dev` Runs developer tests (useful for testing functionality)
 - `npm run test:travis` Runs browser tests that are executed by travis
