@@ -30,23 +30,23 @@ npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 
-### unpkg & jsdelivr
+### unpkg & jsdelivr (node + browser)
 ```
 https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.umd.min.js
 ```
 or
 ```
-https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
 ```
 
 ### unpkg & jsdelivr (browser only)
 ```
-https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
-
+https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
 or
 ```
-https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+
 ```
 
 ## Quick start (TypeScript & ES2015)
