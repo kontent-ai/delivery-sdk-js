@@ -8,16 +8,30 @@ module.exports = (env, argv) => ({
     entry: {
         'index': './lib/index.ts',
     },
-    externals: ['', /^test-browser\//], 
     resolve: { 
         extensions: ['.ts', '.js']
     },
+    externals: [{
+        'rxjs': {
+            commonjs: 'rxjs',
+            commonjs2: 'rxjs',
+            amd: 'rxjs',
+            root: 'rxjs'
+        },
+        'rxjs/operators': {
+            commonjs: 'rxjs/operators',
+            commonjs2: 'rxjs/operators',
+            amd: 'rxjs/operators',
+            root: ['rxjs', 'operators']
+        },
+    }],
     output: {
         // Puts the output at the root of the dist folder
         path: path.join(__dirname, '_bundles'),
         filename: libName + (argv.mode === 'production' ? '.umd.min.js' : '.umd.js'),
         libraryTarget: 'umd',
         umdNamedDefine: true,
+        library: 'kenticoCloudCore'
     },
     devtool: 'source-map',
     module: {

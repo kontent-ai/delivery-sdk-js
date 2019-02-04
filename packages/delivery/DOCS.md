@@ -4,6 +4,10 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 
 ## Installation
 
+You can install this library using `npm` or you can use global CDNs such as `unpkg` and `jsdelivr` directly. In both cases, you will also need to include `rxjs` as its listed as peer dependency. 
+
+When including this library via `script` tag on `html` page, you can find it under the `kenticoCloudDelivery` global window variable.
+
 ### npm
 
 ```
@@ -11,18 +15,26 @@ npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 
-### unpkg - browser only & minified (latest version)
-
+### unpkg & jsdelivr
+```
+https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+```
+or
 ```
 https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
 
-### unpkg - node + browser & minified (latest version)
+### unpkg & jsdelivr (browser only)
 ```
 https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+
+```
+or
+```
+https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
 
-### Quick start
+## Quick start (TypeScript & ES2015)
 
 ```typescript
 import { 
@@ -71,7 +83,7 @@ deliveryClient.items<Movie>()
  */
 deliveryClient.items<ContentItem>()
   .type('movie')
-  .getObservable()
+  .get()
   .subscribe(response => {
     // you can access properties same way as with strongly typed models, but note
     // that you don't get any intellisense and the underlying object 
@@ -79,6 +91,88 @@ deliveryClient.items<ContentItem>()
     console.log(response.items[0].title.text);
 });
 
+```
+
+## Quick start (JavaScript & CommonJS)
+
+```javascript
+const KenticoCloud = require('kentico-cloud-delivery');
+
+class Movie extends KenticoCloud.ContentItem {
+    constructor() {
+        super();
+    }
+}
+
+const deliveryClient = new KenticoCloud.DeliveryClient({
+    projectId: 'xxx',
+    typeResolvers: [
+        new KenticoCloud.TypeResolver('movie', () => new Movie()),
+    ]
+});
+
+/** Getting items from Kentico Cloud as Promise */
+deliveryClient.items()
+    .type('movie')
+    .getPromise()
+    .then(response => {
+        const movieText = response.items[0].title.text;
+    )
+});
+
+/** Getting items from Kentico Cloud as Observable */
+const subscription = deliveryClient.items()
+    .type('movie')
+    .getObservable()
+    .subscribe(response => {
+        const movieText = response.items[0].title.text;
+    });
+
+/*
+Don't forget to unsubscribe from your Observables. You can use 'takeUntil' or 'unsubscribe' method for this purpose. Unsubsription is usually done when you no longer need to process the result of Observable. (Example: 'ngOnDestroy' event in Angular app)
+*/
+subscription.unsubscribe();
+
+/**
+ * Fetch all items of 'movie' type and given parameters from Kentico Cloud.
+ * Important note: SDK will convert items to your type if you registered it. For example,
+ * in this case the objects will be of 'Movie' type we defined above. 
+ * If you don't use custom models, 'ContentItem' object instances will be returned.
+ */
+deliveryClient.items()
+    .type('movie')
+    .getObservable()
+    .subscribe(response => console.log(response));
+```
+
+## Quick start (HTML & UMD)
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kentico Cloud SDK - Html sample</title>
+    <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		var Kc = window['kenticoCloudDelivery'];
+
+		var deliveryClient = new Kc.DeliveryClient({
+			projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
+		});
+
+		deliveryClient.items()
+			.type('movie')
+			.getPromise()
+			.then(response => console.log(response));
+
+	</script>
+	<h1>See console</h1>
+</body>
+</html>
 ```
 
 ## API Documentation

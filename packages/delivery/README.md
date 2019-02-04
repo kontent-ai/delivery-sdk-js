@@ -19,6 +19,10 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 
 ## Installation
 
+You can install this library using `npm` or you can use global CDNs such as `unpkg` and `jsdelivr` directly. In both cases, you will also need to include `rxjs` as its listed as peer dependency. 
+
+When including this library via `script` tag on `html` page, you can find it under the `kenticoCloudDelivery` global window variable.
+
 ### npm
 
 ```
@@ -26,15 +30,23 @@ npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 
-### unpkg - browser only & minified
-
+### unpkg & jsdelivr
+```
+https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+```
+or
 ```
 https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
 
-### unpkg - node + browser & minified
+### unpkg & jsdelivr (browser only)
 ```
 https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+
+```
+or
+```
+https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
 
 ## Quick start (TypeScript & ES2015)
@@ -154,13 +166,16 @@ deliveryClient.items()
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Kentico Cloud SDK - Html sample</title>
+    <title>Kentico Cloud SDK - Html sample</title>
+    <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
 	<script type="text/javascript" src="https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"></script>
 </head>
 <body>
 
 	<script type="text/javascript">
-		var deliveryClient = new DeliveryClient({
+		var Kc = window['kenticoCloudDelivery'];
+
+		var deliveryClient = new Kc.DeliveryClient({
 			projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
 		});
 
