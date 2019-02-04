@@ -43,7 +43,9 @@
     "build:umd": "npm run webpack:dev && npm run webpack:prod",
     "build:es2015": "npm run tsc-local -- -m es2015 --outDir _es2015 --p tsconfig.prod.json",
     "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs --p tsconfig.prod.json",
-    "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs"
+    "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs",
+    "generate:docs": "cd ../../ && npm run typedoc:local -- --options packages/delivery/typedoc.json packages/delivery/lib/",
+    "bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/stats.json"
   },
   "dependencies": {
     "axios": "0.18.0"
@@ -76,6 +78,7 @@
     "typescript": "3.2.2",
     "url-parse": "1.4.4",
     "webpack": "4.28.4",
-    "webpack-cli": "3.2.1"
+    "webpack-cli": "3.2.1",
+    "webpack-bundle-analyzer": "3.0.3"
   }
 }

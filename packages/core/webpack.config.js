@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const libName = 'kentico-cloud-core-sdk';
 
@@ -35,6 +36,10 @@ module.exports = (env, argv) => ({
     },
     performance: { hints: false }, // this disables warning about large output file (in our case its ~300Kb which is fine)
     plugins: [
+        new BundleAnalyzerPlugin({
+            generateStatsFile: true,
+            analyzerMode: 'disabled'
+        })
     ]
 });
 
