@@ -1,7 +1,15 @@
 export class EnumHelper {
 
-    getEnumName(T: any): string {
-        return T;
+    getAllNames(T: any): any[] {
+        const enumNames: any[] = [];
+
+        for (const key in T) {
+            if (T.hasOwnProperty(key)) {
+                enumNames.push(key);
+            }
+        }
+
+        return enumNames;
     }
 
     getAllValues(T: any): any[] {
@@ -10,62 +18,46 @@ export class EnumHelper {
         return allEnumValues;
     }
 
-    getAllNames(T: any): any[] {
-        const enumNames: any[] = [];
-
-        // tslint:disable-next-line:forin
-        for (const enumMember in T) {
-            enumNames.push(enumMember);
-        }
-
-        return enumNames;
-    }
-
-    getEnumNameFromValue(T: any, value: string): string {
-        let keyResult = '';
-        for (const enumKey in T) {
-            if (value === T[enumKey]) {
-                keyResult = enumKey;
-                break;
-            }
-        }
-        return keyResult;
-    }
-
-    getEnumFromName<T>(T: any, name: string): T | undefined {
-        return T[name];
-    }
-
-    getEnumFromValue<T>(T: any, value: string | number, defaultValue: T): T {
+    getEnumFromValue<T>(T: any, value: string | number): T | undefined {
         try {
-
             if (!value) {
-                return defaultValue;
+                return undefined;
             }
 
-            // we can map back from number directiy
-            if (this.isNumber(value)) {
+            // we can map back from index number directly
+            if (this.isNumeric(value)) {
                 return <T>T[value];
             }
 
-            // for strings, we need to compare each value separately..
+            // for strings, we need to compare each value separately
             const allEnumValues = this.getAllValues(T);
 
             const result = allEnumValues.find(m => m.toLowerCase() === value.toString().toLowerCase());
+
             if (!result) {
-                return defaultValue;
+                return undefined;
             }
 
             return result as T;
         } catch (err) {
-            console.warn(`Could not parse enum value '${value}'`);
-            return defaultValue;
+            return undefined;
         }
     }
 
-    private isNumber(value: any): boolean {
-        return !isNaN(parseFloat(value)) && isFinite(value);
+    getEnumFromName<T>(T: any, name: string): T | undefined {
+        const allNames = this.getAllNames(T);
+
+        for (const enumName of allNames) {
+            if (enumName.toLowerCase() === name.toLowerCase()) {
+                return T[enumName];
+            }
+        }
+        return undefined;
     }
+
+    private isNumeric(value: any): boolean {
+        return !isNaN(parseFloat(value)) && isFinite(value);
+      }
 }
 
 export const enumHelper = new EnumHelper();

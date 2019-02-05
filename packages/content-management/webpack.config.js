@@ -16,8 +16,23 @@ module.exports = (env, argv) => ({
         path: path.join(__dirname, '_bundles'),
         filename: libName + (argv.mode === 'production' ? '.umd.min.js' : '.umd.js'),
         libraryTarget: 'umd',
-        umdNamedDefine: true
+        umdNamedDefine: true,
+        library: 'KenticoCloudContentManagement'
     },
+    externals: [{
+        'rxjs': {
+            commonjs: 'rxjs',
+            commonjs2: 'rxjs',
+            amd: 'rxjs',
+            root: 'rxjs'
+        },
+        'rxjs/operators': {
+            commonjs: 'rxjs/operators',
+            commonjs2: 'rxjs/operators',
+            amd: 'rxjs/operators',
+            root: ['rxjs', 'operators']
+        },
+    }],
     devtool: 'source-map',
     module: {
         rules: [

@@ -19,6 +19,8 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 
 ## Installation
 
+You can install this library using `npm` or you can use global CDNs such as `unpkg` and `jsdelivr` directly. In both cases, you will also need to include `rxjs` as its listed as peer dependency. 
+
 ### npm
 
 ```
@@ -26,15 +28,34 @@ npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 
-### unpkg - browser only & minified
+### CDN
+
+When using UMD bundle and including this library in `script` tag on your `html` page, you can find it under the `kenticoCloudDelivery` global variable.
+
+You can decide whether to get library including full node support or just browser only. If you choose browser only version, an external dependency used for parsing HTML in `node.js` is not included and therefore the size of library is smaller.
+
+#### Node + browser (UMD)
+
+![Gzip full bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js?compression=gzip)
 
 ```
-https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.umd.min.js
 ```
-
-### unpkg - node + browser & minified
+or
 ```
 https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+```
+
+#### Browser only (UMD)
+
+![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
+
+```
+https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+```
+or
+```
+https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
 
 ## Quick start (TypeScript & ES2015)
@@ -154,13 +175,16 @@ deliveryClient.items()
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Kentico Cloud SDK - Html sample</title>
+    <title>Kentico Cloud SDK - Html sample</title>
+    <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
 	<script type="text/javascript" src="https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"></script>
 </head>
 <body>
 
 	<script type="text/javascript">
-		var deliveryClient = new DeliveryClient({
+		var Kc = window['kenticoCloudDelivery'];
+
+		var deliveryClient = new Kc.DeliveryClient({
 			projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
 		});
 
@@ -174,10 +198,6 @@ deliveryClient.items()
 </body>
 </html>
 ```
-
-## Browser & Node.js support
-
-Both browser & node.js are supported by this library. However, due to some differences (especially around parsing HTML) library uses `parse5` to parse HTML in node.js environment and DOM in browsers. Since `parse5` is quite bulky library, we are shipping a browser-only UMD package without this dependency to keep the library size at a minimum. 
 
 ## Testing
 

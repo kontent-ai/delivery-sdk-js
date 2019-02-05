@@ -57,7 +57,9 @@ describe('FieldMapper', () => {
 
     });
 
-    it(`should throw an Error when unsupported field type is used`, () => {
+    it(`should log warning to console an Error when unsupported field type is used`, () => {
+        console.warn = jasmine.createSpy('warn');
+
         const fakeField = new FakeField('testField', 'testValue');
 
         const item: FakeContentItem = {
@@ -73,7 +75,10 @@ describe('FieldMapper', () => {
             }
         };
 
-        expect(() => fieldMapper.mapFields(item, {}, {}, [])).toThrowError(`Unsupported field type '${fieldType}'`);
+        fieldMapper.mapFields(item, {}, {}, []);
+
+        expect(console.warn).toHaveBeenCalledTimes(1);
+
     });
 });
 

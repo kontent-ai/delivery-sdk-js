@@ -1,3 +1,5 @@
+import { enumHelper } from 'kentico-cloud-core';
+
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { FieldContracts, FieldDecorators, FieldModels, Fields, FieldType } from '../fields';
@@ -86,50 +88,50 @@ export class FieldMapper {
         return itemTyped;
     }
 
-    private mapField(field: FieldContracts.IFieldContract, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): FieldModels.IField | ContentItem[] {
-        const fieldType = field.type.toLowerCase();
+    private mapField(field: FieldContracts.IFieldContract, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): undefined | FieldModels.IField | ContentItem[] {
+        const fieldType = enumHelper.getEnumFromValue<FieldType>(FieldType, field.type);
+        if (fieldType) {
 
-        if (fieldType.toLowerCase() === FieldType.ModularContent.toLowerCase()) {
-            return this.mapLinkedItemsField(field, modularContent, queryConfig, processedItems);
-        }
+            if (fieldType === FieldType.ModularContent) {
+                return this.mapLinkedItemsField(field, modularContent, queryConfig, processedItems);
+            }
 
-        if (fieldType.toLowerCase() === FieldType.Text.toLowerCase()) {
-            return this.mapTextField(field);
-        }
-        if (fieldType.toLowerCase() === FieldType.Asset.toLowerCase()) {
-            return this.mapAssetsField(field);
-        }
+            if (fieldType === FieldType.Text) {
+                return this.mapTextField(field);
+            }
+            if (fieldType === FieldType.Asset) {
+                return this.mapAssetsField(field);
+            }
 
-        if (fieldType.toLowerCase() === FieldType.Number.toLowerCase()) {
-            return this.mapNumberField(field);
-        }
-        if (fieldType.toLowerCase() === FieldType.MultipleChoice.toLowerCase()) {
-            return this.mapMultipleChoiceField(field);
-        }
+            if (fieldType === FieldType.Number) {
+                return this.mapNumberField(field);
+            }
+            if (fieldType === FieldType.MultipleChoice) {
+                return this.mapMultipleChoiceField(field);
+            }
 
-        if (fieldType.toLowerCase() === FieldType.DateTime.toLowerCase()) {
-            return this.mapDateTimeField(field);
+            if (fieldType === FieldType.DateTime) {
+                return this.mapDateTimeField(field);
+            }
+
+            if (fieldType === FieldType.RichText) {
+                return this.mapRichTextField(field as FieldContracts.IRichTextFieldContract, modularContent, queryConfig, processedItems);
+            }
+
+            if (fieldType === FieldType.UrlSlug) {
+                return this.mapUrlSlugField(field, item, queryConfig);
+            }
+
+            if (fieldType === FieldType.Taxonomy) {
+                return this.mapTaxonomyField(field);
+            }
+
+            if (fieldType === FieldType.Custom) {
+                return this.mapCustomField(field, item.system.type);
+            }
         }
-
-        if (fieldType.toLowerCase() === FieldType.RichText.toLowerCase()) {
-            return this.mapRichTextField(field as FieldContracts.IRichTextFieldContract, modularContent, queryConfig, processedItems);
-        }
-
-        if (fieldType.toLowerCase() === FieldType.UrlSlug.toLowerCase()) {
-            return this.mapUrlSlugField(field, item, queryConfig);
-        }
-
-        if (fieldType.toLowerCase() === FieldType.Taxonomy.toLowerCase()) {
-            return this.mapTaxonomyField(field);
-        }
-
-        if (fieldType.toLowerCase() === FieldType.Custom.toLowerCase()) {
-            return this.mapCustomField(field, item.system.type);
-        }
-
-        const error = `Unsupported field type '${field.type}'`;
-
-        throw Error(error);
+        console.warn(`Skipping unknown field type '${field.type}' of field '${field.name}'`);
+        return undefined;
     }
 
     private mapRichTextField(field: FieldContracts.IRichTextFieldContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): Fields.RichTextField {
