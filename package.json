@@ -26,6 +26,7 @@
 	"devDependencies": {
 		"lerna": "3.10.8",
 		"typedoc": "0.14.2",
-		"typescript": "3.3.1"
+		"typescript": "3.3.1",
+		"lerna-changelog": "0.8.2"
 	}
 }
