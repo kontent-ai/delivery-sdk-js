@@ -9,7 +9,7 @@
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Enngage/kentico-cloud-js"
-	  },
+	},
 	"scripts": {
 		"typedoc:local": "./node_modules/.bin/typedoc",
 		"prepare": "lerna bootstrap && npm run lerna:build:all && lerna bootstrap",
