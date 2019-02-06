@@ -45,21 +45,31 @@ A utility for generating strongly-typed models based on Content Types in a Kenti
 * [Documentation](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/model-generator)
 * [Tutorial](https://developer.kenticocloud.com/docs/strongly-typed-models)
 
-### Bugs & new features
-
-Create a [new GitHub issue](https://github.com/Kentico/kentico-cloud-js/issues/new).
-
-### Developing packages
+## Developer's guide
 
 This github repository is a `monorepo` and is managed using `lerna`. In order to start developing this library, you need to:
 
 - Clone this repository
 - Install lerna globally using `npm i lerna -g`
-- Prepare all packages by running `npm run prepare` script in the root repository. This script bootstraps all packages, builds them and bootstraps again so that symlinking local packages works correctly when local version of package is referenced instead of the one published on npm.
+- Prepare all packages by running `npm run prepare` script in the main directory. This script bootstraps all dependencies, builds libraries and symlinks local packages if necessary.
+
+### Publishing
 
 To publish this library you can use standard `npm publish` command after increasing package versions. Some packages in this repository (delivery, content management sdks) require you to also run `npm run set-sdk-version` script which takes the package name & version from package.json and creates a updats file called `sdk-info.generated.ts` that is further used to identify source of package during HTTP calls.
 
 Packages will not let you publish new versions unless the version in `package.json` & `sdk-info.generates.ts` matches.
+
+### Generating changelog details
+
+Repository uses `lerna-changelog` for generating `changelog` details. All PRs that should appear in changelog have to be tagged by one of the following labels:
+
+- `breaking` (:boom: Breaking Change)
+- `enhancement` (:rocket: Enhancement)
+- `bug` (:bug: Bug Fix)
+- `documentation` (:memo: Documentation)
+- `internal` (:house: Internal)
+
+Changelog is generated with `lerna-changelog` command.
 
 ### Feedback & Contribution
 
