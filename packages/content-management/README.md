@@ -118,9 +118,9 @@ const client = new ContentManagementClient({
 | ------------- | ------------- | ------------- |
 | `projectId` | N/A | **Required** - Id of your Kentico Cloud project  |
 | `apiKey` | N/A  | **Required** - Content management API Token  |
-| `baseUrl` | https://manage.kenticocloud.com/v2/projects  | Base URL of REST api. Can be useful if you are using custom profixes or for testing purposes  |
-| `retryAttempts` | 3 |  Number of retry attempts when error occures. When not set, default number of attempts (3) are used. To disable set to 0. |
-| `httpService` | HttpService  | Used to inject implementation of `IHttpService` used to make HTTP request across network  |
+| `baseUrl` | https://manage.kenticocloud.com/v2/projects  | Base URL of REST api. Can be useful if you are using custom proxy or for testing purposes |
+| `retryAttempts` | 3 |  Number of retry attempts when error occures. To disable set the value to 0. |
+| `httpService` | HttpService  | Used to inject implementation of `IHttpService` used to make HTTP request across network. Can also be useful for testing purposes by returning specified responses. |
 
 ### API Reference
 
