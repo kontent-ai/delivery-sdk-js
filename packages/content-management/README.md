@@ -133,5 +133,3 @@ If you have any issues or want to share your feedback, please feel free to [crea
 ### Contributions
 
 Contributions are welcomed. If you have an idea of what you would like to implement, let us know and lets discuss details of your PR.
-
-To use this library as a developer, clone this repository and run `npm run prepare` script from within the main folder. This script bootstraps all dependencies, builds local versions and symlinks local packages if necessary.
