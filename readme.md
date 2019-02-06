@@ -9,7 +9,7 @@
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Known Vulnerabilities](https://snyk.io/test/github/Kentico/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/Kentico/kentico-cloud-js)
 [![GitHub license](https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg)](https://github.com/Kentico/kentico-cloud-js)
-![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
+![Gzip browser bundle](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
 
 A client library for retrieving data from [Kentico Cloud](https://kenticocloud.com/) using [Delivery API](https://developer.kenticocloud.com/v1/reference#delivery-api). Works both in `node.js` and `browsers`.
 
@@ -28,7 +28,7 @@ Javascript SDK for the [Kentico Cloud Content Management API](https://developer.
 [![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
 [![Known Vulnerabilities](https://snyk.io/test/github/Kentico/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/kentico/kentico-cloud-js)
 [![GitHub license](https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg)](https://github.com/Kentico/kentico-cloud-js)
-![Gzip bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-content-management@latest/_bundles/kentico-cloud-cm-sdk.umd.min.js?compression=gzip)
+![Gzip bundle](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/kentico-cloud-content-management/_bundles/kentico-cloud-cm-sdk.umd.min.js?compression=gzip)
 
 * [Quickstart](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management)
 * [Examples](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management/demo)
