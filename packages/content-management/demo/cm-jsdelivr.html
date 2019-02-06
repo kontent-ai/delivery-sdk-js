@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Kentico Cloud CM | jsdelivr cdn</title>
+    <script src="https://cdn.jsdelivr.net/npm/rxjs/bundles/rxjs.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/kentico-cloud-content-management/_bundles/kentico-cloud-cm-sdk.umd.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+
+        var KenticoCloudCM = window['KenticoCloudContentManagement'];
+
+		var client = new KenticoCloudCM.ContentManagementClient({
+			projectId: 'xxx',
+			apiKey: 'yyy'
+		});
+
+		client.addContentItem()
+            .withData(
+                {
+                    name: 'New article',
+                    type: {
+                        codename: 'article'
+                    },
+                }
+            )
+            .toObservable()
+            .subscribe((response) => {
+                // work with response
+            },
+            (error) => {
+                // handle error
+            });
+	</script>
+</body>
+</html>
