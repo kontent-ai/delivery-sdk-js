@@ -64,8 +64,133 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="kentico-cloud-content-management-sdk">Kentico Cloud Content management SDK</h1>
-				<p>Library in development</p>
+				<h1 id="kentico-cloud-content-management-javascript-sdk">Kentico Cloud Content management javascript SDK</h1>
+				<blockquote>
+					<p>Javascript SDK for the <a href="https://developer.kenticocloud.com/v1/reference#content-management-api-v2">Kentico Cloud Content Management API</a>. Helps you manage content in your <a href="https://kenticocloud.com/">Kentico Cloud</a> projects. Supports both <code>node.js</code> and <code>browsers</code>.</p>
+				</blockquote>
+				<p><a href="https://www.npmjs.com/package/kentico-cloud-content-management"><img src="https://badge.fury.io/js/kentico-cloud-content-management.svg" alt="npm version"></a>
+					<a href="https://travis-ci.org/Kentico/kentico-cloud-js"><img src="https://api.travis-ci.org/Kentico/kentico-cloud-js.svg?branch=master" alt="Build Status"></a>
+					<a href="https://www.npmjs.com/package/kentico-cloud-delivery"><img src="https://img.shields.io/npm/dt/kentico-cloud-content-management.svg" alt="npm"></a>
+					<a href="https://forums.kenticocloud.com"><img src="https://img.shields.io/badge/chat-on%20forums-orange.svg" alt="Forums"></a>
+					<a href="https://snyk.io/test/github/kentico/kentico-cloud-js"><img src="https://snyk.io/test/github/Kentico/kentico-cloud-js/badge.svg" alt="Known Vulnerabilities"></a>
+					<a href="https://github.com/Kentico/kentico-cloud-js"><img src="https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg" alt="GitHub license"></a>
+				<img src="http://img.badgesize.io/https://unpkg.com/kentico-cloud-content-management@latest/_bundles/kentico-cloud-cm-sdk.umd.min.js?compression=gzip" alt="Gzip bundle"></p>
+				<h2 id="getting-started">Getting started</h2>
+				<p>To get started, you&#39;ll first need to have access to your <a href="https://kenticocloud.com/">Kentico Cloud</a> project where you need to enable Content management API and generate <code>access token</code> that will be used to authenticate all requests made by this library.</p>
+				<h3 id="installation">Installation</h3>
+				<p>This library has a peer dependency on <code>rxjs</code>which means you need to install it as well. You install it using <code>npm</code> or use it directly in browser using one of the <code>cdn</code> bundles. </p>
+				<h4 id="npm">npm</h4>
+				<pre><code>npm <span class="hljs-selector-tag">i</span> rxjs --save
+npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-attribute">content</span>-management --save</code></pre><h4 id="using-a-standalone-version-in-browsers">Using a standalone version in browsers</h4>
+				<p>If you&#39;d like to use this library directly in browser, place following script tags to your html page. You may of course download it and refer to local versions of scripts.</p>
+				<pre><code class="language-javascript">&lt;script src=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/rxjs/bundles/rxjs.umd.min.js"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span>
+&lt;script src=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/kentico-cloud-content-management/_bundles/kentico-cloud-cm-sdk.umd.min.js"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span></code></pre>
+				<h3 id="making-the-first-request">Making the first request</h3>
+				<p>The following code example shows how to create new content item in your Kentico Cloud project.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { ContentManagementClient } <span class="hljs-keyword">from</span> <span class="hljs-string">'kentico-cloud-content-management'</span>;
+
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ContentManagementClient({
+        <span class="hljs-attr">projectId</span>: <span class="hljs-string">'xxx'</span>, <span class="hljs-comment">// id of your Kentico Cloud project</span>
+        apiKey: <span class="hljs-string">'yyy'</span>, <span class="hljs-comment">// Content management API token</span>
+    });
+
+    client.addContentItem()
+        .withData(
+            {
+                <span class="hljs-attr">name</span>: <span class="hljs-string">'New article'</span>,
+                <span class="hljs-attr">type</span>: {
+                    <span class="hljs-attr">codename</span>: <span class="hljs-string">'article'</span> <span class="hljs-comment">// codename of content type</span>
+                }
+            }
+        )
+        .toObservable()
+        .subscribe(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+            <span class="hljs-comment">// work with response</span>
+        },
+        (error) =&gt; {
+            <span class="hljs-comment">// handle error</span>
+        });</code></pre>
+				<p>If you are using <code>UMD</code> bundles directly in browsers, you can find this library under <code>KenticoCloudContentManagement</code> global variable. </p>
+				<pre><code class="language-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Kentico Cloud CM | jsdelivr cdn<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/rxjs/bundles/rxjs.umd.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/kentico-cloud-content-management/_bundles/kentico-cloud-cm-sdk.umd.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
+        <span class="hljs-keyword">var</span> CM = <span class="hljs-built_in">window</span>[<span class="hljs-string">'KenticoCloudContentManagement'</span>];
+
+        <span class="hljs-keyword">var</span> client = <span class="hljs-keyword">new</span> CM.ContentManagementClient({
+            <span class="hljs-attr">projectId</span>: <span class="hljs-string">'xxx'</span>,
+            <span class="hljs-attr">apiKey</span>: <span class="hljs-string">'yyy'</span>
+        });
+
+        client.addContentItem()
+            .withData(
+                {
+                    <span class="hljs-attr">name</span>: <span class="hljs-string">'New article'</span>,
+                    <span class="hljs-attr">type</span>: {
+                        <span class="hljs-attr">codename</span>: <span class="hljs-string">'article'</span>
+                    },
+                }
+            )
+            .toObservable()
+            .subscribe(<span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+                <span class="hljs-comment">// work with response</span>
+            },
+            (error) =&gt; {
+                <span class="hljs-comment">// handle error</span>
+            });
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+				<h3 id="configuration">Configuration</h3>
+				<p>The <code>ContentManagementClient</code> contains several configuration options:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> ContentManagementClient({
+    <span class="hljs-comment">// configuration options</span>
+});</code></pre>
+				<table>
+					<thead>
+						<tr>
+							<th>Option</th>
+							<th>Default</th>
+							<th>Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><code>projectId</code></td>
+							<td>N/A</td>
+							<td><strong>Required</strong> - Id of your Kentico Cloud project</td>
+						</tr>
+						<tr>
+							<td><code>apiKey</code></td>
+							<td>N/A</td>
+							<td><strong>Required</strong> - Content management API Token</td>
+						</tr>
+						<tr>
+							<td><code>baseUrl</code></td>
+							<td><a href="https://manage.kenticocloud.com/v2/projects">https://manage.kenticocloud.com/v2/projects</a></td>
+							<td>Base URL of REST api. Can be useful if you are using custom profixes or for testing purposes</td>
+						</tr>
+						<tr>
+							<td><code>retryAttempts</code></td>
+							<td>3</td>
+							<td>Number of retry attempts when error occures. When not set, default number of attempts (3) are used. To disable set to 0.</td>
+						</tr>
+						<tr>
+							<td><code>httpService</code></td>
+							<td>HttpService</td>
+							<td>Used to inject implementation of <code>IHttpService</code> used to make HTTP request across network</td>
+						</tr>
+				</tbody></table>
+				<h3 id="api-reference">API Reference</h3>
+				<p>Online <a href="https://kentico.github.io/kentico-cloud-js/content-management">API Reference</a> documents latest version of this library and can be used to quickly find all exposed methods and objects. Documentation is generated from <code>TypeScript</code> code and thus it should always be accurate.</p>
+				<h3 id="troubleshooting-feedback">Troubleshooting &amp; feedback</h3>
+				<p>If you have any issues or want to share your feedback, please feel free to <a href="https://github.com/Kentico/kentico-cloud-js/issues/new/choose">create an issue</a> in this GitHub repository.</p>
+				<h3 id="contributions">Contributions</h3>
+				<p>Contributions are welcomed. If you have an idea of what you would like to implement, let us know and lets discuss details of your PR.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -97,6 +222,9 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_contracts_content_type_contracts_.html">"contracts/content-<wbr>type-<wbr>contracts"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_contracts_content_type_snippet_contracts_.html">"contracts/content-<wbr>type-<wbr>snippet-<wbr>contracts"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_contracts_element_contracts_.html">"contracts/element-<wbr>contracts"</a>
@@ -132,6 +260,9 @@
 						<a href="modules/_mappers_content_type_mapper_.html">"mappers/content-<wbr>type-<wbr>mapper"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_mappers_content_type_snippet_mapper_.html">"mappers/content-<wbr>type-<wbr>snippet-<wbr>mapper"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_mappers_elements_mapper_.html">"mappers/elements-<wbr>mapper"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -157,6 +288,9 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_content_management_actions_.html">"models/content-<wbr>management-<wbr>actions"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_content_type_snippets_content_type_snippets_models_.html">"models/content-<wbr>type-<wbr>snippets/content-<wbr>type-<wbr>snippets.models"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_content_types_content_type_models_.html">"models/content-<wbr>types/content-<wbr>type.models"</a>
@@ -229,6 +363,15 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_queries_content_items_view_content_item_query_class_.html">"queries/content-<wbr>items/view-<wbr>content-<wbr>item-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_content_type_snippets_index_.html">"queries/content-<wbr>type-<wbr>snippets/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_content_type_snippets_list_content_type_snippets_query_class_.html">"queries/content-<wbr>type-<wbr>snippets/list-<wbr>content-<wbr>type-<wbr>snippets-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_content_type_snippets_view_content_type_snippet_query_class_.html">"queries/content-<wbr>type-<wbr>snippets/view-<wbr>content-<wbr>type-<wbr>snippet-<wbr>query.class"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_queries_content_types_delete_content_type_query_class_.html">"queries/content-<wbr>types/delete-<wbr>content-<wbr>type-<wbr>query.class"</a>
@@ -307,6 +450,9 @@
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_responses_content_items_content_item_responses_.html">"responses/content-<wbr>items/content-<wbr>item-<wbr>responses"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_responses_content_type_snippets_content_type_snippet_responses_.html">"responses/content-<wbr>type-<wbr>snippets/content-<wbr>type-<wbr>snippet-<wbr>responses"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_responses_content_types_content_type_responses_.html">"responses/content-<wbr>types/content-<wbr>type-<wbr>responses"</a>
