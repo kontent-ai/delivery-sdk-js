@@ -23,6 +23,10 @@ class ContentManagementContentItemActions {
         return `types`;
     }
 
+    addContentType(): string {
+        return `types`;
+    }
+
     viewContentTypeByInternalId(id: string): string {
         return `types/${id}`;
     }

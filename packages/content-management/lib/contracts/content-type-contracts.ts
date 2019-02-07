@@ -21,4 +21,7 @@ export namespace ContentTypeContracts {
 
     export interface IDeleteContentTypeResponseContract {
     }
+
+    export interface IAddContentTypeResponseContract extends IContentTypeContract {
+    }
 }

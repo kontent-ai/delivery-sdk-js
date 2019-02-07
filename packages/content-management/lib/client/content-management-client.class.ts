@@ -2,7 +2,7 @@ import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, TaxonomyModels } from '../models';
+import { AssetModels, TaxonomyModels, ContentTypeModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
@@ -35,6 +35,7 @@ import {
     ViewContentTypeQuery,
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
+    AddContentTypeQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -107,6 +108,14 @@ export class ContentManagementClient implements IContentManagementClient {
             this.config,
             this.queryService,
             (config, queryService, identifier, identifierValue) => new DeleteContentTypeQuery(config, queryService, identifier, identifierValue)
+        );
+    }
+
+    addContentType(): DataQuery<AddContentTypeQuery, ContentTypeModels.IAddContentTypeData> {
+        return new DataQuery<AddContentTypeQuery, ContentTypeModels.IAddContentTypeData>(
+            this.config,
+            this.queryService,
+            (config, queryService, data) => new AddContentTypeQuery(config, queryService, data)
         );
     }
 

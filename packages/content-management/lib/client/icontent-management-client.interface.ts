@@ -1,8 +1,9 @@
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, TaxonomyModels } from '../models';
+import { AssetModels, ContentTypeModels, TaxonomyModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
+    AddContentTypeQuery,
     AddTaxonomyQuery,
     DataQuery,
     DeleteAssetQuery,
@@ -65,6 +66,11 @@ export interface IContentManagementClient {
      * Query to view content type
      */
     deleteContentType(): IdCodenameIdentifierQuery<DeleteContentTypeQuery>;
+
+    /**
+     * Query to add new content type
+     */
+    addContentType(): DataQuery<AddContentTypeQuery, ContentTypeModels.IAddContentTypeData>;
 
     /**
      * Query to view content type

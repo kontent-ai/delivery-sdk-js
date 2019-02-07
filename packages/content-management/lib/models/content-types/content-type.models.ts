@@ -8,7 +8,7 @@ export namespace ContentTypeModels {
         public name!: string;
         public codename!: string;
         public lastModified!: Date;
-        public elements!: ElementModels.ContentTypeElementModel[];
+        public elements!: ElementModels.ElementModel[] | ElementModels.MultipleChoiceElementModel[];
 
         constructor(
             data: {
@@ -16,10 +16,28 @@ export namespace ContentTypeModels {
                 name: string,
                 codename: string,
                 lastModified: Date,
-                elements: ElementModels.ContentTypeElementModel[]
+                elements: ElementModels.ElementModel[] | ElementModels.MultipleChoiceElementModel[]
             }
         ) {
             Object.assign(this, data);
         }
+    }
+
+    export interface IAddContentTypeData {
+        name: string;
+        external_id?: string;
+        elements: IAddContentTypeElementData[];
+    }
+
+    export interface IAddContentTypeElementData {
+        name?: string;
+        type: ElementModels.ElementType;
+        guidelines?: string;
+        options?: IAddContentTypeElementMultipleChoiceElementOptionsData[];
+        mode?: ElementModels.ElementMode;
+    }
+
+    export interface IAddContentTypeElementMultipleChoiceElementOptionsData {
+        name: string;
     }
 }

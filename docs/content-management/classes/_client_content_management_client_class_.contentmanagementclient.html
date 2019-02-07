@@ -105,6 +105,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_client_content_management_client_class_.contentmanagementclient.html#addasset" class="tsd-kind-icon">add<wbr>Asset</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_client_content_management_client_class_.contentmanagementclient.html#addcontentitem" class="tsd-kind-icon">add<wbr>Content<wbr>Item</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_client_content_management_client_class_.contentmanagementclient.html#addcontenttype" class="tsd-kind-icon">add<wbr>Content<wbr>Type</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_client_content_management_client_class_.contentmanagementclient.html#addtaxonomy" class="tsd-kind-icon">add<wbr>Taxonomy</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_client_content_management_client_class_.contentmanagementclient.html#deleteasset" class="tsd-kind-icon">delete<wbr>Asset</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_client_content_management_client_class_.contentmanagementclient.html#deletecontentitem" class="tsd-kind-icon">delete<wbr>Content<wbr>Item</a></li>
@@ -144,7 +145,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:44</li>
+									<li>Defined in client/content-management-client.class.ts:45</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -166,7 +167,7 @@
 					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html" class="tsd-signature-type">IContentManagementClientConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in client/content-management-client.class.ts:50</li>
+							<li>Defined in client/content-management-client.class.ts:51</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -181,7 +182,7 @@
 					<div class="tsd-signature tsd-kind-icon">query<wbr>Service<span class="tsd-signature-symbol">:</span> <a href="_services_content_management_query_service_class_.contentmanagementqueryservice.html" class="tsd-signature-type">ContentManagementQueryService</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in client/content-management-client.class.ts:44</li>
+							<li>Defined in client/content-management-client.class.ts:45</li>
 						</ul>
 					</aside>
 				</section>
@@ -199,7 +200,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#addasset">addAsset</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:175</li>
+									<li>Defined in client/content-management-client.class.ts:184</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_data_query_class_.dataquery.html" class="tsd-signature-type">DataQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_assets_add_asset_query_class_.addassetquery.html" class="tsd-signature-type">AddAssetQuery</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_models_assets_asset_models_.assetmodels.iaddassetrequestdata.html" class="tsd-signature-type">IAddAssetRequestData</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -217,10 +218,28 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#addcontentitem">addContentItem</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:221</li>
+									<li>Defined in client/content-management-client.class.ts:230</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_data_query_class_.dataquery.html" class="tsd-signature-type">DataQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_content_items_add_content_item_query_class_.addcontentitemquery.html" class="tsd-signature-type">AddContentItemQuery</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_contracts_content_item_contracts_.contentitemcontracts.iaddcontentitempostcontract.html" class="tsd-signature-type">IAddContentItemPostContract</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="addcontenttype" class="tsd-anchor"></a>
+					<h3>add<wbr>Content<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Content<wbr>Type<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_queries_query_builders_data_query_class_.dataquery.html" class="tsd-signature-type">DataQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_content_types_add_content_type_query_class_.addcontenttypequery.html" class="tsd-signature-type">AddContentTypeQuery</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_models_content_types_content_type_models_.contenttypemodels.iaddcontenttypedata.html" class="tsd-signature-type">IAddContentTypeData</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#addcontenttype">addContentType</a></p>
+								<ul>
+									<li>Defined in client/content-management-client.class.ts:114</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_data_query_class_.dataquery.html" class="tsd-signature-type">DataQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_content_types_add_content_type_query_class_.addcontenttypequery.html" class="tsd-signature-type">AddContentTypeQuery</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_models_content_types_content_type_models_.contenttypemodels.iaddcontenttypedata.html" class="tsd-signature-type">IAddContentTypeData</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -235,7 +254,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#addtaxonomy">addTaxonomy</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:136</li>
+									<li>Defined in client/content-management-client.class.ts:145</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_data_query_class_.dataquery.html" class="tsd-signature-type">DataQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_taxonomies_add_taxonomy_query_class_.addtaxonomyquery.html" class="tsd-signature-type">AddTaxonomyQuery</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_models_taxonomies_taxonomy_models_.taxonomymodels.iaddtaxonomyrequestmodel.html" class="tsd-signature-type">IAddTaxonomyRequestModel</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -253,7 +272,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#deleteasset">deleteAsset</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:151</li>
+									<li>Defined in client/content-management-client.class.ts:160</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_full_identifier_query_class_.fullidentifierquery.html" class="tsd-signature-type">FullIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_assets_delete_asset_query_class_.deleteassetquery.html" class="tsd-signature-type">DeleteAssetQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -271,7 +290,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#deletecontentitem">deleteContentItem</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:238</li>
+									<li>Defined in client/content-management-client.class.ts:247</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_full_identifier_query_class_.fullidentifierquery.html" class="tsd-signature-type">FullIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_content_items_delete_content_item_query_class_.deletecontentitemquery.html" class="tsd-signature-type">DeleteContentItemQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -289,7 +308,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#deletecontenttype">deleteContentType</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:105</li>
+									<li>Defined in client/content-management-client.class.ts:106</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_id_codename_identifier_query_class_.idcodenameidentifierquery.html" class="tsd-signature-type">IdCodenameIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_content_types_delete_content_type_query_class_.deletecontenttypequery.html" class="tsd-signature-type">DeleteContentTypeQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -307,7 +326,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#deletetaxonomy">deleteTaxonomy</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:128</li>
+									<li>Defined in client/content-management-client.class.ts:137</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_full_identifier_query_class_.fullidentifierquery.html" class="tsd-signature-type">FullIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_taxonomies_delete_taxonomy_query_class_.deletetaxonomyquery.html" class="tsd-signature-type">DeleteTaxonomyQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -325,7 +344,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#listassets">listAssets</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:199</li>
+									<li>Defined in client/content-management-client.class.ts:208</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_assets_list_assets_query_class_.listassetsquery.html" class="tsd-signature-type">ListAssetsQuery</a></h4>
@@ -343,7 +362,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#listcontentitems">listContentItems</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:206</li>
+									<li>Defined in client/content-management-client.class.ts:215</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_content_items_list_content_items_query_class_.listcontentitemsquery.html" class="tsd-signature-type">ListContentItemsQuery</a></h4>
@@ -361,7 +380,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#listcontenttypesnippets">listContentTypeSnippets</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:62</li>
+									<li>Defined in client/content-management-client.class.ts:63</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_content_type_snippets_list_content_type_snippets_query_class_.listcontenttypesnippetsquery.html" class="tsd-signature-type">ListContentTypeSnippetsQuery</a></h4>
@@ -379,7 +398,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#listcontenttypes">listContentTypes</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:121</li>
+									<li>Defined in client/content-management-client.class.ts:130</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_content_types_list_content_types_query_class_.listcontenttypesquery.html" class="tsd-signature-type">ListContentTypesQuery</a></h4>
@@ -397,7 +416,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#listlanguagevariants">listLanguageVariants</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:246</li>
+									<li>Defined in client/content-management-client.class.ts:255</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_full_identifier_query_class_.fullidentifierquery.html" class="tsd-signature-type">FullIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_language_variants_list_language_variants_query_class_.listlanguagevariantsquery.html" class="tsd-signature-type">ListLanguageVariantsQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -415,7 +434,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#listtaxonomies">listTaxonomies</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:144</li>
+									<li>Defined in client/content-management-client.class.ts:153</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_taxonomies_list_taxonomies_query_class_.listtaxonomiesquery.html" class="tsd-signature-type">ListTaxonomiesQuery</a></h4>
@@ -433,7 +452,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#updateasset">updateAsset</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:167</li>
+									<li>Defined in client/content-management-client.class.ts:176</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_data_query_class_.dataquery.html" class="tsd-signature-type">DataQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_assets_update_asset_query_class_.updateassetquery.html" class="tsd-signature-type">UpdateAssetQuery</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_models_assets_asset_models_.assetmodels.iupdateassetrequestdata.html" class="tsd-signature-type">IUpdateAssetRequestData</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -451,7 +470,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#updatecontentitem">updateContentItem</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:229</li>
+									<li>Defined in client/content-management-client.class.ts:238</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_full_identifier_query_class_.fullidentifierquery.html" class="tsd-signature-type">FullIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_query_builders_data_query_class_.dataquery.html" class="tsd-signature-type">DataQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_content_items_update_content_item_query_class_.updatecontentitemquery.html" class="tsd-signature-type">UpdateContentItemQuery</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_contracts_content_item_contracts_.contentitemcontracts.iupdatecontentitempostcontract.html" class="tsd-signature-type">IUpdateContentItemPostContract</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -469,7 +488,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#uploadbinaryfile">uploadBinaryFile</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:183</li>
+									<li>Defined in client/content-management-client.class.ts:192</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_data_query_class_.dataquery.html" class="tsd-signature-type">DataQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_assets_upload_binary_file_query_class_.uploadbinaryfilequery.html" class="tsd-signature-type">UploadBinaryFileQuery</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_models_assets_asset_models_.assetmodels.iuploadbinaryfilerequestdata.html" class="tsd-signature-type">IUploadBinaryFileRequestData</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -487,7 +506,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#upsertasset">upsertAsset</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:159</li>
+									<li>Defined in client/content-management-client.class.ts:168</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_data_query_class_.dataquery.html" class="tsd-signature-type">DataQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_assets_upsert_asset_query_class_.upsertassetquery.html" class="tsd-signature-type">UpsertAssetQuery</a><span class="tsd-signature-symbol">, </span><a href="../interfaces/_models_assets_asset_models_.assetmodels.iupsertassetrequestdata.html" class="tsd-signature-type">IUpsertAssetRequestData</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -505,7 +524,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#upsertlanguagevariant">upsertLanguageVariant</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:86</li>
+									<li>Defined in client/content-management-client.class.ts:87</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_full_identifier_query_class_.fullidentifierquery.html" class="tsd-signature-type">FullIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_query_builders_language_identifier_query_class_.languageidentifierquery.html" class="tsd-signature-type">LanguageIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_query_builders_language_variant_elements_query_class_.languagevariantelementsquery.html" class="tsd-signature-type">LanguageVariantElementsQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_language_variants_upsert_language_variant_query_class_.upsertlanguagevariantquery.html" class="tsd-signature-type">UpsertLanguageVariantQuery</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -523,7 +542,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#validateprojectcontent">validateProjectContent</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:97</li>
+									<li>Defined in client/content-management-client.class.ts:98</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_projectid_identifier_query_class_.projectididentifierquery.html" class="tsd-signature-type">ProjectIdIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_projects_validate_project_content_query_.validateprojectcontentquery.html" class="tsd-signature-type">ValidateProjectContentQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -541,7 +560,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#viewasset">viewAsset</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:191</li>
+									<li>Defined in client/content-management-client.class.ts:200</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_id_identifier_query_class_.ididentifierquery.html" class="tsd-signature-type">IdIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_assets_view_assets_query_.viewassetsquery.html" class="tsd-signature-type">ViewAssetsQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -559,7 +578,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#viewcontentitem">viewContentItem</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:213</li>
+									<li>Defined in client/content-management-client.class.ts:222</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_full_identifier_query_class_.fullidentifierquery.html" class="tsd-signature-type">FullIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_content_items_view_content_item_query_class_.viewcontentitemquery.html" class="tsd-signature-type">ViewContentItemQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -577,7 +596,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#viewcontenttype">viewContentType</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:113</li>
+									<li>Defined in client/content-management-client.class.ts:122</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_id_codename_identifier_query_class_.idcodenameidentifierquery.html" class="tsd-signature-type">IdCodenameIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_content_types_view_content_type_query_class_.viewcontenttypequery.html" class="tsd-signature-type">ViewContentTypeQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -595,7 +614,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#viewcontenttypesnippet">viewContentTypeSnippet</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:69</li>
+									<li>Defined in client/content-management-client.class.ts:70</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_id_codename_identifier_query_class_.idcodenameidentifierquery.html" class="tsd-signature-type">IdCodenameIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_content_type_snippets_view_content_type_snippet_query_class_.viewcontenttypesnippetquery.html" class="tsd-signature-type">ViewContentTypeSnippetQuery</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -613,7 +632,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html">IContentManagementClient</a>.<a href="../interfaces/_client_icontent_management_client_interface_.icontentmanagementclient.html#viewlanguagevariant">viewLanguageVariant</a></p>
 								<ul>
-									<li>Defined in client/content-management-client.class.ts:77</li>
+									<li>Defined in client/content-management-client.class.ts:78</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_queries_query_builders_full_identifier_query_class_.fullidentifierquery.html" class="tsd-signature-type">FullIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_query_builders_language_identifier_query_class_.languageidentifierquery.html" class="tsd-signature-type">LanguageIdentifierQuery</a><span class="tsd-signature-symbol">&lt;</span><a href="_queries_language_variants_view_language_variant_query_class_.viewlanguagevariantquery.html" class="tsd-signature-type">ViewLanguageVariantQuery</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -654,6 +673,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_client_content_management_client_class_.contentmanagementclient.html#addcontentitem" class="tsd-kind-icon">add<wbr>Content<wbr>Item</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_client_content_management_client_class_.contentmanagementclient.html#addcontenttype" class="tsd-kind-icon">add<wbr>Content<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_client_content_management_client_class_.contentmanagementclient.html#addtaxonomy" class="tsd-kind-icon">add<wbr>Taxonomy</a>
