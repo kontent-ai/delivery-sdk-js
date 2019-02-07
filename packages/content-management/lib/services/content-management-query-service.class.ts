@@ -21,7 +21,7 @@ import {
     projectMapper,
     taxonomyResponseMapper,
 } from '../mappers';
-import { AssetModels, IContentManagementQueryConfig, LanguageVariantModels, TaxonomyModels } from '../models';
+import { AssetModels, IContentManagementQueryConfig, LanguageVariantModels, TaxonomyModels, ContentTypeModels } from '../models';
 import {
     AssetResponses,
     ContentItemResponses,
@@ -41,6 +41,22 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, sdkInfo);
+    }
+
+    addContentType(
+        url: string,
+        data: ContentTypeModels.IAddContentTypeData,
+        config: IContentManagementQueryConfig
+    ): Observable<ContentTypeResponses.AddContentTypeResponse> {
+        return this.postResponse<ContentTypeContracts.IAddContentTypeResponseContract>(
+            url,
+            data,
+            config
+        ).pipe(
+            map(response => {
+                return contentTypeMapper.mapAddContentTypeResponse(response);
+            })
+        );
     }
 
     viewContentTypeSnippet(

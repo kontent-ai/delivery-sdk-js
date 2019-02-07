@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-content-management",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management"
@@ -11,6 +11,9 @@
   "description": "Official Kentico Cloud Content management SDK",
   "keywords": [
     "Kentico",
+    "Kentico Cloud",
+    "Kentico Cloud Javascript",
+    "Kentico Cloud API",
     "Kentico API",
     "Kentico Javascript",
     "Kentico SDK",

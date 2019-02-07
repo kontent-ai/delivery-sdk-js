@@ -8,7 +8,7 @@ export namespace ContentTypeSnippetModels {
         public name!: string;
         public codename!: string;
         public lastModified!: Date;
-        public elements!: ElementModels.ContentTypeElementModel[];
+        public elements!: ElementModels.ElementModel[] | ElementModels.MultipleChoiceElementModel[];
 
         constructor(
             data: {
@@ -16,7 +16,7 @@ export namespace ContentTypeSnippetModels {
                 name: string,
                 codename: string,
                 lastModified: Date,
-                elements: ElementModels.ContentTypeElementModel[]
+                elements: ElementModels.ElementModel[] | ElementModels.MultipleChoiceElementModel[]
             }
         ) {
             Object.assign(this, data);

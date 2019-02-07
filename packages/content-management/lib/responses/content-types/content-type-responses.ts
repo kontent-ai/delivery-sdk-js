@@ -31,6 +31,16 @@ export namespace ContentTypeResponses {
         }
     }
 
+    export class AddContentTypeResponse extends BaseResponses.BaseContentManagementResponse<ContentTypeContracts.IAddContentTypeResponseContract, ContentTypeModels.ContentType>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: ContentTypeContracts.IAddContentTypeResponseContract,
+            data: ContentTypeModels.ContentType
+        ) {
+            super(debug, rawData, data);
+        }
+    }
+
     export class DeleteContentTypeResponse extends BaseResponses.BaseContentManagementResponse<ContentTypeContracts.IDeleteContentTypeResponseContract, undefined>  {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
