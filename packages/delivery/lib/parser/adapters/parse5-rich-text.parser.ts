@@ -12,6 +12,7 @@ import { ILinkResolverResult } from '../../interfaces';
 import {
     IFeaturedObjects,
     IHtmlResolverConfig,
+    IImageObject,
     ILinkedItemContentObject,
     ILinkObject,
     IRichTextHtmlParser,
@@ -28,20 +29,27 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         dataCodename: 'data-codename'
     };
 
-    private readonly link = {
+    private readonly linkElementData = {
         nodeName: 'a',
         dataItemId: 'data-item-id',
     };
 
-    resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
+    private readonly imageElementData = {
+        nodeName: 'img',
+        dataImageId: 'data-image-id',
+        srcAttribute: 'src'
+    };
+
+    resolveRichTextField(html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         try {
             // create document
             const documentFragment = parseFragment(html) as DefaultTreeDocumentFragment;
 
             // get all linked items
-            const result = this.processRichTextField(this.getChildNodes(documentFragment), replacement, config, {
+            const result = this.processRichTextField(fieldName, this.getChildNodes(documentFragment), replacement, config, {
                 links: [],
-                linkedItems: []
+                linkedItems: [],
+                images: []
             });
 
             const resolvedHtml = serialize(documentFragment);
@@ -49,6 +57,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
             return {
                 links: result.links,
                 linkedItems: result.linkedItems,
+                images: result.images,
                 resolvedHtml: resolvedHtml
             };
 
@@ -57,23 +66,26 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         }
     }
 
-    private processRichTextField(elements: DefaultTreeElement[], replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
+    private processRichTextField(fieldName: string, elements: DefaultTreeElement[], replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
         if (!elements || elements.length === 0) {
             // there are no more elements
         } else {
             elements.forEach(element => {
                 if (element.attrs) {
 
-                    // process modular content
-                    this.processModularContent(element, replacement, config, result);
+                    // process modular content items
+                    this.processModularContentItem(element, replacement, config, result);
 
-                    // process link
+                    // process links
                     this.processLink(element, replacement, config, result);
+
+                    // process images
+                    this.processImage(fieldName, element, replacement, config, result);
                 }
 
                 if (element.childNodes) {
                     // recursively process all childs
-                    this.processRichTextField(this.getChildNodes(element), replacement, config, result);
+                    this.processRichTextField(fieldName, this.getChildNodes(element), replacement, config, result);
                 }
             });
         }
@@ -81,16 +93,48 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         return result;
     }
 
+    private processImage(fieldName: string, element: DefaultTreeElement, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): void {
+        const attributes = element.attrs;
+
+        if (element.nodeName !== this.imageElementData.nodeName) {
+            // node is not an image
+            return;
+        }
+
+        // get image id attribute
+        const dataImageIdAttribute = attributes.find(m => m.name === this.imageElementData.dataImageId);
+        if (!dataImageIdAttribute) {
+            // image tag does not have image id attribute
+            return;
+        }
+
+        // prepare link object
+        const image: IImageObject = {
+            imageId: dataImageIdAttribute.value
+        };
+
+        // add link to result
+        result.images.push(image);
+
+        const linkResult = replacement.getImageResult(image.imageId, fieldName);
+
+        // set url of image
+        const srcAttribute = attributes.find(m => m.name === this.imageElementData.srcAttribute);
+        if (srcAttribute) {
+            srcAttribute.value = linkResult.url;
+        }
+    }
+
     private processLink(element: DefaultTreeElement, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): void {
         const attributes = element.attrs;
 
-        if (element.nodeName !== this.link.nodeName) {
+        if (element.nodeName !== this.linkElementData.nodeName) {
             // node is not a link
             return;
         }
 
         // get all links which have item it attribute, ignore all other links (they can be regular links in rich text)
-        const dataItemIdAttribute = attributes.find(m => m.name === this.link.dataItemId);
+        const dataItemIdAttribute = attributes.find(m => m.name === this.linkElementData.dataItemId);
         if (!dataItemIdAttribute) {
             // its either a regular link or the attribute is not defined
             return;
@@ -150,7 +194,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         }
     }
 
-    private processModularContent(
+    private processModularContentItem(
         element: DefaultTreeElement,
         replacement: IRichTextReplacements,
         config: IHtmlResolverConfig,

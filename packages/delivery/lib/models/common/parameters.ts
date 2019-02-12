@@ -142,6 +142,23 @@ export namespace Parameters {
         }
     }
 
+    export class CustomParameter implements IQueryParameter {
+
+        constructor(
+            public paramName: string,
+            public value: string | undefined
+        ) {
+        }
+
+        public getParam(): string {
+            return this.paramName;
+        }
+
+        public getParamValue(): string | undefined {
+            return this.value;
+        }
+    }
+
     export class DepthParameter implements IQueryParameter {
 
         /**

@@ -25,6 +25,26 @@ export namespace FieldContracts {
         codename: string;
     }
 
+    export interface IRichTextFieldLinkWrapperContract {
+        [key: string]: IRichTextFieldLinkContract;
+    }
+
+    export interface IRichTextFieldLinkContract {
+        type: string;
+        codename: string;
+        url_slug: string;
+    }
+
+    export interface IRichTextFieldImageWrapperContract {
+        [key: string]: IRichTextFieldImageContract;
+    }
+
+    export interface IRichTextFieldImageContract {
+        image_id: string;
+        url: string;
+        description?: string;
+    }
+
     export interface IRichTextFieldContract extends IFieldContract {
 
         /**
@@ -33,8 +53,13 @@ export namespace FieldContracts {
         modular_content: string[];
 
         /**
-         * Json with links identified by item Id
+         * Json with links
          */
-        links: any;
+        links: IRichTextFieldLinkWrapperContract;
+
+        /**
+         * Json with images
+         */
+        images: IRichTextFieldImageWrapperContract;
     }
 }

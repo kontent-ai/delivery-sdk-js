@@ -74,13 +74,13 @@ describe('RichTextField', () => {
     // prepare links
     const links: Link[] = [
         new Link({
-            itemId: tomHardy.system.id,
+            linkId: tomHardy.system.id,
             codename: tomHardy.system.codename,
             type: tomHardy.system.type,
             urlSlug: 'slug_for_tom',
         }),
         new Link({
-            itemId: joelEdgerton.system.id,
+            linkId: joelEdgerton.system.id,
             codename: joelEdgerton.system.codename,
             type: joelEdgerton.system.type,
             urlSlug: 'slug_for_joel',
@@ -106,11 +106,12 @@ describe('RichTextField', () => {
 
     const field = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
         links: links,
-        resolveHtml: () => richTextResolver.resolveHtml(html, {
+        resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
             enableAdvancedLogging: false,
             links: links,
             getLinkedItem: getLinkedItem,
             typeResolvers: config.typeResolvers as any,
+            images: [],
             richTextHtmlParser: getParserAdapter(),
             linkedItemWrapperClasses: ['kc-wrapper-class'],
             linkedItemWrapperTag: 'kcelem',
@@ -120,7 +121,8 @@ describe('RichTextField', () => {
                 },
                 linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
             },
-        })
+        }),
+        images: []
     });
 
 
@@ -174,11 +176,12 @@ describe('RichTextField', () => {
 
         const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtml: () => richTextResolver.resolveHtml(html, {
+            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
                 typeResolvers: config.typeResolvers as any,
+                images: [],
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: ['kc-wrapper-class'],
                 linkedItemWrapperTag: 'kc-item-wrapper',
@@ -186,7 +189,8 @@ describe('RichTextField', () => {
                     richTextResolver: undefined as any,
                     linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
                 },
-            })
+            }),
+            images: []
         });
 
         const expectedHtml1 = `href="/actor-rt/slug_for_joel"`;
@@ -200,11 +204,12 @@ describe('RichTextField', () => {
 
         const fieldWithRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtml: () => richTextResolver.resolveHtml(html, {
+            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
                 typeResolvers: config.typeResolvers as any,
+                images: [],
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: ['kc-wrapper-class'],
                 linkedItemWrapperTag: 'kc-item-wrapper',
@@ -214,7 +219,8 @@ describe('RichTextField', () => {
                         return '';
                     }
                 },
-            })
+            }),
+            images: []
         });
 
         fieldWithRichTextResolver.getHtml();

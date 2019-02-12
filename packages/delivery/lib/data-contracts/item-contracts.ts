@@ -3,7 +3,6 @@ import { IPaginationContract } from './shared/ipagination.interface';
 export namespace ItemContracts {
 
   export interface ILinkContract {
-    itemId: string;
     codename: string;
     type: string;
     url_slug: string;

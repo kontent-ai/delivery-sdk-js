@@ -1,4 +1,4 @@
-import { FieldModels, ItemResponses } from '../../../lib';
+import { FieldModels, ItemResponses, RichTextImage } from '../../../lib';
 import { Actor, Context, Movie, setup } from '../../setup';
 
 describe('Live item', () => {
@@ -132,5 +132,17 @@ describe('Live item', () => {
     expect(response.item.elements).toBeDefined();
     expect(response.item.elements.title.value).toEqual(response.item.title.text);
   });
+
+  it(`images should be mapped in plot rich text field`, () => {
+    const images = response.item.plot.images;
+
+    expect(images).toBeDefined();
+    expect(images.length).toEqual(2);
+
+    images.forEach(image => {
+      expect(image).toEqual(jasmine.any(RichTextImage));
+    });
+  });
+
 });
 

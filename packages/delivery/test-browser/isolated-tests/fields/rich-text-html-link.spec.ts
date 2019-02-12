@@ -73,13 +73,13 @@ describe('RichTextField with Html links', () => {
     // prepare links
     const links: Link[] = [
         new Link({
-            itemId: tomHardy.system.id,
+            linkId: tomHardy.system.id,
             codename: tomHardy.system.codename,
             type: tomHardy.system.type,
             urlSlug: 'slug_for_tom',
         }),
         new Link({
-            itemId: joelEdgerton.system.id,
+            linkId: joelEdgerton.system.id,
             codename: joelEdgerton.system.codename,
             type: joelEdgerton.system.type,
             urlSlug: 'slug_for_joel',
@@ -105,11 +105,12 @@ describe('RichTextField with Html links', () => {
 
         const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtml: () => richTextResolver.resolveHtml(html, {
+            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
-                typeResolvers: config.typeResolvers as any,
+                typeResolvers: config.typeResolvers as TypeResolver[],
+                images: [],
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: ['kc-wrapper-class'],
                 linkedItemWrapperTag: 'kc-item-wrapper',
@@ -119,7 +120,8 @@ describe('RichTextField with Html links', () => {
                         asHtml: `<test>${link.urlSlug}</test>`,
                     }
                 },
-            })
+            }),
+            images: []
         });
 
         const expectedHtml1 = `${beforeLinkText}<test>slug_for_joel</test>${afterLinkText}`;

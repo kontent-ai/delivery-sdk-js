@@ -1,17 +1,14 @@
-import { IItemQueryConfig, ILinkResolverResult } from '../interfaces';
 import { RichTextContentType } from '../enums';
+import { IItemQueryConfig, ILinkResolverResult, IRichTextImageResolverResult } from '../interfaces';
 
 export interface IRichTextHtmlParser {
-    resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
-}
-
-export interface IRichTextHtmlParser {
-    resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
+    resolveRichTextField(html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
 }
 
 export interface IFeaturedObjects {
     links: ILinkObject[];
     linkedItems: ILinkedItemContentObject[];
+    images: IImageObject[];
 }
 
 export interface IRichTextResolverResult extends IFeaturedObjects {
@@ -21,6 +18,7 @@ export interface IRichTextResolverResult extends IFeaturedObjects {
 export interface IRichTextReplacements {
     getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => string;
     getLinkResult: (itemId: string, linkText: string) => string | undefined | ILinkResolverResult;
+    getImageResult: (imageId: string, fieldName: string) => IRichTextImageResolverResult;
 }
 
 export interface IHtmlResolverConfig {
@@ -37,6 +35,10 @@ export interface ILinkedItemContentObject {
 
 export interface ILinkObject {
     dataItemId: string;
+}
+
+export interface IImageObject {
+    imageId: string;
 }
 
 

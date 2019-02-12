@@ -12,6 +12,18 @@ export class ImageUrlBuilder {
   ) { }
 
   /**
+   * Used to add custom parameters to existing query string
+   * @param param Parameter name
+   * @param value Value
+   */
+  withCustomParam(param: string, value: string | undefined): this {
+    this.queryParams.push(
+      new Parameters.CustomParameter(param, value)
+    );
+    return this;
+  }
+
+  /**
    * The dpr transformation is used to serve correctly sized images for devices that expose a device pixel ratio.
    * @param dpr A required DPR value.
    */

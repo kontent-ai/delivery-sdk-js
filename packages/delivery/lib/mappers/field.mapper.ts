@@ -4,7 +4,7 @@ import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { FieldContracts, FieldDecorators, FieldModels, Fields, FieldType } from '../fields';
 import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult } from '../interfaces';
-import { ContentItem, Link } from '../models';
+import { ContentItem, Link, RichTextImage } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
 
@@ -183,8 +183,9 @@ export class FieldMapper {
             }
         }
 
-        // extract and map links
+        // extract and map links & images
         const links: Link[] = this.mapRichTextLinks(field.links);
+        const images: RichTextImage[] = this.mapRichTextImages(field.images);
 
         return new Fields.RichTextField(
             field.name,
@@ -192,9 +193,10 @@ export class FieldMapper {
             field.modular_content,
             {
                 links: links,
-                resolveHtml: () => richTextResolver.resolveHtml(field.value, {
+                resolveHtml: () => richTextResolver.resolveHtml(field.value, field.name, {
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
                     typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
+                    images: images,
                     richTextHtmlParser: this.richTextHtmlParser,
                     getLinkedItem: (codename) => this.getOrSaveLinkedItem(codename, field, queryConfig, modularContent, linkedItems),
                     links: links,
@@ -204,8 +206,9 @@ export class FieldMapper {
                         : this.defaultLinkedItemWrapperTag,
                     linkedItemWrapperClasses: this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperClasses
                         ? this.config.linkedItemResolver.linkedItemWrapperClasses
-                        : this.defaultLinkedItemWrapperClasses
-                })
+                        : this.defaultLinkedItemWrapperClasses,
+                }),
+                images: images
             });
     }
 
@@ -373,19 +376,34 @@ export class FieldMapper {
         return mappedLinkedItem;
     }
 
-    private mapRichTextLinks(linksJson: any): Link[] {
+    private mapRichTextLinks(linksJson: FieldContracts.IRichTextFieldLinkWrapperContract): Link[] {
         const links: Link[] = [];
 
-        for (const linkItemId of Object.keys(linksJson)) {
-            const linkRaw: ItemContracts.ILinkContract = linksJson[linkItemId] as ItemContracts.ILinkContract;
+        for (const linkId of Object.keys(linksJson)) {
+            const linkRaw = linksJson[linkId];
             links.push(new Link({
                 codename: linkRaw.codename,
-                itemId: linkItemId,
+                linkId: linkId,
                 urlSlug: linkRaw.url_slug,
                 type: linkRaw.type,
             }));
         }
 
         return links;
+    }
+
+    private mapRichTextImages(imagesJson: FieldContracts.IRichTextFieldImageWrapperContract): RichTextImage[] {
+        const images: RichTextImage[] = [];
+
+        for (const imageId of Object.keys(imagesJson)) {
+            const imageRaw = imagesJson[imageId];
+            images.push(new RichTextImage({
+                description: imageRaw.description,
+                imageId: imageRaw.image_id,
+                url: imageRaw.url
+            }));
+        }
+
+        return images;
     }
 }
