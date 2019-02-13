@@ -763,7 +763,7 @@ deliveryClient.item<Movie>('pain_and_gain')
 
 Rich text fields may contain images and in some situation you might want to adjust the `src` attribute in order to optimize image delivery using for example [Image transformations](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/DOCS.md#image-transformations) (compression, max height/width declaration etc.). 
 
-To modify source of image, use `richTextImageResolver` method of the `itemQuery`. The `richTextImageResolver` expects you to return an object with `url` property. See example below:
+To modify source of image, use `richTextImageResolver` property of the `queryConfig`. The `richTextImageResolver` expects you to return an object with `url` property. See example below:
 
 ```typescript
 import { ImageUrlBuilder, ImageCompressionEnum, ImageFitModeEnum } from 'kentico-cloud-delivery';
