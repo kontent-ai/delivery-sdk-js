@@ -784,8 +784,7 @@ deliveryClient.item<Movie>('warrior')
       })
   .getObservable()
   .subscribe(response => {
-    // 'actor' will be an instance of 'FakeActor' class
-    const actor = response.item.stars[0];
+    // work with response
   });
 
 ```
