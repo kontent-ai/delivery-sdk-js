@@ -1,14 +1,15 @@
+import { RichTextContentType } from '../../enums';
+import { ILinkResolverResult } from '../../interfaces';
 import {
     IFeaturedObjects,
     IHtmlResolverConfig,
-    ILinkObject,
+    IImageObject,
     ILinkedItemContentObject,
+    ILinkObject,
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
 } from '../parse-models';
-import { ILinkResolverResult } from '../../interfaces';
-import { RichTextContentType } from '../../enums';
 
 export class BrowserRichTextParser implements IRichTextHtmlParser {
 
@@ -20,24 +21,32 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         dataCodename: 'data-codename'
     };
 
-    private readonly link = {
+    private readonly linkElementData = {
         nodeName: 'a',
         dataItemId: 'data-item-id',
     };
 
-    resolveRichTextField(html: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
+    private readonly imageElementData = {
+        nodeName: 'img',
+        dataImageId: 'data-image-id',
+        srcAttribute: 'src'
+    };
+
+    resolveRichTextField(html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         try {
             const doc = this.createWrapperElement(html);
 
             // get all linked items
-            const result = this.processRichTextField(doc.children, replacement, config, {
+            const result = this.processRichTextField(fieldName, doc.children, replacement, config, {
                 links: [],
-                linkedItems: []
+                linkedItems: [],
+                images: []
             });
 
             return {
                 links: result.links,
                 linkedItems: result.linkedItems,
+                images: result.images,
                 resolvedHtml: doc.innerHTML
             };
 
@@ -53,7 +62,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         return element;
     }
 
-    private processRichTextField(htmlCollection: HTMLCollection, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
+    private processRichTextField(fieldName: string, htmlCollection: HTMLCollection, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
         if (!htmlCollection || htmlCollection.length === 0) {
             // there are no more nodes
         } else {
@@ -61,8 +70,9 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
             for (let i = 0; i < htmlCollection.length; i++) {
                 const element = htmlCollection[i];
                 const typeAttribute = element.attributes ? element.attributes.getNamedItem('type') : undefined;
+
+                // process linked items (modular items)
                 if (element.attributes && typeAttribute && typeAttribute.value && typeAttribute.value.toLowerCase() === this.modularContentElementData.type.toLowerCase()) {
-                    // node is modular content object
                     const dataCodenameAttribute = element.attributes.getNamedItem(this.modularContentElementData.dataCodename);
                     const dataTypeAttribute = element.attributes.getNamedItem(this.modularContentElementData.dataType);
 
@@ -105,64 +115,94 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                     }
                 }
 
-                if (element.nodeName.toLowerCase() === this.link.nodeName.toLowerCase()) {
-                    const dataItemIdAttribute = element.attributes.getNamedItem(this.link.dataItemId);
+                // process links
+                if (element.nodeName.toLowerCase() === this.linkElementData.nodeName.toLowerCase()) {
+                    const dataItemIdAttribute = element.attributes.getNamedItem(this.linkElementData.dataItemId);
 
-                    if (dataItemIdAttribute) {
-                        const link: ILinkObject = {
-                            dataItemId: dataItemIdAttribute ? dataItemIdAttribute.value : ''
+                    if (!dataItemIdAttribute) {
+                        throw Error(`HTML node is invalid. Reason: missing '${this.linkElementData.dataItemId}' attribute`);
+                    }
+
+                    const link: ILinkObject = {
+                        dataItemId: dataItemIdAttribute ? dataItemIdAttribute.value : ''
+                    };
+
+                    // add to result
+                    result.links.push(link);
+
+                    // get original link text (the one inside <a> tag)
+                    const linkText = element.innerHTML;
+
+                    const linkResult = replacement.getLinkResult(link.dataItemId, linkText);
+                    let useResultAsUrl: boolean = true;
+
+                    if (typeof linkResult === 'string') {
+                        // use result as URL
+                        useResultAsUrl = true;
+                    } else {
+                        useResultAsUrl = false;
+                    }
+
+                    if (!useResultAsUrl) {
+                        // replace whole link (<a> tag)
+                        if (linkResult) {
+                            // html for link is defined
+                            const linkHtml = (<ILinkResolverResult>linkResult).asHtml;
+                            element.outerHTML = linkHtml ? linkHtml : '';
+                            const parent = element.parentNode;
+                            if (parent) {
+                                parent.replaceChild(element, element);
+                            }
+                        }
+                    }
+
+                    if (useResultAsUrl) {
+                        // add url to link
+                        const hrefAttribute = element.attributes.getNamedItem('href');
+                        if (!hrefAttribute) {
+                            // href attribute is missing
+                            if (config.enableAdvancedLogging) {
+                                console.warn(`Cannot set url '${linkResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                            }
+                        } else {
+                            // get link url
+                            const linkUrlResult: string | undefined = typeof linkResult === 'string' ? <string>linkResult : (<ILinkResolverResult>linkResult).asUrl;
+                            hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
+                        }
+                    }
+                }
+
+                // process images
+                if (element.nodeName.toLowerCase() === this.imageElementData.nodeName.toLowerCase()) {
+                    const dataImageIdAttribute = element.attributes.getNamedItem(this.imageElementData.dataImageId);
+
+                    // continue only if data image id is present. There could be regular img tags included
+                    if (dataImageIdAttribute) {
+
+                        const imageObj: IImageObject = {
+                            imageId: dataImageIdAttribute.value
                         };
 
-                        // add to result
-                        result.links.push(link);
+                        result.images.push(imageObj);
 
-                        // get original link text (the one inside <a> tag)
-                        const linkText = element.innerHTML;
+                        // get image result
+                        const imageResult = replacement.getImageResult(imageObj.imageId, fieldName);
 
-                        const linkResult = replacement.getLinkResult(link.dataItemId, linkText);
-                        let useResultAsUrl: boolean = true;
+                        // get src attribute of img tag
+                        const srcAttribute = element.attributes.getNamedItem(this.imageElementData.srcAttribute);
 
-                        if (typeof linkResult === 'string' ) {
-                            // use result as URL
-                            useResultAsUrl = true;
-                        } else {
-                            useResultAsUrl = false;
+                        if (!srcAttribute) {
+                            throw Error(`Attribute '${this.imageElementData.srcAttribute}' is missing. Source field: ${fieldName}`);
                         }
 
-                        if (!useResultAsUrl) {
-                            // replace whole link (<a> tag)
-                            if (linkResult) {
-                                // html for link is defined
-                                const linkHtml = (<ILinkResolverResult>linkResult).asHtml;
-                                element.outerHTML = linkHtml ? linkHtml : '';
-                                const parent = element.parentNode;
-                                if (parent) {
-                                    parent.replaceChild(element, element);
-                                }
-                            }
-                        }
-
-                        if (useResultAsUrl) {
-                            // add url to link
-                            const hrefAttribute = element.attributes.getNamedItem('href');
-                            if (!hrefAttribute) {
-                                // href attribute is missing
-                                if (config.enableAdvancedLogging) {
-                                    console.warn(`Cannot set url '${linkResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
-                                }
-                            } else {
-                                // get link url
-                                const linkUrlResult: string | undefined = typeof linkResult === 'string' ? <string>linkResult : (<ILinkResolverResult>linkResult).asUrl;
-                                hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
-                            }
-                        }
-
+                        // set new image url
+                        srcAttribute.value = imageResult.url;
                     }
                 }
 
                 // recursively process child nodes
                 if (element.children && element.children.length > 0) {
-                    this.processRichTextField(element.children, replacement, config, result);
+                    this.processRichTextField(fieldName, element.children, replacement, config, result);
                 }
             }
         }

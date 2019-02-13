@@ -759,6 +759,36 @@ deliveryClient.item<Movie>('pain_and_gain')
   });
 ```
 
+### Image processing inside Rich Text fields
+
+Rich text fields may contain images and in some situation you might want to adjust the `src` attribute in order to optimize image delivery using for example [Image transformations](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/DOCS.md#image-transformations) (compression, max height/width declaration etc.). 
+
+To modify source of image, use `richTextImageResolver` property of the `queryConfig`. The `richTextImageResolver` expects you to return an object with `url` property. See example below:
+
+```typescript
+import { ImageUrlBuilder, ImageCompressionEnum, ImageFitModeEnum } from 'kentico-cloud-delivery';
+
+deliveryClient.item<Movie>('warrior')
+   .queryConfig({
+        richTextImageResolver: (image, fieldName) => {
+          const newImageUrl = new ImageUrlBuilder(image.url)
+            .withHeight(150)
+            .withCompression(ImageCompressionEnum.Lossy)
+            .withFitMode(ImageFitModeEnum.Crop)
+            .getUrl();
+
+          return {
+            url: newImageUrl
+          };
+        },
+      })
+  .getObservable()
+  .subscribe(response => {
+    // work with response
+  });
+
+```
+
 ## Getting content types
 
 To retrieve information about your content types, you can use the `type` and `types` methods.

@@ -73,13 +73,13 @@ describe('RichTextField with Html links', () => {
     // prepare links
     const links: Link[] = [
         new Link({
-            itemId: tomHardy.system.id,
+            linkId: tomHardy.system.id,
             codename: tomHardy.system.codename,
             type: tomHardy.system.type,
             urlSlug: 'slug_for_tom',
         }),
         new Link({
-            itemId: joelEdgerton.system.id,
+            linkId: joelEdgerton.system.id,
             codename: joelEdgerton.system.codename,
             type: joelEdgerton.system.type,
             urlSlug: 'slug_for_joel',
@@ -100,16 +100,16 @@ describe('RichTextField with Html links', () => {
     <p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"></object>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"></object>\n<p>See more in profile of ${beforeLinkText}<a data-item-id=\"3294e4b0-e58b-49d7-85fa-5bc9a86556ec\" href=\"\">Joel Edgerton</a>${afterLinkText} and ${beforeLinkText}<a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a>${afterLinkText}</p>
     `;
 
-
     it(`checks that links are resolved as HTML`, () => {
 
         const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtml: () => richTextResolver.resolveHtml(html, {
+            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
-                typeResolvers: config.typeResolvers as any,
+                typeResolvers: config.typeResolvers as TypeResolver[],
+                images: [],
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: ['kc-wrapper-class'],
                 linkedItemWrapperTag: 'kc-item-wrapper',
@@ -119,7 +119,8 @@ describe('RichTextField with Html links', () => {
                         asHtml: `<test>${link.urlSlug}</test>`,
                     }
                 },
-            })
+            }),
+            images: []
         });
 
         const expectedHtml1 = `${beforeLinkText}<test>slug_for_joel</test>${afterLinkText}`;

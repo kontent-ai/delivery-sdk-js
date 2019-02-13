@@ -2,9 +2,9 @@
 export class Link {
 
     /**
-    * Id of the content item
-    */
-    public itemId!: string;
+     * Id of the link
+     */
+    public linkId!: string;
 
     /**
      * Codename of the content item
@@ -23,7 +23,7 @@ export class Link {
 
     constructor(
         data: {
-            itemId: string,
+            linkId: string;
             codename: string,
             type: string,
             urlSlug: string,

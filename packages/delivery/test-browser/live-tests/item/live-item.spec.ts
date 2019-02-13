@@ -1,4 +1,4 @@
-import { FieldModels, ItemResponses } from '../../../lib';
+import { FieldModels, ItemResponses, RichTextImage, ImageUrlBuilder } from '../../../lib';
 import { Actor, Context, Movie, setup } from '../../setup';
 
 describe('Live item', () => {
@@ -11,6 +11,17 @@ describe('Live item', () => {
 
   beforeAll((done) => {
     context.deliveryClient.item<Movie>(movieCodename)
+      .queryConfig({
+        richTextImageResolver: (image, fieldName) => {
+          const newImageUrl = new ImageUrlBuilder(image.url)
+            .withCustomParam('xParam', 'xValue')
+            .getUrl();
+
+          return {
+            url: newImageUrl
+          };
+        },
+      })
       .getObservable()
       .subscribe(r => {
         response = r as ItemResponses.DeliveryItemResponse<Movie>;
@@ -132,5 +143,23 @@ describe('Live item', () => {
     expect(response.item.elements).toBeDefined();
     expect(response.item.elements.title.value).toEqual(response.item.title.text);
   });
+
+  it(`images should be mapped in plot rich text field`, () => {
+    const images = response.item.plot.images;
+
+    expect(images).toBeDefined();
+    expect(images.length).toEqual(2);
+
+    images.forEach(image => {
+      expect(image).toEqual(jasmine.any(RichTextImage));
+
+      // get original image
+      const newImageUrl = image.url + '?xParam=xValue';
+      const plotHtml = response.item.plot.getHtml();
+
+      expect(plotHtml).toContain(`src="${newImageUrl}"`);
+    });
+  });
+
 });
 

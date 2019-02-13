@@ -1,4 +1,4 @@
-import { ILinkResolverResult, Link } from '..';
+import { ILinkResolverResult, Link, RichTextImage } from '..';
 import { FieldContracts } from './field-contracts';
 import { FieldModels } from './field-models';
 import { FieldType } from './field-type';
@@ -114,6 +114,11 @@ export namespace Fields {
         public links: Link[] = [];
 
         /**
+         * Images included within rich text field
+         */
+        public images: RichTextImage[] = [];
+
+        /**
         * Represents rich text field of Kentico Cloud item
         * @constructor
         * @param {string} name - Name of the field
@@ -121,6 +126,7 @@ export namespace Fields {
         * @param {string[]} linkedItemCodenames - Array of linked codenames
         * @param {() => string} resolveHtml - Function that resolves HTML
         * @param {Link[]} links - Links for this rich text field
+        * @param {RichTextImage[]} images - Images assigned to this rich text field
         */
         constructor(
             public name: string,
@@ -128,7 +134,8 @@ export namespace Fields {
             public linkedItemCodenames: string[],
             data: {
                 resolveHtml: () => string,
-                links: Link[]
+                links: Link[],
+                images: RichTextImage[]
             }
         ) {
             Object.assign(this, data);

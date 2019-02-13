@@ -35,7 +35,7 @@ export class UrlSlugResolver {
         urlSlug: data.fieldValue,
         type: data.type,
         codename: data.item.system.codename,
-        itemId: data.item.system.id,
+        linkId: data.item.system.id,
       }), {
         linkText: undefined // link text is available only for links inside rich text field
       }

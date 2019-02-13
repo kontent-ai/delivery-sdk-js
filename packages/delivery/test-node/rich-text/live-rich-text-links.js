@@ -60,7 +60,6 @@ describe('#Rich text field with HTML links', () => {
                 result = response;
 
                 plot = response.item.plot.getHtml();
-                console.log(plot);
                 done();
             });
     });

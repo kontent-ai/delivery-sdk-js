@@ -1,4 +1,4 @@
-import { ILinkResolverResult, IRichTextResolverContext, ILinkResolverContext, IContentItem } from '../../interfaces';
+import { IContentItem, ILinkResolverContext, ILinkResolverResult, IRichTextResolverContext } from '../../interfaces';
 import { ContentItemSystemAttributes } from './content-item-system-attributes';
 import { Link } from './link.class';
 
@@ -20,18 +20,18 @@ export class ContentItem implements IContentItem {
     public elements: any;
 
     /**
-    * Callback used to bind fields returned from Kentico Cloud to a model property.
+    * Function used to bind fields returned from Kentico Cloud to a model property.
     * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
      */
     public propertyResolver?: (fieldName: string) => string;
 
     /**
-     *  Callback used to resolve links or URL slug fields
+     * Function used to resolve links or URL slug fields
      */
     public linkResolver?: (link: Link, context: ILinkResolverContext) => string | ILinkResolverResult;
 
     /**
-    * Callback used to resolve linked items in rich text fields to HTML
+    * Function used to resolve linked items in rich text fields to HTML
     */
     public richTextResolver?: (contentItem: ContentItem, context: IRichTextResolverContext) => string;
 
@@ -41,20 +41,20 @@ export class ContentItem implements IContentItem {
     */
     constructor(data?: {
         /**
-         * Callback used to bind fields returned from Kentico Cloud to a model property.
+         * Function used to bind fields returned from Kentico Cloud to a model property.
          * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
          */
         propertyResolver?: (fieldName: string) => string | undefined,
 
         /**
-         *  Callback used to resolve links or URL slug fields
+         *  Function used to resolve links or URL slug fields
          */
         linkResolver?: (link: Link, context: ILinkResolverContext) => string | ILinkResolverResult,
 
         /**
-         * Callback used to resolve linked items in rich text fields to HTML
+         * Function used to resolve linked items in rich text fields to HTML
          */
-        richTextResolver?: (contentItem: ContentItem, context: IRichTextResolverContext) => string;
+        richTextResolver?: (contentItem: ContentItem, context: IRichTextResolverContext) => string,
     }) {
         if (data) {
             Object.assign(this, data);

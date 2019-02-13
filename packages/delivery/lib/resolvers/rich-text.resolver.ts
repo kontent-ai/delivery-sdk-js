@@ -1,6 +1,12 @@
 import { RichTextContentType } from '../enums';
-import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult, IRichTextResolverContext } from '../interfaces';
-import { ContentItem, Link, TypeResolver } from '../models';
+import {
+    IItemQueryConfig,
+    ILinkResolverContext,
+    ILinkResolverResult,
+    IRichTextImageResolverResult,
+    IRichTextResolverContext,
+} from '../interfaces';
+import { ContentItem, RichTextImage, Link, TypeResolver } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 import { stronglyTypedResolver } from './strongly-type.resolver';
 
@@ -12,16 +18,19 @@ export class RichTextResolver {
      */
     resolveHtml(
         html: string,
+        fieldName: string,
         data: {
             richTextHtmlParser: IRichTextHtmlParser,
             typeResolvers: TypeResolver[],
             getLinkedItem: (codename: string) => ContentItem | undefined,
             links: Link[],
+            images: RichTextImage[],
             enableAdvancedLogging: boolean,
             queryConfig: IItemQueryConfig,
             linkedItemWrapperTag: string,
             linkedItemWrapperClasses: string[]
         }): string {
+
         // prepare config
         const config: IHtmlResolverConfig = {
             enableAdvancedLogging: data.enableAdvancedLogging,
@@ -31,7 +40,7 @@ export class RichTextResolver {
         };
 
         const result = data.richTextHtmlParser.resolveRichTextField(
-            html, {
+            html, fieldName, {
                 getLinkResult: (itemId: string, linkText: string) => this.getLinkResult({
                     config: config,
                     links: data.links,
@@ -44,7 +53,15 @@ export class RichTextResolver {
                     config: config,
                     getLinkedItem: data.getLinkedItem,
                     itemType: itemType
-                })
+                }),
+                getImageResult: (imageId: string) => this.getImageResult(
+                    {
+                        config: config,
+                        imageId: imageId,
+                        images: data.images,
+                        html: html,
+                        fieldName: fieldName
+                    })
             }, {
                 enableAdvancedLogging: data.enableAdvancedLogging,
                 queryConfig: data.queryConfig,
@@ -53,6 +70,31 @@ export class RichTextResolver {
             });
 
         return result.resolvedHtml;
+    }
+
+    private getImageResult(data: {
+        config: IHtmlResolverConfig,
+        imageId: string,
+        images: RichTextImage[],
+        html: string,
+        fieldName: string
+    }): IRichTextImageResolverResult {
+        // find image
+        const image = data.images.find(m => m.imageId === data.imageId);
+
+        if (!image) {
+            throw Error(`Image with id '${data.imageId}' was not found in images data`);
+        }
+
+        // use custom resolver if present
+        if (data.config.queryConfig.richTextImageResolver) {
+            return data.config.queryConfig.richTextImageResolver(image, data.fieldName);
+        }
+
+        // use default resolver
+        return {
+            url: image.url
+        };
     }
 
     private getLinkedItemHtml(data: {
@@ -103,7 +145,7 @@ export class RichTextResolver {
         linkText: string
     }): string | ILinkResolverResult {
         // find link with the id of content item
-        const link = data.links.find(m => m.itemId === data.itemId);
+        const link = data.links.find(m => m.linkId === data.itemId);
 
         if (!link) {
             if (data.config.enableAdvancedLogging) {
@@ -133,7 +175,7 @@ export class RichTextResolver {
 
             if (!emptyTypedItem) {
                 if (data.config.enableAdvancedLogging) {
-                    console.warn(`Cannot resolve link for link of '${link.type}' type with id '${link.itemId}' and url slug '${link.urlSlug}'. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                    console.warn(`Cannot resolve link for link of '${link.type}' type with id '${link.linkId}' and url slug '${link.urlSlug}'. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 }
             } else {
                 const globalLinkResolver = emptyTypedItem.linkResolver;
@@ -146,7 +188,7 @@ export class RichTextResolver {
         // url still wasn't resolved
         if (!url) {
             if (data.config.enableAdvancedLogging) {
-                console.warn(`Url for content type '${link.type}' with id '${link.itemId}' resolved to null/undefined. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                console.warn(`Url for content type '${link.type}' with id '${link.linkId}' resolved to null/undefined. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
             return '';
         }

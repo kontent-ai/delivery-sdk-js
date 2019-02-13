@@ -112,4 +112,10 @@ describe('Image URL builder', () => {
         ib.withFitMode(ImageFitModeEnum.Scale);
         expect(ib.getUrl()).toContain('fit=scale');
     });
+
+    it(`Checks custom param`, () => {
+        const ib = getImageBuilder();
+        ib.withCustomParam('xParam', 'xValue');
+        expect(ib.getUrl()).toContain('xParam=xValue');
+    });
 });
