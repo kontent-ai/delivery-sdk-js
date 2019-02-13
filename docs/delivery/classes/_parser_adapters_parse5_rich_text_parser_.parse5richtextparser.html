@@ -91,8 +91,9 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#getchildnodes" class="tsd-kind-icon">get<wbr>Child<wbr>Nodes</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processimage" class="tsd-kind-icon">process<wbr>Image</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processlink" class="tsd-kind-icon">process<wbr>Link</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processmodularcontent" class="tsd-kind-icon">process<wbr>Modular<wbr>Content</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processmodularcontentitem" class="tsd-kind-icon">process<wbr>Modular<wbr>Content<wbr>Item</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processrichtextfield" class="tsd-kind-icon">process<wbr>Rich<wbr>Text<wbr>Field</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#resolverichtextfield" class="tsd-kind-icon">resolve<wbr>Rich<wbr>Text<wbr>Field</a></li>
 							</ul>
@@ -100,7 +101,8 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Object literals</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#link" class="tsd-kind-icon">link</a></li>
+								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#imageelementdata" class="tsd-kind-icon">image<wbr>Element<wbr>Data</a></li>
+								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#linkelementdata" class="tsd-kind-icon">link<wbr>Element<wbr>Data</a></li>
 								<li class="tsd-kind-object-literal tsd-parent-kind-class tsd-is-private"><a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#modularcontentelementdata" class="tsd-kind-icon">modular<wbr>Content<wbr>Element<wbr>Data</a></li>
 							</ul>
 						</section>
@@ -119,7 +121,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:215</li>
+									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:259</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -133,6 +135,41 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="processimage" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> process<wbr>Image</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Image<span class="tsd-signature-symbol">(</span>fieldName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DefaultTreeElement</span>, replacement<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.irichtextreplacements.html" class="tsd-signature-type">IRichTextReplacements</a>, config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ihtmlresolverconfig.html" class="tsd-signature-type">IHtmlResolverConfig</a>, result<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ifeaturedobjects.html" class="tsd-signature-type">IFeaturedObjects</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:96</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fieldName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>element: <span class="tsd-signature-type">DefaultTreeElement</span></h5>
+								</li>
+								<li>
+									<h5>replacement: <a href="../interfaces/_parser_parse_models_.irichtextreplacements.html" class="tsd-signature-type">IRichTextReplacements</a></h5>
+								</li>
+								<li>
+									<h5>config: <a href="../interfaces/_parser_parse_models_.ihtmlresolverconfig.html" class="tsd-signature-type">IHtmlResolverConfig</a></h5>
+								</li>
+								<li>
+									<h5>result: <a href="../interfaces/_parser_parse_models_.ifeaturedobjects.html" class="tsd-signature-type">IFeaturedObjects</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
 					<a name="processlink" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> process<wbr>Link</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
@@ -142,7 +179,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:84</li>
+									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:128</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -165,16 +202,16 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
-					<a name="processmodularcontent" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> process<wbr>Modular<wbr>Content</h3>
+					<a name="processmodularcontentitem" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> process<wbr>Modular<wbr>Content<wbr>Item</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Modular<wbr>Content<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DefaultTreeElement</span>, replacement<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.irichtextreplacements.html" class="tsd-signature-type">IRichTextReplacements</a>, config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ihtmlresolverconfig.html" class="tsd-signature-type">IHtmlResolverConfig</a>, result<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ifeaturedobjects.html" class="tsd-signature-type">IFeaturedObjects</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Modular<wbr>Content<wbr>Item<span class="tsd-signature-symbol">(</span>element<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DefaultTreeElement</span>, replacement<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.irichtextreplacements.html" class="tsd-signature-type">IRichTextReplacements</a>, config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ihtmlresolverconfig.html" class="tsd-signature-type">IHtmlResolverConfig</a>, result<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ifeaturedobjects.html" class="tsd-signature-type">IFeaturedObjects</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:153</li>
+									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:197</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -200,17 +237,20 @@
 					<a name="processrichtextfield" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> process<wbr>Rich<wbr>Text<wbr>Field</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Rich<wbr>Text<wbr>Field<span class="tsd-signature-symbol">(</span>elements<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DefaultTreeElement</span><span class="tsd-signature-symbol">[]</span>, replacement<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.irichtextreplacements.html" class="tsd-signature-type">IRichTextReplacements</a>, config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ihtmlresolverconfig.html" class="tsd-signature-type">IHtmlResolverConfig</a>, result<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ifeaturedobjects.html" class="tsd-signature-type">IFeaturedObjects</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ifeaturedobjects.html" class="tsd-signature-type">IFeaturedObjects</a></li>
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Rich<wbr>Text<wbr>Field<span class="tsd-signature-symbol">(</span>fieldName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, elements<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DefaultTreeElement</span><span class="tsd-signature-symbol">[]</span>, replacement<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.irichtextreplacements.html" class="tsd-signature-type">IRichTextReplacements</a>, config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ihtmlresolverconfig.html" class="tsd-signature-type">IHtmlResolverConfig</a>, result<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ifeaturedobjects.html" class="tsd-signature-type">IFeaturedObjects</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ifeaturedobjects.html" class="tsd-signature-type">IFeaturedObjects</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:60</li>
+									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:69</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
+								<li>
+									<h5>fieldName: <span class="tsd-signature-type">string</span></h5>
+								</li>
 								<li>
 									<h5>elements: <span class="tsd-signature-type">DefaultTreeElement</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
@@ -232,20 +272,23 @@
 					<a name="resolverichtextfield" class="tsd-anchor"></a>
 					<h3>resolve<wbr>Rich<wbr>Text<wbr>Field</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">resolve<wbr>Rich<wbr>Text<wbr>Field<span class="tsd-signature-symbol">(</span>html<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, replacement<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.irichtextreplacements.html" class="tsd-signature-type">IRichTextReplacements</a>, config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ihtmlresolverconfig.html" class="tsd-signature-type">IHtmlResolverConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.irichtextresolverresult.html" class="tsd-signature-type">IRichTextResolverResult</a></li>
+						<li class="tsd-signature tsd-kind-icon">resolve<wbr>Rich<wbr>Text<wbr>Field<span class="tsd-signature-symbol">(</span>html<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fieldName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, replacement<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.irichtextreplacements.html" class="tsd-signature-type">IRichTextReplacements</a>, config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.ihtmlresolverconfig.html" class="tsd-signature-type">IHtmlResolverConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_parser_parse_models_.irichtextresolverresult.html" class="tsd-signature-type">IRichTextResolverResult</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/_parser_parse_models_.irichtexthtmlparser.html">IRichTextHtmlParser</a>.<a href="../interfaces/_parser_parse_models_.irichtexthtmlparser.html#resolverichtextfield">resolveRichTextField</a></p>
 								<ul>
-									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:36</li>
+									<li>Defined in parser/adapters/parse5-rich-text.parser.ts:43</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>html: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>fieldName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
 									<h5>replacement: <a href="../interfaces/_parser_parse_models_.irichtextreplacements.html" class="tsd-signature-type">IRichTextReplacements</a></h5>
@@ -262,31 +305,71 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Object literals</h2>
 				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
-					<a name="link" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> link</h3>
-					<div class="tsd-signature tsd-kind-icon">link<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<a name="imageelementdata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> image<wbr>Element<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">image<wbr>Element<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in parser/adapters/parse5-rich-text.parser.ts:31</li>
+							<li>Defined in parser/adapters/parse5-rich-text.parser.ts:37</li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="link.dataitemid" class="tsd-anchor"></a>
-						<h3>data<wbr>Item<wbr>Id</h3>
-						<div class="tsd-signature tsd-kind-icon">data<wbr>Item<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;data-item-id&quot;</span></div>
+						<a name="imageelementdata.dataimageid" class="tsd-anchor"></a>
+						<h3>data<wbr>Image<wbr>Id</h3>
+						<div class="tsd-signature tsd-kind-icon">data<wbr>Image<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;data-image-id&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:33</li>
+								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:39</li>
 							</ul>
 						</aside>
 					</section>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="link.nodename" class="tsd-anchor"></a>
+						<a name="imageelementdata.nodename" class="tsd-anchor"></a>
+						<h3>node<wbr>Name</h3>
+						<div class="tsd-signature tsd-kind-icon">node<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;img&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:38</li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="imageelementdata.srcattribute" class="tsd-anchor"></a>
+						<h3>src<wbr>Attribute</h3>
+						<div class="tsd-signature tsd-kind-icon">src<wbr>Attribute<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;src&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:40</li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
+					<a name="linkelementdata" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> link<wbr>Element<wbr>Data</h3>
+					<div class="tsd-signature tsd-kind-icon">link<wbr>Element<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in parser/adapters/parse5-rich-text.parser.ts:32</li>
+						</ul>
+					</aside>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="linkelementdata.dataitemid" class="tsd-anchor"></a>
+						<h3>data<wbr>Item<wbr>Id</h3>
+						<div class="tsd-signature tsd-kind-icon">data<wbr>Item<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;data-item-id&quot;</span></div>
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:34</li>
+							</ul>
+						</aside>
+					</section>
+					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
+						<a name="linkelementdata.nodename-1" class="tsd-anchor"></a>
 						<h3>node<wbr>Name</h3>
 						<div class="tsd-signature tsd-kind-icon">node<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;a&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:32</li>
+								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:33</li>
 							</ul>
 						</aside>
 					</section>
@@ -297,7 +380,7 @@
 					<div class="tsd-signature tsd-kind-icon">modular<wbr>Content<wbr>Element<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in parser/adapters/parse5-rich-text.parser.ts:25</li>
+							<li>Defined in parser/adapters/parse5-rich-text.parser.ts:26</li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
@@ -306,7 +389,7 @@
 						<div class="tsd-signature tsd-kind-icon">data<wbr>Codename<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;data-codename&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:28</li>
+								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:29</li>
 							</ul>
 						</aside>
 					</section>
@@ -316,7 +399,7 @@
 						<div class="tsd-signature tsd-kind-icon">data<wbr>Type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;data-type&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:27</li>
+								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:28</li>
 							</ul>
 						</aside>
 					</section>
@@ -326,7 +409,7 @@
 						<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;application/kenticocloud&quot;</span></div>
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:26</li>
+								<li>Defined in parser/adapters/parse5-rich-text.parser.ts:27</li>
 							</ul>
 						</aside>
 					</section>
@@ -355,10 +438,13 @@
 								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#getchildnodes" class="tsd-kind-icon">get<wbr>Child<wbr>Nodes</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processimage" class="tsd-kind-icon">process<wbr>Image</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processlink" class="tsd-kind-icon">process<wbr>Link</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
-								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processmodularcontent" class="tsd-kind-icon">process<wbr>Modular<wbr>Content</a>
+								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processmodularcontentitem" class="tsd-kind-icon">process<wbr>Modular<wbr>Content<wbr>Item</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#processrichtextfield" class="tsd-kind-icon">process<wbr>Rich<wbr>Text<wbr>Field</a>
@@ -367,7 +453,10 @@
 								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#resolverichtextfield" class="tsd-kind-icon">resolve<wbr>Rich<wbr>Text<wbr>Field</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
-								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#link" class="tsd-kind-icon">link</a>
+								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#imageelementdata" class="tsd-kind-icon">image<wbr>Element<wbr>Data</a>
+							</li>
+							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
+								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#linkelementdata" class="tsd-kind-icon">link<wbr>Element<wbr>Data</a>
 							</li>
 							<li class=" tsd-kind-object-literal tsd-parent-kind-class tsd-is-private">
 								<a href="_parser_adapters_parse5_rich_text_parser_.parse5richtextparser.html#modularcontentelementdata" class="tsd-kind-icon">modular<wbr>Content<wbr>Element<wbr>Data</a>

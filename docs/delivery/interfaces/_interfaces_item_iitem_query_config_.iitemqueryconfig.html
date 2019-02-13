@@ -92,6 +92,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#customheaders" class="tsd-kind-icon">custom<wbr>Headers</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#itemresolver" class="tsd-kind-icon">item<wbr>Resolver</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#linkresolver" class="tsd-kind-icon">link<wbr>Resolver</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#richtextimageresolver" class="tsd-kind-icon">rich<wbr>Text<wbr>Image<wbr>Resolver</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#richtextresolver" class="tsd-kind-icon">rich<wbr>Text<wbr>Resolver</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#throwerrorformissinglinkeditems" class="tsd-kind-icon">throw<wbr>Error<wbr>For<wbr>Missing<wbr>Linked<wbr>Items</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#usepreviewmode" class="tsd-kind-icon">use<wbr>Preview<wbr>Mode</a></li>
@@ -121,7 +122,7 @@
 					<div class="tsd-signature tsd-kind-icon">item<wbr>Resolver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in interfaces/item/iitem-query.config.ts:14</li>
+							<li>Defined in interfaces/item/iitem-query.config.ts:16</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -164,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">link<wbr>Resolver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in interfaces/item/iitem-query.config.ts:12</li>
+							<li>Defined in interfaces/item/iitem-query.config.ts:14</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -198,12 +199,51 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="richtextimageresolver" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> rich<wbr>Text<wbr>Image<wbr>Resolver</h3>
+					<div class="tsd-signature tsd-kind-icon">rich<wbr>Text<wbr>Image<wbr>Resolver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in interfaces/item/iitem-query.config.ts:20</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Function used to resolve images inside rich text field</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>image<span class="tsd-signature-symbol">: </span><a href="../classes/_models_item_image_class_.richtextimage.html" class="tsd-signature-type">RichTextImage</a>, fieldName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_interfaces_item_irich_text_resolver_result_.irichtextimageresolverresult.html" class="tsd-signature-type">IRichTextImageResolverResult</a></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>image: <a href="../classes/_models_item_image_class_.richtextimage.html" class="tsd-signature-type">RichTextImage</a></h5>
+											</li>
+											<li>
+												<h5>fieldName: <span class="tsd-signature-type">string</span></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <a href="_interfaces_item_irich_text_resolver_result_.irichtextimageresolverresult.html" class="tsd-signature-type">IRichTextImageResolverResult</a></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="richtextresolver" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> rich<wbr>Text<wbr>Resolver</h3>
 					<div class="tsd-signature tsd-kind-icon">rich<wbr>Text<wbr>Resolver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in interfaces/item/iitem-query.config.ts:13</li>
+							<li>Defined in interfaces/item/iitem-query.config.ts:15</li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -237,7 +277,7 @@
 					<div class="tsd-signature tsd-kind-icon">throw<wbr>Error<wbr>For<wbr>Missing<wbr>Linked<wbr>Items<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in interfaces/item/iitem-query.config.ts:11</li>
+							<li>Defined in interfaces/item/iitem-query.config.ts:13</li>
 						</ul>
 					</aside>
 				</section>
@@ -321,6 +361,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#linkresolver" class="tsd-kind-icon">link<wbr>Resolver</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#richtextimageresolver" class="tsd-kind-icon">rich<wbr>Text<wbr>Image<wbr>Resolver</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_interfaces_item_iitem_query_config_.iitemqueryconfig.html#richtextresolver" class="tsd-kind-icon">rich<wbr>Text<wbr>Resolver</a>

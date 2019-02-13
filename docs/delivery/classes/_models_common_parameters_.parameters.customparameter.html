@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>SkipParameter | kentico-cloud-delivery</title>
+	<title>CustomParameter | kentico-cloud-delivery</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -62,10 +62,10 @@
 					<a href="../modules/_models_common_parameters_.parameters.html">Parameters</a>
 				</li>
 				<li>
-					<a href="_models_common_parameters_.parameters.skipparameter.html">SkipParameter</a>
+					<a href="_models_common_parameters_.parameters.customparameter.html">CustomParameter</a>
 				</li>
 			</ul>
-			<h1>Class SkipParameter</h1>
+			<h1>Class CustomParameter</h1>
 		</div>
 	</div>
 </header>
@@ -76,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">SkipParameter</span>
+						<span class="target">CustomParameter</span>
 					</li>
 				</ul>
 			</section>
@@ -93,20 +93,21 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_models_common_parameters_.parameters.skipparameter.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_models_common_parameters_.parameters.customparameter.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_common_parameters_.parameters.skipparameter.html#skip" class="tsd-kind-icon">skip</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_common_parameters_.parameters.customparameter.html#paramname" class="tsd-kind-icon">param<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_common_parameters_.parameters.customparameter.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_common_parameters_.parameters.skipparameter.html#getparam" class="tsd-kind-icon">get<wbr>Param</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_common_parameters_.parameters.skipparameter.html#getparamvalue" class="tsd-kind-icon">get<wbr>Param<wbr>Value</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_common_parameters_.parameters.customparameter.html#getparam" class="tsd-kind-icon">get<wbr>Param</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_common_parameters_.parameters.customparameter.html#getparamvalue" class="tsd-kind-icon">get<wbr>Param<wbr>Value</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,36 +119,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Skip<wbr>Parameter<span class="tsd-signature-symbol">(</span>skip<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_common_parameters_.parameters.skipparameter.html" class="tsd-signature-type">SkipParameter</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Custom<wbr>Parameter<span class="tsd-signature-symbol">(</span>paramName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_common_parameters_.parameters.customparameter.html" class="tsd-signature-type">CustomParameter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in models/common/parameters.ts:89</li>
+									<li>Defined in models/common/parameters.ts:145</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Configures response to skip certain number of items</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>constructor</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>skip: <span class="tsd-signature-type">number</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Number of content items that will be skipped</p>
-										</div>
-									</div>
+									<h5>paramName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>value: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_models_common_parameters_.parameters.skipparameter.html" class="tsd-signature-type">SkipParameter</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_models_common_parameters_.parameters.customparameter.html" class="tsd-signature-type">CustomParameter</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -155,19 +145,24 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="skip" class="tsd-anchor"></a>
-					<h3>skip</h3>
-					<div class="tsd-signature tsd-kind-icon">skip<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="paramname" class="tsd-anchor"></a>
+					<h3>param<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">param<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in models/common/parameters.ts:97</li>
+							<li>Defined in models/common/parameters.ts:148</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Number of content items that will be skipped</p>
-						</div>
-					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="value" class="tsd-anchor"></a>
+					<h3>value</h3>
+					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in models/common/parameters.ts:149</li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -182,7 +177,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in models/common/parameters.ts:104</li>
+									<li>Defined in models/common/parameters.ts:153</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -193,16 +188,19 @@
 					<a name="getparamvalue" class="tsd-anchor"></a>
 					<h3>get<wbr>Param<wbr>Value</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Param<wbr>Value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Param<wbr>Value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in models/common/parameters.ts:108</li>
+									<li>Defined in models/common/parameters.ts:157</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -226,9 +224,30 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="_models_common_parameters_.parameters.customparameter.html" class="tsd-kind-icon">Custom<wbr>Parameter</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="_models_common_parameters_.parameters.customparameter.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_models_common_parameters_.parameters.customparameter.html#paramname" class="tsd-kind-icon">param<wbr>Name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_models_common_parameters_.parameters.customparameter.html#value" class="tsd-kind-icon">value</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_models_common_parameters_.parameters.customparameter.html#getparam" class="tsd-kind-icon">get<wbr>Param</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_models_common_parameters_.parameters.customparameter.html#getparamvalue" class="tsd-kind-icon">get<wbr>Param<wbr>Value</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="_models_common_parameters_.parameters.depthparameter.html" class="tsd-kind-icon">Depth<wbr>Parameter</a>
 					</li>
@@ -247,27 +266,9 @@
 					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="_models_common_parameters_.parameters.queryparameter.html" class="tsd-kind-icon">Query<wbr>Parameter</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-module">
+					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="_models_common_parameters_.parameters.skipparameter.html" class="tsd-kind-icon">Skip<wbr>Parameter</a>
-						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_models_common_parameters_.parameters.skipparameter.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_models_common_parameters_.parameters.skipparameter.html#skip" class="tsd-kind-icon">skip</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_models_common_parameters_.parameters.skipparameter.html#getparam" class="tsd-kind-icon">get<wbr>Param</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_models_common_parameters_.parameters.skipparameter.html#getparamvalue" class="tsd-kind-icon">get<wbr>Param<wbr>Value</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
 						<a href="../modules/_models_common_parameters_.parameters.html#defaultvalue" class="tsd-kind-icon">default<wbr>Value</a>
 					</li>
