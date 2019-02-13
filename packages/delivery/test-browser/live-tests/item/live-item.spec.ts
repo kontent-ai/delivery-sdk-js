@@ -13,7 +13,6 @@ describe('Live item', () => {
     context.deliveryClient.item<Movie>(movieCodename)
       .queryConfig({
         richTextImageResolver: (image, fieldName) => {
-
           const newImageUrl = new ImageUrlBuilder(image.url)
             .withCustomParam('xParam', 'xValue')
             .getUrl();
