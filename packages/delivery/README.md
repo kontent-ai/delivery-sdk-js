@@ -6,7 +6,8 @@
 [![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
 [![Known Vulnerabilities](https://snyk.io/test/github/Kentico/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/kentico/kentico-cloud-js)
 [![GitHub license](https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg)](https://github.com/Kentico/kentico-cloud-js)
-![Gzip browser bundle](http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
+![Gzip browser bundle](http://img.badgesize.io/https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
+[![](https://data.jsdelivr.com/v1/package/npm/kentico-cloud-delivery/badge)](https://www.jsdelivr.com/package/npm/kentico-cloud-delivery)
 
 A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
 
@@ -19,7 +20,7 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 
 ## Installation
 
-You can install this library using `npm` or you can use global CDNs such as `unpkg` and `jsdelivr` directly. In both cases, you will also need to include `rxjs` as its listed as peer dependency. 
+You can install this library using `npm` or you can use global CDNs such `jsdelivr` directly. In both cases, you will also need to include `rxjs` as its listed as peer dependency. 
 
 ### npm
 
@@ -41,10 +42,6 @@ You can decide whether to get library including full node support or just browse
 ```
 https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.umd.min.js
 ```
-or
-```
-https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
-```
 
 #### Browser only (UMD)
 
@@ -52,10 +49,6 @@ https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-
 
 ```
 https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
-```
-or
-```
-https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
 
 ## Quick start (TypeScript & ES2015)
