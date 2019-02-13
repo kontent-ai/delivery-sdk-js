@@ -69,7 +69,7 @@ Repository uses `lerna-changelog` for generating `changelog` details. All PRs th
 - `documentation` (:memo: Documentation)
 - `internal` (:house: Internal)
 
-Changelog is generated with `lerna-changelog` command.
+Changelog is generated with `lerna-changelog --from {tag}` command. By specifying`{tag}`, you filter only PRs merged since tag was released.
 
 ### Feedback & Contribution
 
