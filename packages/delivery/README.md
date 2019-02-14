@@ -201,6 +201,8 @@ Note: You need to have `Chrome` installed in order to run tests via Karma.
 - `npm run test:dev` Runs developer tests (useful for testing functionality)
 - `npm run test:travis` Runs browser tests that are executed by travis
 
+> If you want to mock http responses, it is possible to use [external implementation of configurable Http Service](../core/README.md#testing) as a part of the [delivery client configuration](DOCS.md#client-configuration).
+
 ## Feedback & Contribution
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.

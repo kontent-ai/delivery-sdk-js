@@ -128,6 +128,10 @@ const client = new ContentManagementClient({
 
 Online [API Reference](https://kentico.github.io/kentico-cloud-js/content-management) documents latest version of this library and can be used to quickly find all exposed methods and objects. Documentation is generated from `TypeScript` code and thus it should always be accurate.
 
+### Testing
+
+> If you want to mock http responses, it is possible to use [external implementation of configurable Http Service](../core/README.md#testing) as a part of the [client configuration](#configuration).
+
 ### Troubleshooting & feedback
 
 If you have any issues or want to share your feedback, please feel free to [create an issue](https://github.com/Kentico/kentico-cloud-js/issues/new/choose) in this GitHub repository.
