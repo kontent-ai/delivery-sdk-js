@@ -18,6 +18,7 @@ A client library for retrieving data from [Kentico Cloud](https://kenticocloud.c
 * [Full documentation](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery/DOCS.md)
 * [Example apps](https://github.com/Kentico/kentico-cloud-js/tree/master/examples)
 * [API Reference](https://kentico.github.io/kentico-cloud-js/delivery/)
+* [Changelog](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/CHANGELOG.md)
 
 ## [Content Management Javascript SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management)
 
@@ -36,6 +37,7 @@ Javascript SDK for the [Kentico Cloud Content Management API](https://developer.
 * [Quickstart](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management)
 * [Examples](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management/demo)
 * [API Reference](https://kentico.github.io/kentico-cloud-js/content-management/)
+* [Changelog](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/content-management/CHANGELOG.md)
 
 ## [Javascript model generator for Delivery SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/model-generator)
 
@@ -47,6 +49,7 @@ A utility for generating strongly-typed models based on Content Types in a Kenti
 
 * [Documentation](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/model-generator)
 * [Tutorial](https://developer.kenticocloud.com/docs/strongly-typed-models)
+* [Changelog](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/model-generator/CHANGELOG.md)
 
 ## Developer's guide
 
