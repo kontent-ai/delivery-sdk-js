@@ -822,7 +822,7 @@ deliveryClient
   });
 ```
 
-## Client configuration 
+## Client configuration
 
 Following is a list of configuration options for DeliveryClient (`IDeliveryClientConfig`):
 
