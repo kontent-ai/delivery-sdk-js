@@ -170,7 +170,7 @@ deliveryClient.items()
 <head>
     <title>Kentico Cloud SDK - Html sample</title>
     <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
-	<script type="text/javascript" src="https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"></script>
 </head>
 <body>
 
