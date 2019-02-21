@@ -71,7 +71,8 @@
 					<a href="https://forums.kenticocloud.com"><img src="https://img.shields.io/badge/chat-on%20forums-orange.svg" alt="Forums"></a>
 					<a href="https://snyk.io/test/github/kentico/kentico-cloud-js"><img src="https://snyk.io/test/github/Kentico/kentico-cloud-js/badge.svg" alt="Known Vulnerabilities"></a>
 					<a href="https://github.com/Kentico/kentico-cloud-js"><img src="https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg" alt="GitHub license"></a>
-				<img src="http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip" alt="Gzip browser bundle"></p>
+					<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip" alt="Gzip browser bundle">
+				<a href="https://www.jsdelivr.com/package/npm/kentico-cloud-delivery"><img src="https://data.jsdelivr.com/v1/package/npm/kentico-cloud-delivery/badge" alt=""></a></p>
 				<p>A client library for retrieving content from <a href="https://kenticocloud.com/">Kentico Cloud</a> written in TypeScript and published in following formats: <code>UMD</code>, <code>ES2015</code> and <code>CommonJs</code>. Works both in browser &amp; node.</p>
 				<table>
 					<thead>
@@ -90,7 +91,7 @@
 						</tr>
 				</tbody></table>
 				<h2 id="installation">Installation</h2>
-				<p>You can install this library using <code>npm</code> or you can use global CDNs such as <code>unpkg</code> and <code>jsdelivr</code> directly. In both cases, you will also need to include <code>rxjs</code> as its listed as peer dependency. </p>
+				<p>You can install this library using <code>npm</code> or you can use global CDNs such <code>jsdelivr</code> directly. In both cases, you will also need to include <code>rxjs</code> as its listed as peer dependency. </p>
 				<h3 id="npm">npm</h3>
 				<pre><code>npm <span class="hljs-selector-tag">i</span> rxjs --save
 npm <span class="hljs-selector-tag">i</span> kentico-cloud-delivery --save</code></pre><h3 id="cdn">CDN</h3>
@@ -98,11 +99,9 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-delivery --save</code
 				<p>You can decide whether to get library including full node support or just browser only. If you choose browser only version, an external dependency used for parsing HTML in <code>node.js</code> is not included and therefore the size of library is smaller.</p>
 				<h4 id="node-browser-umd-">Node + browser (UMD)</h4>
 				<p><img src="http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js?compression=gzip" alt="Gzip full bundle"></p>
-				<pre><code>https:<span class="hljs-regexp">//</span>cdn.jsdelivr.net<span class="hljs-regexp">/npm/</span>kentico-cloud-delivery<span class="hljs-regexp">/_bundles/</span>kentico-cloud-delivery-sdk.umd.min.js</code></pre><p>or</p>
-				<pre><code>http<span class="hljs-variable">s:</span>//unpkg.<span class="hljs-keyword">com</span>/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.<span class="hljs-built_in">min</span>.js</code></pre><h4 id="browser-only-umd-">Browser only (UMD)</h4>
+				<pre><code>https:<span class="hljs-regexp">//</span>cdn.jsdelivr.net<span class="hljs-regexp">/npm/</span>kentico-cloud-delivery<span class="hljs-regexp">/_bundles/</span>kentico-cloud-delivery-sdk.umd.min.js</code></pre><h4 id="browser-only-umd-">Browser only (UMD)</h4>
 				<p><img src="http://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip" alt="Gzip browser bundle"></p>
-				<pre><code>https:<span class="hljs-regexp">//</span>cdn.jsdelivr.net<span class="hljs-regexp">/npm/</span>kentico-cloud-delivery<span class="hljs-regexp">/_bundles/</span>kentico-cloud-delivery-sdk.browser.umd.min.js</code></pre><p>or</p>
-				<pre><code>http<span class="hljs-variable">s:</span>//unpkg.<span class="hljs-keyword">com</span>/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.<span class="hljs-built_in">min</span>.js</code></pre><h2 id="quick-start-typescript-es2015-">Quick start (TypeScript &amp; ES2015)</h2>
+				<pre><code>https:<span class="hljs-regexp">//</span>cdn.jsdelivr.net<span class="hljs-regexp">/npm/</span>kentico-cloud-delivery<span class="hljs-regexp">/_bundles/</span>kentico-cloud-delivery-sdk.browser.umd.min.js</code></pre><h2 id="quick-start-typescript-es2015-">Quick start (TypeScript &amp; ES2015)</h2>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> {
     ContentItem, 
     Fields,
@@ -239,6 +238,9 @@ deliveryClient.items()
 					<li><code>npm run test:dev</code> Runs developer tests (useful for testing functionality)</li>
 					<li><code>npm run test:travis</code> Runs browser tests that are executed by travis</li>
 				</ul>
+				<blockquote>
+					<p>If you want to mock http responses, it is possible to use <a href="../core/README.md#testing">external implementation of configurable Http Service</a> as a part of the <a href="DOCS.md#client-configuration">delivery client configuration</a>.</p>
+				</blockquote>
 				<h2 id="feedback-contribution">Feedback &amp; Contribution</h2>
 				<p>Feedback &amp; Contributions are welcomed. Feel free to take/start an issue &amp; submit PR.</p>
 				<p><img src="https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-cloud-js/master/packages/delivery?pixel" alt="Analytics"></p>
@@ -258,6 +260,9 @@ deliveryClient.items()
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_client_index_.html">"client/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_config_default_collision_resolver_.html">"config/default-<wbr>collision-<wbr>resolver"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_config_delivery_client_config_.html">"config/delivery-<wbr>client.config"</a>
@@ -449,13 +454,13 @@ deliveryClient.items()
 						<a href="modules/_models_item_index_.html">"models/item/index"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_item_item_resolvers_.html">"models/item/item-<wbr>resolvers"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_item_link_class_.html">"models/item/link.class"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_item_responses_.html">"models/item/responses"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_models_item_type_resolver_class_.html">"models/item/type-<wbr>resolver.class"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_taxonomy_index_.html">"models/taxonomy/index"</a>
