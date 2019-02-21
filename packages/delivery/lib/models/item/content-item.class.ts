@@ -1,7 +1,7 @@
+import { ItemContracts } from '../../data-contracts/item-contracts';
 import { IContentItem } from '../../interfaces';
 import { ContentItemSystemAttributes } from './content-item-system-attributes';
 import { ItemLinkResolver, ItemPropertyResolver, ItemRichTextResolver } from './item-resolvers';
-import { ItemContracts } from 'lib/data-contracts/item-contracts';
 
 export class ContentItem implements IContentItem {
 
