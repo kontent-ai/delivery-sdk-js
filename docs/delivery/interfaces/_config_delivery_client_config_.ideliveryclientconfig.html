@@ -86,6 +86,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#basepreviewurl" class="tsd-kind-icon">base<wbr>Preview<wbr>Url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#collisionresolver" class="tsd-kind-icon">collision<wbr>Resolver</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#defaultlanguage" class="tsd-kind-icon">default<wbr>Language</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#enableadvancedlogging" class="tsd-kind-icon">enable<wbr>Advanced<wbr>Logging</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#enablepreviewmode" class="tsd-kind-icon">enable<wbr>Preview<wbr>Mode</a></li>
@@ -133,6 +134,21 @@
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Base Url. Can be overriden if e.g. a proxy is required</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="collisionresolver" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> collision<wbr>Resolver</h3>
+					<div class="tsd-signature tsd-kind-icon">collision<wbr>Resolver<span class="tsd-signature-symbol">:</span> <a href="../modules/_models_item_item_resolvers_.html#itemfieldcollisionresolver" class="tsd-signature-type">ItemFieldCollisionResolver</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in config/delivery-client.config.ts:98</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Resolver called when there are multiple fields with the same name in content item (example collision field names include &#39;system&#39; or &#39;elements&#39;)</p>
 						</div>
 					</div>
 				</section>
@@ -342,7 +358,7 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="typeresolvers" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> type<wbr>Resolvers</h3>
-					<div class="tsd-signature tsd-kind-icon">type<wbr>Resolvers<span class="tsd-signature-symbol">:</span> <a href="../classes/_models_item_type_resolver_class_.typeresolver.html" class="tsd-signature-type">TypeResolver</a><span class="tsd-signature-symbol">[]</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<wbr>Resolvers<span class="tsd-signature-symbol">:</span> <a href="../classes/_models_item_item_resolvers_.typeresolver.html" class="tsd-signature-type">TypeResolver</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
 							<li>Defined in config/delivery-client.config.ts:17</li>
@@ -380,6 +396,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_config_delivery_client_config_.ideliveryclientconfig.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_config_delivery_client_config_.ideliveryclientconfig.html#collisionresolver" class="tsd-kind-icon">collision<wbr>Resolver</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_config_delivery_client_config_.ideliveryclientconfig.html#defaultlanguage" class="tsd-kind-icon">default<wbr>Language</a>
