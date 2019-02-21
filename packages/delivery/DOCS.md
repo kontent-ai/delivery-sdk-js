@@ -844,7 +844,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | linkedItemResolver.linkedItemWrapperClasses? | string[] | Array of classes added to linked item wrapper. Defaults to a single class 'kc-linked-item-wrapper' |
 | httpService ?| IHttpService | Can be useud to inject custom http service for performing requests |
 | globalHeaders? | IHeader[] |  Array of headers added to each and every http request made with SDK |
-| collissionResolver? | ItemFieldCollisionResolver[] | Resolver called when there are multiple fields with the same name in content item (example collision field names include 'system' or 'elements') |
+| collissionResolver? | ItemFieldCollisionResolver[] | Resolver called when there are multiple fields with the same name in content item (example collision field names include 'system' or 'elements'). By default an underscore is added before original field name. If the field name is still in collission, field is excluded from mapping. |
 
 ## Handling errors
 
