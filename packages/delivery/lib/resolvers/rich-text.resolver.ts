@@ -1,12 +1,6 @@
 import { RichTextContentType } from '../enums';
-import {
-    IItemQueryConfig,
-    ILinkResolverContext,
-    ILinkResolverResult,
-    IRichTextImageResolverResult,
-    IRichTextResolverContext,
-} from '../interfaces';
-import { ContentItem, RichTextImage, Link, TypeResolver } from '../models';
+import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult, IRichTextImageResolverResult } from '../interfaces';
+import { ContentItem, ItemRichTextResolver, Link, RichTextImage, TypeResolver } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 import { stronglyTypedResolver } from './strongly-type.resolver';
 
@@ -113,7 +107,7 @@ export class RichTextResolver {
         }
 
         // get html to replace object using Rich text resolver function
-        let resolver: (<TItem extends ContentItem>(item: TItem, context: IRichTextResolverContext) => string) | undefined = undefined;
+        let resolver: ItemRichTextResolver | undefined = undefined;
         if (data.config.queryConfig.richTextResolver) {
             // use resolved defined by query if available
             resolver = data.config.queryConfig.richTextResolver;

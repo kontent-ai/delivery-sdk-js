@@ -1,9 +1,12 @@
 import { ItemContracts } from '../data-contracts';
 import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
 import { ContentItem } from '../models/item/content-item.class';
-import { TypeResolver } from '../models/item/type-resolver.class';
+import { TypeResolver } from '../models/item/item-resolvers';
 
 export class StronglyTypedResolver {
+
+    private readonly systemFieldName = 'system';
+    private readonly elementsFieldName = 'elements';
 
     /**
      * Indicates if given type has a type resolver
@@ -19,18 +22,12 @@ export class StronglyTypedResolver {
      */
     createContentItem(item: ItemContracts.IContentItemContract): ContentItem {
         const contentItem = new ContentItem();
-        // use typed 'system' property
-        contentItem.system = this.mapSystemAttributes(item.system);
-        contentItem.elements = item.elements;
-
+        this.assignDefaultProperties(contentItem, item);
         return contentItem;
     }
 
     /**
      * Takes given type name and creates a strongly typed model based specified in client configuration
-     * @param type Type of the content item
-     * @param item Typed content item
-     * @param resolvers Type resolvers
      */
     createTypedObj<TItem extends ContentItem>(type: string, item: ItemContracts.IContentItemContract, typeResolvers: TypeResolver[]): TItem {
         const typedItem = this.createEmptyTypedObj<TItem>(type, typeResolvers);
@@ -39,10 +36,7 @@ export class StronglyTypedResolver {
             throw Error(`Cannot find resolver for type '${type}'. This error means that no class was registered as TypeResolver`);
         }
 
-        // use typed 'system' property
-        typedItem.system = this.mapSystemAttributes(item.system);
-        typedItem.elements = item.elements;
-
+        this.assignDefaultProperties(typedItem, item);
         return typedItem;
     }
 
@@ -80,6 +74,17 @@ export class StronglyTypedResolver {
             sitemapLocations: rawSystem.sitemap_locations
         });
     }
+
+    /**
+     * Maps default properties (system & elements)
+     * @param item Mapped content item
+     * @param rawItem Raw content item from response
+     */
+    private assignDefaultProperties(item: ContentItem, rawItem: ItemContracts.IContentItemContract): void {
+        item.system = this.mapSystemAttributes(rawItem[this.systemFieldName]);
+        item.elements = rawItem[this.elementsFieldName];
+    }
+
 }
 
 export const stronglyTypedResolver = new StronglyTypedResolver();

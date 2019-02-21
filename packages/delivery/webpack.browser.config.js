@@ -15,7 +15,8 @@ module.exports = (env, argv) => ({
         path: path.join(__dirname, '_bundles'),
         filename: libName + (argv.mode === 'production' ? '.umd.min.js' : '.umd.js'),
         libraryTarget: 'umd',
-        umdNamedDefine: true
+        umdNamedDefine: true,
+        library: 'kenticoCloudDelivery',
     },
     externals: [
         'parse5', /^parse5\//,

@@ -1,6 +1,7 @@
-import { IContentItem, ILinkResolverContext, ILinkResolverResult, IRichTextResolverContext } from '../../interfaces';
+import { IContentItem } from '../../interfaces';
 import { ContentItemSystemAttributes } from './content-item-system-attributes';
-import { Link } from './link.class';
+import { ItemLinkResolver, ItemPropertyResolver, ItemRichTextResolver } from './item-resolvers';
+import { ItemContracts } from 'lib/data-contracts/item-contracts';
 
 export class ContentItem implements IContentItem {
 
@@ -15,25 +16,25 @@ export class ContentItem implements IContentItem {
     public system!: ContentItemSystemAttributes;
 
     /**
-     * Elements of the item
+     * Raw elements of the item
      */
-    public elements: any;
+    public elements!: ItemContracts.IContentItemElementsContracts;
 
     /**
     * Function used to bind fields returned from Kentico Cloud to a model property.
     * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
      */
-    public propertyResolver?: (fieldName: string) => string;
+    public propertyResolver?: ItemPropertyResolver;
 
     /**
      * Function used to resolve links or URL slug fields
      */
-    public linkResolver?: (link: Link, context: ILinkResolverContext) => string | ILinkResolverResult;
+    public linkResolver?: ItemLinkResolver;
 
     /**
     * Function used to resolve linked items in rich text fields to HTML
     */
-    public richTextResolver?: (contentItem: ContentItem, context: IRichTextResolverContext) => string;
+    public richTextResolver?: ItemRichTextResolver;
 
     /**
     * Base class representing content item type. All content type models need to extend this class.
@@ -44,17 +45,17 @@ export class ContentItem implements IContentItem {
          * Function used to bind fields returned from Kentico Cloud to a model property.
          * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
          */
-        propertyResolver?: (fieldName: string) => string | undefined,
+        propertyResolver?: ItemPropertyResolver;
 
         /**
          *  Function used to resolve links or URL slug fields
          */
-        linkResolver?: (link: Link, context: ILinkResolverContext) => string | ILinkResolverResult,
+        linkResolver?: ItemLinkResolver,
 
         /**
          * Function used to resolve linked items in rich text fields to HTML
          */
-        richTextResolver?: (contentItem: ContentItem, context: IRichTextResolverContext) => string,
+        richTextResolver?: ItemRichTextResolver
     }) {
         if (data) {
             Object.assign(this, data);

@@ -15,7 +15,6 @@ class MockMovie extends ContentItem {
 }
 
 describe('URL slug resolver', () => {
-
     const context = new Context();
     const typeResolvers: TypeResolver[] = [];
     typeResolvers.push(new TypeResolver('movie', () => new MockMovie()));
