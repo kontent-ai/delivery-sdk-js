@@ -1,6 +1,11 @@
 import { IPaginationContract } from './shared/ipagination.interface';
+import { FieldContracts } from '../fields/field-contracts';
 
 export namespace ItemContracts {
+
+  export interface IContentItemElementsContracts {
+     [key: string]: FieldContracts.IFieldContract;
+  }
 
   export interface ILinkContract {
     codename: string;
@@ -10,12 +15,12 @@ export namespace ItemContracts {
 
   export interface IModularContentContract {
     system: IContentItemSystemAttributesContract;
-    elements: any;
+    elements: IContentItemElementsContracts;
   }
 
   export interface IContentItemContract {
     system: IContentItemSystemAttributesContract;
-    elements: any;
+    elements: IContentItemElementsContracts;
   }
 
   export interface IContentItemSystemAttributesContract {

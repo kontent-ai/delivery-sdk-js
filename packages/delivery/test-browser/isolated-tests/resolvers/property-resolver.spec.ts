@@ -17,8 +17,7 @@ class MockMovie extends ContentItem {
                 if (fieldName === 'title') {
                     return 'titleTest';
                 }
-                // undefined because property resolved is prioritized over field decorator
-                return undefined;
+                return fieldName;
             }
         });
     }

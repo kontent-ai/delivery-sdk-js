@@ -1,10 +1,10 @@
 import { enumHelper } from 'kentico-cloud-core';
 
-import { IDeliveryClientConfig } from '../config';
+import { defaultCollissionResolver as defaultCollisionResolver, IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { FieldContracts, FieldDecorators, FieldModels, Fields, FieldType } from '../fields';
-import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult } from '../interfaces';
-import { ContentItem, Link, RichTextImage } from '../models';
+import { IItemQueryConfig } from '../interfaces';
+import { ContentItem, ItemFieldCollisionResolver, ItemLinkResolver, Link, RichTextImage } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
 
@@ -36,7 +36,7 @@ export class FieldMapper {
         }
 
         if (!item.elements) {
-            throw Error(`Cannot map elements of item with codename '${item.system.codename}'`);
+            throw Error(`Cannot map elements of an item with codename '${item.system.codename}'`);
         }
 
         if (!processedItems) {
@@ -47,7 +47,7 @@ export class FieldMapper {
             throw Error(`ProcessedItems need to be an array`);
         }
 
-        const properties = Object.getOwnPropertyNames(item.elements);
+        const elementCodenames = Object.getOwnPropertyNames(item.elements);
 
         let itemTyped: TItem;
 
@@ -64,25 +64,13 @@ export class FieldMapper {
             processedItems.push(itemTyped);
         }
 
-        properties.forEach(fieldName => {
-            const field = item.elements[fieldName] as FieldContracts.IFieldContract;
-            let propertyName: string | undefined;
+        elementCodenames.forEach(elementCodename => {
+            const field = item.elements[elementCodename];
+            const fieldMapping = this.resolveFieldMapping(itemTyped, elementCodename);
 
-            // resolve field to a custom model property
-            if (itemTyped.propertyResolver) {
-                propertyName = itemTyped.propertyResolver(fieldName);
+            if (fieldMapping.shouldMapField) {
+                itemTyped[fieldMapping.resolvedName] = this.mapField(field, modularContent, itemTyped, queryConfig, processedItems);
             }
-
-            // if property hasn't been resolved, try with decorator
-            if (!propertyName) {
-                propertyName = FieldDecorators.getPropertyName(itemTyped, fieldName);
-            }
-
-            // if property name is null/empty, use elements codename
-            if (!propertyName) {
-                propertyName = fieldName;
-            }
-            itemTyped[propertyName] = this.mapField(field, modularContent, itemTyped, queryConfig, processedItems);
         });
 
         return itemTyped;
@@ -91,7 +79,6 @@ export class FieldMapper {
     private mapField(field: FieldContracts.IFieldContract, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): undefined | FieldModels.IField | ContentItem[] {
         const fieldType = enumHelper.getEnumFromValue<FieldType>(FieldType, field.type);
         if (fieldType) {
-
             if (fieldType === FieldType.ModularContent) {
                 return this.mapLinkedItemsField(field, modularContent, queryConfig, processedItems);
             }
@@ -304,9 +291,9 @@ export class FieldMapper {
         return result;
     }
 
-    private getLinkResolverForUrlSlugField(item: ContentItem, queryConfig: IItemQueryConfig): ((link: Link, context: ILinkResolverContext) => string | undefined | ILinkResolverResult) | undefined {
+    private getLinkResolverForUrlSlugField(item: ContentItem, queryConfig: IItemQueryConfig): ItemLinkResolver | undefined {
         // link resolver defined by the query config (= by calling method) has priority over type's global link resolver
-        let linkResolver: ((value: Link, context: ILinkResolverContext) => string | undefined | ILinkResolverResult) | undefined = undefined;
+        let linkResolver: ItemLinkResolver | undefined = undefined;
 
         if (queryConfig.linkResolver) {
             linkResolver = queryConfig.linkResolver;
@@ -405,5 +392,56 @@ export class FieldMapper {
         }
 
         return images;
+    }
+
+    private resolveFieldMapping(item: ContentItem, originalFieldCodename: string): {
+        shouldMapField: boolean,
+        resolvedName: string
+    } {
+        let resolvedName: string | undefined = undefined;
+
+        // resolve using property resolver
+        if (item.propertyResolver) {
+            resolvedName = item.propertyResolver(originalFieldCodename);
+        }
+
+        // if property hasn't been resolved, try getting name using decorator
+        if (resolvedName === originalFieldCodename || !resolvedName) {
+            resolvedName = FieldDecorators.getPropertyName(item, originalFieldCodename);
+        }
+
+        if (!resolvedName) {
+            // use original field codename
+            resolvedName = originalFieldCodename;
+        }
+
+        // check for collissions
+        if (this.collidesWithAnotherField(resolvedName, item)) {
+            // try to resolve collission using dedicated resolver
+            const collisionResolver = this.getCollisionResolver();
+            resolvedName = collisionResolver(resolvedName);
+
+            // verify again if the new field collides
+            if (this.collidesWithAnotherField(resolvedName, item)) {
+                console.warn(`Field '${resolvedName}' collides with another field in same type. Field mapping is skipped. Source item: '${item.system.codename}'`);
+                return {
+                    shouldMapField: false,
+                    resolvedName: ''
+                };
+            }
+        }
+
+        return {
+            resolvedName: resolvedName,
+            shouldMapField: true
+        };
+    }
+
+    private getCollisionResolver(): ItemFieldCollisionResolver {
+        return this.config.collisionResolver ? this.config.collisionResolver : defaultCollisionResolver;
+    }
+
+    private collidesWithAnotherField(fieldName: string, item: ContentItem): boolean {
+        return item[fieldName] ? true : false;
     }
 }

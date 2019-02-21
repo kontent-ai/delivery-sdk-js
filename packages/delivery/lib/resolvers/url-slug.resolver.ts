@@ -1,5 +1,5 @@
-import { ILinkResolverContext, ILinkResolverResult } from '../interfaces';
-import { ContentItem, Link } from '../models';
+import { ILinkResolverResult } from '../interfaces';
+import { ContentItem, ItemLinkResolver, Link } from '../models';
 
 export class UrlSlugResolver {
   resolveUrl(data: {
@@ -7,7 +7,7 @@ export class UrlSlugResolver {
     fieldValue: string;
     fieldName: string;
     item: ContentItem;
-    linkResolver: ((link: Link, context: ILinkResolverContext) => string | undefined | ILinkResolverResult) | undefined;
+    linkResolver: ItemLinkResolver | undefined;
     enableAdvancedLogging: boolean;
   }): string | ILinkResolverResult | undefined {
     if (!data.linkResolver) {
