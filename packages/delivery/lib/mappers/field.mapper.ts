@@ -58,10 +58,11 @@ export class FieldMapper {
             itemTyped = stronglyTypedResolver.createContentItem(item) as TItem;
         }
 
-        // add/taken item to processed items to avoid infinite recursion
-        const processedItem = processedItems.find(m => m.system.codename === item.system.codename);
-        if (!processedItem) {
-            processedItems.push(itemTyped);
+        // return processed item if possible (to avoid infinite recursion)
+        const processedItem = this.getExistingProcessedItem(item.system.codename, processedItems);
+        if (processedItem) {
+            // item was already resolved, return it
+            return processedItem as TItem;
         }
 
         elementCodenames.forEach(elementCodename => {
@@ -132,7 +133,7 @@ export class FieldMapper {
                     const rawItem = modularContent[codename] as ItemContracts.IContentItemContract | undefined;
 
                     // first try to get existing item
-                    const existingLinkedItem = this.getOrSaveLinkedItem(codename, field, queryConfig, modularContent, processedItems);
+                    const existingLinkedItem = this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, processedItems);
 
                     if (existingLinkedItem) {
                         // item was found, add it to linked items
@@ -185,7 +186,7 @@ export class FieldMapper {
                     typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
                     images: images,
                     richTextHtmlParser: this.richTextHtmlParser,
-                    getLinkedItem: (codename) => this.getOrSaveLinkedItem(codename, field, queryConfig, modularContent, linkedItems),
+                    getLinkedItem: (codename) => this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, linkedItems),
                     links: links,
                     queryConfig: queryConfig,
                     linkedItemWrapperTag: this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperTag
@@ -275,7 +276,7 @@ export class FieldMapper {
         // value = array of item codenames
         const linkedItemCodenames = field.value as string[];
         linkedItemCodenames.forEach(codename => {
-            const linkedItem = this.getOrSaveLinkedItem(codename, field, queryConfig, modularContent, processedItems);
+            const linkedItem = this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, processedItems);
             if (linkedItem) {
                 // add item to result
                 result.push(linkedItem);
@@ -304,10 +305,16 @@ export class FieldMapper {
         return linkResolver;
     }
 
-    private getOrSaveLinkedItem(codename: string, field: FieldContracts.IFieldContract, queryConfig: IItemQueryConfig, modularContent: any, processedItems: ContentItem[]): ContentItem | undefined {
+    private getExistingProcessedItem(codename: string, processedItems: ContentItem[]): ContentItem | undefined {
+        return processedItems.find(m => m.system.codename === codename);
+    }
+
+    private getOrSaveLinkedItemForField(codename: string, field: FieldContracts.IFieldContract, queryConfig: IItemQueryConfig, modularContent: any, processedItems: ContentItem[]): ContentItem | undefined {
         // first check if item was already resolved and return it if it was
-        const existingItem = processedItems.find(m => m.system.codename === codename);
+        const existingItem = this.getExistingProcessedItem(codename, processedItems);
+
         if (existingItem) {
+            // item was already resolved
             return existingItem;
         }
 
