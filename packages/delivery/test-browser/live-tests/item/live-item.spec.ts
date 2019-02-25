@@ -98,7 +98,6 @@ describe('Live item', () => {
 
   it(`checks that linkedItemCodenames field is mapped and container proper data`, () => {
     expect(response.item.plot.linkedItemCodenames).toBeDefined();
-    expect(response.item.plot.linkedItemCodenames.length).toEqual(2);
     expect(response.item.plot.linkedItemCodenames).toContain('tom_hardy');
     expect(response.item.plot.linkedItemCodenames).toContain('joel_edgerton');
   });
