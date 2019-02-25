@@ -10,27 +10,9 @@ import {
     IRichTextReplacements,
     IRichTextResolverResult,
 } from '../parse-models';
+import { parserConfiguration } from '../parser-configuration';
 
 export class BrowserRichTextParser implements IRichTextHtmlParser {
-
-    private readonly linkedItemWrapperElem = 'div';
-
-    private readonly modularContentElementData = {
-        type: 'application/kenticocloud',
-        dataType: 'data-type',
-        dataCodename: 'data-codename'
-    };
-
-    private readonly linkElementData = {
-        nodeName: 'a',
-        dataItemId: 'data-item-id',
-    };
-
-    private readonly imageElementData = {
-        nodeName: 'img',
-        dataImageId: 'data-image-id',
-        srcAttribute: 'src'
-    };
 
     resolveRichTextField(html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         try {
@@ -55,8 +37,8 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         }
     }
 
-    private createWrapperElement(html: string): HTMLDivElement {
-        const element = document.createElement(this.linkedItemWrapperElem);
+    private createWrapperElement(html: string): HTMLElement {
+        const element = document.createElement(parserConfiguration.linkedItemWrapperElem);
         element.innerHTML = html;
 
         return element;
@@ -72,9 +54,9 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                 const typeAttribute = element.attributes ? element.attributes.getNamedItem('type') : undefined;
 
                 // process linked items (modular items)
-                if (element.attributes && typeAttribute && typeAttribute.value && typeAttribute.value.toLowerCase() === this.modularContentElementData.type.toLowerCase()) {
-                    const dataCodenameAttribute = element.attributes.getNamedItem(this.modularContentElementData.dataCodename);
-                    const dataTypeAttribute = element.attributes.getNamedItem(this.modularContentElementData.dataType);
+                if (element.attributes && typeAttribute && typeAttribute.value && typeAttribute.value.toLowerCase() === parserConfiguration.modularContentElementData.type.toLowerCase()) {
+                    const dataCodenameAttribute = element.attributes.getNamedItem(parserConfiguration.modularContentElementData.dataCodename);
+                    const dataTypeAttribute = element.attributes.getNamedItem(parserConfiguration.modularContentElementData.dataType);
 
                     if (!dataTypeAttribute) {
                         throw Error('Missing data type attribute. This is likely an error caused by invalid response.');
@@ -116,11 +98,11 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                 }
 
                 // process links
-                if (element.nodeName.toLowerCase() === this.linkElementData.nodeName.toLowerCase()) {
-                    const dataItemIdAttribute = element.attributes.getNamedItem(this.linkElementData.dataItemId);
+                if (element.nodeName.toLowerCase() === parserConfiguration.linkElementData.nodeName.toLowerCase()) {
+                    const dataItemIdAttribute = element.attributes.getNamedItem(parserConfiguration.linkElementData.dataItemId);
 
                     if (!dataItemIdAttribute) {
-                        throw Error(`HTML node is invalid. Reason: missing '${this.linkElementData.dataItemId}' attribute`);
+                        throw Error(`HTML node is invalid. Reason: missing '${parserConfiguration.linkElementData.dataItemId}' attribute`);
                     }
 
                     const link: ILinkObject = {
@@ -173,8 +155,8 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                 }
 
                 // process images
-                if (element.nodeName.toLowerCase() === this.imageElementData.nodeName.toLowerCase()) {
-                    const dataImageIdAttribute = element.attributes.getNamedItem(this.imageElementData.dataImageId);
+                if (element.nodeName.toLowerCase() === parserConfiguration.imageElementData.nodeName.toLowerCase()) {
+                    const dataImageIdAttribute = element.attributes.getNamedItem(parserConfiguration.imageElementData.dataImageId);
 
                     // continue only if data image id is present. There could be regular img tags included
                     if (dataImageIdAttribute) {
@@ -189,10 +171,10 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         const imageResult = replacement.getImageResult(imageObj.imageId, fieldName);
 
                         // get src attribute of img tag
-                        const srcAttribute = element.attributes.getNamedItem(this.imageElementData.srcAttribute);
+                        const srcAttribute = element.attributes.getNamedItem(parserConfiguration.imageElementData.srcAttribute);
 
                         if (!srcAttribute) {
-                            throw Error(`Attribute '${this.imageElementData.srcAttribute}' is missing. Source field: ${fieldName}`);
+                            throw Error(`Attribute '${parserConfiguration.imageElementData.srcAttribute}' is missing. Source field: ${fieldName}`);
                         }
 
                         // set new image url

@@ -19,26 +19,10 @@ import {
     IRichTextReplacements,
     IRichTextResolverResult,
 } from '../parse-models';
+import { parserConfiguration } from '../parser-configuration';
 import { parse5Utils } from './parse5utils';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
-
-    private readonly modularContentElementData = {
-        type: 'application/kenticocloud',
-        dataType: 'data-type',
-        dataCodename: 'data-codename'
-    };
-
-    private readonly linkElementData = {
-        nodeName: 'a',
-        dataItemId: 'data-item-id',
-    };
-
-    private readonly imageElementData = {
-        nodeName: 'img',
-        dataImageId: 'data-image-id',
-        srcAttribute: 'src'
-    };
 
     resolveRichTextField(html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         try {
@@ -96,13 +80,13 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     private processImage(fieldName: string, element: DefaultTreeElement, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): void {
         const attributes = element.attrs;
 
-        if (element.nodeName !== this.imageElementData.nodeName) {
+        if (element.nodeName !== parserConfiguration.imageElementData.nodeName) {
             // node is not an image
             return;
         }
 
         // get image id attribute
-        const dataImageIdAttribute = attributes.find(m => m.name === this.imageElementData.dataImageId);
+        const dataImageIdAttribute = attributes.find(m => m.name === parserConfiguration.imageElementData.dataImageId);
         if (!dataImageIdAttribute) {
             // image tag does not have image id attribute
             return;
@@ -119,7 +103,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         const linkResult = replacement.getImageResult(image.imageId, fieldName);
 
         // set url of image
-        const srcAttribute = attributes.find(m => m.name === this.imageElementData.srcAttribute);
+        const srcAttribute = attributes.find(m => m.name === parserConfiguration.imageElementData.srcAttribute);
         if (srcAttribute) {
             srcAttribute.value = linkResult.url;
         }
@@ -128,13 +112,13 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     private processLink(element: DefaultTreeElement, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): void {
         const attributes = element.attrs;
 
-        if (element.nodeName !== this.linkElementData.nodeName) {
+        if (element.nodeName !== parserConfiguration.linkElementData.nodeName) {
             // node is not a link
             return;
         }
 
         // get all links which have item it attribute, ignore all other links (they can be regular links in rich text)
-        const dataItemIdAttribute = attributes.find(m => m.name === this.linkElementData.dataItemId);
+        const dataItemIdAttribute = attributes.find(m => m.name === parserConfiguration.linkElementData.dataItemId);
         if (!dataItemIdAttribute) {
             // its either a regular link or the attribute is not defined
             return;
@@ -201,16 +185,16 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         result: IFeaturedObjects): void {
         const attributes = element.attrs;
 
-        const typeAttribute = attributes.find(m => m.value === this.modularContentElementData.type);
+        const typeAttribute = attributes.find(m => m.value === parserConfiguration.modularContentElementData.type);
         if (!typeAttribute) {
             // node is not kentico cloud data type
             return;
         }
 
-        const dataTypeAttribute = attributes.find(m => m.name === this.modularContentElementData.dataType);
+        const dataTypeAttribute = attributes.find(m => m.name === parserConfiguration.modularContentElementData.dataType);
 
         if (!dataTypeAttribute) {
-            throw Error(`Object tag in rich text field is missing a data type attribute '${this.modularContentElementData.dataType}'`);
+            throw Error(`Object tag in rich text field is missing a data type attribute '${parserConfiguration.modularContentElementData.dataType}'`);
         }
 
         // get type of resolving item
@@ -222,9 +206,9 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         }
 
         // get codename of the modular content
-        const dataCodenameAttribute: Attribute | undefined = attributes.find(m => m.name === this.modularContentElementData.dataCodename);
+        const dataCodenameAttribute: Attribute | undefined = attributes.find(m => m.name === parserConfiguration.modularContentElementData.dataCodename);
         if (dataCodenameAttribute == null) {
-            throw Error(`The '${this.modularContentElementData.dataCodename}' attribute is missing and therefore linked item cannot be retrieved`);
+            throw Error(`The '${parserConfiguration.modularContentElementData.dataCodename}' attribute is missing and therefore linked item cannot be retrieved`);
         }
 
         const itemCodename = dataCodenameAttribute.value;
