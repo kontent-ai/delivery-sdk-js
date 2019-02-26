@@ -116,6 +116,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_delivery_query_service_.queryservice.html#gettaxonomies" class="tsd-kind-icon">get<wbr>Taxonomies</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_delivery_query_service_.queryservice.html#gettaxonomy" class="tsd-kind-icon">get<wbr>Taxonomy</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_services_delivery_query_service_.queryservice.html#geturl" class="tsd-kind-icon">get<wbr>Url</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_services_delivery_query_service_.queryservice.html#retrypromise" class="tsd-kind-icon">retry<wbr>Promise</a></li>
 							</ul>
 						</section>
 					</div>
@@ -254,7 +255,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html">BaseDeliveryQueryService</a>.<a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html#getbaseurl">getBaseUrl</a></p>
 								<ul>
-									<li>Defined in services/base-delivery-query.service.ts:184</li>
+									<li>Defined in services/base-delivery-query.service.ts:191</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -323,7 +324,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html">BaseDeliveryQueryService</a>.<a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html#getheaders">getHeaders</a></p>
 								<ul>
-									<li>Defined in services/base-delivery-query.service.ts:103</li>
+									<li>Defined in services/base-delivery-query.service.ts:110</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -435,7 +436,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html">BaseDeliveryQueryService</a>.<a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html#getresponse">getResponse</a></p>
 								<ul>
-									<li>Defined in services/base-delivery-query.service.ts:152</li>
+									<li>Defined in services/base-delivery-query.service.ts:159</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -633,7 +634,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html">BaseDeliveryQueryService</a>.<a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html#geturl">getUrl</a></p>
 								<ul>
-									<li>Defined in services/base-delivery-query.service.ts:90</li>
+									<li>Defined in services/base-delivery-query.service.ts:97</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -663,6 +664,36 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+					<a name="retrypromise" class="tsd-anchor"></a>
+					<h3>retry<wbr>Promise</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">retry<wbr>Promise&lt;T&gt;<span class="tsd-signature-symbol">(</span>promise<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html">BaseDeliveryQueryService</a>.<a href="_services_base_delivery_query_service_.basedeliveryqueryservice.html#retrypromise">retryPromise</a></p>
+								<ul>
+									<li>Defined in services/base-delivery-query.service.ts:84</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>promise: <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -736,6 +767,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="_services_delivery_query_service_.queryservice.html#geturl" class="tsd-kind-icon">get<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
+								<a href="_services_delivery_query_service_.queryservice.html#retrypromise" class="tsd-kind-icon">retry<wbr>Promise</a>
 							</li>
 						</ul>
 					</li>
