@@ -1,3 +1,8 @@
+## 1.4.3 (2019-02-26)
+
+#### :bug: Bug Fix
+  * [#126](https://github.com/Kentico/kentico-cloud-js/pull/126) Stores current retry attempt to ensure correct timeout is used for retrying additional requests ([@Enngage](https://github.com/Enngage))
+  
 ## 1.4.2 (2019-02-26)
 
 #### :bug: Bug Fix
