@@ -12,6 +12,11 @@ import { Observable, of } from 'rxjs';
 import { DeliveryClient } from '../../../lib';
 
 class CustomHttpService implements IHttpService {
+
+    retryPromise<T>(promise: Promise<T>, options: { maxRetryAttempts: number; useRetryForResponseCodes: number[]; delay: number; }): Promise<T> {
+        throw new Error('Method not implemented.');
+    }
+
     get<TError extends any, TRawData extends any>(
         call: IHttpGetQueryCall<TError>,
         options?: IHttpQueryOptions

@@ -47,7 +47,7 @@ export abstract class BaseQuery<TResponse extends ICloudResponse> {
   }
 
   getPromise(): Promise<TResponse> {
-    return this.getObservable().toPromise();
+    return this.queryService.retryPromise(this.getObservable().toPromise());
   }
 
   protected resolveUrlInternal(action: string): string {

@@ -19,8 +19,8 @@ import { IRichTextHtmlParser } from '../parser';
 export abstract class BaseDeliveryQueryService {
 
     /**
-  * Default number of retry attempts when user did not set any
-  */
+    * Default number of retry attempts when user did not set any
+    */
     private readonly defaultRetryAttempts: number = 3;
 
     /**
@@ -81,12 +81,19 @@ export abstract class BaseDeliveryQueryService {
         this.responseMapper = new ResponseMapper(config, richTextHtmlParser);
     }
 
+    retryPromise<T>(promise: Promise<T>): Promise<T> {
+        return this.httpService.retryPromise<T>(promise, {
+            maxRetryAttempts: this.getRetryAttempts(),
+            useRetryForResponseCodes: this.useRetryForResponseCodes
+        });
+    }
+
     /**
- * Gets url based on the action, query configuration and options (parameters)
- * @param action Action (= url part) that will be hit
- * @param queryConfig Query configuration
- * @param options Query options
- */
+    * Gets url based on the action, query configuration and options (parameters)
+    * @param action Action (= url part) that will be hit
+    * @param queryConfig Query configuration
+    * @param options Query options
+    */
     getUrl(
         action: string,
         queryConfig: IQueryConfig,
