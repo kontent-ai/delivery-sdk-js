@@ -85,7 +85,7 @@ export abstract class BaseDeliveryQueryService {
         return this.httpService.retryPromise<T>(promise, {
             maxRetryAttempts: this.getRetryAttempts(),
             useRetryForResponseCodes: this.useRetryForResponseCodes
-        });
+        }, 1);
     }
 
     /**
