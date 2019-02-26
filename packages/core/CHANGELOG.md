@@ -1,3 +1,13 @@
+## 1.4.2 (2019-02-26)
+
+#### :bug: Bug Fix
+  * [#123](https://github.com/Kentico/kentico-cloud-js/pull/123) Fix response mapping if request is successful for the first time ([@Enngage](https://github.com/Enngage))
+  
+## 1.4.1 (2019-02-26)
+
+#### :bug: Bug Fix
+  * [#122](https://github.com/Kentico/kentico-cloud-js/pull/122) Fixes mapping of Promise response ([@Enngage](https://github.com/Enngage))
+  
 ## 1.4.0 (2019-02-26)
 
 #### :rocket: Enhancement
