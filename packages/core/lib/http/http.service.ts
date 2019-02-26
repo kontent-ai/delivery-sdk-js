@@ -15,9 +15,57 @@ import {
   IHttpRequestResult,
 } from './http.models';
 import { IHttpService } from './ihttp.service';
+import { retryService } from './retry-service';
 import { retryStrategy } from './retry-strategy';
 
 export class HttpService implements IHttpService {
+
+  /**
+   * Retries given promise based on given configuration
+   * @param promise Promise to retry
+   * @param options Configuration options
+   */
+  retryPromise<T>(promise: Promise<T>, options: {
+    maxRetryAttempts: number
+    useRetryForResponseCodes: number[],
+  }): Promise<T> {
+    return new Promise((resolve, reject) => promise
+      .then(() => {
+        resolve();
+      })
+      .catch((reason: any) => {
+        let statusCode = 0;
+
+        if (reason && reason.originalError && reason.originalError.request) {
+          statusCode = reason.originalError.request.status;
+
+          const retryCode = options.useRetryForResponseCodes.find(m => m === statusCode);
+          if (!retryCode && retryCode !== 0) {
+            return reject(reason);
+          }
+        }
+
+        const newRetryAttempts = options.maxRetryAttempts - 1;
+        const retryTimeout = retryService.getRetryTimeout(newRetryAttempts);
+
+        retryService.debugLogAttempt(newRetryAttempts, retryTimeout);
+
+        if (options.maxRetryAttempts - 1 > 0) {
+          return this.promiseRetryWait(retryTimeout)
+            .then(() => {
+              return this.retryPromise(promise, {
+                maxRetryAttempts: newRetryAttempts,
+                useRetryForResponseCodes: options.useRetryForResponseCodes
+              });
+            })
+            .then(() => resolve())
+            .catch(() => reject(reason));
+        }
+        return reject(reason);
+      })
+    );
+  }
+
 
   get<TError extends any, TRawData extends any>(
     call: IHttpGetQueryCall<TError>,
@@ -112,5 +160,9 @@ export class HttpService implements IHttpService {
       data: result.response.data,
       response: result.response
     };
+  }
+
+  private promiseRetryWait(ms: number): Promise<number> {
+    return new Promise<number>(r => setTimeout(r, ms));
   }
 }

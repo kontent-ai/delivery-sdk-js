@@ -1,6 +1,7 @@
 import { of, throwError } from 'rxjs';
 import { catchError, retryWhen, switchMap } from 'rxjs/operators';
-import { retryStrategy } from '../../lib';
+
+import { retryService, retryStrategy } from '../../lib';
 
 describe('Retry - isolated - do not retry', () => {
     const retryAttempts = 3;
@@ -9,7 +10,7 @@ describe('Retry - isolated - do not retry', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = MAX_SAFE_TIMEOUT;
 
     beforeAll((done) => {
-        spyOn(retryStrategy, 'debugLogAttempt').and.callThrough();
+        spyOn(retryService, 'debugLogAttempt').and.callThrough();
 
         // fake error
         const error: any = {
@@ -32,13 +33,13 @@ describe('Retry - isolated - do not retry', () => {
                 catchError((err, t) => {
                     return of(true);
                 }),
-        )
+            )
             .subscribe(() => done());
 
     });
 
     it(`Warning for retry attempt should have been called '${retryAttempts}' times`, () => {
-        expect(retryStrategy.debugLogAttempt).toHaveBeenCalledTimes(0);
+        expect(retryService.debugLogAttempt).toHaveBeenCalledTimes(0);
     });
 });
 
