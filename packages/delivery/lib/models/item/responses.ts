@@ -27,11 +27,13 @@ export namespace ItemResponses {
         * @constructor
         * @param {TItem[]} items - Collection of content items
         * @param {Pagination} pagination - Pagination object
+        * @param {ContentItem[]} linkedItems - Content items that were processed during request
         * @param {ICloudResponseDebug} debug - Debug information from the request
         */
         constructor(
             public items: TItem[],
             public pagination: Pagination,
+            public linkedItems: ContentItem[],
             public debug: ICloudResponseDebug
         ) {
             this.isEmpty = this.getIsEmpty();
@@ -82,10 +84,12 @@ export namespace ItemResponses {
         * Response containing single item
         * @constructor
         * @param {TItem} item - Returned item
+        * @param {ContentItem[]} linkedItems - Content items that were processed during request
         * @param {ICloudResponseDebug} debug - Debug information from the request
         */
         constructor(
             public item: TItem,
+            public linkedItems: ContentItem[],
             public debug: ICloudResponseDebug
         ) {
             this.isEmpty = this.getIsEmpty();

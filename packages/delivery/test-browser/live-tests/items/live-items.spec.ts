@@ -52,5 +52,9 @@ describe('Live items', () => {
       expect(item.elements.title.value).toEqual(item.title.text);
     });
   });
+
+  it(`Linked items should be set`, () => {
+    expect(response.linkedItems.length).toBeGreaterThan(0);
+  });
 });
 

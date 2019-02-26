@@ -5,6 +5,16 @@ import { FieldMapper } from '../mappers';
 import { ContentItem } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 
+interface MapItemResult<TItem extends ContentItem> {
+    item: TItem;
+    processedItems: ContentItem[];
+}
+
+interface MapItemsResult<TItem extends ContentItem> {
+    items: TItem[];
+    processedItems: ContentItem[];
+}
+
 export class ItemMapper {
 
     private readonly fieldMapper: FieldMapper;
@@ -21,8 +31,8 @@ export class ItemMapper {
      * @param response Cloud response used to map the item
      * @param queryConfig Query configuration
      */
-    mapSingleItem<TItem extends ContentItem>(response: ItemContracts.IItemResponseContract, queryConfig: IItemQueryConfig): TItem {
-        return this.mapItem<TItem>(response.item, response.modular_content, queryConfig);
+    mapSingleItem<TItem extends ContentItem>(response: ItemContracts.IItemResponseContract, queryConfig: IItemQueryConfig): MapItemResult<TItem> {
+        return this.mapItem<TItem>(response.item, response.modular_content, queryConfig, []);
     }
 
     /**
@@ -30,18 +40,33 @@ export class ItemMapper {
     * @param response Cloud response used to map the item
     * @param queryConfig Query configuration
     */
-    mapMultipleItems<TItem extends ContentItem>(response: ItemContracts.IItemsResponseContract, queryConfig: IItemQueryConfig): TItem[] {
+    mapMultipleItems<TItem extends ContentItem>(response: ItemContracts.IItemsResponseContract, queryConfig: IItemQueryConfig): MapItemsResult<TItem> {
         const that = this;
 
-        return response.items.map(function (item) {
-            return that.mapItem<TItem>(item, response.modular_content, queryConfig);
+        const processedItems: ContentItem[] = [];
+        const mappedItems: TItem[] = [];
+
+        response.items.forEach((item) => {
+            const mappedItem = that.mapItem<TItem>(item, response.modular_content, queryConfig, processedItems);
+            mappedItems.push(mappedItem.item);
         });
+
+        return {
+            items: mappedItems,
+            processedItems: processedItems // processed items are filled by reference (see mapItem)
+        };
     }
 
-    private mapItem<TItem extends ContentItem>(item: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig): TItem {
+    private mapItem<TItem extends ContentItem>(item: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): MapItemResult<TItem> {
         if (!item) {
             throw Error(`Could not map item because its undefined`);
         }
-        return this.fieldMapper.mapFields<TItem>(item, modularContent, queryConfig, []);
+
+        const result = this.fieldMapper.mapFields<TItem>(item, modularContent, queryConfig, processedItems);
+
+        return {
+            item: result.item,
+            processedItems: result.processedItems
+        };
     }
 }

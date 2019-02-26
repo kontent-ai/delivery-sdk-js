@@ -1,4 +1,4 @@
-import { FieldModels, ItemResponses, RichTextImage, ImageUrlBuilder } from '../../../lib';
+import { FieldModels, ImageUrlBuilder, ItemResponses, RichTextImage } from '../../../lib';
 import { Actor, Context, Movie, setup } from '../../setup';
 
 describe('Live item', () => {
@@ -106,7 +106,7 @@ describe('Live item', () => {
     expect(response.item.stars[0]).toEqual(jasmine.any(Actor));
   });
 
-  it(`Check that linked item (Actor) has 'firstName' text properly assigned`, () => {
+  it(`check that linked item (Actor) has 'firstName' text properly assigned`, () => {
     expect(response.item.stars[0].firstName.text).toEqual('Tom');
   });
 
@@ -157,6 +157,14 @@ describe('Live item', () => {
       const plotHtml = response.item.plot.getHtml();
 
       expect(plotHtml).toContain(`src="${newImageUrl}"`);
+    });
+  });
+
+  it(`verify linked items included in response`, () => {
+    expect(response.linkedItems.length).toEqual(3);
+
+    response.linkedItems.forEach(processedItem => {
+      expect(processedItem).toEqual(jasmine.any(Actor));
     });
   });
 
