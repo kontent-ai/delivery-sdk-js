@@ -53,7 +53,8 @@ export function setup(context: Context) {
         enableSecuredMode: context.useSecuredMode,
         retryAttempts: context.retryAttempts,
         enableAdvancedLogging: context.enableAdvancedLogging,
-        globalHeaders: context.globalHeaders
+        globalHeaders: context.globalHeaders,
+        retryStatusCodes: context.retryStatusCodes
     };
 
     // set context

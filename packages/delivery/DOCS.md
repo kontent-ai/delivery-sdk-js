@@ -845,6 +845,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | httpService ?| IHttpService | Can be useud to inject custom http service for performing requests |
 | globalHeaders? | IHeader[] |  Array of headers added to each and every http request made with SDK |
 | collissionResolver? | ItemFieldCollisionResolver[] | Resolver called when there are multiple fields with the same name in content item (example collision field names include 'system' or 'elements'). By default an underscore is added before original field name. If the field name is still in collission, field is excluded from mapping. |
+| retryStatusCodes?: number[] | number[] | Array of status codes that should be retried when request fails. Defaults to requests with '500' status code. |
 
 ## Handling errors
 
