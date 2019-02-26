@@ -26,7 +26,7 @@ export abstract class BaseDeliveryQueryService {
     /**
      * List of response codes that can be retried
      */
-    private readonly useRetryForResponseCodes: number[] = [500];
+    private readonly defaultRetryStatusCodes: number[] = [500];
 
     /**
      * Header name for SDK usage
@@ -84,7 +84,7 @@ export abstract class BaseDeliveryQueryService {
     retryPromise<T>(promise: Promise<T>): Promise<T> {
         return this.httpService.retryPromise<T>(promise, {
             maxRetryAttempts: this.getRetryAttempts(),
-            useRetryForResponseCodes: this.useRetryForResponseCodes
+            useRetryForResponseCodes: this.getRetryStatusCodes()
         }, 1);
     }
 
@@ -173,7 +173,7 @@ export abstract class BaseDeliveryQueryService {
                 {
                     headers: this.getHeaders(queryConfig),
                     maxRetryAttempts: this.getRetryAttempts(),
-                    useRetryForResponseCodes: this.useRetryForResponseCodes,
+                    useRetryForResponseCodes: this.getRetryStatusCodes(),
                     logErrorToConsole: this.config.enableAdvancedLogging
                 }
             )
@@ -190,6 +190,17 @@ export abstract class BaseDeliveryQueryService {
    */
     protected getBaseUrl(queryConfig: IQueryConfig): string {
         return this.getDeliveryUrl(queryConfig) + '/' + this.config.projectId;
+    }
+
+    /**
+     * Gets retry status code array
+     */
+    private getRetryStatusCodes(): number[] {
+        if (this.config.retryStatusCodes) {
+            return this.config.retryStatusCodes;
+        }
+
+        return this.defaultRetryStatusCodes;
     }
 
     /**

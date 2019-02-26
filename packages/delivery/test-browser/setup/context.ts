@@ -23,6 +23,7 @@ export class Context {
   public retryAttempts?: number;
   public enableAdvancedLogging?: boolean;
   public globalHeaders?: IHeader[];
+  public retryStatusCodes?: number[];
 
   constructor(
     options?: {
@@ -38,7 +39,8 @@ export class Context {
       useSecuredMode?: boolean,
       retryAttempts?: number,
       enableAdvancedLogging?: boolean,
-      globalHeaders?: IHeader[]
+      globalHeaders?: IHeader[],
+      retryStatusCodes?: number[];
     }
   ) {
     if (options) {
@@ -59,7 +61,8 @@ export class Context {
       enableSecuredMode: this.useSecuredMode,
       securedApiKey: this.securedApiKey,
       retryAttempts: this.retryAttempts,
-      globalHeaders: this.globalHeaders
+      globalHeaders: this.globalHeaders,
+      retryStatusCodes: this.retryStatusCodes
     };
   }
 }

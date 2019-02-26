@@ -97,5 +97,10 @@ export interface IDeliveryClientConfig {
      */
     collisionResolver?: ItemFieldCollisionResolver;
 
+    /**
+     * Array of status codes that should be retried when request fails. Defaults to requests with '500' status code.
+     */
+    retryStatusCodes?: number[];
+
 }
 

@@ -8,6 +8,7 @@ describe('Retry Promise - isolated - retry', () => {
     const MAX_SAFE_TIMEOUT = Math.pow(2, 31) - 1;
 
     const context = new Context();
+    context.retryStatusCodes = [0];
     setup(context);
     const client = context.deliveryClient;
 
