@@ -30,8 +30,8 @@ export class HttpService implements IHttpService {
     useRetryForResponseCodes: number[],
   }): Promise<T> {
     return new Promise((resolve, reject) => promise
-      .then(() => {
-        resolve();
+      .then((response) => {
+        resolve(response);
       })
       .catch((reason: any) => {
         let statusCode = 0;

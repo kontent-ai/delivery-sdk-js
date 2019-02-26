@@ -25,6 +25,7 @@ describe('Http execution upon observable subscription', () => {
         expect(httpDebugger.debugStartHttpRequest).toHaveBeenCalledTimes(1);
 
         expect(response.data).toBeDefined();
+        expect(response.data.item).toBeDefined();
     });
 });
 
