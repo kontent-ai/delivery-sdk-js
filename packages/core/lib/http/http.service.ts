@@ -28,7 +28,7 @@ export class HttpService implements IHttpService {
   retryPromise<T>(promise: Promise<T>, options: {
     maxRetryAttempts: number
     useRetryForResponseCodes: number[],
-  }): Promise<T> {
+  }, currentAttempt: number = 1): Promise<T> {
     return new Promise((resolve, reject) => promise
       .then((response) => {
         resolve(response);
@@ -38,28 +38,22 @@ export class HttpService implements IHttpService {
 
         if (reason && reason.originalError && reason.originalError.request) {
           statusCode = reason.originalError.request.status;
-
-          const retryCode = options.useRetryForResponseCodes.find(m => m === statusCode);
-          if (!retryCode && retryCode !== 0) {
-            return reject(reason);
-          }
         }
 
-        const newRetryAttempts = options.maxRetryAttempts - 1;
-        const retryTimeout = retryService.getRetryTimeout(newRetryAttempts);
+        const retryCode = options.useRetryForResponseCodes.find(m => m === statusCode);
+        if (!retryCode && retryCode !== 0) {
+          return reject(reason);
+        }
 
-        retryService.debugLogAttempt(newRetryAttempts, retryTimeout);
-
-        if (options.maxRetryAttempts - 1 > 0) {
+        const retryTimeout = retryService.getRetryTimeout(currentAttempt);
+        if (currentAttempt <= options.maxRetryAttempts) {
           return this.promiseRetryWait(retryTimeout)
             .then(() => {
-              return this.retryPromise(promise, {
-                maxRetryAttempts: newRetryAttempts,
-                useRetryForResponseCodes: options.useRetryForResponseCodes
-              });
+              retryService.debugLogAttempt(currentAttempt, retryTimeout);
+              return this.retryPromise(promise, options, currentAttempt + 1);
             })
             .then((response) => resolve(response))
-            .catch(() => reject(reason));
+            .catch((error) => reject(error));
         }
         return reject(reason);
       })
