@@ -59,11 +59,15 @@ This github repository is a `monorepo` and is managed using `lerna`. In order to
 - Install lerna globally using `npm i lerna -g`
 - Prepare all packages by running `npm run prepare` script in the main directory. This script bootstraps all dependencies, builds libraries and symlinks local packages if necessary.
 
-### Publishing
+### Publish checklist
 
-To publish this library you can use standard `npm publish` command after increasing package versions. Some packages in this repository (delivery, content management sdks) require you to also run `npm run set-sdk-version` script which takes the package name & version from package.json and creates a updats file called `sdk-info.generated.ts` that is further used to identify source of package during HTTP calls.
+To publish new version of most packages in this repository, use following checklist:
 
-Packages will not let you publish new versions unless the version in `package.json` & `sdk-info.generates.ts` matches.
+1) Run `npm run new-minor` or `npm run new-patch` or `npm run new-major` and commit changes
+2) Publish to npm using `npm publish` script. This script verifies package version, builds library and tests it before publishing.
+3) Run `lerna-changelog --from  {previousTag}` to generate changelog and copy relevant changes to `ChANGELOG.md` file of appropriate package. 
+4) Create new tag in following format `package-folder@version` such as `delivery@5.6.0` or `content-management@1.0.5`. See [git versions](https://github.com/Kentico/kentico-cloud-js/releases) for more examples.
+5) Commit & push all changes
 
 ### Generating changelog details
 

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DateTimeField | kentico-cloud-delivery</title>
+	<title>TaxonomyField | kentico-cloud-delivery</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,16 +56,16 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_fields_field_types_.html">&quot;fields/field-types&quot;</a>
+					<a href="../modules/_fields_fields_.html">&quot;fields/fields&quot;</a>
 				</li>
 				<li>
-					<a href="../modules/_fields_field_types_.fields.html">Fields</a>
+					<a href="../modules/_fields_fields_.fields.html">Fields</a>
 				</li>
 				<li>
-					<a href="_fields_field_types_.fields.datetimefield.html">DateTimeField</a>
+					<a href="_fields_fields_.fields.taxonomyfield.html">TaxonomyField</a>
 				</li>
 			</ul>
-			<h1>Class DateTimeField</h1>
+			<h1>Class TaxonomyField</h1>
 		</div>
 	</div>
 </header>
@@ -76,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">DateTimeField</span>
+						<span class="target">TaxonomyField</span>
 					</li>
 				</ul>
 			</section>
@@ -93,16 +93,17 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_fields_field_types_.fields.datetimefield.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_fields_fields_.fields.taxonomyfield.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_fields_field_types_.fields.datetimefield.html#datetime" class="tsd-kind-icon">datetime</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_fields_field_types_.fields.datetimefield.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_fields_field_types_.fields.datetimefield.html#type" class="tsd-kind-icon">type</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_fields_field_types_.fields.datetimefield.html#value" class="tsd-kind-icon">value</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_fields_fields_.fields.taxonomyfield.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_fields_fields_.fields.taxonomyfield.html#taxonomygroup" class="tsd-kind-icon">taxonomy<wbr>Group</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_fields_fields_.fields.taxonomyfield.html#taxonomyterms" class="tsd-kind-icon">taxonomy<wbr>Terms</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_fields_fields_.fields.taxonomyfield.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_fields_fields_.fields.taxonomyfield.html#value" class="tsd-kind-icon">value</a></li>
 							</ul>
 						</section>
 					</div>
@@ -114,18 +115,18 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Date<wbr>Time<wbr>Field<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_fields_field_types_.fields.datetimefield.html" class="tsd-signature-type">DateTimeField</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Taxonomy<wbr>Field<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, taxonomyGroup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_fields_fields_.fields.taxonomyfield.html" class="tsd-signature-type">TaxonomyField</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in fields/field-types.ts:78</li>
+									<li>Defined in fields/fields.ts:275</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Represents date time field of Kentico Cloud item</p>
+									<p>Represents number field of Kentico Cloud item</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>constructor</dt>
@@ -150,8 +151,16 @@
 										</div>
 									</div>
 								</li>
+								<li>
+									<h5>taxonomyGroup: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Codename of the taxonomy group</p>
+										</div>
+									</div>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_fields_field_types_.fields.datetimefield.html" class="tsd-signature-type">DateTimeField</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_fields_fields_.fields.taxonomyfield.html" class="tsd-signature-type">TaxonomyField</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -159,28 +168,13 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="datetime" class="tsd-anchor"></a>
-					<h3>datetime</h3>
-					<div class="tsd-signature tsd-kind-icon">datetime<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in fields/field-types.ts:73</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Date time value</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="name" class="tsd-anchor"></a>
 					<h3>name</h3>
 					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_fields_field_models_.fieldmodels.ifield.html">IField</a>.<a href="../interfaces/_fields_field_models_.fieldmodels.ifield.html#name">name</a></p>
 						<ul>
-							<li>Defined in fields/field-types.ts:87</li>
+							<li>Defined in fields/fields.ts:285</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -190,13 +184,43 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="taxonomygroup" class="tsd-anchor"></a>
+					<h3>taxonomy<wbr>Group</h3>
+					<div class="tsd-signature tsd-kind-icon">taxonomy<wbr>Group<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in fields/fields.ts:287</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Codename of the taxonomy group</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="taxonomyterms" class="tsd-anchor"></a>
+					<h3>taxonomy<wbr>Terms</h3>
+					<div class="tsd-signature tsd-kind-icon">taxonomy<wbr>Terms<span class="tsd-signature-symbol">:</span> <a href="_fields_field_models_.fieldmodels.taxonomyterm.html" class="tsd-signature-type">TaxonomyTerm</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in fields/fields.ts:275</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>List of assigned taxonomy terms</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="type" class="tsd-anchor"></a>
 					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/_fields_field_type_.fieldtype.html" class="tsd-signature-type">FieldType</a><span class="tsd-signature-symbol"> =&nbsp;FieldType.DateTime</span></div>
+					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <a href="../enums/_fields_field_type_.fieldtype.html" class="tsd-signature-type">FieldType</a><span class="tsd-signature-symbol"> =&nbsp;FieldType.Taxonomy</span></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_fields_field_models_.fieldmodels.ifield.html">IField</a>.<a href="../interfaces/_fields_field_models_.fieldmodels.ifield.html#type">type</a></p>
 						<ul>
-							<li>Defined in fields/field-types.ts:78</li>
+							<li>Defined in fields/fields.ts:270</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -212,7 +236,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_fields_field_models_.fieldmodels.ifield.html">IField</a>.<a href="../interfaces/_fields_field_models_.fieldmodels.ifield.html#value">value</a></p>
 						<ul>
-							<li>Defined in fields/field-types.ts:88</li>
+							<li>Defined in fields/fields.ts:286</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -230,10 +254,10 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_fields_field_types_.html">"fields/field-<wbr>types"</a>
+						<a href="../modules/_fields_fields_.html">"fields/fields"</a>
 						<ul>
 							<li class="current tsd-kind-module tsd-parent-kind-external-module">
-								<a href="../modules/_fields_field_types_.fields.html">Fields</a>
+								<a href="../modules/_fields_fields_.fields.html">Fields</a>
 							</li>
 						</ul>
 					</li>
@@ -242,52 +266,55 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_fields_field_types_.fields.assetsfield.html" class="tsd-kind-icon">Assets<wbr>Field</a>
+						<a href="_fields_fields_.fields.assetsfield.html" class="tsd-kind-icon">Assets<wbr>Field</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_fields_field_types_.fields.customfield.html" class="tsd-kind-icon">Custom<wbr>Field</a>
+						<a href="_fields_fields_.fields.customfield.html" class="tsd-kind-icon">Custom<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_fields_fields_.fields.datetimefield.html" class="tsd-kind-icon">Date<wbr>Time<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_fields_fields_.fields.multiplechoicefield.html" class="tsd-kind-icon">Multiple<wbr>Choice<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_fields_fields_.fields.numberfield.html" class="tsd-kind-icon">Number<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_fields_fields_.fields.richtextfield.html" class="tsd-kind-icon">Rich<wbr>Text<wbr>Field</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_fields_field_types_.fields.datetimefield.html" class="tsd-kind-icon">Date<wbr>Time<wbr>Field</a>
+						<a href="_fields_fields_.fields.taxonomyfield.html" class="tsd-kind-icon">Taxonomy<wbr>Field</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_fields_field_types_.fields.datetimefield.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_fields_fields_.fields.taxonomyfield.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_fields_field_types_.fields.datetimefield.html#datetime" class="tsd-kind-icon">datetime</a>
+								<a href="_fields_fields_.fields.taxonomyfield.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_fields_field_types_.fields.datetimefield.html#name" class="tsd-kind-icon">name</a>
+								<a href="_fields_fields_.fields.taxonomyfield.html#taxonomygroup" class="tsd-kind-icon">taxonomy<wbr>Group</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_fields_field_types_.fields.datetimefield.html#type" class="tsd-kind-icon">type</a>
+								<a href="_fields_fields_.fields.taxonomyfield.html#taxonomyterms" class="tsd-kind-icon">taxonomy<wbr>Terms</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_fields_field_types_.fields.datetimefield.html#value" class="tsd-kind-icon">value</a>
+								<a href="_fields_fields_.fields.taxonomyfield.html#type" class="tsd-kind-icon">type</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_fields_fields_.fields.taxonomyfield.html#value" class="tsd-kind-icon">value</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_fields_field_types_.fields.multiplechoicefield.html" class="tsd-kind-icon">Multiple<wbr>Choice<wbr>Field</a>
+						<a href="_fields_fields_.fields.textfield.html" class="tsd-kind-icon">Text<wbr>Field</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_fields_field_types_.fields.numberfield.html" class="tsd-kind-icon">Number<wbr>Field</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_fields_field_types_.fields.richtextfield.html" class="tsd-kind-icon">Rich<wbr>Text<wbr>Field</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_fields_field_types_.fields.taxonomyfield.html" class="tsd-kind-icon">Taxonomy<wbr>Field</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_fields_field_types_.fields.textfield.html" class="tsd-kind-icon">Text<wbr>Field</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_fields_field_types_.fields.urlslugfield.html" class="tsd-kind-icon">Url<wbr>Slug<wbr>Field</a>
+						<a href="_fields_fields_.fields.urlslugfield.html" class="tsd-kind-icon">Url<wbr>Slug<wbr>Field</a>
 					</li>
 				</ul>
 			</nav>

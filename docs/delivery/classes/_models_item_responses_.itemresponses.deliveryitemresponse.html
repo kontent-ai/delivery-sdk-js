@@ -110,6 +110,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#debug" class="tsd-kind-icon">debug</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#isempty" class="tsd-kind-icon">is<wbr>Empty</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#item" class="tsd-kind-icon">item</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#linkeditems" class="tsd-kind-icon">linked<wbr>Items</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -127,13 +128,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Delivery<wbr>Item<wbr>Response<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TItem</span>, debug<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_common_icloud_response_debug_interface_.icloudresponsedebug.html" class="tsd-signature-type">ICloudResponseDebug</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html" class="tsd-signature-type">DeliveryItemResponse</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Delivery<wbr>Item<wbr>Response<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TItem</span>, linkedItems<span class="tsd-signature-symbol">: </span><a href="_models_item_content_item_class_.contentitem.html" class="tsd-signature-type">ContentItem</a><span class="tsd-signature-symbol">[]</span>, debug<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_common_icloud_response_debug_interface_.icloudresponsedebug.html" class="tsd-signature-type">ICloudResponseDebug</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html" class="tsd-signature-type">DeliveryItemResponse</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in models/item/responses.ts:79</li>
+									<li>Defined in models/item/responses.ts:81</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -152,6 +153,14 @@
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>Returned item</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>linkedItems: <a href="_models_item_content_item_class_.contentitem.html" class="tsd-signature-type">ContentItem</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>Content items that were processed during request</p>
 										</div>
 									</div>
 								</li>
@@ -178,7 +187,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/_interfaces_common_icloud_response_interface_.icloudresponse.html">ICloudResponse</a>.<a href="../interfaces/_interfaces_common_icloud_response_interface_.icloudresponse.html#debug">debug</a></p>
 						<ul>
-							<li>Defined in models/item/responses.ts:89</li>
+							<li>Defined in models/item/responses.ts:93</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -193,7 +202,7 @@
 					<div class="tsd-signature tsd-kind-icon">is<wbr>Empty<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in models/item/responses.ts:79</li>
+							<li>Defined in models/item/responses.ts:81</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -208,12 +217,27 @@
 					<div class="tsd-signature tsd-kind-icon">item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TItem</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in models/item/responses.ts:88</li>
+							<li>Defined in models/item/responses.ts:91</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Returned item</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="linkeditems" class="tsd-anchor"></a>
+					<h3>linked<wbr>Items</h3>
+					<div class="tsd-signature tsd-kind-icon">linked<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="_models_item_content_item_class_.contentitem.html" class="tsd-signature-type">ContentItem</a><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in models/item/responses.ts:92</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Content items that were processed during request</p>
 						</div>
 					</div>
 				</section>
@@ -230,7 +254,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in models/item/responses.ts:94</li>
+									<li>Defined in models/item/responses.ts:98</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -276,6 +300,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#item" class="tsd-kind-icon">item</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#linkeditems" class="tsd-kind-icon">linked<wbr>Items</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#getisempty" class="tsd-kind-icon">get<wbr>IsEmpty</a>
