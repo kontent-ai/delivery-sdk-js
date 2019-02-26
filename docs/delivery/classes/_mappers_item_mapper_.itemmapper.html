@@ -118,7 +118,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mappers/item.mapper.ts:10</li>
+									<li>Defined in mappers/item.mapper.ts:20</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -143,7 +143,7 @@
 					<div class="tsd-signature tsd-kind-icon">config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_config_delivery_client_config_.ideliveryclientconfig.html" class="tsd-signature-type">IDeliveryClientConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mappers/item.mapper.ts:13</li>
+							<li>Defined in mappers/item.mapper.ts:23</li>
 						</ul>
 					</aside>
 				</section>
@@ -153,7 +153,7 @@
 					<div class="tsd-signature tsd-kind-icon">field<wbr>Mapper<span class="tsd-signature-symbol">:</span> <a href="_mappers_field_mapper_.fieldmapper.html" class="tsd-signature-type">FieldMapper</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mappers/item.mapper.ts:10</li>
+							<li>Defined in mappers/item.mapper.ts:20</li>
 						</ul>
 					</aside>
 				</section>
@@ -163,7 +163,7 @@
 					<div class="tsd-signature tsd-kind-icon">rich<wbr>Text<wbr>Html<wbr>Parser<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_parser_parse_models_.irichtexthtmlparser.html" class="tsd-signature-type">IRichTextHtmlParser</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in mappers/item.mapper.ts:14</li>
+							<li>Defined in mappers/item.mapper.ts:24</li>
 						</ul>
 					</aside>
 				</section>
@@ -174,13 +174,13 @@
 					<a name="mapitem" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> map<wbr>Item</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">map<wbr>Item&lt;TItem&gt;<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_item_contracts_.itemcontracts.icontentitemcontract.html" class="tsd-signature-type">IContentItemContract</a>, modularContent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, queryConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_item_iitem_query_config_.iitemqueryconfig.html" class="tsd-signature-type">IItemQueryConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TItem</span></li>
+						<li class="tsd-signature tsd-kind-icon">map<wbr>Item&lt;TItem&gt;<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_item_contracts_.itemcontracts.icontentitemcontract.html" class="tsd-signature-type">IContentItemContract</a>, modularContent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, queryConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_item_iitem_query_config_.iitemqueryconfig.html" class="tsd-signature-type">IItemQueryConfig</a>, processedItems<span class="tsd-signature-symbol">: </span><a href="_models_item_content_item_class_.contentitem.html" class="tsd-signature-type">ContentItem</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_mappers_item_mapper_.mapitemresult.html" class="tsd-signature-type">MapItemResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TItem</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mappers/item.mapper.ts:41</li>
+									<li>Defined in mappers/item.mapper.ts:60</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -200,8 +200,11 @@
 								<li>
 									<h5>queryConfig: <a href="../interfaces/_interfaces_item_iitem_query_config_.iitemqueryconfig.html" class="tsd-signature-type">IItemQueryConfig</a></h5>
 								</li>
+								<li>
+									<h5>processedItems: <a href="_models_item_content_item_class_.contentitem.html" class="tsd-signature-type">ContentItem</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TItem</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_mappers_item_mapper_.mapitemresult.html" class="tsd-signature-type">MapItemResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TItem</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -209,13 +212,13 @@
 					<a name="mapmultipleitems" class="tsd-anchor"></a>
 					<h3>map<wbr>Multiple<wbr>Items</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">map<wbr>Multiple<wbr>Items&lt;TItem&gt;<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_item_contracts_.itemcontracts.iitemsresponsecontract.html" class="tsd-signature-type">IItemsResponseContract</a>, queryConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_item_iitem_query_config_.iitemqueryconfig.html" class="tsd-signature-type">IItemQueryConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TItem</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">map<wbr>Multiple<wbr>Items&lt;TItem&gt;<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_item_contracts_.itemcontracts.iitemsresponsecontract.html" class="tsd-signature-type">IItemsResponseContract</a>, queryConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_item_iitem_query_config_.iitemqueryconfig.html" class="tsd-signature-type">IItemQueryConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_mappers_item_mapper_.mapitemsresult.html" class="tsd-signature-type">MapItemsResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TItem</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mappers/item.mapper.ts:33</li>
+									<li>Defined in mappers/item.mapper.ts:43</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -244,7 +247,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TItem</span><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_mappers_item_mapper_.mapitemsresult.html" class="tsd-signature-type">MapItemsResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TItem</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -252,13 +255,13 @@
 					<a name="mapsingleitem" class="tsd-anchor"></a>
 					<h3>map<wbr>Single<wbr>Item</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">map<wbr>Single<wbr>Item&lt;TItem&gt;<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_item_contracts_.itemcontracts.iitemresponsecontract.html" class="tsd-signature-type">IItemResponseContract</a>, queryConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_item_iitem_query_config_.iitemqueryconfig.html" class="tsd-signature-type">IItemQueryConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TItem</span></li>
+						<li class="tsd-signature tsd-kind-icon">map<wbr>Single<wbr>Item&lt;TItem&gt;<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_item_contracts_.itemcontracts.iitemresponsecontract.html" class="tsd-signature-type">IItemResponseContract</a>, queryConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_item_iitem_query_config_.iitemqueryconfig.html" class="tsd-signature-type">IItemQueryConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_mappers_item_mapper_.mapitemresult.html" class="tsd-signature-type">MapItemResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TItem</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in mappers/item.mapper.ts:24</li>
+									<li>Defined in mappers/item.mapper.ts:34</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -287,7 +290,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">TItem</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_mappers_item_mapper_.mapitemresult.html" class="tsd-signature-type">MapItemResult</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TItem</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -336,6 +339,12 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="../interfaces/_mappers_item_mapper_.mapitemresult.html" class="tsd-kind-icon">Map<wbr>Item<wbr>Result</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="../interfaces/_mappers_item_mapper_.mapitemsresult.html" class="tsd-kind-icon">Map<wbr>Items<wbr>Result</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
