@@ -98,6 +98,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#previewapikey" class="tsd-kind-icon">preview<wbr>Api<wbr>Key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#projectid" class="tsd-kind-icon">project<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#retryattempts" class="tsd-kind-icon">retry<wbr>Attempts</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#retrystatuscodes" class="tsd-kind-icon">retry<wbr>Status<wbr>Codes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#securedapikey" class="tsd-kind-icon">secured<wbr>Api<wbr>Key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#typeresolvers" class="tsd-kind-icon">type<wbr>Resolvers</a></li>
 							</ul>
@@ -339,6 +340,21 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="retrystatuscodes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Status<wbr>Codes</h3>
+					<div class="tsd-signature tsd-kind-icon">retry<wbr>Status<wbr>Codes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in config/delivery-client.config.ts:103</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Array of status codes that should be retried when request fails. Defaults to requests with &#39;500&#39; status code.</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="securedapikey" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> secured<wbr>Api<wbr>Key</h3>
 					<div class="tsd-signature tsd-kind-icon">secured<wbr>Api<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
@@ -432,6 +448,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_config_delivery_client_config_.ideliveryclientconfig.html#retryattempts" class="tsd-kind-icon">retry<wbr>Attempts</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_config_delivery_client_config_.ideliveryclientconfig.html#retrystatuscodes" class="tsd-kind-icon">retry<wbr>Status<wbr>Codes</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_config_delivery_client_config_.ideliveryclientconfig.html#securedapikey" class="tsd-kind-icon">secured<wbr>Api<wbr>Key</a>
