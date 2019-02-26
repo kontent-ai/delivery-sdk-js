@@ -8,6 +8,11 @@ import { ContentItem, ItemFieldCollisionResolver, ItemLinkResolver, Link, RichTe
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
 
+interface IMapFieldsResult<TItem extends ContentItem> {
+    item: TItem;
+    processedItems: ContentItem[];
+}
+
 export class FieldMapper {
 
     private readonly defaultLinkedItemWrapperTag: string = 'p';
@@ -26,7 +31,7 @@ export class FieldMapper {
      * @param modularContent Modular content sent along with item
      * @param queryConfig Query configuration
      */
-    mapFields<TItem extends ContentItem>(item: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): TItem {
+    mapFields<TItem extends ContentItem>(item: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): IMapFieldsResult<TItem> {
         if (!item) {
             throw Error(`Cannot map fields because item is not defined`);
         }
@@ -62,7 +67,10 @@ export class FieldMapper {
         const processedItem = this.getExistingProcessedItem(item.system.codename, processedItems);
         if (processedItem) {
             // item was already resolved, return it
-            return processedItem as TItem;
+            return {
+                item: processedItem as TItem,
+                processedItems: processedItems
+            };
         }
 
         elementCodenames.forEach(elementCodename => {
@@ -74,7 +82,10 @@ export class FieldMapper {
             }
         });
 
-        return itemTyped;
+        return {
+            item: itemTyped,
+            processedItems: processedItems
+        };
     }
 
     private mapField(field: FieldContracts.IFieldContract, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): undefined | FieldModels.IField | ContentItem[] {
@@ -159,11 +170,11 @@ export class FieldMapper {
 
                         // item was not found or not yet resolved
                         if (rawItem) {
-                            const mappedLinkedItem = this.mapFields(rawItem, modularContent, queryConfig, processedItems);
+                            const mappedLinkedItemResult = this.mapFields(rawItem, modularContent, queryConfig, processedItems);
 
                             // add mapped linked item to result
-                            if (mappedLinkedItem) {
-                                linkedItems.push(mappedLinkedItem);
+                            if (mappedLinkedItemResult) {
+                                linkedItems.push(mappedLinkedItemResult.item);
                             }
                         }
                     }
@@ -362,7 +373,8 @@ export class FieldMapper {
 
         // original resolving if item is still undefined
         if (!mappedLinkedItem) {
-            mappedLinkedItem = this.mapFields(rawItem, modularContent, queryConfig, processedItems);
+            const mappedLinkedItemResult = this.mapFields(rawItem, modularContent, queryConfig, processedItems);
+            mappedLinkedItem = mappedLinkedItemResult.item;
         }
 
         // add to processed items

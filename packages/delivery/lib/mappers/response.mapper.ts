@@ -81,13 +81,14 @@ export class ResponseMapper {
   ): ItemResponses.DeliveryItemResponse<TItem> {
 
     // map item
-    const item = this.itemMapper.mapSingleItem<TItem>(
+    const itemResult = this.itemMapper.mapSingleItem<TItem>(
       response.data,
       queryConfig
     );
 
     return new ItemResponses.DeliveryItemResponse(
-      item,
+      itemResult.item,
+      itemResult.processedItems,
       this.mapResponseDebug(response)
     );
   }
@@ -103,7 +104,7 @@ export class ResponseMapper {
   ): ItemResponses.DeliveryItemListingResponse<TItem> {
 
     // map items
-    const items = this.itemMapper.mapMultipleItems<TItem>(
+    const itemsResult = this.itemMapper.mapMultipleItems<TItem>(
       response.data,
       queryConfig
     );
@@ -117,8 +118,9 @@ export class ResponseMapper {
     });
 
     return new ItemResponses.DeliveryItemListingResponse(
-      items,
+      itemsResult.items,
       pagination,
+      itemsResult.processedItems,
       this.mapResponseDebug(response)
     );
   }
