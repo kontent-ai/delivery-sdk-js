@@ -1,4 +1,4 @@
-## delivery@5.7.0 (2019-02-26)
+## 5.7.0 (2019-02-26)
 
 #### :rocket: Enhancement
   * [#124](https://github.com/Kentico/kentico-cloud-js/pull/124) Adds retry functionality to Promise execution ([@Enngage](https://github.com/Enngage))
