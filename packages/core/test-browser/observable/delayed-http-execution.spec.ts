@@ -16,7 +16,7 @@ describe('Delayed http execution when converting to Observable', () => {
         // give async request some time to execute
         setTimeout(() => {
             done();
-        }, 1000);
+        }, 3000);
 
     });
 

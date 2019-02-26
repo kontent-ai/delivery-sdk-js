@@ -10,6 +10,13 @@ import {
 } from './http.models';
 
 export interface IHttpService {
+
+  retryPromise<T>(promise: Promise<T>, options: {
+    maxRetryAttempts: number
+    useRetryForResponseCodes: number[],
+    delay: number
+  }): Promise<T>;
+
   post<TError extends any, TRawData extends any>(
     call: IHttpPostQueryCall<TError>,
     options?: IHttpQueryOptions
