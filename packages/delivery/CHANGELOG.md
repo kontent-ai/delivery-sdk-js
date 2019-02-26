@@ -1,3 +1,16 @@
+## 5.6.0 (2019-02-26)
+
+#### :rocket: Enhancement
+  * [#120](https://github.com/Kentico/kentico-cloud-js/pull/120) Adds 'linkedItems' property holding all resolved linked items in a flat structure ([@Enngage](https://github.com/Enngage))
+  * [#118](https://github.com/Kentico/kentico-cloud-js/pull/118) Removes duplicate code by creating parser configuration object ([@Enngage](https://github.com/Enngage))
+
+#### :bug: Bug Fix
+  * [#119](https://github.com/Kentico/kentico-cloud-js/pull/119) Fixes an issue where a content item would be resolved multiple times in certain scenarios ([@Enngage](https://github.com/Enngage))
+
+#### :memo: Documentation
+  * [#117](https://github.com/Kentico/kentico-cloud-js/pull/117) Extends collisionResolver docs ([@Enngage](https://github.com/Enngage))
+  * [#116](https://github.com/Kentico/kentico-cloud-js/pull/116) Uses jsdelivr CDN in HTML examples ([@Enngage](https://github.com/Enngage))
+
 ## 5.5.0 (2019-02-21)
 
 #### :rocket: Enhancement
