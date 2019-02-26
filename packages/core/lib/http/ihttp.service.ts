@@ -14,7 +14,7 @@ export interface IHttpService {
   retryPromise<T>(promise: Promise<T>, options: {
     maxRetryAttempts: number
     useRetryForResponseCodes: number[],
-  }): Promise<T>;
+  }, currentAttempt: number): Promise<T>;
 
   post<TError extends any, TRawData extends any>(
     call: IHttpPostQueryCall<TError>,
