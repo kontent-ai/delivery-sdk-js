@@ -58,7 +58,7 @@ export class HttpService implements IHttpService {
                 useRetryForResponseCodes: options.useRetryForResponseCodes
               });
             })
-            .then(() => resolve())
+            .then((response) => resolve(response))
             .catch(() => reject(reason));
         }
         return reject(reason);
