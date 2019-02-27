@@ -25,4 +25,9 @@ export interface IContentManagementClientConfig {
      * Can be used to inject custom Http service to perform requests
      */
     httpService?: IHttpService;
+
+    /**
+    * Array of request status codes that should be retried
+    */
+    retryStatusCodes?: number[];
 }

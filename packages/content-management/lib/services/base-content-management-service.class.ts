@@ -29,15 +29,22 @@ export abstract class BaseContentManagementQueryService {
     private readonly defaultRetryAttempts: number = 3;
 
     /**
-     * Allowed retry status codes
+     * Default retry status codes
      */
-    private readonly useRetryForResponseCodes: number[] = [500];
+    private readonly defaultRetryStatusCodes: number[] = [500];
 
     constructor(
         protected config: IContentManagementClientConfig,
         protected httpService: IHttpService,
         protected sdkInfo: ISDKInfo
     ) { }
+
+    retryPromise<T>(promise: Promise<T>): Promise<T> {
+        return this.httpService.retryPromise<T>(promise, {
+            maxRetryAttempts: this.getRetryAttempts(),
+            useRetryForResponseCodes: this.getRetryStatusCodes()
+        }, 1);
+    }
 
     /**
      * Gets url based on the action, query configuration and options (parameters)
@@ -91,7 +98,7 @@ export abstract class BaseContentManagementQueryService {
             {
                 headers: this.getHeaders(),
                 maxRetryAttempts: this.getRetryAttempts(),
-                useRetryForResponseCodes: this.useRetryForResponseCodes,
+                useRetryForResponseCodes: this.defaultRetryStatusCodes,
                 logErrorToConsole: true
             }
         ).pipe(
@@ -127,7 +134,7 @@ export abstract class BaseContentManagementQueryService {
             {
                 headers: this.getHeaders(extraHeaders),
                 maxRetryAttempts: this.getRetryAttempts(),
-                useRetryForResponseCodes: this.useRetryForResponseCodes,
+                useRetryForResponseCodes: this.defaultRetryStatusCodes,
                 logErrorToConsole: true
             }
         ).pipe(
@@ -163,7 +170,7 @@ export abstract class BaseContentManagementQueryService {
             {
                 headers: this.getHeaders(extraHeaders),
                 maxRetryAttempts: this.getRetryAttempts(),
-                useRetryForResponseCodes: this.useRetryForResponseCodes,
+                useRetryForResponseCodes: this.getRetryStatusCodes(),
                 logErrorToConsole: true
             }
         ).pipe(
@@ -197,7 +204,7 @@ export abstract class BaseContentManagementQueryService {
             {
                 headers: this.getHeaders(extraHeaders),
                 maxRetryAttempts: this.getRetryAttempts(),
-                useRetryForResponseCodes: this.useRetryForResponseCodes,
+                useRetryForResponseCodes: this.getRetryStatusCodes(),
                 logErrorToConsole: true
             }
         ).pipe(
@@ -205,6 +212,17 @@ export abstract class BaseContentManagementQueryService {
                 return throwError(error.mappedError);
             })
         );
+    }
+
+    /**
+     * Gets retry status code array
+     */
+    private getRetryStatusCodes(): number[] {
+        if (this.config.retryStatusCodes) {
+            return this.config.retryStatusCodes;
+        }
+
+        return this.defaultRetryStatusCodes;
     }
 
     /**
