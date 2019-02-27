@@ -1,5 +1,5 @@
 import { IContentManagementClientConfig } from '../../config';
-import { LanguageIdentifier } from '../../models';
+import { Identifiers } from '../../models';
 import { ContentManagementQueryService } from '../../services';
 
 export class LanguageIdentifierQuery<TResult> {
@@ -10,8 +10,7 @@ export class LanguageIdentifierQuery<TResult> {
         protected buildResult: (
             config: IContentManagementClientConfig,
             queryService: ContentManagementQueryService,
-            identifier: LanguageIdentifier,
-            identifierValue: string) => TResult
+            identifier: Identifiers.LanguageIdentifier) => TResult
     ) {
     }
 
@@ -20,7 +19,7 @@ export class LanguageIdentifierQuery<TResult> {
     * @param id Internal Id
     */
     forLanguageId(id: string): TResult {
-        return this.buildResult(this.config, this.queryService, LanguageIdentifier.InternalId, id);
+        return this.buildResult(this.config, this.queryService, new Identifiers.LanguageIdentifier(Identifiers.LanguageIdentifierEnum.InternalId, id));
     }
 
     /**
@@ -28,6 +27,6 @@ export class LanguageIdentifierQuery<TResult> {
     * @param codename Codename
     */
     forLanguageCodename(codename: string): TResult {
-        return this.buildResult(this.config, this.queryService, LanguageIdentifier.Codename, codename);
+        return this.buildResult(this.config, this.queryService, new Identifiers.LanguageIdentifier(Identifiers.LanguageIdentifierEnum.Codename, codename));
     }
 }

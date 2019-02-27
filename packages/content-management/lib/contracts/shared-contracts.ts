@@ -10,5 +10,4 @@ export namespace SharedContracts {
         codename?: string;
         external_id?: string;
     }
-
 }

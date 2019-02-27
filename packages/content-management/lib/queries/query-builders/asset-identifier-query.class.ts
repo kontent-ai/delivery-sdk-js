@@ -1,8 +1,8 @@
 import { IContentManagementClientConfig } from '../../config';
-import { ContentItemIdentifier } from '../../models';
+import { Identifiers } from '../../models';
 import { ContentManagementQueryService } from '../../services';
 
-export class IdIdentifierQuery<TResult> {
+export class AssetIdentifierQueryClass<TResult> {
 
     constructor(
         protected config: IContentManagementClientConfig,
@@ -10,24 +10,23 @@ export class IdIdentifierQuery<TResult> {
         protected buildResult: (
             config: IContentManagementClientConfig,
             queryService: ContentManagementQueryService,
-            identifier: ContentItemIdentifier,
-            identifierValue: string) => TResult
+            identifier: Identifiers.AssetIdentifier) => TResult
     ) {
     }
 
     /**
     * Gets using internal Id
-    * @param id Internal Id
+    * @param id Internal Id of content item
     */
     byInternalId(id: string): TResult {
-        return this.buildResult(this.config, this.queryService, ContentItemIdentifier.InternalId, id);
+        return this.buildResult(this.config, this.queryService, new Identifiers.AssetIdentifier(Identifiers.AssetIdentifierEnum.InternalId, id));
     }
 
     /**
     * Gets query using external Id
-    * @param id External Id
+    * @param id External Id of content item
     */
     byExternalId(id: string): TResult {
-        return this.buildResult(this.config, this.queryService, ContentItemIdentifier.ExternalId, id);
+        return this.buildResult(this.config, this.queryService, new Identifiers.AssetIdentifier(Identifiers.AssetIdentifierEnum.ExternalId, id));
     }
 }

@@ -1,0 +1,52 @@
+
+  [{
+    "id":"88ac5e6e-1c5c-4638-96e1-0d61221ad5bf",
+    "name":"Draft",
+    "transitions_to":[
+      "13145328-b946-4e47-9c9d-6f40c7aaeaef"
+    ]
+  },
+  {
+    "id":"13145328-b946-4e47-9c9d-6f40c7aaeaef",
+    "name":"Review",
+    "transitions_to":[
+      "88ac5e6e-1c5c-4638-96e1-0d61221ad5bf",
+      "48de7f2d-80de-4a8e-9efb-fc23bffbf75a",
+      "b4363ccd-8f21-45fd-a840-5843d7b7f008"
+    ]
+  },
+  {
+    "id":"48de7f2d-80de-4a8e-9efb-fc23bffbf75a",
+    "name":"SEO verification",
+    "transitions_to":[
+      "13145328-b946-4e47-9c9d-6f40c7aaeaef",
+      "99435d07-a9b7-4273-b439-a6e4bc125140"
+    ]
+  },
+  {
+    "id":"99435d07-a9b7-4273-b439-a6e4bc125140",
+    "name":"Ready for approval",
+    "transitions_to":[
+      "48de7f2d-80de-4a8e-9efb-fc23bffbf75a",
+      "a1b9efa3-8270-47e4-8d8d-b182710d1e3b"
+    ]
+  },
+  {
+    "id":"a1b9efa3-8270-47e4-8d8d-b182710d1e3b",
+    "name":"Approved",
+    "transitions_to":[
+      "99435d07-a9b7-4273-b439-a6e4bc125140",
+      "b4363ccd-8f21-45fd-a840-5843d7b7f008"
+    ]
+  },
+  {
+    "id":"9d2b0228-4d0d-4c23-8b49-01a698857709",
+    "name":"Scheduled",
+    "transitions_to":[]
+  },
+  {
+    "id":"b4363ccd-8f21-45fd-a840-5843d7b7f008",
+    "name":"Published",
+    "transitions_to":[]
+  }
+]
