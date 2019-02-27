@@ -1,7 +1,11 @@
-import { ContentItemIdentifier } from './content-items/content-item-identifier';
-import { LanguageIdentifier } from './language-variants/language-identifier';
+import { Identifiers } from './identifiers';
+
 
 class ContentManagementContentItemActions {
+
+    changeWorkflowStepOfLanguageVariant(itemIdentifier: Identifiers.ContentItemIdentifier, languageIdentifier: Identifiers.LanguageIdentifier, workflowIdentifier: Identifiers.WorkflowIdentifier): string {
+        return `items/${itemIdentifier.getParamValue()}/variants/${languageIdentifier.getParamValue()}/workflow/${workflowIdentifier.getParamValue()}`;
+    }
 
     listWorkflowSteps(): string {
         return `workflow`;
@@ -11,12 +15,8 @@ class ContentManagementContentItemActions {
         return `snippets`;
     }
 
-    viewContentTypeSnippetByInternalId(id: string): string {
-        return `snippets/${id}`;
-    }
-
-    viewContentTypeSnippetByCodename(codename: string): string {
-        return `snippets/codename/${codename}`;
+    viewContentTypeSnippet(identifier: Identifiers.ContentItemIdentifier): string {
+        return `snippets/${identifier.getParamValue()}`;
     }
 
     validateProjectContent(): string {
@@ -31,36 +31,20 @@ class ContentManagementContentItemActions {
         return `types`;
     }
 
-    viewContentTypeByInternalId(id: string): string {
-        return `types/${id}`;
+    deleteContentType(identifier: Identifiers.ContentItemIdentifier): string {
+        return `types/${identifier.getParamValue()}`;
     }
 
-    deleteContentTypeByCodename(codename: string): string {
-        return `types/codename/${codename}`;
-    }
-
-    deleteContentTypeByInternalId(id: string): string {
-        return `types/${id}`;
-    }
-
-    viewContentTypeByCodename(codename: string): string {
-        return `types/codename/${codename}`;
+    viewContentType(identifier: Identifiers.ContentItemIdentifier): string {
+        return `types/${identifier.getParamValue()}`;
     }
 
     addTaxonomy(): string {
         return `taxonomies`;
     }
 
-    deleteTaxonomyByCodename(codename: string): string {
-        return `taxonomies/codename/${codename}`;
-    }
-
-    deleteTaxonomyByInternalId(id: string): string {
-        return `taxonomies/${id}`;
-    }
-
-    deleteTaxonomyByExternalId(id: string): string {
-        return `taxonomies/external-id/${id}`;
+    deleteTaxonomy(identifier: Identifiers.TaxonomyIdentifier): string {
+        return `taxonomies/${identifier.getParamValue()}`;
     }
 
     listTaxonomies(): string {
@@ -75,16 +59,8 @@ class ContentManagementContentItemActions {
         return `assets/${assetId}`;
     }
 
-    deleteAssetByCodename(codename: string): string {
-        return `assets/codename/${codename}`;
-    }
-
-    deleteAssetByInternalId(id: string): string {
-        return `assets/${id}`;
-    }
-
-    deleteAssetByExternalId(id: string): string {
-        return `assets/external-id/${id}`;
+    deleteAsset(identifier: Identifiers.AssetIdentifier): string {
+        return `assets/${identifier.getParamValue()}`;
     }
 
     upsertAsset(assetExternalId: string): string {
@@ -99,92 +75,36 @@ class ContentManagementContentItemActions {
         return 'assets';
     }
 
-    viewAssetByInternalId(id: string): string {
-        return `assets/${id}`;
-    }
-
-    viewAssetByExternalId(id: string): string {
-        return `assets/external-id/${id}`;
+    viewAsset(identifier: Identifiers.AssetIdentifier): string {
+        return `assets/${identifier.getParamValue()}`;
     }
 
     items(): string {
         return 'items';
     }
 
-    viewContentItemByCodename(codename: string): string {
-        return `items/codename/${codename}`;
-    }
-
-    viewContentItemByInternalId(id: string): string {
-        return `items/${id}`;
-    }
-
-    viewContentItemByExternalId(id: string): string {
-        return `items/external-id/${id}`;
+    viewContentItem(identifier: Identifiers.ContentItemIdentifier): string {
+        return `items/${identifier.getParamValue()}`;
     }
 
     addContentItem(): string {
         return `items`;
     }
 
-    updateContentItemByCodename(codename: string): string {
-        return `items/codename/${codename}`;
+    updateContentItem(identifier: Identifiers.ContentItemIdentifier): string {
+        return `items/${identifier.getParamValue()}`;
     }
 
-    updateContentItemByInternalId(id: string): string {
-        return `items/${id}`;
+    deleteContentItem(identifier: Identifiers.ContentItemIdentifier): string {
+        return `items/${identifier.getParamValue()}`;
     }
 
-    updateContentItemByExternalId(id: string): string {
-        return `items/external-id/${id}`;
+    listLanguageVariants(itemIdentifier: Identifiers.ContentItemIdentifier): string {
+        return `items/${itemIdentifier.getParamValue()}/variants`;
     }
 
-    deleteContentItemByCodename(codename: string): string {
-        return `items/codename/${codename}`;
-    }
-
-    deleteContentItemByInternalId(id: string): string {
-        return `items/${id}`;
-    }
-
-    deleteContentItemByExternalId(id: string): string {
-        return `items/external-id/${id}`;
-    }
-
-    listLanguageVariantsByCodename(codename: string): string {
-        return `items/codename/${codename}/variants`;
-    }
-
-    listLanguageVariantsByInternalId(id: string): string {
-        return `items/${id}/variants`;
-    }
-
-    listLanguageVariantsByExternalId(id: string): string {
-        return `items/external-id/${id}/variants`;
-    }
-
-    viewOrUpsertLanguageVariant(itemIdentifier: ContentItemIdentifier, itemIdentifierValue: string, langaugeIdentifier: LanguageIdentifier, languageIdentifierValue: string): string {
-        let action = '';
-
-        if (itemIdentifier === ContentItemIdentifier.Codename) {
-            action += `items/codename/${itemIdentifierValue}/variants/`;
-        } else if (itemIdentifier === ContentItemIdentifier.InternalId) {
-            action += `items/${itemIdentifierValue}/variants/`;
-        } else if (itemIdentifier === ContentItemIdentifier.ExternalId) {
-            action += `items/external-id/${itemIdentifierValue}/variants/`;
-        } else {
-            throw Error(`Unsupported item identifier '${itemIdentifier}' for upsert language variant`);
-        }
-
-        if (langaugeIdentifier === LanguageIdentifier.Codename) {
-            action += `codename/${languageIdentifierValue}`;
-        } else if (langaugeIdentifier === LanguageIdentifier.InternalId) {
-            action += `${languageIdentifierValue}`;
-        } else {
-            throw Error(`Unsupported language identifier '${LanguageIdentifier}' for upsert language variant`);
-        }
-
-        return action;
+    viewOrUpsertLanguageVariant(itemIdentifier: Identifiers.ContentItemIdentifier, langaugeIdentifier: Identifiers.LanguageIdentifier): string {
+        return `items/${itemIdentifier.getParamValue()}/variants/${langaugeIdentifier.getParamValue()}`;
     }
 }
 

@@ -2,19 +2,20 @@ import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, TaxonomyModels, ContentTypeModels } from '../models';
+import { AssetModels, ContentTypeModels, TaxonomyModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
+    AddContentTypeQuery,
     AddTaxonomyQuery,
+    AssetIdentifierQueryClass,
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
     DeleteContentTypeQuery,
     DeleteTaxonomyQuery,
-    FullIdentifierQuery,
+    FullContentItemIdentifierQuery,
     IdCodenameIdentifierQuery,
-    IdIdentifierQuery,
     LanguageIdentifierQuery,
     LanguageVariantElementsQuery,
     ListAssetsQuery,
@@ -23,7 +24,9 @@ import {
     ListContentTypesQuery,
     ListLanguageVariantsQuery,
     ListTaxonomiesQuery,
+    ListWorkflowStepsQuery,
     ProjectIdIdentifierQuery,
+    TaxonomyIdentifierQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
@@ -35,8 +38,6 @@ import {
     ViewContentTypeQuery,
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
-    AddContentTypeQuery,
-    ListWorkflowStepsQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -79,25 +80,25 @@ export class ContentManagementClient implements IContentManagementClient {
         return new IdCodenameIdentifierQuery<ViewContentTypeSnippetQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new ViewContentTypeSnippetQuery(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier) => new ViewContentTypeSnippetQuery(config, queryService, identifier)
         );
     }
 
-    viewLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>> {
-        return new FullIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>(
+    viewLanguageVariant(): FullContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>> {
+        return new FullContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>(
             this.config, this.queryService, (
-                config, queryService, contentItemIdentifier, contentItemIdentifierValue) => new LanguageIdentifierQuery<ViewLanguageVariantQuery>(
-                    config, queryService, (nConfig, nQueryService, languageIdentifier, languageIdentifierValue) => new ViewLanguageVariantQuery(nConfig, nQueryService, contentItemIdentifier, contentItemIdentifierValue, languageIdentifier, languageIdentifierValue)
+                config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<ViewLanguageVariantQuery>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier) => new ViewLanguageVariantQuery(nConfig, nQueryService, contentItemIdentifier, languageIdentifier)
                 )
         );
     }
 
-    upsertLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>> {
-        return new FullIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>(
+    upsertLanguageVariant(): FullContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>> {
+        return new FullContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>(
             this.config, this.queryService, (
-                config, queryService, contentItemIdentifier, contentItemIdentifierValue) => new LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>(
-                    config, queryService, (nConfig, nQueryService, languageIdentifier, languageIdentifierValue) => new LanguageVariantElementsQuery(nConfig, nQueryService, (
-                        mConfig, mQueryService, elements) => new UpsertLanguageVariantQuery(mConfig, mQueryService, contentItemIdentifier, contentItemIdentifierValue, languageIdentifier, languageIdentifierValue, elements)
+                config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier) => new LanguageVariantElementsQuery(nConfig, nQueryService, (
+                        mConfig, mQueryService, elements) => new UpsertLanguageVariantQuery(mConfig, mQueryService, contentItemIdentifier, languageIdentifier, elements)
                     )
                 )
         );
@@ -115,7 +116,7 @@ export class ContentManagementClient implements IContentManagementClient {
         return new IdCodenameIdentifierQuery<DeleteContentTypeQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new DeleteContentTypeQuery(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier) => new DeleteContentTypeQuery(config, queryService, identifier)
         );
     }
 
@@ -131,7 +132,7 @@ export class ContentManagementClient implements IContentManagementClient {
         return new IdCodenameIdentifierQuery<ViewContentTypeQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new ViewContentTypeQuery(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier) => new ViewContentTypeQuery(config, queryService, identifier)
         );
     }
 
@@ -142,11 +143,11 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    deleteTaxonomy(): FullIdentifierQuery<DeleteTaxonomyQuery> {
-        return new FullIdentifierQuery<DeleteTaxonomyQuery>(
+    deleteTaxonomy(): TaxonomyIdentifierQuery<DeleteTaxonomyQuery> {
+        return new TaxonomyIdentifierQuery<DeleteTaxonomyQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new DeleteTaxonomyQuery(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier) => new DeleteTaxonomyQuery(config, queryService, identifier)
         );
     }
 
@@ -165,11 +166,11 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    deleteAsset(): FullIdentifierQuery<DeleteAssetQuery> {
-        return new FullIdentifierQuery<DeleteAssetQuery>(
+    deleteAsset(): AssetIdentifierQueryClass<DeleteAssetQuery> {
+        return new AssetIdentifierQueryClass<DeleteAssetQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new DeleteAssetQuery(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier) => new DeleteAssetQuery(config, queryService, identifier)
         );
     }
 
@@ -205,11 +206,11 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    viewAsset(): IdIdentifierQuery<ViewAssetsQuery> {
-        return new IdIdentifierQuery<ViewAssetsQuery>(
+    viewAsset(): AssetIdentifierQueryClass<ViewAssetsQuery> {
+        return new AssetIdentifierQueryClass<ViewAssetsQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new ViewAssetsQuery(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier) => new ViewAssetsQuery(config, queryService, identifier)
         );
     }
 
@@ -227,11 +228,11 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    viewContentItem(): FullIdentifierQuery<ViewContentItemQuery> {
-        return new FullIdentifierQuery<ViewContentItemQuery>(
+    viewContentItem(): FullContentItemIdentifierQuery<ViewContentItemQuery> {
+        return new FullContentItemIdentifierQuery<ViewContentItemQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new ViewContentItemQuery(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier) => new ViewContentItemQuery(config, queryService, identifier)
         );
     }
 
@@ -243,28 +244,28 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    updateContentItem(): FullIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>> {
-        return new FullIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>(
+    updateContentItem(): FullContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>> {
+        return new FullContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>(
             this.config, this.queryService, (
-                config, queryService, identifier, identifierValue) => new DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>(
-                    config, queryService, (nConfig, nQueryService, data) => new UpdateContentItemQuery(nConfig, nQueryService, data, identifier, identifierValue)
+                config, queryService, identifier) => new DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>(
+                    config, queryService, (nConfig, nQueryService, data) => new UpdateContentItemQuery(nConfig, nQueryService, data, identifier)
                 )
         );
     }
 
-    deleteContentItem(): FullIdentifierQuery<DeleteContentItemQuery> {
-        return new FullIdentifierQuery<DeleteContentItemQuery>(
+    deleteContentItem(): FullContentItemIdentifierQuery<DeleteContentItemQuery> {
+        return new FullContentItemIdentifierQuery<DeleteContentItemQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new DeleteContentItemQuery(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier) => new DeleteContentItemQuery(config, queryService, identifier)
         );
     }
 
-    listLanguageVariants(): FullIdentifierQuery<ListLanguageVariantsQuery> {
-        return new FullIdentifierQuery<ListLanguageVariantsQuery>(
+    listLanguageVariants(): FullContentItemIdentifierQuery<ListLanguageVariantsQuery> {
+        return new FullContentItemIdentifierQuery<ListLanguageVariantsQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier, identifierValue) => new ListLanguageVariantsQuery(config, queryService, identifier, identifierValue)
+            (config, queryService, identifier) => new ListLanguageVariantsQuery(config, queryService, identifier)
         );
     }
 }

@@ -5,14 +5,14 @@ import {
     AddContentItemQuery,
     AddContentTypeQuery,
     AddTaxonomyQuery,
+    AssetIdentifierQueryClass,
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
     DeleteContentTypeQuery,
     DeleteTaxonomyQuery,
-    FullIdentifierQuery,
+    FullContentItemIdentifierQuery,
     IdCodenameIdentifierQuery,
-    IdIdentifierQuery,
     LanguageIdentifierQuery,
     LanguageVariantElementsQuery,
     ListAssetsQuery,
@@ -23,6 +23,7 @@ import {
     ListTaxonomiesQuery,
     ListWorkflowStepsQuery,
     ProjectIdIdentifierQuery,
+    TaxonomyIdentifierQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
@@ -56,12 +57,12 @@ export interface IContentManagementClient {
     /**
      * Query to view language variant
      */
-    viewLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>;
+    viewLanguageVariant(): FullContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>;
 
     /**
     * Query to upsert language variant
     */
-    upsertLanguageVariant(): FullIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>;
+    upsertLanguageVariant(): FullContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>;
 
     /**
      * Query to validate project content
@@ -91,7 +92,7 @@ export interface IContentManagementClient {
     /**
     * Query to delete a taxonomy
     */
-    deleteTaxonomy(): FullIdentifierQuery<DeleteTaxonomyQuery>;
+    deleteTaxonomy(): TaxonomyIdentifierQuery<DeleteTaxonomyQuery>;
 
     /**
     * Query to add a taxonomy
@@ -106,7 +107,7 @@ export interface IContentManagementClient {
     /**
      * Query to delete an asset
      */
-    deleteAsset(): FullIdentifierQuery<DeleteAssetQuery>;
+    deleteAsset(): AssetIdentifierQueryClass<DeleteAssetQuery>;
 
     /**
     * Query to upsert an asset from uploaded binary file
@@ -131,7 +132,7 @@ export interface IContentManagementClient {
     /**
      * Query to view asset
      */
-    viewAsset(): IdIdentifierQuery<ViewAssetsQuery>;
+    viewAsset(): AssetIdentifierQueryClass<ViewAssetsQuery>;
 
     /**
      * Query for listing assets
@@ -146,25 +147,25 @@ export interface IContentManagementClient {
     /**
      * View content item query
      */
-    viewContentItem(): FullIdentifierQuery<ViewContentItemQuery>;
+    viewContentItem(): FullContentItemIdentifierQuery<ViewContentItemQuery>;
 
     /**
-     * Add content item query
-     */
+    * Add content item query
+    */
     addContentItem(): DataQuery<AddContentItemQuery, ContentItemContracts.IAddContentItemPostContract>;
 
     /**
      * Update content item query
      */
-    updateContentItem(): FullIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>;
+    updateContentItem(): FullContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>;
 
     /**
      * Delete content item query
      */
-    deleteContentItem(): FullIdentifierQuery<DeleteContentItemQuery>;
+    deleteContentItem(): FullContentItemIdentifierQuery<DeleteContentItemQuery>;
 
     /**
      * List language variants query
      */
-    listLanguageVariants(): FullIdentifierQuery<ListLanguageVariantsQuery>;
+    listLanguageVariants(): FullContentItemIdentifierQuery<ListLanguageVariantsQuery>;
 }

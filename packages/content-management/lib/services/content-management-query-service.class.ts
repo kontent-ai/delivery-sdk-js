@@ -52,6 +52,21 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         super(config, httpService, sdkInfo);
     }
 
+    changeWorkflowStepOfLanguageVariant(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<WorkflowResponses.ChangeWorkflowStepOfLanguageVariant> {
+        return this.putResponse<void>(
+            url,
+            {},
+            config,
+        ).pipe(
+            map(response => {
+                return workflowResponseMapper.mapChangeWorkflowStepOfLanguageVariantResponse(response);
+            })
+        );
+    }
+
     listWorkflowSteps(
         url: string,
         config?: IContentManagementQueryConfig

@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { IContentManagementClientConfig } from '../../config';
-import { ContentItemIdentifier } from '../../models';
+import { Identifiers } from '../../models';
 import { TaxonomyResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
@@ -11,8 +11,7 @@ export class DeleteTaxonomyQuery extends BaseQuery<TaxonomyResponses.DeleteTaxon
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected identifier: ContentItemIdentifier,
-    protected identifierValue: string
+    protected identifier: Identifiers.TaxonomyIdentifier,
   ) {
     super(config, queryService);
   }
@@ -22,16 +21,6 @@ export class DeleteTaxonomyQuery extends BaseQuery<TaxonomyResponses.DeleteTaxon
   }
 
   protected getAction(): string {
-    if (this.identifier === ContentItemIdentifier.InternalId) {
-      return this.actions.contentItemActions.deleteTaxonomyByInternalId(this.identifierValue);
-    }
-    if (this.identifier === ContentItemIdentifier.Codename) {
-      return this.actions.contentItemActions.deleteTaxonomyByCodename(this.identifierValue);
-    }
-    if (this.identifier === ContentItemIdentifier.ExternalId) {
-      return this.actions.contentItemActions.deleteTaxonomyByExternalId(this.identifierValue);
-    }
-
-    throw Error(`Item identifier type '${this.identifier}' is not supported`);
+    return this.actions.contentItemActions.deleteTaxonomy(this.identifier);
   }
 }

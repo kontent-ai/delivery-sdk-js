@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { IContentManagementClientConfig } from '../../config';
-import { ContentItemIdentifier, LanguageIdentifier, LanguageVariantModels } from '../../models';
+import { Identifiers, LanguageVariantModels } from '../../models';
 import { LanguageVariantResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
@@ -11,10 +11,8 @@ export class UpsertLanguageVariantQuery extends BaseQuery<LanguageVariantRespons
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected contentItemIdentifier: ContentItemIdentifier,
-    protected contentIdentifierValue: string,
-    protected languageIdentifier: LanguageIdentifier,
-    protected languageIdentifierValue: string,
+    protected contentItemIdentifier: Identifiers.ContentItemIdentifier,
+    protected languageIdentifier: Identifiers.LanguageIdentifier,
     protected elements: LanguageVariantModels.ILanguageVariantElement[]
   ) {
     super(config, queryService);
@@ -25,7 +23,7 @@ export class UpsertLanguageVariantQuery extends BaseQuery<LanguageVariantRespons
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.viewOrUpsertLanguageVariant(this.contentItemIdentifier, this.contentIdentifierValue, this.languageIdentifier, this.languageIdentifierValue);
+    return this.actions.contentItemActions.viewOrUpsertLanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
   }
 }
 
