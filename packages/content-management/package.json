@@ -56,7 +56,7 @@
     "bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/stats.json"
   },
   "dependencies": {
-    "kentico-cloud-core": "1.3.2"
+    "kentico-cloud-core": "1.4.3"
   },
   "peerDependencies": {
     "rxjs": "^6.0.0"
