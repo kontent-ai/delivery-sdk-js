@@ -37,7 +37,7 @@ export abstract class BaseQuery<TResponse extends BaseResponses.IContentManageme
      * Gets Promise to resolve this query
      */
     toPromise(): Promise<TResponse> {
-        return this.toObservable().toPromise();
+        return this.queryService.retryPromise(this.toObservable().toPromise());
     }
 
     /**
