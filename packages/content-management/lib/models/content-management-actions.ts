@@ -3,6 +3,10 @@ import { LanguageIdentifier } from './language-variants/language-identifier';
 
 class ContentManagementContentItemActions {
 
+    listWorkflowSteps(): string {
+        return `workflow`;
+    }
+
     listContentTypeSnippets(): string {
         return `snippets`;
     }

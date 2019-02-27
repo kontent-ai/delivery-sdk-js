@@ -11,6 +11,7 @@ import {
     LanguageVariantContracts,
     ProjectContracts,
     TaxonomyContracts,
+    WorkflowContracts,
 } from '../contracts';
 import {
     assetsResponseMapper,
@@ -20,8 +21,15 @@ import {
     languageVariantResponseMapper,
     projectMapper,
     taxonomyResponseMapper,
+    workflowResponseMapper,
 } from '../mappers';
-import { AssetModels, IContentManagementQueryConfig, LanguageVariantModels, TaxonomyModels, ContentTypeModels } from '../models';
+import {
+    AssetModels,
+    ContentTypeModels,
+    IContentManagementQueryConfig,
+    LanguageVariantModels,
+    TaxonomyModels,
+} from '../models';
 import {
     AssetResponses,
     ContentItemResponses,
@@ -30,6 +38,7 @@ import {
     LanguageVariantResponses,
     ProjectResponses,
     TaxonomyResponses as TaxonomyResponses,
+    WorkflowResponses,
 } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
@@ -41,6 +50,20 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, sdkInfo);
+    }
+
+    listWorkflowSteps(
+        url: string,
+        config?: IContentManagementQueryConfig
+    ): Observable<WorkflowResponses.ListWorkflowStepsResponse> {
+        return this.getResponse<WorkflowContracts.IListWorkflowStepsResponseContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return workflowResponseMapper.mapListWorkflowStepsResponse(response);
+            })
+        );
     }
 
     addContentType(

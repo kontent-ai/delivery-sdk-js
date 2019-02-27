@@ -21,6 +21,7 @@ import {
     ListContentTypesQuery,
     ListLanguageVariantsQuery,
     ListTaxonomiesQuery,
+    ListWorkflowStepsQuery,
     ProjectIdIdentifierQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
@@ -36,6 +37,11 @@ import {
 } from '../queries';
 
 export interface IContentManagementClient {
+
+    /**
+     * Query to list all workflow steps in project
+     */
+    listWorkflowSteps(): ListWorkflowStepsQuery;
 
     /**
      * Query to view content type snippet

@@ -11,3 +11,4 @@ export * from './language-variants/langauge-variant.models';
 export * from './elements/elements.models';
 export * from './language-variants/language-identifier';
 export * from './content-type-snippets/content-type-snippets.models';
+export * from './workflow/workflow-models';

@@ -7,4 +7,5 @@ export * from './content-types';
 export * from './projects';
 export * from './language-variants';
 export * from './content-type-snippets';
+export * from './workflow';
 

@@ -36,6 +36,7 @@ import {
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
     AddContentTypeQuery,
+    ListWorkflowStepsQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -58,6 +59,13 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    listWorkflowSteps(): ListWorkflowStepsQuery {
+        return new ListWorkflowStepsQuery(
+            this.config,
+            this.queryService,
+        );
     }
 
     listContentTypeSnippets(): ListContentTypeSnippetsQuery {
