@@ -214,7 +214,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         data: AssetModels.IUpsertAssetRequestData,
         config: IContentManagementQueryConfig
     ): Observable<AssetResponses.UpdateAssetResponse> {
-        return this.postResponse<AssetContracts.IUpsertAssetResponseContract>(
+        return this.putResponse<AssetContracts.IUpsertAssetResponseContract>(
             url,
             {
                 file_reference: data.fileReference,
@@ -234,7 +234,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         data: AssetModels.IUpdateAssetRequestData,
         config: IContentManagementQueryConfig
     ): Observable<AssetResponses.UpdateAssetResponse> {
-        return this.postResponse<AssetContracts.IUpdateAssetResponseContract>(
+        return this.putResponse<AssetContracts.IUpdateAssetResponseContract>(
             url,
             {
                 title: data.title,
