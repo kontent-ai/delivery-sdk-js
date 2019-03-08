@@ -8,7 +8,7 @@ import { ContentItem, ItemFieldCollisionResolver, ItemLinkResolver, Link, RichTe
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
 
-interface IMapFieldsResult<TItem extends ContentItem> {
+export interface IMapFieldsResult<TItem extends ContentItem> {
     item: TItem;
     processedItems: ContentItem[];
 }
