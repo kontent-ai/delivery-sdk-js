@@ -62,7 +62,7 @@ export class ItemMapper {
             throw Error(`Could not map item because its undefined`);
         }
 
-        const result = this.fieldMapper.mapFields<TItem>(item, modularContent, queryConfig, processedItems);
+        const result = this.fieldMapper.mapFields<TItem>(item, modularContent, queryConfig, processedItems, []);
 
         return {
             item: result.item,

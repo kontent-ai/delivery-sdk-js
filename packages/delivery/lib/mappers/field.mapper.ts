@@ -30,8 +30,9 @@ export class FieldMapper {
      * @param item Item to map (raw response from Kentico Cloud)
      * @param modularContent Modular content sent along with item
      * @param queryConfig Query configuration
+     * @param processedCodenames Array of processed codenames
      */
-    mapFields<TItem extends ContentItem>(item: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): IMapFieldsResult<TItem> {
+    mapFields<TItem extends ContentItem>(item: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[], processedCodenames: string[]): IMapFieldsResult<TItem> {
         if (!item) {
             throw Error(`Cannot map fields because item is not defined`);
         }
@@ -78,7 +79,7 @@ export class FieldMapper {
             const fieldMapping = this.resolveFieldMapping(itemTyped, elementCodename);
 
             if (fieldMapping.shouldMapField) {
-                itemTyped[fieldMapping.resolvedName] = this.mapField(field, modularContent, itemTyped, queryConfig, processedItems);
+                itemTyped[fieldMapping.resolvedName] = this.mapField(field, modularContent, itemTyped, queryConfig, processedItems, processedCodenames);
             }
         });
 
@@ -88,11 +89,11 @@ export class FieldMapper {
         };
     }
 
-    private mapField(field: FieldContracts.IFieldContract, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): undefined | FieldModels.IField | ContentItem[] {
+    private mapField(field: FieldContracts.IFieldContract, modularContent: any, item: ContentItem, queryConfig: IItemQueryConfig, processedItems: ContentItem[], processedCodenames: string[]): undefined | FieldModels.IField | ContentItem[] {
         const fieldType = enumHelper.getEnumFromValue<FieldType>(FieldType, field.type);
         if (fieldType) {
             if (fieldType === FieldType.ModularContent) {
-                return this.mapLinkedItemsField(field, modularContent, queryConfig, processedItems);
+                return this.mapLinkedItemsField(field, modularContent, queryConfig, processedItems, processedCodenames);
             }
 
             if (fieldType === FieldType.Text) {
@@ -114,7 +115,7 @@ export class FieldMapper {
             }
 
             if (fieldType === FieldType.RichText) {
-                return this.mapRichTextField(field as FieldContracts.IRichTextFieldContract, modularContent, queryConfig, processedItems);
+                return this.mapRichTextField(field as FieldContracts.IRichTextFieldContract, modularContent, queryConfig, processedItems, processedCodenames);
             }
 
             if (fieldType === FieldType.UrlSlug) {
@@ -133,7 +134,7 @@ export class FieldMapper {
         return undefined;
     }
 
-    private mapRichTextField(field: FieldContracts.IRichTextFieldContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): Fields.RichTextField {
+    private mapRichTextField(field: FieldContracts.IRichTextFieldContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[], processedCodenames: string[]): Fields.RichTextField {
         // get all linked items nested in rich text
         const linkedItems: ContentItem[] = [];
 
@@ -144,7 +145,7 @@ export class FieldMapper {
                     const rawItem = modularContent[codename] as ItemContracts.IContentItemContract | undefined;
 
                     // first try to get existing item
-                    const existingLinkedItem = this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, processedItems);
+                    const existingLinkedItem = this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, processedItems, processedCodenames);
 
                     if (existingLinkedItem) {
                         // item was found, add it to linked items
@@ -170,7 +171,7 @@ export class FieldMapper {
 
                         // item was not found or not yet resolved
                         if (rawItem) {
-                            const mappedLinkedItemResult = this.mapFields(rawItem, modularContent, queryConfig, processedItems);
+                            const mappedLinkedItemResult = this.mapFields(rawItem, modularContent, queryConfig, processedItems, processedCodenames);
 
                             // add mapped linked item to result
                             if (mappedLinkedItemResult) {
@@ -197,7 +198,7 @@ export class FieldMapper {
                     typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
                     images: images,
                     richTextHtmlParser: this.richTextHtmlParser,
-                    getLinkedItem: (codename) => this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, linkedItems),
+                    getLinkedItem: (codename) => this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, linkedItems, processedCodenames),
                     links: links,
                     queryConfig: queryConfig,
                     linkedItemWrapperTag: this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperTag
@@ -266,7 +267,7 @@ export class FieldMapper {
             });
     }
 
-    private mapLinkedItemsField(field: FieldContracts.IFieldContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): ContentItem[] {
+    private mapLinkedItemsField(field: FieldContracts.IFieldContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[], processedCodenames: string[]): ContentItem[] {
         if (!field) {
             if (this.config.enableAdvancedLogging) {
                 console.warn(`Cannot map linked item field because field does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
@@ -287,7 +288,7 @@ export class FieldMapper {
         // value = array of item codenames
         const linkedItemCodenames = field.value as string[];
         linkedItemCodenames.forEach(codename => {
-            const linkedItem = this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, processedItems);
+            const linkedItem = this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, processedItems, processedCodenames);
             if (linkedItem) {
                 // add item to result
                 result.push(linkedItem);
@@ -320,7 +321,7 @@ export class FieldMapper {
         return processedItems.find(m => m.system.codename === codename);
     }
 
-    private getOrSaveLinkedItemForField(codename: string, field: FieldContracts.IFieldContract, queryConfig: IItemQueryConfig, modularContent: any, processedItems: ContentItem[]): ContentItem | undefined {
+    private getOrSaveLinkedItemForField(codename: string, field: FieldContracts.IFieldContract, queryConfig: IItemQueryConfig, modularContent: any, processedItems: ContentItem[], processedCodenames: string[]): ContentItem | undefined {
         // first check if item was already resolved and return it if it was
         const existingItem = this.getExistingProcessedItem(codename, processedItems);
 
@@ -328,6 +329,13 @@ export class FieldMapper {
             // item was already resolved
             return existingItem;
         }
+
+        if (processedCodenames.find(m => m === codename)) {
+            // item was already processed, but may not have yet been resolved (e.g. when child references parent)
+            return undefined;
+        }
+
+        processedCodenames.push(codename);
 
         const rawItem = modularContent[codename] as ItemContracts.IContentItemContract | undefined;
 
@@ -373,7 +381,7 @@ export class FieldMapper {
 
         // original resolving if item is still undefined
         if (!mappedLinkedItem) {
-            const mappedLinkedItemResult = this.mapFields(rawItem, modularContent, queryConfig, processedItems);
+            const mappedLinkedItemResult = this.mapFields(rawItem, modularContent, queryConfig, processedItems, processedCodenames);
             mappedLinkedItem = mappedLinkedItemResult.item;
         }
 
