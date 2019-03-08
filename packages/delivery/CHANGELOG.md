@@ -1,3 +1,8 @@
+## 5.7.2 (2019-03-08)
+
+#### :bug: Bug Fix
+   * [#138](https://github.com/Kentico/kentico-cloud-js/pull/138) Fixes an issue when mapper would throw Stackoverflow exception when child item contained linked reference to parent ([@Enngage](https://github.com/Enngage))
+
 ## 5.7.1 (2019-02-26)
 
 #### :rocket: Enhancement
