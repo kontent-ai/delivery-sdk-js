@@ -7,7 +7,7 @@ describe('Update content item', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(updateContentItemResponseJson).updateContentItem()
-            .byCodename('x')
+            .byItemCodename('x')
             .withData({
                 name: 'y',
                 sitemap_locations: [],
@@ -20,9 +20,9 @@ describe('Update content item', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrl = cmTestClient.updateContentItem().byCodename('xCodename').withData({} as any).getUrl();
-        const internalIdUrl = cmTestClient.updateContentItem().byInternalId('xInternalId').withData({} as any).getUrl();
-        const externalIdUrl = cmTestClient.updateContentItem().byExternalId('xExternalId').withData({} as any).getUrl();
+        const codenameUrl = cmTestClient.updateContentItem().byItemCodename('xCodename').withData({} as any).getUrl();
+        const internalIdUrl = cmTestClient.updateContentItem().byItemId('xInternalId').withData({} as any).getUrl();
+        const externalIdUrl = cmTestClient.updateContentItem().byItemExternalId('xExternalId').withData({} as any).getUrl();
 
         expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename`);
         expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId`);

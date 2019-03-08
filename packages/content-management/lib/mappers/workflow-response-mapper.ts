@@ -16,10 +16,6 @@ export class WorkflowResponseMapper extends BaseMapper {
         return new WorkflowResponses.ListWorkflowStepsResponse(super.mapResponseDebug(response), response.data, workflowSteps);
     }
 
-    mapChangeWorkflowStepOfLanguageVariantResponse(response: IBaseResponse<void>): WorkflowResponses.ChangeWorkflowStepOfLanguageVariant {
-        return new WorkflowResponses.ChangeWorkflowStepOfLanguageVariant(super.mapResponseDebug(response), undefined, undefined);
-    }
-
     private mapWorkflowStep(rawStep: WorkflowContracts.IWorkflowStepContract): WorkflowModels.WorkflowStep {
         return new WorkflowModels.WorkflowStep({
             id: rawStep.id,

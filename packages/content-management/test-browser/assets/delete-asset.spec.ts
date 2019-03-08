@@ -6,7 +6,7 @@ describe('Delete asset', () => {
     let response: AssetResponses.DeleteAssetResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(deleteAssetJson).deleteAsset().byExternalId('xxx')
+        getTestClientWithJson(deleteAssetJson).deleteAsset().byAssetExternalId('xxx')
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -15,8 +15,8 @@ describe('Delete asset', () => {
     });
 
     it(`url should be correct`, () => {
-        const internalIdUrl = cmTestClient.deleteAsset().byInternalId('xInternalId').getUrl();
-        const externalIdUrl = cmTestClient.deleteAsset().byExternalId('xExternalId').getUrl();
+        const internalIdUrl = cmTestClient.deleteAsset().byAssetId('xInternalId').getUrl();
+        const externalIdUrl = cmTestClient.deleteAsset().byAssetExternalId('xExternalId').getUrl();
 
         expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/assets/xInternalId`);
         expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/assets/external-id/xExternalId`);

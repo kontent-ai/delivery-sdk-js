@@ -14,16 +14,6 @@ export namespace WorkflowResponses {
         }
     }
 
-    export class ChangeWorkflowStepOfLanguageVariant extends BaseResponses.BaseContentManagementResponse<void, void>  {
-        constructor(
-            debug: BaseResponses.IContentManagementResponseDebug,
-            rawData: void,
-            data: void
-        ) {
-            super(debug, rawData, data);
-        }
-    }
-
     export class PublishOrScheduleLanguageVariant extends BaseResponses.BaseContentManagementResponse<void, void>  {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,

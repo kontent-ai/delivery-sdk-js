@@ -6,7 +6,7 @@ describe('View content item', () => {
     let response: ContentItemResponses.ViewContentItemResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(viewContentItemJson).viewContentItem().byCodename(viewContentItemJson.codename)
+        getTestClientWithJson(viewContentItemJson).viewContentItem().byItemCodename(viewContentItemJson.codename)
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -15,9 +15,9 @@ describe('View content item', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrl = cmTestClient.viewContentItem().byCodename('xCodename').getUrl();
-        const internalIdUrl = cmTestClient.viewContentItem().byInternalId('xInternalId').getUrl();
-        const externalIdUrl = cmTestClient.viewContentItem().byExternalId('xExternalId').getUrl();
+        const codenameUrl = cmTestClient.viewContentItem().byItemCodename('xCodename').getUrl();
+        const internalIdUrl = cmTestClient.viewContentItem().byItemId('xInternalId').getUrl();
+        const externalIdUrl = cmTestClient.viewContentItem().byItemExternalId('xExternalId').getUrl();
 
         expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename`);
         expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId`);

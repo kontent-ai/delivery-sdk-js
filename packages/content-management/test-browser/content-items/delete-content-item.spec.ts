@@ -6,7 +6,7 @@ describe('Delete content item', () => {
     let response: ContentItemResponses.DeleteContentItemResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(deleteContentItemJson).deleteContentItem().byCodename('xxx')
+        getTestClientWithJson(deleteContentItemJson).deleteContentItem().byItemCodename('xxx')
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -15,9 +15,9 @@ describe('Delete content item', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrl = cmTestClient.deleteContentItem().byCodename('xCodename').getUrl();
-        const internalIdUrl = cmTestClient.deleteContentItem().byInternalId('xInternalId').getUrl();
-        const externalIdUrl = cmTestClient.deleteContentItem().byExternalId('xExternalId').getUrl();
+        const codenameUrl = cmTestClient.deleteContentItem().byItemCodename('xCodename').getUrl();
+        const internalIdUrl = cmTestClient.deleteContentItem().byItemId('xInternalId').getUrl();
+        const externalIdUrl = cmTestClient.deleteContentItem().byItemExternalId('xExternalId').getUrl();
 
         expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename`);
         expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId`);

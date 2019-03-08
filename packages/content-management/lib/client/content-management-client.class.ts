@@ -14,7 +14,7 @@ import {
     DeleteContentItemQuery,
     DeleteContentTypeQuery,
     DeleteTaxonomyQuery,
-    FullContentItemIdentifierQuery,
+    ContentItemIdentifierQuery,
     IdCodenameIdentifierQuery,
     LanguageIdentifierQuery,
     LanguageVariantElementsQuery,
@@ -38,6 +38,9 @@ import {
     ViewContentTypeQuery,
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
+    ChangeWorkflowStepOfLanguageOrVariantQuery,
+    PublishOrScheduleLanguageVariantQuery,
+    WorkflowStepIdentifierQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -62,6 +65,26 @@ export class ContentManagementClient implements IContentManagementClient {
             });
     }
 
+    changeWorkflowStepOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>> {
+        return new ContentItemIdentifierQuery<LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>>(
+            this.config, this.queryService, (
+                config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier) => new WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>(nConfig, nQueryService, (mConfig, mQueryservice, workflowIdentifier) => {
+                        return new ChangeWorkflowStepOfLanguageOrVariantQuery(config, queryService, contentItemIdentifier, languageIdentifier, workflowIdentifier);
+                    }
+                    )
+                ));
+    }
+
+    publishOrScheduleLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<PublishOrScheduleLanguageVariantQuery>> {
+        return new ContentItemIdentifierQuery<LanguageIdentifierQuery<PublishOrScheduleLanguageVariantQuery>>(
+            this.config, this.queryService, (
+                config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<PublishOrScheduleLanguageVariantQuery>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier) => new PublishOrScheduleLanguageVariantQuery(nConfig, nQueryService, contentItemIdentifier, languageIdentifier)
+                )
+        );
+    }
+
     listWorkflowSteps(): ListWorkflowStepsQuery {
         return new ListWorkflowStepsQuery(
             this.config,
@@ -84,8 +107,8 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    viewLanguageVariant(): FullContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>> {
-        return new FullContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>(
+    viewLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>> {
+        return new ContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>(
             this.config, this.queryService, (
                 config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<ViewLanguageVariantQuery>(
                     config, queryService, (nConfig, nQueryService, languageIdentifier) => new ViewLanguageVariantQuery(nConfig, nQueryService, contentItemIdentifier, languageIdentifier)
@@ -93,8 +116,8 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    upsertLanguageVariant(): FullContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>> {
-        return new FullContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>(
+    upsertLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>> {
+        return new ContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>(
             this.config, this.queryService, (
                 config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>(
                     config, queryService, (nConfig, nQueryService, languageIdentifier) => new LanguageVariantElementsQuery(nConfig, nQueryService, (
@@ -228,8 +251,8 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    viewContentItem(): FullContentItemIdentifierQuery<ViewContentItemQuery> {
-        return new FullContentItemIdentifierQuery<ViewContentItemQuery>(
+    viewContentItem(): ContentItemIdentifierQuery<ViewContentItemQuery> {
+        return new ContentItemIdentifierQuery<ViewContentItemQuery>(
             this.config,
             this.queryService,
             (config, queryService, identifier) => new ViewContentItemQuery(config, queryService, identifier)
@@ -244,8 +267,8 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    updateContentItem(): FullContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>> {
-        return new FullContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>(
+    updateContentItem(): ContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>> {
+        return new ContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>(
             this.config, this.queryService, (
                 config, queryService, identifier) => new DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>(
                     config, queryService, (nConfig, nQueryService, data) => new UpdateContentItemQuery(nConfig, nQueryService, data, identifier)
@@ -253,16 +276,16 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    deleteContentItem(): FullContentItemIdentifierQuery<DeleteContentItemQuery> {
-        return new FullContentItemIdentifierQuery<DeleteContentItemQuery>(
+    deleteContentItem(): ContentItemIdentifierQuery<DeleteContentItemQuery> {
+        return new ContentItemIdentifierQuery<DeleteContentItemQuery>(
             this.config,
             this.queryService,
             (config, queryService, identifier) => new DeleteContentItemQuery(config, queryService, identifier)
         );
     }
 
-    listLanguageVariants(): FullContentItemIdentifierQuery<ListLanguageVariantsQuery> {
-        return new FullContentItemIdentifierQuery<ListLanguageVariantsQuery>(
+    listLanguageVariants(): ContentItemIdentifierQuery<ListLanguageVariantsQuery> {
+        return new ContentItemIdentifierQuery<ListLanguageVariantsQuery>(
             this.config,
             this.queryService,
             (config, queryService, identifier) => new ListLanguageVariantsQuery(config, queryService, identifier)

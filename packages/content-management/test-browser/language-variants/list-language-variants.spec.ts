@@ -8,7 +8,7 @@ describe('List language variants', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(listLanguageVariantsJson).listLanguageVariants()
-            .byCodename('xxx')
+            .byItemCodename('xxx')
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -17,9 +17,9 @@ describe('List language variants', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrl = cmTestClient.listLanguageVariants().byCodename('xCodename').getUrl();
-        const internalIdUrl = cmTestClient.listLanguageVariants().byInternalId('xInternalId').getUrl();
-        const externalIdUrl = cmTestClient.listLanguageVariants().byExternalId('xExternalId').getUrl();
+        const codenameUrl = cmTestClient.listLanguageVariants().byItemCodename('xCodename').getUrl();
+        const internalIdUrl = cmTestClient.listLanguageVariants().byItemId('xInternalId').getUrl();
+        const externalIdUrl = cmTestClient.listLanguageVariants().byItemExternalId('xExternalId').getUrl();
 
         expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename/variants`);
         expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId/variants`);
