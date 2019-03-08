@@ -8,8 +8,8 @@ describe('View language variant', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(jsonResponse).viewLanguageVariant()
-            .byCodename('x')
-            .forLanguageCodename('x')
+            .byItemCodename('x')
+            .byLanguageCodename('x')
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -18,13 +18,13 @@ describe('View language variant', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrlWithCodenameLanguage = cmTestClient.viewLanguageVariant().byCodename('xCodename').forLanguageCodename('xLanguageCodename').getUrl();
-        const internalIdUrlWithCodenameLanguage = cmTestClient.viewLanguageVariant().byInternalId('xItemId').forLanguageCodename('xLanguageCodename').getUrl();
-        const externalIdUrlWithCodenameLanguage = cmTestClient.viewLanguageVariant().byExternalId('XItemExternal').forLanguageCodename('xLanguageCodename').getUrl();
+        const codenameUrlWithCodenameLanguage = cmTestClient.viewLanguageVariant().byItemCodename('xCodename').byLanguageCodename('xLanguageCodename').getUrl();
+        const internalIdUrlWithCodenameLanguage = cmTestClient.viewLanguageVariant().byItemId('xItemId').byLanguageCodename('xLanguageCodename').getUrl();
+        const externalIdUrlWithCodenameLanguage = cmTestClient.viewLanguageVariant().byItemExternalId('XItemExternal').byLanguageCodename('xLanguageCodename').getUrl();
 
-        const codenameUrlWithIdLanguage = cmTestClient.viewLanguageVariant().byCodename('xCodename').forLanguageId('xLanguageId').getUrl();
-        const internalIdUrlWithIdLanguage = cmTestClient.viewLanguageVariant().byInternalId('xItemId').forLanguageId('xLanguageId').getUrl();
-        const externalIdUrlWithIdLanguage = cmTestClient.viewLanguageVariant().byExternalId('XItemExternal').forLanguageId('xLanguageId').getUrl();
+        const codenameUrlWithIdLanguage = cmTestClient.viewLanguageVariant().byItemCodename('xCodename').byLanguageId('xLanguageId').getUrl();
+        const internalIdUrlWithIdLanguage = cmTestClient.viewLanguageVariant().byItemId('xItemId').byLanguageId('xLanguageId').getUrl();
+        const externalIdUrlWithIdLanguage = cmTestClient.viewLanguageVariant().byItemExternalId('XItemExternal').byLanguageId('xLanguageId').getUrl();
 
         expect(codenameUrlWithCodenameLanguage).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename/variants/codename/xLanguageCodename`);
         expect(internalIdUrlWithCodenameLanguage).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xItemId/variants/codename/xLanguageCodename`);

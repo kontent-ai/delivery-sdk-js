@@ -8,7 +8,7 @@ describe('View content type snippet', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(responseJson).viewContentTypeSnippet()
-            .byCodename('xxx')
+            .byItemCodename('xxx')
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -17,8 +17,8 @@ describe('View content type snippet', () => {
     });
 
     it(`url should be correct`, () => {
-        const urlByCodename = cmTestClient.viewContentTypeSnippet().byCodename('x').getUrl();
-        const urlByInternalId = cmTestClient.viewContentTypeSnippet().byInternalId('y').getUrl();
+        const urlByCodename = cmTestClient.viewContentTypeSnippet().byItemCodename('x').getUrl();
+        const urlByInternalId = cmTestClient.viewContentTypeSnippet().byItemId('y').getUrl();
 
         expect(urlByCodename).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/snippets/codename/x`);
         expect(urlByInternalId).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/snippets/y`);

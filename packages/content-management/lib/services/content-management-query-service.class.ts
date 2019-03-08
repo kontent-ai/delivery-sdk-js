@@ -39,6 +39,7 @@ import {
     ProjectResponses,
     TaxonomyResponses as TaxonomyResponses,
     WorkflowResponses,
+    BaseResponses,
 } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
@@ -52,17 +53,32 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         super(config, httpService, sdkInfo);
     }
 
-    changeWorkflowStepOfLanguageVariant(
+    publishOrScheduleLanguageVariant(
         url: string,
         config: IContentManagementQueryConfig
-    ): Observable<WorkflowResponses.ChangeWorkflowStepOfLanguageVariant> {
+    ): Observable<BaseResponses.EmptyContentManagementResponse> {
         return this.putResponse<void>(
             url,
             {},
             config,
         ).pipe(
             map(response => {
-                return workflowResponseMapper.mapChangeWorkflowStepOfLanguageVariantResponse(response);
+                return workflowResponseMapper.mapEmptyResponse(response);
+            })
+        );
+    }
+
+    changeWorkflowStepOfLanguageVariant(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<BaseResponses.EmptyContentManagementResponse> {
+        return this.putResponse<void>(
+            url,
+            {},
+            config,
+        ).pipe(
+            map(response => {
+                return workflowResponseMapper.mapEmptyResponse(response);
             })
         );
     }

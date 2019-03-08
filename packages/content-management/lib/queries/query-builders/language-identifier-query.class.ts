@@ -18,7 +18,7 @@ export class LanguageIdentifierQuery<TResult> {
     * Gets using internal Id
     * @param id Internal Id
     */
-    forLanguageId(id: string): TResult {
+    byLanguageId(id: string): TResult {
         return this.buildResult(this.config, this.queryService, new Identifiers.LanguageIdentifier(Identifiers.LanguageIdentifierEnum.InternalId, id));
     }
 
@@ -26,7 +26,7 @@ export class LanguageIdentifierQuery<TResult> {
     * Gets query using codename
     * @param codename Codename
     */
-    forLanguageCodename(codename: string): TResult {
+    byLanguageCodename(codename: string): TResult {
         return this.buildResult(this.config, this.queryService, new Identifiers.LanguageIdentifier(Identifiers.LanguageIdentifierEnum.Codename, codename));
     }
 }

@@ -7,7 +7,7 @@ describe('List assets', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(viewAssetResponseJson).viewAsset()
-            .byInternalId('xxx')
+            .byAssetId('xxx')
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -16,8 +16,8 @@ describe('List assets', () => {
     });
 
     it(`url should be correct`, () => {
-        const internalIdUrl = cmTestClient.viewAsset().byInternalId('xInternalId').getUrl();
-        const externalIdUrl = cmTestClient.viewAsset().byExternalId('xExternalId').getUrl();
+        const internalIdUrl = cmTestClient.viewAsset().byAssetId('xInternalId').getUrl();
+        const externalIdUrl = cmTestClient.viewAsset().byAssetExternalId('xExternalId').getUrl();
 
         expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/assets/xInternalId`);
         expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/assets/external-id/xExternalId`);

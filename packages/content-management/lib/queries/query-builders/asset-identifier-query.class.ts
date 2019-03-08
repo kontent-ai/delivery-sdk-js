@@ -18,7 +18,7 @@ export class AssetIdentifierQueryClass<TResult> {
     * Gets using internal Id
     * @param id Internal Id of content item
     */
-    byInternalId(id: string): TResult {
+    byAssetId(id: string): TResult {
         return this.buildResult(this.config, this.queryService, new Identifiers.AssetIdentifier(Identifiers.AssetIdentifierEnum.InternalId, id));
     }
 
@@ -26,7 +26,7 @@ export class AssetIdentifierQueryClass<TResult> {
     * Gets query using external Id
     * @param id External Id of content item
     */
-    byExternalId(id: string): TResult {
+    byAssetExternalId(id: string): TResult {
         return this.buildResult(this.config, this.queryService, new Identifiers.AssetIdentifier(Identifiers.AssetIdentifierEnum.ExternalId, id));
     }
 }

@@ -7,7 +7,7 @@ describe('Delete taxonomy', () => {
     let response: TaxonomyResponses.DeleteTaxonomyResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(deleteTaxonomyJson).deleteTaxonomy().byCodename('xxx')
+        getTestClientWithJson(deleteTaxonomyJson).deleteTaxonomy().byTaxonomyCodename('xxx')
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -16,9 +16,9 @@ describe('Delete taxonomy', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrl = cmTestClient.deleteTaxonomy().byCodename('xCodename').getUrl();
-        const internalIdUrl = cmTestClient.deleteTaxonomy().byInternalId('xInternalId').getUrl();
-        const externalIdUrl = cmTestClient.deleteTaxonomy().byExternalId('xExternalId').getUrl();
+        const codenameUrl = cmTestClient.deleteTaxonomy().byTaxonomyCodename('xCodename').getUrl();
+        const internalIdUrl = cmTestClient.deleteTaxonomy().byTaxonomyId('xInternalId').getUrl();
+        const externalIdUrl = cmTestClient.deleteTaxonomy().byTaxonomyExternalId('xExternalId').getUrl();
 
         expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/taxonomies/codename/xCodename`);
         expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/taxonomies/xInternalId`);

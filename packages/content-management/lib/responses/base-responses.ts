@@ -18,4 +18,14 @@ export namespace BaseResponses {
             public data: TData
         ) { }
     }
+
+    export class EmptyContentManagementResponse extends BaseResponses.BaseContentManagementResponse<void, void>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: void,
+            data: void
+        ) {
+            super(debug, rawData, data);
+        }
+    }
 }

@@ -18,7 +18,7 @@ export class IdIdentifierQuery<TResult> {
     * Gets using internal Id
     * @param id Internal Id
     */
-    byInternalId(id: string): TResult {
+    byItemId(id: string): TResult {
         return this.buildResult(this.config, this.queryService, new Identifiers.ContentItemIdentifier(Identifiers.ContentItemIdentifierEnum.InternalId, id));
     }
 
@@ -26,7 +26,7 @@ export class IdIdentifierQuery<TResult> {
     * Gets query using external Id
     * @param externalId External Id
     */
-    byExternalId(externalId: string): TResult {
+    byItemExternalId(externalId: string): TResult {
         return this.buildResult(this.config, this.queryService, new Identifiers.ContentItemIdentifier(Identifiers.ContentItemIdentifierEnum.ExternalId, externalId));
     }
 }

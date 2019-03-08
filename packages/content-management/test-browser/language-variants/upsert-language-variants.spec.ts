@@ -8,8 +8,8 @@ describe('Upsert language variant', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(jsonResponse).upsertLanguageVariant()
-            .byCodename('x')
-            .forLanguageCodename('x')
+            .byItemCodename('x')
+            .byLanguageCodename('x')
             .withElements([])
             .toObservable()
             .subscribe(result => {
@@ -19,13 +19,13 @@ describe('Upsert language variant', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrlWithCodenameLanguage = cmTestClient.upsertLanguageVariant().byCodename('xCodename').forLanguageCodename('xLanguageCodename').withElements([]).getUrl();
-        const internalIdUrlWithCodenameLanguage = cmTestClient.upsertLanguageVariant().byInternalId('xItemId').forLanguageCodename('xLanguageCodename').withElements([]).getUrl();
-        const externalIdUrlWithCodenameLanguage = cmTestClient.upsertLanguageVariant().byExternalId('XItemExternal').forLanguageCodename('xLanguageCodename').withElements([]).getUrl();
+        const codenameUrlWithCodenameLanguage = cmTestClient.upsertLanguageVariant().byItemCodename('xCodename').byLanguageCodename('xLanguageCodename').withElements([]).getUrl();
+        const internalIdUrlWithCodenameLanguage = cmTestClient.upsertLanguageVariant().byItemId('xItemId').byLanguageCodename('xLanguageCodename').withElements([]).getUrl();
+        const externalIdUrlWithCodenameLanguage = cmTestClient.upsertLanguageVariant().byItemExternalId('XItemExternal').byLanguageCodename('xLanguageCodename').withElements([]).getUrl();
 
-        const codenameUrlWithIdLanguage = cmTestClient.upsertLanguageVariant().byCodename('xCodename').forLanguageId('xLanguageId').withElements([]).getUrl();
-        const internalIdUrlWithIdLanguage = cmTestClient.upsertLanguageVariant().byInternalId('xItemId').forLanguageId('xLanguageId').withElements([]).getUrl();
-        const externalIdUrlWithIdLanguage = cmTestClient.upsertLanguageVariant().byExternalId('XItemExternal').forLanguageId('xLanguageId').withElements([]).getUrl();
+        const codenameUrlWithIdLanguage = cmTestClient.upsertLanguageVariant().byItemCodename('xCodename').byLanguageId('xLanguageId').withElements([]).getUrl();
+        const internalIdUrlWithIdLanguage = cmTestClient.upsertLanguageVariant().byItemId('xItemId').byLanguageId('xLanguageId').withElements([]).getUrl();
+        const externalIdUrlWithIdLanguage = cmTestClient.upsertLanguageVariant().byItemExternalId('XItemExternal').byLanguageId('xLanguageId').withElements([]).getUrl();
 
         expect(codenameUrlWithCodenameLanguage).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename/variants/codename/xLanguageCodename`);
         expect(internalIdUrlWithCodenameLanguage).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xItemId/variants/codename/xLanguageCodename`);

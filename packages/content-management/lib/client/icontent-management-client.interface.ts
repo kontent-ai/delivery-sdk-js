@@ -6,12 +6,13 @@ import {
     AddContentTypeQuery,
     AddTaxonomyQuery,
     AssetIdentifierQueryClass,
+    ChangeWorkflowStepOfLanguageOrVariantQuery,
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
     DeleteContentTypeQuery,
     DeleteTaxonomyQuery,
-    FullContentItemIdentifierQuery,
+    ContentItemIdentifierQuery,
     IdCodenameIdentifierQuery,
     LanguageIdentifierQuery,
     LanguageVariantElementsQuery,
@@ -23,6 +24,7 @@ import {
     ListTaxonomiesQuery,
     ListWorkflowStepsQuery,
     ProjectIdIdentifierQuery,
+    PublishOrScheduleLanguageVariantQuery,
     TaxonomyIdentifierQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
@@ -35,9 +37,20 @@ import {
     ViewContentTypeQuery,
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
+    WorkflowStepIdentifierQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
+
+    /**
+     * Change the workflow of the specified language variant to the specified workflow step. Equivalent to the UI operation of updating workflow.
+     */
+    changeWorkflowStepOfLanguageVariant():  ContentItemIdentifierQuery<LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>>;
+
+    /**
+     * Change the workflow step of the specified language variant to "Published" or schedule publishing at the specified time.
+     */
+    publishOrScheduleLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<PublishOrScheduleLanguageVariantQuery>>;
 
     /**
      * Query to list all workflow steps in project
@@ -57,12 +70,12 @@ export interface IContentManagementClient {
     /**
      * Query to view language variant
      */
-    viewLanguageVariant(): FullContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>;
+    viewLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>;
 
     /**
     * Query to upsert language variant
     */
-    upsertLanguageVariant(): FullContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>;
+    upsertLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>;
 
     /**
      * Query to validate project content
@@ -147,7 +160,7 @@ export interface IContentManagementClient {
     /**
      * View content item query
      */
-    viewContentItem(): FullContentItemIdentifierQuery<ViewContentItemQuery>;
+    viewContentItem(): ContentItemIdentifierQuery<ViewContentItemQuery>;
 
     /**
     * Add content item query
@@ -157,15 +170,15 @@ export interface IContentManagementClient {
     /**
      * Update content item query
      */
-    updateContentItem(): FullContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>;
+    updateContentItem(): ContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>;
 
     /**
      * Delete content item query
      */
-    deleteContentItem(): FullContentItemIdentifierQuery<DeleteContentItemQuery>;
+    deleteContentItem(): ContentItemIdentifierQuery<DeleteContentItemQuery>;
 
     /**
      * List language variants query
      */
-    listLanguageVariants(): FullContentItemIdentifierQuery<ListLanguageVariantsQuery>;
+    listLanguageVariants(): ContentItemIdentifierQuery<ListLanguageVariantsQuery>;
 }
