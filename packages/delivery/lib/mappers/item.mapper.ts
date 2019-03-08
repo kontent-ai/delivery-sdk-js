@@ -5,12 +5,12 @@ import { FieldMapper } from '../mappers';
 import { ContentItem } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 
-interface MapItemResult<TItem extends ContentItem> {
+export interface MapItemResult<TItem extends ContentItem> {
     item: TItem;
     processedItems: ContentItem[];
 }
 
-interface MapItemsResult<TItem extends ContentItem> {
+export interface MapItemsResult<TItem extends ContentItem> {
     items: TItem[];
     processedItems: ContentItem[];
 }
