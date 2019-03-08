@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-delivery",
-  "version": "5.7.1",
+  "version": "5.7.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/delivery"
@@ -73,6 +73,7 @@
     "rxjs": "^6.0.0"
   },
   "devDependencies": {
+    "typescript": "3.3.3333",
     "@types/parse5": "5.0.0",
     "rxjs": "6.4.0",
     "@types/jasmine": "3.3.5",
