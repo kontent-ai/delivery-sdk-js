@@ -1,3 +1,11 @@
+## 6.0.0-beta-0 (2019-03-12)
+
+#### :boom: Breaking Change
+  * [#139](https://github.com/Kentico/kentico-cloud-js/pull/139) Changes the type of 'linkedItems' delivery model response from array to IContentItemsContainer - this change improves performance as we avoid filtering on arrays and use codenames with direct access. ([@Enngage](https://github.com/Enngage))
+
+#### :rocket: Enhancement
+  * [#139](https://github.com/Kentico/kentico-cloud-js/pull/139) Improves mapping of circular linked items be keeping references between them. This change enables recursive references between items. ([@Enngage](https://github.com/Enngage))
+
 ## 5.7.2 (2019-03-08)
 
 #### :bug: Bug Fix
