@@ -2,17 +2,21 @@ import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { IItemQueryConfig } from '../interfaces';
 import { FieldMapper } from '../mappers';
-import { ContentItem } from '../models';
+import { ContentItem, IContentItemsContainer } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 
 export interface MapItemResult<TItem extends ContentItem> {
     item: TItem;
-    processedItems: ContentItem[];
+    processedItems: IContentItemsContainer;
+    preparedItems: IContentItemsContainer;
+    processingStartedForCodenames: string[];
 }
 
 export interface MapItemsResult<TItem extends ContentItem> {
     items: TItem[];
-    processedItems: ContentItem[];
+    processedItems: IContentItemsContainer;
+    preparedItems: IContentItemsContainer;
+    processingStartedForCodenames: string[];
 }
 
 export class ItemMapper {
@@ -32,7 +36,14 @@ export class ItemMapper {
      * @param queryConfig Query configuration
      */
     mapSingleItem<TItem extends ContentItem>(response: ItemContracts.IItemResponseContract, queryConfig: IItemQueryConfig): MapItemResult<TItem> {
-        return this.mapItem<TItem>(response.item, response.modular_content, queryConfig, []);
+        return this.mapItem<TItem>({
+            item: response.item,
+            modularContent: response.modular_content,
+            preparedItems: {},
+            processedItems: {},
+            rocessingStartedForCodenames: [],
+            queryConfig: queryConfig
+        });
     }
 
     /**
@@ -43,30 +54,57 @@ export class ItemMapper {
     mapMultipleItems<TItem extends ContentItem>(response: ItemContracts.IItemsResponseContract, queryConfig: IItemQueryConfig): MapItemsResult<TItem> {
         const that = this;
 
-        const processedItems: ContentItem[] = [];
+        const processedItems: IContentItemsContainer = {};
+        const preparedItems: IContentItemsContainer = {};
+        const processingStartedForCodenames: string[] = [];
         const mappedItems: TItem[] = [];
 
         response.items.forEach((item) => {
-            const mappedItem = that.mapItem<TItem>(item, response.modular_content, queryConfig, processedItems);
+            const mappedItem = that.mapItem<TItem>({
+                item: item,
+                modularContent: response.modular_content,
+                processedItems: processedItems,
+                queryConfig: queryConfig,
+                preparedItems: preparedItems,
+                rocessingStartedForCodenames: processingStartedForCodenames
+            });
             mappedItems.push(mappedItem.item);
         });
 
         return {
             items: mappedItems,
-            processedItems: processedItems // processed items are filled by reference (see mapItem)
+            processedItems: processedItems,
+            preparedItems: preparedItems,
+            processingStartedForCodenames: processingStartedForCodenames
         };
     }
 
-    private mapItem<TItem extends ContentItem>(item: ItemContracts.IContentItemContract, modularContent: any, queryConfig: IItemQueryConfig, processedItems: ContentItem[]): MapItemResult<TItem> {
-        if (!item) {
+    private mapItem<TItem extends ContentItem>(data: {
+        item: ItemContracts.IContentItemContract,
+        modularContent: ItemContracts.IModularContentWrapperContract,
+        queryConfig: IItemQueryConfig,
+        processedItems: IContentItemsContainer,
+        rocessingStartedForCodenames: string[],
+        preparedItems: IContentItemsContainer
+    }): MapItemResult<TItem> {
+        if (!data.item) {
             throw Error(`Could not map item because its undefined`);
         }
 
-        const result = this.fieldMapper.mapFields<TItem>(item, modularContent, queryConfig, processedItems, []);
+        const result = this.fieldMapper.mapFields<TItem>({
+            item: data.item,
+            modularContent: data.modularContent,
+            preparedItems: <IContentItemsContainer>{},
+            processingStartedForCodenames: [],
+            processedItems: data.processedItems,
+            queryConfig: data.queryConfig
+        });
 
         return {
             item: result.item,
-            processedItems: result.processedItems
+            processedItems: result.processedItems,
+            preparedItems: result.preparedItems,
+            processingStartedForCodenames: result.processingStartedForCodenames
         };
     }
 }

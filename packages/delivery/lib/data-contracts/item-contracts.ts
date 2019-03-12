@@ -13,7 +13,13 @@ export namespace ItemContracts {
     url_slug: string;
   }
 
+  export interface IModularContentWrapperContract {
+    [key: string]: ItemContracts.IModularContentContract;
+  }
+
+
   export interface IModularContentContract {
+
     system: IContentItemSystemAttributesContract;
     elements: IContentItemElementsContracts;
   }
@@ -35,13 +41,13 @@ export namespace ItemContracts {
 
   export interface IItemsResponseContract {
     items: IContentItemContract[];
-    modular_content: IModularContentContract[];
+    modular_content: ItemContracts.IModularContentWrapperContract;
     pagination: IPaginationContract;
   }
 
   export interface IItemResponseContract {
     item: IContentItemContract;
-    modular_content: IModularContentContract[];
+    modular_content: ItemContracts.IModularContentWrapperContract;
   }
 }
 

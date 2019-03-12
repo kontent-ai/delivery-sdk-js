@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IMapFieldsResult | kentico-cloud-delivery</title>
+	<title>TypeMapper | kentico-cloud-delivery</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,32 +56,24 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_mappers_field_mapper_.html">&quot;mappers/field.mapper&quot;</a>
+					<a href="../modules/_mappers_type_mapper_.html">&quot;mappers/type.mapper&quot;</a>
 				</li>
 				<li>
-					<a href="_mappers_field_mapper_.imapfieldsresult.html">IMapFieldsResult</a>
+					<a href="_mappers_type_mapper_.typemapper.html">TypeMapper</a>
 				</li>
 			</ul>
-			<h1>Interface IMapFieldsResult&lt;TItem&gt;</h1>
+			<h1>Class TypeMapper</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>TItem<span class="tsd-signature-symbol">: </span><a href="../classes/_models_item_content_item_class_.contentitem.html" class="tsd-signature-type">ContentItem</a></h4>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IMapFieldsResult</span>
+						<span class="target">TypeMapper</span>
 					</li>
 				</ul>
 			</section>
@@ -90,58 +82,86 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappers_field_mapper_.imapfieldsresult.html#item" class="tsd-kind-icon">item</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappers_field_mapper_.imapfieldsresult.html#prepareditems" class="tsd-kind-icon">prepared<wbr>Items</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappers_field_mapper_.imapfieldsresult.html#processeditems" class="tsd-kind-icon">processed<wbr>Items</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappers_field_mapper_.imapfieldsresult.html#processingstartedforcodenames" class="tsd-kind-icon">processing<wbr>Started<wbr>For<wbr>Codenames</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_mappers_type_mapper_.typemapper.html#mapmultipletypes" class="tsd-kind-icon">map<wbr>Multiple<wbr>Types</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_mappers_type_mapper_.typemapper.html#mapsingletype" class="tsd-kind-icon">map<wbr>Single<wbr>Type</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_mappers_type_mapper_.typemapper.html#maptype" class="tsd-kind-icon">map<wbr>Type</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="item" class="tsd-anchor"></a>
-					<h3>item</h3>
-					<div class="tsd-signature tsd-kind-icon">item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TItem</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in mappers/field.mapper.ts:19</li>
-						</ul>
-					</aside>
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="mapmultipletypes" class="tsd-anchor"></a>
+					<h3>map<wbr>Multiple<wbr>Types</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">map<wbr>Multiple<wbr>Types<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_type_contracts_.typecontracts.itypesresponsecontract.html" class="tsd-signature-type">ITypesResponseContract</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_type_content_type_class_.contenttype.html" class="tsd-signature-type">ContentType</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in mappers/type.mapper.ts:10</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>response: <a href="../interfaces/_data_contracts_type_contracts_.typecontracts.itypesresponsecontract.html" class="tsd-signature-type">ITypesResponseContract</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_models_type_content_type_class_.contenttype.html" class="tsd-signature-type">ContentType</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="prepareditems" class="tsd-anchor"></a>
-					<h3>prepared<wbr>Items</h3>
-					<div class="tsd-signature tsd-kind-icon">prepared<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="_models_item_i_content_items_container_interface_.icontentitemscontainer.html" class="tsd-signature-type">IContentItemsContainer</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in mappers/field.mapper.ts:21</li>
-						</ul>
-					</aside>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="mapsingletype" class="tsd-anchor"></a>
+					<h3>map<wbr>Single<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">map<wbr>Single<wbr>Type<span class="tsd-signature-symbol">(</span>response<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_type_contracts_.typecontracts.ityperesponsecontract.html" class="tsd-signature-type">ITypeResponseContract</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_type_content_type_class_.contenttype.html" class="tsd-signature-type">ContentType</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in mappers/type.mapper.ts:6</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>response: <a href="../interfaces/_data_contracts_type_contracts_.typecontracts.ityperesponsecontract.html" class="tsd-signature-type">ITypeResponseContract</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_models_type_content_type_class_.contenttype.html" class="tsd-signature-type">ContentType</a></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="processeditems" class="tsd-anchor"></a>
-					<h3>processed<wbr>Items</h3>
-					<div class="tsd-signature tsd-kind-icon">processed<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="_models_item_i_content_items_container_interface_.icontentitemscontainer.html" class="tsd-signature-type">IContentItemsContainer</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in mappers/field.mapper.ts:20</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="processingstartedforcodenames" class="tsd-anchor"></a>
-					<h3>processing<wbr>Started<wbr>For<wbr>Codenames</h3>
-					<div class="tsd-signature tsd-kind-icon">processing<wbr>Started<wbr>For<wbr>Codenames<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in mappers/field.mapper.ts:22</li>
-						</ul>
-					</aside>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="maptype" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> map<wbr>Type</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">map<wbr>Type<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_type_contracts_.typecontracts.icontenttypecontract.html" class="tsd-signature-type">IContentTypeContract</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_type_content_type_class_.contenttype.html" class="tsd-signature-type">ContentType</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in mappers/type.mapper.ts:17</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>type: <a href="../interfaces/_data_contracts_type_contracts_.typecontracts.icontenttypecontract.html" class="tsd-signature-type">IContentTypeContract</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_models_type_content_type_class_.contenttype.html" class="tsd-signature-type">ContentType</a></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -152,31 +172,25 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_mappers_field_mapper_.html">"mappers/field.mapper"</a>
+						<a href="../modules/_mappers_type_mapper_.html">"mappers/type.mapper"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/_mappers_field_mapper_.fieldmapper.html" class="tsd-kind-icon">Field<wbr>Mapper</a>
-					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_mappers_field_mapper_.imapfieldsresult.html" class="tsd-kind-icon">IMap<wbr>Fields<wbr>Result</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_mappers_type_mapper_.typemapper.html" class="tsd-kind-icon">Type<wbr>Mapper</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_mappers_field_mapper_.imapfieldsresult.html#item" class="tsd-kind-icon">item</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_mappers_type_mapper_.typemapper.html#mapmultipletypes" class="tsd-kind-icon">map<wbr>Multiple<wbr>Types</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_mappers_field_mapper_.imapfieldsresult.html#prepareditems" class="tsd-kind-icon">prepared<wbr>Items</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_mappers_type_mapper_.typemapper.html#mapsingletype" class="tsd-kind-icon">map<wbr>Single<wbr>Type</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_mappers_field_mapper_.imapfieldsresult.html#processeditems" class="tsd-kind-icon">processed<wbr>Items</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_mappers_field_mapper_.imapfieldsresult.html#processingstartedforcodenames" class="tsd-kind-icon">processing<wbr>Started<wbr>For<wbr>Codenames</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_mappers_type_mapper_.typemapper.html#maptype" class="tsd-kind-icon">map<wbr>Type</a>
 							</li>
 						</ul>
 					</li>

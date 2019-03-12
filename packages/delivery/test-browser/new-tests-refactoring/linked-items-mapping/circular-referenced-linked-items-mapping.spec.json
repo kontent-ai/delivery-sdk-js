@@ -1,0 +1,88 @@
+{
+  "item": {
+    "system": {
+      "id": "117cdfae-52cf-4885-b271-66aef6825612",
+      "name": "Coffee processing techniques",
+      "codename": "coffee_processing_techniques",
+      "language": "en-US",
+      "type": "article",
+      "sitemap_locations": [
+        "articles"
+      ],
+      "last_modified": "2018-07-17T08:12:03.07Z"
+    },
+    "elements": {
+      "title": {
+        "type": "text",
+        "name": "Title",
+        "value": "Coffee processing techniques"
+      },
+      "related_articles": {
+        "type": "modular_content",
+        "name": "Related articles",
+        "value": [
+          "on_roasts",
+          "which_brewing_fits_you_"
+        ]
+      }
+    }
+  },
+  "modular_content": {
+    "on_roasts": {
+      "system": {
+        "id": "f4b3fc05-e988-4dae-9ac1-a94aba566474",
+        "name": "On Roasts",
+        "codename": "on_roasts",
+        "language": "en-US",
+        "type": "article",
+        "sitemap_locations": [
+          "articles"
+        ],
+        "last_modified": "2017-12-08T08:49:53.603Z"
+      },
+      "elements": {
+        "title": {
+          "type": "text",
+          "name": "Title",
+          "value": "On Roasts"
+        },
+        "related_articles": {
+          "type": "modular_content",
+          "name": "Related articles",
+          "value": [
+            "on_roasts",
+            "which_brewing_fits_you_"
+          ]
+        }
+      }
+    },
+    "which_brewing_fits_you_": {
+      "system": {
+        "id": "3120ec15-a4a2-47ec-8ccd-c85ac8ac5ba5",
+        "name": "Which brewing fits you?",
+        "codename": "which_brewing_fits_you_",
+        "language": "en-US",
+        "type": "article",
+        "sitemap_locations": [
+          "articles"
+        ],
+        "last_modified": "2018-10-11T08:45:56.917Z"
+      },
+      "elements": {
+        "title": {
+          "type": "text",
+          "name": "Title",
+          "value": "Which brewing fits you?"
+        },
+        "related_articles": {
+          "type": "modular_content",
+          "name": "Related articles",
+          "value": [
+            "coffee_processing_techniques",
+            "on_roasts"
+          ]
+        }
+      }
+    }
+  }
+}

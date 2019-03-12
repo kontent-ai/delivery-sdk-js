@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>DeliveryItemResponse | kentico-cloud-delivery</title>
+	<title>AllFilter | kentico-cloud-delivery</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,42 +56,34 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_models_item_responses_.html">&quot;models/item/responses&quot;</a>
+					<a href="../modules/_models_common_filters_.html">&quot;models/common/filters&quot;</a>
 				</li>
 				<li>
-					<a href="../modules/_models_item_responses_.itemresponses.html">ItemResponses</a>
+					<a href="../modules/_models_common_filters_.filters.html">Filters</a>
 				</li>
 				<li>
-					<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html">DeliveryItemResponse</a>
+					<a href="_models_common_filters_.filters.allfilter.html">AllFilter</a>
 				</li>
 			</ul>
-			<h1>Class DeliveryItemResponse&lt;TItem&gt;</h1>
+			<h1>Class AllFilter</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>TItem<span class="tsd-signature-symbol">: </span><a href="_models_item_content_item_class_.contentitem.html" class="tsd-signature-type">ContentItem</a></h4>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">DeliveryItemResponse</span>
+						<span class="target">AllFilter</span>
 					</li>
 				</ul>
 			</section>
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/_interfaces_common_icloud_response_interface_.icloudresponse.html" class="tsd-signature-type">ICloudResponse</a></li>
+					<li><span class="tsd-signature-type">IQueryParameter</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -101,22 +93,21 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_models_common_filters_.filters.allfilter.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#debug" class="tsd-kind-icon">debug</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#isempty" class="tsd-kind-icon">is<wbr>Empty</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#item" class="tsd-kind-icon">item</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#linkeditems" class="tsd-kind-icon">linked<wbr>Items</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_common_filters_.filters.allfilter.html#field" class="tsd-kind-icon">field</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_models_common_filters_.filters.allfilter.html#values" class="tsd-kind-icon">values</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#getisempty" class="tsd-kind-icon">get<wbr>IsEmpty</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_common_filters_.filters.allfilter.html#getparam" class="tsd-kind-icon">get<wbr>Param</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_models_common_filters_.filters.allfilter.html#getparamvalue" class="tsd-kind-icon">get<wbr>Param<wbr>Value</a></li>
 							</ul>
 						</section>
 					</div>
@@ -128,52 +119,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Delivery<wbr>Item<wbr>Response<span class="tsd-signature-symbol">(</span>item<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TItem</span>, linkedItems<span class="tsd-signature-symbol">: </span><a href="../interfaces/_models_item_i_content_items_container_interface_.icontentitemscontainer.html" class="tsd-signature-type">IContentItemsContainer</a>, debug<span class="tsd-signature-symbol">: </span><a href="../interfaces/_interfaces_common_icloud_response_debug_interface_.icloudresponsedebug.html" class="tsd-signature-type">ICloudResponseDebug</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_item_responses_.itemresponses.deliveryitemresponse.html" class="tsd-signature-type">DeliveryItemResponse</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>All<wbr>Filter<span class="tsd-signature-symbol">(</span>field<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_common_filters_.filters.allfilter.html" class="tsd-signature-type">AllFilter</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in models/item/responses.ts:82</li>
+									<li>Defined in models/common/filters.ts:74</li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Response containing single item</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>constructor</dt>
-									<dd></dd>
-								</dl>
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>item: <span class="tsd-signature-type">TItem</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Returned item</p>
-										</div>
-									</div>
+									<h5>field: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>linkedItems: <a href="../interfaces/_models_item_i_content_items_container_interface_.icontentitemscontainer.html" class="tsd-signature-type">IContentItemsContainer</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Content items that were processed during request</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<h5>debug: <a href="../interfaces/_interfaces_common_icloud_response_debug_interface_.icloudresponsedebug.html" class="tsd-signature-type">ICloudResponseDebug</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Debug information from the request</p>
-										</div>
-									</div>
+									<h5>values: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_models_item_responses_.itemresponses.deliveryitemresponse.html" class="tsd-signature-type">DeliveryItemResponse</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_models_common_filters_.filters.allfilter.html" class="tsd-signature-type">AllFilter</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -181,83 +145,62 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="debug" class="tsd-anchor"></a>
-					<h3>debug</h3>
-					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_interfaces_common_icloud_response_debug_interface_.icloudresponsedebug.html" class="tsd-signature-type">ICloudResponseDebug</a></div>
+					<a name="field" class="tsd-anchor"></a>
+					<h3>field</h3>
+					<div class="tsd-signature tsd-kind-icon">field<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_interfaces_common_icloud_response_interface_.icloudresponse.html">ICloudResponse</a>.<a href="../interfaces/_interfaces_common_icloud_response_interface_.icloudresponse.html#debug">debug</a></p>
 						<ul>
-							<li>Defined in models/item/responses.ts:94</li>
+							<li>Defined in models/common/filters.ts:76</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Debug information from the request</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="isempty" class="tsd-anchor"></a>
-					<h3>is<wbr>Empty</h3>
-					<div class="tsd-signature tsd-kind-icon">is<wbr>Empty<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="values" class="tsd-anchor"></a>
+					<h3>values</h3>
+					<div class="tsd-signature tsd-kind-icon">values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in models/item/responses.ts:82</li>
+							<li>Defined in models/common/filters.ts:77</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Indicates if response contains item</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="item" class="tsd-anchor"></a>
-					<h3>item</h3>
-					<div class="tsd-signature tsd-kind-icon">item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TItem</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in models/item/responses.ts:92</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Returned item</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="linkeditems" class="tsd-anchor"></a>
-					<h3>linked<wbr>Items</h3>
-					<div class="tsd-signature tsd-kind-icon">linked<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_models_item_i_content_items_container_interface_.icontentitemscontainer.html" class="tsd-signature-type">IContentItemsContainer</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in models/item/responses.ts:93</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Content items that were processed during request</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getisempty" class="tsd-anchor"></a>
-					<h3>get<wbr>IsEmpty</h3>
+					<a name="getparam" class="tsd-anchor"></a>
+					<h3>get<wbr>Param</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>IsEmpty<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Param<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in models/item/responses.ts:99</li>
+									<li>Defined in models/common/filters.ts:84</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getparamvalue" class="tsd-anchor"></a>
+					<h3>get<wbr>Param<wbr>Value</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Param<wbr>Value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in models/common/filters.ts:88</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -270,10 +213,10 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_models_item_responses_.html">"models/item/responses"</a>
+						<a href="../modules/_models_common_filters_.html">"models/common/filters"</a>
 						<ul>
 							<li class="current tsd-kind-module tsd-parent-kind-external-module">
-								<a href="../modules/_models_item_responses_.itemresponses.html">Item<wbr>Responses</a>
+								<a href="../modules/_models_common_filters_.filters.html">Filters</a>
 							</li>
 						</ul>
 					</li>
@@ -281,36 +224,66 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="_models_item_responses_.itemresponses.deliveryitemlistingresponse.html" class="tsd-kind-icon">Delivery<wbr>Item<wbr>Listing<wbr>Response</a>
-					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html" class="tsd-kind-icon">Delivery<wbr>Item<wbr>Response</a>
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.allfilter.html" class="tsd-kind-icon">All<wbr>Filter</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_models_common_filters_.filters.allfilter.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#debug" class="tsd-kind-icon">debug</a>
+								<a href="_models_common_filters_.filters.allfilter.html#field" class="tsd-kind-icon">field</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#isempty" class="tsd-kind-icon">is<wbr>Empty</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#item" class="tsd-kind-icon">item</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#linkeditems" class="tsd-kind-icon">linked<wbr>Items</a>
+								<a href="_models_common_filters_.filters.allfilter.html#values" class="tsd-kind-icon">values</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_models_item_responses_.itemresponses.deliveryitemresponse.html#getisempty" class="tsd-kind-icon">get<wbr>IsEmpty</a>
+								<a href="_models_common_filters_.filters.allfilter.html#getparam" class="tsd-kind-icon">get<wbr>Param</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_models_common_filters_.filters.allfilter.html#getparamvalue" class="tsd-kind-icon">get<wbr>Param<wbr>Value</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.anyfilter.html" class="tsd-kind-icon">Any<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.containsfilter.html" class="tsd-kind-icon">Contains<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.equalsfilter.html" class="tsd-kind-icon">Equals<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.greaterthanfilter.html" class="tsd-kind-icon">Greater<wbr>Than<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.greaterthanorequalfilter.html" class="tsd-kind-icon">Greater<wbr>Than<wbr>OrEqual<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.infilter.html" class="tsd-kind-icon">Infilter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.lessthanfilter.html" class="tsd-kind-icon">Less<wbr>Than<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.lessthanorequalfilter.html" class="tsd-kind-icon">Less<wbr>Than<wbr>OrEqual<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.rangefilter.html" class="tsd-kind-icon">Range<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="_models_common_filters_.filters.typefilter.html" class="tsd-kind-icon">Type<wbr>Filter</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_models_common_filters_.filters.html#defaultvalue" class="tsd-kind-icon">default<wbr>Value</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../modules/_models_common_filters_.filters.html#valueseparator" class="tsd-kind-icon">value<wbr>Separator</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

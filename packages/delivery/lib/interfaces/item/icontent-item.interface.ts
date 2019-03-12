@@ -3,8 +3,8 @@ import { IContentItemSystemAttributes } from './icontent-item-system-attributes.
 export interface IContentItem {
 
     /**
- * Indexer
- */
+    * Indexer
+    */
     [key: string]: any;
 
     /**

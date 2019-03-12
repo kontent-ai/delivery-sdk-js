@@ -54,7 +54,7 @@ describe('Live items', () => {
   });
 
   it(`Linked items should be set`, () => {
-    expect(response.linkedItems.length).toBeGreaterThan(0);
+    expect(Object.keys(response.linkedItems).length).toBeGreaterThan(0);
   });
 });
 
