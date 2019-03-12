@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IMapFieldsResult | kentico-cloud-delivery</title>
+	<title>TaxonomyMapper | kentico-cloud-delivery</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,32 +56,24 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_mappers_field_mapper_.html">&quot;mappers/field.mapper&quot;</a>
+					<a href="../modules/_mappers_taxonomy_mapper_.html">&quot;mappers/taxonomy.mapper&quot;</a>
 				</li>
 				<li>
-					<a href="_mappers_field_mapper_.imapfieldsresult.html">IMapFieldsResult</a>
+					<a href="_mappers_taxonomy_mapper_.taxonomymapper.html">TaxonomyMapper</a>
 				</li>
 			</ul>
-			<h1>Interface IMapFieldsResult&lt;TItem&gt;</h1>
+			<h1>Class TaxonomyMapper</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>TItem<span class="tsd-signature-symbol">: </span><a href="../classes/_models_item_content_item_class_.contentitem.html" class="tsd-signature-type">ContentItem</a></h4>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IMapFieldsResult</span>
+						<span class="target">TaxonomyMapper</span>
 					</li>
 				</ul>
 			</section>
@@ -90,58 +82,97 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappers_field_mapper_.imapfieldsresult.html#item" class="tsd-kind-icon">item</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappers_field_mapper_.imapfieldsresult.html#prepareditems" class="tsd-kind-icon">prepared<wbr>Items</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappers_field_mapper_.imapfieldsresult.html#processeditems" class="tsd-kind-icon">processed<wbr>Items</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_mappers_field_mapper_.imapfieldsresult.html#processingstartedforcodenames" class="tsd-kind-icon">processing<wbr>Started<wbr>For<wbr>Codenames</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_mappers_taxonomy_mapper_.taxonomymapper.html#maptaxonomies" class="tsd-kind-icon">map<wbr>Taxonomies</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_mappers_taxonomy_mapper_.taxonomymapper.html#maptaxonomy" class="tsd-kind-icon">map<wbr>Taxonomy</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_mappers_taxonomy_mapper_.taxonomymapper.html#maptaxonomyterms" class="tsd-kind-icon">map<wbr>Taxonomy<wbr>Terms</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="item" class="tsd-anchor"></a>
-					<h3>item</h3>
-					<div class="tsd-signature tsd-kind-icon">item<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">TItem</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in mappers/field.mapper.ts:19</li>
-						</ul>
-					</aside>
+				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="maptaxonomies" class="tsd-anchor"></a>
+					<h3>map<wbr>Taxonomies</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">map<wbr>Taxonomies<span class="tsd-signature-symbol">(</span>taxonomies<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_taxonomy_contracts_.taxonomycontracts.itaxonomygroupcontract.html" class="tsd-signature-type">ITaxonomyGroupContract</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_taxonomy_taxonomy_group_class_.taxonomygroup.html" class="tsd-signature-type">TaxonomyGroup</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in mappers/taxonomy.mapper.ts:31</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>taxonomies: <a href="../interfaces/_data_contracts_taxonomy_contracts_.taxonomycontracts.itaxonomygroupcontract.html" class="tsd-signature-type">ITaxonomyGroupContract</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_models_taxonomy_taxonomy_group_class_.taxonomygroup.html" class="tsd-signature-type">TaxonomyGroup</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="prepareditems" class="tsd-anchor"></a>
-					<h3>prepared<wbr>Items</h3>
-					<div class="tsd-signature tsd-kind-icon">prepared<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="_models_item_i_content_items_container_interface_.icontentitemscontainer.html" class="tsd-signature-type">IContentItemsContainer</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in mappers/field.mapper.ts:21</li>
-						</ul>
-					</aside>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="maptaxonomy" class="tsd-anchor"></a>
+					<h3>map<wbr>Taxonomy</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">map<wbr>Taxonomy<span class="tsd-signature-symbol">(</span>taxonomySystem<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_taxonomy_contracts_.taxonomycontracts.itaxonomysystemattributescontract.html" class="tsd-signature-type">ITaxonomySystemAttributesContract</a>, taxonomyTerms<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_taxonomy_contracts_.taxonomycontracts.itaxonomytermscontract.html" class="tsd-signature-type">ITaxonomyTermsContract</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_taxonomy_taxonomy_group_class_.taxonomygroup.html" class="tsd-signature-type">TaxonomyGroup</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in mappers/taxonomy.mapper.ts:6</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>taxonomySystem: <a href="../interfaces/_data_contracts_taxonomy_contracts_.taxonomycontracts.itaxonomysystemattributescontract.html" class="tsd-signature-type">ITaxonomySystemAttributesContract</a></h5>
+								</li>
+								<li>
+									<h5>taxonomyTerms: <a href="../interfaces/_data_contracts_taxonomy_contracts_.taxonomycontracts.itaxonomytermscontract.html" class="tsd-signature-type">ITaxonomyTermsContract</a><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_models_taxonomy_taxonomy_group_class_.taxonomygroup.html" class="tsd-signature-type">TaxonomyGroup</a></h4>
+						</li>
+					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="processeditems" class="tsd-anchor"></a>
-					<h3>processed<wbr>Items</h3>
-					<div class="tsd-signature tsd-kind-icon">processed<wbr>Items<span class="tsd-signature-symbol">:</span> <a href="_models_item_i_content_items_container_interface_.icontentitemscontainer.html" class="tsd-signature-type">IContentItemsContainer</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in mappers/field.mapper.ts:20</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="processingstartedforcodenames" class="tsd-anchor"></a>
-					<h3>processing<wbr>Started<wbr>For<wbr>Codenames</h3>
-					<div class="tsd-signature tsd-kind-icon">processing<wbr>Started<wbr>For<wbr>Codenames<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in mappers/field.mapper.ts:22</li>
-						</ul>
-					</aside>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="maptaxonomyterms" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> map<wbr>Taxonomy<wbr>Terms</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">map<wbr>Taxonomy<wbr>Terms<span class="tsd-signature-symbol">(</span>termsArray<span class="tsd-signature-symbol">: </span><a href="../interfaces/_data_contracts_taxonomy_contracts_.taxonomycontracts.itaxonomytermscontract.html" class="tsd-signature-type">ITaxonomyTermsContract</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_models_taxonomy_taxonomy_terms_class_.taxonomyterms.html" class="tsd-signature-type">TaxonomyTerms</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in mappers/taxonomy.mapper.ts:53</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Recursively map array of taxonomy terms</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>termsArray: <a href="../interfaces/_data_contracts_taxonomy_contracts_.taxonomycontracts.itaxonomytermscontract.html" class="tsd-signature-type">ITaxonomyTermsContract</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Terms array to map</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="_models_taxonomy_taxonomy_terms_class_.taxonomyterms.html" class="tsd-signature-type">TaxonomyTerms</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -152,31 +183,25 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_mappers_field_mapper_.html">"mappers/field.mapper"</a>
+						<a href="../modules/_mappers_taxonomy_mapper_.html">"mappers/taxonomy.mapper"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/_mappers_field_mapper_.fieldmapper.html" class="tsd-kind-icon">Field<wbr>Mapper</a>
-					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_mappers_field_mapper_.imapfieldsresult.html" class="tsd-kind-icon">IMap<wbr>Fields<wbr>Result</a>
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
+						<a href="_mappers_taxonomy_mapper_.taxonomymapper.html" class="tsd-kind-icon">Taxonomy<wbr>Mapper</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_mappers_field_mapper_.imapfieldsresult.html#item" class="tsd-kind-icon">item</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_mappers_taxonomy_mapper_.taxonomymapper.html#maptaxonomies" class="tsd-kind-icon">map<wbr>Taxonomies</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_mappers_field_mapper_.imapfieldsresult.html#prepareditems" class="tsd-kind-icon">prepared<wbr>Items</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_mappers_taxonomy_mapper_.taxonomymapper.html#maptaxonomy" class="tsd-kind-icon">map<wbr>Taxonomy</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_mappers_field_mapper_.imapfieldsresult.html#processeditems" class="tsd-kind-icon">processed<wbr>Items</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_mappers_field_mapper_.imapfieldsresult.html#processingstartedforcodenames" class="tsd-kind-icon">processing<wbr>Started<wbr>For<wbr>Codenames</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_mappers_taxonomy_mapper_.taxonomymapper.html#maptaxonomyterms" class="tsd-kind-icon">map<wbr>Taxonomy<wbr>Terms</a>
 							</li>
 						</ul>
 					</li>
