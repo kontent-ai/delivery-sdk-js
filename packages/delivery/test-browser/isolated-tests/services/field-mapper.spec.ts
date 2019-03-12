@@ -27,36 +27,6 @@ describe('FieldMapper', () => {
 
     const fieldMapper = new FieldMapper(context.getConfig(), context.richTextHtmlParser as any);
 
-    it(`should throw an Error when invalid response is given`, () => {
-        expect(() => fieldMapper.mapFields(null as any, null, null as any, null as any, [])).toThrowError();
-        expect(() => fieldMapper.mapFields(undefined as any, undefined, undefined as any, undefined as any, [])).toThrowError();
-
-        expect(() => {
-            const item: FakeContentItem = {
-                elements: {},
-                system: {} as any
-            };
-            fieldMapper.mapFields(item, undefined, undefined as any, undefined as any, []);
-        }).toThrowError();
-
-        expect(() => {
-            const item: FakeContentItem = {
-                elements: {},
-                system: {} as any
-            };
-            fieldMapper.mapFields(item, undefined, undefined as any, undefined as any, []);
-        }).toThrowError();
-
-        expect(() => {
-            const item: FakeContentItem = {
-                elements: {},
-                system: {} as any
-            };
-            fieldMapper.mapFields(item, {}, {}, undefined as any, []);
-        }).toThrowError();
-
-    });
-
     it(`should log warning to console an Error when unsupported field type is used`, () => {
         console.warn = jasmine.createSpy('warn');
 
@@ -75,7 +45,14 @@ describe('FieldMapper', () => {
             }
         };
 
-        fieldMapper.mapFields(item, {}, {}, [], []);
+        fieldMapper.mapFields({
+            item: item,
+            modularContent: {},
+            preparedItems: {},
+            processedItems: {},
+            processingStartedForCodenames: [],
+            queryConfig: {}
+        });
 
         expect(console.warn).toHaveBeenCalledTimes(1);
 

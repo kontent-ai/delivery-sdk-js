@@ -2,6 +2,7 @@ import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-deb
 import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
 import { Pagination } from '../common';
 import { ContentItem } from './content-item.class';
+import { IContentItemsContainer } from './i-content-items-container.interface';
 
 export namespace ItemResponses {
 
@@ -27,13 +28,13 @@ export namespace ItemResponses {
         * @constructor
         * @param {TItem[]} items - Collection of content items
         * @param {Pagination} pagination - Pagination object
-        * @param {ContentItem[]} linkedItems - Content items that were processed during request
+        * @param {IContentItemsContainer} linkedItems - Content items that were processed during request
         * @param {ICloudResponseDebug} debug - Debug information from the request
         */
         constructor(
             public items: TItem[],
             public pagination: Pagination,
-            public linkedItems: ContentItem[],
+            public linkedItems: IContentItemsContainer,
             public debug: ICloudResponseDebug
         ) {
             this.isEmpty = this.getIsEmpty();
@@ -84,12 +85,12 @@ export namespace ItemResponses {
         * Response containing single item
         * @constructor
         * @param {TItem} item - Returned item
-        * @param {ContentItem[]} linkedItems - Content items that were processed during request
+        * @param {IContentItemsContainer} linkedItems - Content items that were processed during request
         * @param {ICloudResponseDebug} debug - Debug information from the request
         */
         constructor(
             public item: TItem,
-            public linkedItems: ContentItem[],
+            public linkedItems: IContentItemsContainer,
             public debug: ICloudResponseDebug
         ) {
             this.isEmpty = this.getIsEmpty();

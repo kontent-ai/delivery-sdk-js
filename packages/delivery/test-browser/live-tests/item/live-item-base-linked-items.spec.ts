@@ -20,11 +20,13 @@ describe('Live item - base linked items', () => {
   });
 
   it(`verify linked items included in response and are of 'ContentItem' type`, () => {
-    expect(response.linkedItems.length).toEqual(3);
+    expect(Object.keys(response.linkedItems).length).toEqual(3);
 
-    response.linkedItems.forEach(processedItem => {
-      expect(processedItem).toEqual(jasmine.any(ContentItem));
-    });
+    for (const key of Object.keys(response.linkedItems)) {
+      const linkedItem = response.linkedItems[key];
+      expect(linkedItem).toEqual(jasmine.any(ContentItem));
+
+    }
   });
 
 });
