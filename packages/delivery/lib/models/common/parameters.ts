@@ -9,7 +9,7 @@ export namespace Parameters {
     export class QueryParameter implements IQueryParameter {
 
         /**
-        * Custom parameter
+        * Parameter
         * @constructor
         * @param {string} name - Name of the parameter
         * @param {string} value - Value of the parameter
@@ -19,7 +19,7 @@ export namespace Parameters {
             public value: string
         ) {
             if (!name) {
-                throw Error(`Name of the custom parameter is not specified`);
+                throw Error(`Name of the parameter is not specified`);
             }
         }
 
