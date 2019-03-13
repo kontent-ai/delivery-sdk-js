@@ -31,6 +31,15 @@ export abstract class BaseQuery<TResponse extends ICloudResponse> {
   }
 
   /**
+   * Adds parameters to query
+   * @param parameters Array of parameters
+   */
+  withParameters(parameters: IQueryParameter[]): this {
+    this.parameters.push(...parameters);
+    return this;
+  }
+
+  /**
    * Gets headers used by this query
    */
   getHeaders(): IHeader[] {
