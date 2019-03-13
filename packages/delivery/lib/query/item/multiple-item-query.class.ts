@@ -181,7 +181,7 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     /**
      * Gets the runnable Observable
      */
-    getObservable(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
+    toObservable(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
         return super.runMultipleItemsQuery();
     }
 

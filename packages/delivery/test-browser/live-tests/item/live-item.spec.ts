@@ -22,7 +22,7 @@ describe('Live item', () => {
           };
         },
       })
-      .getObservable()
+      .toObservable()
       .subscribe(r => {
         response = r as ItemResponses.DeliveryItemResponse<Movie>;
         done();

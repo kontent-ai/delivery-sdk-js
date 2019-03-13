@@ -13,7 +13,7 @@ describe('Localized item', () => {
   beforeAll((done) => {
     context.deliveryClient.item<Movie>(movieCodename)
       .languageParameter(language)
-      .getObservable()
+      .toObservable()
       .subscribe(r => {
         response = r as ItemResponses.DeliveryItemResponse<Movie>;
         done();

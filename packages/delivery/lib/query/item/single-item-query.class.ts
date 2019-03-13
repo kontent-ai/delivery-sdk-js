@@ -22,7 +22,7 @@ export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TI
     /**
     * Gets the runnable Observable
     */
-    getObservable(): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
+    toObservable(): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
         return super.runSingleItemQuery(this.codename);
     }
 

@@ -45,7 +45,7 @@ describe('Official Kentico cloud examples (used in API reference https://develop
     const itemObs = deliveryClient.item<Article>('on_roasts')
         .elementsParameter(['title', 'summary', 'post_date', 'teaser_image'])
         .depthParameter(1)
-        .getObservable()
+        .toObservable()
         .pipe(
             map(response => itemResponse = response)
         );
@@ -56,7 +56,7 @@ describe('Official Kentico cloud examples (used in API reference https://develop
         .elementsParameter(['title', 'summary', 'post_date', 'teaser_image'])
         .orderParameter('elements.post_date', SortOrder.desc)
         .limitParameter(3)
-        .getObservable()
+        .toObservable()
         .pipe(
             map(response => itemsResponse = response)
         );
@@ -64,21 +64,21 @@ describe('Official Kentico cloud examples (used in API reference https://develop
     // List content types
     const typesObs = deliveryClient.types()
         .limitParameter(3)
-        .getObservable()
+        .toObservable()
         .pipe(
             map(response => typesResponse = response)
         );
 
     // View a content type
     const typeObs = deliveryClient.type('coffee')
-        .getObservable()
+        .toObservable()
         .pipe(
             map(response => typeResponse = response)
         );
 
     // View taxonomy
     const taxonomyObs = deliveryClient.taxonomy('personas')
-        .getObservable()
+        .toObservable()
         .pipe(
             map(response => taxonomyResponse = response)
         );
@@ -86,14 +86,14 @@ describe('Official Kentico cloud examples (used in API reference https://develop
     // List taxonomies
     const taxonomiesObs = deliveryClient.taxonomies()
         .limitParameter(3)
-        .getObservable()
+        .toObservable()
         .pipe(
             map(response => taxonomiesReponse = response)
         );
 
     // View a content type element
     const elementObs = deliveryClient.element('coffee', 'processing')
-        .getObservable()
+        .toObservable()
         .pipe(
             map(response => elementResponse = response)
         );

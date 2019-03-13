@@ -14,7 +14,7 @@ describe('Live taxonomy', () => {
 
   beforeAll((done) => {
     context.deliveryClient.taxonomy(taxonomyCodename)
-      .getObservable()
+      .toObservable()
       .subscribe(r => {
         response = r as TaxonomyResponses.TaxonomyResponse;
         done();

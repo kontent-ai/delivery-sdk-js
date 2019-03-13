@@ -13,7 +13,7 @@ describe('#List taxonomy groups', () => {
     before((done) => {
         deliveryClient.taxonomies()
             .limitParameter(3)
-            .getObservable()
+            .toObservable()
             .subscribe(response => {
                 result = response;
                 done();

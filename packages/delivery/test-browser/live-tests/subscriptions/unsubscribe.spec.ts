@@ -14,7 +14,7 @@ describe('Unsubscriptions', () => {
   beforeAll(done => {
     subscription = context.deliveryClient
       .items<ContentItem>()
-      .getObservable()
+      .toObservable()
       .pipe(
         finalize(() => {
           finalizeCalled = true;

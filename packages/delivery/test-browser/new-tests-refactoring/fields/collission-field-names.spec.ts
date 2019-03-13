@@ -7,7 +7,7 @@ describe(`Collision field names ('system' & 'elements')`, () => {
 
     beforeAll((done) => {
         getDeliveryClientWithJson(responseJson).item('x')
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 item = result.item;
                 done();

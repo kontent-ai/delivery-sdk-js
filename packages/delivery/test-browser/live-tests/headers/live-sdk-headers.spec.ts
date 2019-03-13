@@ -13,7 +13,7 @@ describe('Live SDK headers', () => {
 
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(movieCodename)
-            .getObservable()
+            .toObservable()
             .subscribe(r => {
                 response = r as ItemResponses.DeliveryItemResponse<Movie>;
                 done();

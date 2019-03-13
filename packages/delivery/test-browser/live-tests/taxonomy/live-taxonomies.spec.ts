@@ -16,7 +16,7 @@ describe('Live taxonomies', () => {
 
   beforeAll((done) => {
     context.deliveryClient.taxonomies()
-      .getObservable()
+      .toObservable()
       .subscribe(r => {
         response = r as TaxonomyResponses.TaxonomiesResponse;
         taxonomy = response.taxonomies.find(m => m.system.codename === existingTaxonomyCodename) as TaxonomyGroup;

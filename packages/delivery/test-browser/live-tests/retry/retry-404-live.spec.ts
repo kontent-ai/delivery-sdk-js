@@ -23,7 +23,7 @@ describe('Live 404 retry', () => {
         // this will fail
         spyOn(retryService, 'debugLogAttempt').and.callThrough();
         context.deliveryClient.items()
-            .getObservable()
+            .toObservable()
             .subscribe(response => {
             }, err => {
                 done();

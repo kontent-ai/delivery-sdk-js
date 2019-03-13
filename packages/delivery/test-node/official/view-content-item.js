@@ -22,7 +22,7 @@ describe('#View content item', () => {
         deliveryClient.item('on_roasts')
             .elementsParameter(['title', 'summary', 'post_date', 'teaser_image'])
             .depthParameter(1)
-            .getObservable()
+            .toObservable()
             .subscribe(response => {
                 result = response;
                 done();

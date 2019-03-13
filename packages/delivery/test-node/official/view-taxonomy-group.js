@@ -11,7 +11,7 @@ describe('#View taxonomy group', () => {
 
     before((done) => {
         deliveryClient.taxonomy('personas')
-            .getObservable()
+            .toObservable()
             .subscribe(response => {
                 result = response;
                 done();

@@ -10,7 +10,7 @@ describe('Response with Promises', () => {
 
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
-      .getPromise()
+      .toPromise()
       .then(xResponse => {
         response = xResponse;
         done();

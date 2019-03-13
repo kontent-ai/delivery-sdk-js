@@ -53,7 +53,7 @@ describe('Custom field with custom model', () => {
                 return undefined;
             }
         }).items()
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 item = result.items[0];
                 done();

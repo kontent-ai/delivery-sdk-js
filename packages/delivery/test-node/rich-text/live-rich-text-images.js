@@ -26,7 +26,7 @@ describe('#Rich text field with images', () => {
               };
             }
           })
-        .getObservable()
+        .toObservable()
             .subscribe(response => {
                 item = response.item;
                 plot = response.item.plot.getHtml();

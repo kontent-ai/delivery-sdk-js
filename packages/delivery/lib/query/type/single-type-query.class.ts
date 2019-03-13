@@ -22,7 +22,7 @@ export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeRes
     /**
     * Gets the runnable Observable
     */
-    getObservable(): Observable<TypeResponses.DeliveryTypeResponse> {
+    toObservable(): Observable<TypeResponses.DeliveryTypeResponse> {
         return super.runSingleTypeQuery(this.typeCodename);
     }
 

@@ -10,7 +10,7 @@ describe('Circular references in linked items', () => {
 
   beforeAll((done) => {
     getDeliveryClientWithJson(responseJson).item('x')
-      .getObservable()
+      .toObservable()
       .subscribe(result => {
         response = result;
         console.log(result);
