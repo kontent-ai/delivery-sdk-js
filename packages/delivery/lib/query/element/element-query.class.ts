@@ -27,7 +27,7 @@ export class ElementQuery extends BaseElementQuery<ElementResponses.ElementRespo
     /**
     * Gets the runnable Observable
     */
-    getObservable(): Observable<ElementResponses.ElementResponse> {
+    toObservable(): Observable<ElementResponses.ElementResponse> {
         return super.runElementQuery(this.typeCodename, this.elementCodename);
     }
 

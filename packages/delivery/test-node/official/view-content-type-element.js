@@ -11,7 +11,7 @@ describe('#View content type element', () => {
 
     before((done) => {
         deliveryClient.element('coffee', 'processing')
-            .getObservable()
+            .toObservable()
             .subscribe(response => {
                 result = response;
                 done();

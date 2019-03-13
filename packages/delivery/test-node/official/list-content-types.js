@@ -12,7 +12,7 @@ describe('#List content types', () => {
     before((done) => {
         deliveryClient.types()
             .limitParameter(3)
-            .getObservable()
+            .toObservable()
             .subscribe(response => {
                 result = response;
                 done();

@@ -10,7 +10,7 @@ describe('Live types', () => {
 
   beforeAll((done) => {
     context.deliveryClient.types()
-      .getObservable()
+      .toObservable()
       .subscribe(r => {
         response = r as TypeResponses.DeliveryTypeListingResponse;
         done();

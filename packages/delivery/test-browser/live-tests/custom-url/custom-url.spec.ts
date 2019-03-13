@@ -13,7 +13,7 @@ describe('Custom URL', () => {
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
       .withUrl(itemsUrl)
-      .getObservable()
+      .toObservable()
       .subscribe(r => {
         responseItems = r as ItemResponses.DeliveryItemListingResponse<Movie>;
         done();

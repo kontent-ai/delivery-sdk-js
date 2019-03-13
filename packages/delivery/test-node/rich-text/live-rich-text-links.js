@@ -55,7 +55,7 @@ describe('#Rich text field with HTML links', () => {
 
     before((done) => {
         deliveryClient.item(movieCodename)
-        .getObservable()
+        .toObservable()
             .subscribe(response => {
                 result = response;
 

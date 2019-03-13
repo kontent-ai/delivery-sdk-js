@@ -24,7 +24,7 @@ describe('#List content items', () => {
             .elementsParameter(['title', 'summary', 'post_date', 'teaser_image'])
             .orderParameter('elements.post_date', KenticoCloud.SortOrder.desc)
             .limitParameter(3)
-            .getObservable()
+            .toObservable()
             .subscribe(response => {
                 result = response;
                 done();

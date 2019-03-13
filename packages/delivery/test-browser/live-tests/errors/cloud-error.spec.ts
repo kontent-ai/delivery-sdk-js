@@ -12,7 +12,7 @@ describe('Cloud errors', () => {
 
     beforeAll((done) => {
         context.deliveryClient.item<Movie>(invalidCodename)
-            .getObservable()
+            .toObservable()
             .subscribe(response => {
                 succeeded = true;
                 done();

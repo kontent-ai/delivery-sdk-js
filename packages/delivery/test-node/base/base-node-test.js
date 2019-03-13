@@ -27,7 +27,7 @@ describe('Base node.js test', () => {
       deliveryClient.items()
         .type('movie')
         .limitParameter(10)
-        .getObservable()
+        .toObservable()
         .subscribe(response => {
 
           var item = response.items[0];

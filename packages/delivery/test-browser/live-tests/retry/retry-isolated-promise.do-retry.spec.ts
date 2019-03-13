@@ -17,7 +17,7 @@ describe('Retry Promise - isolated - retry', () => {
     beforeAll((done) => {
         spyOn(retryService, 'debugLogAttempt').and.callThrough();
 
-        const promise = client.items().withUrl('fakeUrl').getPromise();
+        const promise = client.items().withUrl('fakeUrl').toPromise();
 
         promise.then((response) => {
             throw Error(`This call should not succeed`);

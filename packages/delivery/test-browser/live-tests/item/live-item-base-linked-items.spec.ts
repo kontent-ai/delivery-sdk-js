@@ -12,7 +12,7 @@ describe('Live item - base linked items', () => {
 
   beforeAll((done) => {
     context.deliveryClient.item(movieCodename)
-      .getObservable()
+      .toObservable()
       .subscribe(r => {
         response = r as ItemResponses.DeliveryItemResponse<Movie>;
         done();

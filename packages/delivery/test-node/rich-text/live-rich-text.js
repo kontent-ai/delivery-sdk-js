@@ -64,7 +64,7 @@ describe('#Rich text field', () => {
 
     before((done) => {
         deliveryClient.item(movieCodename)
-        .getObservable()
+        .toObservable()
             .subscribe(response => {
                 result = response;
 

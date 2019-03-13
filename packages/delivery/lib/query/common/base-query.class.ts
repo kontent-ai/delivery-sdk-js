@@ -18,7 +18,7 @@ export abstract class BaseQuery<TResponse extends ICloudResponse> {
   ) { }
 
   abstract getUrl(): string;
-  abstract getObservable(): Observable<TResponse>;
+  abstract toObservable(): Observable<TResponse>;
 
   /**
    * Adds parameter to query
@@ -55,8 +55,8 @@ export abstract class BaseQuery<TResponse extends ICloudResponse> {
     return this.parameters;
   }
 
-  getPromise(): Promise<TResponse> {
-    return this.queryService.retryPromise(this.getObservable().toPromise());
+  toPromise(): Promise<TResponse> {
+    return this.queryService.retryPromise(this.toObservable().toPromise());
   }
 
   protected resolveUrlInternal(action: string): string {

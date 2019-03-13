@@ -35,7 +35,7 @@ export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.DeliveryTypeL
     /**
     * Gets the runnable Observable
     */
-    getObservable(): Observable<TypeResponses.DeliveryTypeListingResponse> {
+    toObservable(): Observable<TypeResponses.DeliveryTypeListingResponse> {
         return super.runMultipleTypesQuery();
     }
 

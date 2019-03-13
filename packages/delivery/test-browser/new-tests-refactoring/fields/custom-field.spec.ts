@@ -7,7 +7,7 @@ describe('Custom field', () => {
 
     beforeAll((done) => {
         getDeliveryClientWithJson(responseJson).items()
-            .getObservable()
+            .toObservable()
             .subscribe(result => {
                 item = result.items[0];
                 done();

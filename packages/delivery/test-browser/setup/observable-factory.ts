@@ -26,13 +26,13 @@ export class ObservableFactory {
 
         const observables: Observable<any>[] = [];
 
-        const itemObs = client.item<Movie>(this.movieCodename).queryConfig(queryConfig).getObservable().pipe(map(r => all.item = r));
-        const itemsObs = client.items<Movie>().queryConfig(queryConfig).getObservable().pipe(map(r => all.items = r));
-        const taxonomyObs = client.taxonomy(this.taxonomyCodename).queryConfig(queryConfig).getObservable().pipe(map(r => all.taxonomy = r));
-        const taxonomiesObs = client.taxonomies().queryConfig(queryConfig).getObservable().pipe(map(r => all.taxonomies = r));
-        const typeObs = client.type(this.typeCodename).queryConfig(queryConfig).getObservable().pipe(map(r => all.type = r));
-        const typesObs = client.types().queryConfig(queryConfig).getObservable().pipe(map(r => all.types = r));
-        const elementObs = client.element(this.typeCodename, this.elementCodename).queryConfig(queryConfig).getObservable().pipe(map(r => all.element = r));
+        const itemObs = client.item<Movie>(this.movieCodename).queryConfig(queryConfig).toObservable().pipe(map(r => all.item = r));
+        const itemsObs = client.items<Movie>().queryConfig(queryConfig).toObservable().pipe(map(r => all.items = r));
+        const taxonomyObs = client.taxonomy(this.taxonomyCodename).queryConfig(queryConfig).toObservable().pipe(map(r => all.taxonomy = r));
+        const taxonomiesObs = client.taxonomies().queryConfig(queryConfig).toObservable().pipe(map(r => all.taxonomies = r));
+        const typeObs = client.type(this.typeCodename).queryConfig(queryConfig).toObservable().pipe(map(r => all.type = r));
+        const typesObs = client.types().queryConfig(queryConfig).toObservable().pipe(map(r => all.types = r));
+        const elementObs = client.element(this.typeCodename, this.elementCodename).queryConfig(queryConfig).toObservable().pipe(map(r => all.element = r));
 
         observables.push(itemObs);
         observables.push(itemsObs);

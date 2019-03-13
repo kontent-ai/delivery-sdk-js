@@ -13,7 +13,7 @@ describe('Non generic item tests', () => {
 
     beforeAll((done) => {
         context.deliveryClient.item<ContentItem>(movieCodename)
-            .getObservable()
+            .toObservable()
             .subscribe(r => {
                 response = r;
                 done();
