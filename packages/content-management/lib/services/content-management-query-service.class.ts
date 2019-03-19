@@ -59,7 +59,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     ): Observable<BaseResponses.EmptyContentManagementResponse> {
         return this.putResponse<void>(
             url,
-            {},
+            undefined,
             config,
         ).pipe(
             map(response => {
@@ -74,7 +74,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     ): Observable<BaseResponses.EmptyContentManagementResponse> {
         return this.putResponse<void>(
             url,
-            {},
+            undefined,
             config,
         ).pipe(
             map(response => {
