@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IContentManagementClientConfig | kentico-cloud-content-management</title>
+	<title>IWorkflowStepContract | kentico-cloud-content-management</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,16 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_config_icontent_management_client_config_interface_.html">&quot;config/icontent-management-client-config.interface&quot;</a>
+					<a href="../modules/_contracts_workflow_contracts_.html">&quot;contracts/workflow-contracts&quot;</a>
 				</li>
 				<li>
-					<a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html">IContentManagementClientConfig</a>
+					<a href="../modules/_contracts_workflow_contracts_.workflowcontracts.html">WorkflowContracts</a>
+				</li>
+				<li>
+					<a href="_contracts_workflow_contracts_.workflowcontracts.iworkflowstepcontract.html">IWorkflowStepContract</a>
 				</li>
 			</ul>
-			<h1>Interface IContentManagementClientConfig</h1>
+			<h1>Interface IWorkflowStepContract</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IContentManagementClientConfig</span>
+						<span class="target">IWorkflowStepContract</span>
 					</li>
 				</ul>
 			</section>
@@ -84,12 +87,9 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#apikey" class="tsd-kind-icon">api<wbr>Key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#httpservice" class="tsd-kind-icon">http<wbr>Service</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#projectid" class="tsd-kind-icon">project<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#retryattempts" class="tsd-kind-icon">retry<wbr>Attempts</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#retrystatuscodes" class="tsd-kind-icon">retry<wbr>Status<wbr>Codes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_contracts_workflow_contracts_.workflowcontracts.iworkflowstepcontract.html#id" class="tsd-kind-icon">id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_contracts_workflow_contracts_.workflowcontracts.iworkflowstepcontract.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_contracts_workflow_contracts_.workflowcontracts.iworkflowstepcontract.html#transitions_to" class="tsd-kind-icon">transitions_<wbr>to</a></li>
 							</ul>
 						</section>
 					</div>
@@ -98,94 +98,34 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="apikey" class="tsd-anchor"></a>
-					<h3>api<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">api<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="id" class="tsd-anchor"></a>
+					<h3>id</h3>
+					<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/icontent-management-client-config.interface.ts:12</li>
+							<li>Defined in contracts/workflow-contracts.ts:4</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Content management API key</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="baseurl" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> base<wbr>Url</h3>
-					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/icontent-management-client-config.interface.ts:17</li>
+							<li>Defined in contracts/workflow-contracts.ts:5</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Base Url. Can be overriden if e.g. a proxy is required</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="httpservice" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> http<wbr>Service</h3>
-					<div class="tsd-signature tsd-kind-icon">http<wbr>Service<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IHttpService</span></div>
+					<a name="transitions_to" class="tsd-anchor"></a>
+					<h3>transitions_<wbr>to</h3>
+					<div class="tsd-signature tsd-kind-icon">transitions_<wbr>to<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/icontent-management-client-config.interface.ts:27</li>
+							<li>Defined in contracts/workflow-contracts.ts:6</li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Can be used to inject custom Http service to perform requests</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="projectid" class="tsd-anchor"></a>
-					<h3>project<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">project<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in config/icontent-management-client-config.interface.ts:7</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Kentico Cloud project id</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="retryattempts" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Attempts</h3>
-					<div class="tsd-signature tsd-kind-icon">retry<wbr>Attempts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in config/icontent-management-client-config.interface.ts:22</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Number of retry attempts when error occures. When not set, default number of attempts (3) are used. To disable set to 0.</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="retrystatuscodes" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Status<wbr>Codes</h3>
-					<div class="tsd-signature tsd-kind-icon">retry<wbr>Status<wbr>Codes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in config/icontent-management-client-config.interface.ts:32</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Array of request status codes that should be retried</p>
-						</div>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -196,7 +136,12 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="../modules/_config_icontent_management_client_config_interface_.html">"config/icontent-<wbr>management-<wbr>client-<wbr>config.interface"</a>
+						<a href="../modules/_contracts_workflow_contracts_.html">"contracts/workflow-<wbr>contracts"</a>
+						<ul>
+							<li class="current tsd-kind-module tsd-parent-kind-external-module">
+								<a href="../modules/_contracts_workflow_contracts_.workflowcontracts.html">Workflow<wbr>Contracts</a>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</nav>
@@ -204,31 +149,25 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html" class="tsd-kind-icon">IContent<wbr>Management<wbr>Client<wbr>Config</a>
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="_contracts_workflow_contracts_.workflowcontracts.iworkflowstepcontract.html" class="tsd-kind-icon">IWorkflow<wbr>Step<wbr>Contract</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#apikey" class="tsd-kind-icon">api<wbr>Key</a>
+								<a href="_contracts_workflow_contracts_.workflowcontracts.iworkflowstepcontract.html#id" class="tsd-kind-icon">id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#baseurl" class="tsd-kind-icon">base<wbr>Url</a>
+								<a href="_contracts_workflow_contracts_.workflowcontracts.iworkflowstepcontract.html#name" class="tsd-kind-icon">name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#httpservice" class="tsd-kind-icon">http<wbr>Service</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#projectid" class="tsd-kind-icon">project<wbr>Id</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#retryattempts" class="tsd-kind-icon">retry<wbr>Attempts</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_config_icontent_management_client_config_interface_.icontentmanagementclientconfig.html#retrystatuscodes" class="tsd-kind-icon">retry<wbr>Status<wbr>Codes</a>
+								<a href="_contracts_workflow_contracts_.workflowcontracts.iworkflowstepcontract.html#transitions_to" class="tsd-kind-icon">transitions_<wbr>to</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_contracts_workflow_contracts_.workflowcontracts.html#ilistworkflowstepsresponsecontract" class="tsd-kind-icon">IList<wbr>Workflow<wbr>Steps<wbr>Response<wbr>Contract</a>
+					</li>
 				</ul>
 			</nav>
 		</div>

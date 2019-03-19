@@ -74,7 +74,8 @@
 					<a href="https://forums.kenticocloud.com"><img src="https://img.shields.io/badge/chat-on%20forums-orange.svg" alt="Forums"></a>
 					<a href="https://snyk.io/test/github/kentico/kentico-cloud-js"><img src="https://snyk.io/test/github/Kentico/kentico-cloud-js/badge.svg" alt="Known Vulnerabilities"></a>
 					<a href="https://github.com/Kentico/kentico-cloud-js"><img src="https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg" alt="GitHub license"></a>
-				<img src="http://img.badgesize.io/https://unpkg.com/kentico-cloud-content-management@latest/_bundles/kentico-cloud-cm-sdk.umd.min.js?compression=gzip" alt="Gzip bundle"></p>
+					<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/kentico-cloud-content-management/_bundles/kentico-cloud-cm-sdk.umd.min.js?compression=gzip" alt="Gzip bundle">
+				<a href="https://www.jsdelivr.com/package/npm/kentico-cloud-content-management"><img src="https://data.jsdelivr.com/v1/package/npm/kentico-cloud-content-management/badge" alt=""></a></p>
 				<h2 id="getting-started">Getting started</h2>
 				<p>To get started, you&#39;ll first need to have access to your <a href="https://kenticocloud.com/">Kentico Cloud</a> project where you need to enable Content management API and generate <code>access token</code> that will be used to authenticate all requests made by this library.</p>
 				<h3 id="installation">Installation</h3>
@@ -184,9 +185,18 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-att
 							<td>HttpService</td>
 							<td>Used to inject implementation of <code>IHttpService</code> used to make HTTP request across network. Can also be useful for testing purposes by returning specified responses.</td>
 						</tr>
+						<tr>
+							<td><code>retryStatusCodes</code></td>
+							<td>[500]</td>
+							<td>Array of request status codes that should be retried.</td>
+						</tr>
 				</tbody></table>
 				<h3 id="api-reference">API Reference</h3>
 				<p>Online <a href="https://kentico.github.io/kentico-cloud-js/content-management">API Reference</a> documents latest version of this library and can be used to quickly find all exposed methods and objects. Documentation is generated from <code>TypeScript</code> code and thus it should always be accurate.</p>
+				<h3 id="testing">Testing</h3>
+				<blockquote>
+					<p>If you want to mock http responses, it is possible to use <a href="../core/README.md#testing">external implementation of configurable Http Service</a> as a part of the <a href="#configuration">client configuration</a>.</p>
+				</blockquote>
 				<h3 id="troubleshooting-feedback">Troubleshooting &amp; feedback</h3>
 				<p>If you have any issues or want to share your feedback, please feel free to <a href="https://github.com/Kentico/kentico-cloud-js/issues/new/choose">create an issue</a> in this GitHub repository.</p>
 				<h3 id="contributions">Contributions</h3>
@@ -245,6 +255,9 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-att
 						<a href="modules/_contracts_taxonomy_contracts_.html">"contracts/taxonomy-<wbr>contracts"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_contracts_workflow_contracts_.html">"contracts/workflow-<wbr>contracts"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_index_.html">"index"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -278,10 +291,10 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-att
 						<a href="modules/_mappers_taxonomy_response_mapper_.html">"mappers/taxonomy-<wbr>response-<wbr>mapper"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_models_assets_asset_models_.html">"models/assets/asset.models"</a>
+						<a href="modules/_mappers_workflow_response_mapper_.html">"mappers/workflow-<wbr>response-<wbr>mapper"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_models_content_items_content_item_identifier_.html">"models/content-<wbr>items/content-<wbr>item-<wbr>identifier"</a>
+						<a href="modules/_models_assets_asset_models_.html">"models/assets/asset.models"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_content_items_content_item_models_.html">"models/content-<wbr>items/content-<wbr>item.models"</a>
@@ -299,13 +312,13 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-att
 						<a href="modules/_models_elements_elements_models_.html">"models/elements/elements.models"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_identifiers_.html">"models/identifiers"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_index_.html">"models/index"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_language_variants_langauge_variant_models_.html">"models/language-<wbr>variants/langauge-<wbr>variant.models"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_models_language_variants_language_identifier_.html">"models/language-<wbr>variants/language-<wbr>identifier"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_projects_project_report_models_.html">"models/projects/project-<wbr>report.models"</a>
@@ -318,6 +331,9 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-att
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_models_taxonomies_taxonomy_models_.html">"models/taxonomies/taxonomy-<wbr>models"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_models_workflow_workflow_models_.html">"models/workflow/workflow-<wbr>models"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_queries_assets_add_asset_query_class_.html">"queries/assets/add-<wbr>asset-<wbr>query.class"</a>
@@ -410,16 +426,19 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-att
 						<a href="modules/_queries_projects_validate_project_content_query_.html">"queries/projects/validate-<wbr>project-<wbr>content-<wbr>query"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_query_builders_asset_identifier_query_class_.html">"queries/query-<wbr>builders/asset-<wbr>identifier-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_query_builders_content_item_identifier_query_class_.html">"queries/query-<wbr>builders/content-<wbr>item-<wbr>identifier-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_queries_query_builders_data_query_class_.html">"queries/query-<wbr>builders/data-<wbr>query.class"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_queries_query_builders_full_identifier_query_class_.html">"queries/query-<wbr>builders/full-<wbr>identifier-<wbr>query.class"</a>
+						<a href="modules/_queries_query_builders_id_and_external_id_identifier_query_class_.html">"queries/query-<wbr>builders/id-<wbr>and-<wbr>external-<wbr>id-<wbr>identifier-<wbr>query.class"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_queries_query_builders_id_codename_identifier_query_class_.html">"queries/query-<wbr>builders/id-<wbr>codename-<wbr>identifier-<wbr>query.class"</a>
-					</li>
-					<li class=" tsd-kind-external-module">
-						<a href="modules/_queries_query_builders_id_identifier_query_class_.html">"queries/query-<wbr>builders/id-<wbr>identifier-<wbr>query.class"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_queries_query_builders_index_.html">"queries/query-<wbr>builders/index"</a>
@@ -434,6 +453,12 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-att
 						<a href="modules/_queries_query_builders_projectid_identifier_query_class_.html">"queries/query-<wbr>builders/project<wbr>Id-<wbr>identifier-<wbr>query.class"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_query_builders_taxonomy_identifier_query_class_.html">"queries/query-<wbr>builders/taxonomy-<wbr>identifier-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_query_builders_workflow_step_identifier_query_class_.html">"queries/query-<wbr>builders/workflow-<wbr>step-<wbr>identifier-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_queries_taxonomies_add_taxonomy_query_class_.html">"queries/taxonomies/add-<wbr>taxonomy-<wbr>query.class"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -444,6 +469,18 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-att
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_queries_taxonomies_list_taxonomies_query_class_.html">"queries/taxonomies/list-<wbr>taxonomies-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_workflow_change_workflow_step_of_language_variant_query_class_.html">"queries/workflow/change-<wbr>workflow-<wbr>step-<wbr>of-<wbr>language-<wbr>variant-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_workflow_index_.html">"queries/workflow/index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_workflow_list_workflow_steps_query_class_.html">"queries/workflow/list-<wbr>workflow-<wbr>steps-<wbr>query.class"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_queries_workflow_publish_or_schedule_language_variant_query_class_.html">"queries/workflow/publish-<wbr>or-<wbr>schedule-<wbr>language-<wbr>variant-<wbr>query.class"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_responses_assets_asset_responses_.html">"responses/assets/asset-<wbr>responses"</a>
@@ -471,6 +508,9 @@ npm <span class="hljs-selector-tag">i</span> kentico-cloud-<span class="hljs-att
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_responses_taxonomies_taxonomy_responses_.html">"responses/taxonomies/taxonomy-<wbr>responses"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_responses_workflow_workflow_responses_.html">"responses/workflow/workflow-<wbr>responses"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_sdk_info_generated_.html">"sdk-<wbr>info.generated"</a>
