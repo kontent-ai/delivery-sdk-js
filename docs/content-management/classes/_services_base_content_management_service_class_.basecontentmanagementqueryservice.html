@@ -98,9 +98,9 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#config" class="tsd-kind-icon">config</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#defaultbasecmurl" class="tsd-kind-icon">default<wbr>BaseCMUrl</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#defaultretryattempts" class="tsd-kind-icon">default<wbr>Retry<wbr>Attempts</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#defaultretrystatuscodes" class="tsd-kind-icon">default<wbr>Retry<wbr>Status<wbr>Codes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#httpservice" class="tsd-kind-icon">http<wbr>Service</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#sdkinfo" class="tsd-kind-icon">sdk<wbr>Info</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#useretryforresponsecodes" class="tsd-kind-icon">use<wbr>Retry<wbr>For<wbr>Response<wbr>Codes</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -114,8 +114,10 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#getheaders" class="tsd-kind-icon">get<wbr>Headers</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-protected"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#getresponse" class="tsd-kind-icon">get<wbr>Response</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#getretryattempts" class="tsd-kind-icon">get<wbr>Retry<wbr>Attempts</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#getretrystatuscodes" class="tsd-kind-icon">get<wbr>Retry<wbr>Status<wbr>Codes</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-protected"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#postresponse" class="tsd-kind-icon">post<wbr>Response</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-protected"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#putresponse" class="tsd-kind-icon">put<wbr>Response</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#retrypromise" class="tsd-kind-icon">retry<wbr>Promise</a></li>
 							</ul>
 						</section>
 					</div>
@@ -195,6 +197,21 @@
 						</div>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="defaultretrystatuscodes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> default<wbr>Retry<wbr>Status<wbr>Codes</h3>
+					<div class="tsd-signature tsd-kind-icon">default<wbr>Retry<wbr>Status<wbr>Codes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[500]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in services/base-content-management-service.class.ts:34</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Default retry status codes</p>
+						</div>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 					<a name="httpservice" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> http<wbr>Service</h3>
@@ -215,21 +232,6 @@
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="useretryforresponsecodes" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> use<wbr>Retry<wbr>For<wbr>Response<wbr>Codes</h3>
-					<div class="tsd-signature tsd-kind-icon">use<wbr>Retry<wbr>For<wbr>Response<wbr>Codes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[500]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in services/base-content-management-service.class.ts:34</li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Allowed retry status codes</p>
-						</div>
-					</div>
-				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
@@ -243,7 +245,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:252</li>
+									<li>Defined in services/base-content-management-service.class.ts:270</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -265,7 +267,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:183</li>
+									<li>Defined in services/base-content-management-service.class.ts:190</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -314,7 +316,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:213</li>
+									<li>Defined in services/base-content-management-service.class.ts:231</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -342,7 +344,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:245</li>
+									<li>Defined in services/base-content-management-service.class.ts:263</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -364,7 +366,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:47</li>
+									<li>Defined in services/base-content-management-service.class.ts:54</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -401,7 +403,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:54</li>
+									<li>Defined in services/base-content-management-service.class.ts:61</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -429,7 +431,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:78</li>
+									<li>Defined in services/base-content-management-service.class.ts:85</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -472,7 +474,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:227</li>
+									<li>Defined in services/base-content-management-service.class.ts:245</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -481,6 +483,28 @@
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="getretrystatuscodes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> get<wbr>Retry<wbr>Status<wbr>Codes</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Retry<wbr>Status<wbr>Codes<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in services/base-content-management-service.class.ts:220</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets retry status code array</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -494,7 +518,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:111</li>
+									<li>Defined in services/base-content-management-service.class.ts:118</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -549,7 +573,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in services/base-content-management-service.class.ts:147</li>
+									<li>Defined in services/base-content-management-service.class.ts:154</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -594,6 +618,35 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+					<a name="retrypromise" class="tsd-anchor"></a>
+					<h3>retry<wbr>Promise</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">retry<wbr>Promise&lt;T&gt;<span class="tsd-signature-symbol">(</span>promise<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in services/base-content-management-service.class.ts:42</li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>T</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>promise: <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -626,14 +679,14 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#defaultretryattempts" class="tsd-kind-icon">default<wbr>Retry<wbr>Attempts</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#defaultretrystatuscodes" class="tsd-kind-icon">default<wbr>Retry<wbr>Status<wbr>Codes</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#httpservice" class="tsd-kind-icon">http<wbr>Service</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-protected">
 								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#sdkinfo" class="tsd-kind-icon">sdk<wbr>Info</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#useretryforresponsecodes" class="tsd-kind-icon">use<wbr>Retry<wbr>For<wbr>Response<wbr>Codes</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#getendpointurl" class="tsd-kind-icon">Get<wbr>Endpoint<wbr>Url</a>
@@ -659,11 +712,17 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
 								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#getretryattempts" class="tsd-kind-icon">get<wbr>Retry<wbr>Attempts</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#getretrystatuscodes" class="tsd-kind-icon">get<wbr>Retry<wbr>Status<wbr>Codes</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-protected">
 								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#postresponse" class="tsd-kind-icon">post<wbr>Response</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-protected">
 								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#putresponse" class="tsd-kind-icon">put<wbr>Response</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
+								<a href="_services_base_content_management_service_class_.basecontentmanagementqueryservice.html#retrypromise" class="tsd-kind-icon">retry<wbr>Promise</a>
 							</li>
 						</ul>
 					</li>
