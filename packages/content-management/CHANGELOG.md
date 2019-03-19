@@ -1,3 +1,8 @@
+## 0.0.6 (2019-03-08)
+
+#### :rocket: Enhancement
+  * Uses undefined as body for workflow related actions (will be changed in future to incorporate scheduled_to functionality) ([@Enngage](https://github.com/Enngage))
+
 ## 0.0.5 (2019-03-08)
 
 #### :rocket: Enhancement
