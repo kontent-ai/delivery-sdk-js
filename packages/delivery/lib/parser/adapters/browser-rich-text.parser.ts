@@ -101,55 +101,54 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                 if (element.nodeName.toLowerCase() === parserConfiguration.linkElementData.nodeName.toLowerCase()) {
                     const dataItemIdAttribute = element.attributes.getNamedItem(parserConfiguration.linkElementData.dataItemId);
 
-                    if (!dataItemIdAttribute) {
-                        throw Error(`HTML node is invalid. Reason: missing '${parserConfiguration.linkElementData.dataItemId}' attribute`);
-                    }
+                    if (dataItemIdAttribute) {
 
-                    const link: ILinkObject = {
-                        dataItemId: dataItemIdAttribute ? dataItemIdAttribute.value : ''
-                    };
+                        const link: ILinkObject = {
+                            dataItemId: dataItemIdAttribute ? dataItemIdAttribute.value : ''
+                        };
 
-                    // add to result
-                    result.links.push(link);
+                        // add to result
+                        result.links.push(link);
 
-                    // get original link text (the one inside <a> tag)
-                    const linkText = element.innerHTML;
+                        // get original link text (the one inside <a> tag)
+                        const linkText = element.innerHTML;
 
-                    const linkResult = replacement.getLinkResult(link.dataItemId, linkText);
-                    let useResultAsUrl: boolean = true;
+                        const linkResult = replacement.getLinkResult(link.dataItemId, linkText);
+                        let useResultAsUrl: boolean = true;
 
-                    if (typeof linkResult === 'string') {
-                        // use result as URL
-                        useResultAsUrl = true;
-                    } else {
-                        useResultAsUrl = false;
-                    }
+                        if (typeof linkResult === 'string') {
+                            // use result as URL
+                            useResultAsUrl = true;
+                        } else {
+                            useResultAsUrl = false;
+                        }
 
-                    if (!useResultAsUrl) {
-                        // replace whole link (<a> tag)
-                        if (linkResult) {
-                            // html for link is defined
-                            const linkHtml = (<ILinkResolverResult>linkResult).asHtml;
-                            element.outerHTML = linkHtml ? linkHtml : '';
-                            const parent = element.parentNode;
-                            if (parent) {
-                                parent.replaceChild(element, element);
+                        if (!useResultAsUrl) {
+                            // replace whole link (<a> tag)
+                            if (linkResult) {
+                                // html for link is defined
+                                const linkHtml = (<ILinkResolverResult>linkResult).asHtml;
+                                element.outerHTML = linkHtml ? linkHtml : '';
+                                const parent = element.parentNode;
+                                if (parent) {
+                                    parent.replaceChild(element, element);
+                                }
                             }
                         }
-                    }
 
-                    if (useResultAsUrl) {
-                        // add url to link
-                        const hrefAttribute = element.attributes.getNamedItem('href');
-                        if (!hrefAttribute) {
-                            // href attribute is missing
-                            if (config.enableAdvancedLogging) {
-                                console.warn(`Cannot set url '${linkResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                        if (useResultAsUrl) {
+                            // add url to link
+                            const hrefAttribute = element.attributes.getNamedItem('href');
+                            if (!hrefAttribute) {
+                                // href attribute is missing
+                                if (config.enableAdvancedLogging) {
+                                    console.warn(`Cannot set url '${linkResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                                }
+                            } else {
+                                // get link url
+                                const linkUrlResult: string | undefined = typeof linkResult === 'string' ? <string>linkResult : (<ILinkResolverResult>linkResult).asUrl;
+                                hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
                             }
-                        } else {
-                            // get link url
-                            const linkUrlResult: string | undefined = typeof linkResult === 'string' ? <string>linkResult : (<ILinkResolverResult>linkResult).asUrl;
-                            hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
                         }
                     }
                 }
