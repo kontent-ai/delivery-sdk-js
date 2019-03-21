@@ -1,4 +1,8 @@
-## 0.0.7 (2019-03-21)
+
+## 0.0.8 (2019-03-21)
+
+#### :rocket: Enhancement
+  * Uses relative import path for content type models
 
 #### :rocket: Enhancement
   * [#148](https://github.com/Kentico/kentico-cloud-js/pull/148) Prepares data models for 'AddContentType' action ([@Enngage](https://github.com/Enngage))
