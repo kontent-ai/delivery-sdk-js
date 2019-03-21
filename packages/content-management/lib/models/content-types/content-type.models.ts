@@ -1,4 +1,5 @@
 import { ElementModels } from '../elements/elements.models';
+import { SharedContracts } from 'lib/contracts';
 
 export namespace ContentTypeModels {
 
@@ -35,6 +36,18 @@ export namespace ContentTypeModels {
         guidelines?: string;
         options?: IAddContentTypeElementMultipleChoiceElementOptionsData[];
         mode?: ElementModels.ElementMode;
+        depends_on?: IAddContentTypeElementDependsOnData;
+        custom?: IAddContentTypeCustomElementData;
+    }
+
+    export interface IAddContentTypeCustomElementData {
+        sourceUrl: string;
+        json_parameters?: string;
+    }
+
+    export interface IAddContentTypeElementDependsOnData {
+        element?: SharedContracts.IReferenceObjectContract;
+        snippet?: SharedContracts.IReferenceObjectContract;
     }
 
     export interface IAddContentTypeElementMultipleChoiceElementOptionsData {
