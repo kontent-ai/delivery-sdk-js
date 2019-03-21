@@ -1,5 +1,5 @@
 import { ElementModels } from '../elements/elements.models';
-import { SharedContracts } from 'lib/contracts';
+import { SharedContracts } from '../../contracts';
 
 export namespace ContentTypeModels {
 
