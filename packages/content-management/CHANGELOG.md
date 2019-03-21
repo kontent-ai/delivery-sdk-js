@@ -1,3 +1,10 @@
+## 0.0.7 (2019-03-21)
+
+#### :rocket: Enhancement
+  * [#148](https://github.com/Kentico/kentico-cloud-js/pull/148) Prepares data models for 'AddContentType' action ([@Enngage](https://github.com/Enngage))
+* Other
+  * [#146](https://github.com/Kentico/kentico-cloud-js/pull/146) SEX-872 - Fix Insecure Protocol ([@dusekdan](https://github.com/dusekdan))
+
 ## 0.0.6 (2019-03-08)
 
 #### :rocket: Enhancement
