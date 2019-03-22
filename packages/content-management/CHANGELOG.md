@@ -1,4 +1,9 @@
 
+## content-management@0.0.9 (2019-03-22)
+
+#### :rocket: Enhancement
+  * [#149](https://github.com/Kentico/kentico-cloud-js/pull/149) Adds external_id, taxonomy_group and snippet to content type elementmodel, updates docs and package version ([@Enngage](https://github.com/Enngage))
+
 ## 0.0.8 (2019-03-21)
 
 #### :rocket: Enhancement
