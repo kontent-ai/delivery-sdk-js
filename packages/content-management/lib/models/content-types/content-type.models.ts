@@ -38,6 +38,9 @@ export namespace ContentTypeModels {
         mode?: ElementModels.ElementMode;
         depends_on?: IAddContentTypeElementDependsOnData;
         custom?: IAddContentTypeCustomElementData;
+        external_id?: string;
+        taxonomy_group?: SharedContracts.IReferenceObjectContract;
+        snippet?: SharedContracts.IReferenceObjectContract;
     }
 
     export interface IAddContentTypeCustomElementData {
