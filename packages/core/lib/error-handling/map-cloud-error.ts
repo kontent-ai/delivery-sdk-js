@@ -16,7 +16,8 @@ export function mapCloudError(error: any): CloudError | any {
             requestId: data[KCErrorNames.requestId],
             message: data[KCErrorNames.message] ? data[KCErrorNames.message] : '',
             errorCode: data[KCErrorNames.errorCode] ? data[KCErrorNames.errorCode] : 0,
-            specificCode: data[KCErrorNames.specificCode] ? data[KCErrorNames.specificCode] : 0
+            specificCode: data[KCErrorNames.specificCode] ? data[KCErrorNames.specificCode] : 0,
+            originalError: error
         });
     } else if (error.request) {
         // The request was made but no response was received
