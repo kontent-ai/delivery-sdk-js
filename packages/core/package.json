@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-core",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/Kentico/kentico-cloud-js/tree/master/packages/core"
@@ -54,7 +54,7 @@
     "rxjs": "^6.0.0"
   },
   "devDependencies": {
-		"typescript": "3.3.3333",
+    "typescript": "3.3.3333",
     "@types/jasmine": "3.3.5",
     "@types/node": "10.12.18",
     "rxjs": "6.4.0",
