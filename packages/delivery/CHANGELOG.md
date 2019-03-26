@@ -1,3 +1,13 @@
+## 6.0.0-beta.2 (2019-03-12)
+
+#### :rocket: Enhancement
+  * [#153](https://github.com/Kentico/kentico-cloud-js/pull/153) Update to kentico-cloud-core@1.4.4 ([@Enngage](https://github.com/Enngage))
+  
+## 6.0.0-beta.1 (2019-03-26)
+
+#### :boom: Breaking Change
+  * [#141](https://github.com/Kentico/kentico-cloud-js/pull/141) Renames 'getObservable' & 'getPromise' to 'toPromise' and 'toObservable' ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-beta-0 (2019-03-12)
 
 #### :boom: Breaking Change
