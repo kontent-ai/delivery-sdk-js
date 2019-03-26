@@ -1,4 +1,11 @@
 
+## 0.0.10 (2019-03-26)
+
+#### :rocket: Enhancement
+  * [#155](https://github.com/Kentico/kentico-cloud-js/pull/155) Implements remainder of workflow related actions - upublishing item cancelling publish and creating new versions ([@Enngage](https://github.com/Enngage))
+  * [#154](https://github.com/Kentico/kentico-cloud-js/pull/154) Uses Content Management specific error and sets validation errors where applicable ([@Enngage](https://github.com/Enngage))
+  * [#153](https://github.com/Kentico/kentico-cloud-js/pull/153) Update to kentico-cloud-core@1.4.4 ([@Enngage](https://github.com/Enngage))
+
 ## 0.0.9 (2019-03-22)
 
 #### :rocket: Enhancement
