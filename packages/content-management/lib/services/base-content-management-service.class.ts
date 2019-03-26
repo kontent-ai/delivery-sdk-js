@@ -10,11 +10,12 @@ import {
     mapCloudError,
     urlHelper,
 } from 'kentico-cloud-core';
+import { SharedContracts } from 'lib/contracts';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { IContentManagementQueryConfig } from '../models';
+import { IContentManagementQueryConfig, SharedModels } from '../models';
 
 export abstract class BaseContentManagementQueryService {
 
@@ -103,7 +104,7 @@ export abstract class BaseContentManagementQueryService {
             }
         ).pipe(
             catchError((error: IBaseResponseError<CloudError>) => {
-                return throwError(error.mappedError);
+                return throwError(this.mapContentManagementError(error.mappedError));
             })
         );
     }
@@ -139,7 +140,7 @@ export abstract class BaseContentManagementQueryService {
             }
         ).pipe(
             catchError((error: IBaseResponseError<CloudError>) => {
-                return throwError(error.mappedError);
+                return throwError(this.mapContentManagementError(error.mappedError));
             })
         );
     }
@@ -175,7 +176,7 @@ export abstract class BaseContentManagementQueryService {
             }
         ).pipe(
             catchError((error: IBaseResponseError<CloudError>) => {
-                return throwError(error.mappedError);
+                return throwError(this.mapContentManagementError(error.mappedError));
             })
         );
     }
@@ -209,9 +210,32 @@ export abstract class BaseContentManagementQueryService {
             }
         ).pipe(
             catchError((error: IBaseResponseError<CloudError>) => {
-                return throwError(error.mappedError);
+                return throwError(this.mapContentManagementError(error.mappedError));
             })
         );
+    }
+
+    private mapContentManagementError(error: CloudError | any): SharedModels.ContentManagementCloudError | any {
+        if (error instanceof CloudError) {
+            let validationErrors: SharedModels.ValidationError[] = [];
+            if (error.originalError && error.originalError.response && error.originalError.response.data && error.originalError.response.data.validation_errors) {
+                const rawValidationErrors: SharedContracts.IValidationErrorContract[] = error.originalError.response.data.validation_errors;
+                validationErrors = rawValidationErrors.map(m => new SharedModels.ValidationError({
+                    message: m.message
+                }));
+            }
+
+            return new SharedModels.ContentManagementCloudError({
+                errorCode: error.errorCode,
+                message: error.message,
+                originalError: error.originalError,
+                requestId: error.requestId,
+                specificCode: error.specificCode,
+                validationErrors: validationErrors
+            });
+
+        }
+        return error;
     }
 
     /**
