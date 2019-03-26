@@ -40,9 +40,28 @@ import {
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
+    CreateNewVersionOfLanguageVariantQuery,
+    UnpublishLanguageVariantQuery,
+    CancelScheduledPublishingOfLanguageVariantQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
+
+    /**
+    * Create a new version of a published language variant while keeping the original version published and available through Delivery API. Equivalent to the UI action of creating new versions of content.
+    */
+    createNewVersionOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<CreateNewVersionOfLanguageVariantQuery>>;
+
+    /**
+    * Unpublish a language variant to make it no longer accessible through Delivery API. Equivalent to the UI action of unpublishing content.
+    * You can only unpublish language variants that are published and don't already have a Draft (unpublished) version.
+    */
+    unpublishLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<UnpublishLanguageVariantQuery>>;
+
+    /**
+    * Cancel scheduling of a language variant. Equivalent to the UI action of canceling scheduled content. If the language variant is not scheduled, nothing happens.
+    */
+    cancelSheduledPublishingOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<CancelScheduledPublishingOfLanguageVariantQuery>>;
 
     /**
      * Change the workflow of the specified language variant to the specified workflow step. Equivalent to the UI operation of updating workflow.
