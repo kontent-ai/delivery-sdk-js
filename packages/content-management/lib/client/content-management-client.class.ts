@@ -43,6 +43,9 @@ import {
     WorkflowStepIdentifierQuery,
     DeleteContentTypeSnippetQuery,
     AddContentTypeSnippetQuery,
+    CreateNewVersionOfLanguageVariantQuery,
+    UnpublishLanguageVariantQuery,
+    CancelScheduledPublishingOfLanguageVariantQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -65,6 +68,33 @@ export class ContentManagementClient implements IContentManagementClient {
                 name: sdkInfo.name,
                 version: sdkInfo.version
             });
+    }
+
+    createNewVersionOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<CreateNewVersionOfLanguageVariantQuery>> {
+        return new ContentItemIdentifierQuery<LanguageIdentifierQuery<CreateNewVersionOfLanguageVariantQuery>>(
+            this.config, this.queryService, (
+                config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<CreateNewVersionOfLanguageVariantQuery>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier) => new CreateNewVersionOfLanguageVariantQuery(nConfig, nQueryService, contentItemIdentifier, languageIdentifier)
+                )
+        );
+    }
+
+    unpublishLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<UnpublishLanguageVariantQuery>> {
+        return new ContentItemIdentifierQuery<LanguageIdentifierQuery<UnpublishLanguageVariantQuery>>(
+            this.config, this.queryService, (
+                config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<UnpublishLanguageVariantQuery>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier) => new UnpublishLanguageVariantQuery(nConfig, nQueryService, contentItemIdentifier, languageIdentifier)
+                )
+        );
+    }
+
+    cancelSheduledPublishingOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<CancelScheduledPublishingOfLanguageVariantQuery>> {
+        return new ContentItemIdentifierQuery<LanguageIdentifierQuery<CancelScheduledPublishingOfLanguageVariantQuery>>(
+            this.config, this.queryService, (
+                config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<CancelScheduledPublishingOfLanguageVariantQuery>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier) => new CancelScheduledPublishingOfLanguageVariantQuery(nConfig, nQueryService, contentItemIdentifier, languageIdentifier)
+                )
+        );
     }
 
     changeWorkflowStepOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>> {

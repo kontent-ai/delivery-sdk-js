@@ -26,13 +26,14 @@ import {
 import {
     AssetModels,
     ContentTypeModels,
+    ContentTypeSnippetModels,
     IContentManagementQueryConfig,
     LanguageVariantModels,
     TaxonomyModels,
-    ContentTypeSnippetModels,
 } from '../models';
 import {
     AssetResponses,
+    BaseResponses,
     ContentItemResponses,
     ContentTypeResponses,
     ContentTypeSnippetResponses,
@@ -40,7 +41,6 @@ import {
     ProjectResponses,
     TaxonomyResponses as TaxonomyResponses,
     WorkflowResponses,
-    BaseResponses,
 } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
@@ -55,6 +55,51 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     }
 
     publishOrScheduleLanguageVariant(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<BaseResponses.EmptyContentManagementResponse> {
+        return this.putResponse<void>(
+            url,
+            undefined,
+            config,
+        ).pipe(
+            map(response => {
+                return workflowResponseMapper.mapEmptyResponse(response);
+            })
+        );
+    }
+
+    createNewVersionOfLanguageVariant(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<BaseResponses.EmptyContentManagementResponse> {
+        return this.putResponse<void>(
+            url,
+            undefined,
+            config,
+        ).pipe(
+            map(response => {
+                return workflowResponseMapper.mapEmptyResponse(response);
+            })
+        );
+    }
+
+    unpublishLanguageVariant(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<BaseResponses.EmptyContentManagementResponse> {
+        return this.putResponse<void>(
+            url,
+            undefined,
+            config,
+        ).pipe(
+            map(response => {
+                return workflowResponseMapper.mapEmptyResponse(response);
+            })
+        );
+    }
+
+    cancelScheduledPublishingOfLanguageVariant(
         url: string,
         config: IContentManagementQueryConfig
     ): Observable<BaseResponses.EmptyContentManagementResponse> {

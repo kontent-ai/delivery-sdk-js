@@ -11,6 +11,18 @@ class ContentManagementContentItemActions {
         return `items/${itemIdentifier.getParamValue()}/variants/${languageIdentifier.getParamValue()}/publish`;
     }
 
+    createNewVersionOfALanguageVariant(itemIdentifier: Identifiers.ContentItemIdentifier, languageIdentifier: Identifiers.LanguageIdentifier): string {
+        return `items/${itemIdentifier.getParamValue()}/variants/${languageIdentifier.getParamValue()}/new-version`;
+    }
+
+    unpublishLanguageVariant(itemIdentifier: Identifiers.ContentItemIdentifier, languageIdentifier: Identifiers.LanguageIdentifier): string {
+        return `items/${itemIdentifier.getParamValue()}/variants/${languageIdentifier.getParamValue()}/unpublish`;
+    }
+
+    cancelScheduledPublishingOfLanguageVariant(itemIdentifier: Identifiers.ContentItemIdentifier, languageIdentifier: Identifiers.LanguageIdentifier): string {
+        return `items/${itemIdentifier.getParamValue()}/variants/${languageIdentifier.getParamValue()}/cancel-scheduled-publish`;
+    }
+
     listWorkflowSteps(): string {
         return `workflow`;
     }
