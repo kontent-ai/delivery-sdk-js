@@ -29,6 +29,7 @@ import {
     IContentManagementQueryConfig,
     LanguageVariantModels,
     TaxonomyModels,
+    ContentTypeSnippetModels,
 } from '../models';
 import {
     AssetResponses,
@@ -123,6 +124,36 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         ).pipe(
             map(response => {
                 return contentTypeSnippetMapper.mapViewContentTypeSnippetResponse(response);
+            })
+        );
+    }
+
+    deleteContentTypeSnippet(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<ContentTypeSnippetResponses.DeleteContentTypeSnippetResponse> {
+        return this.deleteResponse<ContentTypeSnippetContracts.IDeleteContentTypeSnippetResponseContract>(
+            url,
+            config
+        ).pipe(
+            map(response => {
+                return contentTypeSnippetMapper.mapDeleteContentTypeSnippetRespose(response);
+            })
+        );
+    }
+
+    addContentTypeSnippet(
+        url: string,
+        data: ContentTypeSnippetModels.IAddContentTypeSnippetData,
+        config: IContentManagementQueryConfig
+    ): Observable<ContentTypeSnippetResponses.AddContentTypeSnippetResponse> {
+        return this.postResponse<ContentTypeSnippetContracts.IAddContentTypeSnippetResponseContract>(
+            url,
+            data,
+            config
+        ).pipe(
+            map(response => {
+                return contentTypeSnippetMapper.mapAddContentTypeSnippetResponse(response);
             })
         );
     }

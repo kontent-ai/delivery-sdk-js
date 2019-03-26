@@ -8,7 +8,7 @@ describe('View content type', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(viewContentTypeJson).viewContentType()
-            .byItemCodename('x')
+            .byTypeCodename('x')
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -17,11 +17,13 @@ describe('View content type', () => {
     });
 
     it(`url should be correct`, () => {
-        const urlByCodename = cmTestClient.viewContentType().byItemCodename('x').getUrl();
-        const urlByInternalId = cmTestClient.viewContentType().byItemId('y').getUrl();
+        const urlByCodename = cmTestClient.viewContentType().byTypeCodename('x').getUrl();
+        const urlByInternalId = cmTestClient.viewContentType().byTypeId('y').getUrl();
+        const urlByExternalId = cmTestClient.viewContentType().byTypeExternalId('c').getUrl();
 
         expect(urlByCodename).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/types/codename/x`);
         expect(urlByInternalId).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/types/y`);
+        expect(urlByExternalId).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/types/external-id/c`);
     });
 
     it(`response should be instance of ViewContentTypeResponse class`, () => {

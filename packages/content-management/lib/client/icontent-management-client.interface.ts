@@ -1,19 +1,21 @@
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, ContentTypeModels, TaxonomyModels } from '../models';
+import { AssetModels, ContentTypeModels, ContentTypeSnippetModels, TaxonomyModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
     AddContentTypeQuery,
+    AddContentTypeSnippetQuery,
     AddTaxonomyQuery,
     AssetIdentifierQueryClass,
     ChangeWorkflowStepOfLanguageOrVariantQuery,
+    ContentItemIdentifierQuery,
+    ContentTypeIdentifierQuery,
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
     DeleteContentTypeQuery,
+    DeleteContentTypeSnippetQuery,
     DeleteTaxonomyQuery,
-    ContentItemIdentifierQuery,
-    IdCodenameIdentifierQuery,
     LanguageIdentifierQuery,
     LanguageVariantElementsQuery,
     ListAssetsQuery,
@@ -45,7 +47,7 @@ export interface IContentManagementClient {
     /**
      * Change the workflow of the specified language variant to the specified workflow step. Equivalent to the UI operation of updating workflow.
      */
-    changeWorkflowStepOfLanguageVariant():  ContentItemIdentifierQuery<LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>>;
+    changeWorkflowStepOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>>;
 
     /**
      * Change the workflow step of the specified language variant to "Published" or schedule publishing at the specified time.
@@ -60,12 +62,22 @@ export interface IContentManagementClient {
     /**
      * Query to view content type snippet
      */
-    viewContentTypeSnippet(): IdCodenameIdentifierQuery<ViewContentTypeSnippetQuery>;
+    viewContentTypeSnippet(): ContentTypeIdentifierQuery<ViewContentTypeSnippetQuery>;
 
     /**
      * Query to list content types
      */
     listContentTypeSnippets(): ListContentTypeSnippetsQuery;
+
+    /**
+     * Query to delete content type snippet
+     */
+    deleteContentTypeSnippet(): ContentTypeIdentifierQuery<DeleteContentTypeSnippetQuery>;
+
+    /**
+     * Query to add new content type snippet
+     */
+    addContentTypeSnippet(): DataQuery<AddContentTypeSnippetQuery, ContentTypeSnippetModels.IAddContentTypeSnippetData>;
 
     /**
      * Query to view language variant
@@ -83,9 +95,9 @@ export interface IContentManagementClient {
     validateProjectContent(): ProjectIdIdentifierQuery<ValidateProjectContentQuery>;
 
     /**
-     * Query to view content type
+     * Query to delete content type
      */
-    deleteContentType(): IdCodenameIdentifierQuery<DeleteContentTypeQuery>;
+    deleteContentType(): ContentTypeIdentifierQuery<DeleteContentTypeQuery>;
 
     /**
      * Query to add new content type
@@ -95,7 +107,7 @@ export interface IContentManagementClient {
     /**
      * Query to view content type
      */
-    viewContentType(): IdCodenameIdentifierQuery<ViewContentTypeQuery>;
+    viewContentType(): ContentTypeIdentifierQuery<ViewContentTypeQuery>;
 
     /**
      * Query to list content types

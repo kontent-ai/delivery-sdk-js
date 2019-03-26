@@ -11,7 +11,7 @@ export class DeleteContentTypeQuery extends BaseQuery<ContentTypeResponses.Delet
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected identifier: Identifiers.ContentItemIdentifier,
+    protected identifier: Identifiers.ContentTypeIdentifier,
   ) {
     super(config, queryService);
   }
