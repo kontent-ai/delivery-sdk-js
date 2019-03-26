@@ -1,3 +1,8 @@
+## 1.4.4 (2019-03-26)
+
+#### :rocket: Enhancement
+  * [#151](https://github.com/Kentico/kentico-cloud-js/pull/151) Preserves original error when mapping to CloudError ([@Enngage](https://github.com/Enngage))
+
 ## 1.4.3 (2019-02-26)
 
 #### :bug: Bug Fix
