@@ -29,7 +29,7 @@
   "scripts": {
     "tsc-local": "./node_modules/.bin/tsc",
     "webpack-local": "./node_modules/.bin/webpack",
-    "karma-local": "node ./node_modules/karma/bin/karma",
+    "karma-local": "node --max_old_space_size=8192 ./node_modules/karma/bin/karma",
     "ts-node-local": "./node_modules/.bin/ts-node",
     "mocha-local": "node ./node_modules/mocha/bin/mocha",
     "ts-lint-local": "./node_modules/.bin/tslint",

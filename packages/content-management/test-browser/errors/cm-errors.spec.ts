@@ -1,12 +1,11 @@
-import { CloudError } from 'kentico-cloud-core';
-
-import * as fakeErrorJson from '../fake-responses/fake-error.json';
+import { SharedModels } from '../../lib';
+import * as fakeErrorJson from '../fake-responses/errors/fake-error.json';
 import { getTestClientWithCloudError } from '../setup';
 
 describe('Error handling', () => {
 
     let succeeded: boolean;
-    let error: any | CloudError;
+    let error: any | SharedModels.ContentManagementCloudError;
 
     beforeAll((done) => {
         getTestClientWithCloudError(fakeErrorJson).listContentItems()
@@ -26,12 +25,12 @@ describe('Error handling', () => {
         expect(succeeded).toEqual(false);
     });
 
-    it(`Error should be an instance of CloudError`, () => {
-        expect(error).toEqual(jasmine.any(CloudError));
+    it(`Error should be an instance of ContentManagementCloudError`, () => {
+        expect(error).toEqual(jasmine.any(SharedModels.ContentManagementCloudError));
     });
 
     it(`Error model should have all properties assigned`, () => {
-        const cloudError = error as CloudError;
+        const cloudError = error as SharedModels.ContentManagementCloudError;
         expect(cloudError.errorCode).toEqual(fakeErrorJson.error_code);
         expect(cloudError.message).toEqual(fakeErrorJson.message);
         expect(cloudError.requestId).toEqual(fakeErrorJson.request_id);
