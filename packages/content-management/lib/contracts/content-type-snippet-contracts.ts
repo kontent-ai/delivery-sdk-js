@@ -19,4 +19,9 @@ export namespace ContentTypeSnippetContracts {
     export interface IViewContentTypeSnippetResponseContract extends IContentTypeSnippetContract {
     }
 
+    export interface IAddContentTypeSnippetResponseContract extends IContentTypeSnippetContract {
+    }
+
+    export interface IDeleteContentTypeSnippetResponseContract {
+    }
 }

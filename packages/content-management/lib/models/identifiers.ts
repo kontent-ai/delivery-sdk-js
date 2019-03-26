@@ -6,6 +6,12 @@ export namespace Identifiers {
         Codename = 'codename'
     }
 
+    export enum ContentTypeIdentifierEnum {
+        ExternalId = 'externalId',
+        InternalId = 'internalId',
+        Codename = 'codename'
+    }
+
     export enum LanguageIdentifierEnum {
         InternalId = 'internalId',
         Codename = 'codename'
@@ -58,6 +64,26 @@ export namespace Identifiers {
             }
             if (this.identifier === TaxonomyIdentifierEnum.Codename) {
                 return `codename/${this.value}`;
+            }
+            throw Error(`Unsupported identifier '${this.identifier}'`);
+        }
+    }
+
+    export class ContentTypeIdentifier {
+        constructor(
+            public identifier: ContentTypeIdentifierEnum,
+            public value: string) {
+        }
+
+        getParamValue(): string {
+            if (this.identifier === ContentTypeIdentifierEnum.Codename) {
+                return `codename/${this.value}`;
+            }
+            if (this.identifier === ContentTypeIdentifierEnum.InternalId) {
+                return `${this.value}`;
+            }
+            if (this.identifier === ContentTypeIdentifierEnum.ExternalId) {
+                return `external-id/${this.value}`;
             }
             throw Error(`Unsupported identifier '${this.identifier}'`);
         }

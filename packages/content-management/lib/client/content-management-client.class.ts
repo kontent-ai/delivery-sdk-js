@@ -2,20 +2,21 @@ import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, ContentTypeModels, TaxonomyModels } from '../models';
+import { AssetModels, ContentTypeModels, TaxonomyModels, ContentTypeSnippetModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
     AddContentTypeQuery,
     AddTaxonomyQuery,
     AssetIdentifierQueryClass,
+    ChangeWorkflowStepOfLanguageOrVariantQuery,
+    ContentItemIdentifierQuery,
+    ContentTypeIdentifierQuery,
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
     DeleteContentTypeQuery,
     DeleteTaxonomyQuery,
-    ContentItemIdentifierQuery,
-    IdCodenameIdentifierQuery,
     LanguageIdentifierQuery,
     LanguageVariantElementsQuery,
     ListAssetsQuery,
@@ -26,6 +27,7 @@ import {
     ListTaxonomiesQuery,
     ListWorkflowStepsQuery,
     ProjectIdIdentifierQuery,
+    PublishOrScheduleLanguageVariantQuery,
     TaxonomyIdentifierQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
@@ -38,9 +40,9 @@ import {
     ViewContentTypeQuery,
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
-    ChangeWorkflowStepOfLanguageOrVariantQuery,
-    PublishOrScheduleLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
+    DeleteContentTypeSnippetQuery,
+    AddContentTypeSnippetQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -99,11 +101,27 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    viewContentTypeSnippet(): IdCodenameIdentifierQuery<ViewContentTypeSnippetQuery> {
-        return new IdCodenameIdentifierQuery<ViewContentTypeSnippetQuery>(
+    viewContentTypeSnippet(): ContentTypeIdentifierQuery<ViewContentTypeSnippetQuery> {
+        return new ContentTypeIdentifierQuery<ViewContentTypeSnippetQuery>(
             this.config,
             this.queryService,
             (config, queryService, identifier) => new ViewContentTypeSnippetQuery(config, queryService, identifier)
+        );
+    }
+
+    deleteContentTypeSnippet(): ContentTypeIdentifierQuery<DeleteContentTypeSnippetQuery> {
+        return new ContentTypeIdentifierQuery<DeleteContentTypeSnippetQuery>(
+            this.config,
+            this.queryService,
+            (config, queryService, identifier) => new DeleteContentTypeSnippetQuery(config, queryService, identifier)
+        );
+    }
+
+    addContentTypeSnippet(): DataQuery<AddContentTypeSnippetQuery, ContentTypeSnippetModels.IAddContentTypeSnippetData> {
+        return new DataQuery<AddContentTypeSnippetQuery, ContentTypeSnippetModels.IAddContentTypeSnippetData>(
+            this.config,
+            this.queryService,
+            (config, queryService, data) => new AddContentTypeSnippetQuery(config, queryService, data)
         );
     }
 
@@ -135,8 +153,8 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    deleteContentType(): IdCodenameIdentifierQuery<DeleteContentTypeQuery> {
-        return new IdCodenameIdentifierQuery<DeleteContentTypeQuery>(
+    deleteContentType(): ContentTypeIdentifierQuery<DeleteContentTypeQuery> {
+        return new ContentTypeIdentifierQuery<DeleteContentTypeQuery>(
             this.config,
             this.queryService,
             (config, queryService, identifier) => new DeleteContentTypeQuery(config, queryService, identifier)
@@ -151,8 +169,8 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    viewContentType(): IdCodenameIdentifierQuery<ViewContentTypeQuery> {
-        return new IdCodenameIdentifierQuery<ViewContentTypeQuery>(
+    viewContentType(): ContentTypeIdentifierQuery<ViewContentTypeQuery> {
+        return new ContentTypeIdentifierQuery<ViewContentTypeQuery>(
             this.config,
             this.queryService,
             (config, queryService, identifier) => new ViewContentTypeQuery(config, queryService, identifier)

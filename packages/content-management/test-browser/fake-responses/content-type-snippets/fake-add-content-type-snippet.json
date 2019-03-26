@@ -1,0 +1,36 @@
+{
+    "id": "269202ad-1d9d-47fd-b3e8-bdb05b3e3cf0",
+    "codename": "hosted_video",
+    "last_modified": "2017-06-27T12:55:39.054Z",
+    "name": "Hosted video",
+    "external_id": "Content-Type-123",
+    "elements": [
+      {
+        "name": "Video ID",
+        "guidelines": "",
+        "type": "text",
+        "id": "116a2441-6441-7124-c85b-46a4fef5dcb9",
+        "codename": "video_id"
+      },
+      {
+        "mode": "single",
+        "options": [
+          {
+            "id": "523e6231-8d80-a158-3601-dffde4e64a78",
+            "codename": "youtube",
+            "name": "YouTube"
+          },
+          {
+            "id": "d66ffa49-86ff-eeaa-c33b-e5d9eefe8b81",
+            "codename": "vimeo",
+            "name": "Vimeo"
+          }
+        ],
+        "name": "Video host",
+        "guidelines": "",
+        "type": "multiple_choice",
+        "id": "87924912-4861-aa84-176a-1eae7b22529b",
+        "codename": "video_host"
+      }
+    ]
+  }

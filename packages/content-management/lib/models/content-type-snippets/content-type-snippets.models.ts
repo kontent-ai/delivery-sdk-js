@@ -1,3 +1,5 @@
+import { SharedContracts } from '../../contracts/shared-contracts';
+import { ContentTypeModels } from '../content-types/content-type.models';
 import { ElementModels } from '../elements/elements.models';
 
 export namespace ContentTypeSnippetModels {
@@ -21,5 +23,22 @@ export namespace ContentTypeSnippetModels {
         ) {
             Object.assign(this, data);
         }
+    }
+
+    export interface IAddContentTypeSnippetData {
+        name: string;
+        external_id?: string;
+        elements: IAddContentTypeSnippetElementData[];
+    }
+
+    export interface IAddContentTypeSnippetElementData {
+        name?: string;
+        type: ElementModels.ElementType;
+        guidelines?: string;
+        options?: ContentTypeModels.IAddContentTypeElementMultipleChoiceElementOptionsData[];
+        mode?: ElementModels.ElementMode;
+        custom?: ContentTypeModels.IAddContentTypeCustomElementData;
+        external_id?: string;
+        taxonomy_group?: SharedContracts.IReferenceObjectContract;
     }
 }

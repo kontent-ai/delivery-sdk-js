@@ -19,7 +19,15 @@ class ContentManagementContentItemActions {
         return `snippets`;
     }
 
-    viewContentTypeSnippet(identifier: Identifiers.ContentItemIdentifier): string {
+    viewContentTypeSnippet(identifier: Identifiers.ContentTypeIdentifier): string {
+        return `snippets/${identifier.getParamValue()}`;
+    }
+
+    addContentTypeSnippet(): string {
+        return `snippets`;
+    }
+
+    deleteContentTypeSnippet(identifier: Identifiers.ContentTypeIdentifier): string {
         return `snippets/${identifier.getParamValue()}`;
     }
 
@@ -35,11 +43,11 @@ class ContentManagementContentItemActions {
         return `types`;
     }
 
-    deleteContentType(identifier: Identifiers.ContentItemIdentifier): string {
+    deleteContentType(identifier: Identifiers.ContentTypeIdentifier): string {
         return `types/${identifier.getParamValue()}`;
     }
 
-    viewContentType(identifier: Identifiers.ContentItemIdentifier): string {
+    viewContentType(identifier: Identifiers.ContentTypeIdentifier): string {
         return `types/${identifier.getParamValue()}`;
     }
 
