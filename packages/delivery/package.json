@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-delivery",
-  "version": "6.0.0-beta.1",
+  "version": "6.0.0-beta.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/delivery"
@@ -65,7 +65,7 @@
     "browser-bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/browser-stats.json"
   },
   "dependencies": {
-    "kentico-cloud-core": "1.4.3",
+    "kentico-cloud-core": "1.4.4",
     "parse5": "5.1.0",
     "reflect-metadata": "0.1.13"
   },
