@@ -26,9 +26,9 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: npm i -g lerna
-      - run:  npm i -g cat
-      - run: npm i rxjs
+      - run: sudo npm i -g lerna
+      - run: sudo npm i -g cat
+      - run: sudo npm i rxjs
 
       - save_cache:
           paths:
