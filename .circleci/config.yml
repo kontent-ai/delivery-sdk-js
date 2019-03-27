@@ -19,11 +19,6 @@ jobs:
     steps:
       - checkout
 
-       run: 
-          name: "Setup custom environment variables"
-          command: |
-            echo 'export CHROME_BIN="/usr/bin/google-chrome"' >> $BASH_ENV #
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -34,6 +29,10 @@ jobs:
       - run: sudo npm i -g lerna
       - run: sudo npm i -g cat
       - run: sudo npm i rxjs
+      - run: 
+          name: "Setup custom environment variables"
+          command: |
+            echo 'export CHROME_BIN="/usr/bin/google-chrome"' >> $BASH_ENV 
 
       - save_cache:
           paths:
