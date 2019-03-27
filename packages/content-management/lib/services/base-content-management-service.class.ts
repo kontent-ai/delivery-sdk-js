@@ -10,11 +10,11 @@ import {
     mapCloudError,
     urlHelper,
 } from 'kentico-cloud-core';
-import { SharedContracts } from 'lib/contracts';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
+import { SharedContracts } from '../contracts';
 import { IContentManagementQueryConfig, SharedModels } from '../models';
 
 export abstract class BaseContentManagementQueryService {

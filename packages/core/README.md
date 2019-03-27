@@ -1,4 +1,6 @@
 
+[![CircleCI](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master)
+
 # Core package
 
 This package contains core functionality used by dependant Kentico Cloud sdks such as Delivery or Content Management.
