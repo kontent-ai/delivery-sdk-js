@@ -56,10 +56,10 @@ module.exports = function (config) {
         autoWatch: false,
         singleRun: true,
         client: {
-            clearContext: false // leave Jasmine Spec Runner output visible in browser
+            clearContext: false 
         },
         logLevel: config.LOG_ERROR,
-        browserDisconnectTolerance: 2,
-        browserNoActivityTimeout: 3000
+        browserDisconnectTolerance: 0,
+        browserNoActivityTimeout: 50000
     });
 };
