@@ -40,4 +40,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests
-      - run: sudo npm run lerna:travis
+      - run: npm run lerna:travis
