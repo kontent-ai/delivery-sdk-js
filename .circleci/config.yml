@@ -9,8 +9,6 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:7.10
       - image: circleci/node:6-browsers
-              environment:
-                  CHROME_BIN: "/usr/bin/google-chrome"
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
