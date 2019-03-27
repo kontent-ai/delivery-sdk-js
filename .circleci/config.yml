@@ -10,9 +10,6 @@ jobs:
       - image: circleci/node:7.10
       - image: circleci/node:6-browsers
 
-      # environment variables for all commands executed in the primary container
-      environment:
-        CHROME_BIN: "/usr/bin/google-chrome"
     
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -20,6 +17,9 @@ jobs:
       # - image: circleci/mongo:3.4.4
 
     working_directory: ~/repo
+
+    environment:
+        CHROME_BIN: "/usr/bin/google-chrome"
 
     steps:
       - checkout
