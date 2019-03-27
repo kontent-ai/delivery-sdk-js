@@ -18,9 +18,6 @@ jobs:
 
     working_directory: ~/repo
 
-    environment:
-        CHROME_BIN: "/usr/bin/google-chrome"
-
     steps:
       - checkout
 
@@ -41,4 +38,5 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests
+      - run: CHROME_BIN=/usr/bin/google-chrome
       - run: sudo npm run lerna:travis
