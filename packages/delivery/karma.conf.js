@@ -38,6 +38,7 @@ module.exports = function (config) {
                             path.resolve(__dirname, 'test-browser'), // tests
                         ],
                         options: {
+                            transpileOnly: true,
                             configFile: require.resolve('./tsconfig.webpack.json')
                         }
                     },
