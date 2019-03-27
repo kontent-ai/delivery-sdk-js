@@ -1,0 +1,10 @@
+0 silly argv { _: [ 'exec' ],
+0 silly argv   args: [ 'run', 'test:travis' ],
+0 silly argv   lernaVersion: '3.4.3',
+0 silly argv   '$0':
+0 silly argv    'C:\\Users\\richards\\AppData\\Roaming\\npm\\node_modules\\lerna\\cli.js',
+0 silly argv   cmd: 'npm' }
+1 notice cli v3.4.3
+2 verbose rootPath c:\dev\kentico-cloud-js
+3 info versioning independent
+4 error

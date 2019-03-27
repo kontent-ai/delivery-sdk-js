@@ -60,6 +60,6 @@ module.exports = function (config) {
         },
         logLevel: config.LOG_ERROR,
         browserDisconnectTolerance: 2,
-        browserNoActivityTimeout: 5000000
+        browserNoActivityTimeout: 50000
     });
 };
