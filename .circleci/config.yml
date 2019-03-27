@@ -7,8 +7,8 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
-      - image: circleci/node:6-browsers
+      - image: circleci/node:7.10-browsers
+      CHROME_BIN=/usr/bin/google-chrome
 
     
       # Specify service dependencies here if necessary
@@ -38,5 +38,4 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       # run tests
-      - run: CHROME_BIN=/usr/bin/google-chrome
       - run: sudo npm run lerna:travis
