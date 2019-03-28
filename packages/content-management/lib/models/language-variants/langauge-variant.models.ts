@@ -28,14 +28,16 @@ export namespace LanguageVariantModels {
         public elements!: ElementModels.ContentItemElement[];
         public language!: SharedModels.ReferenceObject;
         public lastModified!: Date;
+        public workflowStep!: SharedModels.ReferenceObject;
 
         constructor(
             data: {
-                rawElements: any;
-                item: SharedModels.ReferenceObject;
-                elements: ElementModels.ContentItemElement[];
-                language: SharedModels.ReferenceObject;
-                lastModified: Date;
+                rawElements: any,
+                item: SharedModels.ReferenceObject,
+                elements: ElementModels.ContentItemElement[],
+                language: SharedModels.ReferenceObject,
+                lastModified: Date,
+                workflowStep: SharedModels.ReferenceObject
             }
         ) {
             Object.assign(this, data);

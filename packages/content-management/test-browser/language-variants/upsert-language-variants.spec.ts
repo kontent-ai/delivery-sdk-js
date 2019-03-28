@@ -64,6 +64,7 @@ describe('Upsert language variant', () => {
         expect(variant.language).toBeDefined();
         expect(variant.elements).toBeDefined();
         expect(variant.lastModified).toEqual(jasmine.any(Date));
+        expect(variant.workflowStep.id).toEqual(originalItem.workflow_step.id);
 
         expect(variant.item).toEqual(jasmine.any(SharedModels.ReferenceObject));
         expect(variant.language).toEqual(jasmine.any(SharedModels.ReferenceObject));
