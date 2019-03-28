@@ -1,4 +1,16 @@
 
+## 0.0.11 (2019-03-28)
+
+#### :rocket: Enhancement
+  * Adds workflow step properties to language variant model/contract ([@Enngage](https://github.com/Enngage))
+
+#### :bug: Bug Fix
+  * [#157](https://github.com/Kentico/kentico-cloud-js/pull/157) Fixes incorrect import path in base service ([@Enngage](https://github.com/Enngage))
+
+#### :house: Internal
+  * [#157](https://github.com/Kentico/kentico-cloud-js/pull/157)  Switch to 'karma-typescript' and 'karma-typescript-es6-transform' for better performance, adds CircleCI badges ([@Enngage](https://github.com/Enngage))
+  * [#156](https://github.com/Kentico/kentico-cloud-js/pull/156) Updates dev dependencies and some scripts (+ preparation for circle ci) ([@Enngage](https://github.com/Enngage))
+
 ## 0.0.10 (2019-03-26)
 
 #### :rocket: Enhancement
