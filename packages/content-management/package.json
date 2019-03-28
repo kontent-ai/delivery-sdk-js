@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-content-management",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "repository": {
     "type": "git",
     "url": "https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management"
@@ -39,10 +39,10 @@
     "test:travis": "npm run karma-local start karma-travis.conf.js",
     "test:node": "npm run build:commonjs && npm run mocha-local -- \"test-node/**/*.js\"",
     "test:all": "npm run test:node && npm run test:travis",
-    "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version",
-    "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version",
-    "new-major": "npm version major && npm run set-sdk-version && npm run check-version",
-    "prepublishOnly": "npm run ts-lint:check && npm run set-sdk-version && npm run check-version && npm run generate:docs && npm run build:all && npm run test:all",
+    "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version && npm run generate:docs",
+    "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version && npm run generate:docs",
+    "new-major": "npm version major && npm run set-sdk-version && npm run check-version && npm run generate:docs",
+    "prepublishOnly": "npm run ts-lint:check && npm run check-version  && npm run build:all && npm run test:all",
     "set-sdk-version": "node ./misc/set-sdk-version.js",
     "check-version": "npm run ts-node-local ./misc/verify-sdk-version.ts",
     "webpack:dev": "npm run webpack-local -- --mode development --config webpack.config.js --progress --colors",
