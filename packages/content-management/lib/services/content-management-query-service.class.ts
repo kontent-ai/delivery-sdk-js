@@ -447,9 +447,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     ): Observable<AssetResponses.ViewAssetResponse> {
         return this.getResponse<AssetContracts.IAssetModelContract>(
             url,
-            {
-                responseType: 'arrayBuffer'
-            },
+            {},
             config
         ).pipe(
             map(response => {
