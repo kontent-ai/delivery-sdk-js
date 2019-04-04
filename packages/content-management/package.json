@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-content-management",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "repository": {
     "type": "git",
     "url": "https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management"
