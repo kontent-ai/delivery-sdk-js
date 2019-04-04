@@ -1,3 +1,7 @@
+## 0.0.13 (2019-04-04)
+
+#### :house: Internal
+  * Fixes incorrect response type for viewing assets
 
 ## 0.0.12 (2019-04-04)
 
