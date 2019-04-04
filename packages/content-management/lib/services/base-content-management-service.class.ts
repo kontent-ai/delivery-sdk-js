@@ -15,7 +15,7 @@ import { catchError } from 'rxjs/operators';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
 import { SharedContracts } from '../contracts';
-import { IContentManagementQueryConfig, SharedModels } from '../models';
+import { IContentManagementQueryConfig, SharedModels, IContentManagementInternalQueryConfig } from '../models';
 
 export abstract class BaseContentManagementQueryService {
 
@@ -85,7 +85,8 @@ export abstract class BaseContentManagementQueryService {
      */
     protected getResponse<TRawData>(
         url: string,
-        config?: IContentManagementQueryConfig
+        internalConfig: IContentManagementInternalQueryConfig,
+        config: IContentManagementQueryConfig,
     ): Observable<IBaseResponse<TRawData>> {
         if (!config) {
             config = {};
@@ -100,7 +101,8 @@ export abstract class BaseContentManagementQueryService {
                 headers: this.getHeaders(),
                 maxRetryAttempts: this.getRetryAttempts(),
                 useRetryForResponseCodes: this.defaultRetryStatusCodes,
-                logErrorToConsole: true
+                logErrorToConsole: true,
+                responseType: internalConfig && internalConfig.responseType ? internalConfig.responseType : undefined
             }
         ).pipe(
             catchError((error: IBaseResponseError<CloudError>) => {
@@ -119,6 +121,7 @@ export abstract class BaseContentManagementQueryService {
     protected postResponse<TRawData>(
         url: string,
         body: any,
+        internalConfig: IContentManagementInternalQueryConfig,
         config: IContentManagementQueryConfig,
         extraHeaders?: IHeader[]
     ): Observable<IBaseResponse<TRawData>> {
@@ -136,7 +139,8 @@ export abstract class BaseContentManagementQueryService {
                 headers: this.getHeaders(extraHeaders),
                 maxRetryAttempts: this.getRetryAttempts(),
                 useRetryForResponseCodes: this.defaultRetryStatusCodes,
-                logErrorToConsole: true
+                logErrorToConsole: true,
+                responseType: internalConfig && internalConfig.responseType ? internalConfig.responseType : undefined
             }
         ).pipe(
             catchError((error: IBaseResponseError<CloudError>) => {
@@ -155,6 +159,7 @@ export abstract class BaseContentManagementQueryService {
     protected putResponse<TRawData>(
         url: string,
         body: any,
+        internalConfig: IContentManagementInternalQueryConfig,
         config: IContentManagementQueryConfig,
         extraHeaders?: IHeader[]
     ): Observable<IBaseResponse<TRawData>> {
@@ -172,7 +177,8 @@ export abstract class BaseContentManagementQueryService {
                 headers: this.getHeaders(extraHeaders),
                 maxRetryAttempts: this.getRetryAttempts(),
                 useRetryForResponseCodes: this.getRetryStatusCodes(),
-                logErrorToConsole: true
+                logErrorToConsole: true,
+                responseType: internalConfig && internalConfig.responseType ? internalConfig.responseType : undefined
             }
         ).pipe(
             catchError((error: IBaseResponseError<CloudError>) => {
@@ -190,6 +196,7 @@ export abstract class BaseContentManagementQueryService {
     */
     protected deleteResponse<TRawData>(
         url: string,
+        internalConfig: IContentManagementInternalQueryConfig,
         config: IContentManagementQueryConfig,
         extraHeaders?: IHeader[]
     ): Observable<IBaseResponse<TRawData>> {
@@ -206,7 +213,8 @@ export abstract class BaseContentManagementQueryService {
                 headers: this.getHeaders(extraHeaders),
                 maxRetryAttempts: this.getRetryAttempts(),
                 useRetryForResponseCodes: this.getRetryStatusCodes(),
-                logErrorToConsole: true
+                logErrorToConsole: true,
+                responseType: internalConfig && internalConfig.responseType ? internalConfig.responseType : undefined
             }
         ).pipe(
             catchError((error: IBaseResponseError<CloudError>) => {

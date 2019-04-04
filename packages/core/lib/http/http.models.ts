@@ -33,6 +33,7 @@ export interface IHttpQueryOptions {
     maxRetryAttempts?: number;
     headers?: IHeader[];
     logErrorToConsole?: boolean;
+    responseType?: string;
 }
 
 export interface IHeader {

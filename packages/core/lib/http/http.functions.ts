@@ -16,8 +16,9 @@ export function getCallback<TError>(call: IHttpGetQueryCall<TError>, options: IH
 
     const axiosPromise = axios.get(call.url, {
         headers: getHeadersJson(
-            options && options.headers ? options.headers : []
-        )
+            options && options.headers ? options.headers : [],
+        ),
+        responseType: options && options.responseType ? options.responseType : undefined
     });
 
     axiosPromise.then(response => {
@@ -39,7 +40,8 @@ export function putCallback<TError>(call: IHttpPutQueryCall<TError>, options: IH
     const axiosPromise = axios.put(call.url, call.body, {
         headers: getHeadersJson(
             options && options.headers ? options.headers : []
-        )
+        ),
+        responseType: options && options.responseType ? options.responseType : undefined
     });
 
     axiosPromise.then(response => {
@@ -61,7 +63,8 @@ export function deleteCallback<TError>(call: IHttpDeleteQueryCall<TError>, optio
     const axiosPromise = axios.delete(call.url, {
         headers: getHeadersJson(
             options && options.headers ? options.headers : []
-        )
+        ),
+        responseType: options && options.responseType ? options.responseType : undefined
     });
 
     axiosPromise.then(response => {
@@ -83,7 +86,8 @@ export function postCallback<TError>(call: IHttpPostQueryCall<TError>, options: 
     const axiosPromise = axios.post(call.url, call.body, {
         headers: getHeadersJson(
             options && options.headers ? options.headers : []
-        )
+        ),
+        responseType: options && options.responseType ? options.responseType : undefined
     });
 
     axiosPromise.then(response => {
