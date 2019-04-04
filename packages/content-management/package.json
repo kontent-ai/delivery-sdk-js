@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-content-management",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "repository": {
     "type": "git",
     "url": "https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management"
@@ -56,7 +56,7 @@
     "bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/stats.json"
   },
   "dependencies": {
-    "kentico-cloud-core": "1.4.4"
+    "kentico-cloud-core": "1.4.5"
   },
   "peerDependencies": {
     "rxjs": "^6.0.0"
