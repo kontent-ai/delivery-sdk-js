@@ -2,7 +2,7 @@ import { AssetModels, AssetResponses, SharedModels } from '../../lib';
 import * as viewAssetResponseJson from '../fake-responses/assets/fake-view-asset.json';
 import { cmTestClient, getTestClientWithJson, testProjectId } from '../setup';
 
-describe('List assets', () => {
+describe('View assets', () => {
     let response: AssetResponses.ViewAssetResponse;
 
     beforeAll((done) => {
