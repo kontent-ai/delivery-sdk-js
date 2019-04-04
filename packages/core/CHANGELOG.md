@@ -1,3 +1,8 @@
+## 1.4.5 (2019-04-04)
+
+#### :house: Internal
+  * [#160](https://github.com/Kentico/kentico-cloud-js/pull/160) Adds ability to specify response type of HTTP call ([@Enngage](https://github.com/Enngage))
+
 ## 1.4.4 (2019-03-26)
 
 #### :rocket: Enhancement
