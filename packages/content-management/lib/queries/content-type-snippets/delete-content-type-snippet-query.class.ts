@@ -11,7 +11,7 @@ export class DeleteContentTypeSnippetQuery extends BaseQuery<ContentTypeSnippetR
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected identifier: Identifiers.ContentTypeIdentifier,
+    public identifier: Identifiers.ContentTypeIdentifier,
   ) {
     super(config, queryService);
   }

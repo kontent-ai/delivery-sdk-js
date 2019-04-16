@@ -11,7 +11,7 @@ export class DeleteTaxonomyQuery extends BaseQuery<TaxonomyResponses.DeleteTaxon
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected identifier: Identifiers.TaxonomyIdentifier,
+    public identifier: Identifiers.TaxonomyIdentifier,
   ) {
     super(config, queryService);
   }

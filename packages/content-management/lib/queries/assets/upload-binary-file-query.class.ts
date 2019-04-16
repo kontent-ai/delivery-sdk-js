@@ -11,7 +11,7 @@ export class UploadBinaryFileQuery extends BaseQuery<AssetResponses.UploadBinary
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected data: AssetModels.IUploadBinaryFileRequestData,
+    public data: AssetModels.IUploadBinaryFileRequestData,
   ) {
     super(config, queryService);
   }

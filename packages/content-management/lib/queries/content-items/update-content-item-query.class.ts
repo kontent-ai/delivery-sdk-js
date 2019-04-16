@@ -12,8 +12,8 @@ export class UpdateContentItemQuery extends BaseQuery<ContentItemResponses.Updat
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected data: ContentItemContracts.IUpdateContentItemPostContract,
-    protected identifier: Identifiers.ContentItemIdentifier,
+    public data: ContentItemContracts.IUpdateContentItemPostContract,
+    public identifier: Identifiers.ContentItemIdentifier,
   ) {
     super(config, queryService);
   }

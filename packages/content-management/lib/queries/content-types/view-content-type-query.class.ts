@@ -11,7 +11,7 @@ export class ViewContentTypeQuery extends BaseQuery<ContentTypeResponses.ViewCon
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected identifier: Identifiers.ContentTypeIdentifier,
+    public identifier: Identifiers.ContentTypeIdentifier,
   ) {
     super(config, queryService);
   }

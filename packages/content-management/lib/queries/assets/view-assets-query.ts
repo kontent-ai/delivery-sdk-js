@@ -11,7 +11,7 @@ export class ViewAssetsQuery extends BaseQuery<AssetResponses.ViewAssetResponse>
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected identifier: Identifiers.AssetIdentifier,
+    public identifier: Identifiers.AssetIdentifier,
   ) {
     super(config, queryService);
   }

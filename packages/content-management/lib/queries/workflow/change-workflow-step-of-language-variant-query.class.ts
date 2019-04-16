@@ -11,9 +11,9 @@ export class ChangeWorkflowStepOfLanguageOrVariantQuery extends BaseQuery<BaseRe
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected contentItemIdentifier: Identifiers.ContentItemIdentifier,
-    protected languageIdentifier: Identifiers.LanguageIdentifier,
-    protected workflowIdentifier: Identifiers.WorkflowIdentifier
+    public contentItemIdentifier: Identifiers.ContentItemIdentifier,
+    public languageIdentifier: Identifiers.LanguageIdentifier,
+    public workflowIdentifier: Identifiers.WorkflowIdentifier
   ) {
     super(config, queryService);
   }

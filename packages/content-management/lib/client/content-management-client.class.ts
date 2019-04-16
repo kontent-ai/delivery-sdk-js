@@ -2,20 +2,24 @@ import { HttpService } from 'kentico-cloud-core';
 
 import { IContentManagementClientConfig } from '../config';
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, ContentTypeModels, TaxonomyModels, ContentTypeSnippetModels } from '../models';
+import { AssetModels, ContentTypeModels, ContentTypeSnippetModels, TaxonomyModels, WorkflowModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
     AddContentTypeQuery,
+    AddContentTypeSnippetQuery,
     AddTaxonomyQuery,
     AssetIdentifierQueryClass,
+    CancelScheduledPublishingOfLanguageVariantQuery,
     ChangeWorkflowStepOfLanguageOrVariantQuery,
     ContentItemIdentifierQuery,
     ContentTypeIdentifierQuery,
+    CreateNewVersionOfLanguageVariantQuery,
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
     DeleteContentTypeQuery,
+    DeleteContentTypeSnippetQuery,
     DeleteTaxonomyQuery,
     LanguageIdentifierQuery,
     LanguageVariantElementsQuery,
@@ -29,6 +33,7 @@ import {
     ProjectIdIdentifierQuery,
     PublishOrScheduleLanguageVariantQuery,
     TaxonomyIdentifierQuery,
+    UnpublishLanguageVariantQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
@@ -41,11 +46,6 @@ import {
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
-    DeleteContentTypeSnippetQuery,
-    AddContentTypeSnippetQuery,
-    CreateNewVersionOfLanguageVariantQuery,
-    UnpublishLanguageVariantQuery,
-    CancelScheduledPublishingOfLanguageVariantQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -108,12 +108,13 @@ export class ContentManagementClient implements IContentManagementClient {
                 ));
     }
 
-    publishOrScheduleLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<PublishOrScheduleLanguageVariantQuery>> {
-        return new ContentItemIdentifierQuery<LanguageIdentifierQuery<PublishOrScheduleLanguageVariantQuery>>(
+    publishOrScheduleLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<DataQuery<PublishOrScheduleLanguageVariantQuery, WorkflowModels.IPublishOrSchedulePublishData>>> {
+        return new ContentItemIdentifierQuery<LanguageIdentifierQuery<DataQuery<PublishOrScheduleLanguageVariantQuery, WorkflowModels.IPublishOrSchedulePublishData>>>(
             this.config, this.queryService, (
-                config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<PublishOrScheduleLanguageVariantQuery>(
-                    config, queryService, (nConfig, nQueryService, languageIdentifier) => new PublishOrScheduleLanguageVariantQuery(nConfig, nQueryService, contentItemIdentifier, languageIdentifier)
-                )
+                config, queryService, contentItemIdentifier) => new LanguageIdentifierQuery<DataQuery<PublishOrScheduleLanguageVariantQuery, WorkflowModels.IPublishOrSchedulePublishData>>(
+                    config, queryService, (nConfig, nQueryService, languageIdentifier) => new DataQuery<PublishOrScheduleLanguageVariantQuery, WorkflowModels.IPublishOrSchedulePublishData>(nConfig, nQueryService, (
+                        pConfig, pQueryService, data) => new PublishOrScheduleLanguageVariantQuery(pConfig, pQueryService, contentItemIdentifier, languageIdentifier, data)
+                    ))
         );
     }
 

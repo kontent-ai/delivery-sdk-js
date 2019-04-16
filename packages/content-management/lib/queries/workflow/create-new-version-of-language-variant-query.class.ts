@@ -11,8 +11,8 @@ export class CreateNewVersionOfLanguageVariantQuery extends BaseQuery<BaseRespon
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected contentItemIdentifier: Identifiers.ContentItemIdentifier,
-    protected languageIdentifier: Identifiers.LanguageIdentifier,
+    public contentItemIdentifier: Identifiers.ContentItemIdentifier,
+    public languageIdentifier: Identifiers.LanguageIdentifier,
   ) {
     super(config, queryService);
   }

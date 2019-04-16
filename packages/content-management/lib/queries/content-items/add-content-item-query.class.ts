@@ -11,7 +11,7 @@ export class AddContentItemQuery extends BaseQuery<ContentItemResponses.AddConte
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected data: ContentItemContracts.IAddContentItemPostContract
+    public data: ContentItemContracts.IAddContentItemPostContract
   ) {
     super(config, queryService);
   }

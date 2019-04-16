@@ -11,7 +11,7 @@ export class UpdateAssetQuery extends BaseQuery<AssetResponses.UpdateAssetRespon
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected data: AssetModels.IUpdateAssetRequestData,
+    public data: AssetModels.IUpdateAssetRequestData,
   ) {
     super(config, queryService);
   }

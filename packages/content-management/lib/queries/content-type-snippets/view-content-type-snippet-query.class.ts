@@ -11,7 +11,7 @@ export class ViewContentTypeSnippetQuery extends BaseQuery<ContentTypeSnippetRes
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected identifier: Identifiers.ContentTypeIdentifier,
+    public identifier: Identifiers.ContentTypeIdentifier,
   ) {
     super(config, queryService);
   }
