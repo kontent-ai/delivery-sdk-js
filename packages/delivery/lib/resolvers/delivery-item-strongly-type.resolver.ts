@@ -3,7 +3,7 @@ import { ContentItemSystemAttributes } from '../models/item/content-item-system-
 import { ContentItem } from '../models/item/content-item.class';
 import { TypeResolver } from '../models/item/item-resolvers';
 
-export class StronglyTypedResolver {
+export class DeliveryItemStronglyTypeResolver {
 
     private readonly systemFieldName = 'system';
     private readonly elementsFieldName = 'elements';
@@ -68,7 +68,7 @@ export class StronglyTypedResolver {
             name: rawSystem.name,
             codename: rawSystem.codename,
             id: rawSystem.id,
-            lastModified: rawSystem.last_modified,
+            lastModified: new Date(rawSystem.last_modified),
             language: rawSystem.language,
             type: rawSystem.type,
             sitemapLocations: rawSystem.sitemap_locations
@@ -87,4 +87,4 @@ export class StronglyTypedResolver {
 
 }
 
-export const stronglyTypedResolver = new StronglyTypedResolver();
+export const stronglyTypedResolver = new DeliveryItemStronglyTypeResolver();

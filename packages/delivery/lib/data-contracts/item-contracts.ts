@@ -34,7 +34,7 @@ export namespace ItemContracts {
     name: string;
     codename: string;
     type: string;
-    last_modified: Date;
+    last_modified: string;
     language: string;
     sitemap_locations: string[];
   }
