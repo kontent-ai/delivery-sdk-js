@@ -11,7 +11,7 @@ export class AddContentTypeSnippetQuery extends BaseQuery<ContentTypeSnippetResp
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected data: ContentTypeSnippetModels.IAddContentTypeSnippetData,
+    public data: ContentTypeSnippetModels.IAddContentTypeSnippetData,
   ) {
     super(config, queryService);
   }

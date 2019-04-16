@@ -10,7 +10,7 @@ export class ValidateProjectContentQuery extends BaseQuery<ProjectResponses.Vali
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected projectId: string,
+    public projectId: string,
   ) {
     super(config, queryService);
   }

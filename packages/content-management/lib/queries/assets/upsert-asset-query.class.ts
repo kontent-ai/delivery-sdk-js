@@ -11,7 +11,7 @@ export class UpsertAssetQuery extends BaseQuery<AssetResponses.UpdateAssetRespon
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected data: AssetModels.IUpsertAssetRequestData,
+    public data: AssetModels.IUpsertAssetRequestData,
   ) {
     super(config, queryService);
   }

@@ -11,7 +11,7 @@ export class DeleteAssetQuery extends BaseQuery<AssetResponses.DeleteAssetRespon
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected identifier: Identifiers.AssetIdentifier,
+    public identifier: Identifiers.AssetIdentifier,
   ) {
     super(config, queryService);
   }

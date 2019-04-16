@@ -11,7 +11,7 @@ export class AddTaxonomyQuery extends BaseQuery<TaxonomyResponses.AddTaxonomyRes
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected data: TaxonomyModels.IAddTaxonomyRequestModel
+    public data: TaxonomyModels.IAddTaxonomyRequestModel
   ) {
     super(config, queryService);
   }

@@ -30,6 +30,7 @@ import {
     IContentManagementQueryConfig,
     LanguageVariantModels,
     TaxonomyModels,
+    WorkflowModels,
 } from '../models';
 import {
     AssetResponses,
@@ -56,11 +57,12 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
 
     publishOrScheduleLanguageVariant(
         url: string,
+        data: WorkflowModels.IPublishOrSchedulePublishData,
         config: IContentManagementQueryConfig
     ): Observable<BaseResponses.EmptyContentManagementResponse> {
         return this.putResponse<void>(
             url,
-            undefined,
+            data,
             {},
             config,
         ).pipe(

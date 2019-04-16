@@ -11,7 +11,7 @@ export class AddContentTypeQuery extends BaseQuery<ContentTypeResponses.AddConte
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    protected data: ContentTypeModels.IAddContentTypeData,
+    public data: ContentTypeModels.IAddContentTypeData,
   ) {
     super(config, queryService);
   }

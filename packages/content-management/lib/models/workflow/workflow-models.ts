@@ -4,7 +4,7 @@ export namespace WorkflowModels {
 
         public id!: string;
         public name!: string;
-        transitionsTo!: string[];
+        public transitionsTo!: string[];
 
         constructor(data: {
             id: string,
@@ -13,6 +13,13 @@ export namespace WorkflowModels {
         }) {
             Object.assign(this, data);
         }
+    }
+
+    export interface IPublishOrSchedulePublishData {
+        /**
+         * ISO-8601 formatted date/time. Example: 2019-01-31T11:00:00+01:00
+         */
+        scheduled_to?: string;
     }
 
 }

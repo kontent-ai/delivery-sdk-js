@@ -13,7 +13,7 @@ export class UpsertLanguageVariantQuery extends BaseQuery<LanguageVariantRespons
     protected queryService: ContentManagementQueryService,
     protected contentItemIdentifier: Identifiers.ContentItemIdentifier,
     protected languageIdentifier: Identifiers.LanguageIdentifier,
-    protected elements: LanguageVariantModels.ILanguageVariantElement[]
+    public elements: LanguageVariantModels.ILanguageVariantElement[]
   ) {
     super(config, queryService);
   }

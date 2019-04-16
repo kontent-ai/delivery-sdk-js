@@ -1,5 +1,5 @@
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, ContentTypeModels, ContentTypeSnippetModels, TaxonomyModels } from '../models';
+import { AssetModels, ContentTypeModels, ContentTypeSnippetModels, TaxonomyModels, WorkflowModels } from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
@@ -7,9 +7,11 @@ import {
     AddContentTypeSnippetQuery,
     AddTaxonomyQuery,
     AssetIdentifierQueryClass,
+    CancelScheduledPublishingOfLanguageVariantQuery,
     ChangeWorkflowStepOfLanguageOrVariantQuery,
     ContentItemIdentifierQuery,
     ContentTypeIdentifierQuery,
+    CreateNewVersionOfLanguageVariantQuery,
     DataQuery,
     DeleteAssetQuery,
     DeleteContentItemQuery,
@@ -28,6 +30,7 @@ import {
     ProjectIdIdentifierQuery,
     PublishOrScheduleLanguageVariantQuery,
     TaxonomyIdentifierQuery,
+    UnpublishLanguageVariantQuery,
     UpdateAssetQuery,
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
@@ -40,9 +43,6 @@ import {
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
-    CreateNewVersionOfLanguageVariantQuery,
-    UnpublishLanguageVariantQuery,
-    CancelScheduledPublishingOfLanguageVariantQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
@@ -71,7 +71,7 @@ export interface IContentManagementClient {
     /**
      * Change the workflow step of the specified language variant to "Published" or schedule publishing at the specified time.
      */
-    publishOrScheduleLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<PublishOrScheduleLanguageVariantQuery>>;
+    publishOrScheduleLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<DataQuery<PublishOrScheduleLanguageVariantQuery, WorkflowModels.IPublishOrSchedulePublishData>>>;
 
     /**
      * Query to list all workflow steps in project
