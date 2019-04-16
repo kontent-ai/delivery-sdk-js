@@ -2,7 +2,7 @@ import { RichTextContentType } from '../enums';
 import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult, IRichTextImageResolverResult } from '../interfaces';
 import { ContentItem, ItemRichTextResolver, Link, RichTextImage, TypeResolver } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
-import { stronglyTypedResolver } from './strongly-type.resolver';
+import { stronglyTypedResolver } from './delivery-item-strongly-type.resolver';
 
 export class RichTextResolver {
 

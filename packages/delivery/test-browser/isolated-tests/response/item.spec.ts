@@ -2,7 +2,7 @@ import { ItemResponses, sdkInfo } from '../../../lib';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 import { HttpService } from 'kentico-cloud-core';
 
-describe('Isolated item', () => {
+describe('Verifies mapping of delivery content item', () => {
 
     const context = new Context();
     setup(context);
@@ -33,7 +33,8 @@ describe('Isolated item', () => {
     });
 
     it(`checks last modified`, () => {
-        expect(response.item.system.lastModified.toString()).toEqual('2017-06-21T12:22:09.1437891Z');
+        expect(response.item.system.lastModified).toEqual(jasmine.any(Date));
+        expect(response.item.system.lastModified).toEqual(new Date('2017-06-21T12:22:09.1437891Z'));
     });
 
     it(`checks language`, () => {
