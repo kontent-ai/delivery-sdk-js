@@ -57,9 +57,6 @@ export class ContentManagementClient implements IContentManagementClient {
     private queryService: ContentManagementQueryService;
 
     constructor(
-        /**
-         * Tracking client configuration
-         */
         protected config: IContentManagementClientConfig
     ) {
         this.queryService = new ContentManagementQueryService(
