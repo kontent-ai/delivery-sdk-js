@@ -119,6 +119,10 @@ class ContentManagementContentItemActions {
         return `items/${identifier.getParamValue()}`;
     }
 
+    upsertContentItem(identifier: Identifiers.ContentItemIdentifier): string {
+        return `items/${identifier.getParamValue()}`;
+    }
+
     deleteContentItem(identifier: Identifiers.ContentItemIdentifier): string {
         return `items/${identifier.getParamValue()}`;
     }

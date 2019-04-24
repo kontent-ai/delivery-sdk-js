@@ -43,6 +43,7 @@ import {
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
+    UpsertContentItemQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
@@ -202,6 +203,11 @@ export interface IContentManagementClient {
      * Update content item query
      */
     updateContentItem(): ContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>;
+
+    /**
+     * Upsert content item query
+     */
+    upsertContentItem(): ContentItemIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>>;
 
     /**
      * Delete content item query

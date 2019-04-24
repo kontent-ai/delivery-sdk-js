@@ -52,6 +52,16 @@ export namespace ContentItemResponses {
         }
     }
 
+    export class UpsertContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IUpsertContentItemResponseContract, ContentItemModels.ContentItem> {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: ContentItemContracts.IUpsertContentItemResponseContract,
+            data: ContentItemModels.ContentItem
+        ) {
+            super(debug, rawData, data);
+        }
+    }
+
     export class DeleteContentItemResponse extends BaseResponses.BaseContentManagementResponse<ContentItemContracts.IDeleteContentItemResponseContract, undefined> {
 
         data: undefined;

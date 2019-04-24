@@ -520,6 +520,23 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         );
     }
 
+    upsertContentItem(
+        url: string,
+        data: ContentItemContracts.IUpsertContentItemPostContract,
+        config: IContentManagementQueryConfig
+    ): Observable<ContentItemResponses.UpsertContentItemResponse> {
+        return this.putResponse<ContentItemContracts.IUpsertContentItemResponseContract>(
+            url,
+            data,
+            {},
+            config
+        ).pipe(
+            map(response => {
+                return contentItemsResponseMapper.mapUpsertContentItemResponse(response);
+            })
+        );
+    }
+
     updateContentItem(
         url: string,
         data: ContentItemContracts.IUpdateContentItemPostContract,

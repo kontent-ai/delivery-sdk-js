@@ -7,22 +7,22 @@ import { ContentItemResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
 
-export class UpdateContentItemQuery extends BaseQuery<ContentItemResponses.UpdateContentItemResponse> {
+export class UpsertContentItemQuery extends BaseQuery<ContentItemResponses.UpsertContentItemResponse> {
 
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    public data: ContentItemContracts.IUpdateContentItemPostContract,
+    public data: ContentItemContracts.IUpsertContentItemPostContract,
     public identifier: Identifiers.ContentItemIdentifier,
   ) {
     super(config, queryService);
   }
 
-  toObservable(): Observable<ContentItemResponses.UpdateContentItemResponse> {
-    return this.queryService.updateContentItem(this.getUrl(), this.data, this.queryConfig);
+  toObservable(): Observable<ContentItemResponses.UpsertContentItemResponse> {
+    return this.queryService.upsertContentItem(this.getUrl(), this.data, this.queryConfig);
   }
 
   protected getAction(): string {
-      return this.actions.contentItemActions.updateContentItem(this.identifier);
+      return this.actions.contentItemActions.upsertContentItem(this.identifier);
   }
 }
