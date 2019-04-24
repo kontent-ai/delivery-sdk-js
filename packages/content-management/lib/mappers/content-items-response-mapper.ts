@@ -38,6 +38,12 @@ export class ContentItemsResponseMapper extends BaseMapper {
         return new ContentItemResponses.UpdateContentItemResponse(super.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
     }
 
+    mapUpsertContentItemResponse(
+        response: IBaseResponse<ContentItemContracts.IUpsertContentItemResponseContract>
+    ): ContentItemResponses.UpsertContentItemResponse {
+        return new ContentItemResponses.UpsertContentItemResponse(super.mapResponseDebug(response), response.data, this.mapContentItem(response.data));
+    }
+
     mapDeleteContentItemResponse(
         response: IBaseResponse<ContentItemContracts.IDeleteContentItemResponseContract>
     ): ContentItemResponses.DeleteContentItemResponse {

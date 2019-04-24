@@ -46,6 +46,7 @@ import {
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
+    UpsertContentItemQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -321,6 +322,15 @@ export class ContentManagementClient implements IContentManagementClient {
             this.config, this.queryService, (
                 config, queryService, identifier) => new DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>(
                     config, queryService, (nConfig, nQueryService, data) => new UpdateContentItemQuery(nConfig, nQueryService, data, identifier)
+                )
+        );
+    }
+
+    upsertContentItem(): ContentItemIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>> {
+        return new ContentItemIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>>(
+            this.config, this.queryService, (
+                config, queryService, identifier) => new DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>(
+                    config, queryService, (nConfig, nQueryService, data) => new UpsertContentItemQuery(nConfig, nQueryService, data, identifier)
                 )
         );
     }

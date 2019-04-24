@@ -29,6 +29,9 @@ export namespace ContentItemContracts {
     export interface IUpdateContentItemResponseContract extends IContentItemModelContract {
     }
 
+    export interface IUpsertContentItemResponseContract extends IContentItemModelContract {
+    }
+
     export interface IDeleteContentItemResponseContract {
     }
 
@@ -37,6 +40,14 @@ export namespace ContentItemContracts {
         sitemap_locations: [{
             codename: string
         }] | [];
+    }
+
+    export interface IUpsertContentItemPostContract {
+        name: string;
+        type: string;
+        sitemap_locations?: [{
+            codename: string
+        }];
     }
 
     export interface IAddContentItemPostContract {
