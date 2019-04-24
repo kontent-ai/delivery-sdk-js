@@ -12,6 +12,7 @@ import {
     AssetIdentifierQueryClass,
     CancelScheduledPublishingOfLanguageVariantQuery,
     ChangeWorkflowStepOfLanguageOrVariantQuery,
+    ContentItemExternalIdIdentifierQuery,
     ContentItemIdentifierQuery,
     ContentTypeIdentifierQuery,
     CreateNewVersionOfLanguageVariantQuery,
@@ -38,6 +39,7 @@ import {
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
+    UpsertContentItemQuery,
     UpsertLanguageVariantQuery,
     ValidateProjectContentQuery,
     ViewAssetsQuery,
@@ -46,7 +48,6 @@ import {
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
-    UpsertContentItemQuery,
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
@@ -326,8 +327,8 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    upsertContentItem(): ContentItemIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>> {
-        return new ContentItemIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>>(
+    upsertContentItem(): ContentItemExternalIdIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>> {
+        return new ContentItemExternalIdIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>>(
             this.config, this.queryService, (
                 config, queryService, identifier) => new DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>(
                     config, queryService, (nConfig, nQueryService, data) => new UpsertContentItemQuery(nConfig, nQueryService, data, identifier)

@@ -9,4 +9,4 @@ export * from './taxonomy-identifier-query.class';
 export * from './asset-identifier-query.class';
 export * from './workflow-step-identifier-query.class';
 export * from './content-type-identifier-query.class';
-
+export * from './content-item-external-id-identifier.class';

@@ -7,7 +7,7 @@ describe('Upsert content item', () => {
 
     beforeAll((done) => {
         getTestClientWithJson(upsertContentItemResponseJson).upsertContentItem()
-            .byItemCodename('x')
+            .byItemExternalId('x')
             .withData({
                 name: 'y',
                 type: 'xType',
@@ -21,12 +21,8 @@ describe('Upsert content item', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrl = cmTestClient.upsertContentItem().byItemCodename('xCodename').withData({} as any).getUrl();
-        const internalIdUrl = cmTestClient.upsertContentItem().byItemId('xInternalId').withData({} as any).getUrl();
         const externalIdUrl = cmTestClient.upsertContentItem().byItemExternalId('xExternalId').withData({} as any).getUrl();
 
-        expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename`);
-        expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId`);
         expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/external-id/xExternalId`);
     });
 

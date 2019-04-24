@@ -44,6 +44,7 @@ import {
     ViewLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
     UpsertContentItemQuery,
+    ContentItemExternalIdIdentifierQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
@@ -207,7 +208,7 @@ export interface IContentManagementClient {
     /**
      * Upsert content item query
      */
-    upsertContentItem(): ContentItemIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>>;
+    upsertContentItem(): ContentItemExternalIdIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>>;
 
     /**
      * Delete content item query
