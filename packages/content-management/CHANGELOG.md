@@ -1,3 +1,9 @@
+## 0.0.14 (2019-04-24)
+
+#### :rocket: Enhancement
+  * [#164](https://github.com/Kentico/kentico-cloud-js/pull/164) Implements upsert content item API endpoint ([@Enngage](https://github.com/Enngage))
+  * [#163](https://github.com/Kentico/kentico-cloud-js/pull/163) Adds support for specifying 'scheduled_to' data body param for publish or schedule to publish query), exposes data related properties for all queries ([@Enngage](https://github.com/Enngage))
+
 ## 0.0.13 (2019-04-04)
 
 #### :house: Internal

@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-delivery",
-  "version": "6.0.0-beta.2",
+  "version": "6.0.0-beta.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/delivery"
@@ -48,7 +48,7 @@
     "test:all": "npm run test:node && npm run test:travis",
     "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version && npm run generate:docs",
     "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version && npm run generate:docs",
-    "new-major": "npm version major && npm run set-sdk-version && npm run check-version&& npm run generate:docs",
+    "new-major": "npm version major && npm run set-sdk-version && npm run check-version && npm run generate:docs",
     "prepublishOnly": "npm run ts-lint:check && npm run check-version && npm run build:all && npm run test:all",
     "set-sdk-version": "node ./misc/set-sdk-version.js",
     "check-version": "npm run ts-node-local ./misc/verify-sdk-version.ts",

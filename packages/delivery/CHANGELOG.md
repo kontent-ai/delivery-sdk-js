@@ -1,3 +1,8 @@
+## 6.0.0-beta.3 (2019-04-24)
+
+#### :bug: Bug Fix
+  * [#162](https://github.com/Kentico/kentico-cloud-js/pull/162) Fixes mapping of 'last_modified' system attribute value. This was incorrectly mapped as string even though specified type is Date. Currently the value is a Date object. ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-beta.2 (2019-03-12)
 
 #### :rocket: Enhancement
