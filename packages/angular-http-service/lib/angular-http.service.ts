@@ -23,6 +23,40 @@ export class AngularHttpService implements IHttpService {
         private http: HttpClient
     ) { }
 
+    retryPromise<T>(promise: Promise<T>, options: {
+        maxRetryAttempts: number;
+        useRetryForResponseCodes: number[];
+    }, currentAttempt: number): Promise<T> {
+        return new Promise((resolve, reject) => promise
+            .then((response) => {
+                resolve(response);
+            })
+            .catch((reason: any) => {
+                let statusCode = 0;
+
+                if (reason && reason.originalError && reason.originalError.request) {
+                    statusCode = reason.originalError.request.status;
+                }
+
+                const retryCode = options.useRetryForResponseCodes.find(m => m === statusCode);
+                if (!retryCode && retryCode !== 0) {
+                    return reject(reason);
+                }
+
+                const retryTimeout = this.getRetryTimeout(currentAttempt);
+                if (currentAttempt <= options.maxRetryAttempts) {
+                    return this.promiseRetryWait(retryTimeout)
+                        .then(() => {
+                            return this.retryPromise(promise, options, currentAttempt + 1);
+                        })
+                        .then((response) => resolve(response))
+                        .catch((error) => reject(error));
+                }
+                return reject(reason);
+            })
+        );
+    }
+
     get<TError extends any, TRawData extends any>(
         call: IHttpGetQueryCall<TError>,
         options?: IHttpQueryOptions
@@ -69,6 +103,14 @@ export class AngularHttpService implements IHttpService {
         });
 
         return this.mapAngularObservable(angularObs, call, options);
+    }
+
+    private getRetryTimeout(attempt: number): number {
+        return Math.pow(2, attempt) * 100;
+    }
+
+    private promiseRetryWait(ms: number): Promise<number> {
+        return new Promise<number>(r => setTimeout(r, ms));
     }
 
     private mapAngularObservable<TError extends any, TRawData extends any>(obs: Observable<any>, call: IHttpQueryCall<TError>, options?: IHttpQueryOptions): Observable<IBaseResponse<TRawData>> {
