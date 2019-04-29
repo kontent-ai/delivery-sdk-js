@@ -8,7 +8,7 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
     typeResolvers: [],
 });
 
-describe('#TEST bug', () => {
+describe('#Rich text images issue', () => {
 
   let response;
 
@@ -40,9 +40,4 @@ describe('#TEST bug', () => {
       } 
 
     });
-
-    function getImageSrcHtml(imageUrl) {
-        return `src=\"${imageUrl}"`;
-    }
-
 });
