@@ -25,19 +25,9 @@ describe('#Rich text images issue', () => {
     });
  
     it('Test included images', () => {
-      const codenames = Object.keys(response.linkedItems);
-
-      for (const codename of codenames) {
-        const item = response.linkedItems[codename];
-        if (item.system.type === 'callout') {
-          // resolve html
-          console.log('Resolving item with codename: ' + item.system.codename);
-          const contentHtml = item.content.getHtml();
-          console.log(contentHtml);
-          console.log('\n\n\n');
-        }
-        assert.ok(codename);
-      } 
-
+      const item = response.linkedItems['c05d367a_35fa_014a_5fa5_f796f2c136f1'];
+      const contentHtml = item.content.getHtml();
+      console.log(contentHtml);
+      assert.ok(true);
     });
 });
