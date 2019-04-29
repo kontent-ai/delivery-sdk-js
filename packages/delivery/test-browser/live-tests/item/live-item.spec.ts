@@ -157,6 +157,8 @@ describe('Live item', () => {
       const plotHtml = response.item.plot.getHtml();
 
       expect(plotHtml).toContain(`src="${newImageUrl}"`);
+      expect(image.width).toBeGreaterThan(0);
+      expect(image.height).toBeGreaterThan(0);
     });
   });
 

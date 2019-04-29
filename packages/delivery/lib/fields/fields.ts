@@ -209,14 +209,8 @@ export namespace Fields {
                 throw Error(`Cannot bind assets because the provided value is not an array`);
             }
 
-            this.value.forEach((asset: FieldContracts.IAssetContract) => {
-                this.assets.push(new FieldModels.AssetModel(
-                    asset.name,
-                    asset.type,
-                    asset.size,
-                    asset.description,
-                    asset.url
-                ));
+            this.value.forEach((rawAsset: FieldContracts.IAssetContract) => {
+                this.assets.push(new FieldModels.AssetModel(rawAsset));
             });
         }
     }

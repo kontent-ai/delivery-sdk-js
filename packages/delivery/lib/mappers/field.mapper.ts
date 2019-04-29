@@ -496,7 +496,9 @@ export class FieldMapper {
             images.push(new RichTextImage({
                 description: imageRaw.description,
                 imageId: imageRaw.image_id,
-                url: imageRaw.url
+                url: imageRaw.url,
+                height: imageRaw.height,
+                width: imageRaw.width
             }));
         }
 

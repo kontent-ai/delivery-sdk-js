@@ -13,6 +13,8 @@ export namespace FieldContracts {
         size: number;
         description: string;
         url: string;
+        width?: number;
+        height?: number;
     }
 
     export interface IMultipleChoiceOptionContract {
@@ -43,6 +45,8 @@ export namespace FieldContracts {
         image_id: string;
         url: string;
         description?: string;
+        height?: number;
+        width?: number;
     }
 
     export interface IRichTextFieldContract extends IFieldContract {
