@@ -1,3 +1,5 @@
+import { FieldContracts } from './field-contracts';
+
 export namespace FieldModels {
 
     export interface IField {
@@ -9,21 +11,56 @@ export namespace FieldModels {
     export class AssetModel {
 
         /**
-        * Represents Kentico Cloud's asset
+         * Name of the asset
+         */
+        public name: string;
+
+        /**
+         * Type of the asset
+         */
+        public type: string;
+
+        /**
+         * Size of the asset
+         */
+        public size: number;
+
+        /**
+         * Description of the asset
+         */
+        public description?: string;
+
+        /**
+         * Url of the asset
+         */
+        public url: string;
+
+        /**
+         * Width in pixels for image assets
+         */
+        public width?: number;
+
+        /**
+         * Height in pixels for image assets
+         */
+        public height?: number;
+
+        /**
+        * Represents Assets field
         * @constructor
-        * @param {string} name - Name of the asset
-        * @param {string} type - Type of the asset
-        * @param {number} size - Size of the asset
-        * @param {string} description - Description of the asset
-        * @param {string} url - Url of the asset
+        * @param {FieldContracts.IAssetContract} rawAsset - Raw asset contract
         */
         constructor(
-            public name: string,
-            public type: string,
-            public size: number,
-            public description: string,
-            public url: string,
-        ) { }
+            public contract: FieldContracts.IAssetContract
+        ) {
+            this.name = contract.name;
+            this.type = contract.type;
+            this.size = contract.size,
+            this.description = contract.description,
+            this.url = contract.url;
+            this.width = contract.width;
+            this.height = contract.height;
+         }
     }
 
     export class MultipleChoiceOption {

@@ -19,12 +19,17 @@ describe('RichTextField with Images', () => {
         new RichTextImage({
             imageId: 'image1',
             url: 'www.domain.com/image1.png',
-            description: ''
+            description: undefined,
+            height: 99,
+            width: 88
+
         }),
         new RichTextImage({
             imageId: 'image2',
             url: 'www.domain.com/image2.png',
-            description: ''
+            description: undefined,
+            height: 12,
+            width: 11
         })
     ];
 
