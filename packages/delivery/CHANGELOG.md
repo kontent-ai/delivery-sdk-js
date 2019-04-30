@@ -1,3 +1,11 @@
+## 6.0.0-beta.4 (2019-04-30)
+
+#### :rocket: Enhancement
+  * [#166](https://github.com/Kentico/kentico-cloud-js/pull/166) Adds support for delivery image dimension properties ([@Enngage](https://github.com/Enngage))
+
+#### :bug: Bug Fix
+  * [#167](https://github.com/Kentico/kentico-cloud-js/pull/167) Recursively processes HTML resolved by richTextResolvers in browserRichTextAdapter, fixes an issue when images of nested items were not available in resolver context ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-beta.3 (2019-04-24)
 
 #### :bug: Bug Fix
