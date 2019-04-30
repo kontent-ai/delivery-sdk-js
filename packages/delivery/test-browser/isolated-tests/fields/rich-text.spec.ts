@@ -106,7 +106,7 @@ describe('RichTextField', () => {
 
     const field = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
         links: links,
-        resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
+        resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
             enableAdvancedLogging: false,
             links: links,
             getLinkedItem: getLinkedItem,
@@ -176,7 +176,7 @@ describe('RichTextField', () => {
 
         const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
+            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
@@ -204,7 +204,7 @@ describe('RichTextField', () => {
 
         const fieldWithRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
+            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,

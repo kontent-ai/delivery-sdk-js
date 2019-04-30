@@ -40,7 +40,7 @@ describe('RichTextField with Images', () => {
     it(`Checks that images are resolved using default resolver`, () => {
         const field = new Fields.RichTextField('name', html, [], {
             links: [],
-            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
+            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: [],
                 getLinkedItem: (codename) => undefined,
@@ -68,7 +68,7 @@ describe('RichTextField with Images', () => {
     it(`Checks that images are resolved using custom resolver`, () => {
         const field2 = new Fields.RichTextField('name', html, [], {
             links: [],
-            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
+            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: [],
                 getLinkedItem: (codename) => undefined,

@@ -163,7 +163,7 @@ if (codeType === CodeType.TypeScript) {
         } else if (fieldType.toLowerCase()  === FieldType.Custom.toLowerCase() ) {
             result = 'CustomField';
         } else {
-            console.log(`Unsupported field type '${fieldType}'`);
+            console.warn(`Unsupported field type '${fieldType}'`);
         }
         return generatorConfig.fieldsNamespace + '.' + result;
     }

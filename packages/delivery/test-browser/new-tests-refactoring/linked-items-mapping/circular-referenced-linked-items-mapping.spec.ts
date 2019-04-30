@@ -13,7 +13,6 @@ describe('Circular references in linked items', () => {
       .toObservable()
       .subscribe(result => {
         response = result;
-        console.log(result);
         done();
       });
   });

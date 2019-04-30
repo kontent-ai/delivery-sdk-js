@@ -3,6 +3,7 @@ import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult, IRichTextI
 import { ContentItem, ItemRichTextResolver, Link, RichTextImage, TypeResolver } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 import { stronglyTypedResolver } from './delivery-item-strongly-type.resolver';
+import { Fields } from '../fields';
 
 export class RichTextResolver {
 
@@ -11,6 +12,7 @@ export class RichTextResolver {
      * Rich text resolved needs to be configured either on the model or query level
      */
     resolveHtml(
+        contentItemCodename: string,
         html: string,
         fieldName: string,
         data: {
@@ -24,7 +26,6 @@ export class RichTextResolver {
             linkedItemWrapperTag: string,
             linkedItemWrapperClasses: string[]
         }): string {
-
         // prepare config
         const config: IHtmlResolverConfig = {
             enableAdvancedLogging: data.enableAdvancedLogging,
@@ -34,7 +35,7 @@ export class RichTextResolver {
         };
 
         const result = data.richTextHtmlParser.resolveRichTextField(
-            html, fieldName, {
+            contentItemCodename, html, fieldName, {
                 getLinkResult: (itemId: string, linkText: string) => this.getLinkResult({
                     config: config,
                     links: data.links,
@@ -48,13 +49,15 @@ export class RichTextResolver {
                     getLinkedItem: data.getLinkedItem,
                     itemType: itemType
                 }),
-                getImageResult: (imageId: string) => this.getImageResult(
+                getImageResult: (itemCodename, imageId: string, xFieldName: string) => this.getImageResult(
                     {
+                        getLinkedItem: data.getLinkedItem,
+                        itemCodename: itemCodename,
                         config: config,
                         imageId: imageId,
                         images: data.images,
                         html: html,
-                        fieldName: fieldName
+                        fieldName: xFieldName
                     })
             }, {
                 enableAdvancedLogging: data.enableAdvancedLogging,
@@ -67,14 +70,30 @@ export class RichTextResolver {
     }
 
     private getImageResult(data: {
+        itemCodename: string,
+        getLinkedItem: (codename: string) => ContentItem | undefined,
         config: IHtmlResolverConfig,
         imageId: string,
         images: RichTextImage[],
         html: string,
         fieldName: string
     }): IRichTextImageResolverResult {
+
+        const images = data.images;
+
+        // get item and its images (required when child resolved HTML containes images)
+        if (data.itemCodename) {
+            const linkedItem = data.getLinkedItem(data.itemCodename);
+            if (linkedItem) {
+                const richTextElement = linkedItem[data.fieldName];
+                if (richTextElement instanceof Fields.RichTextField) {
+                    images.push(...richTextElement.images);
+                }
+            }
+        }
+
         // find image
-        const image = data.images.find(m => m.imageId === data.imageId);
+        const image = images.find(m => m.imageId === data.imageId);
 
         if (!image) {
             throw Error(`Image with id '${data.imageId}' was not found in images data`);

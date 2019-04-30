@@ -24,7 +24,7 @@ import { parse5Utils } from './parse5utils';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
 
-    resolveRichTextField(html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
+    resolveRichTextField(contentItemCodename: String, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         try {
             // create document
             const documentFragment = parseFragment(html) as DefaultTreeDocumentFragment;
@@ -100,7 +100,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         // add link to result
         result.images.push(image);
 
-        const linkResult = replacement.getImageResult(image.imageId, fieldName);
+        const linkResult = replacement.getImageResult('', image.imageId, fieldName);
 
         // set url of image
         const srcAttribute = attributes.find(m => m.name === parserConfiguration.imageElementData.srcAttribute);
