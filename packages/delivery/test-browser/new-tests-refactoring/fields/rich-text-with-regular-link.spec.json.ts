@@ -9,7 +9,7 @@ describe('Rich text with regular link', () => {
     it(`Resolving HTML should succeed`, () => {
         const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: [],
-            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
+            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: [],
                 getLinkedItem: getLinkedItem,

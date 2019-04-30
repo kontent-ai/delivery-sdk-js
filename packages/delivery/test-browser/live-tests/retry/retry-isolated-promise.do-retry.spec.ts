@@ -22,7 +22,6 @@ describe('Retry Promise - isolated - retry', () => {
         promise.then((response) => {
             throw Error(`This call should not succeed`);
         }).catch(err => {
-            console.log(err);
             done();
         });
 

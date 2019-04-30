@@ -2,7 +2,7 @@ import { RichTextContentType } from '../enums';
 import { IItemQueryConfig, ILinkResolverResult, IRichTextImageResolverResult } from '../interfaces';
 
 export interface IRichTextHtmlParser {
-    resolveRichTextField(html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
+    resolveRichTextField(contentItemCodename: string, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
 }
 
 export interface IFeaturedObjects {
@@ -18,7 +18,7 @@ export interface IRichTextResolverResult extends IFeaturedObjects {
 export interface IRichTextReplacements {
     getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => string;
     getLinkResult: (itemId: string, linkText: string) => string | undefined | ILinkResolverResult;
-    getImageResult: (imageId: string, fieldName: string) => IRichTextImageResolverResult;
+    getImageResult: (linkedItemCodename: string, imageId: string, fieldName: string) => IRichTextImageResolverResult;
 }
 
 export interface IHtmlResolverConfig {

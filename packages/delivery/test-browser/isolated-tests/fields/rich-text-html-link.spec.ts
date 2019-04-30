@@ -104,7 +104,7 @@ describe('RichTextField with Html links', () => {
 
         const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtml: () => richTextResolver.resolveHtml(html, 'name', {
+            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
