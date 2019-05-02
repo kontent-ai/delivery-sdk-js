@@ -1,3 +1,8 @@
+## 6.0.0-beta.5 (2019-05-02)
+
+#### :bug: Bug Fix
+  * [#168](https://github.com/Kentico/kentico-cloud-js/pull/168) Fixes incorrect item codename used for recursive linked item parse5 resolver (fixes https://github.com/Kentico/kentico-cloud-js/issues/165) ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-beta.4 (2019-04-30)
 
 #### :rocket: Enhancement
