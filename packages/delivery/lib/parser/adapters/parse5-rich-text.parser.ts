@@ -24,7 +24,7 @@ import { parse5Utils } from './parse5utils';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
 
-    private readonly resolvedLinkedItemAttribute = 'resolved';
+    private readonly resolvedLinkedItemAttribute = 'data-sdk-resolved';
 
     resolveRichTextField(contentItemCodename: string, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         try {
