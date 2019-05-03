@@ -1,3 +1,8 @@
+## 6.0.0-beta.7 (2019-05-03)
+
+#### :bug: Bug Fix
+  * Uses `data-sdk-resolved` attribute for resolved rich text elements to comply with HTML standards.
+
 ## 6.0.0-beta.6 (2019-05-03)
 
 #### :bug: Bug Fix
