@@ -24,6 +24,8 @@ import { parse5Utils } from './parse5utils';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
 
+    private readonly resolvedLinkedItemAttribute = 'resolved';
+
     resolveRichTextField(contentItemCodename: string, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         try {
             // create document
@@ -56,15 +58,9 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         } else {
             elements.forEach(element => {
                 if (element.attrs) {
-
-                    // process modular content items
                     this.processModularContentItem(fieldName, element, replacement, config, result);
-
-                    // process links
-                    this.processLink(element, replacement, config, result);
-
-                    // process images
                     this.processImage(contentItemCodename, fieldName, element, replacement, config, result);
+                    this.processLink(element, replacement, config, result);
                 }
 
                 if (element.childNodes) {
@@ -186,64 +182,66 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         result: IFeaturedObjects): void {
         const attributes = element.attrs;
 
-        const typeAttribute = attributes.find(m => m.value === parserConfiguration.modularContentElementData.type);
-        if (!typeAttribute) {
-            // node is not kentico cloud data type
-            return;
-        }
-
         const dataTypeAttribute = attributes.find(m => m.name === parserConfiguration.modularContentElementData.dataType);
+        const resolvedDataAttribute = attributes.find(m => m.name === this.resolvedLinkedItemAttribute);
 
-        if (!dataTypeAttribute) {
-            throw Error(`Object tag in rich text field is missing a data type attribute '${parserConfiguration.modularContentElementData.dataType}'`);
+        // process linked itmes
+        if (dataTypeAttribute && !resolvedDataAttribute) {
+
+            // get type of resolving item
+            let type: RichTextContentType | undefined;
+            if (dataTypeAttribute.value === 'item') {
+                type = RichTextContentType.Item;
+            } else {
+                throw Error(`Unknown data type '${type}' found in rich text field response. `);
+            }
+
+            // get codename of the modular content
+            const dataCodenameAttribute: Attribute | undefined = attributes.find(m => m.name === parserConfiguration.modularContentElementData.dataCodename);
+            if (dataCodenameAttribute == null) {
+                throw Error(`The '${parserConfiguration.modularContentElementData.dataCodename}' attribute is missing and therefore linked item cannot be retrieved`);
+            }
+
+            const itemCodename = dataCodenameAttribute.value;
+
+            const linkedItem: ILinkedItemContentObject = {
+                dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
+                dataType: dataTypeAttribute ? dataTypeAttribute.value : ''
+            };
+
+            // add to result
+            result.linkedItems.push(linkedItem);
+
+            const linkedItemHtml = replacement.getLinkedItemHtml(itemCodename, type);
+
+            // flag element as resolved to avoid duplicate resolving
+            element.attrs.push({
+                name: this.resolvedLinkedItemAttribute,
+                value: '1'
+            });
+
+            // get html
+            const resultHtml = this.resolveRichTextField(itemCodename, linkedItemHtml, fieldName, replacement, config).resolvedHtml;
+
+            // replace 'object' tag name
+            element.tagName = config.linkedItemWrapperTag;
+
+            // add classes
+            element.attrs.push({
+                name: 'class',
+                value: config.linkedItemWrapperClasses.map(m => m).join(' ')
+            });
+
+            // get serialized set of nodes from HTML
+            const serializedChildNodes = parseFragment(resultHtml) as any;
+
+            // add child nodes
+            element.childNodes = serializedChildNodes.childNodes;
         }
-
-        // get type of resolving item
-        let type: RichTextContentType | undefined;
-        if (dataTypeAttribute.value === 'item') {
-            type = RichTextContentType.Item;
-        } else {
-            throw Error(`Unknown data type '${type}' found in rich text field response. `);
-        }
-
-        // get codename of the modular content
-        const dataCodenameAttribute: Attribute | undefined = attributes.find(m => m.name === parserConfiguration.modularContentElementData.dataCodename);
-        if (dataCodenameAttribute == null) {
-            throw Error(`The '${parserConfiguration.modularContentElementData.dataCodename}' attribute is missing and therefore linked item cannot be retrieved`);
-        }
-
-        const itemCodename = dataCodenameAttribute.value;
-
-        const linkedItem: ILinkedItemContentObject = {
-            dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
-            dataType: dataTypeAttribute ? dataTypeAttribute.value : ''
-        };
-
-        // add to result
-        result.linkedItems.push(linkedItem);
-
-        // get html
-        const resultHtml = this.resolveRichTextField(itemCodename, replacement.getLinkedItemHtml(itemCodename, type), fieldName, replacement, config).resolvedHtml;
-
-        // replace 'object' tag name
-        element.tagName = config.linkedItemWrapperTag;
-
-        // add classes
-        element.attrs.push({
-            name: 'class',
-            value: config.linkedItemWrapperClasses.map(m => m).join(' ')
-        });
-
-        // get serialized set of nodes from HTML
-        const serializedChildNodes = parseFragment(resultHtml) as any;
-
-        // add child nodes
-        element.childNodes = serializedChildNodes.childNodes;
     }
 
     private getChildNodes(documentFragment: DefaultTreeElement | DefaultTreeDocumentFragment): DefaultTreeElement[] {
         return (documentFragment as DefaultTreeDocumentFragment).childNodes as DefaultTreeElement[];
     }
-
 }
 
