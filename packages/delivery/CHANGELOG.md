@@ -1,3 +1,8 @@
+## 6.0.0-beta.6 (2019-05-03)
+
+#### :bug: Bug Fix
+  * [#170](https://github.com/Kentico/kentico-cloud-js/pull/170) Prevents duplicate resolving of linked items by flagging resolved elements (https://github.com/Kentico/kentico-cloud-js/issues/165) ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-beta.5 (2019-05-02)
 
 #### :bug: Bug Fix
