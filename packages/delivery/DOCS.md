@@ -845,7 +845,38 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | httpService ?| IHttpService | Can be useud to inject custom http service for performing requests |
 | globalHeaders? | IHeader[] |  Array of headers added to each and every http request made with SDK |
 | collissionResolver? | ItemFieldCollisionResolver[] | Resolver called when there are multiple fields with the same name in content item (example collision field names include 'system' or 'elements'). By default an underscore is added before original field name. If the field name is still in collission, field is excluded from mapping. |
-| retryStatusCodes?: number[] | number[] | Array of status codes that should be retried when request fails. Defaults to requests with '500' status code. |
+| retryStatusCodes? | number[] | Array of status codes that should be retried when request fails. Defaults to requests with '500' status code. |
+| proxyUrl? | (data: IProxyUrlData) => string | Can be used to fully customize request URLs. The data callback parameter contains context information from current request such as `projectId`, `queryString`, `action` and others. See [example]()  |
+
+## Using proxy URLs
+
+If you want to use a proxy server, you need to transform request URLs to use different domain. In some cases you might also want to transform URL in some way such as to hide projectId from URL, add custom parameters etc...
+
+To achieve this with SDK you have 2 options - either you set `baseUrl` and `basePreview` or you construct url using `proxyUrl` callback. 
+
+```typescript
+const client = new DeliveryClient({
+  projectId: 'xxx',
+  // Will be used instead of 'https://deliver.kenticocloud.com' for all requests.
+  // Parameters, filters, project Id and other parts of URL will use default behavior. 
+  baseUrl: 'http://my-proxy.io' 
+});
+```
+
+```typescript
+const client = new DeliveryClient({
+  projectId: 'xxx',
+  proxyUrl: (data) => {
+    const action = data.action; // /items/xCodename
+    const domain = data.domain; // https://deliver.kenticocloud.com
+    const projectId = data.projectId; // xxx
+    const queryString = data.queryString; // ?depth=1&elements=xElement
+    const queryParameters = data.queryParameters; // array with 2 parameters: depthParameter & elementsParameter
+    const queryConfig = data.queryConfig; // query configuration with 'useSecuredMode' enabled
+    return `http://my-proxy.io${action}${queryString}`; // proxy url with omitted project Id
+  }
+});
+```
 
 ## Handling errors
 

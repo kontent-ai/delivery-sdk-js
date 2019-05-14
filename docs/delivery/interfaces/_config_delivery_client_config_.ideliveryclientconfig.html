@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#linkeditemresolver" class="tsd-kind-icon">linked<wbr>Item<wbr>Resolver</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#previewapikey" class="tsd-kind-icon">preview<wbr>Api<wbr>Key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#projectid" class="tsd-kind-icon">project<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#proxyurl" class="tsd-kind-icon">proxy<wbr>Url</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#retryattempts" class="tsd-kind-icon">retry<wbr>Attempts</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#retrystatuscodes" class="tsd-kind-icon">retry<wbr>Status<wbr>Codes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_config_delivery_client_config_.ideliveryclientconfig.html#securedapikey" class="tsd-kind-icon">secured<wbr>Api<wbr>Key</a></li>
@@ -114,12 +115,12 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Preview<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:64</li>
+							<li>Defined in config/delivery-client.config.ts:70</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Base preview Url. Can be overriden if e.g. a proxy is required</p>
+							<p>Base url used for preview reqeusts. Defaults to &#39;preview-deliver.kenticocloud.com&#39;</p>
 						</div>
 					</div>
 				</section>
@@ -129,12 +130,12 @@
 					<div class="tsd-signature tsd-kind-icon">base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:59</li>
+							<li>Defined in config/delivery-client.config.ts:60</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Base Url. Can be overriden if e.g. a proxy is required</p>
+							<p>Base url used for all requests. Defaults to &#39;deliver.kenticocloud.com&#39;</p>
 						</div>
 					</div>
 				</section>
@@ -144,7 +145,7 @@
 					<div class="tsd-signature tsd-kind-icon">collision<wbr>Resolver<span class="tsd-signature-symbol">:</span> <a href="../modules/_models_item_item_resolvers_.html#itemfieldcollisionresolver" class="tsd-signature-type">ItemFieldCollisionResolver</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:98</li>
+							<li>Defined in config/delivery-client.config.ts:104</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -159,7 +160,7 @@
 					<div class="tsd-signature tsd-kind-icon">default<wbr>Language<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:54</li>
+							<li>Defined in config/delivery-client.config.ts:55</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -174,7 +175,7 @@
 					<div class="tsd-signature tsd-kind-icon">enable<wbr>Advanced<wbr>Logging<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:27</li>
+							<li>Defined in config/delivery-client.config.ts:28</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -189,7 +190,7 @@
 					<div class="tsd-signature tsd-kind-icon">enable<wbr>Preview<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:44</li>
+							<li>Defined in config/delivery-client.config.ts:45</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -204,7 +205,7 @@
 					<div class="tsd-signature tsd-kind-icon">enable<wbr>Secured<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:49</li>
+							<li>Defined in config/delivery-client.config.ts:50</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -219,7 +220,7 @@
 					<div class="tsd-signature tsd-kind-icon">field<wbr>Resolver<span class="tsd-signature-symbol">:</span> <a href="../modules/_fields_field_resolver_.html#fieldresolver" class="tsd-signature-type">FieldResolver</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:22</li>
+							<li>Defined in config/delivery-client.config.ts:23</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -234,7 +235,7 @@
 					<div class="tsd-signature tsd-kind-icon">global<wbr>Headers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IHeader</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:93</li>
+							<li>Defined in config/delivery-client.config.ts:99</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -249,7 +250,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<wbr>Service<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IHttpService</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:74</li>
+							<li>Defined in config/delivery-client.config.ts:80</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -264,7 +265,7 @@
 					<div class="tsd-signature tsd-kind-icon">linked<wbr>Item<wbr>Resolver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:79</li>
+							<li>Defined in config/delivery-client.config.ts:85</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -300,7 +301,7 @@
 					<div class="tsd-signature tsd-kind-icon">preview<wbr>Api<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:32</li>
+							<li>Defined in config/delivery-client.config.ts:33</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -315,7 +316,7 @@
 					<div class="tsd-signature tsd-kind-icon">project<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:11</li>
+							<li>Defined in config/delivery-client.config.ts:12</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -325,12 +326,48 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="proxyurl" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> proxy<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">proxy<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in config/delivery-client.config.ts:65</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Can be used to generate custom request urls. Useful when you have a proxy server and need to transform url to a specific format</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-siganture">
+								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="_interfaces_common_i_proxy_url_data_interface_.iproxyurldata.html" class="tsd-signature-type">IProxyUrlData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+								</ul>
+								<ul class="tsd-descriptions">
+									<li class="tsd-description">
+										<h4 class="tsd-parameters-title">Parameters</h4>
+										<ul class="tsd-parameters">
+											<li>
+												<h5>data: <a href="_interfaces_common_i_proxy_url_data_interface_.iproxyurldata.html" class="tsd-signature-type">IProxyUrlData</a></h5>
+											</li>
+										</ul>
+										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="retryattempts" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Attempts</h3>
 					<div class="tsd-signature tsd-kind-icon">retry<wbr>Attempts<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:69</li>
+							<li>Defined in config/delivery-client.config.ts:75</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -345,7 +382,7 @@
 					<div class="tsd-signature tsd-kind-icon">retry<wbr>Status<wbr>Codes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:103</li>
+							<li>Defined in config/delivery-client.config.ts:109</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -360,7 +397,7 @@
 					<div class="tsd-signature tsd-kind-icon">secured<wbr>Api<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:39</li>
+							<li>Defined in config/delivery-client.config.ts:40</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -377,7 +414,7 @@
 					<div class="tsd-signature tsd-kind-icon">type<wbr>Resolvers<span class="tsd-signature-symbol">:</span> <a href="../classes/_models_item_item_resolvers_.typeresolver.html" class="tsd-signature-type">TypeResolver</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in config/delivery-client.config.ts:17</li>
+							<li>Defined in config/delivery-client.config.ts:18</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -445,6 +482,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_config_delivery_client_config_.ideliveryclientconfig.html#projectid" class="tsd-kind-icon">project<wbr>Id</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_config_delivery_client_config_.ideliveryclientconfig.html#proxyurl" class="tsd-kind-icon">proxy<wbr>Url</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_config_delivery_client_config_.ideliveryclientconfig.html#retryattempts" class="tsd-kind-icon">retry<wbr>Attempts</a>

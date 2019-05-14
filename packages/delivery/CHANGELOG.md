@@ -1,3 +1,8 @@
+## 6.0.0-beta.8 (2019-05-14)
+
+#### :rocket: Enhancement
+  * [#172](https://github.com/Kentico/kentico-cloud-js/pull/172) Adds ability to fully customize request URLs using 'proxyUrl' configuration option (https://github.com/Kentico/kentico-cloud-js/issues/171) ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-beta.7 (2019-05-03)
 
 #### :bug: Bug Fix
