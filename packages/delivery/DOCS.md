@@ -854,6 +854,21 @@ If you want to use a proxy server, you need to transform request URLs to use dif
 
 To achieve this with SDK you have 2 options - either you set `baseUrl` and `basePreview` or you construct url using `proxyUrl` callback. 
 
+Example call:
+
+```typescript
+const requestUrl = client
+  .item('xCodename')
+  .depthParameter(1)
+  .elementsParameter(['xElement'])
+  .queryConfig({
+    useSecuredMode: true
+  })
+  .getUrl();
+```
+
+`baseUrl` configuration:
+
 ```typescript
 const client = new DeliveryClient({
   projectId: 'xxx',
@@ -862,6 +877,8 @@ const client = new DeliveryClient({
   baseUrl: 'http://my-proxy.io' 
 });
 ```
+
+`proxyUrl` configuration:
 
 ```typescript
 const client = new DeliveryClient({
