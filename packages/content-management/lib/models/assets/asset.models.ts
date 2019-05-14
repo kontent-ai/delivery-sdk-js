@@ -77,7 +77,7 @@ export namespace AssetModels {
     export interface IUploadBinaryFileRequestData {
         binaryData: any;
         contentType: string;
-        contentLength: number;
+        contentLength?: number;
         filename: string;
     }
 

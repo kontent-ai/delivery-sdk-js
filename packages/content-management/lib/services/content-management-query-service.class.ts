@@ -1,4 +1,4 @@
-import { IHttpService, ISDKInfo } from 'kentico-cloud-core';
+import { IHeader, IHttpService, ISDKInfo } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -428,14 +428,22 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         data: AssetModels.IUploadBinaryFileRequestData,
         config: IContentManagementQueryConfig
     ): Observable<AssetResponses.UploadBinaryFileResponse> {
+
+        const headers: IHeader[] = [
+            { header: 'Content-type', value: data.contentType },
+        ];
+
+        if (data.contentLength) {
+            headers.push(
+                { header: 'Content-length', value: data.contentLength.toString() }
+            );
+        }
+
         return this.postResponse<AssetContracts.IUploadBinaryFileResponseContract>(
             url,
             data.binaryData,
             config,
-            [
-                { header: 'Content-type', value: data.contentType },
-                { header: 'Content-length', value: data.contentLength.toString() }
-            ]
+            headers
         ).pipe(
             map(response => {
                 return assetsResponseMapper.mapUploadBinaryFileResponse(response);
