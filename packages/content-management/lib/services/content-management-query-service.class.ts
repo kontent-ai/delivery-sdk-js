@@ -442,6 +442,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         return this.postResponse<AssetContracts.IUploadBinaryFileResponseContract>(
             url,
             data.binaryData,
+            {},
             config,
             headers
         ).pipe(
