@@ -1,3 +1,11 @@
+## 0.0.15 (2019-05-14)
+
+#### :rocket: Enhancement
+  * [#173](https://github.com/Kentico/kentico-cloud-js/pull/173) Makes contentLength optional ([@Enngage](https://github.com/Enngage))
+
+#### :bug: Bug Fix
+  * [#174](https://github.com/Kentico/kentico-cloud-js/pull/174) Fixes missing internal config propery for upload binary file service method ([@Enngage](https://github.com/Enngage))
+
 ## 0.0.14 (2019-04-24)
 
 #### :rocket: Enhancement
