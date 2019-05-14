@@ -66,12 +66,11 @@ export abstract class BaseDeliveryQueryService {
          */
         protected readonly httpService: IHttpService,
         /**
-         * Used for manipulating with rich text HTML (required for Node / Browser support)
+         * HTML parser
          */
         protected readonly richTextHtmlParser: IRichTextHtmlParser,
         /**
          * Information about the SDK
-         * This can contain information from both this & Node SDK for internal logging with 'SDKID' header
          */
         protected readonly sdkInfo: ISDKInfo
     ) {
@@ -99,14 +98,24 @@ export abstract class BaseDeliveryQueryService {
         queryConfig: IQueryConfig,
         options?: IQueryParameter[]
     ): string {
-        return urlHelper.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
+        if (!this.config.proxyUrl) {
+            return urlHelper.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
+        }
+        return this.config.proxyUrl({
+            queryParameters: options ? options : [],
+            queryString: urlHelper.addOptionsToUrl('', options),
+            action: action,
+            domain: this.getDomain(queryConfig),
+            queryConfig: queryConfig,
+            projectId: this.config.projectId
+        });
     }
 
     /**
-   * Gets proper set of headers for given request.
-   * @param queryConfig Query configuration
-   * @param customHeaders Custom headers
-   */
+    * Gets proper set of headers for given request.
+    * @param queryConfig Query configuration
+    * @param customHeaders Custom headers
+    */
     getHeaders(queryConfig: IQueryConfig): IHeader[] {
         let headers: IHeader[] = [];
 
@@ -185,16 +194,16 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-   * Gets base URL of the request including the project Id
-   * @param queryConfig Query configuration
-   */
+    * Gets base URL of the request including the project Id
+    * @param queryConfig Query configuration
+    */
     protected getBaseUrl(queryConfig: IQueryConfig): string {
-        return this.getDeliveryUrl(queryConfig) + '/' + this.config.projectId;
+        return this.getDomain(queryConfig) + '/' + this.config.projectId;
     }
 
     /**
-     * Gets retry status code array
-     */
+    * Gets retry status code array
+    */
     private getRetryStatusCodes(): number[] {
         if (this.config.retryStatusCodes) {
             return this.config.retryStatusCodes;
@@ -204,8 +213,8 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-     * Gets number of retry attempts used by queries
-     */
+    * Gets number of retry attempts used by queries
+    */
     private getRetryAttempts(): number {
         // get the attempts
         let attempts: number;
@@ -222,9 +231,9 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-     * Indicates if current query should use preview mode
-     * @param queryConfig Query configuration
-     */
+    * Indicates if current query should use preview mode
+    * @param queryConfig Query configuration
+    */
     private isPreviewModeEnabled(queryConfig: IQueryConfig): boolean {
         if (queryConfig.usePreviewMode != null) {
             return queryConfig.usePreviewMode;
@@ -234,9 +243,9 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-     * Indicates if current query should use secured mode
-     * @param queryConfig Query configuration
-     */
+    * Indicates if current query should use secured mode
+    * @param queryConfig Query configuration
+    */
     private isSecuredModeEnabled(queryConfig: IQueryConfig): boolean {
         if (queryConfig.useSecuredMode != null) {
             return queryConfig.useSecuredMode;
@@ -246,10 +255,10 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-     * Gets preview or standard URL based on client and query configuration
-     * @param queryConfig Query configuration
-     */
-    private getDeliveryUrl(queryConfig: IQueryConfig): string {
+    * Gets preview or standard URL based on client and query configuration
+    * @param queryConfig Query configuration
+    */
+    private getDomain(queryConfig: IQueryConfig): string {
         if (this.isPreviewModeEnabled(queryConfig)) {
             if (!this.config.previewApiKey) {
                 throw Error(
@@ -274,8 +283,8 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-     * Gets authorization header. This is used for 'preview' functionality
-     */
+    * Gets authorization header. This is used for 'preview' functionality
+    */
     private getAuthorizationHeader(key?: string): IHeader {
         if (!key) {
             throw Error(`Cannot get authorization header because key is undefined`);
@@ -288,8 +297,8 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-     * Header identifying SDK type & version for internal purposes of Kentico
-     */
+    * Header identifying SDK type & version for internal purposes of Kentico
+    */
     private getSdkIdHeader(): IHeader {
         return {
             header: this.sdkVersionHeader,

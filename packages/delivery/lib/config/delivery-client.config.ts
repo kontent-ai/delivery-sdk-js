@@ -1,7 +1,8 @@
-import { IHttpService, IHeader } from 'kentico-cloud-core';
+import { IHeader, IHttpService } from 'kentico-cloud-core';
 
-import { TypeResolver, ItemFieldCollisionResolver } from '../models';
 import { FieldResolver } from '../fields';
+import { IProxyUrlData } from '../interfaces';
+import { ItemFieldCollisionResolver, TypeResolver } from '../models';
 
 export interface IDeliveryClientConfig {
 
@@ -54,12 +55,17 @@ export interface IDeliveryClientConfig {
     defaultLanguage?: string;
 
     /**
-     * Base Url. Can be overriden if e.g. a proxy is required
+     * Base url used for all requests. Defaults to 'deliver.kenticocloud.com'
      */
     baseUrl?: string;
 
     /**
-     * Base preview Url. Can be overriden if e.g. a proxy is required
+     * Can be used to generate custom request urls. Useful when you have a proxy server and need to transform url to a specific format
+     */
+    proxyUrl?: (data: IProxyUrlData) => string;
+
+    /**
+     * Base url used for preview reqeusts. Defaults to 'preview-deliver.kenticocloud.com'
      */
     basePreviewUrl?: string;
 
