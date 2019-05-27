@@ -11,7 +11,6 @@
 		"url": "https://github.com/Enngage/kentico-cloud-js"
 	},
 	"scripts": {
-		"typedoc:local": "./node_modules/.bin/typedoc",
 		"prepare": "lerna bootstrap && npm run lerna:build:all && lerna bootstrap",
 		"lerna:tslint:check:all": "lerna exec npm run ts-lint:check",
 		"lerna:tslint:fix:all": "lerna exec npm run ts-lint:fix",
@@ -24,7 +23,6 @@
 	},
 	"devDependencies": {
 		"lerna": "3.14.1",
-		"typedoc": "0.14.2",
 		"lerna-changelog": "0.8.2"
 	}
 }

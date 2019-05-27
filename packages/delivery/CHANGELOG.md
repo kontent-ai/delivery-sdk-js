@@ -1,3 +1,10 @@
+## 6.0.0-beta.9 (2019-05-27)
+
+#### :rocket: Enhancement
+  * [#188](https://github.com/Kentico/kentico-cloud-js/pull/188) Makes configuration of global headers function instead of static array ([@Enngage](https://github.com/Enngage))
+  * Updated `kentico-cloud-core` to `1.5.0` 
+  * [#186](https://github.com/Kentico/kentico-cloud-js/pull/186) Removes try/catch to preserve original error thrown in richTextResolver  ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-beta.8 (2019-05-14)
 
 #### :rocket: Enhancement

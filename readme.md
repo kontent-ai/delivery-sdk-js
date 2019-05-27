@@ -19,7 +19,6 @@ A client library for retrieving data from [Kentico Cloud](https://kenticocloud.c
 * [Quickstart](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery)
 * [Full documentation](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery/DOCS.md)
 * [Example apps](https://github.com/Kentico/kentico-cloud-js/tree/master/examples)
-* [API Reference](https://kentico.github.io/kentico-cloud-js/delivery/)
 * [Changelog](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/CHANGELOG.md)
 
 ## [Content Management Javascript SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management)
@@ -39,7 +38,6 @@ Javascript SDK for the [Kentico Cloud Content Management API](https://developer.
 
 * [Quickstart](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management)
 * [Examples](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management/demo)
-* [API Reference](https://kentico.github.io/kentico-cloud-js/content-management/)
 * [Changelog](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/content-management/CHANGELOG.md)
 
 ## [Javascript model generator for Delivery SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/model-generator)

@@ -1,6 +1,6 @@
 {
   "name": "kentico-cloud-delivery",
-  "version": "6.0.0-beta.8",
+  "version": "6.0.0-beta.9",
   "repository": {
     "type": "git",
     "url": "https://github.com/Enngage/kentico-cloud-js/tree/master/packages/delivery"
@@ -33,7 +33,6 @@
   "main": "./_commonjs/index.js",
   "types": "./_commonjs/index.d.ts",
   "scripts": {
-    "typedoc-local": "",
     "tsc-local": "./node_modules/.bin/tsc",
     "webpack-local": "./node_modules/.bin/webpack",
     "karma-local": "node --max_old_space_size=8192 ./node_modules/karma/bin/karma",
@@ -46,9 +45,9 @@
     "test:browser": "npm run karma-local start karma.conf.js",
     "test:travis": "npm run karma-local start karma-travis.conf.js",
     "test:all": "npm run test:node && npm run test:travis",
-    "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version && npm run generate:docs",
-    "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version && npm run generate:docs",
-    "new-major": "npm version major && npm run set-sdk-version && npm run check-version && npm run generate:docs",
+    "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version ",
+    "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version ",
+    "new-major": "npm version major && npm run set-sdk-version && npm run check-version ",
     "prepublishOnly": "npm run ts-lint:check && npm run check-version && npm run build:all && npm run test:all",
     "set-sdk-version": "node ./misc/set-sdk-version.js",
     "check-version": "npm run ts-node-local ./misc/verify-sdk-version.ts",
@@ -60,7 +59,6 @@
     "build:es2015": "npm run tsc-local -- -m es2015 --outDir _es2015 --p tsconfig.prod.json",
     "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs --p tsconfig.prod.json",
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs",
-    "generate:docs": "cd ../../ && npm run typedoc:local -- --options packages/delivery/typedoc.json packages/delivery/lib/",
     "bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/stats.json",
     "browser-bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/browser-stats.json"
   },
