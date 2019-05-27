@@ -27,29 +27,24 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     private readonly resolvedLinkedItemAttribute = 'data-sdk-resolved';
 
     resolveRichTextField(contentItemCodename: string, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
-        try {
-            // create document
-            const documentFragment = parseFragment(html) as DefaultTreeDocumentFragment;
+        // create document
+        const documentFragment = parseFragment(html) as DefaultTreeDocumentFragment;
 
-            // get all linked items
-            const result = this.processRichTextField(contentItemCodename, fieldName, this.getChildNodes(documentFragment), replacement, config, {
-                links: [],
-                linkedItems: [],
-                images: []
-            });
+        // get all linked items
+        const result = this.processRichTextField(contentItemCodename, fieldName, this.getChildNodes(documentFragment), replacement, config, {
+            links: [],
+            linkedItems: [],
+            images: []
+        });
 
-            const resolvedHtml = serialize(documentFragment);
+        const resolvedHtml = serialize(documentFragment);
 
-            return {
-                links: result.links,
-                linkedItems: result.linkedItems,
-                images: result.images,
-                resolvedHtml: resolvedHtml
-            };
-
-        } catch (error) {
-            throw Error('Parsing HTML failed:' + error);
-        }
+        return {
+            links: result.links,
+            linkedItems: result.linkedItems,
+            images: result.images,
+            resolvedHtml: resolvedHtml
+        };
     }
 
     private processRichTextField(contentItemCodename: string, fieldName: string, elements: DefaultTreeElement[], replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
