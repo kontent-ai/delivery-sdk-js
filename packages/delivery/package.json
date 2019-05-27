@@ -65,7 +65,7 @@
     "browser-bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/browser-stats.json"
   },
   "dependencies": {
-    "kentico-cloud-core": "1.4.5",
+    "kentico-cloud-core": "1.5.0",
     "parse5": "5.1.0",
     "reflect-metadata": "0.1.13"
   },

@@ -41,6 +41,51 @@ export interface IHeader {
     value: string;
 }
 
+export interface IHttpRequestCredentials {
+    username: string;
+    password: string;
+}
+
+export interface IHttpRequestProfxyConfig {
+    host: string;
+    port: number;
+    auth?: {
+        username: string;
+        password: string;
+    };
+}
+
+export interface IHttpRequestConfig {
+    url?: string;
+    method?: string;
+    baseURL?: string;
+    headers?: any;
+    params?: any;
+    paramsSerializer?: (params: any) => string;
+    data?: any;
+    timeout?: number;
+    withCredentials?: boolean;
+    auth?: IHttpRequestCredentials;
+    responseType?: string;
+    xsrfCookieName?: string;
+    xsrfHeaderName?: string;
+    maxContentLength?: number;
+    validateStatus?: (status: number) => boolean;
+    maxRedirects?: number;
+    httpAgent?: any;
+    httpsAgent?: any;
+    proxy?: IHttpRequestProfxyConfig | false;
+}
+
+export interface IHttpRequestResponse {
+    data: any;
+    status: number;
+    statusText: string;
+    headers: any;
+    config: IHttpRequestConfig;
+    request?: any;
+}
+
 export class IHttpRequestResult<TResponse> {
     constructor(
         public response?: TResponse,
