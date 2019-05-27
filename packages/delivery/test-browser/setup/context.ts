@@ -1,4 +1,4 @@
-import { DeliveryClient, IDeliveryClientConfig, TypeResolver } from '../../lib';
+import { DeliveryClient, IDeliveryClientConfig, TypeResolver, IQueryConfig } from '../../lib';
 import { IRichTextHtmlParser } from '../../lib/parser/parse-models';
 import { getParserAdapter } from '../../lib/parser/parser-adapter';
 import { IHeader } from 'kentico-cloud-core';
@@ -22,7 +22,7 @@ export class Context {
   public basePreviewUrl?: string;
   public retryAttempts?: number;
   public enableAdvancedLogging?: boolean;
-  public globalHeaders?: IHeader[];
+  public globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
   public retryStatusCodes?: number[];
 
   constructor(
