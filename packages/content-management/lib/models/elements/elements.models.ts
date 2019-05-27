@@ -18,7 +18,8 @@ export namespace ElementModels {
         taxonomy = 'taxonomy',
         urlSlug = 'url_slug',
         guidelines = 'guidelines',
-        snippet = 'snippet'
+        snippet = 'snippet',
+        custom = 'custom'
     }
 
     export class ContentItemElement {
@@ -74,8 +75,8 @@ export namespace ElementModels {
         public mode!: ElementMode;
 
         constructor(data: ElementModel, multipleElemData: {
-             options: MultipleChoiceElementOption[];
-             mode: ElementMode;
+            options: MultipleChoiceElementOption[];
+            mode: ElementMode;
         }) {
             super(data);
 
@@ -85,11 +86,11 @@ export namespace ElementModels {
     }
 
     export interface IElementData {
-         id: string;
-         name?: string;
-         codename: string;
-         type: ElementType;
-         guidelines: string;
+        id: string;
+        name?: string;
+        codename: string;
+        type: ElementType;
+        guidelines: string;
     }
 
     export interface IMultipleChoiceOptionData {
