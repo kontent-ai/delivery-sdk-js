@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosResponse } from 'axios';
 
 import { httpDebugger } from './http.debugger';
 import {
@@ -8,13 +8,32 @@ import {
     IHttpPostQueryCall,
     IHttpPutQueryCall,
     IHttpQueryOptions,
+    IHttpRequestConfig,
+    IHttpRequestResponse,
     IHttpRequestResult,
 } from './http.models';
 
-export function getCallback<TError>(call: IHttpGetQueryCall<TError>, options: IHttpQueryOptions | undefined, callback: (response: IHttpRequestResult<AxiosResponse>) => void): void {
+export function registerResponseInterceptor(instance: AxiosInstance, interceptor: (response: IHttpRequestResponse) => IHttpRequestResponse) {
+    instance.interceptors.response.use((response) => {
+        return interceptor(response);
+    }, (error) => {
+        return Promise.reject(error);
+    });
+}
+
+export function registerRequestInterceptor(instance: AxiosInstance, interceptor: (config: IHttpRequestConfig) => IHttpRequestConfig) {
+    // Add a request interceptor
+    instance.interceptors.request.use((config) => {
+        return interceptor(config);
+    }, (error) => {
+        return Promise.reject(error);
+    });
+}
+
+export function getCallback<TError>(instance: AxiosInstance, call: IHttpGetQueryCall<TError>, options: IHttpQueryOptions | undefined, callback: (response: IHttpRequestResult<AxiosResponse>) => void): void {
     httpDebugger.debugStartHttpRequest();
 
-    const axiosPromise = axios.get(call.url, {
+    const axiosPromise = instance.get(call.url, {
         headers: getHeadersJson(
             options && options.headers ? options.headers : [],
         ),
@@ -34,10 +53,10 @@ export function getCallback<TError>(call: IHttpGetQueryCall<TError>, options: IH
     });
 }
 
-export function putCallback<TError>(call: IHttpPutQueryCall<TError>, options: IHttpQueryOptions | undefined, callback: (response: IHttpRequestResult<AxiosResponse>) => void): void {
+export function putCallback<TError>(instance: AxiosInstance, call: IHttpPutQueryCall<TError>, options: IHttpQueryOptions | undefined, callback: (response: IHttpRequestResult<AxiosResponse>) => void): void {
     httpDebugger.debugStartHttpRequest();
 
-    const axiosPromise = axios.put(call.url, call.body, {
+    const axiosPromise = instance.put(call.url, call.body, {
         headers: getHeadersJson(
             options && options.headers ? options.headers : []
         ),
@@ -57,10 +76,10 @@ export function putCallback<TError>(call: IHttpPutQueryCall<TError>, options: IH
     });
 }
 
-export function deleteCallback<TError>(call: IHttpDeleteQueryCall<TError>, options: IHttpQueryOptions | undefined, callback: (response: IHttpRequestResult<AxiosResponse>) => void): void {
+export function deleteCallback<TError>(instance: AxiosInstance, call: IHttpDeleteQueryCall<TError>, options: IHttpQueryOptions | undefined, callback: (response: IHttpRequestResult<AxiosResponse>) => void): void {
     httpDebugger.debugStartHttpRequest();
 
-    const axiosPromise = axios.delete(call.url, {
+    const axiosPromise = instance.delete(call.url, {
         headers: getHeadersJson(
             options && options.headers ? options.headers : []
         ),
@@ -80,10 +99,10 @@ export function deleteCallback<TError>(call: IHttpDeleteQueryCall<TError>, optio
     });
 }
 
-export function postCallback<TError>(call: IHttpPostQueryCall<TError>, options: IHttpQueryOptions | undefined, callback: (response: IHttpRequestResult<AxiosResponse>) => void): void {
+export function postCallback<TError>(instance: AxiosInstance, call: IHttpPostQueryCall<TError>, options: IHttpQueryOptions | undefined, callback: (response: IHttpRequestResult<AxiosResponse>) => void): void {
     httpDebugger.debugStartHttpRequest();
 
-    const axiosPromise = axios.post(call.url, call.body, {
+    const axiosPromise = instance.post(call.url, call.body, {
         headers: getHeadersJson(
             options && options.headers ? options.headers : []
         ),

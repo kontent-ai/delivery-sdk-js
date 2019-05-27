@@ -26,12 +26,15 @@ export class DeliveryClient implements IDeliveryClient {
    */
   constructor(protected config: IDeliveryClientConfig) {
     if (!config) {
-      throw Error(`Please provide Delivery client configuration`);
+      throw Error(`Please provide client configuration`);
     }
 
     this.queryService = new QueryService(
       config,
-      config.httpService ? config.httpService : new HttpService(),
+      config.httpService ? config.httpService : new HttpService({
+        requestInterceptor: config.httpInterceptors && config.httpInterceptors.requestInterceptor ? config.httpInterceptors.requestInterceptor : undefined,
+        responseInterceptor: config.httpInterceptors && config.httpInterceptors.responseInterceptor ? config.httpInterceptors.responseInterceptor : undefined,
+      }),
       getParserAdapter(),
       {
         host: sdkInfo.host,

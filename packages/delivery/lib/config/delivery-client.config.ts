@@ -1,4 +1,4 @@
-import { IHeader, IHttpService } from 'kentico-cloud-core';
+import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService } from 'kentico-cloud-core';
 
 import { FieldResolver } from '../fields';
 import { IProxyUrlData } from '../interfaces';
@@ -91,6 +91,14 @@ export interface IDeliveryClientConfig {
          * CSS classes applied to wrapper
          */
         linkedItemWrapperClasses?: string[]
+    };
+
+    /**
+     * Interceptors of HTTP requests. This may be used to alter request before its sent or response after its received.
+     */
+    httpInterceptors?: {
+        requestInterceptor?: (config: IHttpRequestConfig) => IHttpRequestConfig;
+        responseInterceptor?: (config: IHttpRequestResponse) => IHttpRequestResponse;
     };
 
     /**

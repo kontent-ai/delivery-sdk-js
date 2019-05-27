@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { bindCallback, Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen } from 'rxjs/operators';
 
@@ -12,6 +12,8 @@ import {
   IHttpPutQueryCall,
   IHttpQueryCall,
   IHttpQueryOptions,
+  IHttpRequestConfig,
+  IHttpRequestResponse,
   IHttpRequestResult,
 } from './http.models';
 import { IHttpService } from './ihttp.service';
@@ -19,6 +21,26 @@ import { retryService } from './retry-service';
 import { retryStrategy } from './retry-strategy';
 
 export class HttpService implements IHttpService {
+
+  private axiosInstance: AxiosInstance;
+
+  constructor(
+    opts?: {
+      requestInterceptor?: (config: IHttpRequestConfig, ) => IHttpRequestConfig,
+      responseInterceptor?: (config: IHttpRequestResponse) => IHttpRequestResponse,
+    }
+  ) {
+    this.axiosInstance = axios.create();
+
+    if (opts) {
+      if (opts.requestInterceptor) {
+        HttpFunctions.registerRequestInterceptor(this.axiosInstance, (opts.requestInterceptor));
+      }
+      if (opts.responseInterceptor) {
+        HttpFunctions.registerResponseInterceptor(this.axiosInstance, (opts.responseInterceptor));
+      }
+    }
+  }
 
   /**
    * Retries given promise based on given configuration
@@ -70,7 +92,7 @@ export class HttpService implements IHttpService {
     const axiosObservable = bindCallback(HttpFunctions.getCallback);
 
     // map axios observable
-    return this.mapAxiosObservable(axiosObservable, call, options);
+    return this.mapAxiosObservable(this.axiosInstance, axiosObservable, call, options);
   }
 
   post<TError extends any, TRawData extends any>(
@@ -82,7 +104,7 @@ export class HttpService implements IHttpService {
     const axiosObservable = bindCallback(HttpFunctions.postCallback);
 
     // map axios observable
-    return this.mapAxiosObservable(axiosObservable, call, options);
+    return this.mapAxiosObservable(this.axiosInstance, axiosObservable, call, options);
   }
 
   put<TError extends any, TRawData extends any>(
@@ -94,7 +116,7 @@ export class HttpService implements IHttpService {
     const axiosObservable = bindCallback(HttpFunctions.putCallback);
 
     // map axios observable
-    return this.mapAxiosObservable(axiosObservable, call, options);
+    return this.mapAxiosObservable(this.axiosInstance, axiosObservable, call, options);
   }
 
   delete<TError extends any, TRawData extends any>(
@@ -106,11 +128,11 @@ export class HttpService implements IHttpService {
     const axiosObservable = bindCallback(HttpFunctions.deleteCallback);
 
     // map axios observable
-    return this.mapAxiosObservable(axiosObservable, call, options);
+    return this.mapAxiosObservable(this.axiosInstance, axiosObservable, call, options);
   }
 
-  private mapAxiosObservable<TRawData, TError>(axiosObservable: (...args: any[]) => Observable<any>, call: IHttpQueryCall<TError>, options?: IHttpQueryOptions): Observable<IBaseResponse<TRawData>> {
-    return axiosObservable(call, options).pipe(
+  private mapAxiosObservable<TRawData, TError>(axiosInstance: AxiosInstance, axiosObservable: (...args: any[]) => Observable<any>, call: IHttpQueryCall<TError>, options?: IHttpQueryOptions): Observable<IBaseResponse<TRawData>> {
+    return axiosObservable(axiosInstance, call, options).pipe(
       retryWhen(
         retryStrategy.strategy({
           maxRetryAttempts:
@@ -126,7 +148,7 @@ export class HttpService implements IHttpService {
         // Handling errors: https://github.com/axios/axios#handling-errors
         if (options && options.logErrorToConsole) {
           console.warn(
-            `Kentico Cloud SDK encountered an error posting data: `,
+            `Kentico Cloud SDK encountered an error: `,
             error
           );
         }

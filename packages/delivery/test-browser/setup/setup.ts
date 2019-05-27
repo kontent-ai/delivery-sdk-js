@@ -54,7 +54,15 @@ export function setup(context: Context) {
         retryAttempts: context.retryAttempts,
         enableAdvancedLogging: context.enableAdvancedLogging,
         globalHeaders: context.globalHeaders,
-        retryStatusCodes: context.retryStatusCodes
+        retryStatusCodes: context.retryStatusCodes,
+        httpInterceptors: {
+            requestInterceptor: (config) => {
+                return config;
+            },
+            responseInterceptor: (response) => {
+                return response;
+            }
+        }
     };
 
     // set context
