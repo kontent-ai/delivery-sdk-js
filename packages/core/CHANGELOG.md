@@ -1,3 +1,9 @@
+## 1.5.0 (2019-05-27)
+
+#### :rocket: Enhancement
+  * [#187](https://github.com/Kentico/kentico-cloud-js/pull/187) Isolates axios instance and implements http interceptors  ([@Enngage](https://github.com/Enngage))
+  * [#185](https://github.com/Kentico/kentico-cloud-js/pull/185) updates dependencies ([@Enngage](https://github.com/Enngage))
+
 ## 1.4.5 (2019-04-04)
 
 #### :house: Internal
