@@ -229,5 +229,29 @@ describe('RichTextField', () => {
         expect(contexts.length).toEqual(2);
         expect(contexts.filter(m => m.contentType === RichTextContentType.Item).length).toEqual(2);
     });
+
+    it(`error should be preserved when it originates from richTextResolver`, () => {
+        const fieldWithRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
+            links: links,
+            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
+                enableAdvancedLogging: false,
+                links: links,
+                getLinkedItem: getLinkedItem,
+                typeResolvers: config.typeResolvers as any,
+                images: [],
+                richTextHtmlParser: getParserAdapter(),
+                linkedItemWrapperClasses: ['kc-wrapper-class'],
+                linkedItemWrapperTag: 'kc-item-wrapper',
+                queryConfig: {
+                    richTextResolver: (item, context) => {
+                        throw Error(`Custom processing error`);
+                    }
+                },
+            }),
+            images: []
+        });
+
+        expect(() => fieldWithRichTextResolver.getHtml()).toThrowError('Custom processing error');
+    });
 });
 

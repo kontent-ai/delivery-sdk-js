@@ -15,26 +15,21 @@ import { parserConfiguration } from '../parser-configuration';
 export class BrowserRichTextParser implements IRichTextHtmlParser {
 
     resolveRichTextField(contentItemCodename: string, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
-        try {
-            const doc = this.createWrapperElement(html);
+        const doc = this.createWrapperElement(html);
 
-            // get all linked items
-            const result = this.processRichTextField(contentItemCodename, fieldName, doc.children, replacement, config, {
-                links: [],
-                linkedItems: [],
-                images: []
-            });
+        // get all linked items
+        const result = this.processRichTextField(contentItemCodename, fieldName, doc.children, replacement, config, {
+            links: [],
+            linkedItems: [],
+            images: []
+        });
 
-            return {
-                links: result.links,
-                linkedItems: result.linkedItems,
-                images: result.images,
-                resolvedHtml: doc.innerHTML
-            };
-
-        } catch (error) {
-            throw Error('Parsing HTML failed:' + error);
-        }
+        return {
+            links: result.links,
+            linkedItems: result.linkedItems,
+            images: result.images,
+            resolvedHtml: doc.innerHTML
+        };
     }
 
     private createWrapperElement(html: string): HTMLElement {
