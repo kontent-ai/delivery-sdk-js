@@ -117,16 +117,16 @@ export abstract class BaseDeliveryQueryService {
     * @param customHeaders Custom headers
     */
     getHeaders(queryConfig: IQueryConfig): IHeader[] {
-        let headers: IHeader[] = [];
+        const headers: IHeader[] = [];
 
         // add headers from global config
-        if (this.config.globalHeaders && this.config.globalHeaders.length > 0) {
-            headers = headers.concat(this.config.globalHeaders);
+        if (this.config.globalHeaders) {
+            headers.push(...this.config.globalHeaders(queryConfig));
         }
 
         // add headers from query config
         if (queryConfig.customHeaders) {
-            headers = headers.concat(queryConfig.customHeaders);
+            headers.push(...queryConfig.customHeaders);
         }
 
         // add SDK Id header for monitoring SDK usage

@@ -1,7 +1,7 @@
 import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService } from 'kentico-cloud-core';
 
 import { FieldResolver } from '../fields';
-import { IProxyUrlData } from '../interfaces';
+import { IProxyUrlData, IQueryConfig } from '../interfaces';
 import { ItemFieldCollisionResolver, TypeResolver } from '../models';
 
 export interface IDeliveryClientConfig {
@@ -102,9 +102,9 @@ export interface IDeliveryClientConfig {
     };
 
     /**
-     * Array of headers added to each and every http request made with SDK
+     * Adds ability to add extra headers to each http request
      */
-    globalHeaders?: IHeader[];
+    globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
 
     /**
      * Resolver called when there are multiple fields with the same name in content item (example collision field names include 'system' or 'elements')
