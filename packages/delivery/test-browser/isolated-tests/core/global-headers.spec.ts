@@ -4,10 +4,9 @@ import { IQueryConfig } from '../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Global headers', () => {
-
+    let headers: IHeader[] = [];
     const context = new Context();
     let queryConfig: IQueryConfig | undefined;
-
     context.globalHeaders = (xQueryConfig) => {
         queryConfig = xQueryConfig;
         return [
@@ -24,10 +23,15 @@ describe('Global headers', () => {
 
     setup(context);
 
-    it(`Global headers should be set`, () => {
-        const headers = context.deliveryClient.items().queryConfig({
+    beforeAll((done) => {
+        headers = context.deliveryClient.items().queryConfig({
             usePreviewMode: true
         }).getHeaders();
+
+        done();
+    });
+
+    it(`Global headers should be set`, () => {
         const header1 = headers.find(m => m.header === 'gl1') as IHeader;
         const header2 = headers.find(m => m.header === 'gl2') as IHeader;
         expect(header1).toBeDefined();
