@@ -1,5 +1,5 @@
 import { ItemContracts } from '../data-contracts';
-import { IContentItem } from '../interfaces';
+import { IContentItem, ITypeResolverData } from '../interfaces';
 import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
 import { ContentItem } from '../models/item/content-item.class';
 import { TypeResolver } from '../models/item/type-resolver.class';
@@ -9,35 +9,25 @@ export class DeliveryItemStronglyTypeResolver {
     private readonly systemFieldName = 'system';
     private readonly elementsFieldName = 'elements';
 
-    createDummyInstance<TItem extends IContentItem = IContentItem>(type: string, typeResolvers: TypeResolver[]): TItem | undefined {
-        const typeResolver = this.getTypeResolver(type, typeResolvers);
-        if (typeResolver) {
-            // type resolver is registered, create new instance of given type
-            return stronglyTypedResolver.createInstanceWithResolver<TItem>(typeResolver);
-        }
-
-        return undefined;
-    }
-
     /**
      * Creates item instance using either TypeResolver (if registered) or returns ContentItem
      */
-    createItemInstance<TItem extends IContentItem = IContentItem>(type: string, item: ItemContracts.IContentItemContract, typeResolvers: TypeResolver[]): TItem {
+    createItemInstance<TItem extends IContentItem = IContentItem>(type: string, data: ITypeResolverData, typeResolvers: TypeResolver[]): TItem {
         const typeResolver = this.getTypeResolver(type, typeResolvers);
         let itemInstance: TItem | undefined;
         if (typeResolver) {
             // type resolver is registered, create new instance of given type
-            itemInstance = stronglyTypedResolver.createInstanceWithResolver<TItem>(typeResolver);
+            itemInstance = stronglyTypedResolver.createInstanceWithResolver<TItem>(data, typeResolver);
         } else {
             // not type resolver is register for this type, use ContentItem
-            itemInstance = stronglyTypedResolver.createContentItem(item) as TItem;
+            itemInstance = stronglyTypedResolver.createContentItem(data.item) as TItem;
         }
 
         if (!itemInstance) {
-            throw Error(`Item with codename '${item.system.codename}' could not be instantiated`);
+            throw Error(`Item with codename '${data.item.system.codename}' could not be instantiated`);
         }
 
-        this.assignDefaultProperties(itemInstance, item);
+        this.assignDefaultProperties(itemInstance, data.item);
         return itemInstance;
     }
 
@@ -62,8 +52,8 @@ export class DeliveryItemStronglyTypeResolver {
      * @param type Type of the content item
      * @param resolvers Type resolvers
      */
-    private createInstanceWithResolver<TItem extends IContentItem>(resolver: TypeResolver): TItem {
-        return resolver.resolve() as TItem;
+    private createInstanceWithResolver<TItem extends IContentItem>(data: ITypeResolverData, resolver: TypeResolver): TItem {
+        return resolver.resolve(data) as TItem;
     }
 
     /**

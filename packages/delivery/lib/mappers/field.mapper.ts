@@ -72,7 +72,13 @@ export class FieldMapper {
 
         const elementCodenames = Object.getOwnPropertyNames(data.item.elements);
 
-        const itemInstance = stronglyTypedResolver.createItemInstance<TItem>(data.item.system.type, data.item, this.config.typeResolvers || []);
+        const itemInstance = stronglyTypedResolver.createItemInstance<TItem>(
+            data.item.system.type,
+            {
+                item: data.item,
+                modularContent: data.modularContent
+            },
+            this.config.typeResolvers || []);
 
         if (!data.preparedItems) {
             data.preparedItems = <IContentItemsContainer>{};
@@ -117,12 +123,12 @@ export class FieldMapper {
         data: {
             fieldWrapper: IFieldMapWrapper,
             modularContent: ItemContracts.IModularContentWrapperContract,
-            item: ContentItem,
+            item: IContentItem,
             queryConfig: IItemQueryConfig,
             processedItems: IContentItemsContainer,
             processingStartedForCodenames: string[],
             preparedItems: IContentItemsContainer
-        }): undefined | FieldModels.IField | ContentItem[] {
+        }): undefined | FieldModels.IField | IContentItem[] {
         const fieldType = enumHelper.getEnumFromValue<FieldType>(FieldType, data.fieldWrapper.field.type);
         if (fieldType) {
 
@@ -184,7 +190,7 @@ export class FieldMapper {
         preparedItems: IContentItemsContainer): Fields.RichTextField {
 
         // get all linked items nested in rich text
-        const richTextLinkedItems: ContentItem[] = [];
+        const richTextLinkedItems: IContentItem[] = [];
 
         const field = fieldWrapper.field as FieldContracts.IRichTextFieldContract;
 
@@ -252,7 +258,6 @@ export class FieldMapper {
                 links: links,
                 resolveHtml: () => richTextResolver.resolveHtml('', field.value, fieldWrapper.resolvedFieldName, {
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
-                    typeResolvers: this.config.typeResolvers ? this.config.typeResolvers : [],
                     images: images,
                     richTextHtmlParser: this.richTextHtmlParser,
                     getLinkedItem: (codename) => this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, processedItems, processingStartedForCodenames, preparedItems),
@@ -306,7 +311,7 @@ export class FieldMapper {
         return new Fields.CustomField(fieldWrapper.field.name, fieldWrapper.field.value);
     }
 
-    private mapUrlSlugField(fieldWrapper: IFieldMapWrapper, item: ContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
+    private mapUrlSlugField(fieldWrapper: IFieldMapWrapper, item: IContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
         const linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
         const field = fieldWrapper.field;
         return new Fields.UrlSlugField(
@@ -348,7 +353,7 @@ export class FieldMapper {
         }
 
         // result is always an array of content items
-        const result: ContentItem[] = [];
+        const result: IContentItem[] = [];
 
         // value = array of item codenames
         const linkedItemCodenames = data.fieldWrapper.field.value as string[];
@@ -369,7 +374,7 @@ export class FieldMapper {
         return result;
     }
 
-    private getLinkResolverForUrlSlugField(item: ContentItem, queryConfig: IItemQueryConfig): ItemLinkResolver | undefined {
+    private getLinkResolverForUrlSlugField(item: IContentItem, queryConfig: IItemQueryConfig): ItemLinkResolver | undefined {
         // link resolver defined by the query config (= by calling method) has priority over type's global link resolver
         let linkResolver: ItemLinkResolver | undefined = undefined;
 
@@ -382,11 +387,11 @@ export class FieldMapper {
         return linkResolver;
     }
 
-    private getProcessedItem(codename: string, processedItems: IContentItemsContainer): ContentItem | undefined {
+    private getProcessedItem(codename: string, processedItems: IContentItemsContainer): IContentItem | undefined {
         return processedItems[codename];
     }
 
-    private getPreparedItem(codename: string, preparedItems: IContentItemsContainer): ContentItem | undefined {
+    private getPreparedItem(codename: string, preparedItems: IContentItemsContainer): IContentItem | undefined {
         return preparedItems[codename];
     }
 
@@ -397,7 +402,7 @@ export class FieldMapper {
         modularContent: ItemContracts.IModularContentWrapperContract,
         processedItems: IContentItemsContainer,
         mappingStartedForCodenames: string[],
-        preparedItems: IContentItemsContainer): ContentItem | undefined {
+        preparedItems: IContentItemsContainer): IContentItem | undefined {
         // first check if item was already resolved and return it if it was
         const processedItem = this.getProcessedItem(codename, processedItems);
 
@@ -447,7 +452,7 @@ export class FieldMapper {
             return undefined;
         }
 
-        let mappedLinkedItem: ContentItem | undefined;
+        let mappedLinkedItem: IContentItem | undefined;
 
         // try resolving item using custom item resolver if its set
         if (queryConfig.itemResolver) {

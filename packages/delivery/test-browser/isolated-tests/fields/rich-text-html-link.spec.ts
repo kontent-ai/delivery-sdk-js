@@ -108,7 +108,6 @@ describe('RichTextField with Html links', () => {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
-                typeResolvers: config.typeResolvers as TypeResolver[],
                 images: [],
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: ['kc-wrapper-class'],

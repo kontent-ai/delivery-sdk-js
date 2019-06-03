@@ -13,7 +13,6 @@ describe('Rich text with regular link', () => {
                 enableAdvancedLogging: false,
                 links: [],
                 getLinkedItem: getLinkedItem,
-                typeResolvers: [],
                 images: [],
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: ['kc-wrapper-class'],
