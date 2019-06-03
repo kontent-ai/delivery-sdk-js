@@ -5,4 +5,5 @@ export * from './responses';
 export * from './image.class';
 export * from './item-resolvers';
 export * from './i-content-items-container.interface';
+export * from './type-resolver.class';
 

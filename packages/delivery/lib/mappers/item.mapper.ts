@@ -1,18 +1,18 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { IItemQueryConfig } from '../interfaces';
+import { IContentItem, IItemQueryConfig } from '../interfaces';
 import { FieldMapper } from '../mappers';
-import { ContentItem, IContentItemsContainer } from '../models';
+import { IContentItemsContainer } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 
-export interface MapItemResult<TItem extends ContentItem> {
+export interface MapItemResult<TItem extends IContentItem = IContentItem> {
     item: TItem;
     processedItems: IContentItemsContainer;
     preparedItems: IContentItemsContainer;
     processingStartedForCodenames: string[];
 }
 
-export interface MapItemsResult<TItem extends ContentItem> {
+export interface MapItemsResult<TItem extends IContentItem = IContentItem> {
     items: TItem[];
     processedItems: IContentItemsContainer;
     preparedItems: IContentItemsContainer;
@@ -35,7 +35,7 @@ export class ItemMapper {
      * @param response Cloud response used to map the item
      * @param queryConfig Query configuration
      */
-    mapSingleItem<TItem extends ContentItem>(response: ItemContracts.IItemResponseContract, queryConfig: IItemQueryConfig): MapItemResult<TItem> {
+    mapSingleItem<TItem extends IContentItem = IContentItem>(response: ItemContracts.IItemResponseContract, queryConfig: IItemQueryConfig): MapItemResult<TItem> {
         return this.mapItem<TItem>({
             item: response.item,
             modularContent: response.modular_content,
@@ -51,7 +51,7 @@ export class ItemMapper {
     * @param response Cloud response used to map the item
     * @param queryConfig Query configuration
     */
-    mapMultipleItems<TItem extends ContentItem>(response: ItemContracts.IItemsResponseContract, queryConfig: IItemQueryConfig): MapItemsResult<TItem> {
+    mapMultipleItems<TItem extends IContentItem = IContentItem>(response: ItemContracts.IItemsResponseContract, queryConfig: IItemQueryConfig): MapItemsResult<TItem> {
         const that = this;
 
         const processedItems: IContentItemsContainer = {};
@@ -79,7 +79,7 @@ export class ItemMapper {
         };
     }
 
-    private mapItem<TItem extends ContentItem>(data: {
+    private mapItem<TItem extends IContentItem = IContentItem>(data: {
         item: ItemContracts.IContentItemContract,
         modularContent: ItemContracts.IModularContentWrapperContract,
         queryConfig: IItemQueryConfig,

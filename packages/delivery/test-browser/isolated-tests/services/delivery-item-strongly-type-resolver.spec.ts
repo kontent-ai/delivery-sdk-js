@@ -6,11 +6,6 @@ describe('Delivery strongly type resolver', () => {
     const context = new Context();
     setup(context);
 
-    it(`Should throw an Error when invalid response is given`, () => {
-        expect(() => stronglyTypedResolver.createEmptyTypedObj(null as any, context.typeResolvers)).toThrowError();
-        expect(() => stronglyTypedResolver.createEmptyTypedObj(undefined as any, context.typeResolvers)).toThrowError();
-    });
-
     it(`System properties should be mapped`, () => {
 
         const systemAttributes = stronglyTypedResolver.mapSystemAttributes({

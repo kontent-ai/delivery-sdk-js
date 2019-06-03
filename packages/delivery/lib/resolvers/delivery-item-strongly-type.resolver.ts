@@ -1,62 +1,44 @@
 import { ItemContracts } from '../data-contracts';
+import { IContentItem } from '../interfaces';
 import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
 import { ContentItem } from '../models/item/content-item.class';
-import { TypeResolver } from '../models/item/item-resolvers';
+import { TypeResolver } from '../models/item/type-resolver.class';
 
 export class DeliveryItemStronglyTypeResolver {
 
     private readonly systemFieldName = 'system';
     private readonly elementsFieldName = 'elements';
 
-    /**
-     * Indicates if given type has a type resolver
-     * @param type Type
-     * @param resolvers Type resolvers
-     */
-    hasTypeResolver(type: string, resolvers: TypeResolver[]): boolean {
-        return !(!resolvers.find(m => m.type === type));
+    createDummyInstance<TItem extends IContentItem = IContentItem>(type: string, typeResolvers: TypeResolver[]): TItem | undefined {
+        const typeResolver = this.getTypeResolver(type, typeResolvers);
+        if (typeResolver) {
+            // type resolver is registered, create new instance of given type
+            return stronglyTypedResolver.createInstanceWithResolver<TItem>(typeResolver);
+        }
+
+        return undefined;
     }
 
     /**
-     * Creates base ContentItem when content type does not have a strongly typed model
+     * Creates item instance using either TypeResolver (if registered) or returns ContentItem
      */
-    createContentItem(item: ItemContracts.IContentItemContract): ContentItem {
-        const contentItem = new ContentItem();
-        this.assignDefaultProperties(contentItem, item);
-        return contentItem;
-    }
-
-    /**
-     * Takes given type name and creates a strongly typed model based specified in client configuration
-     */
-    createTypedObj<TItem extends ContentItem>(type: string, item: ItemContracts.IContentItemContract, typeResolvers: TypeResolver[]): TItem {
-        const typedItem = this.createEmptyTypedObj<TItem>(type, typeResolvers);
-
-        if (!typedItem) {
-            throw Error(`Cannot find resolver for type '${type}'. This error means that no class was registered as TypeResolver`);
+    createItemInstance<TItem extends IContentItem = IContentItem>(type: string, item: ItemContracts.IContentItemContract, typeResolvers: TypeResolver[]): TItem {
+        const typeResolver = this.getTypeResolver(type, typeResolvers);
+        let itemInstance: TItem | undefined;
+        if (typeResolver) {
+            // type resolver is registered, create new instance of given type
+            itemInstance = stronglyTypedResolver.createInstanceWithResolver<TItem>(typeResolver);
+        } else {
+            // not type resolver is register for this type, use ContentItem
+            itemInstance = stronglyTypedResolver.createContentItem(item) as TItem;
         }
 
-        this.assignDefaultProperties(typedItem, item);
-        return typedItem;
-    }
-
-    /**
-     * Creates empty typed object of given type
-     * @param type Type of the content item
-     * @param resolvers Type resolvers
-     */
-    createEmptyTypedObj<TItem extends ContentItem>(type: string, resolvers: TypeResolver[]): TItem | undefined {
-        if (!type) {
-            throw Error('Cannot resolve type because no type name was provided');
+        if (!itemInstance) {
+            throw Error(`Item with codename '${item.system.codename}' could not be instantiated`);
         }
 
-        const typeResolver = resolvers.find(m => m.type === type);
-
-        if (!typeResolver) {
-            return undefined;
-        }
-
-        return typeResolver.resolve() as TItem;
+        this.assignDefaultProperties(itemInstance, item);
+        return itemInstance;
     }
 
     /**
@@ -76,11 +58,38 @@ export class DeliveryItemStronglyTypeResolver {
     }
 
     /**
+     * Creates new instance of given type
+     * @param type Type of the content item
+     * @param resolvers Type resolvers
+     */
+    private createInstanceWithResolver<TItem extends IContentItem>(resolver: TypeResolver): TItem {
+        return resolver.resolve() as TItem;
+    }
+
+    /**
+     * Gets TypeResolver associated with given type (type = codename of Kentico Cloud content type)
+     * @param type Kentico Cloud content type codename
+     * @param resolvers Array of TypeResolver
+     */
+    private getTypeResolver(type: string, resolvers: TypeResolver[]): TypeResolver | undefined {
+        return resolvers.find(m => m.type.toLowerCase() === type.toLowerCase());
+    }
+
+    /**
+     * Creates base ContentItem when content type does not have a strongly typed model
+     */
+    private createContentItem(item: ItemContracts.IContentItemContract): IContentItem {
+        const contentItem = new ContentItem();
+        this.assignDefaultProperties(contentItem, item);
+        return contentItem;
+    }
+
+    /**
      * Maps default properties (system & elements)
      * @param item Mapped content item
      * @param rawItem Raw content item from response
      */
-    private assignDefaultProperties(item: ContentItem, rawItem: ItemContracts.IContentItemContract): void {
+    private assignDefaultProperties(item: IContentItem, rawItem: ItemContracts.IContentItemContract): void {
         item.system = this.mapSystemAttributes(rawItem[this.systemFieldName]);
         item.elements = rawItem[this.elementsFieldName];
     }

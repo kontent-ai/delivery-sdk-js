@@ -9,22 +9,6 @@ import { ContentItem } from './content-item.class';
 import { RichTextImage } from './image.class';
 import { Link } from './link.class';
 
-export class TypeResolver {
-
-    /**
-    * Resolver used to create empty instance of object representing your content item.
-    * For example if you create a class 'Character' which corresponds to 'character' code name of Kentico Cloud type, you
-    * need to use TypeResolver like: 'new TypeResolver("code_example", () => new CodeExample())'
-    * @constructor
-    * @param {string} type - Codename of the content item defined in your Kentico Cloud content types
-    * @param {() => ContentItem} resolve - Calbacked used to returs empty instance of proper item class
-    */
-    constructor(
-        public type: string,
-        public resolve: () => ContentItem
-    ) { }
-}
-
 export type ItemFieldCollisionResolver = (fieldName: string) => string;
 export type ItemPropertyResolver = (fieldName: string) => string;
 export type ItemLinkResolver = (link: Link, context: ILinkResolverContext) => string | ILinkResolverResult;

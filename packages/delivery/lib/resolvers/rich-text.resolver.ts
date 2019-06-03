@@ -1,5 +1,5 @@
 import { RichTextContentType } from '../enums';
-import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult, IRichTextImageResolverResult } from '../interfaces';
+import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult, IRichTextImageResolverResult, IContentItem } from '../interfaces';
 import { ContentItem, ItemRichTextResolver, Link, RichTextImage, TypeResolver } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 import { stronglyTypedResolver } from './delivery-item-strongly-type.resolver';
@@ -184,7 +184,7 @@ export class RichTextResolver {
 
         if (!url) {
             // url was not resolved, try to find global resolver for this particular type
-            const emptyTypedItem = stronglyTypedResolver.createEmptyTypedObj<ContentItem>(link.type, data.typeResolvers);
+            const emptyTypedItem = stronglyTypedResolver.createDummyInstance(link.type, data.typeResolvers);
 
             if (!emptyTypedItem) {
                 if (data.config.enableAdvancedLogging) {

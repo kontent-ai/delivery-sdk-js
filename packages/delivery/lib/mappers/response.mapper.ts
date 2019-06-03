@@ -2,7 +2,7 @@ import { IBaseResponse } from 'kentico-cloud-core';
 
 import { IDeliveryClientConfig } from '../config';
 import { ElementContracts, ItemContracts, TaxonomyContracts, TypeContracts } from '../data-contracts';
-import { ICloudResponseDebug, IItemQueryConfig } from '../interfaces';
+import { ICloudResponseDebug, IItemQueryConfig, IContentItem } from '../interfaces';
 import { ContentItem, ElementResponses, ItemResponses, Pagination, TaxonomyResponses, TypeResponses } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 import { ElementMapper } from './element.mapper';
@@ -75,7 +75,7 @@ export class ResponseMapper {
    * @param response Response data
    * @param queryConfig Query configuration
    */
-  mapSingleResponse<TItem extends ContentItem>(
+  mapSingleResponse<TItem extends IContentItem = IContentItem>(
     response: IBaseResponse<ItemContracts.IItemResponseContract>,
     queryConfig: IItemQueryConfig
   ): ItemResponses.DeliveryItemResponse<TItem> {
@@ -86,7 +86,7 @@ export class ResponseMapper {
       queryConfig
     );
 
-    return new ItemResponses.DeliveryItemResponse(
+    return new ItemResponses.DeliveryItemResponse<TItem>(
       itemResult.item,
       itemResult.processedItems,
       this.mapResponseDebug(response)
@@ -98,7 +98,7 @@ export class ResponseMapper {
    * @param response Response data
    * @param queryConfig Query configuration
    */
-  mapMultipleResponse<TItem extends ContentItem>(
+  mapMultipleResponse<TItem extends IContentItem = IContentItem>(
     response: IBaseResponse<ItemContracts.IItemsResponseContract>,
     queryConfig: IItemQueryConfig
   ): ItemResponses.DeliveryItemListingResponse<TItem> {
@@ -117,7 +117,7 @@ export class ResponseMapper {
       nextPage: response.data.pagination.next_page
     });
 
-    return new ItemResponses.DeliveryItemListingResponse(
+    return new ItemResponses.DeliveryItemListingResponse<TItem>(
       itemsResult.items,
       pagination,
       itemsResult.processedItems,
