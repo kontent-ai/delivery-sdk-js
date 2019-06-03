@@ -1,5 +1,5 @@
-import { ContentItem } from './content-item.class';
+import { IContentItem } from '../../interfaces';
 
-export interface IContentItemsContainer {
-    [key: string]: ContentItem;
+export interface IContentItemsContainer<TItem extends IContentItem = IContentItem> {
+    [key: string]: TItem;
 }

@@ -3,7 +3,7 @@ import { enumHelper } from 'kentico-cloud-core';
 import { defaultCollissionResolver as defaultCollisionResolver, IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { FieldContracts, FieldDecorators, FieldModels, Fields, FieldType } from '../fields';
-import { IItemQueryConfig } from '../interfaces';
+import { IContentItem, IItemQueryConfig } from '../interfaces';
 import {
     ContentItem,
     IContentItemsContainer,
@@ -15,7 +15,7 @@ import {
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
 
-export interface IMapFieldsResult<TItem extends ContentItem> {
+export interface IMapFieldsResult<TItem extends IContentItem = IContentItem> {
     item: TItem;
     processedItems: IContentItemsContainer;
     preparedItems: IContentItemsContainer;
@@ -42,7 +42,7 @@ export class FieldMapper {
      * Maps all fields in given content item and returns strongly typed content item based on the resolver specified
      * in DeliveryClientConfig
      */
-    mapFields<TItem extends ContentItem>(data: {
+    mapFields<TItem extends IContentItem = IContentItem>(data: {
         item: ItemContracts.IContentItemContract,
         modularContent: ItemContracts.IModularContentWrapperContract,
         queryConfig: IItemQueryConfig,
@@ -71,33 +71,31 @@ export class FieldMapper {
         }
 
         const elementCodenames = Object.getOwnPropertyNames(data.item.elements);
-        let itemTyped: TItem;
 
-        // check if resolver for this type is available
-        if (this.config.typeResolvers && stronglyTypedResolver.hasTypeResolver(data.item.system.type, this.config.typeResolvers)) {
-            itemTyped = stronglyTypedResolver.createTypedObj(data.item.system.type, data.item, this.config.typeResolvers) as TItem;
-        } else {
-            itemTyped = stronglyTypedResolver.createContentItem(data.item) as TItem;
-        }
+        const itemInstance = stronglyTypedResolver.createItemInstance<TItem>(data.item.system.type, data.item, this.config.typeResolvers || []);
 
         if (!data.preparedItems) {
             data.preparedItems = <IContentItemsContainer>{};
         }
 
         // add to prepared items
-        data.preparedItems[data.item.system.codename] = itemTyped;
+        data.preparedItems[data.item.system.codename] = itemInstance;
 
         elementCodenames.forEach(elementCodename => {
+            if (!itemInstance) {
+                throw Error(`Item instance was not initiazed correctly.`);
+            }
+
             const field = data.item.elements[elementCodename];
-            const fieldMapping = this.resolveFieldMapping(itemTyped, elementCodename);
+            const fieldMapping = this.resolveFieldMapping(itemInstance, elementCodename);
 
             if (fieldMapping.shouldMapField) {
-                itemTyped[fieldMapping.resolvedName] = this.mapField({
+                itemInstance[fieldMapping.resolvedName] = this.mapField({
                     fieldWrapper: {
                         field: field,
                         resolvedFieldName: fieldMapping.resolvedName
                     },
-                    item: itemTyped,
+                    item: itemInstance,
                     modularContent: data.modularContent,
                     preparedItems: data.preparedItems,
                     processingStartedForCodenames: data.processingStartedForCodenames,
@@ -108,7 +106,7 @@ export class FieldMapper {
         });
 
         return {
-            item: itemTyped,
+            item: itemInstance,
             processedItems: data.processedItems,
             preparedItems: data.preparedItems,
             processingStartedForCodenames: data.processingStartedForCodenames
@@ -516,7 +514,7 @@ export class FieldMapper {
         return images;
     }
 
-    private resolveFieldMapping(item: ContentItem, originalFieldCodename: string): {
+    private resolveFieldMapping(item: IContentItem, originalFieldCodename: string): {
         shouldMapField: boolean,
         resolvedName: string
     } {
@@ -563,7 +561,7 @@ export class FieldMapper {
         return this.config.collisionResolver ? this.config.collisionResolver : defaultCollisionResolver;
     }
 
-    private collidesWithAnotherField(fieldName: string, item: ContentItem): boolean {
+    private collidesWithAnotherField(fieldName: string, item: IContentItem): boolean {
         return item[fieldName] ? true : false;
     }
 }

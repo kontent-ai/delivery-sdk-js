@@ -1,12 +1,12 @@
+import { IContentItem } from '../../interfaces';
 import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
 import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
 import { Pagination } from '../common';
-import { ContentItem } from './content-item.class';
 import { IContentItemsContainer } from './i-content-items-container.interface';
 
 export namespace ItemResponses {
 
-    export class DeliveryItemListingResponse<TItem extends ContentItem> implements ICloudResponse {
+    export class DeliveryItemListingResponse<TItem extends IContentItem = IContentItem> implements ICloudResponse {
 
         /**
          * Indicates if response contains any items
@@ -74,7 +74,7 @@ export namespace ItemResponses {
         }
     }
 
-    export class DeliveryItemResponse<TItem extends ContentItem> implements ICloudResponse {
+    export class DeliveryItemResponse<TItem extends IContentItem = IContentItem> implements ICloudResponse {
 
         /**
          * Indicates if response contains item
