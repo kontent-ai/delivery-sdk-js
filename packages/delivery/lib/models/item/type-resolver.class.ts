@@ -1,4 +1,4 @@
-import { ContentItem } from './content-item.class';
+import { IContentItem, ITypeResolverData } from '../../interfaces';
 
 export class TypeResolver {
 
@@ -9,10 +9,10 @@ export class TypeResolver {
     * typically register it like: 'new TypeResolver("code_example", () => new CodeExample())'
     * @constructor
     * @param {string} type - Codename of the content item defined in your Kentico Cloud content types
-    * @param {() => ContentItem} resolve - Function used create new instance of your class
+    * @param {(data: ITypeResolverData) => IContentItem} resolve - Function used create new instance of your class
     */
     constructor(
         public type: string,
-        public resolve: () => ContentItem
+        public resolve: (data: ITypeResolverData) => IContentItem
     ) { }
 }

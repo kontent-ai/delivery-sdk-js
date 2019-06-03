@@ -1,9 +1,14 @@
 import { RichTextContentType } from '../enums';
-import { IItemQueryConfig, ILinkResolverContext, ILinkResolverResult, IRichTextImageResolverResult, IContentItem } from '../interfaces';
-import { ContentItem, ItemRichTextResolver, Link, RichTextImage, TypeResolver } from '../models';
-import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
-import { stronglyTypedResolver } from './delivery-item-strongly-type.resolver';
 import { Fields } from '../fields';
+import {
+    IContentItem,
+    IItemQueryConfig,
+    ILinkResolverContext,
+    ILinkResolverResult,
+    IRichTextImageResolverResult,
+} from '../interfaces';
+import { ItemRichTextResolver, Link, RichTextImage } from '../models';
+import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 
 export class RichTextResolver {
 
@@ -17,8 +22,7 @@ export class RichTextResolver {
         fieldName: string,
         data: {
             richTextHtmlParser: IRichTextHtmlParser,
-            typeResolvers: TypeResolver[],
-            getLinkedItem: (codename: string) => ContentItem | undefined,
+            getLinkedItem: (codename: string) => IContentItem | undefined,
             links: Link[],
             images: RichTextImage[],
             enableAdvancedLogging: boolean,
@@ -40,7 +44,7 @@ export class RichTextResolver {
                     config: config,
                     links: data.links,
                     itemId: itemId,
-                    typeResolvers: data.typeResolvers,
+                    getLinkedItem: data.getLinkedItem,
                     linkText: linkText
                 }),
                 getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => this.getLinkedItemHtml({
@@ -71,7 +75,7 @@ export class RichTextResolver {
 
     private getImageResult(data: {
         itemCodename: string,
-        getLinkedItem: (codename: string) => ContentItem | undefined,
+        getLinkedItem: (codename: string) => IContentItem | undefined,
         config: IHtmlResolverConfig,
         imageId: string,
         images: RichTextImage[],
@@ -113,7 +117,7 @@ export class RichTextResolver {
     private getLinkedItemHtml(data: {
         itemCodename: string,
         config: IHtmlResolverConfig,
-        getLinkedItem: (codename: string) => ContentItem | undefined,
+        getLinkedItem: (codename: string) => IContentItem | undefined,
         itemType: RichTextContentType
     }): string {
 
@@ -124,7 +128,6 @@ export class RichTextResolver {
         if (!linkedItem) {
             throw Error(`Linked item with codename '${data.itemCodename}' could not be found in response and therefore the HTML of rich text field could not be evaluated. Increasing 'depth' parameter of your query may solve this issue.`);
         }
-
         // get html to replace object using Rich text resolver function
         let resolver: ItemRichTextResolver | undefined = undefined;
         if (data.config.queryConfig.richTextResolver) {
@@ -154,13 +157,13 @@ export class RichTextResolver {
         itemId: string,
         config: IHtmlResolverConfig,
         links: Link[],
-        typeResolvers: TypeResolver[],
+        getLinkedItem: (codename: string) => IContentItem | undefined,
         linkText: string
     }): string | ILinkResolverResult {
         // find link with the id of content item
-        const link = data.links.find(m => m.linkId === data.itemId);
+        const existingLink = data.links.find(m => m.linkId === data.itemId);
 
-        if (!link) {
+        if (!existingLink) {
             if (data.config.enableAdvancedLogging) {
                 console.warn(`Cannot resolve URL for item '${data.itemId}' because no link with this id was found. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
@@ -179,29 +182,21 @@ export class RichTextResolver {
 
         if (queryLinkResolver) {
             // try to resolve url using the query config
-            url = queryLinkResolver(link, linkContext);
-        }
+            url = queryLinkResolver(existingLink, linkContext);
+        } else {
+            // url was not resolved, try using global link resolver for item
+            const linkedItem = data.getLinkedItem(existingLink.codename);
 
-        if (!url) {
-            // url was not resolved, try to find global resolver for this particular type
-            const emptyTypedItem = stronglyTypedResolver.createDummyInstance(link.type, data.typeResolvers);
-
-            if (!emptyTypedItem) {
-                if (data.config.enableAdvancedLogging) {
-                    console.warn(`Cannot resolve link for link of '${link.type}' type with id '${link.linkId}' and url slug '${link.urlSlug}'. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
-                }
-            } else {
-                const globalLinkResolver = emptyTypedItem.linkResolver;
-                if (globalLinkResolver) {
-                    url = globalLinkResolver(link, linkContext);
-                }
+            if (linkedItem && linkedItem.linkResolver) {
+                // resolve url using link resolver defined on class level
+                url = linkedItem.linkResolver(existingLink, linkContext);
             }
         }
 
         // url still wasn't resolved
         if (!url) {
             if (data.config.enableAdvancedLogging) {
-                console.warn(`Url for content type '${link.type}' with id '${link.linkId}' resolved to null/undefined. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                console.warn(`Url for content type '${existingLink.type}' with id '${existingLink.linkId}' resolved to null/undefined. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
             return '';
         }
