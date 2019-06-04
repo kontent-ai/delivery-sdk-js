@@ -33,7 +33,7 @@ export interface IHttpQueryOptions {
     maxRetryAttempts?: number;
     headers?: IHeader[];
     logErrorToConsole?: boolean;
-    responseType?: string;
+    responseType?: HttpResponseType;
 }
 
 export interface IHeader {
@@ -55,9 +55,26 @@ export interface IHttpRequestProfxyConfig {
     };
 }
 
+export type HttpRequestMethod =
+    | 'get' | 'GET'
+    | 'delete' | 'DELETE'
+    | 'head' | 'HEAD'
+    | 'options' | 'OPTIONS'
+    | 'post' | 'POST'
+    | 'put' | 'PUT'
+    | 'patch' | 'PATCH';
+
+export type HttpResponseType =
+    | 'arraybuffer'
+    | 'blob'
+    | 'document'
+    | 'json'
+    | 'text'
+    | 'stream';
+
 export interface IHttpRequestConfig {
     url?: string;
-    method?: string;
+    method?: HttpRequestMethod;
     baseURL?: string;
     headers?: any;
     params?: any;
@@ -66,7 +83,7 @@ export interface IHttpRequestConfig {
     timeout?: number;
     withCredentials?: boolean;
     auth?: IHttpRequestCredentials;
-    responseType?: string;
+    responseType?: HttpResponseType;
     xsrfCookieName?: string;
     xsrfHeaderName?: string;
     maxContentLength?: number;
