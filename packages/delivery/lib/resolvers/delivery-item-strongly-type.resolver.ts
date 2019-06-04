@@ -17,10 +17,10 @@ export class DeliveryItemStronglyTypeResolver {
         let itemInstance: TItem | undefined;
         if (typeResolver) {
             // type resolver is registered, create new instance of given type
-            itemInstance = stronglyTypedResolver.createInstanceWithResolver<TItem>(data, typeResolver);
+            itemInstance = this.createInstanceWithResolver<TItem>(data, typeResolver);
         } else {
             // not type resolver is register for this type, use ContentItem
-            itemInstance = stronglyTypedResolver.createContentItem(data.item) as TItem;
+            itemInstance = this.createContentItem(data.item) as TItem;
         }
 
         if (!itemInstance) {
