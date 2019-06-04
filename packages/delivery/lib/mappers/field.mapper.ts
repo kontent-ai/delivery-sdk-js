@@ -110,7 +110,7 @@ export class FieldMapper {
                 });
 
                 // set mapped field to item instance
-                itemInstance[fieldMapping.resolvedName] = mappedField;
+                (itemInstance as IContentItem)[fieldMapping.resolvedName] = mappedField;
             }
         });
 
