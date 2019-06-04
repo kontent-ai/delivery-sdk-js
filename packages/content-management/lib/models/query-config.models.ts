@@ -1,7 +1,8 @@
+import { HttpResponseType } from 'kentico-cloud-core';
 
 export interface IContentManagementQueryConfig {
 }
 
 export interface IContentManagementInternalQueryConfig {
-    responseType?: string;
+    responseType?: HttpResponseType;
 }
