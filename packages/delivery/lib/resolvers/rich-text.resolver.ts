@@ -8,7 +8,7 @@ import {
     IRichTextImageResolverResult,
 } from '../interfaces';
 import { ItemRichTextResolver, Link, RichTextImage } from '../models';
-import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
+import { IHtmlResolverConfig, IRichTextHtmlParser, ResolverContext } from '../parser';
 
 export class RichTextResolver {
 
@@ -39,6 +39,7 @@ export class RichTextResolver {
         };
 
         const result = data.richTextHtmlParser.resolveRichTextField(
+            'root',
             contentItemCodename, html, fieldName, {
                 getLinkResult: (itemId: string, linkText: string) => this.getLinkResult({
                     config: config,
@@ -53,8 +54,9 @@ export class RichTextResolver {
                     getLinkedItem: data.getLinkedItem,
                     itemType: itemType
                 }),
-                getImageResult: (itemCodename, imageId: string, xFieldName: string) => this.getImageResult(
+                getImageResult: (resolverContext: ResolverContext, itemCodename: string, imageId: string, xFieldName: string) => this.getImageResult(
                     {
+                        resolverContext: resolverContext,
                         getLinkedItem: data.getLinkedItem,
                         itemCodename: itemCodename,
                         config: config,
@@ -74,6 +76,7 @@ export class RichTextResolver {
     }
 
     private getImageResult(data: {
+        resolverContext: ResolverContext,
         itemCodename: string,
         getLinkedItem: (codename: string) => IContentItem | undefined,
         config: IHtmlResolverConfig,
@@ -83,24 +86,32 @@ export class RichTextResolver {
         fieldName: string
     }): IRichTextImageResolverResult {
 
-        const images = data.images;
+        // get linked item
+        const linkedItem = data.getLinkedItem(data.itemCodename);
 
-        // get item and its images (required when child resolved HTML containes images)
-        if (data.itemCodename) {
-            const linkedItem = data.getLinkedItem(data.itemCodename);
-            if (linkedItem) {
-                const richTextElement = linkedItem[data.fieldName];
-                if (richTextElement instanceof Fields.RichTextField) {
-                    images.push(...richTextElement.images);
-                }
-            }
+        if (!linkedItem) {
+            throw Error(`Linked item with codename '${data.itemCodename}' was not found when resolving image with id '${data.imageId}'`);
         }
 
-        // find image
-        const image = images.find(m => m.imageId === data.imageId);
+        // if image is resolved within nested linked item (e.g. rich text element resolves html of linked item which contains images)
+        // the fieldName is equal to the 'root' element on which the html is resolved. For this reason we have to go through all
+        // elements in linked item and find the image there.
+        let image: RichTextImage | undefined;
+
+        if (data.resolverContext === 'nested') {
+            image = this.tryGetImageFromLinkedItem(data.imageId, linkedItem);
+        } else {
+            const richTextElement = linkedItem[data.fieldName] as Fields.RichTextField;
+
+            if (!(richTextElement instanceof Fields.RichTextField)) {
+                throw Error(`Linked item with codename '${data.itemCodename}' has invalid element '${data.fieldName}'. This element is required to be of RichText type.`);
+            }
+            image = richTextElement.images.find(m => m.imageId === data.imageId);
+        }
+
 
         if (!image) {
-            throw Error(`Image with id '${data.imageId}' was not found in images data`);
+            throw Error(`Image with id '${data.imageId}' was not found in images data for linked item '${data.itemCodename}' and element '${data.fieldName}'`);
         }
 
         // use custom resolver if present
@@ -112,6 +123,20 @@ export class RichTextResolver {
         return {
             url: image.url
         };
+    }
+
+    private tryGetImageFromLinkedItem(imageId: string, contentItem: IContentItem): RichTextImage | undefined {
+        for (const propName of Object.keys(contentItem)) {
+            const prop = contentItem[propName];
+            if (prop instanceof Fields.RichTextField) {
+                const image = prop.images.find(m => m.imageId === imageId);
+
+                if (image) {
+                    return image;
+                }
+            }
+        }
+        return undefined;
     }
 
     private getLinkedItemHtml(data: {

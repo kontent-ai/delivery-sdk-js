@@ -17,9 +17,9 @@
           "name": "System",
           "value": "im system"
         },
-        "elements": {
+        "debug": {
           "type": "text",
-          "name": "Elements",
+          "name": "debug",
           "value": "hello"
         },
         "title": {

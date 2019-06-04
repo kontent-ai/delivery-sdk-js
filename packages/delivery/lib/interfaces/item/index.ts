@@ -6,3 +6,4 @@ export * from './icontent-item.interface';
 export * from './icontent-item-system-attributes.interface';
 export * from './irich-text-resolver-result';
 export * from './i-type-resolver-data.interface';
+export * from './i-content-item-debug-data.interface';

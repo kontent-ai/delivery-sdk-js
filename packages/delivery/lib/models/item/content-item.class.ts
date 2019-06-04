@@ -1,5 +1,4 @@
-import { ItemContracts } from '../../data-contracts/item-contracts';
-import { IContentItem } from '../../interfaces';
+import { IContentItem, IContentItemDebugData } from '../../interfaces';
 import { ContentItemSystemAttributes } from './content-item-system-attributes';
 import { ItemLinkResolver, ItemPropertyResolver, ItemRichTextResolver } from './item-resolvers';
 
@@ -11,14 +10,14 @@ export class ContentItem implements IContentItem {
     [key: string]: any;
 
     /**
+     * Debug data of the item
+     */
+    public debug!: IContentItemDebugData;
+
+    /**
      * Content item system elements
      */
     public system!: ContentItemSystemAttributes;
-
-    /**
-     * Raw elements of the item
-     */
-    public elements!: ItemContracts.IContentItemElementsContracts;
 
     /**
     * Function used to bind fields returned from Kentico Cloud to a model property.

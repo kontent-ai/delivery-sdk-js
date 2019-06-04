@@ -46,10 +46,10 @@ describe('Live items', () => {
     expect(response.lastItem.system.codename).toEqual(response.items[response.items.length - 1].system.codename);
   });
 
-  it(`elements property should be set for all items`, () => {
+  it(`debug property should be set for all items`, () => {
     response.items.forEach(item => {
-      expect(item.elements).toBeDefined();
-      expect(item.elements.title.value).toEqual(item.title.text);
+      expect(item.debug).toBeDefined();
+      expect(item.debug.rawElements).toBeDefined();
     });
   });
 

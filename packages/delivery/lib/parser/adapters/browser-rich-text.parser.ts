@@ -9,16 +9,18 @@ import {
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
+    ResolverContext,
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
 
+
 export class BrowserRichTextParser implements IRichTextHtmlParser {
 
-    resolveRichTextField(contentItemCodename: string, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
+    resolveRichTextField(resolverContext: ResolverContext, contentItemCodename: string, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         const doc = this.createWrapperElement(html);
 
         // get all linked items
-        const result = this.processRichTextField(contentItemCodename, fieldName, doc.children, replacement, config, {
+        const result = this.processRichTextField(resolverContext, contentItemCodename, fieldName, doc.children, replacement, config, {
             links: [],
             linkedItems: [],
             images: []
@@ -39,7 +41,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         return element;
     }
 
-    private processRichTextField(contentItemCodename: string, fieldName: string, htmlCollection: HTMLCollection, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
+    private processRichTextField(resolverContext: ResolverContext, contentItemCodename: string, fieldName: string, htmlCollection: HTMLCollection, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
         if (!htmlCollection || htmlCollection.length === 0) {
             // there are no more nodes
         } else {
@@ -85,7 +87,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         const linkedItemHtml = replacement.getLinkedItemHtml(linkItemContentObject.dataCodename, type);
 
                         // recursively run resolver on the HTML obtained by resolver
-                        newElem.innerHTML = this.resolveRichTextField(linkItemContentObject.dataCodename, linkedItemHtml, fieldName, replacement, config).resolvedHtml;
+                        newElem.innerHTML = this.resolveRichTextField('nested', linkItemContentObject.dataCodename, linkedItemHtml, fieldName, replacement, config).resolvedHtml;
 
                         // add classes
                         newElem.className = config.linkedItemWrapperClasses.map(m => m).join(' ');
@@ -165,7 +167,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         result.images.push(imageObj);
 
                         // get image result
-                        const imageResult = replacement.getImageResult(contentItemCodename, imageObj.imageId, fieldName);
+                        const imageResult = replacement.getImageResult(resolverContext, contentItemCodename, imageObj.imageId, fieldName);
 
                         // get src attribute of img tag
                         const srcAttribute = element.attributes.getNamedItem(parserConfiguration.imageElementData.srcAttribute);
@@ -181,7 +183,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
 
                 // recursively process child nodes
                 if (element.children && element.children.length > 0) {
-                    this.processRichTextField(contentItemCodename, fieldName, element.children, replacement, config, result);
+                    this.processRichTextField(resolverContext, contentItemCodename, fieldName, element.children, replacement, config, result);
                 }
             }
         }

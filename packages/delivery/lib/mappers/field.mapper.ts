@@ -1,6 +1,6 @@
 import { enumHelper } from 'kentico-cloud-core';
 
-import { defaultCollissionResolver as defaultCollisionResolver, IDeliveryClientConfig } from '../config';
+import { defaultCollissionResolver, IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { FieldContracts, FieldDecorators, FieldModels, Fields, FieldType } from '../fields';
 import { IContentItem, IItemQueryConfig } from '../interfaces';
@@ -96,7 +96,7 @@ export class FieldMapper {
             const fieldMapping = this.resolveFieldMapping(itemInstance, elementCodename);
 
             if (fieldMapping.shouldMapField) {
-                itemInstance[fieldMapping.resolvedName] = this.mapField({
+                const mappedField = this.mapField({
                     fieldWrapper: {
                         field: field,
                         resolvedFieldName: fieldMapping.resolvedName
@@ -108,6 +108,9 @@ export class FieldMapper {
                     processedItems: data.processedItems,
                     queryConfig: data.queryConfig
                 });
+
+                // set mapped field to item instance
+                itemInstance[fieldMapping.resolvedName] = mappedField;
             }
         });
 
@@ -162,7 +165,7 @@ export class FieldMapper {
             }
 
             if (fieldType === FieldType.RichText) {
-                return this.mapRichTextField(data.fieldWrapper, data.modularContent, data.queryConfig, data.processedItems, data.processingStartedForCodenames, data.preparedItems);
+                return this.mapRichTextField(data.item, data.fieldWrapper, data.modularContent, data.queryConfig, data.processedItems, data.processingStartedForCodenames, data.preparedItems);
             }
 
             if (fieldType === FieldType.UrlSlug) {
@@ -182,6 +185,7 @@ export class FieldMapper {
     }
 
     private mapRichTextField(
+        item: IContentItem,
         fieldWrapper: IFieldMapWrapper,
         modularContent: ItemContracts.IModularContentWrapperContract,
         queryConfig: IItemQueryConfig,
@@ -256,7 +260,7 @@ export class FieldMapper {
             field.modular_content,
             {
                 links: links,
-                resolveHtml: () => richTextResolver.resolveHtml('', field.value, fieldWrapper.resolvedFieldName, {
+                resolveHtml: () => richTextResolver.resolveHtml(item.system.codename, field.value, fieldWrapper.resolvedFieldName, {
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
                     images: images,
                     richTextHtmlParser: this.richTextHtmlParser,
@@ -563,7 +567,7 @@ export class FieldMapper {
     }
 
     private getCollisionResolver(): ItemFieldCollisionResolver {
-        return this.config.collisionResolver ? this.config.collisionResolver : defaultCollisionResolver;
+        return this.config.collisionResolver ? this.config.collisionResolver : defaultCollissionResolver;
     }
 
     private collidesWithAnotherField(fieldName: string, item: IContentItem): boolean {
