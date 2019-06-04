@@ -1,4 +1,7 @@
-## 0.0.15 (2019-05-14)
+## 0.0.16 (2019-06-04)
+
+#### :rocket: Enhancement
+  * [#196](https://github.com/Kentico/kentico-cloud-js/pull/196) Axios security update + dev dependency update + version patch ([@Enngage](https://github.com/Enngage))
 
 #### :rocket: Enhancement
   * [#173](https://github.com/Kentico/kentico-cloud-js/pull/173) Makes contentLength optional ([@Enngage](https://github.com/Enngage))

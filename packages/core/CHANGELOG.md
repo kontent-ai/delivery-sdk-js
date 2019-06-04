@@ -1,3 +1,18 @@
+## 1.6.0 (2019-06-04)
+
+#### :rocket: Enhancement
+  * [#196](https://github.com/Kentico/kentico-cloud-js/pull/196) Axios security update + dev dependency update + version patch ([@Enngage](https://github.com/Enngage))
+
+#### Committers: 1
+- Richard Sustek ([@Enngage](https://github.com/Enngage))
+
+
+## delivery@6.0.0-beta.9 (2019-05-27)
+
+#### :rocket: Enhancement
+* `delivery`
+  * [#188](https://github.com/Kentico/kentico-cloud-js/pull/188) Makes configuration of global headers function instead of static array ([@Enngage](https://github.com/Enngage))
+
 ## 1.5.0 (2019-05-27)
 
 #### :rocket: Enhancement

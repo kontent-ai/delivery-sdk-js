@@ -1,3 +1,17 @@
+## 6.0.0-beta.10 (2019-06-04)
+
+#### :boom: Breaking Change
+  * [#194](https://github.com/Kentico/kentico-cloud-js/pull/194) Implements support for resolving images resolved by nested linked items, removes 'elements' property in favor of 'debug' property (breaking change) ([@Enngage](https://github.com/Enngage))
+
+#### :rocket: Enhancement
+  * [#196](https://github.com/Kentico/kentico-cloud-js/pull/196) Axios security update + dev dependency update + version patch ([@Enngage](https://github.com/Enngage))
+  * [#193](https://github.com/Kentico/kentico-cloud-js/pull/193) Adds 'data' parameter containing raw item & modular_content data to TypeResolver.Resolve callback, refactors the way links are resolved inside rich text elements ([@Enngage](https://github.com/Enngage))
+  * [#192](https://github.com/Kentico/kentico-cloud-js/pull/192) Refactors delivery item strongly typed resolver, sets default item type to 'IContentItem' ([@Enngage](https://github.com/Enngage))
+
+#### :house: Internal
+* `delivery`
+  * [#191](https://github.com/Kentico/kentico-cloud-js/pull/191) Fixes racing condition in test ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-beta.9 (2019-05-27)
 
 #### :rocket: Enhancement
