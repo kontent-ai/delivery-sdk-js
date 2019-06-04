@@ -1,4 +1,5 @@
 import { ItemLinkResolver, ItemPropertyResolver, ItemRichTextResolver } from '../../models/item/item-resolvers';
+import { IContentItemDebugData } from './i-content-item-debug-data.interface';
 import { IContentItemSystemAttributes } from './icontent-item-system-attributes.interface';
 
 export interface IContentItem {
@@ -14,9 +15,9 @@ export interface IContentItem {
     system: IContentItemSystemAttributes;
 
     /**
-     * Elements of the item
+     * Debug data of the item
      */
-    elements: any;
+    debug: IContentItemDebugData;
 
     /**
     * Function used to bind fields returned from Kentico Cloud to a model property.

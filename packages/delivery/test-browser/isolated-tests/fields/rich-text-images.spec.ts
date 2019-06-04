@@ -1,18 +1,26 @@
 import {
+    ContentItem,
+    ContentItemSystemAttributes,
     Fields,
     getParserAdapter,
-    IDeliveryClientConfig,
     ImageUrlBuilder,
     RichTextImage,
     richTextResolver,
-    TypeResolver,
 } from '../../../lib';
 
 describe('RichTextField with Images', () => {
-    const config: IDeliveryClientConfig = {
-        projectId: 'xxx',
-        typeResolvers: []
-    };
+    const linkedItemCodename = 'xLinkedItemCodename';
+
+    const linkedItem = new ContentItem();
+    linkedItem.system = new ContentItemSystemAttributes({
+        codename: linkedItemCodename,
+        id: 'x',
+        language: 'en',
+        lastModified: new Date(),
+        name: 'x linked item',
+        sitemapLocations: [],
+        type: 'article'
+    });
 
     // prepare images
     const images: RichTextImage[] = [
@@ -33,6 +41,13 @@ describe('RichTextField with Images', () => {
         })
     ];
 
+    // set images to rich text
+    linkedItem['name'] = new Fields.RichTextField('name', '', [], {
+        images: images,
+        links: [],
+        resolveHtml: () => ''
+    });
+
     const image1 = images[0];
     const image2 = images[1];
 
@@ -45,10 +60,10 @@ describe('RichTextField with Images', () => {
     it(`Checks that images are resolved using default resolver`, () => {
         const field = new Fields.RichTextField('name', html, [], {
             links: [],
-            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
+            resolveHtml: () => richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
                 enableAdvancedLogging: false,
                 links: [],
-                getLinkedItem: (codename) => undefined,
+                getLinkedItem: (codename) => linkedItem,
                 images: images,
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: [],
@@ -72,10 +87,10 @@ describe('RichTextField with Images', () => {
     it(`Checks that images are resolved using custom resolver`, () => {
         const field2 = new Fields.RichTextField('name', html, [], {
             links: [],
-            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
+            resolveHtml: () => richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
                 enableAdvancedLogging: false,
                 links: [],
-                getLinkedItem: (codename) => undefined,
+                getLinkedItem: (codename) => linkedItem,
                 images: images,
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: [],

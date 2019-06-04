@@ -138,9 +138,11 @@ describe('Live item', () => {
     expect(response.item.plot.getHtml()).toContain(expectedHtml);
   });
 
-  it(`elements property should be set`, () => {
-    expect(response.item.elements).toBeDefined();
-    expect(response.item.elements.title.value).toEqual(response.item.title.text);
+  it(`debug property should be defiend and filled with debug data`, () => {
+    expect(response.item.debug).toBeDefined();
+    expect(response.item.debug.rawElements).toBeDefined();
+
+    expect(response.item.debug.rawElements.title.value).toEqual(response.item.title.text);
   });
 
   it(`images should be mapped in plot rich text field`, () => {

@@ -1,12 +1,12 @@
-import { ILinkResolverResult } from '../interfaces';
-import { ContentItem, ItemLinkResolver, Link } from '../models';
+import { IContentItem, ILinkResolverResult } from '../interfaces';
+import { ItemLinkResolver, Link } from '../models';
 
 export class UrlSlugResolver {
   resolveUrl(data: {
     type: string;
     fieldValue: string;
     fieldName: string;
-    item: ContentItem;
+    item: IContentItem;
     linkResolver: ItemLinkResolver | undefined;
     enableAdvancedLogging: boolean;
   }): string | ILinkResolverResult | undefined {
