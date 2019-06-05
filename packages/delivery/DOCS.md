@@ -13,37 +13,43 @@ npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 
-### CDN
+### UMD Bundles
 
 When using UMD bundle and including this library in `script` tag on your `html` page, you can find it under the `kenticoCloudDelivery` global variable.
 
-You can decide whether to get library including full node support or just browser only. If you choose browser only version, an external dependency used for parsing HTML in `node.js` is not included and therefore the size of library is smaller.
+Bundles are distributed in `_bundles` folder and there are several options that you can choose from. 
 
-#### Node + browser (UMD)
+- Use `kentico-cloud-delivery-sdk.browser.legacy.umd.min` if you need to support legacy browsers (IE9, IE10, IE11)
+- Use `kentico-cloud-delivery-sdk.browser.umd.min` if you intend to use SDK only in browsers (strips code specific to Node.js = smaller bundle)
+- Use `kentico-cloud-delivery-sdk.umd.min` if you need to use it in Node.js
 
-![Gzip full bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js?compression=gzip)
+#### CDN
+
+##### kentico-cloud-delivery-sdk.browser.legacy.umd.min
+
+![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.legacy.umd.min.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.umd.min.js
-```
-or
-```
-https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.legacy.umd.min.js
 ```
 
-#### Browser only (UMD)
+##### kentico-cloud-delivery-sdk.browser.umd.min
 
 ![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
 
 ```
 https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
 ```
-or
+
+##### kentico-cloud-delivery-sdk.umd.min
+
+![Gzip full bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js?compression=gzip)
+
 ```
-https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.umd.min.js
 ```
 
-## Quick start (TypeScript & ES2015)
+## TypeScript & ES6
 
 ```typescript
 import { 
@@ -102,7 +108,7 @@ deliveryClient.items<ContentItem>()
 
 ```
 
-## Quick start (JavaScript & CommonJS)
+## JavaScript & CommonJS
 
 ```javascript
 const KenticoCloud = require('kentico-cloud-delivery');
@@ -154,7 +160,7 @@ deliveryClient.items()
     .subscribe(response => console.log(response));
 ```
 
-## Quick start (HTML & UMD)
+## HTML & UMD & CDN
 
 ```html
 <!DOCTYPE html>
@@ -175,7 +181,7 @@ deliveryClient.items()
 
 		deliveryClient.items()
 			.type('movie')
-			.getPromise()
+			.toPromise()
 			.then(response => console.log(response));
 
 	</script>
