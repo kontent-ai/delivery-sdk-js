@@ -54,8 +54,9 @@
     "webpack:dev": "npm run webpack-local -- --mode development --config webpack.config.js --progress --colors",
     "webpack:prod": "npm run webpack-local -- --mode production --config webpack.config.js --progress --colors",
     "webpack:browser": "npm run webpack-local -- --mode production --config webpack.browser.config.js --progress --colors",
+    "webpack:browser:legacy": "npm run webpack-local -- --mode production --config webpack.browser.legacy.config.js --progress --colors",
     "publish:beta": "npm publish --tag=next",
-    "build:umd": "npm run webpack:dev && npm run webpack:prod && npm run webpack:browser",
+    "build:umd": "npm run webpack:dev && npm run webpack:prod && npm run webpack:browser && npm run webpack:browser:legacy",
     "build:es2015": "npm run tsc-local -- -m es2015 --outDir _es2015 --p tsconfig.prod.json",
     "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs --p tsconfig.prod.json",
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs",
@@ -71,6 +72,8 @@
     "rxjs": "^6.0.0"
   },
   "devDependencies": {
+    "es6-symbol": "3.1.1",
+    "es6-promise": "4.2.6",
     "@types/jasmine": "3.3.13",
     "@types/node": "12.0.4",
     "@types/parse5": "5.0.0",
@@ -96,7 +99,7 @@
     "tslint": "5.17.0",
     "typescript": "3.5.1",
     "url-parse": "1.4.7",
-    "webpack": "4.32.2",
+    "webpack": "^4.32.2",
     "webpack-bundle-analyzer": "3.3.2",
     "webpack-cli": "3.3.2"
   }

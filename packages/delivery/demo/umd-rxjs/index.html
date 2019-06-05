@@ -20,7 +20,7 @@
 
 		deliveryClient.items()
 			.type('movie')
-			.getObservable()
+			.toObservable()
 			.pipe(
 				Rx.operators.map(response => {
 					console.log(response);

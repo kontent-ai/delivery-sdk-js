@@ -47,8 +47,9 @@
     "check-version": "npm run ts-node-local ./misc/verify-sdk-version.ts",
     "webpack:dev": "npm run webpack-local -- --mode development --config webpack.config.js --progress --colors",
     "webpack:prod": "npm run webpack-local -- --mode production --config webpack.config.js --progress --colors",
+    "webpack:legacy": "npm run webpack-local -- --mode production --config webpack.legacy.config.js --progress --colors",
     "publish:beta": "npm publish --tag=next",
-    "build:umd": "npm run webpack:dev && npm run webpack:prod",
+    "build:umd": "npm run webpack:dev && npm run webpack:prod && npm run webpack:legacy",
     "build:es2015": "npm run tsc-local -- -m es2015 --outDir _es2015 --p tsconfig.prod.json",
     "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs --p tsconfig.prod.json",
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs",
@@ -61,6 +62,7 @@
     "rxjs": "^6.0.0"
   },
   "devDependencies": {
+    "es6-promise": "4.2.6",
     "typescript": "3.5.1",
     "@types/jasmine": "3.3.13",
     "@types/node": "12.0.4",
