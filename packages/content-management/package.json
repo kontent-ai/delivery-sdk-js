@@ -53,7 +53,8 @@
     "build:es2015": "npm run tsc-local -- -m es2015 --outDir _es2015 --p tsconfig.prod.json",
     "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs --p tsconfig.prod.json",
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs",
-    "bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/stats.json"
+    "bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/stats.json",
+    "bundle-stats:legacy": "npm run build:umd && webpack-bundle-analyzer _bundles/legacy-stats.json"
   },
   "dependencies": {
     "kentico-cloud-core": "1.6.0"

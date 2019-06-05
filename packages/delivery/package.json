@@ -61,7 +61,8 @@
     "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs --p tsconfig.prod.json",
     "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs",
     "bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/stats.json",
-    "browser-bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/browser-stats.json"
+    "bundle-stats:browser": "npm run build:umd && webpack-bundle-analyzer _bundles/browser-stats.json",
+    "bundle-stats:browser:legacy": "npm run build:umd && webpack-bundle-analyzer _bundles/browser-legacy-stats.json"
   },
   "dependencies": {
     "kentico-cloud-core": "1.6.0",

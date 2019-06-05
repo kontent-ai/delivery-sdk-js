@@ -52,7 +52,7 @@ module.exports = (env, argv) => ({
     performance: { hints: false }, // this disables warning about large output file (in our case its ~300Kb which is fine)
     plugins: [
         new BundleAnalyzerPlugin({
-            statsFilename: 'browser-stats.json',
+            statsFilename: 'browser-legacy-stats.json',
             generateStatsFile: true,
             analyzerMode: 'disabled'
         }),
