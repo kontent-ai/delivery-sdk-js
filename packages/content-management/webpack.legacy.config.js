@@ -1,12 +1,11 @@
 const path = require('path');
-const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const libName = 'kentico-cloud-cm-sdk';
+const libName = 'kentico-cloud-cm-sdk.legacy';
 
 module.exports = (env, argv) => ({
     entry: {
-        'index': './lib/index.ts',
+        'index': './lib/index.legacy.ts',
     },
     resolve: { 
         extensions: ['.ts', '.js'],
@@ -53,7 +52,7 @@ module.exports = (env, argv) => ({
         new BundleAnalyzerPlugin({
             generateStatsFile: true,
             analyzerMode: 'disabled',
-            statsFilename: 'stats.json'
+            statsFilename: 'legacy-stats.json'
         })
     ]
 });
