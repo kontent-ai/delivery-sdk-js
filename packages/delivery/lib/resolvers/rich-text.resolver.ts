@@ -168,7 +168,7 @@ export class RichTextResolver {
         // check resolver
         if (!resolver) {
             if (data.config.enableAdvancedLogging) {
-                console.warn(`Cannot resolve html of '${linkedItem.system.type}' type in 'RichTextField' because no rich text resolved was configured.  This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                console.warn(`Cannot resolve html of '${linkedItem.system.type}' type in 'RichTextField' because no rich text resolver was configured.  This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 return '';
             }
             return '';
