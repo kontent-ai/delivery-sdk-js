@@ -5,7 +5,7 @@
 ## [Delivery Javascript SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery)
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
-[![Build Status](https://api.travis-ci.co,/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-cloud-js)
+[![Build Status](https://api.travis-ci.com/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-cloud-js)
 [![CircleCI](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-cloud)
