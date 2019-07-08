@@ -5,7 +5,7 @@
 ## [Delivery Javascript SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery)
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
-[![Build Status](https://api.travis-ci.org/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Kentico/kentico-cloud-js)
+[![Build Status](https://api.travis-ci.co,/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-cloud-js)
 [![CircleCI](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-cloud)
@@ -26,7 +26,7 @@ A client library for retrieving data from [Kentico Cloud](https://kenticocloud.c
 Javascript SDK for the [Kentico Cloud Content Management API](https://developer.kenticocloud.com/v1/reference#content-management-api-v2). Helps you manage content in your [Kentico Cloud](https://kenticocloud.com/) projects. Work both in `node.js` and `browsers`.
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-content-management.svg)](https://www.npmjs.com/package/kentico-cloud-content-management)
-[![Build Status](https://api.travis-ci.org/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Kentico/kentico-cloud-js)
+[![Build Status](https://api.travis-ci.com/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-cloud-js)
 [![CircleCI](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-content-management.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
 [![Stack Overflow](https://img.shields.io/badge/Stack%20Overflow-ASK%20NOW-FE7A16.svg?logo=stackoverflow&logoColor=white)](https://stackoverflow.com/tags/kentico-cloud)
@@ -43,7 +43,7 @@ Javascript SDK for the [Kentico Cloud Content Management API](https://developer.
 ## [Javascript model generator for Delivery SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/model-generator)
 
 [![npm version](https://badge.fury.io/js/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
-[![Build Status](https://api.travis-ci.org/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.org/Kentico/kentico-cloud-js)
+[![Build Status](https://api.travis-ci.com/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-cloud-js)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
 
 A utility for generating strongly-typed models based on Content Types in a Kentico Cloud project.
