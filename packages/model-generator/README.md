@@ -1,5 +1,5 @@
 [![npm version](https://badge.fury.io/js/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
-[![Build Status](https://api.travis-ci.org/Kentico/KenticoCloudModelGeneratorUtility.svg?branch=master)](https://travis-ci.org/Kentico/KenticoCloudModelGeneratorUtility)
+[![Build Status](https://api.travis-ci.com/Kentico/KenticoCloudModelGeneratorUtility.svg?branch=master)](https://travis-ci.com/Kentico/KenticoCloudModelGeneratorUtility)
 [![npm](https://img.shields.io/npm/dt/kentico-cloud-model-generator-utility.svg)](https://www.npmjs.com/package/kentico-cloud-model-generator-utility)
 ![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@4.3.0/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
 
