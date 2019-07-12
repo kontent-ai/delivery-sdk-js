@@ -1,3 +1,9 @@
+## 6.0.0-beta.11 (2019-07-12)
+
+#### :rocket: Enhancement
+  * [#198](https://github.com/Kentico/kentico-cloud-js/pull/198) Legacy browser support ([@Enngage](https://github.com/Enngage))
+  * Removes `Content-Type` header from `GET` requests (https://github.com/Kentico/kentico-cloud-js/commit/6544c88ea88c78be4390f9b194ca390e66c16df3)
+
 ## 6.0.0-beta.10 (2019-06-04)
 
 #### :boom: Breaking Change
