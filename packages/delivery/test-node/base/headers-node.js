@@ -7,6 +7,7 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
 });
 
 const contentTypeHeaderName = 'Content-Type';
+const sdkVersionHeaderName = 'X-KC-SDKID';
 
 describe('#Headers', () => {
 
@@ -25,9 +26,18 @@ describe('#Headers', () => {
             });
     });
 
+    it('Request headers should contain ' + sdkVersionHeaderName, () => {
+        const requestHeaders = result.debug.response.config.headers;
+
+        assert.ok(requestHeaders);
+        const sdkVersionHeader = requestHeaders[sdkVersionHeaderName];
+        assert.ok(sdkVersionHeader);
+    });
+
     it('Request headers should not contain ' + contentTypeHeaderName, () => {
         const requestHeaders = result.debug.response.config.headers;
 
+        assert.ok(requestHeaders);
         const contentTypeHeader = requestHeaders[contentTypeHeaderName];
         assert.equal(contentTypeHeader, undefined);
     });

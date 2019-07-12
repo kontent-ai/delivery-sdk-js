@@ -35,7 +35,7 @@ export function getCallback<TError>(instance: AxiosInstance, call: IHttpGetQuery
 
     const axiosPromise = instance.get(call.url, {
         headers: getHeadersJson(
-            options && options.headers ? options.headers : [],
+            options && options.headers ? options.headers : [], false
         ),
         responseType: options && options.responseType ? options.responseType : undefined
     });
@@ -58,7 +58,7 @@ export function putCallback<TError>(instance: AxiosInstance, call: IHttpPutQuery
 
     const axiosPromise = instance.put(call.url, call.body, {
         headers: getHeadersJson(
-            options && options.headers ? options.headers : []
+            options && options.headers ? options.headers : [], true
         ),
         responseType: options && options.responseType ? options.responseType : undefined
     });
@@ -81,7 +81,7 @@ export function deleteCallback<TError>(instance: AxiosInstance, call: IHttpDelet
 
     const axiosPromise = instance.delete(call.url, {
         headers: getHeadersJson(
-            options && options.headers ? options.headers : []
+            options && options.headers ? options.headers : [], true
         ),
         responseType: options && options.responseType ? options.responseType : undefined
     });
@@ -104,7 +104,7 @@ export function postCallback<TError>(instance: AxiosInstance, call: IHttpPostQue
 
     const axiosPromise = instance.post(call.url, call.body, {
         headers: getHeadersJson(
-            options && options.headers ? options.headers : []
+            options && options.headers ? options.headers : [], true
         ),
         responseType: options && options.responseType ? options.responseType : undefined
     });
@@ -122,18 +122,20 @@ export function postCallback<TError>(instance: AxiosInstance, call: IHttpPostQue
     });
 }
 
-export function getHeadersJson(headers: IHeader[]): { [header: string]: string } {
+export function getHeadersJson(headers: IHeader[], addContentTypeHeader: boolean): { [header: string]: string } {
     const headerJson: { [header: string]: string } = {};
 
     headers.forEach(header => {
         headerJson[header.header] = header.value;
     });
 
-    // add default content type header if not present
-    const contentTypeHeader = headers.find(m => m.header.toLowerCase() === 'Content-Type'.toLowerCase());
+    if (addContentTypeHeader) {
+        // add default content type header if not present
+        const contentTypeHeader = headers.find(m => m.header.toLowerCase() === 'Content-Type'.toLowerCase());
 
-    if (!contentTypeHeader) {
-        headerJson['Content-Type'] = 'application/json';
+        if (!contentTypeHeader) {
+            headerJson['Content-Type'] = 'application/json';
+        }
     }
 
     return headerJson;
