@@ -19,7 +19,7 @@
 		"lerna:ci:all": "lerna exec npm ci",
 		"lerna:test:all": "lerna exec npm run test:all",
 		"lerna:test:travis": "lerna exec npm run test:travis  --concurrency 1",
-		"lerna:travis": "npm run lerna:ci:all && npm run lerna:test:travis"
+		"lerna:travis": "npm run lerna:install:all && npm run lerna:test:travis"
 	},
 	"devDependencies": {
 		"lerna": "3.15.0",
