@@ -78,7 +78,7 @@ const deliveryClient = new DeliveryClient({
 /** Getting items from Kentico Cloud as Promise */
 deliveryClient.items<Movie>()
     .type('movie')
-    .getPromise()
+    .toPromise()
     .then(response => {
         const movieText = response.items[0].title.value;
     )
@@ -129,7 +129,7 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
 /** Getting items from Kentico Cloud as Promise */
 deliveryClient.items()
     .type('movie')
-    .getPromise()
+    .toPromise()
     .then(response => {
         const movieText = response.items[0].title.value;
     )
@@ -225,7 +225,7 @@ deliveryClient.item<Movie>('warrior')
     .catch(err => console.log('error:' + err));
 
 deliveryClient.item<Movie>('warrior')
-  .getPromise()
+  .toPromise()
     .then(response => console.log(response))
     .catch(err => console.log('error:' + err));
 ```
