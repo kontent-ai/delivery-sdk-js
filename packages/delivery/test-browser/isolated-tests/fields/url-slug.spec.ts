@@ -1,7 +1,7 @@
-import { ContentItemSystemAttributes, Fields, Link, urlSlugResolver, FieldModels } from '../../../lib';
+import { ContentItemSystemAttributes, Elements, Link, urlSlugResolver, ElementModels } from '../../../lib';
 import { Actor } from '../../setup';
 
-describe('URLSlugField', () => {
+describe('URLSlugElement', () => {
     const sharedActor = new Actor();
     const actorId = '3294e4b0-e58b-49d7-85fa-5bc9a86556ec';
     sharedActor.system = new ContentItemSystemAttributes({
@@ -14,28 +14,28 @@ describe('URLSlugField', () => {
         sitemapLocations: []
     });
 
-    const fieldMapWrapper: FieldModels.IFieldMapWrapper = {
+    const elementMapWrapper: ElementModels.IElementWrapper = {
         contentTypeSystem: {} as any,
         propertyName: 'name',
-        rawField: {
+        rawElement: {
             name: 'name',
             type: 'x',
             value: 'actor-slug'
         }
     };
 
-    it(`checks that field is defined and correct`, () => {
-        const field1 = new Fields.UrlSlugField(fieldMapWrapper, {
+    it(`checks that element is defined and correct`, () => {
+        const element1 = new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
                 enableAdvancedLogging: false,
                 item: sharedActor,
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 linkResolver: (link: Link) => 'resolved-link/' + link.urlSlug
             })
         });
-        expect(field1.resolveUrl()).toEqual('resolved-link/actor-slug');
-        expect(field1.name).toBeDefined();
+        expect(element1.resolveUrl()).toEqual('resolved-link/actor-slug');
+        expect(element1.name).toBeDefined();
     });
 
     it(`checks that url slug is not resolved when the type is incorrect`, () => {
@@ -51,18 +51,18 @@ describe('URLSlugField', () => {
             sitemapLocations: []
         });
 
-        const field = new Fields.UrlSlugField({
+        const element = new Elements.UrlSlugElement({
             contentTypeSystem: {} as any,
             propertyName: 'name',
-            rawField: {
+            rawElement: {
                 name: 'name',
                 type: 'x',
                 value: 'actor-slug'
             }
         }, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: actor,
                 enableAdvancedLogging: false,
                 linkResolver: (link: Link) => {
@@ -74,14 +74,14 @@ describe('URLSlugField', () => {
             })
         });
 
-        expect(field.resolveUrl()).toEqual('unknown-link');
+        expect(element.resolveUrl()).toEqual('unknown-link');
     });
 
     it(`url should be undefined when no resolver is passed`, () => {
-        const url = (new Fields.UrlSlugField(fieldMapWrapper, {
+        const url = (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: false,
                 linkResolver: undefined
@@ -91,10 +91,10 @@ describe('URLSlugField', () => {
     });
 
     it(`url should be undefined when invalid item is passed`, () => {
-        const url = (new Fields.UrlSlugField(fieldMapWrapper, {
+        const url = (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: undefined as any,
                 enableAdvancedLogging: false,
                 linkResolver: undefined
@@ -104,10 +104,10 @@ describe('URLSlugField', () => {
     });
 
     it(`url should be undefined`, () => {
-        const url = (new Fields.UrlSlugField(fieldMapWrapper, {
+        const url = (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: false,
                 linkResolver: () => undefined as any
@@ -119,10 +119,10 @@ describe('URLSlugField', () => {
     it(`Checks that console.warn displays/not displays information when url resolving fails due to invalid resolver`, () => {
         console.warn = jasmine.createSpy('warn');
 
-       (new Fields.UrlSlugField(fieldMapWrapper, {
+       (new Elements.UrlSlugElement(elementMapWrapper, {
         resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: false,
                 linkResolver: () => undefined as any
@@ -131,10 +131,10 @@ describe('URLSlugField', () => {
 
         expect(console.warn).toHaveBeenCalledTimes(0);
 
-         (new Fields.UrlSlugField(fieldMapWrapper, {
+         (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: true,
                 linkResolver: () => undefined as any
@@ -147,10 +147,10 @@ describe('URLSlugField', () => {
     it(`Checks that console.warn displays/not displays information when url resolving fails due to invalid item`, () => {
         console.warn = jasmine.createSpy('warn');
 
-        (new Fields.UrlSlugField(fieldMapWrapper, {
+        (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: undefined as any,
                 enableAdvancedLogging: false,
                 linkResolver: () => undefined as any
@@ -159,10 +159,10 @@ describe('URLSlugField', () => {
 
         expect(console.warn).toHaveBeenCalledTimes(0);
 
-        (new Fields.UrlSlugField(fieldMapWrapper, {
+        (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: undefined as any,
                 enableAdvancedLogging: true,
                 linkResolver: () => undefined as any
@@ -175,10 +175,10 @@ describe('URLSlugField', () => {
     it(`Checks that console.warn displays information that url was resolved to improper value`, () => {
         console.warn = jasmine.createSpy('warn');
 
-        (new Fields.UrlSlugField(fieldMapWrapper, {
+        (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: false,
                 linkResolver: () => 'test'
@@ -187,10 +187,10 @@ describe('URLSlugField', () => {
 
         expect(console.warn).toHaveBeenCalledTimes(0);
 
-        (new Fields.UrlSlugField(fieldMapWrapper, {
+        (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldValue: 'actor-slug',
-                fieldName: 'name',
+                elementValue: 'actor-slug',
+                elementName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: true,
                 linkResolver: () => ''

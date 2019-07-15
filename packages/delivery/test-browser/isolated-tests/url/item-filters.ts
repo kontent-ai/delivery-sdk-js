@@ -209,43 +209,43 @@ describe('Item url filters', () => {
 
     // Null parameter checks
 
-    it(`inFilter without field should throw an error`, () => {
+    it(`inFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().inFilter(null as any, ['val1'])).toThrowError();
     });
 
-    it(`anyFilter without field should throw an error`, () => {
+    it(`anyFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().anyFilter(null as any, ['val1'])).toThrowError();
     });
 
-    it(`containsFilter without field should throw an error`, () => {
+    it(`containsFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().containsFilter(null as any, ['val1'])).toThrowError();
     });
 
-    it(`greaterThanFilter without field should throw an error`, () => {
+    it(`greaterThanFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().greaterThanFilter(null as any, 'val1')).toThrowError();
     });
 
-    it(`greaterThanOrEqualFilter without field should throw an error`, () => {
+    it(`greaterThanOrEqualFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().greaterThanOrEqualFilter(null as any, 'val1')).toThrowError();
     });
 
-    it(`lessThanFilter without field should throw an error`, () => {
+    it(`lessThanFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().lessThanFilter(null as any, 'val1')).toThrowError();
     });
 
-    it(`lessThanOrEqualFilter without field should throw an error`, () => {
+    it(`lessThanOrEqualFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().lessThanOrEqualFilter(null as any, 'val1')).toThrowError();
     });
 
-    it(`allFilter without field should throw an error`, () => {
+    it(`allFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().allFilter(null as any, [])).toThrowError();
     });
 
-    it(`rangeFilter without field should throw an error`, () => {
+    it(`rangeFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().rangeFilter(null as any, 1, 4)).toThrowError();
     });
 
-    it(`equalsFilter without field should throw an error`, () => {
+    it(`equalsFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().equalsFilter(null as any, 'val1')).toThrowError();
     });
 
@@ -296,7 +296,7 @@ describe('Item url filters', () => {
     });
     // trim checks
 
-    it(`inFilter should trim its field`, () => {
+    it(`inFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .inFilter(' elem1 ', ['val1'])
@@ -308,7 +308,7 @@ describe('Item url filters', () => {
         expect(param).toEqual('val1');
     });
 
-    it(`allFilter should trim its field`, () => {
+    it(`allFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .allFilter(' elem1 ', ['val1'])
@@ -320,7 +320,7 @@ describe('Item url filters', () => {
         expect(param).toEqual('val1');
     });
 
-    it(`anyFilter should trim its field`, () => {
+    it(`anyFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .anyFilter(' elem1 ', ['val1'])
@@ -332,7 +332,7 @@ describe('Item url filters', () => {
         expect(param).toEqual('val1');
     });
 
-    it(`containsFilter should trim its field`, () => {
+    it(`containsFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .containsFilter(' elem1 ', ['val1'])
@@ -344,7 +344,7 @@ describe('Item url filters', () => {
         expect(param).toEqual('val1');
     });
 
-    it(`equalsFilter should trim its field`, () => {
+    it(`equalsFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .equalsFilter(' elem1 ', 'val1')
@@ -356,7 +356,7 @@ describe('Item url filters', () => {
         expect(param).toEqual('val1');
     });
 
-    it(`greaterThanFilter should trim its field`, () => {
+    it(`greaterThanFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .greaterThanFilter(' elem1 ', 'val1')
@@ -368,7 +368,7 @@ describe('Item url filters', () => {
         expect(param).toEqual('val1');
     });
 
-    it(`greaterThanOrEqualFilter should trim its field`, () => {
+    it(`greaterThanOrEqualFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .greaterThanOrEqualFilter(' elem1 ', 'val1')
@@ -380,7 +380,7 @@ describe('Item url filters', () => {
         expect(param).toEqual('val1');
     });
 
-    it(`lessThanFilter should trim its field`, () => {
+    it(`lessThanFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .lessThanFilter(' elem1 ', 'val1')
@@ -392,7 +392,7 @@ describe('Item url filters', () => {
         expect(param).toEqual('val1');
     });
 
-    it(`lessThanOrEqualFilter should trim its field`, () => {
+    it(`lessThanOrEqualFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .lessThanOrEqualFilter(' elem1 ', 'val1')
@@ -404,7 +404,7 @@ describe('Item url filters', () => {
         expect(param).toEqual('val1');
     });
 
-    it(`rangeFilter should trim its field`, () => {
+    it(`rangeFilter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .rangeFilter(' elem1 ', 1, 10)

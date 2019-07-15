@@ -19,8 +19,8 @@ class Movie extends KenticoCloud.ContentItem {
 
     constructor() {
         super({
-            propertyResolver: (fieldName) => {
-                if (fieldName === 'releasecategory') {
+            propertyResolver: (elementName) => {
+                if (elementName === 'releasecategory') {
                     return 'releaseCategory';
                 }
             },
@@ -51,7 +51,7 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
     }
 });
 
-describe('#Rich text field', () => {
+describe('#Rich text element', () => {
 
     let result;
     let plot; // resolved plot (rich text)
@@ -89,15 +89,15 @@ describe('#Rich text field', () => {
         assert.ok(plot.includes(expectedLinkB));
     });
 
-    it('Rich text should field should contain class A', () => {
+    it('Rich text should element should contain class A', () => {
         assert.ok(plot.includes(classA));
     });
 
-    it('Rich text should field should contain class B', () => {
+    it('Rich text should element should contain class B', () => {
         assert.ok(plot.includes(classB));
     });
 
-    it('Rich text should field should contain tag wrapper', () => {
+    it('Rich text should element should contain tag wrapper', () => {
         assert.ok(plot.includes('<' + richTextWrapper));
     });
 });

@@ -71,7 +71,7 @@ https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-deliv
 ```typescript
 import { 
     ContentItem, 
-    Fields,
+    Elements,
     TypeResolver,
     DeliveryClient
     } from 'kentico-cloud-delivery';
@@ -82,7 +82,7 @@ import {
  * additional properties / methods.
  */
 export class Movie extends ContentItem {
-  public title: Fields.TextField;
+  public title: Elements.TextElement;
 }
 
 const deliveryClient = new DeliveryClient({
@@ -97,16 +97,16 @@ deliveryClient.items<Movie>()
     .type('movie')
     .getPromise()
     .then(response => {
-        const movieText = response.items[0].title.text;
+        const movieText = response.items[0].title.value;
     )
 });
 
 /** Getting items from Kentico Cloud as Observable */
 deliveryClient.items<Movie>()
     .type('movie')
-    .getObservable()
+    .toObservable()
     .subscribe(response => {
-        const movieText = response.items[0].title.text;
+        const movieText = response.items[0].title.value;
     )
 });
 
@@ -120,7 +120,7 @@ deliveryClient.items<ContentItem>()
     // you can access properties same way as with strongly typed models, but note
     // that you don't get any intellisense and the underlying object 
     // instance is of 'ContentItem' type
-    console.log(response.items[0].title.text);
+    console.log(response.items[0].title.value);
 });
 
 ```
@@ -148,16 +148,16 @@ deliveryClient.items()
     .type('movie')
     .getPromise()
     .then(response => {
-        const movieText = response.items[0].title.text;
+        const movieText = response.items[0].title.value;
     )
 });
 
 /** Getting items from Kentico Cloud as Observable */
 const subscription = deliveryClient.items()
     .type('movie')
-    .getObservable()
+    .toObservable()
     .subscribe(response => {
-        const movieText = response.items[0].title.text;
+        const movieText = response.items[0].title.value;
     });
 
 /*
@@ -173,7 +173,7 @@ subscription.unsubscribe();
  */
 deliveryClient.items()
     .type('movie')
-    .getObservable()
+    .toObservable()
     .subscribe(response => console.log(response));
 ```
 

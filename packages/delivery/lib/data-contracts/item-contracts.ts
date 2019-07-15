@@ -1,10 +1,10 @@
 import { IPaginationContract } from './shared/ipagination.interface';
-import { FieldContracts } from './field-contracts';
+import { ElementContracts } from './element-contracts';
 
 export namespace ItemContracts {
 
   export interface IContentItemElementsContracts {
-     [key: string]: FieldContracts.IFieldContract;
+     [key: string]: ElementContracts.IElementContract;
   }
 
   export interface ILinkContract {

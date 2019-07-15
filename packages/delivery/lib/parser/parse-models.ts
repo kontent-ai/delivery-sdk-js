@@ -4,7 +4,7 @@ import { IItemQueryConfig, ILinkResolverResult, IRichTextImageResolverResult } f
 export type ResolverContext = 'root' | 'nested';
 
 export interface IRichTextHtmlParser {
-    resolveRichTextField(resolverContext: ResolverContext, contentItemCodename: string, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
+    resolveRichTextElement(resolverContext: ResolverContext, contentItemCodename: string, html: string, elementName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
 }
 
 export interface IFeaturedObjects {
@@ -20,7 +20,7 @@ export interface IRichTextResolverResult extends IFeaturedObjects {
 export interface IRichTextReplacements {
     getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => string;
     getLinkResult: (itemId: string, linkText: string) => string | undefined | ILinkResolverResult;
-    getImageResult: (resolverCotnext: ResolverContext, linkedItemCodename: string, imageId: string, fieldName: string) => IRichTextImageResolverResult;
+    getImageResult: (resolverCotnext: ResolverContext, linkedItemCodename: string, imageId: string, elementName: string) => IRichTextImageResolverResult;
 }
 
 export interface IHtmlResolverConfig {

@@ -1,10 +1,10 @@
-import { Fields } from '../../../lib';
+import { Elements } from '../../../lib';
 
-describe('DateTimeField', () => {
+describe('DateTimeElement', () => {
 
-    const field = new Fields.DateTimeField({
+    const element = new Elements.DateTimeElement({
         contentTypeSystem: {} as any,
-        rawField: {
+        rawElement: {
             name: 'name',
             type: '',
             value: '2014-11-18T00:00:00Z'
@@ -13,15 +13,15 @@ describe('DateTimeField', () => {
     });
 
     it(`checks name`, () => {
-        expect(field.name).toEqual('name');
+        expect(element.name).toEqual('name');
     });
 
     it(`checks value`, () => {
-        expect(field.value).toEqual(new Date('2014-11-18T00:00:00Z'));
+        expect(element.value).toEqual(new Date('2014-11-18T00:00:00Z'));
     });
 
     it(`datetime should be 'Date' type`, () => {
-        expect(field.value).toEqual(jasmine.any(Date));
+        expect(element.value).toEqual(jasmine.any(Date));
     });
 });
 

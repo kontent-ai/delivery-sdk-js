@@ -54,7 +54,7 @@ https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-deliv
 ```typescript
 import { 
     ContentItem, 
-    Fields,
+    Elements,
     TypeResolver,
     DeliveryClient
     } from 'kentico-cloud-delivery';
@@ -65,7 +65,7 @@ import {
  * additional properties / methods.
  */
 export class Movie extends ContentItem {
-  public title: Fields.TextField;
+  public title: Elements.TextElement;
 }
 
 const deliveryClient = new DeliveryClient({
@@ -80,16 +80,16 @@ deliveryClient.items<Movie>()
     .type('movie')
     .getPromise()
     .then(response => {
-        const movieText = response.items[0].title.text;
+        const movieText = response.items[0].title.value;
     )
 });
 
 /** Getting items from Kentico Cloud as Observable */
 deliveryClient.items<Movie>()
     .type('movie')
-    .getObservable()
+    .toObservable()
     .subscribe(response => {
-        const movieText = response.items[0].title.text;
+        const movieText = response.items[0].title.value;
     )
 });
 
@@ -103,7 +103,7 @@ deliveryClient.items<ContentItem>()
     // you can access properties same way as with strongly typed models, but note
     // that you don't get any intellisense and the underlying object 
     // instance is of 'ContentItem' type
-    console.log(response.items[0].title.text);
+    console.log(response.items[0].title.value);
 });
 
 ```
@@ -131,16 +131,16 @@ deliveryClient.items()
     .type('movie')
     .getPromise()
     .then(response => {
-        const movieText = response.items[0].title.text;
+        const movieText = response.items[0].title.value;
     )
 });
 
 /** Getting items from Kentico Cloud as Observable */
 const subscription = deliveryClient.items()
     .type('movie')
-    .getObservable()
+    .toObservable()
     .subscribe(response => {
-        const movieText = response.items[0].title.text;
+        const movieText = response.items[0].title.value;
     });
 
 /*
@@ -156,7 +156,7 @@ subscription.unsubscribe();
  */
 deliveryClient.items()
     .type('movie')
-    .getObservable()
+    .toObservable()
     .subscribe(response => console.log(response));
 ```
 
@@ -205,11 +205,11 @@ To get multiple content items, use the `items` method. You can specify the conte
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 
 deliveryClient.item<Movie>('warrior')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -232,26 +232,26 @@ deliveryClient.item<Movie>('warrior')
 
 ### Creating models
 
-Every content type needs to have a corresponding class defined in both JavaScript & TypeScript. Each model class needs to extend the `ContentItem` class and each element needs to use one of the supported fields. For example, if you define a Text element in your content type, you need to use a `TextField` in your model:
+Every content type needs to have a corresponding class defined in both JavaScript & TypeScript. Each model class needs to extend the `ContentItem` class and each element needs to use one of the supported elements. For example, if you define a Text element in your content type, you need to use a `TextElement` in your model:
 
 ```typescript
-import { ContentItem, Fields} from 'kentico-cloud-delivery';
+import { ContentItem, Elements} from 'kentico-cloud-delivery';
 
 export class Movie extends ContentItem {
-  public title: Fields.TextField;
-  public plot: Fields.RichTextField;
-  public released: Fields.DateTimeField;
-  public length: Fields.NumberField;
-  public poster: Fields.AssetsField;
-  public category: Fields.MultipleChoiceField;
+  public title: Elements.TextElement;
+  public plot: Elements.RichTextElement;
+  public released: Elements.DateTimeElement;
+  public length: Elements.NumberElement;
+  public poster: Elements.AssetsElement;
+  public category: Elements.MultipleChoiceElement;
 }
 ```
 
-Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField`, `TaxonomyField` and `DefaultCustomField`
+Supported elements: `TextElement`, `MultipleChoiceElement`, `DateTimeElement`, `RichTextElement`, `NumberElement`, `AssetsElement`, `UrlSlugElement`, `TaxonomyElement` and `DefaultCustomElement`
 
 #### Using custom models for Custom elements
 
-You can register `FieldResolver` to map Custom elements into dedicated field models and work with data more effectively. For example, if you have a custom 'color' field such as:
+You can register `ElementResolver` to map Custom elements into dedicated element models and work with data more effectively. For example, if you have a custom 'color' element such as:
 
 ```
  "color": {
@@ -261,23 +261,23 @@ You can register `FieldResolver` to map Custom elements into dedicated field mod
   }
 ```
 
-You can create `ColorElement` class extending from `CustomField` (or class that implements `IField` interface) and extract color values into dedicated properties (red, green, blue) so that they are easily accessible.
+You can create `ColorElement` class extending from `CustomElement` (or class that implements `IElement` interface) and extract color values into dedicated properties (red, green, blue) so that they are easily accessible.
 
 ```typescript
-import { FieldModels, Fields } from 'kentico-cloud-delivery';
+import { ElementModels, Elements } from 'kentico-cloud-delivery';
 
-class ColorElement extends Fields.CustomField {
+class ColorElement extends Elements.CustomElement {
 
     public red: number;
     public green: number;
     public blue: number;
 
     constructor(
-       public fieldWrapper: FieldModels.IFieldMapWrapper
+       public elementWrapper: ElementModels.IElementMapWrapper
     ) {
-      super(field);
+      super(element);
 
-      const value = fieldWrapper.rawField.value; // "{\"red\":167,\"green\":96,\"blue\":197}"
+      const value = elementWrapper.rawElement.value; // "{\"red\":167,\"green\":96,\"blue\":197}"
       const parsed = JSON.parse(value);
       this.red = parsed.red;
       this.green = parsed.green;
@@ -285,15 +285,15 @@ class ColorElement extends Fields.CustomField {
     }
 }
 ```
-In order to register mapping of custom elements use `FieldResolver` configuration option:
+In order to register mapping of custom elements use `ElementResolver` configuration option:
 
 ```typescript
 const client = new DeliveryClient(
   {
     projectId: ''.
-    fieldResolver: (fieldWrapper: FieldModels.IFieldMapWrapper) => {
-      if (fieldWrapper.contentTypeSystem.type === 'your-content-type' && fieldWrapper.rawField.name === 'your-element-name') {
-        return new ColorElement(fieldWrapper);
+    elementResolver: (elementWrapper: ElementModels.IElementMapWrapper) => {
+      if (elementWrapper.contentTypeSystem.type === 'your-content-type' && elementWrapper.rawElement.name === 'your-element-name') {
+        return new ColorElement(elementWrapper);
       }
 
       return undefined;
@@ -327,7 +327,7 @@ const deliveryClient = new DeliveryClient(
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -342,7 +342,7 @@ deliveryClient.items<Movie>()
   .type('movie')
   .limitParameter(5)
   .skipParameter(2)
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -356,7 +356,7 @@ Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`
 deliveryClient.items<Movie>()
   .type('movie')
   .equalsFilter('elements.title', 'Warrior')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 #### Filtering methods
@@ -365,16 +365,16 @@ deliveryClient.items<Movie>()
 | ------ | --------------------- | ----------- |
 | type | string value | Retrieve only content items based on the given type. |
 | types | string[ ] values| Retrieve only content items based on the given types. |
-| allFilter | string field, string[ ] value | Field with an array of values contains the specified list of values. |
-| anyFilter | string field, string[ ] value | Field with an array of values contains any value from the specified list of values. |
-| containsFilter | string field, string[ ] value | Field with an array of values contains the specified value. |
-| equalsFilter | string field, string value| Field value is the same as the specified value |
-| greaterThanFilter | string field, string value | Field value is greater than the specified value. |
-| greaterThanOrEqualFilter | string field, string value | Field value is greater than or equals the specified value. |
-| infilter | string field, string[ ] value | Field value is in the specified list of values. |
-| lessThanFilter | string field, string value | Field value is less than the specified value. |
-| lessThanOrEqualFilter | string field, string value | Field value is less than or equals the specified value |
-| rangeFilter | string field, number low, number high | Field value falls in the specified range of two values, both inclusive. |
+| allFilter | string element, string[ ] value | Element with an array of values contains the specified list of values. |
+| anyFilter | string element, string[ ] value | Element with an array of values contains any value from the specified list of values. |
+| containsFilter | string element, string[ ] value | Element with an array of values contains the specified value. |
+| equalsFilter | string element, string value| Element value is the same as the specified value |
+| greaterThanFilter | string element, string value | Element value is greater than the specified value. |
+| greaterThanOrEqualFilter | string element, string value | Element value is greater than or equals the specified value. |
+| infilter | string element, string[ ] value | Element value is in the specified list of values. |
+| lessThanFilter | string element, string value | Element value is less than the specified value. |
+| lessThanOrEqualFilter | string element, string value | Element value is less than or equals the specified value |
+| rangeFilter | string element, number low, number high | Element value falls in the specified range of two values, both inclusive. |
 
 ### Sorting
 
@@ -384,7 +384,7 @@ You may sort using 3 methods: `OrderByAscending`, `OrderByDescending` or `OrderB
 deliveryClient.items<Movie>()
   .type('movie')
   .orderByDescending('elements.title')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -392,7 +392,7 @@ deliveryClient.items<Movie>()
 deliveryClient.items<Movie>()
   .type('movie')
   .orderByAscending('elements.title')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -400,7 +400,7 @@ deliveryClient.items<Movie>()
 deliveryClient.items<Movie>()
   .type('movie')
   .orderParameter('elements.title', SortOrder.desc)
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -411,7 +411,7 @@ When you have an URL (i.e. for `next page` in paging, for testing purposes or ju
 ```typescript
 deliveryClient.items<Movie>()
   .withUrl('https://deliver.kenticocloud.com/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items?system.type=movie')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -422,7 +422,7 @@ In case you need to use custom parameters to build up an URL, use `withParameter
 ```typescript
 deliveryClient.items<Movie>()
   .withParameter('customParam', 'customVal')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -441,37 +441,37 @@ var deliveryClient = new DeliveryClient({
 
 // gets items in 'es' language because it is marked as default
 deliveryClient.item<Movie>('warrior')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 
 // gets items in 'en' language because language parameter has priority over the default one
 deliveryClient.item<Movie>('warrior')
   .languageParameter(`en`)
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
 ### Property binding in models
 
-Kentico Cloud returns all element names in **lowercase** or with **underscores**. You can bind original field names to your own javascript properties with `FieldDecorators`. The following example binds `first_name` field name to `firstName` javascript property.
+Kentico Cloud returns all element names in **lowercase** or with **underscores**. You can bind original element names to your own javascript properties with `ElementDecorators`. The following example binds `first_name` element name to `firstName` javascript property.
 
 ```typescript
-import { ContentItem, Fields, FieldDecorators  } from 'kentico-cloud-delivery';
+import { ContentItem, Elements, ElementDecorators  } from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
 
-  @FieldDecorators.codename('first_name')
-  public firstName: Fields.TextField;
-  public lastName: Fields.TextField;
-  public bio: Fields.RichTextField;
+  @ElementDecorators.codename('first_name')
+  public firstName: Elements.TextElement;
+  public lastName: Elements.TextElement;
+  public bio: Elements.RichTextElement;
 
     constructor() {
     super({
-      propertyResolver: ((fieldName: string) => {
-        if (fieldName === 'lastname') {
+      propertyResolver: ((elementName: string) => {
+        if (elementName === 'lastname') {
           return 'lastName';
         }
-        return fieldName;
+        return elementName;
       })
     });
   }
@@ -502,7 +502,7 @@ deliveryClient.items<Movie>()
   .queryConfig({
     usePreviewMode: true
   })
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -528,7 +528,7 @@ deliveryClient.items<Movie>()
   .queryConfig({
     useSecuredMode: true
   })
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -557,18 +557,18 @@ const transformedUrl = imageUrlBuilder.getUrl();
 
 #### Resolving URL slugs (links) globally
 
-The URL slugs (links) can be resolved in `URLSlugField` or `RichTextField` fields. The way how links are resolved depends on the `linkResolver` which can be defined either globally in model definition, or by using the `queryConfig` method of a particular api call. The query resolver has priority over the globally defined one. 
+The URL slugs (links) can be resolved in `URLSlugElement` or `RichTextElement` elements. The way how links are resolved depends on the `linkResolver` which can be defined either globally in model definition, or by using the `queryConfig` method of a particular api call. The query resolver has priority over the globally defined one. 
 
 To access the URL, call `getUrl` method.
 
-Note that when resolving links in RichTextField, you resolve all of them with a single link resolver. For this reason, it is recommended that you specify the `type` of the content type you want to resolve. Also, if a link is inside RichTextField, you may access the original link text using the `context` parameter.
+Note that when resolving links in RichTextElement, you resolve all of them with a single link resolver. For this reason, it is recommended that you specify the `type` of the content type you want to resolve. Also, if a link is inside RichTextElement, you may access the original link text using the `context` parameter.
 
 ```typescript
-import { ContentItem, Fields, ILink, ILinkResolverContext } from 'kentico-cloud-delivery';
+import { ContentItem, Elements, ILink, ILinkResolverContext } from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
-  public title: Fields.TextField;
-  public slug: Fields.UrlSlugField;
+  public title: Elements.TextElement;
+  public slug: Elements.UrlSlugElement;
 
     constructor() {
     super({
@@ -581,14 +581,14 @@ export class Actor extends ContentItem {
 
 // get url 
 deliveryClient.item<Actor>('tom_hardy')
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
 #### Resolving URL slugs (links) per query
 
 ```typescript
-import { ContentItem, Fields, ILink } from 'kentico-cloud-delivery';
+import { ContentItem, Elements, ILink } from 'kentico-cloud-delivery';
 
 deliveryClient.item<Actor>('tom_hardy')
   .queryConfig({
@@ -602,7 +602,7 @@ deliveryClient.item<Actor>('tom_hardy')
         return 'unkown-type';
       }
   })
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
@@ -611,7 +611,7 @@ deliveryClient.item<Actor>('tom_hardy')
 When developing SPA (e.g. angular, react, vue ...), you might want to use links in a different way by completely removing the link tag (`<a>`) and replacing it with custom HTML. You can achieve this by returning an object according to `ILinkResolverResult` interface. See example:
 
 ```typescript
-import { ContentItem, Fields, ILink, ILinkResolverResult } from 'kentico-cloud-delivery';
+import { ContentItem, Elements, ILink, ILinkResolverResult } from 'kentico-cloud-delivery';
 
 deliveryClient.item<Actor>('tom_hardy')
   .queryConfig({
@@ -624,48 +624,48 @@ deliveryClient.item<Actor>('tom_hardy')
         return undefined;
       }
   })
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response.item.slug.getUrl()));
 ```
 
-### Resolving content items and components in Rich text fields
+### Resolving content items and components in Rich text elements
 
 [Rich text elements](https://developer.kenticocloud.com/v1/reference#section-rich-text-element) in Kentico Cloud can contain other content items and [components](https://help.kenticocloud.com/composing-and-linking-content/components/structuring-editorial-articles-with-components). For example, if you write a blog post, you might want to insert a video or testimonial to a specific place in your article.
 
-You need to define how these objects resolve to the HTML that will be rendered. This can be done globally for each content type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` content items or components used in all your rich text fields.
+You need to define how these objects resolve to the HTML that will be rendered. This can be done globally for each content type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` content items or components used in all your rich text elements.
 
 Note: Items and components are resolved using the same mechanism; your application does not need to differentiate them. You can learn more about the differences between items and components in our [API Reference](https://developer.kenticocloud.com/v1/reference#linked-content).
 
 #### Globally
 
 ```typescript
-import { ContentItem, Fields, RichTextContentType } from 'kentico-cloud-delivery';
+import { ContentItem, Elements, RichTextContentType } from 'kentico-cloud-delivery';
 
 class Actor extends ContentItem {
-  public name: Fields.TextField;
+  public name: Elements.TextElement;
 
   constructor() {
     super({
         richTextResolver: (item: Actor, context) => {
-          return `<h3 class="resolved-item">${item.name.text}</h3>`;
+          return `<h3 class="resolved-item">${item.name.value}</h3>`;
         }
       })
     }
 }
 
 class Movie extends ContentItem {
-  public title: Fields.TextField;
-  public plot: Fields.RichTextField;
+  public title: Elements.TextElement;
+  public plot: Elements.RichTextElement;
 }
 
 deliveryClient.item<Movie>('pain_and_gain')
-  .getObservable()
+  .toObservable()
   .subscribe(response => {
     console.log(response.item.plot.getHtml());
     // Example output:
-    // {html from your rich text field before the linked item}
+    // {html from your rich text element before the linked item}
     // <h3>Dwayne Johsnon</h3>
-    // {html from your rich text field after the linked item}
+    // {html from your rich text element after the linked item}
   });
 ```
 
@@ -681,17 +681,17 @@ deliveryClient.item<Movie>('pain_and_gain')
       richTextResolver: (item: ContentItem, context) => {
         if (item.system.type == 'actor') {
           var actor = item as Actor;
-          return `<h2>${actor.name.text}</h2>`;
+          return `<h2>${actor.name.value}</h2>`;
         }
     })
   })
-  .getObservable()
+  .toObservable()
   .subscribe(response => {
     console.log(response.item.plot.getHtml());
     // Example output:
-    // {html from your rich text field before the linked item}
+    // {html from your rich text element before the linked item}
     // <h3>Dwayne Johsnon</h3>
-    // {html from your rich text field after the linked item}
+    // {html from your rich text element after the linked item}
   });
 ```
 
@@ -699,24 +699,24 @@ deliveryClient.item<Movie>('pain_and_gain')
 
 If your item has linked items, they will be resolved using the `typeResolver` defined for that type. This is recursive and will be applied for all items in your response. 
 
-If you are using typescript, you would define fields such as:
+If you are using typescript, you would define elements such as:
 
 ```typescript
-import { ContentItem, Fields} from 'kentico-cloud-delivery';
+import { ContentItem, Elements} from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
-  public name: Fields.TextField;
+  public name: Elements.TextElement;
 }
 
 export class Movie extends ContentItem {
-  public title: Fields.TextField;
+  public title: Elements.TextElement;
   public stars: Actor[];
 }
 ```
 
 ### Handling missing referenced linked items
 
-If one of your fields references linked items which are not present in response due to low 'depth' parameter, you may choose to throw an Error by enabling `throwErrorForMissingLinkedItems` in your `queryConfig`.
+If one of your elements references linked items which are not present in response due to low 'depth' parameter, you may choose to throw an Error by enabling `throwErrorForMissingLinkedItems` in your `queryConfig`.
 
 Also, if you enable advanced logging, you will see a warning in console if such situation occurs. By default, sdk does not enforce you to load all items unless they are required for resolving (e.g. rich text resolver).
 
@@ -727,7 +727,7 @@ deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
       throwErrorForMissingLinkedItems: true
     })
-  .getObservable()
+  .toObservable()
   .subscribe(response => {
     console.log(response);
   });
@@ -750,7 +750,7 @@ class FakeActor extends ContentItem {
 
 deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
-      itemResolver: (field: FieldContracts.IRichTextField, itemCodename: string, modularContent: any, queryConfig: IItemQueryConfig, rawItem?: ItemContracts.IContentItemContract) => {
+      itemResolver: (element: ElementContracts.IRichTextElement, itemCodename: string, modularContent: any, queryConfig: IItemQueryConfig, rawItem?: ItemContracts.IContentItemContract) => {
         if (itemCodename === 'itemCodename') {
           return new FakeActor('xxx'),
         }
@@ -758,16 +758,16 @@ deliveryClient.item<Movie>('pain_and_gain')
         return undefined;
     })
   })
-  .getObservable()
+  .toObservable()
   .subscribe(response => {
     // 'actor' will be an instance of 'FakeActor' class
     const actor = response.item.stars[0];
   });
 ```
 
-### Image processing inside Rich Text fields
+### Image processing inside Rich Text elements
 
-Rich text fields may contain images and in some situation you might want to adjust the `src` attribute in order to optimize image delivery using for example [Image transformations](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/DOCS.md#image-transformations) (compression, max height/width declaration etc.). 
+Rich text elements may contain images and in some situation you might want to adjust the `src` attribute in order to optimize image delivery using for example [Image transformations](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/DOCS.md#image-transformations) (compression, max height/width declaration etc.). 
 
 To modify source of image, use `richTextImageResolver` property of the `queryConfig`. The `richTextImageResolver` expects you to return an object with `url` property. See example below:
 
@@ -776,7 +776,7 @@ import { ImageUrlBuilder, ImageCompressionEnum, ImageFitModeEnum } from 'kentico
 
 deliveryClient.item<Movie>('warrior')
    .queryConfig({
-        richTextImageResolver: (image, fieldName) => {
+        richTextImageResolver: (image, elementName) => {
           const newImageUrl = new ImageUrlBuilder(image.url)
             .withHeight(150)
             .withCompression(ImageCompressionEnum.Lossy)
@@ -788,7 +788,7 @@ deliveryClient.item<Movie>('warrior')
           };
         },
       })
-  .getObservable()
+  .toObservable()
   .subscribe(response => {
     // work with response
   });
@@ -802,11 +802,11 @@ To retrieve information about your content types, you can use the `type` and `ty
 ```typescript
 deliveryClient
   .type('movie') // codename of the type
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 
 deliveryClient.types()
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
 ```
 
@@ -817,13 +817,13 @@ To retrieve information about your taxonomies, you can use the `taxonomy` and `t
 ```typescript
 deliveryClient  
   .taxonomy('taxonomyGroupName') // codename of the Taxonomy group
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
   });  
 
 deliveryClient  
   .taxonomies()
-  .getObservable()
+  .toObservable()
   .subscribe(response => console.log(response));
   });
 ```
@@ -836,7 +836,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | ------------- |:-------------:| -----:|
 | projectId      | string | ProjectId of your Kentico Cloud project|
 | typeResolvers?| TypeResolver[] | Array of resolvers that are used to create instances of registered classes automatically. If not set, items will be instances of 'ContentItem' class|
-| fieldResolver?| FieldResolver | Field resolver used to map custom fields to models |
+| elementResolver?| ElementResolver | Element resolver used to map custom elements to models |
 | enableAdvancedLogging?| boolean | Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.|
 | previewApiKey?| string| Preview API key used to get unpublished content items |
 | enablePreviewMode?| boolean| Indicates if preview mode is enabled globally. This can be overriden on query level|
@@ -846,11 +846,11 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | securedApiKey?| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
 | enableSecuredMode?| boolean| Indicates if secured mode is enabled globally. This can be overriden on query level |
 | retryAttempts?| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
-| linkedItemResolver.linkedItemWrapperTag? | string | HTML tag used to wrap resolved linked items in Rich text fields (defaults to 'p') |
+| linkedItemResolver.linkedItemWrapperTag? | string | HTML tag used to wrap resolved linked items in Rich text elements (defaults to 'p') |
 | linkedItemResolver.linkedItemWrapperClasses? | string[] | Array of classes added to linked item wrapper. Defaults to a single class 'kc-linked-item-wrapper' |
 | httpService ?| IHttpService | Can be useud to inject custom http service for performing requests |
 | globalHeaders? | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request |
-| collissionResolver? | ItemFieldCollisionResolver[] | Resolver called when there are multiple fields with the same name in content item (example collision field names include 'system' or 'elements'). By default an underscore is added before original field name. If the field name is still in collission, field is excluded from mapping. |
+| collissionResolver? | ItemElementElementResolver[] | Resolver called when there are multiple elements with the same name in content item (example collision element names include 'system' or 'elements'). By default an underscore is added before original element name. If the element name is still in collission, element is excluded from mapping. |
 | retryStatusCodes? | number[] | Array of status codes that should be retried when request fails. Defaults to requests with '500' status code. |
 | proxyUrl? | (data: IProxyUrlData) => string | Can be used to fully customize request URLs. The data callback parameter contains context information from current request such as `projectId`, `queryString`, `action` and others. See [example](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/DOCS.md#using-proxy-urls) |
 

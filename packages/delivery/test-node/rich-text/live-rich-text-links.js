@@ -8,7 +8,7 @@ class Actor extends KenticoCloud.ContentItem {
     constructor() {
         super({
             richTextResolver: (item, context) => {
-                return `<p>${item.first_name.text}</p>`;
+                return `<p>${item.first_name.value}</p>`;
             },
             linkResolver: (link, context) => {
                 linkContexts[link.codename] = context;
@@ -24,13 +24,13 @@ class Movie extends KenticoCloud.ContentItem {
 
     constructor() {
         super({
-            propertyResolver: (fieldName) => {
-                if (fieldName === 'releasecategory') {
+            propertyResolver: (elementName) => {
+                if (elementName === 'releasecategory') {
                     return 'releaseCategory';
                 }
             },
             richTextResolver: (item, context) => {
-                return `<p>${item.title.text}</p>`;
+                return `<p>${item.title.value}</p>`;
             }
         }, );
     }
@@ -46,7 +46,7 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
     ],
 });
 
-describe('#Rich text field with HTML links', () => {
+describe('#Rich text element with HTML links', () => {
 
     let plot; // resolved plot (rich text)
 

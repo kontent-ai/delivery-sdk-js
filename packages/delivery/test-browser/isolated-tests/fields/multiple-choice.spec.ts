@@ -1,8 +1,8 @@
-import { FieldModels, Fields, FieldContracts } from '../../../lib';
+import { ElementModels, Elements, ElementContracts } from '../../../lib';
 
-describe('MultipleChoiceField', () => {
+describe('MultipleChoiceElement', () => {
 
-    const multipleChoiceItemsRaw: FieldContracts.IMultipleChoiceOptionContract[] = [
+    const multipleChoiceItemsRaw: ElementContracts.IMultipleChoiceOptionContract[] = [
         {
             'name': 'Action',
             'codename': 'action'
@@ -13,14 +13,14 @@ describe('MultipleChoiceField', () => {
         }
     ];
 
-    const multipleChoiceItemsExpected: FieldModels.MultipleChoiceOption[] = [
-        new FieldModels.MultipleChoiceOption(multipleChoiceItemsRaw[0].name, multipleChoiceItemsRaw[0].codename),
-        new FieldModels.MultipleChoiceOption(multipleChoiceItemsRaw[1].name, multipleChoiceItemsRaw[1].codename)
+    const multipleChoiceItemsExpected: ElementModels.MultipleChoiceOption[] = [
+        new ElementModels.MultipleChoiceOption(multipleChoiceItemsRaw[0].name, multipleChoiceItemsRaw[0].codename),
+        new ElementModels.MultipleChoiceOption(multipleChoiceItemsRaw[1].name, multipleChoiceItemsRaw[1].codename)
     ];
 
-    const field = new Fields.MultipleChoiceField({
+    const element = new Elements.MultipleChoiceElement({
         contentTypeSystem: {} as any,
-        rawField: {
+        rawElement: {
             name: 'name',
             type: '',
             value: multipleChoiceItemsRaw
@@ -28,9 +28,9 @@ describe('MultipleChoiceField', () => {
         propertyName: 'resolvedName'
     });
 
-    const fieldWithNoValue = new Fields.TextField({
+    const elementWithNoValue = new Elements.TextElement({
         contentTypeSystem: {} as any,
-        rawField: {
+        rawElement: {
             name: 'name',
             type: '',
             value: []
@@ -39,32 +39,32 @@ describe('MultipleChoiceField', () => {
     });
 
     it(`checks name`, () => {
-        expect(field.name).toEqual('name');
+        expect(element.name).toEqual('name');
     });
 
     it(`checks mapped value`, () => {
-        expect(field.value).toEqual(multipleChoiceItemsExpected);
+        expect(element.value).toEqual(multipleChoiceItemsExpected);
     });
 
     it(`checks that correct number of options are created`, () => {
-        expect(field.value.length).toEqual(2);
+        expect(element.value.length).toEqual(2);
     });
 
     it(`checks that options are of 'MultipleChoiceOption' type`, () => {
-        expect(field.value[0]).toEqual(jasmine.any(FieldModels.MultipleChoiceOption));
+        expect(element.value[0]).toEqual(jasmine.any(ElementModels.MultipleChoiceOption));
     });
 
     it(`checks name of the option`, () => {
-        expect(field.value[0].name).toEqual(multipleChoiceItemsRaw[0].name);
+        expect(element.value[0].name).toEqual(multipleChoiceItemsRaw[0].name);
     });
 
     it(`checks codename of option`, () => {
-        expect(field.value[0].codename).toEqual(multipleChoiceItemsRaw[0].codename);
+        expect(element.value[0].codename).toEqual(multipleChoiceItemsRaw[0].codename);
     });
 
     it(`checks that value contains empty array when no value was provided`, () => {
-        expect(fieldWithNoValue.value).toBeDefined();
-        expect(fieldWithNoValue.value.length).toEqual(0);
+        expect(elementWithNoValue.value).toBeDefined();
+        expect(elementWithNoValue.value.length).toEqual(0);
     });
 });
 

@@ -16,8 +16,8 @@ describe('Query url debug', () => {
   });
 
   it(`Taxonomy url`, () => {
-    const url = context.deliveryClient.taxonomy('taxonomy_field').getUrl();
-    expect(url).toContain('taxonomies/taxonomy_field');
+    const url = context.deliveryClient.taxonomy('taxonomy_element').getUrl();
+    expect(url).toContain('taxonomies/taxonomy_element');
   });
 
   it(`Taxonomies url`, () => {

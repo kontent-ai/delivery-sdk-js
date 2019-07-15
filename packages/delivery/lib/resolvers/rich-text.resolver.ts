@@ -1,5 +1,5 @@
 import { RichTextContentType } from '../enums';
-import { Fields } from '../fields';
+import { Elements } from '../elements';
 import {
     IContentItem,
     IItemQueryConfig,
@@ -13,13 +13,13 @@ import { IHtmlResolverConfig, IRichTextHtmlParser, ResolverContext } from '../pa
 export class RichTextResolver {
 
     /**
-     * Resolves linked items inside the Rich text field.
+     * Resolves linked items inside the Rich text element.
      * Rich text resolved needs to be configured either on the model or query level
      */
     resolveHtml(
         contentItemCodename: string,
         html: string,
-        fieldName: string,
+        elementName: string,
         data: {
             richTextHtmlParser: IRichTextHtmlParser,
             getLinkedItem: (codename: string) => IContentItem | undefined,
@@ -38,9 +38,9 @@ export class RichTextResolver {
             linkedItemWrapperClasses: data.linkedItemWrapperClasses
         };
 
-        const result = data.richTextHtmlParser.resolveRichTextField(
+        const result = data.richTextHtmlParser.resolveRichTextElement(
             'root',
-            contentItemCodename, html, fieldName, {
+            contentItemCodename, html, elementName, {
                 getLinkResult: (itemId: string, linkText: string) => this.getLinkResult({
                     config: config,
                     links: data.links,
@@ -54,7 +54,7 @@ export class RichTextResolver {
                     getLinkedItem: data.getLinkedItem,
                     itemType: itemType
                 }),
-                getImageResult: (resolverContext: ResolverContext, itemCodename: string, imageId: string, xFieldName: string) => this.getImageResult(
+                getImageResult: (resolverContext: ResolverContext, itemCodename: string, imageId: string, xElementName: string) => this.getImageResult(
                     {
                         resolverContext: resolverContext,
                         getLinkedItem: data.getLinkedItem,
@@ -63,7 +63,7 @@ export class RichTextResolver {
                         imageId: imageId,
                         images: data.images,
                         html: html,
-                        fieldName: xFieldName
+                        elementName: xElementName
                     })
             }, {
                 enableAdvancedLogging: data.enableAdvancedLogging,
@@ -83,7 +83,7 @@ export class RichTextResolver {
         imageId: string,
         images: RichTextImage[],
         html: string,
-        fieldName: string
+        elementName: string
     }): IRichTextImageResolverResult {
 
         // get linked item
@@ -94,29 +94,29 @@ export class RichTextResolver {
         }
 
         // if image is resolved within nested linked item (e.g. rich text element resolves html of linked item which contains images)
-        // the fieldName is equal to the 'root' element on which the html is resolved. For this reason we have to go through all
+        // the element name is equal to the 'root' element on which the html is resolved. For this reason we have to go through all
         // elements in linked item and find the image there.
         let image: RichTextImage | undefined;
 
         if (data.resolverContext === 'nested') {
             image = this.tryGetImageFromLinkedItem(data.imageId, linkedItem);
         } else {
-            const richTextElement = linkedItem[data.fieldName] as Fields.RichTextField;
+            const richTextElement = linkedItem[data.elementName] as Elements.RichTextElement;
 
-            if (!(richTextElement instanceof Fields.RichTextField)) {
-                throw Error(`Linked item with codename '${data.itemCodename}' has invalid element '${data.fieldName}'. This element is required to be of RichText type.`);
+            if (!(richTextElement instanceof Elements.RichTextElement)) {
+                throw Error(`Linked item with codename '${data.itemCodename}' has invalid element '${data.elementName}'. This element is required to be of RichText type.`);
             }
             image = richTextElement.images.find(m => m.imageId === data.imageId);
         }
 
 
         if (!image) {
-            throw Error(`Image with id '${data.imageId}' was not found in images data for linked item '${data.itemCodename}' and element '${data.fieldName}'`);
+            throw Error(`Image with id '${data.imageId}' was not found in images data for linked item '${data.itemCodename}' and element '${data.elementName}'`);
         }
 
         // use custom resolver if present
         if (data.config.queryConfig.richTextImageResolver) {
-            return data.config.queryConfig.richTextImageResolver(image, data.fieldName);
+            return data.config.queryConfig.richTextImageResolver(image, data.elementName);
         }
 
         // use default resolver
@@ -128,7 +128,7 @@ export class RichTextResolver {
     private tryGetImageFromLinkedItem(imageId: string, contentItem: IContentItem): RichTextImage | undefined {
         for (const propName of Object.keys(contentItem)) {
             const prop = contentItem[propName];
-            if (prop instanceof Fields.RichTextField) {
+            if (prop instanceof Elements.RichTextElement) {
                 const image = prop.images.find(m => m.imageId === imageId);
 
                 if (image) {
@@ -151,7 +151,7 @@ export class RichTextResolver {
 
         // resolving cannot be done if the item is not present in response
         if (!linkedItem) {
-            throw Error(`Linked item with codename '${data.itemCodename}' could not be found in response and therefore the HTML of rich text field could not be evaluated. Increasing 'depth' parameter of your query may solve this issue.`);
+            throw Error(`Linked item with codename '${data.itemCodename}' could not be found in response and therefore the HTML of rich text element could not be evaluated. Increasing 'depth' parameter of your query may solve this issue.`);
         }
         // get html to replace object using Rich text resolver function
         let resolver: ItemRichTextResolver | undefined = undefined;
@@ -168,7 +168,7 @@ export class RichTextResolver {
         // check resolver
         if (!resolver) {
             if (data.config.enableAdvancedLogging) {
-                console.warn(`Cannot resolve html of '${linkedItem.system.type}' type in 'RichTextField' because no rich text resolver was configured.  This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                console.warn(`Cannot resolve html of '${linkedItem.system.type}' type in 'RichTextElement' because no rich text resolver was configured.  This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 return '';
             }
             return '';

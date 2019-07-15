@@ -1,5 +1,5 @@
 import { ElementContracts, IElementOptionContract, TypeContracts } from '../data-contracts';
-import { ContentType, ContentTypeSystemAttributes, Element, ElementOption } from '../models';
+import { ContentType, ContentTypeSystemAttributes, GenericElement, GenericElementOption } from '../models';
 
 export class TypeMapper {
 
@@ -30,7 +30,7 @@ export class TypeMapper {
             lastModified: type.system.last_modified
         });
 
-        const elements: Element[] = [];
+        const elements: GenericElement[] = [];
 
         const elementNames = Object.getOwnPropertyNames(type.elements);
         elementNames.forEach((elementName: string) => {
@@ -43,7 +43,7 @@ export class TypeMapper {
             // use json property as a codename of the type element
             const elementCodename = elementName;
 
-            // extra properties for certain field types
+            // extra properties for certain element types
             const taxonomyGroup: string | undefined = typeElement.taxonomy_group;
             const options: IElementOptionContract[] = [];
 
@@ -55,11 +55,11 @@ export class TypeMapper {
                 }
 
                 rawOptions.forEach(rawOption => {
-                    options.push(new ElementOption(rawOption.name, rawOption.codename));
+                    options.push(new GenericElementOption(rawOption.name, rawOption.codename));
                 });
             }
 
-            elements.push(new Element({
+            elements.push(new GenericElement({
                 codename: elementCodename,
                 taxonomyGroup: taxonomyGroup,
                 options: options,

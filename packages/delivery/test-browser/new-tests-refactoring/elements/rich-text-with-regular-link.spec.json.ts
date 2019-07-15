@@ -1,4 +1,4 @@
-import { ContentItem, Fields, getParserAdapter, ILinkResolverResult, richTextResolver } from '../../../lib';
+import { ContentItem, Elements, getParserAdapter, ILinkResolverResult, richTextResolver } from '../../../lib';
 
 describe('Rich text with regular link', () => {
     const linkedItems: ContentItem[] = [];
@@ -7,8 +7,8 @@ describe('Rich text with regular link', () => {
     const html = `Text with <a href="domain.com">link</a>`;
 
     it(`Resolving HTML should succeed`, () => {
-        const fieldWithoutRichTextResolver = new Fields.RichTextField({
-            rawField: {
+        const elementWithoutRichTextResolver = new Elements.RichTextElement({
+            rawElement: {
                 name: 'name',
                 taxonomy_group: undefined,
                 type: 'x',
@@ -37,7 +37,7 @@ describe('Rich text with regular link', () => {
             });
 
         const expectedHtml = `Text with <a href="domain.com">link</a>`;
-        expect(fieldWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml);
     });
 });
 

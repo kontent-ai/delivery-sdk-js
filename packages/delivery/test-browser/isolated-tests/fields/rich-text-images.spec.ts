@@ -1,14 +1,14 @@
 import {
     ContentItem,
     ContentItemSystemAttributes,
-    Fields,
+    Elements,
     getParserAdapter,
     ImageUrlBuilder,
     RichTextImage,
     richTextResolver,
 } from '../../../lib';
 
-describe('RichTextField with Images', () => {
+describe('RichTextElement with Images', () => {
     const linkedItemCodename = 'xLinkedItemCodename';
 
     const linkedItem = new ContentItem();
@@ -42,10 +42,10 @@ describe('RichTextField with Images', () => {
     ];
 
     // set images to rich text
-    linkedItem['name'] = new Fields.RichTextField({
+    linkedItem['name'] = new Elements.RichTextElement({
         contentTypeSystem: {} as any,
         propertyName: 'name',
-        rawField: {
+        rawElement: {
             name: 'name',
             type: 'x',
             value: ''
@@ -66,10 +66,10 @@ describe('RichTextField with Images', () => {
     Testing html with images. ${image1Html} and ${image2Html}`;
 
     it(`Checks that images are resolved using default resolver`, () => {
-        const field = new Fields.RichTextField({
+        const element = new Elements.RichTextElement({
             contentTypeSystem: {} as any,
             propertyName: 'name',
-            rawField: {
+            rawElement: {
                 name: 'name',
                 type: 'x',
                 value: html
@@ -94,17 +94,17 @@ describe('RichTextField with Images', () => {
         const expectedHtml1 = image1Html;
         const expectedHtml2 = image2Html;
 
-        const resultHtml = field.resolveHtml();
+        const resultHtml = element.resolveHtml();
 
         expect(resultHtml).toContain(expectedHtml1);
         expect(resultHtml).toContain(expectedHtml2);
     });
 
     it(`Checks that images are resolved using custom resolver`, () => {
-        const field2 = new Fields.RichTextField({
+        const element2 = new Elements.RichTextElement({
             contentTypeSystem: {} as any,
             propertyName: 'name',
-            rawField: {
+            rawElement: {
                 name: 'name',
                 type: 'x',
                 value: html
@@ -120,7 +120,7 @@ describe('RichTextField with Images', () => {
                 linkedItemWrapperClasses: [],
                 linkedItemWrapperTag: 'kc-item-wrapper',
                 queryConfig: {
-                    richTextImageResolver: ((image, fieldName) => {
+                    richTextImageResolver: ((image, elementName) => {
 
                         const newImageUrl = new ImageUrlBuilder(image.url)
                             .withCustomParam('xParam', 'xValue')
@@ -137,7 +137,7 @@ describe('RichTextField with Images', () => {
         const expectedHtml1 = getImageSrcHtml(image1.url + '?xParam=xValue');
         const expectedHtml2 = getImageSrcHtml(image2.url + '?xParam=xValue');
 
-        const resultHtml = field2.resolveHtml();
+        const resultHtml = element2.resolveHtml();
 
         expect(resultHtml).toContain(expectedHtml1);
         expect(resultHtml).toContain(expectedHtml2);

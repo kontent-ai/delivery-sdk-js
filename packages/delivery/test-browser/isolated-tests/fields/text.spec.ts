@@ -1,10 +1,10 @@
-import { Fields } from '../../../lib';
+import { Elements } from '../../../lib';
 
-describe('TextField', () => {
+describe('TextElement', () => {
 
-    const field = new Fields.TextField({
+    const element = new Elements.TextElement({
         contentTypeSystem: {} as any,
-        rawField: {
+        rawElement: {
             name: 'name',
             type: '',
             value: 'text value'
@@ -13,11 +13,11 @@ describe('TextField', () => {
     });
 
     it(`checks name`, () => {
-        expect(field.name).toEqual('name');
+        expect(element.name).toEqual('name');
     });
 
     it(`checks text`, () => {
-        expect(field.value).toEqual('text value');
+        expect(element.value).toEqual('text value');
     });
 });
 

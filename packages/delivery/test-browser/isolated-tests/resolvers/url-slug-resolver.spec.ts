@@ -1,9 +1,9 @@
-import { ContentItem, Fields, ItemResponses, Link, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, Elements, ItemResponses, Link, sdkInfo, TypeResolver } from '../../../lib';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 import { HttpService } from 'kentico-cloud-core';
 
 class MockMovie extends ContentItem {
-    public seoname!: Fields.UrlSlugField;
+    public seoname!: Elements.UrlSlugElement;
 
     constructor() {
         super({

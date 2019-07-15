@@ -1,8 +1,8 @@
-import { FieldContracts, FieldModels, Fields } from '../../../lib';
+import { ElementContracts, ElementModels, Elements } from '../../../lib';
 
-describe('TaxonomyField', () => {
+describe('TaxonomyElement', () => {
 
-    const taxonomyTermsRaw: FieldContracts.ITaxonomyTerm[] = [
+    const taxonomyTermsRaw: ElementContracts.ITaxonomyTerm[] = [
         {
             'name': 'Term 1',
             'codename': 'term1'
@@ -12,15 +12,15 @@ describe('TaxonomyField', () => {
             'codename': 'term1',
         }
     ];
-    const expectedTaxonomyTerms: FieldModels.TaxonomyTerm[] = [
-        new FieldModels.TaxonomyTerm(taxonomyTermsRaw[0].name, taxonomyTermsRaw[0].codename),
-        new FieldModels.TaxonomyTerm(taxonomyTermsRaw[1].name, taxonomyTermsRaw[1].codename)
+    const expectedTaxonomyTerms: ElementModels.TaxonomyTerm[] = [
+        new ElementModels.TaxonomyTerm(taxonomyTermsRaw[0].name, taxonomyTermsRaw[0].codename),
+        new ElementModels.TaxonomyTerm(taxonomyTermsRaw[1].name, taxonomyTermsRaw[1].codename)
 
     ];
-    const field = new Fields.TaxonomyField({
+    const element = new Elements.TaxonomyElement({
         contentTypeSystem: {} as any,
         propertyName: 'mappedName',
-        rawField: {
+        rawElement: {
             taxonomy_group: 'taxgroup',
             name: 'name',
             type: '',
@@ -29,23 +29,23 @@ describe('TaxonomyField', () => {
     });
 
     it(`checks name`, () => {
-        expect(field.name).toEqual('name');
+        expect(element.name).toEqual('name');
     });
 
     it(`checks value`, () => {
-        expect(field.value).toEqual(expectedTaxonomyTerms);
+        expect(element.value).toEqual(expectedTaxonomyTerms);
     });
 
     it(`checks taxonomy group`, () => {
-        expect(field.taxonomyGroup).toEqual('taxgroup');
+        expect(element.taxonomyGroup).toEqual('taxgroup');
     });
 
     it(`checks taxonomy terms`, () => {
-        const xTaxonomyList: FieldModels.TaxonomyTerm[] = [
-            new FieldModels.TaxonomyTerm('Term 1', 'term1'),
-            new FieldModels.TaxonomyTerm('Term 2', 'term2')
+        const xTaxonomyList: ElementModels.TaxonomyTerm[] = [
+            new ElementModels.TaxonomyTerm('Term 1', 'term1'),
+            new ElementModels.TaxonomyTerm('Term 2', 'term2')
         ];
-        expect(field.value[0].codename).toEqual(xTaxonomyList[0].codename);
+        expect(element.value[0].codename).toEqual(xTaxonomyList[0].codename);
     });
 });
 

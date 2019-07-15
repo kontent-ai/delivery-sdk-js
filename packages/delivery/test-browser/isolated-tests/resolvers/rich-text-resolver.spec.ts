@@ -1,6 +1,6 @@
 import { HttpService } from 'kentico-cloud-core';
 
-import { ContentItem, Fields, ILinkResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, Elements, ILinkResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 describe('Rich text resolver', () => {
@@ -9,11 +9,11 @@ describe('Rich text resolver', () => {
     const globalLinkContexts: { [s: string]: ILinkResolverContext } = {};
 
     class MockMovie extends ContentItem {
-        public plot!: Fields.RichTextField;
+        public plot!: Elements.RichTextElement;
     }
 
     class MockActor extends ContentItem {
-        public first_name!: Fields.TextField;
+        public first_name!: Elements.TextElement;
 
         constructor() {
             super({

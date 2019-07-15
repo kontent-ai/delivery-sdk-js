@@ -110,7 +110,7 @@
 ## 5.5.0 (2019-02-21)
 
 #### :rocket: Enhancement
-  * [#115](https://github.com/Kentico/kentico-cloud-js/pull/115) Handles field name collisions and uses dedicated types for resolvers ([@Enngage](https://github.com/Enngage))
+  * [#115](https://github.com/Kentico/kentico-cloud-js/pull/115) Handles element name collisions and uses dedicated types for resolvers ([@Enngage](https://github.com/Enngage))
 
 #### :bug: Bug Fix
   * [#115](https://github.com/Kentico/kentico-cloud-js/pull/115) Fixes browser's UMD library bundle global property ([@Enngage](https://github.com/Enngage))

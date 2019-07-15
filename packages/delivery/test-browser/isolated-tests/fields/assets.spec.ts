@@ -1,8 +1,8 @@
-import { FieldContracts, FieldModels, Fields } from '../../../lib';
+import { ElementContracts, ElementModels, Elements } from '../../../lib';
 
-describe('AssetField', () => {
+describe('AssetElement', () => {
 
-    const rawAssetValue: FieldContracts.IAssetContract[] = [
+    const rawAssetValue: ElementContracts.IAssetContract[] = [
         {
             'name': 'tom_hardy.jpg',
             'type': 'image/jpeg',
@@ -14,13 +14,13 @@ describe('AssetField', () => {
         }
     ];
 
-    const expectedValue: FieldModels.AssetModel[] = [
-        new FieldModels.AssetModel(rawAssetValue[0])
+    const expectedValue: ElementModels.AssetModel[] = [
+        new ElementModels.AssetModel(rawAssetValue[0])
     ];
 
-    const field = new Fields.AssetsField({
+    const element = new Elements.AssetsElement({
         contentTypeSystem: {} as any,
-        rawField: {
+        rawElement: {
             name: 'name',
             type: '',
             value: rawAssetValue
@@ -30,47 +30,47 @@ describe('AssetField', () => {
 
 
     it(`checks name`, () => {
-        expect(field.name).toEqual('name');
+        expect(element.name).toEqual('name');
     });
 
     it(`checks value`, () => {
-        expect(field.value).toEqual(expectedValue);
+        expect(element.value).toEqual(expectedValue);
     });
 
     it(`checks that assets are defined`, () => {
-        expect(field.value).toBeDefined();
+        expect(element.value).toBeDefined();
     });
 
     it(`checks that correct number of assets are created`, () => {
-        expect(field.value.length).toEqual(1);
+        expect(element.value.length).toEqual(1);
     });
 
     it(`checks that asset is of 'AssetModel' type`, () => {
-        expect(field.value[0]).toEqual(jasmine.any(FieldModels.AssetModel));
+        expect(element.value[0]).toEqual(jasmine.any(ElementModels.AssetModel));
     });
 
     it(`checks name of asset`, () => {
-        expect(field.value[0].name).toEqual(rawAssetValue[0].name);
+        expect(element.value[0].name).toEqual(rawAssetValue[0].name);
     });
 
     it(`checks type of asset`, () => {
-        expect(field.value[0].type).toEqual(rawAssetValue[0].type);
+        expect(element.value[0].type).toEqual(rawAssetValue[0].type);
     });
 
     it(`checks description of asset`, () => {
-        expect(field.value[0].description).toEqual(rawAssetValue[0].description);
+        expect(element.value[0].description).toEqual(rawAssetValue[0].description);
     });
 
     it(`checks width`, () => {
-        expect(field.value[0].width).toEqual(rawAssetValue[0].width);
+        expect(element.value[0].width).toEqual(rawAssetValue[0].width);
     });
 
     it(`checks height`, () => {
-        expect(field.value[0].height).toEqual(rawAssetValue[0].height);
+        expect(element.value[0].height).toEqual(rawAssetValue[0].height);
     });
 
     it(`checks url of asset`, () => {
-        expect(field.value[0].url).toEqual(rawAssetValue[0].url);
+        expect(element.value[0].url).toEqual(rawAssetValue[0].url);
     });
 });
 

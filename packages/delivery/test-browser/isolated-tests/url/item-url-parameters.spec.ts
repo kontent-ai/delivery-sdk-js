@@ -152,7 +152,7 @@ describe('Item url parameters', () => {
 
     // Null parameter checks
 
-    it(`order parameter with null or empty field should throw an error`, () => {
+    it(`order parameter with null or empty element should throw an error`, () => {
         expect(() => context.deliveryClient.items().orderParameter(null as any, SortOrder.asc)).toThrowError();
     });
 
@@ -166,7 +166,7 @@ describe('Item url parameters', () => {
 
     // trim checks
 
-    it(`elementsParameter should trim its field codenames`, () => {
+    it(`elementsParameter should trim its element codenames`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .elementsParameter([' elem1', 'elem2', ' elem3'])
@@ -178,7 +178,7 @@ describe('Item url parameters', () => {
         expect(param).toEqual('elem1,elem2,elem3');
     });
 
-    it(`orderParameter should trim its field`, () => {
+    it(`orderParameter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .orderParameter(' elem1 ', SortOrder.asc)
@@ -190,7 +190,7 @@ describe('Item url parameters', () => {
         expect(param).toEqual('elem1[asc]');
     });
 
-      it(`language parameter should trim its field`, () => {
+      it(`language parameter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .languageParameter(' en ')

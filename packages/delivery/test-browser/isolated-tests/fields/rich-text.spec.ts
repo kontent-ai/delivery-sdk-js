@@ -1,7 +1,7 @@
 import {
     ContentItem,
     ContentItemSystemAttributes,
-    Fields,
+    Elements,
     getParserAdapter,
     IRichTextResolverContext,
     Link,
@@ -11,9 +11,9 @@ import {
 import { RichTextContentType } from '../../../lib/enums';
 
 class ActorMock extends ContentItem {
-    firstName!: Fields.TextField;
+    firstName!: Elements.TextElement;
     system!: ContentItemSystemAttributes;
-    url!: Fields.UrlSlugField;
+    url!: Elements.UrlSlugElement;
 
     constructor() {
         super();
@@ -21,10 +21,10 @@ class ActorMock extends ContentItem {
 
     setProperties(id: string, codename: string, firstName: string) {
 
-        this.firstName = new Fields.TextField({
+        this.firstName = new Elements.TextElement({
             contentTypeSystem: {} as any,
             propertyName: 'firstName',
-            rawField: {
+            rawElement: {
                 name: '',
                 value: firstName,
                 type: ''
@@ -40,29 +40,29 @@ class ActorMock extends ContentItem {
             lastModified: new Date()
         });
 
-        this.url = new Fields.UrlSlugField({
+        this.url = new Elements.UrlSlugElement({
             contentTypeSystem: {} as any,
             propertyName: 'urlSlugName',
-            rawField: {
+            rawElement: {
                 name: 'name',
                 value: codename,
                 type: ''
             }
         }, {
                 resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                    fieldName: 'name',
+                    elementName: 'name',
                     item: this,
                     linkResolver: (link: Link) => {
                         return `/actor-rt/` + link.urlSlug;
                     },
                     enableAdvancedLogging: true,
-                    fieldValue: codename
+                    elementValue: codename
                 })
             });
     }
 }
 
-describe('RichTextField', () => {
+describe('RichTextElement', () => {
     // prepare linked items
     const linkedItems: ActorMock[] = [];
 
@@ -108,10 +108,10 @@ describe('RichTextField', () => {
     and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>
     `;
 
-    const field = new Fields.RichTextField({
+    const element = new Elements.RichTextElement({
         contentTypeSystem: {} as any,
         propertyName: 'resolvedName',
-        rawField: {
+        rawElement: {
             name: 'name',
             value: html,
             type: ''
@@ -138,57 +138,57 @@ describe('RichTextField', () => {
 
 
     it(`checks name`, () => {
-        expect(field.name).toEqual('name');
+        expect(element.name).toEqual('name');
     });
 
     it(`checks value`, () => {
-        expect(field.value).toEqual(html);
+        expect(element.value).toEqual(html);
     });
 
-    it(`checks that linkedItemCodenames field is mapped`, () => {
-        expect(field.linkedItemCodenames).toBeDefined();
+    it(`checks that linkedItemCodenames element is mapped`, () => {
+        expect(element.linkedItemCodenames).toBeDefined();
     });
 
     it(`checks that html contains resolved linked item content #1`, () => {
         const expectedHtml = `<p class="testing_richtext">Tom</p>`;
-        expect(field.resolveHtml()).toContain(expectedHtml);
+        expect(element.resolveHtml()).toContain(expectedHtml);
     });
 
     it(`checks that html contains resolved linked item content #2`, () => {
         const expectedHtml = `<p class="testing_richtext">Joel</p>`;
-        expect(field.resolveHtml()).toContain(expectedHtml);
+        expect(element.resolveHtml()).toContain(expectedHtml);
     });
 
     it(`checks that html contains resolved url #1`, () => {
         const expectedHtml = `/actor-rt/slug_for_tom`;
-        expect(field.resolveHtml()).toContain(expectedHtml);
+        expect(element.resolveHtml()).toContain(expectedHtml);
     });
 
     it(`checks that html contains resolved url #2`, () => {
         const expectedHtml = `/actor-rt/slug_for_joel`;
-        expect(field.resolveHtml()).toContain(expectedHtml);
+        expect(element.resolveHtml()).toContain(expectedHtml);
     });
 
     it(`checks that html contains propper linked item wrapper`, () => {
         const elem = `kcelem`;
-        expect(field.resolveHtml()).toContain(elem);
+        expect(element.resolveHtml()).toContain(elem);
     });
 
     it(`checks that html contains propper linked item class`, () => {
         const wrapperClass = `kc-wrapper-class`;
-        expect(field.resolveHtml()).toContain(wrapperClass);
+        expect(element.resolveHtml()).toContain(wrapperClass);
     });
 
-    it(`checks that links are present in rich text field`, () => {
-        expect(field.links.length).toEqual(links.length);
+    it(`checks that links are present in rich text element`, () => {
+        expect(element.links.length).toEqual(links.length);
     });
 
     it(`checks that links are resolved even if the rich text resolver is not set`, () => {
 
-        const fieldWithoutRichTextResolver = new Fields.RichTextField({
+        const elementWithoutRichTextResolver = new Elements.RichTextElement({
             contentTypeSystem: {} as any,
             propertyName: 'x',
-            rawField: {
+            rawElement: {
                 name: '',
                 value: html,
                 type: ''
@@ -213,17 +213,17 @@ describe('RichTextField', () => {
 
         const expectedHtml1 = `href="/actor-rt/slug_for_joel"`;
         const expectedHtml2 = `href="/actor-rt/slug_for_tom"`;
-        expect(fieldWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
-        expect(fieldWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });
 
     it(`checks that rich text context is set`, () => {
         const contexts: IRichTextResolverContext[] = [];
 
-        const fieldWithRichTextResolver = new Fields.RichTextField({
+        const elementWithRichTextResolver = new Elements.RichTextElement({
             contentTypeSystem: {} as any,
             propertyName: 'x',
-            rawField: {
+            rawElement: {
                 name: '',
                 value: html,
                 type: ''
@@ -248,7 +248,7 @@ describe('RichTextField', () => {
                 images: []
             });
 
-        fieldWithRichTextResolver.resolveHtml();
+        elementWithRichTextResolver.resolveHtml();
 
         expect(contexts).toBeDefined();
         expect(contexts.length).toEqual(2);
@@ -256,10 +256,10 @@ describe('RichTextField', () => {
     });
 
     it(`error should be preserved when it originates from richTextResolver`, () => {
-        const fieldWithRichTextResolver = new Fields.RichTextField({
+        const elementWithRichTextResolver = new Elements.RichTextElement({
             contentTypeSystem: {} as any,
             propertyName: 'x',
-            rawField: {
+            rawElement: {
                 name: '',
                 value: html,
                 type: ''
@@ -283,7 +283,7 @@ describe('RichTextField', () => {
                 images: []
             });
 
-        expect(() => fieldWithRichTextResolver.resolveHtml()).toThrowError('Custom processing error');
+        expect(() => elementWithRichTextResolver.resolveHtml()).toThrowError('Custom processing error');
     });
 });
 

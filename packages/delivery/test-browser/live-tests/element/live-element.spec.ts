@@ -44,17 +44,17 @@ describe('Live element', () => {
     expect(taxonomyElementResponse.element).toBeDefined();
   });
 
-  it(`element taxonomy field should contain valid taxonomy group property`, () => {
+  it(`element taxonomy element should contain valid taxonomy group property`, () => {
     expect(taxonomyElementResponse.element.taxonomyGroup).toBeDefined();
     expect(taxonomyElementResponse.element.taxonomyGroup).toEqual(jasmine.any(String));
   });
 
-  it(`multiple choice field should contain options`, () => {
+  it(`multiple choice element should contain options`, () => {
     expect(multipleChoiceElementResponse.element.options).toBeDefined();
     expect(multipleChoiceElementResponse.element.options.length).toBeGreaterThan(0);
   });
 
-  it(`element field should have all required properties defined`, () => {
+  it(`element element should have all required properties defined`, () => {
     expect(textElementResponse.element.codename).toBeDefined();
     expect(textElementResponse.element.name).toBeDefined();
     expect(textElementResponse.element.type).toBeDefined();

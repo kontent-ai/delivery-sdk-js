@@ -1,8 +1,8 @@
 import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService } from 'kentico-cloud-core';
 
-import { FieldResolver } from '../fields';
+import { ElementResolver } from '../elements';
 import { IProxyUrlData, IQueryConfig } from '../interfaces';
-import { ItemFieldCollisionResolver, TypeResolver } from '../models';
+import { ElementCollisionResolver, TypeResolver } from '../models';
 
 export interface IDeliveryClientConfig {
 
@@ -18,9 +18,9 @@ export interface IDeliveryClientConfig {
     typeResolvers?: TypeResolver[];
 
     /**
-     * Field resolver used to map custom fields to models.
+     * Use to resolve elements to custom models (e.g. custom elements)
      */
-    fieldResolver?: FieldResolver;
+    elementResolver?: ElementResolver;
 
     /**
     * Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production
@@ -107,9 +107,9 @@ export interface IDeliveryClientConfig {
     globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
 
     /**
-     * Resolver called when there are multiple fields with the same name in content item (example collision field names include 'system' or 'elements')
+     * Resolver called when there are multiple elements with the same name in content item (example collision element names include 'system' or 'elements')
      */
-    collisionResolver?: ItemFieldCollisionResolver;
+    collisionResolver?: ElementCollisionResolver;
 
     /**
      * Array of status codes that should be retried when request fails. Defaults to requests with '500' status code.

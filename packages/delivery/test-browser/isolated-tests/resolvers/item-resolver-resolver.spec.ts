@@ -59,7 +59,7 @@ describe('Item resolver', () => {
         }).toThrowError();
     });
 
-    it(`Resolving linked items in rich text field should always throw exception because items are not present in response and could not be parsed`, () => {
+    it(`Resolving linked items in rich text element should always throw exception because items are not present in response and could not be parsed`, () => {
         expect(() => {
             const result = getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
                 throwErrorForMissingLinkedItems: false,
@@ -83,7 +83,7 @@ describe('Item resolver', () => {
 
     it(`Custom item resolver should be used to resolve items`, () => {
         const response = getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {
-            itemResolver: (field, rawItem, modularContent, queryConfig) => {
+            itemResolver: (element, rawItem, modularContent, queryConfig) => {
                 if (rawItem.system.codename === 'tom_hardy' || rawItem.system.codename === 'joel_edgerton') {
                     return new CustomActor('testName');
                 }
@@ -107,7 +107,7 @@ describe('Item resolver', () => {
 
     it(`Default resolver should be used when content item resolver resolves to undefined`, () => {
         const response = getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {
-            itemResolver: (field, rawItem, modularContent, queryConfig) => {
+            itemResolver: (element, rawItem, modularContent, queryConfig) => {
                 return undefined;
             }
         });

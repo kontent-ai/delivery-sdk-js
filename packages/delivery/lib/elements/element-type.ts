@@ -1,7 +1,7 @@
 /**
-* Represents codename of Kentico Cloud field types
+* Represents codename of Kentico Cloud element types
 */
-export enum FieldType {
+export enum ElementType {
     Text = 'text',
     Number = 'number',
     ModularContent = 'modular_content',

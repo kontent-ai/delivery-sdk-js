@@ -1,7 +1,7 @@
 import {
     ContentItem,
     ContentItemSystemAttributes,
-    Fields,
+    Elements,
     IDeliveryClientConfig,
     Link,
     richTextResolver,
@@ -12,19 +12,19 @@ import {
 } from '../../../lib';
 
 class ActorMock extends ContentItem {
-    firstName!: Fields.TextField;
+    firstName!: Elements.TextElement;
     system!: ContentItemSystemAttributes;
-    url!: Fields.UrlSlugField;
+    url!: Elements.UrlSlugElement;
 
     constructor() {
         super();
     }
 
     setProperties(id: string, codename: string, firstName: string) {
-        this.firstName = new Fields.TextField({
+        this.firstName = new Elements.TextElement({
             contentTypeSystem: {} as any,
             propertyName: 'firstName',
-            rawField: {
+            rawElement: {
                 name: '',
                 value: firstName,
                 type: ''
@@ -41,29 +41,29 @@ class ActorMock extends ContentItem {
             lastModified: new Date()
         });
 
-        this.url = new Fields.UrlSlugField({
+        this.url = new Elements.UrlSlugElement({
             contentTypeSystem: {} as any,
             propertyName: 'urlSlugName',
-            rawField: {
+            rawElement: {
                 name: '',
                 value: codename,
                 type: ''
             }
         }, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                fieldName: 'name',
+                elementName: 'name',
                 item: this,
                 linkResolver: (link: Link) => <ILinkResolverResult>{
                     asHtml: `<test>${link.urlSlug}</test>`,
                 },
                 enableAdvancedLogging: true,
-                fieldValue: codename
+                elementValue: codename
             })
             });
     }
 }
 
-describe('RichTextField with Html links', () => {
+describe('RichTextElement with Html links', () => {
     // prepare linked items
     const linkedItems: ActorMock[] = [];
 
@@ -108,10 +108,10 @@ describe('RichTextField with Html links', () => {
 
     it(`checks that links are resolved as HTML`, () => {
 
-        const fieldWithoutRichTextResolver = new Fields.RichTextField({
+        const elementWithoutRichTextResolver = new Elements.RichTextElement({
             contentTypeSystem: {} as any,
             propertyName: 'x',
-            rawField: {
+            rawElement: {
                 name: 'x',
                 type: '',
                 value: html
@@ -138,8 +138,8 @@ describe('RichTextField with Html links', () => {
 
         const expectedHtml1 = `${beforeLinkText}<test>slug_for_joel</test>${afterLinkText}`;
         const expectedHtml2 = `${beforeLinkText}<test>slug_for_tom</test>${afterLinkText}`;
-        expect(fieldWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
-        expect(fieldWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });
 });
 

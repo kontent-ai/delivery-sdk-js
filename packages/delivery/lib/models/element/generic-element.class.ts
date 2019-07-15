@@ -1,6 +1,6 @@
-import { ElementOption } from './element-option.class';
+import { GenericElementOption } from './generic-element-option.class';
 
-export class Element {
+export class GenericElement {
 
     /**
      * Indexer
@@ -28,9 +28,9 @@ export class Element {
     public taxonomyGroup?: string;
 
     /**
-     * Array of options if the field has some
+     * Array of options if the element has some
      */
-    public options: ElementOption[] = [];
+    public options: GenericElementOption[] = [];
 
     constructor(
         data: {
@@ -38,7 +38,7 @@ export class Element {
             type: string,
             name: string,
             taxonomyGroup?: string,
-            options: ElementOption[]
+            options: GenericElementOption[]
         }
     ) {
         Object.assign(this, data);

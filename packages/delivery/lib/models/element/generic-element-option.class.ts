@@ -1,5 +1,5 @@
 
-export class ElementOption {
+export class GenericElementOption {
     constructor(
         /**
          * Name of the option

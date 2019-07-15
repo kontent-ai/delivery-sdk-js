@@ -1,19 +1,19 @@
-import { FieldContracts, ItemContracts } from '../data-contracts';
-import { FieldType } from './field-type';
+import { ElementContracts, ItemContracts } from '../data-contracts';
+import { ElementType } from './element-type';
 
-export namespace FieldModels {
+export namespace ElementModels {
 
-    export interface IFieldMapWrapper {
+    export interface IElementWrapper {
         propertyName: string;
         contentTypeSystem: ItemContracts.IContentItemSystemAttributesContract;
-        rawField: FieldContracts.IFieldContract;
+        rawElement: ElementContracts.IElementContract;
     }
 
-    export interface IField<TValue> {
+    export interface IElement<TValue> {
         name: string;
-        type: FieldType;
+        type: ElementType;
         value: TValue;
-        rawData: FieldContracts.IFieldContract;
+        rawData: ElementContracts.IElementContract;
     }
 
     export class AssetModel {
@@ -54,12 +54,12 @@ export namespace FieldModels {
         public height?: number;
 
         /**
-        * Represents Assets field
+        * Represents Assets element
         * @constructor
-        * @param {FieldContracts.IAssetContract} rawAsset - Raw asset contract
+        * @param {ElementContracts.IAssetContract} rawAsset - Raw asset contract
         */
         constructor(
-            public contract: FieldContracts.IAssetContract
+            public contract: ElementContracts.IAssetContract
         ) {
             this.name = contract.name;
             this.type = contract.type;

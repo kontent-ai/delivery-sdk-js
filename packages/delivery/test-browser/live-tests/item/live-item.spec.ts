@@ -1,4 +1,4 @@
-import { FieldModels, ImageUrlBuilder, ItemResponses, RichTextImage } from '../../../lib';
+import { ElementModels, ImageUrlBuilder, ItemResponses, RichTextImage } from '../../../lib';
 import { Actor, Context, Movie, setup } from '../../setup';
 
 describe('Live item', () => {
@@ -12,7 +12,7 @@ describe('Live item', () => {
   beforeAll((done) => {
     context.deliveryClient.item<Movie>(movieCodename)
       .queryConfig({
-        richTextImageResolver: (image, fieldName) => {
+        richTextImageResolver: (image, elementName) => {
           const newImageUrl = new ImageUrlBuilder(image.url)
             .withCustomParam('xParam', 'xValue')
             .getUrl();
@@ -49,7 +49,7 @@ describe('Live item', () => {
     expect(response.item.title.value).toEqual('Warrior');
   });
 
-  it(`verify 'plot' rich text field with linked items contains expected html`, () => {
+  it(`verify 'plot' rich text element with linked items contains expected html`, () => {
     const html = response.item.plot.resolveHtml();
     expect(html).toContain('<p>Tom</p>');
   });
@@ -85,7 +85,7 @@ describe('Live item', () => {
   });
 
   it(`checks that category options are of proper type`, () => {
-    expect(response.item.category.value[1]).toEqual(jasmine.any(FieldModels.MultipleChoiceOption));
+    expect(response.item.category.value[1]).toEqual(jasmine.any(ElementModels.MultipleChoiceOption));
   });
 
   it(`stars linked items should be defined`, () => {
@@ -96,7 +96,7 @@ describe('Live item', () => {
     expect(response.item.stars.length).toEqual(2);
   });
 
-  it(`checks that linkedItemCodenames field is mapped and container proper data`, () => {
+  it(`checks that linkedItemCodenames element is mapped and container proper data`, () => {
     expect(response.item.plot.linkedItemCodenames).toBeDefined();
     expect(response.item.plot.linkedItemCodenames).toContain('tom_hardy');
     expect(response.item.plot.linkedItemCodenames).toContain('joel_edgerton');
@@ -110,11 +110,11 @@ describe('Live item', () => {
     expect(response.item.stars[0].firstName.value).toEqual('Tom');
   });
 
-  it(`url slug field should be defined`, () => {
+  it(`url slug element should be defined`, () => {
     expect(response.item.seoname).toBeDefined();
   });
 
-  it(`url of url slug field should be resolved`, () => {
+  it(`url of url slug element should be resolved`, () => {
     expect(response.item.seoname.resolveUrl()).toEqual('testSlugUrl/warrior');
   });
 
@@ -145,7 +145,7 @@ describe('Live item', () => {
     expect(response.item.debug.rawElements.title.value).toEqual(response.item.title.value);
   });
 
-  it(`images should be mapped in plot rich text field`, () => {
+  it(`images should be mapped in plot rich text element`, () => {
     const images = response.item.plot.images;
 
     expect(images).toBeDefined();
