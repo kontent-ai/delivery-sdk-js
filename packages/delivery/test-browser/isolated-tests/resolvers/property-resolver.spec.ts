@@ -48,14 +48,14 @@ describe('Property resolver', () => {
     });
 
     it(`checks field is assigned #1`, () => {
-        expect(response.item.titleTest.text).toEqual('Warrior');
+        expect(response.item.titleTest.value).toEqual('Warrior');
     });
 
     it(`checks field is assigned #2`, () => {
-        expect(response.item.test_released.datetime).toEqual(new Date('2011-09-09T00:00:00Z'));
+        expect(response.item.test_released.value).toEqual(new Date('2011-09-09T00:00:00Z'));
     });
 
     it(`checks field is assigned #3`, () => {
-        expect(response.item.justNumber.number).toEqual(151);
+        expect(response.item.justNumber.value).toEqual(151);
     });
 });

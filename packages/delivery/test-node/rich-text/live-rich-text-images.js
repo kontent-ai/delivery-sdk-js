@@ -29,7 +29,7 @@ describe('#Rich text field with images', () => {
         .toObservable()
             .subscribe(response => {
                 item = response.item;
-                plot = response.item.plot.getHtml();
+                plot = response.item.plot.resolveHtml();
                 done();
             });
     });

@@ -59,7 +59,7 @@ describe('#Rich text field with HTML links', () => {
             .subscribe(response => {
                 result = response;
 
-                plot = response.item.plot.getHtml();
+                plot = response.item.plot.resolveHtml();
                 done();
             });
     });

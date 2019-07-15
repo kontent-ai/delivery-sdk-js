@@ -1,3 +1,3 @@
 import { FieldModels } from './field-models';
 
-export type FieldResolver = (type: string, element: string, data: string) => FieldModels.IField | undefined;
+export type FieldResolver = (field: FieldModels.IFieldMapWrapper) => FieldModels.IField<any> | undefined;

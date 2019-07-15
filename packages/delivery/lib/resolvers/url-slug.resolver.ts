@@ -3,7 +3,6 @@ import { ItemLinkResolver, Link } from '../models';
 
 export class UrlSlugResolver {
   resolveUrl(data: {
-    type: string;
     fieldValue: string;
     fieldName: string;
     item: IContentItem;
@@ -33,7 +32,7 @@ export class UrlSlugResolver {
     const url = data.linkResolver(
       new Link({
         urlSlug: data.fieldValue,
-        type: data.type,
+        type: data.item.system.type,
         codename: data.item.system.codename,
         linkId: data.item.system.id,
       }), {

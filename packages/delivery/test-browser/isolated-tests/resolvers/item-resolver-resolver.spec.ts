@@ -65,7 +65,7 @@ describe('Item resolver', () => {
                 throwErrorForMissingLinkedItems: false,
             });
 
-            result.item.plot.getHtml();
+            result.item.plot.resolveHtml();
 
         }).toThrowError();
     });

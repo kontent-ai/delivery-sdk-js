@@ -1,11 +1,19 @@
-import { FieldContracts } from './field-contracts';
+import { FieldContracts, ItemContracts } from '../data-contracts';
+import { FieldType } from './field-type';
 
 export namespace FieldModels {
 
-    export interface IField {
+    export interface IFieldMapWrapper {
+        propertyName: string;
+        contentTypeSystem: ItemContracts.IContentItemSystemAttributesContract;
+        rawField: FieldContracts.IFieldContract;
+    }
+
+    export interface IField<TValue> {
         name: string;
-        type: string;
-        value: any;
+        type: FieldType;
+        value: TValue;
+        rawData: FieldContracts.IFieldContract;
     }
 
     export class AssetModel {

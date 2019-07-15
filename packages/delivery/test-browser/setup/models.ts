@@ -22,7 +22,7 @@ export class Actor extends ContentItem {
   constructor() {
     super({
       richTextResolver: (item, context) => {
-        return `<p>${item.firstName.text}</p>`;
+        return `<p>${item.firstName.value}</p>`;
       },
       linkResolver: (link: Link) => {
         return '/actor/' + link.urlSlug;
@@ -31,7 +31,7 @@ export class Actor extends ContentItem {
   }
 
   public getFullName(): string {
-    return `${this.firstName.text} ${this.lastName.text}`;
+    return `${this.firstName.value} ${this.lastName.value}`;
   }
 }
 

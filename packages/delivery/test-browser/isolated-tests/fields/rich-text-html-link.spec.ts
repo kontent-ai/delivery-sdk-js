@@ -21,7 +21,16 @@ class ActorMock extends ContentItem {
     }
 
     setProperties(id: string, codename: string, firstName: string) {
-        this.firstName = new Fields.TextField('firstName', firstName);
+        this.firstName = new Fields.TextField({
+            contentTypeSystem: {} as any,
+            propertyName: 'firstName',
+            rawField: {
+                name: '',
+                value: firstName,
+                type: ''
+            }
+        });
+
         this.system = new ContentItemSystemAttributes({
             id: id,
             name: 'name',
@@ -32,10 +41,17 @@ class ActorMock extends ContentItem {
             lastModified: new Date()
         });
 
-        this.url = new Fields.UrlSlugField('name', codename, {
-            resolveLink: () => urlSlugResolver.resolveUrl({
+        this.url = new Fields.UrlSlugField({
+            contentTypeSystem: {} as any,
+            propertyName: 'urlSlugName',
+            rawField: {
+                name: '',
+                value: codename,
+                type: ''
+            }
+        }, {
+            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
                 fieldName: 'name',
-                type: 'type',
                 item: this,
                 linkResolver: (link: Link) => <ILinkResolverResult>{
                     asHtml: `<test>${link.urlSlug}</test>`,
@@ -43,21 +59,11 @@ class ActorMock extends ContentItem {
                 enableAdvancedLogging: true,
                 fieldValue: codename
             })
-        });
+            });
     }
 }
 
 describe('RichTextField with Html links', () => {
-    // prepare config & type resolver
-    const typeResolvers: TypeResolver[] = [
-        new TypeResolver('actor', () => new ActorMock())
-    ];
-
-    const config: IDeliveryClientConfig = {
-        projectId: '',
-        typeResolvers: typeResolvers
-    };
-
     // prepare linked items
     const linkedItems: ActorMock[] = [];
 
@@ -102,9 +108,17 @@ describe('RichTextField with Html links', () => {
 
     it(`checks that links are resolved as HTML`, () => {
 
-        const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
+        const fieldWithoutRichTextResolver = new Fields.RichTextField({
+            contentTypeSystem: {} as any,
+            propertyName: 'x',
+            rawField: {
+                name: 'x',
+                type: '',
+                value: html
+            }
+        }, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
+            resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
@@ -124,8 +138,8 @@ describe('RichTextField with Html links', () => {
 
         const expectedHtml1 = `${beforeLinkText}<test>slug_for_joel</test>${afterLinkText}`;
         const expectedHtml2 = `${beforeLinkText}<test>slug_for_tom</test>${afterLinkText}`;
-        expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml1);
-        expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml2);
+        expect(fieldWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
+        expect(fieldWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });
 });
 

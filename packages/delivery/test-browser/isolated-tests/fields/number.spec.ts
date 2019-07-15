@@ -2,7 +2,15 @@ import { Fields } from '../../../lib';
 
 describe('NumberField', () => {
 
-    const field = new Fields.NumberField('name', 9);
+    const field = new Fields.NumberField({
+        contentTypeSystem: {} as any,
+        rawField: {
+            name: 'name',
+            type: '',
+            value: 9
+        },
+        propertyName: 'resolvedName'
+    });
 
     it(`checks name`, () => {
         expect(field.name).toEqual('name');
@@ -13,7 +21,7 @@ describe('NumberField', () => {
     });
 
     it(`checks number`, () => {
-        expect(field.number).toEqual(9);
+        expect(field.value).toEqual(9);
     });
 });
 

@@ -2,18 +2,22 @@ import { Fields } from '../../../lib';
 
 describe('TextField', () => {
 
-    const field = new Fields.TextField('name', 'text value');
+    const field = new Fields.TextField({
+        contentTypeSystem: {} as any,
+        rawField: {
+            name: 'name',
+            type: '',
+            value: 'text value'
+        },
+        propertyName: 'resolvedName'
+    });
 
     it(`checks name`, () => {
         expect(field.name).toEqual('name');
     });
 
-    it(`checks value`, () => {
-        expect(field.value).toEqual('text value');
-    });
-
     it(`checks text`, () => {
-        expect(field.text).toEqual('text value');
+        expect(field.value).toEqual('text value');
     });
 });
 

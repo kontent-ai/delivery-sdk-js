@@ -1,5 +1,5 @@
 import { ItemContracts } from '../../../lib';
-import { FieldContracts } from '../../../lib/fields/field-contracts';
+import { FieldContracts } from '../../../lib/data-contracts';
 import { FieldType } from '../../../lib/fields/field-type';
 import { FieldMapper } from '../../../lib/mappers';
 import { Context, setup } from '../../setup';

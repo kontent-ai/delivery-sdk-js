@@ -49,11 +49,11 @@ describe('URL slug resolver', () => {
     });
 
     it(`verifies globally defined url slug resolver`, () => {
-        expect(response.item.seoname.getUrl()).toEqual('globalSlug/warrior');
+        expect(response.item.seoname.resolveUrl()).toEqual('globalSlug/warrior');
     });
 
     it(`verifies locally defined url slug resolver (should have priority over global one)`, () => {
-        expect(responseWithQueryConfig.item.seoname.getUrl()).toEqual('querySlug/warrior');
+        expect(responseWithQueryConfig.item.seoname.resolveUrl()).toEqual('querySlug/warrior');
     });
 });
 

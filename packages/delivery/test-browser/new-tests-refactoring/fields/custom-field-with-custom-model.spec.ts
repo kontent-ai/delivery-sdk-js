@@ -1,34 +1,33 @@
-import { ContentItem, FieldModels } from '../../../lib';
+import { ContentItem, FieldModels, Fields, FieldType } from '../../../lib';
 import { getDeliveryClientWithJson } from '../setup';
 import * as responseJson from './custom-field.spec.json';
 
-class ColorElement implements FieldModels.IField {
+class ColorElement extends Fields.CustomField  {
 
     public red: number;
     public green: number;
     public blue: number;
 
     constructor(
-        public name: string,
-        public type: string,
-        public value: string
+        public field: FieldModels.IFieldMapWrapper
     ) {
-        const parsed = JSON.parse(value);
+        super(field);
+
+        const parsed = JSON.parse(field.rawField.value);
         this.red = parsed.red;
         this.green = parsed.green;
         this.blue = parsed.blue;
     }
 }
 
-class MarkdownElement implements FieldModels.IField {
+class MarkdownElement extends Fields.CustomField {
 
     public isMarkdown = true;
 
     constructor(
-        public name: string,
-        public type: string,
-        public value: string
+        public field: FieldModels.IFieldMapWrapper,
     ) {
+        super(field);
     }
 }
 
@@ -38,17 +37,17 @@ describe('Custom field with custom model', () => {
     beforeAll((done) => {
         getDeliveryClientWithJson(responseJson, {
             projectId: '',
-            fieldResolver: (type, element, data) => {
+            fieldResolver: (fieldWrapper) => {
                 const responseItem = responseJson.items[0];
                 const colorElement = responseJson.items[0].elements.color;
                 const markdownElement = responseJson.items[0].elements.markdown;
 
-                if (type === responseItem.system.type && element === colorElement.name) {
-                    return new ColorElement(colorElement.name, 'color', data);
+                if (fieldWrapper.contentTypeSystem.type === responseItem.system.type && fieldWrapper.rawField.name === colorElement.name) {
+                    return new ColorElement(fieldWrapper);
                 }
 
-                if (type === responseItem.system.type && element === markdownElement.name) {
-                    return new MarkdownElement(markdownElement.name, 'markdown', data);
+                if (fieldWrapper.contentTypeSystem.type === responseItem.system.type && fieldWrapper.rawField.name === markdownElement.name) {
+                    return new MarkdownElement(fieldWrapper);
                 }
                 return undefined;
             }
@@ -71,7 +70,7 @@ describe('Custom field with custom model', () => {
         expect(field.blue).toEqual(197);
 
         expect(field.name).toEqual(rawField.name);
-        expect(field.type).toEqual('color');
+        expect(field.type).toEqual(FieldType.Custom);
         expect(field.value).toEqual(rawField.value);
     });
 
@@ -82,7 +81,7 @@ describe('Custom field with custom model', () => {
         expect(field).toEqual(jasmine.any(MarkdownElement));
 
         expect(field.name).toEqual(rawField.name);
-        expect(field.type).toEqual('markdown');
+        expect(field.type).toEqual(FieldType.Custom);
         expect(field.value).toEqual(rawField.value);
     });
 

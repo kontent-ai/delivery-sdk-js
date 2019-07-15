@@ -49,23 +49,23 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks taxonomy field`, () => {
-        expect(response.item.releaseCategory.taxonomyTerms[0].codename).toEqual('global_release');
+        expect(response.item.releaseCategory.value[0].codename).toEqual('global_release');
     });
 
     it(`checks text field`, () => {
-        expect(response.item.title.text).toEqual('Warrior');
+        expect(response.item.title.value).toEqual('Warrior');
     });
 
     it(`checks datetime field`, () => {
-        expect(response.item.released.datetime).toEqual(new Date('2011-09-09T00:00:00Z'));
+        expect(response.item.released.value).toEqual(new Date('2011-09-09T00:00:00Z'));
     });
 
-    it(`checks Nunmber field`, () => {
-        expect(response.item.length.number).toEqual(151);
+    it(`checks number field`, () => {
+        expect(response.item.length.value).toEqual(151);
     });
 
     it(`checks url slug field`, () => {
-        expect(response.item.seoname.getUrl()).toEqual('testSlugUrl/warrior');
+        expect(response.item.seoname.resolveUrl()).toEqual('testSlugUrl/warrior');
     });
 
     it(`checks assets field`, () => {
@@ -85,11 +85,11 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks that text field in first linked item is set`, () => {
-        expect(response.item.stars[0].firstName.text).toEqual('Tom');
+        expect(response.item.stars[0].firstName.value).toEqual('Tom');
     });
 
     it(`checks that text field in second linked item is set`, () => {
-        expect(response.item.stars[1].firstName.text).toEqual('Joel');
+        expect(response.item.stars[1].firstName.value).toEqual('Joel');
     });
 });
 

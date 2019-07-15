@@ -1,8 +1,8 @@
 import { enumHelper } from 'kentico-cloud-core';
 
 import { defaultCollissionResolver, IDeliveryClientConfig } from '../config';
-import { ItemContracts } from '../data-contracts';
-import { FieldContracts, FieldDecorators, FieldModels, Fields, FieldType } from '../fields';
+import { FieldContracts, ItemContracts } from '../data-contracts';
+import { FieldDecorators, FieldModels, Fields, FieldType } from '../fields';
 import { IContentItem, IItemQueryConfig } from '../interfaces';
 import {
     ContentItem,
@@ -20,11 +20,6 @@ export interface IMapFieldsResult<TItem extends IContentItem = IContentItem> {
     processedItems: IContentItemsContainer;
     preparedItems: IContentItemsContainer;
     processingStartedForCodenames: string[];
-}
-
-export interface IFieldMapWrapper {
-    resolvedFieldName: string;
-    field: FieldContracts.IFieldContract;
 }
 
 export class FieldMapper {
@@ -92,15 +87,16 @@ export class FieldMapper {
                 throw Error(`Item instance was not initiazed correctly.`);
             }
 
-            const field = data.item.elements[elementCodename];
             const fieldMapping = this.resolveFieldMapping(itemInstance, elementCodename);
+            const fieldMapWrapped: FieldModels.IFieldMapWrapper = {
+                contentTypeSystem: data.item.system,
+                rawField: data.item.elements[elementCodename],
+                propertyName: fieldMapping.resolvedName,
+            };
 
             if (fieldMapping.shouldMapField) {
                 const mappedField = this.mapField({
-                    fieldWrapper: {
-                        field: field,
-                        resolvedFieldName: fieldMapping.resolvedName
-                    },
+                    fieldWrapper: fieldMapWrapped,
                     item: itemInstance,
                     modularContent: data.modularContent,
                     preparedItems: data.preparedItems,
@@ -124,15 +120,15 @@ export class FieldMapper {
 
     private mapField(
         data: {
-            fieldWrapper: IFieldMapWrapper,
+            fieldWrapper: FieldModels.IFieldMapWrapper,
             modularContent: ItemContracts.IModularContentWrapperContract,
             item: IContentItem,
             queryConfig: IItemQueryConfig,
             processedItems: IContentItemsContainer,
             processingStartedForCodenames: string[],
             preparedItems: IContentItemsContainer
-        }): undefined | FieldModels.IField | IContentItem[] {
-        const fieldType = enumHelper.getEnumFromValue<FieldType>(FieldType, data.fieldWrapper.field.type);
+        }): undefined | FieldModels.IField<any> | IContentItem[] {
+        const fieldType = enumHelper.getEnumFromValue<FieldType>(FieldType, data.fieldWrapper.rawField.type);
         if (fieldType) {
 
             if (fieldType === FieldType.ModularContent) {
@@ -177,16 +173,16 @@ export class FieldMapper {
             }
 
             if (fieldType === FieldType.Custom) {
-                return this.mapCustomField(data.fieldWrapper, data.item.system.type);
+                return this.mapCustomField(data.fieldWrapper);
             }
         }
-        console.warn(`Skipping unknown field type '${data.fieldWrapper.field.type}' of field '${data.fieldWrapper.field.name}'`);
+        console.warn(`Skipping unknown field type '${data.fieldWrapper.rawField.type}' of field '${data.fieldWrapper.rawField.name}'`);
         return undefined;
     }
 
     private mapRichTextField(
         item: IContentItem,
-        fieldWrapper: IFieldMapWrapper,
+        fieldWrapper: FieldModels.IFieldMapWrapper,
         modularContent: ItemContracts.IModularContentWrapperContract,
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
@@ -196,16 +192,16 @@ export class FieldMapper {
         // get all linked items nested in rich text
         const richTextLinkedItems: IContentItem[] = [];
 
-        const field = fieldWrapper.field as FieldContracts.IRichTextFieldContract;
+        const rawField = fieldWrapper.rawField as FieldContracts.IRichTextFieldContract;
 
-        if (field.modular_content) {
-            if (Array.isArray(field.modular_content)) {
-                field.modular_content.forEach(codename => {
+        if (rawField.modular_content) {
+            if (Array.isArray(rawField.modular_content)) {
+                rawField.modular_content.forEach(codename => {
                     // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
                     const rawItem = modularContent[codename] as ItemContracts.IContentItemContract | undefined;
 
                     // first try to get existing item
-                    const existingLinkedItem = this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, processedItems, processingStartedForCodenames, preparedItems);
+                    const existingLinkedItem = this.getOrSaveLinkedItemForField(codename, rawField, queryConfig, modularContent, processedItems, processingStartedForCodenames, preparedItems);
 
                     if (existingLinkedItem) {
                         // item was found, add it to linked items
@@ -221,7 +217,7 @@ export class FieldMapper {
 
                         // throw error if raw item is not available and errors are not skipped
                         if (!rawItem) {
-                            const msg = `Mapping RichTextField field '${field.name}' failed because referenced linked item with codename '${codename}' could not be found in Delivery response.
+                            const msg = `Mapping RichTextField field '${rawField.name}' failed because referenced linked item with codename '${codename}' could not be found in Delivery response.
                             Increasing 'depth' parameter may solve this issue as it will include nested items. Alternatively you may disable 'throwErrorForMissingLinkedItems' in your query`;
 
                             if (throwErrorForMissingLinkedItems) {
@@ -251,20 +247,19 @@ export class FieldMapper {
         }
 
         // extract and map links & images
-        const links: Link[] = this.mapRichTextLinks(field.links);
-        const images: RichTextImage[] = this.mapRichTextImages(field.images);
+        const links: Link[] = this.mapRichTextLinks(rawField.links);
+        const images: RichTextImage[] = this.mapRichTextImages(rawField.images);
 
         return new Fields.RichTextField(
-            field.name,
-            field.value,
-            field.modular_content,
+            fieldWrapper,
+            rawField.modular_content,
             {
                 links: links,
-                resolveHtml: () => richTextResolver.resolveHtml(item.system.codename, field.value, fieldWrapper.resolvedFieldName, {
+                resolveHtmlFunc: () => richTextResolver.resolveHtml(item.system.codename, rawField.value, fieldWrapper.propertyName, {
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
                     images: images,
                     richTextHtmlParser: this.richTextHtmlParser,
-                    getLinkedItem: (codename) => this.getOrSaveLinkedItemForField(codename, field, queryConfig, modularContent, processedItems, processingStartedForCodenames, preparedItems),
+                    getLinkedItem: (codename) => this.getOrSaveLinkedItemForField(codename, rawField, queryConfig, modularContent, processedItems, processingStartedForCodenames, preparedItems),
                     links: links,
                     queryConfig: queryConfig,
                     linkedItemWrapperTag: this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperTag
@@ -278,54 +273,51 @@ export class FieldMapper {
             });
     }
 
-    private mapDateTimeField(fieldWrapper: IFieldMapWrapper): Fields.DateTimeField {
-        return new Fields.DateTimeField(fieldWrapper.field.name, fieldWrapper.field.value);
+    private mapDateTimeField(fieldWrapper: FieldModels.IFieldMapWrapper): Fields.DateTimeField {
+        return new Fields.DateTimeField(fieldWrapper);
     }
 
-    private mapMultipleChoiceField(fieldWrapper: IFieldMapWrapper): Fields.MultipleChoiceField {
-        return new Fields.MultipleChoiceField(fieldWrapper.field.name, fieldWrapper.field.value);
+    private mapMultipleChoiceField(fieldWrapper: FieldModels.IFieldMapWrapper): Fields.MultipleChoiceField {
+        return new Fields.MultipleChoiceField(fieldWrapper);
     }
 
-    private mapNumberField(fieldWrapper: IFieldMapWrapper): Fields.NumberField {
-        return new Fields.NumberField(fieldWrapper.field.name, fieldWrapper.field.value);
+    private mapNumberField(fieldWrapper: FieldModels.IFieldMapWrapper): Fields.NumberField {
+        return new Fields.NumberField(fieldWrapper);
     }
 
-    private mapTextField(fieldWrapper: IFieldMapWrapper): Fields.TextField {
-        return new Fields.TextField(fieldWrapper.field.name, fieldWrapper.field.value);
+    private mapTextField(fieldWrapper: FieldModels.IFieldMapWrapper): Fields.TextField {
+        return new Fields.TextField(fieldWrapper);
     }
 
-    private mapAssetsField(fieldWrapper: IFieldMapWrapper): Fields.AssetsField {
-        return new Fields.AssetsField(fieldWrapper.field.name, fieldWrapper.field.value);
+    private mapAssetsField(fieldWrapper: FieldModels.IFieldMapWrapper): Fields.AssetsField {
+        return new Fields.AssetsField(fieldWrapper);
     }
 
-    private mapTaxonomyField(fieldWrapper: IFieldMapWrapper): Fields.TaxonomyField {
-        return new Fields.TaxonomyField(fieldWrapper.field.name, fieldWrapper.field.value, fieldWrapper.field.taxonomy_group);
+    private mapTaxonomyField(fieldWrapper: FieldModels.IFieldMapWrapper): Fields.TaxonomyField {
+        return new Fields.TaxonomyField(fieldWrapper);
     }
 
-    private mapCustomField(fieldWrapper: IFieldMapWrapper, contentType: string): Fields.CustomField | FieldModels.IField {
+    private mapCustomField(fieldWrapper: FieldModels.IFieldMapWrapper): Fields.DefaultCustomField | FieldModels.IField<string> {
         // try to find field resolver
         if (this.config.fieldResolver) {
-            const customModel = this.config.fieldResolver(contentType, fieldWrapper.field.name, fieldWrapper.field.value);
+            const customFieldClass = this.config.fieldResolver(fieldWrapper);
 
-            if (customModel) {
-                return customModel;
+            if (customFieldClass) {
+                return customFieldClass;
             }
 
         }
-        return new Fields.CustomField(fieldWrapper.field.name, fieldWrapper.field.value);
+        return new Fields.DefaultCustomField(fieldWrapper);
     }
 
-    private mapUrlSlugField(fieldWrapper: IFieldMapWrapper, item: IContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
+    private mapUrlSlugField(fieldWrapper: FieldModels.IFieldMapWrapper, item: IContentItem, queryConfig: IItemQueryConfig): Fields.UrlSlugField {
         const linkResolver = this.getLinkResolverForUrlSlugField(item, queryConfig);
-        const field = fieldWrapper.field;
         return new Fields.UrlSlugField(
-            field.name,
-            field.value,
+            fieldWrapper,
             {
-                resolveLink: () => urlSlugResolver.resolveUrl({
-                    fieldName: field.name,
-                    type: field.type,
-                    fieldValue: field.value,
+                resolveLinkFunc: () => urlSlugResolver.resolveUrl({
+                    fieldName: fieldWrapper.propertyName,
+                    fieldValue: fieldWrapper.rawField.value,
                     item: item,
                     enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
                     linkResolver: linkResolver
@@ -334,7 +326,7 @@ export class FieldMapper {
     }
 
     private mapLinkedItemsField(data: {
-        fieldWrapper: IFieldMapWrapper,
+        fieldWrapper: FieldModels.IFieldMapWrapper,
         modularContent: ItemContracts.IModularContentWrapperContract,
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
@@ -349,9 +341,9 @@ export class FieldMapper {
             return [];
         }
 
-        if (!data.fieldWrapper.field.value) {
+        if (!data.fieldWrapper.rawField.value) {
             if (this.config.enableAdvancedLogging) {
-                console.warn(`Cannot map linked item of '${data.fieldWrapper.field.name}' because its value does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                console.warn(`Cannot map linked item of '${data.fieldWrapper.rawField.name}' because its value does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
             return [];
         }
@@ -360,9 +352,9 @@ export class FieldMapper {
         const result: IContentItem[] = [];
 
         // value = array of item codenames
-        const linkedItemCodenames = data.fieldWrapper.field.value as string[];
+        const linkedItemCodenames = data.fieldWrapper.rawField.value as string[];
         linkedItemCodenames.forEach(codename => {
-            const linkedItem = this.getOrSaveLinkedItemForField(codename, data.fieldWrapper.field, data.queryConfig, data.modularContent, data.processedItems, data.processingStartedForCodenames, data.preparedItems);
+            const linkedItem = this.getOrSaveLinkedItemForField(codename, data.fieldWrapper.rawField, data.queryConfig, data.modularContent, data.processedItems, data.processingStartedForCodenames, data.preparedItems);
             if (linkedItem) {
                 // add item to result
                 result.push(linkedItem);
@@ -370,7 +362,7 @@ export class FieldMapper {
                 // item was not found
                 if (this.config.enableAdvancedLogging) {
                     // tslint:disable-next-line:max-line-length
-                    console.warn(`Linked item with codename '${codename}' in linked items field '${data.fieldWrapper.field.name}' of '${data.fieldWrapper.field.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                    console.warn(`Linked item with codename '${codename}' in linked items field '${data.fieldWrapper.rawField.name}' of '${data.fieldWrapper.rawField.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 }
             }
         });

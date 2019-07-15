@@ -25,7 +25,7 @@ describe('Non generic item tests', () => {
     });
 
     it(`ContentItem should contain typed properties even though they are not defined as properties in class`, () => {
-        expect(response.item['title'].text.toLowerCase()).toEqual('warrior');
+        expect(response.item['title'].value.toLowerCase()).toEqual('warrior');
     });
 
     it(`System attributes property should be set`, () => {

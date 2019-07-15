@@ -7,28 +7,37 @@ describe('Rich text with regular link', () => {
     const html = `Text with <a href="domain.com">link</a>`;
 
     it(`Resolving HTML should succeed`, () => {
-        const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
-            links: [],
-            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
-                enableAdvancedLogging: false,
+        const fieldWithoutRichTextResolver = new Fields.RichTextField({
+            rawField: {
+                name: 'name',
+                taxonomy_group: undefined,
+                type: 'x',
+                value: html
+            },
+            contentTypeSystem: {} as any,
+            propertyName: 'name'
+        }, linkedItems.map(m => m.system.codename), {
                 links: [],
-                getLinkedItem: getLinkedItem,
-                images: [],
-                richTextHtmlParser: getParserAdapter(),
-                linkedItemWrapperClasses: ['kc-wrapper-class'],
-                linkedItemWrapperTag: 'kc-item-wrapper',
-                queryConfig: {
-                    richTextResolver: undefined as any,
-                    linkResolver: (link) => <ILinkResolverResult>{
-                        asHtml: `<test>${link.urlSlug}</test>`,
-                    }
-                },
-            }),
-            images: []
-        });
+                resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                    enableAdvancedLogging: false,
+                    links: [],
+                    getLinkedItem: getLinkedItem,
+                    images: [],
+                    richTextHtmlParser: getParserAdapter(),
+                    linkedItemWrapperClasses: ['kc-wrapper-class'],
+                    linkedItemWrapperTag: 'kc-item-wrapper',
+                    queryConfig: {
+                        richTextResolver: undefined as any,
+                        linkResolver: (link) => <ILinkResolverResult>{
+                            asHtml: `<test>${link.urlSlug}</test>`,
+                        }
+                    },
+                }),
+                images: []
+            });
 
         const expectedHtml = `Text with <a href="domain.com">link</a>`;
-        expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml);
+        expect(fieldWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml);
     });
 });
 

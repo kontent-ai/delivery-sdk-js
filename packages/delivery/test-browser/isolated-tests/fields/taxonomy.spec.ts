@@ -1,25 +1,39 @@
-import { FieldModels, Fields } from '../../../lib';
+import { FieldContracts, FieldModels, Fields } from '../../../lib';
 
 describe('TaxonomyField', () => {
 
-    const taxonomyList = [
+    const taxonomyTermsRaw: FieldContracts.ITaxonomyTerm[] = [
         {
             'name': 'Term 1',
             'codename': 'term1'
         },
         {
             'name': 'Term 1',
-            'codename': 'term1'
+            'codename': 'term1',
         }
     ];
-    const field = new Fields.TaxonomyField('name', taxonomyList, 'taxgroup');
+    const expectedTaxonomyTerms: FieldModels.TaxonomyTerm[] = [
+        new FieldModels.TaxonomyTerm(taxonomyTermsRaw[0].name, taxonomyTermsRaw[0].codename),
+        new FieldModels.TaxonomyTerm(taxonomyTermsRaw[1].name, taxonomyTermsRaw[1].codename)
+
+    ];
+    const field = new Fields.TaxonomyField({
+        contentTypeSystem: {} as any,
+        propertyName: 'mappedName',
+        rawField: {
+            taxonomy_group: 'taxgroup',
+            name: 'name',
+            type: '',
+            value: taxonomyTermsRaw
+        },
+    });
 
     it(`checks name`, () => {
         expect(field.name).toEqual('name');
     });
 
     it(`checks value`, () => {
-        expect(field.value).toEqual(taxonomyList);
+        expect(field.value).toEqual(expectedTaxonomyTerms);
     });
 
     it(`checks taxonomy group`, () => {
@@ -31,15 +45,7 @@ describe('TaxonomyField', () => {
             new FieldModels.TaxonomyTerm('Term 1', 'term1'),
             new FieldModels.TaxonomyTerm('Term 2', 'term2')
         ];
-        expect(field.taxonomyTerms[0].codename).toEqual(xTaxonomyList[0].codename);
-    });
-
-    it(`checks that exception is thrown when invalid value (null) is passed`, () => {
-        expect(() => new Fields.TaxonomyField('name', null, 'taxgroup')).toThrowError();
-    });
-
-    it(`checks that exception is thrown when invalid value (string) is passed`, () => {
-        expect(() => new Fields.TaxonomyField('name', 'test_string', 'taxgroup')).toThrowError();
+        expect(field.value[0].codename).toEqual(xTaxonomyList[0].codename);
     });
 });
 

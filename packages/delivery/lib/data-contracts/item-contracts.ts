@@ -1,5 +1,5 @@
 import { IPaginationContract } from './shared/ipagination.interface';
-import { FieldContracts } from '../fields/field-contracts';
+import { FieldContracts } from './field-contracts';
 
 export namespace ItemContracts {
 
