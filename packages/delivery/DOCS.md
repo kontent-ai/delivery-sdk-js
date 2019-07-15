@@ -247,7 +247,7 @@ export class Movie extends ContentItem {
 }
 ```
 
-Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField`, `TaxonomyField` and `CustomField`
+Supported fields: `TextField`, `MultipleChoiceField`, `DateTimeField`, `RichTextField`, `NumberField`, `AssetsField`, `UrlSlugField`, `TaxonomyField` and `DefaultCustomField`
 
 #### Using custom models for Custom elements
 
@@ -261,39 +261,39 @@ You can register `FieldResolver` to map Custom elements into dedicated field mod
   }
 ```
 
-You can create `ColorElement` class (or object) implementing `IField` interface and extract color values into dedicated properties (red, green, blue) so that they are easier to work with.
+You can create `ColorElement` class extending from `CustomField` (or class that implements `IField` interface) and extract color values into dedicated properties (red, green, blue) so that they are easily accessible.
 
 ```typescript
-import { FieldModels } from 'kentico-cloud-delivery';
+import { FieldModels, Fields } from 'kentico-cloud-delivery';
 
-class ColorElement implements FieldModels.IField {
+class ColorElement extends Fields.CustomField {
 
     public red: number;
     public green: number;
     public blue: number;
 
     constructor(
-        public name: string,
-        public type: string,
-        public value: string // = "{\"red\":167,\"green\":96,\"blue\":197}"
+       public fieldWrapper: FieldModels.IFieldMapWrapper
     ) {
-        const parsed = JSON.parse(value);
-        this.red = parsed.red;
-        this.green = parsed.green;
-        this.blue = parsed.blue;
+      super(field);
+
+      const value = fieldWrapper.rawField.value; // "{\"red\":167,\"green\":96,\"blue\":197}"
+      const parsed = JSON.parse(value);
+      this.red = parsed.red;
+      this.green = parsed.green;
+      this.blue = parsed.blue;
     }
 }
 ```
-
-Currently, the API does not contain information about the type of the custom field so you need to add this binding manually for all elements that you want to map based on the content type and element codename. `FieldResolver` can be registered during `DeliverClient` initialization:
+In order to register mapping of custom elements use `FieldResolver` configuration option:
 
 ```typescript
 const client = new DeliveryClient(
   {
     projectId: ''.
-    fieldResolver: (type: string, element: string, data: string) => {
-      if (type === 'contentType' && element === 'colorElementCodename') {
-        return new ColorElement(colorElement.name, 'color', data);
+    fieldResolver: (fieldWrapper: FieldModels.IFieldMapWrapper) => {
+      if (fieldWrapper.contentTypeSystem.type === 'your-content-type' && fieldWrapper.rawField.name === 'your-element-name') {
+        return new ColorElement(fieldWrapper);
       }
 
       return undefined;
