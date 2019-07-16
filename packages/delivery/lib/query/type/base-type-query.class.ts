@@ -2,8 +2,7 @@ import { IHeader, IQueryParameter } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ICloudResponse, IContentTypeQueryConfig } from '../../interfaces';
-import { TypeResponses } from '../../models';
+import { ICloudResponse, IContentTypeQueryConfig, TypeResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
@@ -50,7 +49,7 @@ export abstract class BaseTypeQuery<
 
   protected runMultipleTypesQuery(): Observable<
     TypeResponses.DeliveryTypeListingResponse
-    > {
+  > {
     return this.queryService.getMultipleTypes(
       this.getMultipleTypesQueryUrl(),
       this._queryConfig

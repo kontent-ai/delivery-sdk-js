@@ -1,8 +1,6 @@
-import { IContentItem } from '../../interfaces';
-import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
-import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
 import { Pagination } from '../common';
-import { IContentItemsContainer } from './i-content-items-container.interface';
+import { ICloudResponse, ICloudResponseDebug } from '../common/common-models';
+import { IContentItem, IContentItemsContainer } from './item-models';
 
 export namespace ItemResponses {
 

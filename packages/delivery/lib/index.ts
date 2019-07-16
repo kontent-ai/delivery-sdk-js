@@ -10,7 +10,5 @@ export * from './services';
 export * from './mappers';
 export * from './query';
 export * from './models';
-export * from './interfaces';
 export * from './images';
-export * from './enums';
 

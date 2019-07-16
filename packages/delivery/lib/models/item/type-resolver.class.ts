@@ -1,4 +1,4 @@
-import { IContentItem, ITypeResolverData } from '../../interfaces';
+import { IContentItem, ITypeResolverData } from '../../models';
 
 export class TypeResolver {
 

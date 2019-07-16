@@ -12,8 +12,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { IDeliveryClientConfig } from '../config';
-import { IQueryConfig, ISDKInfo } from '../interfaces';
 import { ResponseMapper } from '../mappers';
+import { IQueryConfig, ISDKInfo } from '../models/common/common-models';
 import { IRichTextHtmlParser } from '../parser';
 
 export abstract class BaseDeliveryQueryService {

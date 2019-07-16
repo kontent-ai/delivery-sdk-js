@@ -1,7 +1,6 @@
-import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
-import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
 import { Pagination } from '../common';
-import { ContentType } from './content-type.class';
+import { ICloudResponse, ICloudResponseDebug } from '../common/common-models';
+import { ContentType } from './content-type-models';
 
 export namespace TypeResponses {
 

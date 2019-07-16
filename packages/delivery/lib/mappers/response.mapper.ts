@@ -2,8 +2,16 @@ import { IBaseResponse } from 'kentico-cloud-core';
 
 import { IDeliveryClientConfig } from '../config';
 import { ElementContracts, ItemContracts, TaxonomyContracts, TypeContracts } from '../data-contracts';
-import { ICloudResponseDebug, IContentItem, IItemQueryConfig } from '../interfaces';
-import { ElementResponses, ItemResponses, Pagination, TaxonomyResponses, TypeResponses } from '../models';
+import {
+  ElementResponses,
+  ICloudResponseDebug,
+  IContentItem,
+  IItemQueryConfig,
+  ItemResponses,
+  Pagination,
+  TaxonomyResponses,
+  TypeResponses,
+} from '../models';
 import { IRichTextHtmlParser } from '../parser';
 import { GenericElementMapper } from './generic-element.mapper';
 import { ItemMapper } from './item.mapper';

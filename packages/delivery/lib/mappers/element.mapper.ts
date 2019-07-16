@@ -3,11 +3,12 @@ import { enumHelper } from 'kentico-cloud-core';
 import { defaultCollissionResolver, IDeliveryClientConfig } from '../config';
 import { ElementContracts, ItemContracts } from '../data-contracts';
 import { ElementDecorators, ElementModels, Elements, ElementType } from '../elements';
-import { IContentItem, IItemQueryConfig } from '../interfaces';
 import {
     ContentItem,
     ElementCollisionResolver,
+    IContentItem,
     IContentItemsContainer,
+    IItemQueryConfig,
     ItemLinkResolver,
     Link,
     RichTextImage,

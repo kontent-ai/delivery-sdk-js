@@ -1,4 +1,3 @@
-import { RichTextContentType } from '../enums';
 import { Elements } from '../elements';
 import {
     IContentItem,
@@ -6,8 +5,11 @@ import {
     ILinkResolverContext,
     ILinkResolverResult,
     IRichTextImageResolverResult,
-} from '../interfaces';
-import { ItemRichTextResolver, Link, RichTextImage } from '../models';
+    ItemRichTextResolver,
+    Link,
+    RichTextContentType,
+    RichTextImage,
+} from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser, ResolverContext } from '../parser';
 
 export class RichTextResolver {

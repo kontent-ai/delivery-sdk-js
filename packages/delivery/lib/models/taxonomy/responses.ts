@@ -1,7 +1,5 @@
-import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
-import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
-import { TaxonomyGroup } from './taxonomy-group.class';
-import { Pagination } from '../common';
+import { ICloudResponse, ICloudResponseDebug, Pagination } from '../common';
+import { TaxonomyGroup } from './taxonomy-models';
 
 export namespace TaxonomyResponses {
 

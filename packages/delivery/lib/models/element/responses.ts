@@ -1,6 +1,5 @@
-import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
-import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
-import { GenericElement } from './generic-element.class';
+import { ICloudResponse, ICloudResponseDebug } from '../common';
+import { GenericElement } from './element-models';
 
 export namespace ElementResponses {
 

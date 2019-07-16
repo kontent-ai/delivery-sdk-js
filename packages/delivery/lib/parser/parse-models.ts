@@ -1,5 +1,4 @@
-import { RichTextContentType } from '../enums';
-import { IItemQueryConfig, ILinkResolverResult, IRichTextImageResolverResult } from '../interfaces';
+import { IItemQueryConfig, ILinkResolverResult, IRichTextImageResolverResult, RichTextContentType } from '../models';
 
 export type ResolverContext = 'root' | 'nested';
 

@@ -1,5 +1,4 @@
-import { RichTextContentType } from '../../enums';
-import { ILinkResolverResult } from '../../interfaces';
+import { ILinkResolverResult, RichTextContentType } from '../../models';
 import {
     IFeaturedObjects,
     IHtmlResolverConfig,
@@ -12,7 +11,6 @@ import {
     ResolverContext,
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
-
 
 export class BrowserRichTextParser implements IRichTextHtmlParser {
 
