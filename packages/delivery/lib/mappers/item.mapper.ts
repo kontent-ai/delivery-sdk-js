@@ -1,7 +1,6 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { IContentItem, IItemQueryConfig } from '../interfaces';
-import { IContentItemsContainer } from '../models';
+import { IContentItem, IContentItemsContainer, IItemQueryConfig } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 import { ElementMapper } from './element.mapper';
 

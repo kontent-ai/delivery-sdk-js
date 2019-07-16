@@ -1,11 +1,10 @@
+import { IHeader } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ICloudResponse, IElementQueryConfig } from '../../interfaces';
-import { ElementResponses } from '../../models';
+import { ElementResponses, ICloudResponse, IElementQueryConfig } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
-import { IHeader } from 'kentico-cloud-core';
 
 export abstract class BaseElementQuery<TResponse extends ICloudResponse> extends BaseQuery<TResponse> {
 

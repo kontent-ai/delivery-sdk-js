@@ -1,7 +1,5 @@
 import { ItemContracts } from '../data-contracts';
-import { IContentItem, ITypeResolverData } from '../interfaces';
-import { ContentItemSystemAttributes } from '../models/item/content-item-system-attributes';
-import { ContentItem } from '../models/item/content-item.class';
+import { ContentItem, ContentItemSystemAttributes, IContentItem, ITypeResolverData } from '../models';
 import { TypeResolver } from '../models/item/type-resolver.class';
 
 export class DeliveryItemStronglyTypeResolver {

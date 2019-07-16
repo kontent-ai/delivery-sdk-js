@@ -4,8 +4,17 @@ import { map } from 'rxjs/operators';
 
 import { IDeliveryClientConfig } from '../config';
 import { ElementContracts, ItemContracts, TaxonomyContracts, TypeContracts } from '../data-contracts';
-import { IContentTypeQueryConfig, IItemQueryConfig, ISDKInfo, ITaxonomyQueryConfig } from '../interfaces';
-import { ContentItem, ElementResponses, ItemResponses, TaxonomyResponses, TypeResponses } from '../models';
+import {
+  ContentItem,
+  ElementResponses,
+  IContentTypeQueryConfig,
+  IItemQueryConfig,
+  ITaxonomyQueryConfig,
+  ItemResponses,
+  TaxonomyResponses,
+  TypeResponses,
+} from '../models';
+import { ISDKInfo } from '../models/common/common-models';
 import { IRichTextHtmlParser } from '../parser';
 import { BaseDeliveryQueryService } from './base-delivery-query.service';
 

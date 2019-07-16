@@ -5,10 +5,10 @@ import {
     getParserAdapter,
     IRichTextResolverContext,
     Link,
+    RichTextContentType,
     richTextResolver,
     urlSlugResolver,
 } from '../../../lib';
-import { RichTextContentType } from '../../../lib/enums';
 
 class ActorMock extends ContentItem {
     firstName!: Elements.TextElement;

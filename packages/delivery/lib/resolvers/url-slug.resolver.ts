@@ -1,5 +1,4 @@
-import { IContentItem, ILinkResolverResult } from '../interfaces';
-import { ItemLinkResolver, Link } from '../models';
+import { IContentItem, ILinkResolverResult, ItemLinkResolver, Link } from '../models';
 
 export class UrlSlugResolver {
   resolveUrl(data: {

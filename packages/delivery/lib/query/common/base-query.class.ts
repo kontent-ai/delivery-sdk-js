@@ -2,8 +2,7 @@ import { IHeader, IQueryParameter } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ICloudResponse, IQueryConfig } from '../../interfaces';
-import { Parameters } from '../../models';
+import { ICloudResponse, IQueryConfig, Parameters } from '../../models';
 import { QueryService } from '../../services';
 
 export abstract class BaseQuery<TResponse extends ICloudResponse> {

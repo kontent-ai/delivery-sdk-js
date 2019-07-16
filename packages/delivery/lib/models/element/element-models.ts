@@ -1,4 +1,25 @@
-import { GenericElementOption } from './generic-element-option.class';
+import { IQueryConfig } from '../common/common-models';
+
+export interface IElementQueryConfig extends IQueryConfig {
+    /**
+     * No dedicated properties required at this moment
+     */
+}
+
+export class GenericElementOption {
+    constructor(
+        /**
+         * Name of the option
+         */
+        public name: string,
+
+        /**
+         * Value of the option
+         */
+        public codename: string
+    ) { }
+}
+
 
 export class GenericElement {
 
@@ -44,3 +65,4 @@ export class GenericElement {
         Object.assign(this, data);
     }
 }
+

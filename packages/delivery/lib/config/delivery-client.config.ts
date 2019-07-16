@@ -1,8 +1,7 @@
 import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService } from 'kentico-cloud-core';
 
 import { ElementResolver } from '../elements';
-import { IProxyUrlData, IQueryConfig } from '../interfaces';
-import { ElementCollisionResolver, TypeResolver } from '../models';
+import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, TypeResolver } from '../models';
 
 export interface IDeliveryClientConfig {
 
