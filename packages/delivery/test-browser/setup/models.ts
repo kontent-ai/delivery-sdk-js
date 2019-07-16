@@ -21,7 +21,7 @@ export class Actor extends ContentItem {
 
   constructor() {
     super({
-      richTextResolver: (item, context) => {
+      richTextResolver: (item: Actor, context) => {
         return `<p>${item.firstName.value}</p>`;
       },
       linkResolver: (link: Link) => {
