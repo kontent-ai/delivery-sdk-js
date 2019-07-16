@@ -15,18 +15,18 @@ import {
   TypeResponses,
 } from '../models';
 import { ISDKInfo } from '../models/common/common-models';
-import { IRichTextHtmlParser } from '../parser';
 import { BaseDeliveryQueryService } from './base-delivery-query.service';
+import { IMappingService } from './mapping.service';
 
 export class QueryService extends BaseDeliveryQueryService {
 
   constructor(
     config: IDeliveryClientConfig,
     httpService: IHttpService,
-    richTextHtmlParser: IRichTextHtmlParser,
-    sdkInfo: ISDKInfo
+    sdkInfo: ISDKInfo,
+    mappingService: IMappingService
   ) {
-    super(config, httpService, richTextHtmlParser, sdkInfo);
+    super(config, httpService, sdkInfo, mappingService);
   }
 
   /**
@@ -40,7 +40,7 @@ export class QueryService extends BaseDeliveryQueryService {
   ): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
     return this.getResponse<ItemContracts.IItemResponseContract>(url, queryConfig).pipe(
       map(response => {
-        return this.responseMapper.mapSingleResponse<TItem>(
+        return this.mappingService.mapSingleResponse<TItem>(
           response,
           queryConfig
         );
@@ -59,7 +59,7 @@ export class QueryService extends BaseDeliveryQueryService {
   ): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
     return this.getResponse<ItemContracts.IItemsResponseContract>(url, queryConfig).pipe(
       map(response => {
-        return this.responseMapper.mapMultipleResponse<TItem>(
+        return this.mappingService.mapMultipleResponse<TItem>(
           response,
           queryConfig
         );
@@ -78,7 +78,7 @@ export class QueryService extends BaseDeliveryQueryService {
   ): Observable<TypeResponses.DeliveryTypeResponse> {
     return this.getResponse<TypeContracts.ITypeResponseContract>(url, queryConfig).pipe(
       map(response => {
-        return this.responseMapper.mapSingleTypeResponse(response);
+        return this.mappingService.mapSingleTypeResponse(response);
       })
     );
   }
@@ -94,7 +94,7 @@ export class QueryService extends BaseDeliveryQueryService {
   ): Observable<TypeResponses.DeliveryTypeListingResponse> {
     return this.getResponse<TypeContracts.ITypesResponseContract>(url, queryConfig).pipe(
       map(response => {
-        return this.responseMapper.mapMultipleTypeResponse(response);
+        return this.mappingService.mapMultipleTypeResponse(response);
       })
     );
   }
@@ -110,7 +110,7 @@ export class QueryService extends BaseDeliveryQueryService {
   ): Observable<TaxonomyResponses.TaxonomyResponse> {
     return this.getResponse<TaxonomyContracts.ITaxonomyResponseContract>(url, queryConfig).pipe(
       map(response => {
-        return this.responseMapper.mapTaxonomyResponse(response);
+        return this.mappingService.mapTaxonomyResponse(response);
       })
     );
   }
@@ -126,7 +126,7 @@ export class QueryService extends BaseDeliveryQueryService {
   ): Observable<TaxonomyResponses.TaxonomiesResponse> {
     return this.getResponse<TaxonomyContracts.ITaxonomiesResponseContract>(url, queryConfig).pipe(
       map(response => {
-        return this.responseMapper.mapTaxonomiesResponse(response);
+        return this.mappingService.mapTaxonomiesResponse(response);
       })
     );
   }
@@ -142,10 +142,9 @@ export class QueryService extends BaseDeliveryQueryService {
   ): Observable<ElementResponses.ElementResponse> {
     return this.getResponse<ElementContracts.IElementResponseContract>(url, queryConfig).pipe(
       map(response => {
-        return this.responseMapper.mapElementResponse(response);
+        return this.mappingService.mapElementResponse(response);
       })
     );
   }
-
 
 }

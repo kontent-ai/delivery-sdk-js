@@ -10,14 +10,17 @@ import {
   SingleItemQuery,
   SingleTypeQuery,
   TaxonomiesQuery,
-  TaxonomyQuery
+  TaxonomyQuery,
 } from '../query';
 import { sdkInfo } from '../sdk-info.generated';
-import { QueryService } from '../services';
+import { IMappingService, MappingService, QueryService } from '../services';
 import { IDeliveryClient } from './idelivery-client.interface';
 
 export class DeliveryClient implements IDeliveryClient {
+
   private queryService: QueryService;
+
+  public mappingService: IMappingService;
 
   /**
    * Delivery client used to fetch data from Kentico Cloud
@@ -29,18 +32,20 @@ export class DeliveryClient implements IDeliveryClient {
       throw Error(`Please provide client configuration`);
     }
 
+    this.mappingService = new MappingService(config, getParserAdapter());
+
     this.queryService = new QueryService(
       config,
       config.httpService ? config.httpService : new HttpService({
         requestInterceptor: config.httpInterceptors && config.httpInterceptors.requestInterceptor ? config.httpInterceptors.requestInterceptor : undefined,
         responseInterceptor: config.httpInterceptors && config.httpInterceptors.responseInterceptor ? config.httpInterceptors.responseInterceptor : undefined,
       }),
-      getParserAdapter(),
       {
         host: sdkInfo.host,
         name: sdkInfo.name,
         version: sdkInfo.version
-      }
+      },
+      this.mappingService
     );
   }
 
