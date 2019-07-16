@@ -1,4 +1,3 @@
-
 import { ItemContracts } from '../../data-contracts/item-contracts';
 import { IQueryConfig } from '../common/common-models';
 import {
@@ -8,6 +7,7 @@ import {
     ItemRichTextResolver,
     RichTextImageResolver,
 } from './item-resolvers';
+
 
 export interface IContentItemSystemAttributes {
     /**
@@ -46,12 +46,17 @@ export interface IContentItemSystemAttributes {
     sitemapLocations: string[];
 }
 
+/**
+ * Indexer is defined as 'any' because models can contain custom methods, different field types, linked items ...
+ */
+export type ContentItemIndexer = any;
+
 export interface IContentItem {
 
     /**
     * Indexer
     */
-    [key: string]: any;
+    [key: string]: ContentItemIndexer;
 
     /**
      * Content item system elements
@@ -61,23 +66,12 @@ export interface IContentItem {
     /**
      * Debug data of the item
      */
-    debug: IContentItemDebugData;
+    _debug: IContentItemDebugData;
 
     /**
-    * Function used to bind elements returned from Kentico Cloud to a model property.
-    * Common use is to bind e.g. 'FirstName' element from Kentico Cloud response to 'firstName' element in model
+     * Content item configuration
      */
-    propertyResolver?: ItemPropertyResolver;
-
-    /**
-     * Function used to resolve links or URL slug elements
-     */
-    linkResolver?: ItemLinkResolver;
-
-    /**
-    * Function used to resolve linked items in rich text elements to HTML
-    */
-    richTextResolver?: ItemRichTextResolver;
+    _config?: IContentItemConfig;
 }
 
 export class ContentItem implements IContentItem {
@@ -85,12 +79,7 @@ export class ContentItem implements IContentItem {
     /**
      * Indexer
      */
-    [key: string]: any;
-
-    /**
-     * Debug data of the item
-     */
-    public debug!: IContentItemDebugData;
+    [key: string]: ContentItemIndexer;
 
     /**
      * Content item system elements
@@ -98,45 +87,21 @@ export class ContentItem implements IContentItem {
     public system!: ContentItemSystemAttributes;
 
     /**
-    * Function used to bind elements returned from Kentico Cloud to a model property.
-    * Common use is to bind e.g. 'FirstName' element from Kentico Cloud response to 'firstName' element in model
+     * Debug data of the item
      */
-    public propertyResolver?: ItemPropertyResolver;
+    public _debug!: IContentItemDebugData;
 
     /**
-     * Function used to resolve links or URL slug elements
+     * configuration
      */
-    public linkResolver?: ItemLinkResolver;
-
-    /**
-    * Function used to resolve linked items in rich text elements to HTML
-    */
-    public richTextResolver?: ItemRichTextResolver;
+    public _config?: IContentItemConfig;
 
     /**
     * Base class representing content item type. All content type models need to extend this class.
     * @constructor
     */
-    constructor(data?: {
-        /**
-         * Function used to bind elements returned from Kentico Cloud to a model property.
-         * Common use is to bind e.g. 'FirstName' element from Kentico Cloud response to 'firstName' element in model
-         */
-        propertyResolver?: ItemPropertyResolver;
-
-        /**
-         *  Function used to resolve links or URL slug elements
-         */
-        linkResolver?: ItemLinkResolver,
-
-        /**
-         * Function used to resolve linked items in rich text elements to HTML
-         */
-        richTextResolver?: ItemRichTextResolver
-    }) {
-        if (data) {
-            Object.assign(this, data);
-        }
+    constructor(config?: IContentItemConfig) {
+        this._config = config;
     }
 }
 
@@ -226,7 +191,6 @@ export class Link {
     }
 }
 
-
 export interface IContentItemsContainer<TItem extends IContentItem = IContentItem> {
     [key: string]: TItem;
 }
@@ -264,7 +228,7 @@ export interface ITypeResolverData {
 export interface IItemQueryConfig extends IQueryConfig {
     throwErrorForMissingLinkedItems?: boolean;
     linkResolver?: ItemLinkResolver;
-    richTextResolver?: ItemRichTextResolver;
+    richTextResolver?: ItemRichTextResolver<IContentItem>;
     itemResolver?: ItemResolver;
     richTextImageResolver?: RichTextImageResolver;
 }
@@ -294,6 +258,20 @@ export enum RichTextContentType {
     Item = 'item',
 }
 
+export interface IContentItemConfig {
+    /**
+    * Function used to bind elements returned from Kentico Cloud to a model property.
+    * Common use is to bind e.g. 'FirstName' element from Kentico Cloud response to 'firstName' element in model
+    */
+    propertyResolver?: ItemPropertyResolver;
 
+    /**
+     *  Function used to resolve links or URL slug elements
+     */
+    linkResolver?: ItemLinkResolver;
 
-
+    /**
+     * Function used to resolve linked items in rich text elements to HTML
+     */
+    richTextResolver?: ItemRichTextResolver<any>;
+}

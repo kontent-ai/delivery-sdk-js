@@ -117,7 +117,7 @@ describe('Item resolver', () => {
 
         for (const star of response.item.stars) {
 
-            expect(star.debug.rawElements).toBeDefined();
+            expect(star._debug.rawElements).toBeDefined();
             expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));
 
             expect(star).toEqual(jasmine.any(Actor));

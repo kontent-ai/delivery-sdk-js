@@ -38,7 +38,7 @@ export class ElementMapper {
      * Maps all element in given content item and returns strongly typed content item based on the resolver specified
      * in DeliveryClientConfig
      */
-    mapElements<TItem extends IContentItem = IContentItem>(data: {
+    mapElements<TItem extends IContentItem>(data: {
         item: ItemContracts.IContentItemContract,
         modularContent: ItemContracts.IModularContentWrapperContract,
         queryConfig: IItemQueryConfig,
@@ -369,8 +369,8 @@ export class ElementMapper {
 
         if (queryConfig.linkResolver) {
             linkResolver = queryConfig.linkResolver;
-        } else {
-            linkResolver = item.linkResolver;
+        } else if (item._config && item._config.linkResolver) {
+            linkResolver = item._config.linkResolver;
         }
 
         return linkResolver;
@@ -515,8 +515,8 @@ export class ElementMapper {
         let resolvedElementPropertyName: string | undefined = undefined;
 
         // resolve using property resolver
-        if (item.propertyResolver) {
-            resolvedElementPropertyName = item.propertyResolver(originalElementCodename);
+        if (item._config && item._config.propertyResolver) {
+            resolvedElementPropertyName = item._config.propertyResolver(originalElementCodename);
         }
 
         // if property hasn't been resolved, try getting name using decorator

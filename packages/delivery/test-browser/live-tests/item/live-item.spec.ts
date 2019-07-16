@@ -139,10 +139,10 @@ describe('Live item', () => {
   });
 
   it(`debug property should be defiend and filled with debug data`, () => {
-    expect(response.item.debug).toBeDefined();
-    expect(response.item.debug.rawElements).toBeDefined();
+    expect(response.item._debug).toBeDefined();
+    expect(response.item._debug.rawElements).toBeDefined();
 
-    expect(response.item.debug.rawElements.title.value).toEqual(response.item.title.value);
+    expect(response.item._debug.rawElements.title.value).toEqual(response.item.title.value);
   });
 
   it(`images should be mapped in plot rich text element`, () => {

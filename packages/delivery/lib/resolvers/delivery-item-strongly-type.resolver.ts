@@ -79,7 +79,7 @@ export class DeliveryItemStronglyTypeResolver {
      */
     private assignDefaultProperties(item: IContentItem, rawItem: ItemContracts.IContentItemContract): void {
         item.system = this.mapSystemAttributes(rawItem[this.systemElementName]);
-        item.debug = {
+        item._debug = {
             rawElements: rawItem[this.elementsElementName],
         };
     }

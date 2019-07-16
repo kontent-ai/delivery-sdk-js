@@ -156,14 +156,14 @@ export class RichTextResolver {
             throw Error(`Linked item with codename '${data.itemCodename}' could not be found in response and therefore the HTML of rich text element could not be evaluated. Increasing 'depth' parameter of your query may solve this issue.`);
         }
         // get html to replace object using Rich text resolver function
-        let resolver: ItemRichTextResolver | undefined = undefined;
+        let resolver: ItemRichTextResolver<IContentItem> | undefined = undefined;
         if (data.config.queryConfig.richTextResolver) {
             // use resolved defined by query if available
             resolver = data.config.queryConfig.richTextResolver;
         } else {
             // use default resolver defined in models
-            if (linkedItem.richTextResolver) {
-                resolver = linkedItem.richTextResolver;
+            if (linkedItem._config && linkedItem._config.richTextResolver) {
+                resolver = linkedItem._config.richTextResolver;
             }
         }
 
@@ -214,9 +214,9 @@ export class RichTextResolver {
             // url was not resolved, try using global link resolver for item
             const linkedItem = data.getLinkedItem(existingLink.codename);
 
-            if (linkedItem && linkedItem.linkResolver) {
+            if (linkedItem && linkedItem._config && linkedItem._config.linkResolver) {
                 // resolve url using link resolver defined on class level
-                url = linkedItem.linkResolver(existingLink, linkContext);
+                url = linkedItem._config.linkResolver(existingLink, linkContext);
             }
         }
 
