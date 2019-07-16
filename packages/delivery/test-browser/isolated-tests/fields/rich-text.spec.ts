@@ -1,28 +1,35 @@
 import {
     ContentItem,
     ContentItemSystemAttributes,
-    Fields,
+    Elements,
     getParserAdapter,
-    IDeliveryClientConfig,
     IRichTextResolverContext,
     Link,
     richTextResolver,
-    TypeResolver,
     urlSlugResolver,
 } from '../../../lib';
 import { RichTextContentType } from '../../../lib/enums';
 
 class ActorMock extends ContentItem {
-    firstName!: Fields.TextField;
+    firstName!: Elements.TextElement;
     system!: ContentItemSystemAttributes;
-    url!: Fields.UrlSlugField;
+    url!: Elements.UrlSlugElement;
 
     constructor() {
         super();
     }
 
     setProperties(id: string, codename: string, firstName: string) {
-        this.firstName = new Fields.TextField('firstName', firstName);
+
+        this.firstName = new Elements.TextElement({
+            contentTypeSystem: {} as any,
+            propertyName: 'firstName',
+            rawElement: {
+                name: '',
+                value: firstName,
+                type: ''
+            }
+        });
         this.system = new ContentItemSystemAttributes({
             id: id,
             name: 'name',
@@ -33,32 +40,29 @@ class ActorMock extends ContentItem {
             lastModified: new Date()
         });
 
-        this.url = new Fields.UrlSlugField('name', codename, {
-            resolveLink: () => urlSlugResolver.resolveUrl({
-                fieldName: 'name',
-                type: 'type',
-                item: this,
-                linkResolver: (link: Link) => {
-                    return `/actor-rt/` + link.urlSlug;
-                },
-                enableAdvancedLogging: true,
-                fieldValue: codename
-            })
-        });
+        this.url = new Elements.UrlSlugElement({
+            contentTypeSystem: {} as any,
+            propertyName: 'urlSlugName',
+            rawElement: {
+                name: 'name',
+                value: codename,
+                type: ''
+            }
+        }, {
+                resolveLinkFunc: () => urlSlugResolver.resolveUrl({
+                    elementName: 'name',
+                    item: this,
+                    linkResolver: (link: Link) => {
+                        return `/actor-rt/` + link.urlSlug;
+                    },
+                    enableAdvancedLogging: true,
+                    elementValue: codename
+                })
+            });
     }
 }
 
-describe('RichTextField', () => {
-    // prepare config & type resolver
-    const typeResolvers: TypeResolver[] = [
-        new TypeResolver('actor', () => new ActorMock())
-    ];
-
-    const config: IDeliveryClientConfig = {
-        projectId: '',
-        typeResolvers: typeResolvers
-    };
-
+describe('RichTextElement', () => {
     // prepare linked items
     const linkedItems: ActorMock[] = [];
 
@@ -104,123 +108,147 @@ describe('RichTextField', () => {
     and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>
     `;
 
-    const field = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
-        links: links,
-        resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
-            enableAdvancedLogging: false,
+    const element = new Elements.RichTextElement({
+        contentTypeSystem: {} as any,
+        propertyName: 'resolvedName',
+        rawElement: {
+            name: 'name',
+            value: html,
+            type: ''
+        }
+    }, linkedItems.map(m => m.system.codename), {
             links: links,
-            getLinkedItem: getLinkedItem,
-            images: [],
-            richTextHtmlParser: getParserAdapter(),
-            linkedItemWrapperClasses: ['kc-wrapper-class'],
-            linkedItemWrapperTag: 'kcelem',
-            queryConfig: {
-                richTextResolver: (item: ContentItem, context) => {
-                    return `<p class="testing_richtext">${(<ActorMock>item).firstName.text}</p>`;
-                },
-                linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
-            },
-        }),
-        images: []
-    });
-
-
-    it(`checks name`, () => {
-        expect(field.name).toEqual('name');
-    });
-
-    it(`checks value`, () => {
-        expect(field.value).toEqual(html);
-    });
-
-    it(`checks that linkedItemCodenames field is mapped`, () => {
-        expect(field.linkedItemCodenames).toBeDefined();
-    });
-
-    it(`checks that html contains resolved linked item content #1`, () => {
-        const expectedHtml = `<p class="testing_richtext">Tom</p>`;
-        expect(field.getHtml()).toContain(expectedHtml);
-    });
-
-    it(`checks that html contains resolved linked item content #2`, () => {
-        const expectedHtml = `<p class="testing_richtext">Joel</p>`;
-        expect(field.getHtml()).toContain(expectedHtml);
-    });
-
-    it(`checks that html contains resolved url #1`, () => {
-        const expectedHtml = `/actor-rt/slug_for_tom`;
-        expect(field.getHtml()).toContain(expectedHtml);
-    });
-
-    it(`checks that html contains resolved url #2`, () => {
-        const expectedHtml = `/actor-rt/slug_for_joel`;
-        expect(field.getHtml()).toContain(expectedHtml);
-    });
-
-    it(`checks that html contains propper linked item wrapper`, () => {
-        const elem = `kcelem`;
-        expect(field.getHtml()).toContain(elem);
-    });
-
-    it(`checks that html contains propper linked item class`, () => {
-        const wrapperClass = `kc-wrapper-class`;
-        expect(field.getHtml()).toContain(wrapperClass);
-    });
-
-    it(`checks that links are present in rich text field`, () => {
-        expect(field.links.length).toEqual(links.length);
-    });
-
-    it(`checks that links are resolved even if the rich text resolver is not set`, () => {
-
-        const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
-            links: links,
-            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
+            resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
                 images: [],
                 richTextHtmlParser: getParserAdapter(),
                 linkedItemWrapperClasses: ['kc-wrapper-class'],
-                linkedItemWrapperTag: 'kc-item-wrapper',
+                linkedItemWrapperTag: 'kcelem',
                 queryConfig: {
-                    richTextResolver: undefined as any,
+                    richTextResolver: (item: ContentItem, context) => {
+                        return `<p class="testing_richtext">${(<ActorMock>item).firstName.value}</p>`;
+                    },
                     linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
                 },
             }),
             images: []
         });
 
+
+    it(`checks name`, () => {
+        expect(element.name).toEqual('name');
+    });
+
+    it(`checks value`, () => {
+        expect(element.value).toEqual(html);
+    });
+
+    it(`checks that linkedItemCodenames element is mapped`, () => {
+        expect(element.linkedItemCodenames).toBeDefined();
+    });
+
+    it(`checks that html contains resolved linked item content #1`, () => {
+        const expectedHtml = `<p class="testing_richtext">Tom</p>`;
+        expect(element.resolveHtml()).toContain(expectedHtml);
+    });
+
+    it(`checks that html contains resolved linked item content #2`, () => {
+        const expectedHtml = `<p class="testing_richtext">Joel</p>`;
+        expect(element.resolveHtml()).toContain(expectedHtml);
+    });
+
+    it(`checks that html contains resolved url #1`, () => {
+        const expectedHtml = `/actor-rt/slug_for_tom`;
+        expect(element.resolveHtml()).toContain(expectedHtml);
+    });
+
+    it(`checks that html contains resolved url #2`, () => {
+        const expectedHtml = `/actor-rt/slug_for_joel`;
+        expect(element.resolveHtml()).toContain(expectedHtml);
+    });
+
+    it(`checks that html contains propper linked item wrapper`, () => {
+        const elem = `kcelem`;
+        expect(element.resolveHtml()).toContain(elem);
+    });
+
+    it(`checks that html contains propper linked item class`, () => {
+        const wrapperClass = `kc-wrapper-class`;
+        expect(element.resolveHtml()).toContain(wrapperClass);
+    });
+
+    it(`checks that links are present in rich text element`, () => {
+        expect(element.links.length).toEqual(links.length);
+    });
+
+    it(`checks that links are resolved even if the rich text resolver is not set`, () => {
+
+        const elementWithoutRichTextResolver = new Elements.RichTextElement({
+            contentTypeSystem: {} as any,
+            propertyName: 'x',
+            rawElement: {
+                name: '',
+                value: html,
+                type: ''
+            }
+        }, linkedItems.map(m => m.system.codename), {
+                links: links,
+                resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                    enableAdvancedLogging: false,
+                    links: links,
+                    getLinkedItem: getLinkedItem,
+                    images: [],
+                    richTextHtmlParser: getParserAdapter(),
+                    linkedItemWrapperClasses: ['kc-wrapper-class'],
+                    linkedItemWrapperTag: 'kc-item-wrapper',
+                    queryConfig: {
+                        richTextResolver: undefined as any,
+                        linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
+                    },
+                }),
+                images: []
+            });
+
         const expectedHtml1 = `href="/actor-rt/slug_for_joel"`;
         const expectedHtml2 = `href="/actor-rt/slug_for_tom"`;
-        expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml1);
-        expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml2);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });
 
     it(`checks that rich text context is set`, () => {
         const contexts: IRichTextResolverContext[] = [];
 
-        const fieldWithRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
-            links: links,
-            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
-                enableAdvancedLogging: false,
+        const elementWithRichTextResolver = new Elements.RichTextElement({
+            contentTypeSystem: {} as any,
+            propertyName: 'x',
+            rawElement: {
+                name: '',
+                value: html,
+                type: ''
+            }
+        }, linkedItems.map(m => m.system.codename), {
                 links: links,
-                getLinkedItem: getLinkedItem,
-                images: [],
-                richTextHtmlParser: getParserAdapter(),
-                linkedItemWrapperClasses: ['kc-wrapper-class'],
-                linkedItemWrapperTag: 'kc-item-wrapper',
-                queryConfig: {
-                    richTextResolver: (item, context) => {
-                        contexts.push(context);
-                        return '';
-                    }
-                },
-            }),
-            images: []
-        });
+                resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                    enableAdvancedLogging: false,
+                    links: links,
+                    getLinkedItem: getLinkedItem,
+                    images: [],
+                    richTextHtmlParser: getParserAdapter(),
+                    linkedItemWrapperClasses: ['kc-wrapper-class'],
+                    linkedItemWrapperTag: 'kc-item-wrapper',
+                    queryConfig: {
+                        richTextResolver: (item, context) => {
+                            contexts.push(context);
+                            return '';
+                        }
+                    },
+                }),
+                images: []
+            });
 
-        fieldWithRichTextResolver.getHtml();
+        elementWithRichTextResolver.resolveHtml();
 
         expect(contexts).toBeDefined();
         expect(contexts.length).toEqual(2);
@@ -228,26 +256,34 @@ describe('RichTextField', () => {
     });
 
     it(`error should be preserved when it originates from richTextResolver`, () => {
-        const fieldWithRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
-            links: links,
-            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
-                enableAdvancedLogging: false,
+        const elementWithRichTextResolver = new Elements.RichTextElement({
+            contentTypeSystem: {} as any,
+            propertyName: 'x',
+            rawElement: {
+                name: '',
+                value: html,
+                type: ''
+            }
+        }, linkedItems.map(m => m.system.codename), {
                 links: links,
-                getLinkedItem: getLinkedItem,
-                images: [],
-                richTextHtmlParser: getParserAdapter(),
-                linkedItemWrapperClasses: ['kc-wrapper-class'],
-                linkedItemWrapperTag: 'kc-item-wrapper',
-                queryConfig: {
-                    richTextResolver: (item, context) => {
-                        throw Error(`Custom processing error`);
-                    }
-                },
-            }),
-            images: []
-        });
+                resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                    enableAdvancedLogging: false,
+                    links: links,
+                    getLinkedItem: getLinkedItem,
+                    images: [],
+                    richTextHtmlParser: getParserAdapter(),
+                    linkedItemWrapperClasses: ['kc-wrapper-class'],
+                    linkedItemWrapperTag: 'kc-item-wrapper',
+                    queryConfig: {
+                        richTextResolver: (item, context) => {
+                            throw Error(`Custom processing error`);
+                        }
+                    },
+                }),
+                images: []
+            });
 
-        expect(() => fieldWithRichTextResolver.getHtml()).toThrowError('Custom processing error');
+        expect(() => elementWithRichTextResolver.resolveHtml()).toThrowError('Custom processing error');
     });
 });
 

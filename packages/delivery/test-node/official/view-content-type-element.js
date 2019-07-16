@@ -24,7 +24,7 @@ describe('#View content type element', () => {
     });
 
     it('Response item should be of proper type', () => {
-        assert.ok(result.element instanceof KenticoCloud.Element);
+        assert.ok(result.element instanceof KenticoCloud.GenericElement);
     });
 
 });

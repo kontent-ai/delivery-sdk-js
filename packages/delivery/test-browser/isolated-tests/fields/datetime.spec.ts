@@ -1,23 +1,27 @@
-import { Fields } from '../../../lib';
+import { Elements } from '../../../lib';
 
-describe('DateTimeField', () => {
+describe('DateTimeElement', () => {
 
-    const field = new Fields.DateTimeField('name', '2014-11-18T00:00:00Z');
-
-    it(`checks name`, () => {
-        expect(field.name).toEqual('name');
+    const element = new Elements.DateTimeElement({
+        contentTypeSystem: {} as any,
+        rawElement: {
+            name: 'name',
+            type: '',
+            value: '2014-11-18T00:00:00Z'
+        },
+        propertyName: 'resolvedName'
     });
 
-      it(`checks value`, () => {
-        expect(field.value).toEqual('2014-11-18T00:00:00Z');
+    it(`checks name`, () => {
+        expect(element.name).toEqual('name');
+    });
+
+    it(`checks value`, () => {
+        expect(element.value).toEqual(new Date('2014-11-18T00:00:00Z'));
     });
 
     it(`datetime should be 'Date' type`, () => {
-        expect(field.datetime).toEqual(jasmine.any(Date));
-    });
-
-     it(`verifies datetime property has corrent date assigned`, () => {
-        expect(field.datetime).toEqual(new Date('2014-11-18T00:00:00Z'));
+        expect(element.value).toEqual(jasmine.any(Date));
     });
 });
 

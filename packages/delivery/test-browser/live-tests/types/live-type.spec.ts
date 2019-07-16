@@ -1,4 +1,4 @@
-import { TypeResponses, Element } from '../../../lib';
+import { TypeResponses, GenericElement } from '../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Live type', () => {
@@ -38,14 +38,14 @@ describe('Live type', () => {
   });
 
   it(`Verifies taxonomy element - '${taxonomyElement}'`, () => {
-    const releaseCategoryElement = response.type.elements.find(m => m.codename === taxonomyElement) as Element;
+    const releaseCategoryElement = response.type.elements.find(m => m.codename === taxonomyElement) as GenericElement;
     expect(releaseCategoryElement).toBeDefined();
     expect(releaseCategoryElement.taxonomyGroup).toBeDefined();
     expect(releaseCategoryElement.taxonomyGroup).toEqual('releasecategory');
   });
 
   it(`Verifies multiple_choice element - '${multipleChoiceElement}'`, () => {
-    const categoryElement = response.type.elements.find(m => m.codename === multipleChoiceElement) as Element;
+    const categoryElement = response.type.elements.find(m => m.codename === multipleChoiceElement) as GenericElement;
 
     expect(categoryElement).toBeDefined();
     expect(categoryElement.options).toBeDefined();

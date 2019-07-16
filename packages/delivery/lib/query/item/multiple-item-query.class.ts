@@ -35,100 +35,100 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
 
     /**
      * Equals filter condition
-     * @param field Element to filter. Example: 'elements.movie'
+     * @param element Element to filter. Example: 'elements.movie'
      * @param value Value to match. Example: 'Kingsman'
      */
-    equalsFilter(field: string, value: string): this {
-        this.parameters.push(new Filters.EqualsFilter(field, value));
+    equalsFilter(element: string, value: string): this {
+        this.parameters.push(new Filters.EqualsFilter(element, value));
         return this;
     }
 
     /**
      * All filter
-     * @param field Element to filter.
+     * @param element Element to filter.
      * @param values Values
      */
-    allFilter(field: string, values: string[]): this {
-        this.parameters.push(new Filters.AllFilter(field, values));
+    allFilter(element: string, values: string[]): this {
+        this.parameters.push(new Filters.AllFilter(element, values));
         return this;
     }
 
     /**
      * Any filter
-     * @param field Element to filter.
+     * @param element Element to filter.
      * @param values Values
      */
-    anyFilter(field: string, values: string[]): this {
-        this.parameters.push(new Filters.AnyFilter(field, values));
+    anyFilter(element: string, values: string[]): this {
+        this.parameters.push(new Filters.AnyFilter(element, values));
         return this;
     }
 
     /**
      * Contains filter
-     * @param field Element to filter.
+     * @param element Element to filter.
      * @param values Values
      */
-    containsFilter(field: string, values: string[]): this {
-        this.parameters.push(new Filters.ContainsFilter(field, values));
+    containsFilter(element: string, values: string[]): this {
+        this.parameters.push(new Filters.ContainsFilter(element, values));
         return this;
     }
 
     /**
      * Greater then filter
-     * @param field Element to filter.
+     * @param element Element to filter.
      * @param value Value
      */
-    greaterThanFilter(field: string, value: string): this {
-        this.parameters.push(new Filters.GreaterThanFilter(field, value));
+    greaterThanFilter(element: string, value: string): this {
+        this.parameters.push(new Filters.GreaterThanFilter(element, value));
         return this;
     }
 
     /**
      * Greater then or equals filter
-     * @param field Element to filter.
+     * @param element Element to filter.
      * @param value Value
      */
-    greaterThanOrEqualFilter(field: string, value: string): this {
-        this.parameters.push(new Filters.GreaterThanOrEqualFilter(field, value));
+    greaterThanOrEqualFilter(element: string, value: string): this {
+        this.parameters.push(new Filters.GreaterThanOrEqualFilter(element, value));
         return this;
     }
 
     /**
      * In filter
-     * @param field Element to filter.
+     * @param element Element to filter.
      * @param values Values
      */
-    inFilter(field: string, values: string[]): this {
-        this.parameters.push(new Filters.Infilter(field, values));
+    inFilter(element: string, values: string[]): this {
+        this.parameters.push(new Filters.Infilter(element, values));
         return this;
     }
 
     /**
      * Less then filter
-     * @param field Element to filter.
+     * @param element Element to filter.
      * @param value Value
      */
-    lessThanFilter(field: string, value: string): this {
-        this.parameters.push(new Filters.LessThanFilter(field, value));
+    lessThanFilter(element: string, value: string): this {
+        this.parameters.push(new Filters.LessThanFilter(element, value));
         return this;
     }
 
     /**
-     * @param field Element to filter.
+     * @param element Element to filter.
      * @param value Value
      */
-    lessThanOrEqualFilter(field: string, value: string): this {
-        this.parameters.push(new Filters.LessThanOrEqualFilter(field, value));
+    lessThanOrEqualFilter(element: string, value: string): this {
+        this.parameters.push(new Filters.LessThanOrEqualFilter(element, value));
         return this;
     }
 
     /**
-     * @param field Element to filter.
+     * @param element Element to filter.
      * @param lowerValue Lower value of range (e.g. 2)
      * @param higherValue Higher value of range (e.g. 10)
      */
-    rangeFilter(field: string, lowerValue: number, higherValue: number): this {
-        this.parameters.push(new Filters.RangeFilter(field, lowerValue, higherValue));
+    rangeFilter(element: string, lowerValue: number, higherValue: number): this {
+        this.parameters.push(new Filters.RangeFilter(element, lowerValue, higherValue));
         return this;
     }
 
@@ -142,30 +142,30 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
-     * Orders query based on given field and sort order
-     * @param field Element by which to order
+     * Orders query based on given element and sort order
+     * @param element Element by which to order
      * @param sortOrder Asc/Desc order type
      */
-    orderParameter(field: string, sortOrder: SortOrder): this {
-        this.parameters.push(new Parameters.OrderParameter(field, sortOrder));
+    orderParameter(element: string, sortOrder: SortOrder): this {
+        this.parameters.push(new Parameters.OrderParameter(element, sortOrder));
         return this;
     }
 
     /**
-     * Sets descending order on given field
-     * @param field Element by which to order
+     * Sets descending order on given element
+     * @param element Element by which to order
      */
-    orderByDescending(field: string): this {
-        this.parameters.push(new Parameters.OrderParameter(field, SortOrder.desc));
+    orderByDescending(element: string): this {
+        this.parameters.push(new Parameters.OrderParameter(element, SortOrder.desc));
         return this;
     }
 
       /**
-     * Sets Ascending order on given field
-     * @param field Element by which to order
+     * Sets Ascending order on given element
+     * @param element Element by which to order
      */
-    orderByAscending(field: string): this {
-        this.parameters.push(new Parameters.OrderParameter(field, SortOrder.asc));
+    orderByAscending(element: string): this {
+        this.parameters.push(new Parameters.OrderParameter(element, SortOrder.asc));
         return this;
     }
 

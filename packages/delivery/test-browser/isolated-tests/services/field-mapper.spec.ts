@@ -1,15 +1,14 @@
-import { ItemContracts } from '../../../lib';
-import { FieldContracts } from '../../../lib/fields/field-contracts';
-import { FieldType } from '../../../lib/fields/field-type';
-import { FieldMapper } from '../../../lib/mappers';
+import { ItemContracts, ElementType } from '../../../lib';
+import { ElementContracts } from '../../../lib/data-contracts';
+import { ElementMapper } from '../../../lib/mappers';
 import { Context, setup } from '../../setup';
 
-describe('FieldMapper', () => {
+describe('ElementMapper', () => {
 
-    const fieldType = 'invalid';
+    const elementType = 'invalid';
 
-    class FakeField implements FieldContracts.IFieldContract {
-        public type: FieldType = fieldType as any;
+    class FakeElement implements ElementContracts.IElementContract {
+        public type: ElementType = elementType as any;
         constructor(
             public name: string,
             public value: any
@@ -18,22 +17,22 @@ describe('FieldMapper', () => {
     }
 
     interface FakeContentItem extends ItemContracts.IContentItemContract {
-        testField?: FakeField;
+        testElement?: FakeElement;
         elements: any;
     }
 
     const context = new Context();
     setup(context);
 
-    const fieldMapper = new FieldMapper(context.getConfig(), context.richTextHtmlParser as any);
+    const elementMapper = new ElementMapper(context.getConfig(), context.richTextHtmlParser as any);
 
-    it(`should log warning to console an Error when unsupported field type is used`, () => {
+    it(`should log warning to console an Error when unsupported element type is used`, () => {
         console.warn = jasmine.createSpy('warn');
 
-        const fakeField = new FakeField('testField', 'testValue');
+        const fakeElement = new FakeElement('testElement', 'testValue');
 
         const item: FakeContentItem = {
-            elements: { 'testField': fakeField },
+            elements: { 'testElement': fakeElement },
             system: {
                 type: 'movie',
                 codename: 'cd',
@@ -45,7 +44,7 @@ describe('FieldMapper', () => {
             }
         };
 
-        fieldMapper.mapFields({
+        elementMapper.mapElements({
             item: item,
             modularContent: {},
             preparedItems: {},

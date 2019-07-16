@@ -3,7 +3,7 @@ export * from './client';
 export * from './sdk-info.generated';
 export * from './config';
 export * from './data-contracts';
-export * from './fields';
+export * from './elements';
 export * from './parser';
 export * from './resolvers';
 export * from './services';

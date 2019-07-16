@@ -1,9 +1,9 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { IContentItem, IItemQueryConfig } from '../interfaces';
-import { FieldMapper } from '../mappers';
 import { IContentItemsContainer } from '../models';
 import { IRichTextHtmlParser } from '../parser';
+import { ElementMapper } from './element.mapper';
 
 export interface MapItemResult<TItem extends IContentItem = IContentItem> {
     item: TItem;
@@ -21,13 +21,13 @@ export interface MapItemsResult<TItem extends IContentItem = IContentItem> {
 
 export class ItemMapper {
 
-    private readonly fieldMapper: FieldMapper;
+    private readonly elementMapper: ElementMapper;
 
     constructor(
         readonly config: IDeliveryClientConfig,
         readonly richTextHtmlParser: IRichTextHtmlParser
     ) {
-        this.fieldMapper = new FieldMapper(config, richTextHtmlParser);
+        this.elementMapper = new ElementMapper(config, richTextHtmlParser);
     }
 
     /**
@@ -91,7 +91,7 @@ export class ItemMapper {
             throw Error(`Could not map item because its undefined`);
         }
 
-        const result = this.fieldMapper.mapFields<TItem>({
+        const result = this.elementMapper.mapElements<TItem>({
             item: data.item,
             modularContent: data.modularContent,
             preparedItems: <IContentItemsContainer>{},

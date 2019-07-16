@@ -1,19 +1,23 @@
-import { Fields } from '../../../lib';
+import { Elements } from '../../../lib';
 
-describe('TextField', () => {
+describe('TextElement', () => {
 
-    const field = new Fields.TextField('name', 'text value');
-
-    it(`checks name`, () => {
-        expect(field.name).toEqual('name');
+    const element = new Elements.TextElement({
+        contentTypeSystem: {} as any,
+        rawElement: {
+            name: 'name',
+            type: '',
+            value: 'text value'
+        },
+        propertyName: 'resolvedName'
     });
 
-    it(`checks value`, () => {
-        expect(field.value).toEqual('text value');
+    it(`checks name`, () => {
+        expect(element.name).toEqual('name');
     });
 
     it(`checks text`, () => {
-        expect(field.text).toEqual('text value');
+        expect(element.value).toEqual('text value');
     });
 });
 

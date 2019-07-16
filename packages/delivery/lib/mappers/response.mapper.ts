@@ -5,7 +5,7 @@ import { ElementContracts, ItemContracts, TaxonomyContracts, TypeContracts } fro
 import { ICloudResponseDebug, IContentItem, IItemQueryConfig } from '../interfaces';
 import { ElementResponses, ItemResponses, Pagination, TaxonomyResponses, TypeResponses } from '../models';
 import { IRichTextHtmlParser } from '../parser';
-import { ElementMapper } from './element.mapper';
+import { GenericElementMapper } from './generic-element.mapper';
 import { ItemMapper } from './item.mapper';
 import { TaxonomyMapper } from './taxonomy.mapper';
 import { TypeMapper } from './type.mapper';
@@ -14,7 +14,7 @@ export class ResponseMapper {
   private readonly typeMapper: TypeMapper;
   private readonly itemMapper: ItemMapper;
   private readonly taxonomyMapper: TaxonomyMapper;
-  private readonly elementMapper: ElementMapper;
+  private readonly genericElementMapper: GenericElementMapper;
 
   constructor(
     readonly config: IDeliveryClientConfig,
@@ -23,7 +23,7 @@ export class ResponseMapper {
     this.typeMapper = new TypeMapper();
     this.itemMapper = new ItemMapper(config, richTextHtmlParser);
     this.taxonomyMapper = new TaxonomyMapper();
-    this.elementMapper = new ElementMapper();
+    this.genericElementMapper = new GenericElementMapper();
   }
 
   /**
@@ -182,7 +182,7 @@ export class ResponseMapper {
   ): ElementResponses.ElementResponse {
 
     // map element
-    const element = this.elementMapper.mapElement(response.data);
+    const element = this.genericElementMapper.mapElement(response.data);
 
     return new ElementResponses.ElementResponse(
       element,

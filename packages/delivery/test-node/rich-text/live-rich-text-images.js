@@ -8,7 +8,7 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
     typeResolvers: [],
 });
 
-describe('#Rich text field with images', () => {
+describe('#Rich text element with images', () => {
 
     let plot; 
     let item;
@@ -16,7 +16,7 @@ describe('#Rich text field with images', () => {
     before((done) => {
         deliveryClient.item(movieCodename)
         .queryConfig({
-            richTextImageResolver: (image, fieldName) => {
+            richTextImageResolver: (image, elementName) => {
               var newUrl = new KenticoCloud.ImageUrlBuilder(image.url)
                 .withCustomParam('xParam', 'xValue')
                 .getUrl();
@@ -29,7 +29,7 @@ describe('#Rich text field with images', () => {
         .toObservable()
             .subscribe(response => {
                 item = response.item;
-                plot = response.item.plot.getHtml();
+                plot = response.item.plot.resolveHtml();
                 done();
             });
     });

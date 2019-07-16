@@ -1,8 +1,8 @@
 import {
   ContentItem,
   ElementResponses,
-  FieldDecorators,
-  Fields,
+  ElementDecorators,
+  Elements,
   ItemResponses,
   Link,
   TaxonomyResponses,
@@ -11,18 +11,18 @@ import {
 
 export class Actor extends ContentItem {
 
-  @FieldDecorators.codename('first_name')
-  public firstName!: Fields.TextField;
+  @ElementDecorators.codename('first_name')
+  public firstName!: Elements.TextElement;
 
-  @FieldDecorators.codename('last_name')
-  public lastName!: Fields.TextField;
+  @ElementDecorators.codename('last_name')
+  public lastName!: Elements.TextElement;
 
-  public photo!: Fields.AssetsField;
+  public photo!: Elements.AssetsElement;
 
   constructor() {
     super({
       richTextResolver: (item, context) => {
-        return `<p>${item.firstName.text}</p>`;
+        return `<p>${item.firstName.value}</p>`;
       },
       linkResolver: (link: Link) => {
         return '/actor/' + link.urlSlug;
@@ -31,31 +31,31 @@ export class Actor extends ContentItem {
   }
 
   public getFullName(): string {
-    return `${this.firstName.text} ${this.lastName.text}`;
+    return `${this.firstName.value} ${this.lastName.value}`;
   }
 }
 
 export class Movie extends ContentItem {
-  public title!: Fields.TextField;
-  public plot!: Fields.RichTextField;
-  public released!: Fields.DateTimeField;
-  public length!: Fields.NumberField;
-  public poster!: Fields.AssetsField;
-  public category!: Fields.MultipleChoiceField;
+  public title!: Elements.TextElement;
+  public plot!: Elements.RichTextElement;
+  public released!: Elements.DateTimeElement;
+  public length!: Elements.NumberElement;
+  public poster!: Elements.AssetsElement;
+  public category!: Elements.MultipleChoiceElement;
   public stars!: Actor[];
-  public seoname!: Fields.UrlSlugField;
-  public releaseCategory!: Fields.TaxonomyField;
+  public seoname!: Elements.UrlSlugElement;
+  public releaseCategory!: Elements.TaxonomyElement;
 
   constructor() {
     super({
-      propertyResolver: (fieldName) => {
-        if (fieldName === 'releasecategory') {
+      propertyResolver: (elementName) => {
+        if (elementName === 'releasecategory') {
           return 'releaseCategory';
         }
-        return fieldName;
+        return elementName;
       },
       richTextResolver: (item, context) => {
-        return `<p>${item.title.text}</p>`;
+        return `<p>${item.title.value}</p>`;
       },
       linkResolver: (link: Link) => {
         return 'testSlugUrl/' + link.urlSlug;

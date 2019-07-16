@@ -1,7 +1,7 @@
 import {
     ContentItem,
     ContentItemSystemAttributes,
-    Fields,
+    Elements,
     IDeliveryClientConfig,
     Link,
     richTextResolver,
@@ -12,16 +12,25 @@ import {
 } from '../../../lib';
 
 class ActorMock extends ContentItem {
-    firstName!: Fields.TextField;
+    firstName!: Elements.TextElement;
     system!: ContentItemSystemAttributes;
-    url!: Fields.UrlSlugField;
+    url!: Elements.UrlSlugElement;
 
     constructor() {
         super();
     }
 
     setProperties(id: string, codename: string, firstName: string) {
-        this.firstName = new Fields.TextField('firstName', firstName);
+        this.firstName = new Elements.TextElement({
+            contentTypeSystem: {} as any,
+            propertyName: 'firstName',
+            rawElement: {
+                name: '',
+                value: firstName,
+                type: ''
+            }
+        });
+
         this.system = new ContentItemSystemAttributes({
             id: id,
             name: 'name',
@@ -32,32 +41,29 @@ class ActorMock extends ContentItem {
             lastModified: new Date()
         });
 
-        this.url = new Fields.UrlSlugField('name', codename, {
-            resolveLink: () => urlSlugResolver.resolveUrl({
-                fieldName: 'name',
-                type: 'type',
+        this.url = new Elements.UrlSlugElement({
+            contentTypeSystem: {} as any,
+            propertyName: 'urlSlugName',
+            rawElement: {
+                name: '',
+                value: codename,
+                type: ''
+            }
+        }, {
+            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
+                elementName: 'name',
                 item: this,
                 linkResolver: (link: Link) => <ILinkResolverResult>{
                     asHtml: `<test>${link.urlSlug}</test>`,
                 },
                 enableAdvancedLogging: true,
-                fieldValue: codename
+                elementValue: codename
             })
-        });
+            });
     }
 }
 
-describe('RichTextField with Html links', () => {
-    // prepare config & type resolver
-    const typeResolvers: TypeResolver[] = [
-        new TypeResolver('actor', () => new ActorMock())
-    ];
-
-    const config: IDeliveryClientConfig = {
-        projectId: '',
-        typeResolvers: typeResolvers
-    };
-
+describe('RichTextElement with Html links', () => {
     // prepare linked items
     const linkedItems: ActorMock[] = [];
 
@@ -102,9 +108,17 @@ describe('RichTextField with Html links', () => {
 
     it(`checks that links are resolved as HTML`, () => {
 
-        const fieldWithoutRichTextResolver = new Fields.RichTextField('name', html, linkedItems.map(m => m.system.codename), {
+        const elementWithoutRichTextResolver = new Elements.RichTextElement({
+            contentTypeSystem: {} as any,
+            propertyName: 'x',
+            rawElement: {
+                name: 'x',
+                type: '',
+                value: html
+            }
+        }, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtml: () => richTextResolver.resolveHtml('', html, 'name', {
+            resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
@@ -124,8 +138,8 @@ describe('RichTextField with Html links', () => {
 
         const expectedHtml1 = `${beforeLinkText}<test>slug_for_joel</test>${afterLinkText}`;
         const expectedHtml2 = `${beforeLinkText}<test>slug_for_tom</test>${afterLinkText}`;
-        expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml1);
-        expect(fieldWithoutRichTextResolver.getHtml()).toContain(expectedHtml2);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });
 });
 

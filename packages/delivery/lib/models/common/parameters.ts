@@ -113,17 +113,17 @@ export namespace Parameters {
     export class OrderParameter implements IQueryParameter {
 
         /**
-        * Sorts the response based on given field.
+        * Sorts the response based on given element.
         * @constructor
-        * @param {string} field - Field that will be used for sorting (can be both elements.<fieldname> or system.<fieldname>)
+        * @param {string} element - Element that will be used for sorting (can be both elements.<elementname> or system.<elementname>)
         * @param {SortOrder} sortOrder - Order type (desc/asc). Defaults to 'asc' if SortOrder is null or invalid.
         */
         constructor(
-            public field: string,
+            public element: string,
             public sortOrder: SortOrder
         ) {
-            if (!field) {
-                throw Error(`Field specified in 'OrderParameter' is null or empty`);
+            if (!element) {
+                throw Error(`Element specified in 'OrderParameter' is null or empty`);
             }
         }
 
@@ -138,7 +138,7 @@ export namespace Parameters {
             } else {
                 order = 'asc';
             }
-            return `${this.field.trim()}[${order}]`;
+            return `${this.element.trim()}[${order}]`;
         }
     }
 

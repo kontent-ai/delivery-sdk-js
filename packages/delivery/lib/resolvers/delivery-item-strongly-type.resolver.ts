@@ -6,8 +6,8 @@ import { TypeResolver } from '../models/item/type-resolver.class';
 
 export class DeliveryItemStronglyTypeResolver {
 
-    private readonly systemFieldName = 'system';
-    private readonly elementsFieldName = 'elements';
+    private readonly systemElementName = 'system';
+    private readonly elementsElementName = 'elements';
 
     /**
      * Creates item instance using either TypeResolver (if registered) or returns ContentItem
@@ -80,9 +80,9 @@ export class DeliveryItemStronglyTypeResolver {
      * @param rawItem Raw content item from response
      */
     private assignDefaultProperties(item: IContentItem, rawItem: ItemContracts.IContentItemContract): void {
-        item.system = this.mapSystemAttributes(rawItem[this.systemFieldName]);
+        item.system = this.mapSystemAttributes(rawItem[this.systemElementName]);
         item.debug = {
-            rawElements: rawItem[this.elementsFieldName],
+            rawElements: rawItem[this.elementsElementName],
         };
     }
 

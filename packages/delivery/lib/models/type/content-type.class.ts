@@ -1,5 +1,5 @@
 import { ContentTypeSystemAttributes } from './content-type-system-attributes.class';
-import { Element } from '../element/element.class';
+import { GenericElement } from '../element/generic-element.class';
 
 export class ContentType {
 
@@ -9,14 +9,14 @@ export class ContentType {
     public system!: ContentTypeSystemAttributes;
 
     /**
-    * Elements (fields) assigned to content type
+    * Elements (elements) assigned to content type
     */
-    public elements!: Element[];
+    public elements!: GenericElement[];
 
     constructor(
         data: {
             system: ContentTypeSystemAttributes,
-            elements: Element[]
+            elements: GenericElement[]
         }
     ) {
         Object.assign(this, data);

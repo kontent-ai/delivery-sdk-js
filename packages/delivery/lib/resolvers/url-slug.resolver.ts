@@ -3,9 +3,8 @@ import { ItemLinkResolver, Link } from '../models';
 
 export class UrlSlugResolver {
   resolveUrl(data: {
-    type: string;
-    fieldValue: string;
-    fieldName: string;
+    elementValue: string;
+    elementName: string;
     item: IContentItem;
     linkResolver: ItemLinkResolver | undefined;
     enableAdvancedLogging: boolean;
@@ -22,9 +21,9 @@ export class UrlSlugResolver {
     if (!data.item) {
       if (data.enableAdvancedLogging) {
         console.warn(
-          `Cannot resolve link for field '${
-          data.fieldName
-          }' because no item was provided to URL slug field (item may be missing from response). This warning can be turned off by disabling 'enableAdvancedLogging' option.`
+          `Cannot resolve link for element '${
+          data.elementName
+          }' because no item was provided to URL slug element (item may be missing from response). This warning can be turned off by disabling 'enableAdvancedLogging' option.`
         );
       }
       return undefined;
@@ -32,12 +31,12 @@ export class UrlSlugResolver {
 
     const url = data.linkResolver(
       new Link({
-        urlSlug: data.fieldValue,
-        type: data.type,
+        urlSlug: data.elementValue,
+        type: data.item.system.type,
         codename: data.item.system.codename,
         linkId: data.item.system.id,
       }), {
-        linkText: undefined // link text is available only for links inside rich text field
+        linkText: undefined // link text is available only for links inside rich text element
       }
     );
 
@@ -47,8 +46,8 @@ export class UrlSlugResolver {
           `'linkResolver' is configured, but url resolved for '${
           data.item.system.codename
           }' item of '${data.item.system.type}' type inside '${
-          data.fieldName
-          }' field resolved to an undefined url. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
+          data.elementName
+          }' element resolved to an undefined url. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
         );
       }
       return undefined;

@@ -1,6 +1,6 @@
 import { HttpService } from 'kentico-cloud-core';
 
-import { ContentItem, Fields, ILinkResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, Elements, ILinkResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 describe('Rich text resolver', () => {
@@ -9,16 +9,16 @@ describe('Rich text resolver', () => {
     const globalLinkContexts: { [s: string]: ILinkResolverContext } = {};
 
     class MockMovie extends ContentItem {
-        public plot!: Fields.RichTextField;
+        public plot!: Elements.RichTextElement;
     }
 
     class MockActor extends ContentItem {
-        public first_name!: Fields.TextField;
+        public first_name!: Elements.TextElement;
 
         constructor() {
             super({
                 richTextResolver: (item, richTextContext) => {
-                    return `<h1>${(<MockActor>item).first_name.text}</h1>`;
+                    return `<h1>${(<MockActor>item).first_name.value}</h1>`;
                 },
                 linkResolver: (link, linkContext) => {
                     globalLinkContexts[link.codename] = linkContext;
@@ -53,7 +53,7 @@ describe('Rich text resolver', () => {
 
         responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {
             richTextResolver: (item, richTextContext) => {
-                return `<h2>${(<MockActor>item).first_name.text}</h2>`;
+                return `<h2>${(<MockActor>item).first_name.value}</h2>`;
             },
             linkResolver: (link, linkContext) => {
                 localLinkContexts[link.codename] = linkContext;
@@ -61,8 +61,8 @@ describe('Rich text resolver', () => {
             }
         });
 
-        globalPlot = response.item.plot.getHtml();
-        localPlot = responseWithQueryConfig.item.plot.getHtml();
+        globalPlot = response.item.plot.resolveHtml();
+        localPlot = responseWithQueryConfig.item.plot.resolveHtml();
         done();
     });
 

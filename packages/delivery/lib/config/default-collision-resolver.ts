@@ -1,3 +1,3 @@
-import { ItemFieldCollisionResolver } from '../models/item/item-resolvers';
+import { ElementCollisionResolver } from '../models/item/item-resolvers';
 
-export const defaultCollissionResolver: ItemFieldCollisionResolver = (fieldName) => `_${fieldName}`;
+export const defaultCollissionResolver: ElementCollisionResolver = (elementName) => `_${elementName}`;

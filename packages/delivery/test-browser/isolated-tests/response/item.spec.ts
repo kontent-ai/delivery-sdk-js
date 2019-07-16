@@ -48,27 +48,27 @@ describe('Verifies mapping of delivery content item', () => {
         expect(response.item.system.sitemapLocations).toEqual(locations);
     });
 
-    it(`checks taxonomy field`, () => {
-        expect(response.item.releaseCategory.taxonomyTerms[0].codename).toEqual('global_release');
+    it(`checks taxonomy element`, () => {
+        expect(response.item.releaseCategory.value[0].codename).toEqual('global_release');
     });
 
-    it(`checks text field`, () => {
-        expect(response.item.title.text).toEqual('Warrior');
+    it(`checks text element`, () => {
+        expect(response.item.title.value).toEqual('Warrior');
     });
 
-    it(`checks datetime field`, () => {
-        expect(response.item.released.datetime).toEqual(new Date('2011-09-09T00:00:00Z'));
+    it(`checks datetime element`, () => {
+        expect(response.item.released.value).toEqual(new Date('2011-09-09T00:00:00Z'));
     });
 
-    it(`checks Nunmber field`, () => {
-        expect(response.item.length.number).toEqual(151);
+    it(`checks number element`, () => {
+        expect(response.item.length.value).toEqual(151);
     });
 
-    it(`checks url slug field`, () => {
-        expect(response.item.seoname.getUrl()).toEqual('testSlugUrl/warrior');
+    it(`checks url slug element`, () => {
+        expect(response.item.seoname.resolveUrl()).toEqual('testSlugUrl/warrior');
     });
 
-    it(`checks assets field`, () => {
+    it(`checks assets element`, () => {
         expect(response.item.stars.length).toEqual(2);
     });
 
@@ -84,12 +84,12 @@ describe('Verifies mapping of delivery content item', () => {
         expect(response.item.stars[0]).toEqual(jasmine.any(Actor));
     });
 
-    it(`checks that text field in first linked item is set`, () => {
-        expect(response.item.stars[0].firstName.text).toEqual('Tom');
+    it(`checks that text element in first linked item is set`, () => {
+        expect(response.item.stars[0].firstName.value).toEqual('Tom');
     });
 
-    it(`checks that text field in second linked item is set`, () => {
-        expect(response.item.stars[1].firstName.text).toEqual('Joel');
+    it(`checks that text element in second linked item is set`, () => {
+        expect(response.item.stars[1].firstName.value).toEqual('Joel');
     });
 });
 

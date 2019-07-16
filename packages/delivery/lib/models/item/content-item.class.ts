@@ -20,18 +20,18 @@ export class ContentItem implements IContentItem {
     public system!: ContentItemSystemAttributes;
 
     /**
-    * Function used to bind fields returned from Kentico Cloud to a model property.
-    * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
+    * Function used to bind elements returned from Kentico Cloud to a model property.
+    * Common use is to bind e.g. 'FirstName' element from Kentico Cloud response to 'firstName' element in model
      */
     public propertyResolver?: ItemPropertyResolver;
 
     /**
-     * Function used to resolve links or URL slug fields
+     * Function used to resolve links or URL slug elements
      */
     public linkResolver?: ItemLinkResolver;
 
     /**
-    * Function used to resolve linked items in rich text fields to HTML
+    * Function used to resolve linked items in rich text elements to HTML
     */
     public richTextResolver?: ItemRichTextResolver;
 
@@ -41,18 +41,18 @@ export class ContentItem implements IContentItem {
     */
     constructor(data?: {
         /**
-         * Function used to bind fields returned from Kentico Cloud to a model property.
-         * Common use is to bind e.g. 'FirstName' field from Kentico Cloud response to 'firstName' field in model
+         * Function used to bind elements returned from Kentico Cloud to a model property.
+         * Common use is to bind e.g. 'FirstName' element from Kentico Cloud response to 'firstName' element in model
          */
         propertyResolver?: ItemPropertyResolver;
 
         /**
-         *  Function used to resolve links or URL slug fields
+         *  Function used to resolve links or URL slug elements
          */
         linkResolver?: ItemLinkResolver,
 
         /**
-         * Function used to resolve linked items in rich text fields to HTML
+         * Function used to resolve linked items in rich text elements to HTML
          */
         richTextResolver?: ItemRichTextResolver
     }) {

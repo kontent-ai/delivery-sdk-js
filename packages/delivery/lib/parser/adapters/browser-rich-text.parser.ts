@@ -16,11 +16,11 @@ import { parserConfiguration } from '../parser-configuration';
 
 export class BrowserRichTextParser implements IRichTextHtmlParser {
 
-    resolveRichTextField(resolverContext: ResolverContext, contentItemCodename: string, html: string, fieldName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
+    resolveRichTextElement(resolverContext: ResolverContext, contentItemCodename: string, html: string, elementName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
         const doc = this.createWrapperElement(html);
 
         // get all linked items
-        const result = this.processRichTextField(resolverContext, contentItemCodename, fieldName, doc.children, replacement, config, {
+        const result = this.processRichTextElement(resolverContext, contentItemCodename, elementName, doc.children, replacement, config, {
             links: [],
             linkedItems: [],
             images: []
@@ -41,7 +41,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         return element;
     }
 
-    private processRichTextField(resolverContext: ResolverContext, contentItemCodename: string, fieldName: string, htmlCollection: HTMLCollection, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
+    private processRichTextElement(resolverContext: ResolverContext, contentItemCodename: string, elementName: string, htmlCollection: HTMLCollection, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
         if (!htmlCollection || htmlCollection.length === 0) {
             // there are no more nodes
         } else {
@@ -81,13 +81,13 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         if (dataTypeAttribute.value === 'item') {
                             type = RichTextContentType.Item;
                         } else {
-                            throw Error(`Unknown data type '${type}' found in rich text field.`);
+                            throw Error(`Unknown data type '${type}' found in rich text element.`);
                         }
 
                         const linkedItemHtml = replacement.getLinkedItemHtml(linkItemContentObject.dataCodename, type);
 
                         // recursively run resolver on the HTML obtained by resolver
-                        newElem.innerHTML = this.resolveRichTextField('nested', linkItemContentObject.dataCodename, linkedItemHtml, fieldName, replacement, config).resolvedHtml;
+                        newElem.innerHTML = this.resolveRichTextElement('nested', linkItemContentObject.dataCodename, linkedItemHtml, elementName, replacement, config).resolvedHtml;
 
                         // add classes
                         newElem.className = config.linkedItemWrapperClasses.map(m => m).join(' ');
@@ -167,13 +167,13 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         result.images.push(imageObj);
 
                         // get image result
-                        const imageResult = replacement.getImageResult(resolverContext, contentItemCodename, imageObj.imageId, fieldName);
+                        const imageResult = replacement.getImageResult(resolverContext, contentItemCodename, imageObj.imageId, elementName);
 
                         // get src attribute of img tag
                         const srcAttribute = element.attributes.getNamedItem(parserConfiguration.imageElementData.srcAttribute);
 
                         if (!srcAttribute) {
-                            throw Error(`Attribute '${parserConfiguration.imageElementData.srcAttribute}' is missing. Source field: ${fieldName}`);
+                            throw Error(`Attribute '${parserConfiguration.imageElementData.srcAttribute}' is missing. Source element: ${elementName}`);
                         }
 
                         // set new image url
@@ -183,7 +183,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
 
                 // recursively process child nodes
                 if (element.children && element.children.length > 0) {
-                    this.processRichTextField(resolverContext, contentItemCodename, fieldName, element.children, replacement, config, result);
+                    this.processRichTextElement(resolverContext, contentItemCodename, elementName, element.children, replacement, config, result);
                 }
             }
         }

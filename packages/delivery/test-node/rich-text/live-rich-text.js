@@ -6,7 +6,7 @@ class Actor extends KenticoCloud.ContentItem {
     constructor() {
         super({
             richTextResolver: (item, context) => {
-                return `<p>${item.first_name.text}</p>`;
+                return `<p>${item.first_name.value}</p>`;
             },
             linkResolver: (link) => {
                 return '/actor/' + link.urlSlug;
@@ -19,13 +19,13 @@ class Movie extends KenticoCloud.ContentItem {
 
     constructor() {
         super({
-            propertyResolver: (fieldName) => {
-                if (fieldName === 'releasecategory') {
+            propertyResolver: (elementName) => {
+                if (elementName === 'releasecategory') {
                     return 'releaseCategory';
                 }
             },
             richTextResolver: (item, context) => {
-                return `<p>${item.title.text}</p>`;
+                return `<p>${item.title.value}</p>`;
             },
             linkResolver: (link) => {
                 return 'testSlugUrl/' + link.urlSlug;
@@ -51,7 +51,7 @@ const deliveryClient = new KenticoCloud.DeliveryClient({
     }
 });
 
-describe('#Rich text field', () => {
+describe('#Rich text element', () => {
 
     let result;
     let plot; // resolved plot (rich text)
@@ -68,7 +68,7 @@ describe('#Rich text field', () => {
             .subscribe(response => {
                 result = response;
 
-                plot = response.item.plot.getHtml();
+                plot = response.item.plot.resolveHtml();
                 done();
             });
     });
@@ -89,15 +89,15 @@ describe('#Rich text field', () => {
         assert.ok(plot.includes(expectedLinkB));
     });
 
-    it('Rich text should field should contain class A', () => {
+    it('Rich text should element should contain class A', () => {
         assert.ok(plot.includes(classA));
     });
 
-    it('Rich text should field should contain class B', () => {
+    it('Rich text should element should contain class B', () => {
         assert.ok(plot.includes(classB));
     });
 
-    it('Rich text should field should contain tag wrapper', () => {
+    it('Rich text should element should contain tag wrapper', () => {
         assert.ok(plot.includes('<' + richTextWrapper));
     });
 });

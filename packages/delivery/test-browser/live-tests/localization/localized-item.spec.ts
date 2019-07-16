@@ -25,7 +25,7 @@ describe('Localized item', () => {
   });
 
   it(`title should be localized`, () => {
-    expect(response.item.title.text).toEqual('Warrior-cz');
+    expect(response.item.title.value).toEqual('Warrior-cz');
   });
 });
 

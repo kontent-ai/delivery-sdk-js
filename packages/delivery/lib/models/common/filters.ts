@@ -49,17 +49,17 @@ export namespace Filters {
 
     export class EqualsFilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public value: string
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'EqualsFilter' is undefined `);
+            if (!this.element) {
+                throw Error(`Element specified in 'EqualsFilter' is undefined `);
             }
         }
 
         public getParam(): string {
 
-            return this.field.trim();
+            return this.element.trim();
         }
 
         public getParamValue(): string | undefined {
@@ -73,16 +73,16 @@ export namespace Filters {
 
     export class AllFilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public values: string[]
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'AllFilter' is undefined `);
+            if (!this.element) {
+                throw Error(`Element specified in 'AllFilter' is undefined `);
             }
         }
 
         public getParam(): string {
-            return `${this.field.trim()}[all]`;
+            return `${this.element.trim()}[all]`;
         }
 
         public getParamValue(): string | undefined {
@@ -96,16 +96,16 @@ export namespace Filters {
 
     export class AnyFilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public values: string[]
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'AnyFilter' is undefined `);
+            if (!this.element) {
+                throw Error(`Element specified in 'AnyFilter' is undefined `);
             }
         }
 
         public getParam(): string {
-            return `${this.field.trim()}[any]`;
+            return `${this.element.trim()}[any]`;
         }
 
         public getParamValue(): string | undefined {
@@ -119,16 +119,16 @@ export namespace Filters {
 
     export class ContainsFilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public values: string[]
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'ContainsFilter' is undefined `);
+            if (!this.element) {
+                throw Error(`Element specified in 'ContainsFilter' is undefined `);
             }
         }
 
         public getParam(): string {
-            return `${this.field.trim()}[contains]`;
+            return `${this.element.trim()}[contains]`;
         }
 
         public getParamValue(): string | undefined {
@@ -142,17 +142,17 @@ export namespace Filters {
 
     export class GreaterThanFilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public value: string
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'GreaterThanFilter' is undefined `);
+            if (!this.element) {
+                throw Error(`Element specified in 'GreaterThanFilter' is undefined `);
             }
         }
 
         public getParam(): string {
 
-            return `${this.field.trim()}[gt]`;
+            return `${this.element.trim()}[gt]`;
         }
 
         public getParamValue(): string | undefined {
@@ -166,17 +166,17 @@ export namespace Filters {
 
     export class GreaterThanOrEqualFilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public value: string
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'GreaterThanOrEqualFilter' is undefined `);
+            if (!this.element) {
+                throw Error(`Element specified in 'GreaterThanOrEqualFilter' is undefined `);
             }
         }
 
         public getParam(): string {
 
-            return `${this.field.trim()}[gte]`;
+            return `${this.element.trim()}[gte]`;
         }
 
         public getParamValue(): string | undefined {
@@ -190,16 +190,16 @@ export namespace Filters {
 
     export class Infilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public values: string[]
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'Infilter' is undefined`);
+            if (!this.element) {
+                throw Error(`Element specified in 'Infilter' is undefined`);
             }
         }
 
         public getParam(): string {
-            return `${this.field.trim()}[in]`;
+            return `${this.element.trim()}[in]`;
         }
 
         public getParamValue(): string | undefined {
@@ -216,16 +216,16 @@ export namespace Filters {
 
     export class LessThanFilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public value: string
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'LessThanFilter' is undefined `);
+            if (!this.element) {
+                throw Error(`Element specified in 'LessThanFilter' is undefined `);
             }
         }
 
         public getParam(): string {
-            return `${this.field.trim()}[lt]`;
+            return `${this.element.trim()}[lt]`;
         }
 
         public getParamValue(): string | undefined {
@@ -238,17 +238,17 @@ export namespace Filters {
 
     export class LessThanOrEqualFilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public value: string
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'LessThanOrEqualFilter' is undefined `);
+            if (!this.element) {
+                throw Error(`Element specified in 'LessThanOrEqualFilter' is undefined `);
             }
         }
 
         public getParam(): string {
 
-            return `${this.field.trim()}[lte]`;
+            return `${this.element.trim()}[lte]`;
         }
 
         public getParamValue(): string | undefined {
@@ -262,12 +262,12 @@ export namespace Filters {
 
     export class RangeFilter implements IQueryParameter {
         constructor(
-            public field: string,
+            public element: string,
             public lowerValue: number,
             public higherValue: number
         ) {
-            if (!this.field) {
-                throw Error(`Field specified in 'RangeFilter' is undefined `);
+            if (!this.element) {
+                throw Error(`Element specified in 'RangeFilter' is undefined `);
             }
 
             if (lowerValue > higherValue) {
@@ -276,7 +276,7 @@ export namespace Filters {
         }
 
         public getParam(): string {
-            return `${this.field.trim()}[range]`;
+            return `${this.element.trim()}[range]`;
         }
 
         public getParamValue(): string {

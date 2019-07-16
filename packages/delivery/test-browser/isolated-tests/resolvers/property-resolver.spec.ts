@@ -1,23 +1,23 @@
-import { ContentItem, FieldDecorators, Fields, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, ElementDecorators, Elements, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 import { HttpService } from 'kentico-cloud-core';
 
 class MockMovie extends ContentItem {
-    public titleTest!: Fields.TextField;
+    public titleTest!: Elements.TextElement;
 
-    @FieldDecorators.codename('released')
-    public test_released!: Fields.DateTimeField;
+    @ElementDecorators.codename('released')
+    public test_released!: Elements.DateTimeElement;
 
-    @FieldDecorators.codename('length')
-    public justNumber!: Fields.NumberField;
+    @ElementDecorators.codename('length')
+    public justNumber!: Elements.NumberElement;
 
     constructor() {
         super({
-            propertyResolver: (fieldName: string) => {
-                if (fieldName === 'title') {
+            propertyResolver: (elementName: string) => {
+                if (elementName === 'title') {
                     return 'titleTest';
                 }
-                return fieldName;
+                return elementName;
             }
         });
     }
@@ -47,15 +47,15 @@ describe('Property resolver', () => {
         done();
     });
 
-    it(`checks field is assigned #1`, () => {
-        expect(response.item.titleTest.text).toEqual('Warrior');
+    it(`checks element is assigned #1`, () => {
+        expect(response.item.titleTest.value).toEqual('Warrior');
     });
 
-    it(`checks field is assigned #2`, () => {
-        expect(response.item.test_released.datetime).toEqual(new Date('2011-09-09T00:00:00Z'));
+    it(`checks element is assigned #2`, () => {
+        expect(response.item.test_released.value).toEqual(new Date('2011-09-09T00:00:00Z'));
     });
 
-    it(`checks field is assigned #3`, () => {
-        expect(response.item.justNumber.number).toEqual(151);
+    it(`checks element is assigned #3`, () => {
+        expect(response.item.justNumber.value).toEqual(151);
     });
 });

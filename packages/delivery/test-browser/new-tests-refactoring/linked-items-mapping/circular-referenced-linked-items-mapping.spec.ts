@@ -6,7 +6,7 @@ describe('Circular references in linked items', () => {
 
   let response: ItemResponses.DeliveryItemResponse<ContentItem>;
 
-  const modularItemField = 'related_articles';
+  const modularItemElement = 'related_articles';
 
   beforeAll((done) => {
     getDeliveryClientWithJson(responseJson).item('x')
@@ -24,8 +24,8 @@ describe('Circular references in linked items', () => {
   it(`'coffee_processing_techniques' should have mapped items`, () => {
     const linkedItem = response.item;
     expect(linkedItem).toBeDefined();
-    expect((linkedItem[modularItemField] as ContentItem[]).find(m => m.system.codename === 'on_roasts')).toBeDefined();
-    expect((linkedItem[modularItemField] as ContentItem[]).find(m => m.system.codename === 'which_brewing_fits_you_')).toBeDefined();
+    expect((linkedItem[modularItemElement] as ContentItem[]).find(m => m.system.codename === 'on_roasts')).toBeDefined();
+    expect((linkedItem[modularItemElement] as ContentItem[]).find(m => m.system.codename === 'which_brewing_fits_you_')).toBeDefined();
   });
 
   it(`'on_roasts' should have mapped items `, () => {
@@ -38,8 +38,8 @@ describe('Circular references in linked items', () => {
       throw Error(`Item with codename '${linkedItemCodename}' was not found`);
     }
 
-    expect((linkedItem[modularItemField] as ContentItem[]).find(m => m.system.codename === 'on_roasts')).toBeDefined();
-    expect((linkedItem[modularItemField] as ContentItem[]).find(m => m.system.codename === 'which_brewing_fits_you_')).toBeDefined();
+    expect((linkedItem[modularItemElement] as ContentItem[]).find(m => m.system.codename === 'on_roasts')).toBeDefined();
+    expect((linkedItem[modularItemElement] as ContentItem[]).find(m => m.system.codename === 'which_brewing_fits_you_')).toBeDefined();
   });
 
   it(`'which_brewing_fits_you_' should have mapped items`, () => {
@@ -52,8 +52,8 @@ describe('Circular references in linked items', () => {
       throw Error(`Item with codename '${linkedItemCodename}' was not found`);
     }
 
-    expect((linkedItem[modularItemField] as ContentItem[]).find(m => m.system.codename === 'on_roasts')).toBeDefined();
-    expect((linkedItem[modularItemField] as ContentItem[]).find(m => m.system.codename === 'coffee_processing_techniques')).toBeDefined();
+    expect((linkedItem[modularItemElement] as ContentItem[]).find(m => m.system.codename === 'on_roasts')).toBeDefined();
+    expect((linkedItem[modularItemElement] as ContentItem[]).find(m => m.system.codename === 'coffee_processing_techniques')).toBeDefined();
   });
 
 });

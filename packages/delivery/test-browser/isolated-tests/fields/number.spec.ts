@@ -1,19 +1,27 @@
-import { Fields } from '../../../lib';
+import { Elements } from '../../../lib';
 
-describe('NumberField', () => {
+describe('NumberElement', () => {
 
-    const field = new Fields.NumberField('name', 9);
+    const element = new Elements.NumberElement({
+        contentTypeSystem: {} as any,
+        rawElement: {
+            name: 'name',
+            type: '',
+            value: 9
+        },
+        propertyName: 'resolvedName'
+    });
 
     it(`checks name`, () => {
-        expect(field.name).toEqual('name');
+        expect(element.name).toEqual('name');
     });
 
       it(`checks value`, () => {
-        expect(field.value).toEqual(9);
+        expect(element.value).toEqual(9);
     });
 
     it(`checks number`, () => {
-        expect(field.number).toEqual(9);
+        expect(element.value).toEqual(9);
     });
 });
 

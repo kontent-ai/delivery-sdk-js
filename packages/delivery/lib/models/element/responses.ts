@@ -1,6 +1,6 @@
 import { ICloudResponseDebug } from '../../interfaces/common/icloud-response-debug.interface';
 import { ICloudResponse } from '../../interfaces/common/icloud-response.interface';
-import { Element } from './element.class';
+import { GenericElement } from './generic-element.class';
 
 export namespace ElementResponses {
 
@@ -10,11 +10,11 @@ export namespace ElementResponses {
         * Response containing content type element
         *
         * @constructor
-        * @param {Element} element - Content type element
+        * @param {GenericElement} element - Content type element
         * @param {ICloudResponseDebug} debug - Debug information from the response
         */
         constructor(
-            public element: Element,
+            public element: GenericElement,
             public debug: ICloudResponseDebug,
         ) { }
     }
