@@ -8,16 +8,18 @@ export const testDeliveryClient: IDeliveryClient = new DeliveryClient({
     projectId: testProjectId
 });
 
-export const getDeliveryClientWithError: (errorJson: any) => IDeliveryClient = (errorJson: any) => new DeliveryClient({
-    projectId: testProjectId,
-    httpService: new TestHttpService({
-        fakeResponseJson: undefined,
-        throwCloudError: true,
-        errorJson: errorJson
-    })
-});
+export function getDeliveryClientWithError(errorJson: any): DeliveryClient {
+    return new DeliveryClient({
+        projectId: testProjectId,
+        httpService: new TestHttpService({
+            fakeResponseJson: undefined,
+            throwCloudError: true,
+            errorJson: errorJson
+        })
+    });
+}
 
-export const getDeliveryClientWithJson: (json: any, config?: IDeliveryClientConfig) => IDeliveryClient = (json: any, config?: IDeliveryClientConfig) => {
+export function getDeliveryClientWithJson(json: any, config?: IDeliveryClientConfig): DeliveryClient {
     if (!config) {
         return new DeliveryClient({
             projectId: testProjectId,
@@ -35,6 +37,7 @@ export const getDeliveryClientWithJson: (json: any, config?: IDeliveryClientConf
     });
 
     return new DeliveryClient(config);
-};
+}
+
 
 

@@ -4,8 +4,8 @@ import { Context } from './context';
 
 // ---------- default setup ------------- //
 const defaultTypeResolvers: TypeResolver[] = [
-    new TypeResolver('movie', () => new Movie()),
-    new TypeResolver('actor', () => new Actor())
+    new TypeResolver('movie', (data) => new Movie()),
+    new TypeResolver('actor', (data) => new Actor())
 ];
 
 const defaultProjectId = 'da5abe9f-fdad-4168-97cd-b3464be2ccb9';
