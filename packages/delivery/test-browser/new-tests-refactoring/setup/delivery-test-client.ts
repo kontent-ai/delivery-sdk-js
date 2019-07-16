@@ -4,9 +4,11 @@ import { DeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../..
 
 const testProjectId: string = 'delivery-project-id';
 
-export const testDeliveryClient: IDeliveryClient = new DeliveryClient({
-    projectId: testProjectId
-});
+export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDeliveryClient {
+    return new DeliveryClient(config ? config : {
+        projectId: testProjectId
+    });
+}
 
 export function getDeliveryClientWithError(errorJson: any): DeliveryClient {
     return new DeliveryClient({

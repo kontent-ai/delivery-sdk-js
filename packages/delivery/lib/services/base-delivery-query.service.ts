@@ -12,9 +12,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { IDeliveryClientConfig } from '../config';
-import { ResponseMapper } from '../mappers';
 import { IQueryConfig, ISDKInfo } from '../models/common/common-models';
-import { IRichTextHtmlParser } from '../parser';
+import { IMappingService } from './mapping.service';
 
 export abstract class BaseDeliveryQueryService {
 
@@ -51,11 +50,6 @@ export abstract class BaseDeliveryQueryService {
     private readonly waitForLoadingNewContentHeader: string =
         'X-KC-Wait-For-Loading-New-Content';
 
-    /**
-     * Service used to map responses (json) from Kentico cloud to strongly typed types
-     */
-    protected responseMapper: ResponseMapper;
-
     constructor(
         /**
          * Delivery client configuration
@@ -66,18 +60,14 @@ export abstract class BaseDeliveryQueryService {
          */
         protected readonly httpService: IHttpService,
         /**
-         * HTML parser
-         */
-        protected readonly richTextHtmlParser: IRichTextHtmlParser,
-        /**
          * Information about the SDK
          */
-        protected readonly sdkInfo: ISDKInfo
+        protected readonly sdkInfo: ISDKInfo,
+        /**
+         * Mapping service
+         */
+        protected readonly mappingService: IMappingService
     ) {
-        if (!config) {
-            throw Error(`Invalid configuration has been provided`);
-        }
-        this.responseMapper = new ResponseMapper(config, richTextHtmlParser);
     }
 
     retryPromise<T>(promise: Promise<T>): Promise<T> {
