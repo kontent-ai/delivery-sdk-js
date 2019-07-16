@@ -13,7 +13,6 @@ import { catchError } from 'rxjs/operators';
 
 import { IDeliveryClientConfig } from '../config';
 import { IQueryConfig, ISDKInfo } from '../models/common/common-models';
-import { IRichTextHtmlParser } from '../parser';
 import { IMappingService } from './mapping.service';
 
 export abstract class BaseDeliveryQueryService {
