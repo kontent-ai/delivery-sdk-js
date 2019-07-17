@@ -4,7 +4,7 @@ import { ContentType } from './content-type-models';
 
 export namespace TypeResponses {
 
-    export class DeliveryTypeListingResponse implements ICloudResponse {
+    export class ViewContentTypeResponse implements ICloudResponse {
 
         /**
         * Response containing multiple types
@@ -19,7 +19,7 @@ export namespace TypeResponses {
         ) { }
     }
 
-    export class DeliveryTypeResponse implements ICloudResponse {
+    export class ListContentTypesResponse implements ICloudResponse {
 
         /**
         * Response containing single type

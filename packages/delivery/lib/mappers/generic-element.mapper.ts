@@ -3,7 +3,7 @@ import { GenericElement } from '../models';
 
 export class GenericElementMapper {
 
-    mapElement(response: ElementContracts.IElementResponseContract): GenericElement {
+    mapElement(response: ElementContracts.IViewContentTypeElementContract): GenericElement {
         if (!response) {
             throw Error(`Invalid response for mapping element`);
         }

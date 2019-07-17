@@ -6,13 +6,13 @@ describe('Mapping service', () => {
 
     const client = getTestDeliveryClient();
 
-    const listingResponse: ItemResponses.DeliveryItemListingResponse = client.mappingService.mapMultipleResponse({
+    const listingResponse: ItemResponses.ListContentItemsResponse = client.mappingService.listContentItemsResponse({
         data: responseJson,
         response: null
     }, {});
 
     it(`Listing response should be mapped correctly`, () => {
-        expect(listingResponse).toEqual(jasmine.any(ItemResponses.DeliveryItemListingResponse));
+        expect(listingResponse).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
         expect(listingResponse.debug).toBeDefined();
         expect(listingResponse.debug.response).toBeNull();
 

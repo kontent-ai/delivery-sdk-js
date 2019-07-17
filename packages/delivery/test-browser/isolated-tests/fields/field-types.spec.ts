@@ -13,7 +13,7 @@ describe('Element types', () => {
     version: sdkInfo.version
   });
 
-  let response: ItemResponses.DeliveryItemResponse<Movie>;
+  let response: ItemResponses.ViewContentItemResponse<Movie>;
 
   beforeAll((done) => {
     response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {});

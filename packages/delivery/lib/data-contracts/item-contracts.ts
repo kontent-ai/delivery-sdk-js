@@ -39,13 +39,13 @@ export namespace ItemContracts {
     sitemap_locations: string[];
   }
 
-  export interface IItemsResponseContract {
+  export interface IListContentItemsContract {
     items: IContentItemContract[];
     modular_content: ItemContracts.IModularContentWrapperContract;
     pagination: IPaginationContract;
   }
 
-  export interface IItemResponseContract {
+  export interface IViewContentItemContract {
     item: IContentItemContract;
     modular_content: ItemContracts.IModularContentWrapperContract;
   }

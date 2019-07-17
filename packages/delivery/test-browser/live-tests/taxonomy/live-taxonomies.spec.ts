@@ -11,14 +11,14 @@ describe('Live taxonomies', () => {
   const existingTaxonomyCodename: string = 'movietype'; // codename of some of the defined taxonomies
   const numberOfTaxonomies: number = 2; // number of defined taxonomies
 
-  let response: TaxonomyResponses.TaxonomiesResponse;
+  let response: TaxonomyResponses.ListTaxonomyGroupsResponse;
   let taxonomy: TaxonomyGroup;
 
   beforeAll((done) => {
     context.deliveryClient.taxonomies()
       .toObservable()
       .subscribe(r => {
-        response = r as TaxonomyResponses.TaxonomiesResponse;
+        response = r as TaxonomyResponses.ListTaxonomyGroupsResponse;
         taxonomy = response.taxonomies.find(m => m.system.codename === existingTaxonomyCodename) as TaxonomyGroup;
         done();
       });

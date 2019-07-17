@@ -53,11 +53,11 @@ export abstract class BaseTaxonomyQuery<TResponse extends ICloudResponse> extend
         return super.resolveUrlInternal(action);
     }
 
-    protected runTaxonomyQuery(codename: string): Observable<TaxonomyResponses.TaxonomyResponse> {
+    protected runTaxonomyQuery(codename: string): Observable<TaxonomyResponses.ViewTaxonomyGroupResponse> {
         return this.queryService.getTaxonomy(this.getTaxonomyQueryUrl(codename), this._queryConfig);
     }
 
-    protected runTaxonomiesQuery(): Observable<TaxonomyResponses.TaxonomiesResponse> {
+    protected runTaxonomiesQuery(): Observable<TaxonomyResponses.ListTaxonomyGroupsResponse> {
         return this.queryService.getTaxonomies(this.getTaxonomiesQueryUrl(), this._queryConfig);
     }
 }

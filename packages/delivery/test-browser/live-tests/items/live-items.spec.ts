@@ -7,14 +7,14 @@ describe('Live items', () => {
   setup(context);
 
   const type: string = 'movie';
-  let response: ItemResponses.DeliveryItemListingResponse<Movie>;
+  let response: ItemResponses.ListContentItemsResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
       .type(type)
       .toObservable()
       .subscribe(r => {
-        response = r as ItemResponses.DeliveryItemListingResponse<Movie>;
+        response = r;
         done();
       });
   });

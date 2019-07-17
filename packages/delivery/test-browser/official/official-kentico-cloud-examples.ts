@@ -31,13 +31,13 @@ describe('Official Kentico cloud examples (used in API reference https://develop
     const deliveryClient = new DeliveryClient(config);
 
     /* ------------- Prepare responses ----------- */
-    let itemResponse: ItemResponses.DeliveryItemResponse<Article>;
-    let itemsResponse: ItemResponses.DeliveryItemListingResponse<Article>;
-    let typeResponse: TypeResponses.DeliveryTypeResponse;
-    let typesResponse: TypeResponses.DeliveryTypeListingResponse;
-    let taxonomyResponse: TaxonomyResponses.TaxonomyResponse;
-    let taxonomiesReponse: TaxonomyResponses.TaxonomiesResponse;
-    let elementResponse: ElementResponses.ElementResponse;
+    let itemResponse: ItemResponses.ViewContentItemResponse<Article>;
+    let itemsResponse: ItemResponses.ListContentItemsResponse<Article>;
+    let typeResponse: TypeResponses.ListContentTypesResponse;
+    let typesResponse: TypeResponses.ViewContentTypeResponse;
+    let taxonomyResponse: TaxonomyResponses.ViewTaxonomyGroupResponse;
+    let taxonomiesReponse: TaxonomyResponses.ListTaxonomyGroupsResponse;
+    let elementResponse: ElementResponses.ViewContentTypeElementResponse;
 
     /* ------------ Prepare observables for each example -------------- */
 

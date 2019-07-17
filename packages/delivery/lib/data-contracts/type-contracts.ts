@@ -15,11 +15,11 @@ export namespace TypeContracts {
         elements: IElementContract;
     }
 
-    export interface ITypesResponseContract {
+    export interface IViewContentTypeContract {
         types: IContentTypeContract[];
         pagination: IPaginationContract;
     }
 
-    export interface ITypeResponseContract extends IContentTypeContract {
+    export interface IListContentTypesContract extends IContentTypeContract {
     }
 }

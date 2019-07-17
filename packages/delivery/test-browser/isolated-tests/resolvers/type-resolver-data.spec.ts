@@ -39,7 +39,7 @@ describe('Type resolver data', () => {
 
     it('Type resolver should receive item contract and modular content as data parameter', () => {
         // response has to be called so that typ resolvers are triggered
-        const response: ItemResponses.DeliveryItemResponse<Movie> = getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {});
+        const response: ItemResponses.ViewContentItemResponse<Movie> = getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {});
         expect(movieTypeResolverData).toBeDefined();
         expect(actorTypeResolverData).toBeDefined();
 

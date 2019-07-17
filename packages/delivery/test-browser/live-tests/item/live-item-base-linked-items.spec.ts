@@ -8,13 +8,13 @@ describe('Live item - base linked items', () => {
   setup(context);
 
   const movieCodename: string = 'warrior';
-  let response: ItemResponses.DeliveryItemResponse<Movie>;
+  let response: ItemResponses.ViewContentItemResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.item(movieCodename)
       .toObservable()
       .subscribe(r => {
-        response = r as ItemResponses.DeliveryItemResponse<Movie>;
+        response = r as ItemResponses.ViewContentItemResponse<Movie>;
         done();
       });
   });

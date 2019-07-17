@@ -20,12 +20,12 @@ export namespace TaxonomyContracts {
         terms: ITaxonomyTermsContract[];
     }
 
-    export interface ITaxonomyResponseContract {
+    export interface IViewTaxonomyGroupContract {
         system: ITaxonomySystemAttributesContract;
         terms: ITaxonomyTermsContract[];
     }
 
-    export interface ITaxonomiesResponseContract {
+    export interface IListTaxonomyGroupsContract {
         taxonomies: ITaxonomyGroupContract[];
         pagination: IPaginationContract;
     }

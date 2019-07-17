@@ -4,7 +4,7 @@ import * as responseJson from './circular-referenced-linked-items-mapping.spec.j
 
 describe('Circular references in linked items', () => {
 
-  let response: ItemResponses.DeliveryItemResponse<ContentItem>;
+  let response: ItemResponses.ViewContentItemResponse<ContentItem>;
 
   const modularItemElement = 'related_articles';
 

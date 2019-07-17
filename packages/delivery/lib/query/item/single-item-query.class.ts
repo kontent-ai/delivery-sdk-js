@@ -5,7 +5,7 @@ import { ContentItem, ItemResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseItemQuery } from './base-item-query.class';
 
-export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemResponse<TItem>> {
+export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.ViewContentItemResponse<TItem>> {
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -22,7 +22,7 @@ export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TI
     /**
     * Gets the runnable Observable
     */
-    toObservable(): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
+    toObservable(): Observable<ItemResponses.ViewContentItemResponse<TItem>> {
         return super.runSingleItemQuery(this.codename);
     }
 

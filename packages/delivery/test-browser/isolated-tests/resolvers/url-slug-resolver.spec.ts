@@ -29,8 +29,8 @@ describe('URL slug resolver', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.DeliveryItemResponse<MockMovie>;
-    let responseWithQueryConfig: ItemResponses.DeliveryItemResponse<MockMovie>;
+    let response: ItemResponses.ViewContentItemResponse<MockMovie>;
+    let responseWithQueryConfig: ItemResponses.ViewContentItemResponse<MockMovie>;
 
     const links: Link[] = [];
 

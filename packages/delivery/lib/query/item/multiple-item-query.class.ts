@@ -5,7 +5,7 @@ import { ContentItem, Filters, ItemResponses, Parameters, SortOrder } from '../.
 import { QueryService } from '../../services';
 import { BaseItemQuery } from './base-item-query.class';
 
-export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.DeliveryItemListingResponse<TItem>> {
+export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.ListContentItemsResponse<TItem>> {
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -181,7 +181,7 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     /**
      * Gets the runnable Observable
      */
-    toObservable(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
+    toObservable(): Observable<ItemResponses.ListContentItemsResponse<TItem>> {
         return super.runMultipleItemsQuery();
     }
 

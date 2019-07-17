@@ -70,13 +70,13 @@ export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends
         return super.resolveUrlInternal(action);
     }
 
-    protected runMultipleItemsQuery(): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
+    protected runMultipleItemsQuery(): Observable<ItemResponses.ListContentItemsResponse<TItem>> {
         const url = this.getMultipleItemsQueryUrl();
 
         return this.queryService.getMultipleItems(url, this._queryConfig);
     }
 
-    protected runSingleItemQuery(codename: string): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
+    protected runSingleItemQuery(codename: string): Observable<ItemResponses.ViewContentItemResponse<TItem>> {
         const url = this.getSingleItemQueryUrl(codename);
 
         return this.queryService.getSingleItem(url, this._queryConfig);

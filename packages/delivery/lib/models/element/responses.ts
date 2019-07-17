@@ -3,7 +3,7 @@ import { GenericElement } from './element-models';
 
 export namespace ElementResponses {
 
-    export class ElementResponse implements ICloudResponse {
+    export class ViewContentTypeElementResponse implements ICloudResponse {
 
         /**
         * Response containing content type element

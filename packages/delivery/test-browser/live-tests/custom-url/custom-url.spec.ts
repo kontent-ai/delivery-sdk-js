@@ -8,14 +8,14 @@ describe('Custom URL', () => {
   const context = new Context();
   setup(context);
 
-  let responseItems: ItemResponses.DeliveryItemListingResponse<Movie>;
+  let responseItems: ItemResponses.ListContentItemsResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
       .withUrl(itemsUrl)
       .toObservable()
       .subscribe(r => {
-        responseItems = r as ItemResponses.DeliveryItemListingResponse<Movie>;
+        responseItems = r as ItemResponses.ListContentItemsResponse<Movie>;
         done();
       });
   });
@@ -25,7 +25,7 @@ describe('Custom URL', () => {
   });
 
   it(`items response should be of proper type`, () => {
-    expect(responseItems).toEqual(jasmine.any(ItemResponses.DeliveryItemListingResponse));
+    expect(responseItems).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
   });
 
 });
