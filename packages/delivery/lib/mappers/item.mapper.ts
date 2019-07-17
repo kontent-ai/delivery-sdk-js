@@ -80,7 +80,7 @@ export class ItemMapper {
 
     private mapItem<TItem extends IContentItem = IContentItem>(data: {
         item: ItemContracts.IContentItemContract,
-        modularContent: ItemContracts.IModularContentWrapperContract,
+        modularContent: ItemContracts.IModularContentContract,
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         rocessingStartedForCodenames: string[],

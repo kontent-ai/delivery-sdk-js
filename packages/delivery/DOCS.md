@@ -750,7 +750,7 @@ class FakeActor extends ContentItem {
 
 deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
-      itemResolver: (element: ElementContracts.IRichTextElement, itemCodename: string, modularContent: any, queryConfig: IItemQueryConfig, rawItem?: ItemContracts.IContentItemContract) => {
+      itemResolver: (rawElement: ElementContracts.IElementContract, rawItem: ItemContracts.IContentItemContract, modularContent: ItemContracts.IModularContentContract, queryConfig: IItemQueryConfig) => {
         if (itemCodename === 'itemCodename') {
           return new FakeActor('xxx'),
         }
