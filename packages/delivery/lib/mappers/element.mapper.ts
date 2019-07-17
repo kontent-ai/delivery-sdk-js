@@ -40,7 +40,7 @@ export class ElementMapper {
      */
     mapElements<TItem extends IContentItem>(data: {
         item: ItemContracts.IContentItemContract,
-        modularContent: ItemContracts.IModularContentWrapperContract,
+        modularContent: ItemContracts.IModularContentContract,
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         processingStartedForCodenames: string[],
@@ -114,7 +114,7 @@ export class ElementMapper {
     private mapElement(
         data: {
             elementWrapper: ElementModels.IElementWrapper,
-            modularContent: ItemContracts.IModularContentWrapperContract,
+            modularContent: ItemContracts.IModularContentContract,
             item: IContentItem,
             queryConfig: IItemQueryConfig,
             processedItems: IContentItemsContainer,
@@ -176,7 +176,7 @@ export class ElementMapper {
     private mapRichTextElement(
         item: IContentItem,
         elementWrapper: ElementModels.IElementWrapper,
-        modularContent: ItemContracts.IModularContentWrapperContract,
+        modularContent: ItemContracts.IModularContentContract,
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         processingStartedForCodenames: string[],
@@ -320,7 +320,7 @@ export class ElementMapper {
 
     private mapLinkedItemsElement(data: {
         elementWrapper: ElementModels.IElementWrapper,
-        modularContent: ItemContracts.IModularContentWrapperContract,
+        modularContent: ItemContracts.IModularContentContract,
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         processingStartedForCodenames: string[],
@@ -388,7 +388,7 @@ export class ElementMapper {
         codename: string,
         element: ElementContracts.IElementContract,
         queryConfig: IItemQueryConfig,
-        modularContent: ItemContracts.IModularContentWrapperContract,
+        modularContent: ItemContracts.IModularContentContract,
         processedItems: IContentItemsContainer,
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemsContainer): IContentItem | undefined {

@@ -222,7 +222,7 @@ export interface IContentItemDebugData {
 
 export interface ITypeResolverData {
     item: ItemContracts.IContentItemContract;
-    modularContent: ItemContracts.IModularContentWrapperContract;
+    modularContent: ItemContracts.IModularContentContract;
 }
 
 export interface IItemQueryConfig extends IQueryConfig {

@@ -13,13 +13,12 @@ export namespace ItemContracts {
     url_slug: string;
   }
 
-  export interface IModularContentWrapperContract {
-    [key: string]: ItemContracts.IModularContentContract;
+  export interface IModularContentContract {
+    [key: string]: ItemContracts.IModularContentContentItemContract;
   }
 
 
-  export interface IModularContentContract {
-
+  export interface IModularContentContentItemContract {
     system: IContentItemSystemAttributesContract;
     elements: IContentItemElementsContracts;
   }
@@ -41,13 +40,13 @@ export namespace ItemContracts {
 
   export interface IListContentItemsContract {
     items: IContentItemContract[];
-    modular_content: ItemContracts.IModularContentWrapperContract;
+    modular_content: ItemContracts.IModularContentContract;
     pagination: IPaginationContract;
   }
 
   export interface IViewContentItemContract {
     item: IContentItemContract;
-    modular_content: ItemContracts.IModularContentWrapperContract;
+    modular_content: ItemContracts.IModularContentContract;
   }
 }
 
