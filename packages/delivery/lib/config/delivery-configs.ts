@@ -56,7 +56,7 @@ export interface IDeliveryClientConfig {
     /**
      * Type resolver is used to create an instance of class based on content item's type. For example,
      * if content item has 'article' content type (system.type), you can map it to 'Article' class with
-     * properties, methods and global content item configuration. 
+     * properties, methods and global content item configuration.
      * If not set, content item will use default 'ContentItem' class
      */
     typeResolvers?: TypeResolver[];

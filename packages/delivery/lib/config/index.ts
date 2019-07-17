@@ -1,2 +1,2 @@
-export * from './delivery-client.config';
+export * from './delivery-configs';
 export * from './default-collision-resolver';
