@@ -4,7 +4,7 @@ import { IContentItem, IContentItemsContainer } from './item-models';
 
 export namespace ItemResponses {
 
-    export class DeliveryItemListingResponse<TItem extends IContentItem = IContentItem> implements ICloudResponse {
+    export class ListContentItemsResponse<TItem extends IContentItem = IContentItem> implements ICloudResponse {
 
         /**
          * Indicates if response contains any items
@@ -72,7 +72,7 @@ export namespace ItemResponses {
         }
     }
 
-    export class DeliveryItemResponse<TItem extends IContentItem = IContentItem> implements ICloudResponse {
+    export class ViewContentItemResponse<TItem extends IContentItem = IContentItem> implements ICloudResponse {
 
         /**
          * Indicates if response contains item

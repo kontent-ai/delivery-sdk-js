@@ -16,23 +16,23 @@ export class MockQueryService extends QueryService {
         super(config, httpService, sdkInfo, new MappingService(config, getParserAdapter()));
     }
 
-    mockGetSingleItem<TItem extends ContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemResponse<TItem> {
+    mockGetSingleItem<TItem extends ContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.ViewContentItemResponse<TItem> {
         if (!queryConfig) {
             queryConfig = {};
         }
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.mappingService.mapSingleResponse<TItem>(fakeResponse, queryConfig);
+        return this.mappingService.viewContentItemResponse<TItem>(fakeResponse, queryConfig);
     }
 
-    mockGetMultipleItems<TItem extends ContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.DeliveryItemListingResponse<TItem> {
+    mockGetMultipleItems<TItem extends ContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.ListContentItemsResponse<TItem> {
         if (!queryConfig) {
             queryConfig = {};
         }
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.mappingService.mapMultipleResponse<TItem>(fakeResponse, queryConfig);
+        return this.mappingService.listContentItemsResponse<TItem>(fakeResponse, queryConfig);
     }
 }

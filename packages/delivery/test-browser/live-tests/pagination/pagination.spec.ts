@@ -7,7 +7,7 @@ describe('Pagination', () => {
   setup(context);
 
   const type: string = 'movie';
-  let response: ItemResponses.DeliveryItemListingResponse<Movie>;
+  let response: ItemResponses.ListContentItemsResponse<Movie>;
 
   beforeAll((done) => {
     context.deliveryClient.items<Movie>()
@@ -16,7 +16,7 @@ describe('Pagination', () => {
       .skipParameter(1)
       .toObservable()
       .subscribe(r => {
-        response = r as ItemResponses.DeliveryItemListingResponse<Movie>;
+        response = r as ItemResponses.ListContentItemsResponse<Movie>;
         done();
       });
   });

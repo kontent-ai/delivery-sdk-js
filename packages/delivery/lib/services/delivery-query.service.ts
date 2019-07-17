@@ -37,10 +37,10 @@ export class QueryService extends BaseDeliveryQueryService {
   getSingleItem<TItem extends ContentItem>(
     url: string,
     queryConfig: IItemQueryConfig
-  ): Observable<ItemResponses.DeliveryItemResponse<TItem>> {
-    return this.getResponse<ItemContracts.IItemResponseContract>(url, queryConfig).pipe(
+  ): Observable<ItemResponses.ViewContentItemResponse<TItem>> {
+    return this.getResponse<ItemContracts.IViewContentItemContract>(url, queryConfig).pipe(
       map(response => {
-        return this.mappingService.mapSingleResponse<TItem>(
+        return this.mappingService.viewContentItemResponse<TItem>(
           response,
           queryConfig
         );
@@ -56,10 +56,10 @@ export class QueryService extends BaseDeliveryQueryService {
   getMultipleItems<TItem extends ContentItem>(
     url: string,
     queryConfig: IItemQueryConfig
-  ): Observable<ItemResponses.DeliveryItemListingResponse<TItem>> {
-    return this.getResponse<ItemContracts.IItemsResponseContract>(url, queryConfig).pipe(
+  ): Observable<ItemResponses.ListContentItemsResponse<TItem>> {
+    return this.getResponse<ItemContracts.IListContentItemsContract>(url, queryConfig).pipe(
       map(response => {
-        return this.mappingService.mapMultipleResponse<TItem>(
+        return this.mappingService.listContentItemsResponse<TItem>(
           response,
           queryConfig
         );
@@ -75,10 +75,10 @@ export class QueryService extends BaseDeliveryQueryService {
   getSingleType(
     url: string,
     queryConfig: IContentTypeQueryConfig
-  ): Observable<TypeResponses.DeliveryTypeResponse> {
-    return this.getResponse<TypeContracts.ITypeResponseContract>(url, queryConfig).pipe(
+  ): Observable<TypeResponses.ListContentTypesResponse> {
+    return this.getResponse<TypeContracts.IListContentTypesContract>(url, queryConfig).pipe(
       map(response => {
-        return this.mappingService.mapSingleTypeResponse(response);
+        return this.mappingService.listContentTypesResponse(response);
       })
     );
   }
@@ -91,10 +91,10 @@ export class QueryService extends BaseDeliveryQueryService {
   getMultipleTypes(
     url: string,
     queryConfig: IContentTypeQueryConfig
-  ): Observable<TypeResponses.DeliveryTypeListingResponse> {
-    return this.getResponse<TypeContracts.ITypesResponseContract>(url, queryConfig).pipe(
+  ): Observable<TypeResponses.ViewContentTypeResponse> {
+    return this.getResponse<TypeContracts.IViewContentTypeContract>(url, queryConfig).pipe(
       map(response => {
-        return this.mappingService.mapMultipleTypeResponse(response);
+        return this.mappingService.viewContentTypeResponse(response);
       })
     );
   }
@@ -107,10 +107,10 @@ export class QueryService extends BaseDeliveryQueryService {
   getTaxonomy(
     url: string,
     queryConfig: ITaxonomyQueryConfig
-  ): Observable<TaxonomyResponses.TaxonomyResponse> {
-    return this.getResponse<TaxonomyContracts.ITaxonomyResponseContract>(url, queryConfig).pipe(
+  ): Observable<TaxonomyResponses.ViewTaxonomyGroupResponse> {
+    return this.getResponse<TaxonomyContracts.IViewTaxonomyGroupContract>(url, queryConfig).pipe(
       map(response => {
-        return this.mappingService.mapTaxonomyResponse(response);
+        return this.mappingService.viewTaxonomyGroupResponse(response);
       })
     );
   }
@@ -123,10 +123,10 @@ export class QueryService extends BaseDeliveryQueryService {
   getTaxonomies(
     url: string,
     queryConfig: ITaxonomyQueryConfig
-  ): Observable<TaxonomyResponses.TaxonomiesResponse> {
-    return this.getResponse<TaxonomyContracts.ITaxonomiesResponseContract>(url, queryConfig).pipe(
+  ): Observable<TaxonomyResponses.ListTaxonomyGroupsResponse> {
+    return this.getResponse<TaxonomyContracts.IListTaxonomyGroupsContract>(url, queryConfig).pipe(
       map(response => {
-        return this.mappingService.mapTaxonomiesResponse(response);
+        return this.mappingService.listTaxonomyGroupsResponse(response);
       })
     );
   }
@@ -139,10 +139,10 @@ export class QueryService extends BaseDeliveryQueryService {
   getElement(
     url: string,
     queryConfig: ITaxonomyQueryConfig
-  ): Observable<ElementResponses.ElementResponse> {
-    return this.getResponse<ElementContracts.IElementResponseContract>(url, queryConfig).pipe(
+  ): Observable<ElementResponses.ViewContentTypeElementResponse> {
+    return this.getResponse<ElementContracts.IViewContentTypeElementContract>(url, queryConfig).pipe(
       map(response => {
-        return this.mappingService.mapElementResponse(response);
+        return this.mappingService.viewContentTypeElementResponse(response);
       })
     );
   }

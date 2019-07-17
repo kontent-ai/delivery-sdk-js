@@ -3,7 +3,7 @@ import { TaxonomyGroup } from './taxonomy-models';
 
 export namespace TaxonomyResponses {
 
-    export class TaxonomyResponse implements ICloudResponse {
+    export class ViewTaxonomyGroupResponse implements ICloudResponse {
         constructor(
             /**
              * Taxonomy group
@@ -18,7 +18,7 @@ export namespace TaxonomyResponses {
         }
     }
 
-    export class TaxonomiesResponse implements ICloudResponse {
+    export class ListTaxonomyGroupsResponse implements ICloudResponse {
         constructor(
             /**
              * Taxonomies

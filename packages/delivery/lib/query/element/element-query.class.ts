@@ -5,7 +5,7 @@ import { ElementResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseElementQuery } from './base-element-query.class';
 
-export class ElementQuery extends BaseElementQuery<ElementResponses.ElementResponse> {
+export class ElementQuery extends BaseElementQuery<ElementResponses.ViewContentTypeElementResponse> {
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -27,7 +27,7 @@ export class ElementQuery extends BaseElementQuery<ElementResponses.ElementRespo
     /**
     * Gets the runnable Observable
     */
-    toObservable(): Observable<ElementResponses.ElementResponse> {
+    toObservable(): Observable<ElementResponses.ViewContentTypeElementResponse> {
         return super.runElementQuery(this.typeCodename, this.elementCodename);
     }
 

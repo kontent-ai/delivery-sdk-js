@@ -9,7 +9,7 @@ describe('Non generic item tests', () => {
     setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.DeliveryItemResponse<ContentItem>;
+    let response: ItemResponses.ViewContentItemResponse<ContentItem>;
 
     beforeAll((done) => {
         context.deliveryClient.item<ContentItem>(movieCodename)

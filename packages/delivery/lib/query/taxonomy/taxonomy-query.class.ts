@@ -5,7 +5,7 @@ import { TaxonomyResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
 
-export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.TaxonomyResponse> {
+export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.ViewTaxonomyGroupResponse> {
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -22,7 +22,7 @@ export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.TaxonomyR
     /**
     * Gets the runnable Observable
     */
-    toObservable(): Observable<TaxonomyResponses.TaxonomyResponse> {
+    toObservable(): Observable<TaxonomyResponses.ViewTaxonomyGroupResponse> {
         return super.runTaxonomyQuery(this.taxonomyCodename);
     }
 

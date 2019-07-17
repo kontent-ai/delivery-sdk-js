@@ -68,35 +68,35 @@ export class Movie extends ContentItem {
 export class AllTestObjects {
 
   // items
-  public item!: ItemResponses.DeliveryItemResponse<Movie>;
-  public items!: ItemResponses.DeliveryItemListingResponse<Movie>;
+  public item!: ItemResponses.ViewContentItemResponse<Movie>;
+  public items!: ItemResponses.ListContentItemsResponse<Movie>;
 
   // taxonomies
-  public taxonomy!: TaxonomyResponses.TaxonomyResponse;
-  public taxonomies!: TaxonomyResponses.TaxonomiesResponse;
+  public taxonomy!: TaxonomyResponses.ViewTaxonomyGroupResponse;
+  public taxonomies!: TaxonomyResponses.ListTaxonomyGroupsResponse;
 
   // types
-  public type!: TypeResponses.DeliveryTypeResponse;
-  public types!: TypeResponses.DeliveryTypeListingResponse;
+  public type!: TypeResponses.ListContentTypesResponse;
+  public types!: TypeResponses.ViewContentTypeResponse;
 
   // elements
-  public element!: ElementResponses.ElementResponse;
+  public element!: ElementResponses.ViewContentTypeElementResponse;
 
   constructor(data?: {
     // items
-    item: ItemResponses.DeliveryItemResponse<Movie>,
-    items: ItemResponses.DeliveryItemListingResponse<Movie>,
+    item: ItemResponses.ViewContentItemResponse<Movie>,
+    items: ItemResponses.ListContentItemsResponse<Movie>,
 
     // taxonomies
-    taxonomy: TaxonomyResponses.TaxonomyResponse,
-    taxonomies: TaxonomyResponses.TaxonomiesResponse,
+    taxonomy: TaxonomyResponses.ViewTaxonomyGroupResponse,
+    taxonomies: TaxonomyResponses.ListTaxonomyGroupsResponse,
 
     // types
-    type: TypeResponses.DeliveryTypeResponse,
-    types: TypeResponses.DeliveryTypeListingResponse,
+    type: TypeResponses.ListContentTypesResponse,
+    types: TypeResponses.ViewContentTypeResponse,
 
     // elements
-    element: ElementResponses.ElementResponse
+    element: ElementResponses.ViewContentTypeElementResponse
 
   }) { if (data) { Object.assign(this, data); } }
 }

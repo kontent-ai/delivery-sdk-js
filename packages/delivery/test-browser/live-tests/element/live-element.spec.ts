@@ -14,18 +14,18 @@ describe('Live element', () => {
   const multipleChoiceElementCodename: string = 'category';
   const taxonomyElementCodename: string = 'releasecategory';
 
-  let textElementResponse: ElementResponses.ElementResponse;
-  let multipleChoiceElementResponse: ElementResponses.ElementResponse;
-  let taxonomyElementResponse: ElementResponses.ElementResponse;
+  let textElementResponse: ElementResponses.ViewContentTypeElementResponse;
+  let multipleChoiceElementResponse: ElementResponses.ViewContentTypeElementResponse;
+  let taxonomyElementResponse: ElementResponses.ViewContentTypeElementResponse;
 
   beforeAll((done) => {
     context.deliveryClient.element(typeCodename, textElementCodename)
       .toObservable()
-      .pipe(map(r => textElementResponse = r as ElementResponses.ElementResponse),
+      .pipe(map(r => textElementResponse = r as ElementResponses.ViewContentTypeElementResponse),
         flatMap(() => context.deliveryClient.element(typeCodename, multipleChoiceElementCodename).toObservable())
-        , map(r => multipleChoiceElementResponse = r as ElementResponses.ElementResponse),
+        , map(r => multipleChoiceElementResponse = r as ElementResponses.ViewContentTypeElementResponse),
         flatMap(() => context.deliveryClient.element(typeCodename, taxonomyElementCodename).toObservable()),
-        map(r => taxonomyElementResponse = r as ElementResponses.ElementResponse)
+        map(r => taxonomyElementResponse = r as ElementResponses.ViewContentTypeElementResponse)
       )
       .subscribe(() => {
         done();

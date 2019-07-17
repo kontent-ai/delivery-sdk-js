@@ -3,11 +3,11 @@ import { ContentType, ContentTypeSystemAttributes, GenericElement, GenericElemen
 
 export class TypeMapper {
 
-    mapSingleType(response: TypeContracts.ITypeResponseContract): ContentType {
+    mapSingleType(response: TypeContracts.IListContentTypesContract): ContentType {
         return this.mapType(response);
     }
 
-    mapMultipleTypes(response: TypeContracts.ITypesResponseContract): ContentType[] {
+    mapMultipleTypes(response: TypeContracts.IViewContentTypeContract): ContentType[] {
         const that = this;
         return response.types.map(function (type) {
             return that.mapType(type);
@@ -34,7 +34,7 @@ export class TypeMapper {
 
         const elementNames = Object.getOwnPropertyNames(type.elements);
         elementNames.forEach((elementName: string) => {
-            const typeElement = type.elements[elementName] as ElementContracts.IElementResponseContract;
+            const typeElement = type.elements[elementName] as ElementContracts.IViewContentTypeElementContract;
 
             if (!typeElement) {
                 throw Error(`Cannot find element '${elementName}' on type '${type}'`);

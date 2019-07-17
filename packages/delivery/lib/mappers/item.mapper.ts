@@ -34,7 +34,7 @@ export class ItemMapper {
      * @param response Cloud response used to map the item
      * @param queryConfig Query configuration
      */
-    mapSingleItem<TItem extends IContentItem = IContentItem>(response: ItemContracts.IItemResponseContract, queryConfig: IItemQueryConfig): MapItemResult<TItem> {
+    mapSingleItem<TItem extends IContentItem = IContentItem>(response: ItemContracts.IViewContentItemContract, queryConfig: IItemQueryConfig): MapItemResult<TItem> {
         return this.mapItem<TItem>({
             item: response.item,
             modularContent: response.modular_content,
@@ -50,7 +50,7 @@ export class ItemMapper {
     * @param response Cloud response used to map the item
     * @param queryConfig Query configuration
     */
-    mapMultipleItems<TItem extends IContentItem = IContentItem>(response: ItemContracts.IItemsResponseContract, queryConfig: IItemQueryConfig): MapItemsResult<TItem> {
+    mapMultipleItems<TItem extends IContentItem = IContentItem>(response: ItemContracts.IListContentItemsContract, queryConfig: IItemQueryConfig): MapItemsResult<TItem> {
         const that = this;
 
         const processedItems: IContentItemsContainer = {};

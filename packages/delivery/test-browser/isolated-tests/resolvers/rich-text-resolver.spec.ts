@@ -42,8 +42,8 @@ describe('Rich text resolver', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.DeliveryItemResponse<MockMovie>;
-    let responseWithQueryConfig: ItemResponses.DeliveryItemResponse<MockMovie>;
+    let response: ItemResponses.ViewContentItemResponse<MockMovie>;
+    let responseWithQueryConfig: ItemResponses.ViewContentItemResponse<MockMovie>;
 
     let globalPlot: string = '';
     let localPlot: string = '';

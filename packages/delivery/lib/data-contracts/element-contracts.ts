@@ -2,7 +2,7 @@ import { IElementOptionContract } from './shared/elements.interface';
 
 export namespace ElementContracts {
 
-    export interface IElementResponseContract {
+    export interface IViewContentTypeElementContract {
         type: string;
         name: string;
         codename: string;

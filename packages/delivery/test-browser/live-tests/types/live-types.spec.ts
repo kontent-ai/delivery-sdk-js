@@ -6,13 +6,13 @@ describe('Live types', () => {
   const context = new Context();
   setup(context);
 
-  let response: TypeResponses.DeliveryTypeListingResponse;
+  let response: TypeResponses.ViewContentTypeResponse;
 
   beforeAll((done) => {
     context.deliveryClient.types()
       .toObservable()
       .subscribe(r => {
-        response = r as TypeResponses.DeliveryTypeListingResponse;
+        response = r as TypeResponses.ViewContentTypeResponse;
         done();
       });
   });

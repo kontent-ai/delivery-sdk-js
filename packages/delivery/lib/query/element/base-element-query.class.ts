@@ -39,7 +39,7 @@ export abstract class BaseElementQuery<TResponse extends ICloudResponse> extends
         return super.resolveUrlInternal(action);
     }
 
-    protected runElementQuery(typeCodename: string, elementCodename: string): Observable<ElementResponses.ElementResponse> {
+    protected runElementQuery(typeCodename: string, elementCodename: string): Observable<ElementResponses.ViewContentTypeElementResponse> {
         return this.queryService.getElement(this.getElementQueryUrl(typeCodename, elementCodename), this._queryConfig);
     }
 }

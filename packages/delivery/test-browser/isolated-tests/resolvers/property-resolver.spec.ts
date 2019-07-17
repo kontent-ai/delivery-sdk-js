@@ -40,7 +40,7 @@ describe('Property resolver', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.DeliveryItemResponse<MockMovie>;
+    let response: ItemResponses.ViewContentItemResponse<MockMovie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
