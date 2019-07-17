@@ -31,7 +31,7 @@ describe('#View content item', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.ItemResponses.DeliveryItemResponse));
+        assert.ok((result instanceof KenticoCloud.ItemResponses.ViewContentItemResponse));
     });
 
     it('Response items should be of proper type', () => {

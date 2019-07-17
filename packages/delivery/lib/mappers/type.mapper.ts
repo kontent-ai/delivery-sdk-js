@@ -3,11 +3,11 @@ import { ContentType, ContentTypeSystemAttributes, GenericElement, GenericElemen
 
 export class TypeMapper {
 
-    mapSingleType(response: TypeContracts.IListContentTypesContract): ContentType {
+    mapSingleType(response: TypeContracts.IViewContentTypeContract): ContentType {
         return this.mapType(response);
     }
 
-    mapMultipleTypes(response: TypeContracts.IViewContentTypeContract): ContentType[] {
+    mapMultipleTypes(response: TypeContracts.IListContentTypeContract): ContentType[] {
         const that = this;
         return response.types.map(function (type) {
             return that.mapType(type);

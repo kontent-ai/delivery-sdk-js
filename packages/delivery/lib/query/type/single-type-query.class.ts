@@ -5,7 +5,7 @@ import { TypeResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseTypeQuery } from './base-type-query.class';
 
-export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.ListContentTypesResponse> {
+export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.ViewContentTypeResponse> {
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -22,7 +22,7 @@ export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.ListContentType
     /**
     * Gets the runnable Observable
     */
-    toObservable(): Observable<TypeResponses.ListContentTypesResponse> {
+    toObservable(): Observable<TypeResponses.ViewContentTypeResponse> {
         return super.runSingleTypeQuery(this.typeCodename);
     }
 

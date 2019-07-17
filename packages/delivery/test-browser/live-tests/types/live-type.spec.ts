@@ -7,7 +7,7 @@ describe('Live type', () => {
   setup(context);
 
   const codename: string = 'movie';
-  let response: TypeResponses.ListContentTypesResponse;
+  let response: TypeResponses.ViewContentTypeResponse;
 
   const multipleChoiceElement: string = 'category';
   const taxonomyElement: string = 'releasecategory';
@@ -16,7 +16,7 @@ describe('Live type', () => {
     context.deliveryClient.type(codename)
       .toObservable()
       .subscribe(r => {
-        response = r as TypeResponses.ListContentTypesResponse;
+        response = r;
         done();
       });
   });

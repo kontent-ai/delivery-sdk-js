@@ -20,7 +20,7 @@ describe('#View content type element', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.ElementResponses.ElementResponse));
+        assert.ok((result instanceof KenticoCloud.ElementResponses.ViewContentTypeElementResponse));
     });
 
     it('Response item should be of proper type', () => {

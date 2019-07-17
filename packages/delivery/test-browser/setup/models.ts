@@ -76,8 +76,8 @@ export class AllTestObjects {
   public taxonomies!: TaxonomyResponses.ListTaxonomyGroupsResponse;
 
   // types
-  public type!: TypeResponses.ListContentTypesResponse;
-  public types!: TypeResponses.ViewContentTypeResponse;
+  public type!: TypeResponses.ViewContentTypeResponse;
+  public types!: TypeResponses.ListContentTypesResponse;
 
   // elements
   public element!: ElementResponses.ViewContentTypeElementResponse;
@@ -92,8 +92,8 @@ export class AllTestObjects {
     taxonomies: TaxonomyResponses.ListTaxonomyGroupsResponse,
 
     // types
-    type: TypeResponses.ListContentTypesResponse,
-    types: TypeResponses.ViewContentTypeResponse,
+    type: TypeResponses.ViewContentTypeResponse,
+    types: TypeResponses.ListContentTypesResponse,
 
     // elements
     element: ElementResponses.ViewContentTypeElementResponse

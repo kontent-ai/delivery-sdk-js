@@ -44,15 +44,21 @@ export function setup(context: Context) {
     const deliveryClientConfig: IDeliveryClientConfig = {
         projectId: projectId,
         typeResolvers: typeResolvers,
-        previewApiKey: previewApiKey,
-        enablePreviewMode: context.usePreviewMode,
+        previewMode: {
+            isEnabledGlobally: context.usePreviewMode,
+            previewApiKey: previewApiKey || ''
+        },
+        secureMode: {
+            isEnabledGlobally: context.useSecuredMode,
+            secureApiKey: securedApiKey || ''
+        },
         defaultLanguage: context.defaultLanguage,
-        baseUrl: context.baseUrl,
-        basePreviewUrl: context.basePreviewUrl,
-        securedApiKey: securedApiKey,
-        enableSecuredMode: context.useSecuredMode,
+        proxy: {
+            baseUrl: context.baseUrl,
+            basePreviewUrl: context.basePreviewUrl,
+        },
         retryAttempts: context.retryAttempts,
-        enableAdvancedLogging: context.enableAdvancedLogging,
+        isDeveloperMode: context.enableAdvancedLogging,
         globalHeaders: context.globalHeaders,
         retryStatusCodes: context.retryStatusCodes,
         httpInterceptors: {

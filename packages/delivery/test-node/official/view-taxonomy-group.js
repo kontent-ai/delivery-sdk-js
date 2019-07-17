@@ -20,7 +20,7 @@ describe('#View taxonomy group', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.TaxonomyResponses.TaxonomyResponse));
+        assert.ok((result instanceof KenticoCloud.TaxonomyResponses.ViewTaxonomyGroupResponse));
     });
 
     it('Response item should be of proper type', () => {

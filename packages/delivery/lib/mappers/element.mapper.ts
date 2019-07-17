@@ -249,7 +249,7 @@ export class ElementMapper {
             {
                 links: links,
                 resolveHtmlFunc: () => richTextResolver.resolveHtml(item.system.codename, rawElement.value, elementWrapper.propertyName, {
-                    enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
+                    enableAdvancedLogging: this.config.isDeveloperMode ? this.config.isDeveloperMode : false,
                     images: images,
                     richTextHtmlParser: this.richTextHtmlParser,
                     getLinkedItem: (codename) => this.getOrSaveLinkedItemForElement(codename, rawElement, queryConfig, modularContent, processedItems, processingStartedForCodenames, preparedItems),
@@ -312,7 +312,7 @@ export class ElementMapper {
                     elementName: elementWrapper.propertyName,
                     elementValue: elementWrapper.rawElement.value,
                     item: item,
-                    enableAdvancedLogging: this.config.enableAdvancedLogging ? this.config.enableAdvancedLogging : false,
+                    enableAdvancedLogging: this.config.isDeveloperMode ? this.config.isDeveloperMode : false,
                     linkResolver: linkResolver
                 })
             });
@@ -328,14 +328,14 @@ export class ElementMapper {
     }
     ): ContentItem[] {
         if (!data.elementWrapper) {
-            if (this.config.enableAdvancedLogging) {
+            if (this.config.isDeveloperMode) {
                 console.warn(`Cannot map linked item element because element does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
             return [];
         }
 
         if (!data.elementWrapper.rawElement.value) {
-            if (this.config.enableAdvancedLogging) {
+            if (this.config.isDeveloperMode) {
                 console.warn(`Cannot map linked item of '${data.elementWrapper.rawElement.name}' because its value does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
             return [];
@@ -353,7 +353,7 @@ export class ElementMapper {
                 result.push(linkedItem);
             } else {
                 // item was not found
-                if (this.config.enableAdvancedLogging) {
+                if (this.config.isDeveloperMode) {
                     // tslint:disable-next-line:max-line-length
                     console.warn(`Linked item with codename '${codename}' in linked items element '${data.elementWrapper.rawElement.name}' of '${data.elementWrapper.rawElement.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 }

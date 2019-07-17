@@ -29,11 +29,10 @@ export class DeliveryClient implements IDeliveryClient {
    */
   constructor(protected config: IDeliveryClientConfig) {
     if (!config) {
-      throw Error(`Please provide client configuration`);
+      throw Error(`Delivery client configuration is not set`);
     }
 
     this.mappingService = new MappingService(config, getParserAdapter());
-
     this.queryService = new QueryService(
       config,
       config.httpService ? config.httpService : new HttpService({

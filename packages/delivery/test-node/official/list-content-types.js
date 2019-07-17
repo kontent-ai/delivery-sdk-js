@@ -21,7 +21,7 @@ describe('#List content types', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.TypeResponses.DeliveryTypeListingResponse));
+        assert.ok((result instanceof KenticoCloud.TypeResponses.ListContentTypesResponse));
     });
 
     it('Response items should be of proper type', () => {

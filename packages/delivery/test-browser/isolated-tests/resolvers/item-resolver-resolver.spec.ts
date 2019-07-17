@@ -29,7 +29,7 @@ function getQueryService(advancedLogging: boolean = false): MockQueryService {
     setup(context);
 
     const config = context.getConfig();
-    config.enableAdvancedLogging = advancedLogging;
+    config.isDeveloperMode = advancedLogging;
 
     return new MockQueryService(config, new HttpService(), {
         host: sdkInfo.host,

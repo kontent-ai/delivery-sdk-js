@@ -48,7 +48,7 @@ export abstract class BaseTypeQuery<
   }
 
   protected runMultipleTypesQuery(): Observable<
-    TypeResponses.ViewContentTypeResponse
+    TypeResponses.ListContentTypesResponse
   > {
     return this.queryService.getMultipleTypes(
       this.getMultipleTypesQueryUrl(),
@@ -58,7 +58,7 @@ export abstract class BaseTypeQuery<
 
   protected runSingleTypeQuery(
     codename: string
-  ): Observable<TypeResponses.ListContentTypesResponse> {
+  ): Observable<TypeResponses.ViewContentTypeResponse> {
     return this.queryService.getSingleType(
       this.getSingleTypeQueryUrl(codename),
       this._queryConfig
