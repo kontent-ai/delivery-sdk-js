@@ -88,10 +88,10 @@ export abstract class BaseDeliveryQueryService {
         queryConfig: IQueryConfig,
         options?: IQueryParameter[]
     ): string {
-        if (!this.config.proxyUrl) {
+        if (!this.config.proxy || !this.config.proxy.advancedProxyUrlResolver) {
             return urlHelper.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
         }
-        return this.config.proxyUrl({
+        return this.config.proxy.advancedProxyUrlResolver({
             queryParameters: options ? options : [],
             queryString: urlHelper.addOptionsToUrl('', options),
             action: action,
@@ -130,13 +130,13 @@ export abstract class BaseDeliveryQueryService {
         }
 
         // add preview header is required
-        if (this.isPreviewModeEnabled(queryConfig)) {
-            headers.push(this.getAuthorizationHeader(this.config.previewApiKey));
+        if (this.isPreviewModeEnabled(queryConfig) && this.config.previewMode) {
+            headers.push(this.getAuthorizationHeader(this.config.previewMode.previewApiKey));
         }
 
         // add secured mode header is required
-        if (this.isSecuredModeEnabled(queryConfig)) {
-            headers.push(this.getAuthorizationHeader(this.config.securedApiKey));
+        if (this.isSecuredModeEnabled(queryConfig) && this.config.secureMode) {
+            headers.push(this.getAuthorizationHeader(this.config.secureMode.secureApiKey));
         }
 
         // add 'X-KC-Wait-For-Loading-New-Content' header if required
@@ -173,7 +173,7 @@ export abstract class BaseDeliveryQueryService {
                     headers: this.getHeaders(queryConfig),
                     maxRetryAttempts: this.getRetryAttempts(),
                     useRetryForResponseCodes: this.getRetryStatusCodes(),
-                    logErrorToConsole: this.config.enableAdvancedLogging
+                    logErrorToConsole: this.config.isDeveloperMode
                 }
             )
             .pipe(
@@ -229,7 +229,11 @@ export abstract class BaseDeliveryQueryService {
             return queryConfig.usePreviewMode;
         }
 
-        return this.config.enablePreviewMode === true;
+        if (!this.config.previewMode) {
+            return false;
+        }
+
+        return this.config.previewMode.isEnabledGlobally;
     }
 
     /**
@@ -241,7 +245,11 @@ export abstract class BaseDeliveryQueryService {
             return queryConfig.useSecuredMode;
         }
 
-        return this.config.enableSecuredMode === true;
+        if (!this.config.secureMode) {
+            return false;
+        }
+
+        return this.config.secureMode.isEnabledGlobally;
     }
 
     /**
@@ -250,24 +258,25 @@ export abstract class BaseDeliveryQueryService {
     */
     private getDomain(queryConfig: IQueryConfig): string {
         if (this.isPreviewModeEnabled(queryConfig)) {
-            if (!this.config.previewApiKey) {
+            console.log(queryConfig, this.config.previewMode);
+            if (!this.config.previewMode || !this.config.previewMode.previewApiKey) {
                 throw Error(
-                    `You have to configure 'previewApiKey' to use 'preview' mode`
+                    `Preview API key is not configured.`
                 );
             }
 
-            // use custom base / preview url if its configured
-            if (this.config.basePreviewUrl) {
-                return this.config.basePreviewUrl;
+            // check custom preview url
+            if (this.config.proxy && this.config.proxy.basePreviewUrl) {
+                return this.config.proxy.basePreviewUrl;
             }
 
             // use default preview url
             return this.defaultPreviewDeliveryApiUrl;
         }
 
-        // use custom base / preview url if its configured
-        if (this.config.baseUrl) {
-            return this.config.baseUrl;
+        // check custom base url
+        if (this.config.proxy && this.config.proxy.baseUrl) {
+            return this.config.proxy.baseUrl;
         }
         return this.defaultBaseDeliveryApiUrl;
     }
@@ -277,7 +286,7 @@ export abstract class BaseDeliveryQueryService {
     */
     private getAuthorizationHeader(key?: string): IHeader {
         if (!key) {
-            throw Error(`Cannot get authorization header because key is undefined`);
+            throw Error(`Cannot get authorization header because key is invalid`);
         }
         // authorization header required for preview mode
         return {

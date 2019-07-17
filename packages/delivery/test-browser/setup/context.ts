@@ -5,6 +5,8 @@ import { IHeader } from 'kentico-cloud-core';
 
 export class Context {
 
+  public deliveryClient!: DeliveryClient;
+
   /**
    * Use browser version of html parser when running tests in browser
    */
@@ -14,7 +16,6 @@ export class Context {
   public projectId!: string;
   public previewApiKey?: string;
   public securedApiKey?: string;
-  public deliveryClient!: DeliveryClient;
   public usePreviewMode: boolean = false;
   public useSecuredMode: boolean = false;
   public defaultLanguage?: string;
@@ -52,14 +53,20 @@ export class Context {
     return {
       projectId: this.projectId,
       typeResolvers: this.typeResolvers,
-      enableAdvancedLogging: this.enableAdvancedLogging,
-      enablePreviewMode: this.usePreviewMode,
-      previewApiKey: this.previewApiKey,
+      isDeveloperMode: this.enableAdvancedLogging,
+      previewMode: {
+        isEnabledGlobally: this.usePreviewMode,
+        previewApiKey: this.previewApiKey || ''
+      },
+      secureMode: {
+        isEnabledGlobally: this.useSecuredMode,
+        secureApiKey: this.securedApiKey || ''
+      },
+      proxy: {
+        baseUrl: this.baseUrl,
+        basePreviewUrl: this.basePreviewUrl
+      },
       defaultLanguage: this.defaultLanguage,
-      baseUrl: this.baseUrl,
-      basePreviewUrl: this.basePreviewUrl,
-      enableSecuredMode: this.useSecuredMode,
-      securedApiKey: this.securedApiKey,
       retryAttempts: this.retryAttempts,
       globalHeaders: this.globalHeaders,
       retryStatusCodes: this.retryStatusCodes

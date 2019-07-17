@@ -22,7 +22,7 @@ describe('#List taxonomy groups', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.TaxonomyResponses.TaxonomiesResponse));
+        assert.ok((result instanceof KenticoCloud.TaxonomyResponses.ListTaxonomyGroupsResponse));
     });
 
     it('Response items should be of proper type', () => {

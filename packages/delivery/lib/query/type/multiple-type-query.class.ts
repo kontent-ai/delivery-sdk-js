@@ -5,7 +5,7 @@ import { Parameters, TypeResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseTypeQuery } from './base-type-query.class';
 
-export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.ViewContentTypeResponse> {
+export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.ListContentTypesResponse> {
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -35,7 +35,7 @@ export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.ViewContentTy
     /**
     * Gets the runnable Observable
     */
-    toObservable(): Observable<TypeResponses.ViewContentTypeResponse> {
+    toObservable(): Observable<TypeResponses.ListContentTypesResponse> {
         return super.runMultipleTypesQuery();
     }
 

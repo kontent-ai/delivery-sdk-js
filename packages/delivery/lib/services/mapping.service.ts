@@ -17,7 +17,7 @@ import { IRichTextHtmlParser } from '../parser';
 
 export interface IMappingService {
     listContentTypesResponse(
-        response: IBaseResponse<TypeContracts.IListContentTypesContract>
+        response: IBaseResponse<TypeContracts.IListContentTypeContract>
     ): TypeResponses.ListContentTypesResponse;
 
     viewContentTypeResponse(
@@ -70,14 +70,23 @@ export class MappingService implements IMappingService {
      * @param response Response data
      */
     listContentTypesResponse(
-        response: IBaseResponse<TypeContracts.IListContentTypesContract>
+        response: IBaseResponse<TypeContracts.IListContentTypeContract>
     ): TypeResponses.ListContentTypesResponse {
 
-        // map type
-        const type = this.typeMapper.mapSingleType(response.data);
+        // map types
+        const types = this.typeMapper.mapMultipleTypes(response.data);
+
+        // pagination
+        const pagination: Pagination = new Pagination({
+            skip: response.data.pagination.skip,
+            count: response.data.pagination.count,
+            limit: response.data.pagination.limit,
+            nextPage: response.data.pagination.next_page
+        });
 
         return new TypeResponses.ListContentTypesResponse(
-            type,
+            types,
+            pagination,
             this.mapResponseDebug(response)
         );
     }
@@ -91,20 +100,11 @@ export class MappingService implements IMappingService {
         response: IBaseResponse<TypeContracts.IViewContentTypeContract>
     ): TypeResponses.ViewContentTypeResponse {
 
-        // map types
-        const types = this.typeMapper.mapMultipleTypes(response.data);
-
-        // pagination
-        const pagination: Pagination = new Pagination({
-            skip: response.data.pagination.skip,
-            count: response.data.pagination.count,
-            limit: response.data.pagination.limit,
-            nextPage: response.data.pagination.next_page
-        });
+        // map type
+        const type = this.typeMapper.mapSingleType(response.data);
 
         return new TypeResponses.ViewContentTypeResponse(
-            types,
-            pagination,
+            type,
             this.mapResponseDebug(response)
         );
     }

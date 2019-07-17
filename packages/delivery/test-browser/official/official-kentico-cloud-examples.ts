@@ -33,8 +33,8 @@ describe('Official Kentico cloud examples (used in API reference https://develop
     /* ------------- Prepare responses ----------- */
     let itemResponse: ItemResponses.ViewContentItemResponse<Article>;
     let itemsResponse: ItemResponses.ListContentItemsResponse<Article>;
-    let typeResponse: TypeResponses.ListContentTypesResponse;
-    let typesResponse: TypeResponses.ViewContentTypeResponse;
+    let typeResponse: TypeResponses.ViewContentTypeResponse;
+    let typesResponse: TypeResponses.ListContentTypesResponse;
     let taxonomyResponse: TaxonomyResponses.ViewTaxonomyGroupResponse;
     let taxonomiesReponse: TaxonomyResponses.ListTaxonomyGroupsResponse;
     let elementResponse: ElementResponses.ViewContentTypeElementResponse;

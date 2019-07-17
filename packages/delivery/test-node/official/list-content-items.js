@@ -33,7 +33,7 @@ describe('#List content items', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.ItemResponses.DeliveryItemListingResponse));
+        assert.ok((result instanceof KenticoCloud.ItemResponses.ListContentItemsResponse));
     });
 
     it('Response should have > 0 && < 4 items', () => {

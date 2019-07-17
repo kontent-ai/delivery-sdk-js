@@ -75,10 +75,10 @@ export class QueryService extends BaseDeliveryQueryService {
   getSingleType(
     url: string,
     queryConfig: IContentTypeQueryConfig
-  ): Observable<TypeResponses.ListContentTypesResponse> {
-    return this.getResponse<TypeContracts.IListContentTypesContract>(url, queryConfig).pipe(
+  ): Observable<TypeResponses.ViewContentTypeResponse> {
+    return this.getResponse<TypeContracts.IViewContentTypeContract>(url, queryConfig).pipe(
       map(response => {
-        return this.mappingService.listContentTypesResponse(response);
+        return this.mappingService.viewContentTypeResponse(response);
       })
     );
   }
@@ -91,10 +91,10 @@ export class QueryService extends BaseDeliveryQueryService {
   getMultipleTypes(
     url: string,
     queryConfig: IContentTypeQueryConfig
-  ): Observable<TypeResponses.ViewContentTypeResponse> {
-    return this.getResponse<TypeContracts.IViewContentTypeContract>(url, queryConfig).pipe(
+  ): Observable<TypeResponses.ListContentTypesResponse> {
+    return this.getResponse<TypeContracts.IListContentTypeContract>(url, queryConfig).pipe(
       map(response => {
-        return this.mappingService.viewContentTypeResponse(response);
+        return this.mappingService.listContentTypesResponse(response);
       })
     );
   }

@@ -6,9 +6,11 @@ describe('Proxy URL #1', () => {
 
   const client = new DeliveryClient({
     projectId: 'xxx',
-    proxyUrl: (data) => {
-      proxyData = data;
-      return 'http://custom-proxy.io';
+    proxy: {
+      advancedProxyUrlResolver: (data) => {
+        proxyData = data;
+        return 'http://custom-proxy.io';
+      }
     }
   });
 
