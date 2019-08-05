@@ -8,8 +8,8 @@ class Actor extends KenticoCloud.ContentItem {
             richTextResolver: (item, context) => {
                 return `<p>${item.first_name.value}</p>`;
             },
-            linkResolver: (link) => {
-                return '/actor/' + link.urlSlug;
+            urlSlugResolver: (link) => {
+                return { url: '/actor/' + link.urlSlug };
             }
         });
     }
@@ -27,8 +27,8 @@ class Movie extends KenticoCloud.ContentItem {
             richTextResolver: (item, context) => {
                 return `<p>${item.title.value}</p>`;
             },
-            linkResolver: (link) => {
-                return 'testSlugUrl/' + link.urlSlug;
+            urlSlugResolver: (link, context) => {
+                return { url: 'testSlugUrl/' + link.urlSlug };
             }
         }, );
     }

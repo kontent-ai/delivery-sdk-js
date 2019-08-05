@@ -555,16 +555,16 @@ const transformedUrl = imageUrlBuilder.getUrl();
 
 ### URL Slugs (links)
 
-#### Resolving URL slugs (links) globally
+#### Resolving URL slugs globally
 
-The URL slugs (links) can be resolved in `URLSlugElement` or `RichTextElement` elements. The way how links are resolved depends on the `linkResolver` which can be defined either globally in model definition, or by using the `queryConfig` method of a particular api call. The query resolver has priority over the globally defined one. 
+The URL slugs (links) can be resolved in `URLSlugElement` or `RichTextElement` elements. The way how links are resolved depends on the `urlSlugResolver` which can be defined either globally in model class, or by using the `queryConfig` method of a particular API call. The query resolver has priority over the globally defined one. 
 
-To access the URL, call `getUrl` method.
+To access the resolved URL, call `resolveUrl` method.
 
-Note that when resolving links in RichTextElement, you resolve all of them with a single link resolver. For this reason, it is recommended that you specify the `type` of the content type you want to resolve. Also, if a link is inside RichTextElement, you may access the original link text using the `context` parameter.
+Note that when resolving links in `RichTextElement`, you resolve all of them with a single link resolver. For this reason, it is recommended that you specify the `type` of the content type you want to resolve. Also, if a link is inside RichTextElement, you may access the original link text using the `context` parameter.
 
 ```typescript
-import { ContentItem, Elements, ILink, ILinkResolverContext } from 'kentico-cloud-delivery';
+import { ContentItem, Elements } from 'kentico-cloud-delivery';
 
 export class Actor extends ContentItem {
   public title: Elements.TextElement;
@@ -572,8 +572,8 @@ export class Actor extends ContentItem {
 
     constructor() {
     super({
-      linkResolver: (link: ILink, context: ILinkResolverContext) => {
-        return `/actors/${url_slug}`;
+      urlSlugResolver: (link, context) => {
+        return { url: `/actors/${url_slug}` };
       }
     })
   }
@@ -582,50 +582,50 @@ export class Actor extends ContentItem {
 // get url 
 deliveryClient.item<Actor>('tom_hardy')
   .toObservable()
-  .subscribe(response => console.log(response.item.slug.getUrl()));
+  .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 
-#### Resolving URL slugs (links) per query
+#### Resolving URL slugs on query level
 
 ```typescript
-import { ContentItem, Elements, ILink } from 'kentico-cloud-delivery';
+import { ContentItem, Elements } from 'kentico-cloud-delivery';
 
 deliveryClient.item<Actor>('tom_hardy')
   .queryConfig({
-    linkResolver: (link: ILink) => {
+    urlSlugResolver: (link, context) => {
         if (link.type === 'actor'){
-          return `/actors/${urlSlug}`;
+          return { url: `/actors/${urlSlug}`};
         }
         else if (link.type === 'movie'){
-          return `/movies/${urlSlug}`;
+          return { url: `/movies/${urlSlug}`};
         }
-        return 'unkown-type';
+        return { url: 'unsupported-link'};
       }
   })
   .toObservable()
-  .subscribe(response => console.log(response.item.slug.getUrl()));
+  .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 
-#### Resolving links in SPA
+#### Resolving URL slug as HTML
 
-When developing SPA (e.g. angular, react, vue ...), you might want to use links in a different way by completely removing the link tag (`<a>`) and replacing it with custom HTML. You can achieve this by returning an object according to `ILinkResolverResult` interface. See example:
+In some cases you might want to customize link tag (`<a>`) to add CSS classes, attributes or otherwise customize the HTML. You can achieve this by setting `html` property of `IUrlSlugResolverResult` interface. See example:
 
 ```typescript
-import { ContentItem, Elements, ILink, ILinkResolverResult } from 'kentico-cloud-delivery';
+import { ContentItem, Elements } from 'kentico-cloud-delivery';
 
 deliveryClient.item<Actor>('tom_hardy')
   .queryConfig({
-    linkResolver: (link: ILink) => {
+    urlSlugResolver: (link, context) => {
         if (link.type === 'actor'){
-          return <ILinkResolverResult>{
-            asHtml: '<div>ActorLink</div>'
+          return {
+            html: '<div>ActorLink</div>'
           }
         }
         return undefined;
       }
   })
   .toObservable()
-  .subscribe(response => console.log(response.item.slug.getUrl()));
+  .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 
 ### Resolving content items and components in Rich text elements

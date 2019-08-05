@@ -1,10 +1,9 @@
 import {
   ContentItem,
-  ElementResponses,
   ElementDecorators,
+  ElementResponses,
   Elements,
   ItemResponses,
-  Link,
   TaxonomyResponses,
   TypeResponses,
 } from '../../lib';
@@ -24,8 +23,10 @@ export class Actor extends ContentItem {
       richTextResolver: (item: Actor, context) => {
         return `<p>${item.firstName.value}</p>`;
       },
-      linkResolver: (link: Link) => {
-        return '/actor/' + link.urlSlug;
+      urlSlugResolver: (link, context) => {
+        return {
+          url: '/actor/' + link.urlSlug
+        };
       }
     });
   }
@@ -57,8 +58,10 @@ export class Movie extends ContentItem {
       richTextResolver: (item, context) => {
         return `<p>${item.title.value}</p>`;
       },
-      linkResolver: (link: Link) => {
-        return 'testSlugUrl/' + link.urlSlug;
+      urlSlugResolver: (link, context) => {
+        return {
+          url: 'testSlugUrl/' + link.urlSlug
+        };
       }
     }
     );

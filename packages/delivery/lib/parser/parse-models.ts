@@ -1,4 +1,4 @@
-import { IItemQueryConfig, ILinkResolverResult, IRichTextImageResolverResult, RichTextContentType } from '../models';
+import { IItemQueryConfig, IUrlSlugResolverResult, IRichTextImageResolverResult, RichTextContentType } from '../models';
 
 export type ResolverContext = 'root' | 'nested';
 
@@ -18,7 +18,7 @@ export interface IRichTextResolverResult extends IFeaturedObjects {
 
 export interface IRichTextReplacements {
     getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) => string;
-    getLinkResult: (itemId: string, linkText: string) => string | undefined | ILinkResolverResult;
+    getUrlSlugResult: (itemId: string, linkText: string) => IUrlSlugResolverResult;
     getImageResult: (resolverCotnext: ResolverContext, linkedItemCodename: string, imageId: string, elementName: string) => IRichTextImageResolverResult;
 }
 

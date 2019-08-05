@@ -1,4 +1,4 @@
-import { ContentItem, Elements, getParserAdapter, ILinkResolverResult, richTextResolver } from '../../../lib';
+import { ContentItem, Elements, getParserAdapter, IUrlSlugResolverResult, richTextResolver } from '../../../lib';
 
 describe('Rich text with regular link', () => {
     const linkedItems: ContentItem[] = [];
@@ -28,8 +28,8 @@ describe('Rich text with regular link', () => {
                     linkedItemWrapperTag: 'kc-item-wrapper',
                     queryConfig: {
                         richTextResolver: undefined as any,
-                        linkResolver: (link) => <ILinkResolverResult>{
-                            asHtml: `<test>${link.urlSlug}</test>`,
+                        urlSlugResolver: (link) => <IUrlSlugResolverResult>{
+                            html: `<test>${link.urlSlug}</test>`,
                         }
                     },
                 }),

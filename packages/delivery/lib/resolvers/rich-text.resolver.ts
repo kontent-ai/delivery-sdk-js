@@ -2,10 +2,10 @@ import { Elements } from '../elements';
 import {
     IContentItem,
     IItemQueryConfig,
-    ILinkResolverContext,
-    ILinkResolverResult,
+    IUrlSlugResolverContext,
     IRichTextImageResolverResult,
     ItemRichTextResolver,
+    IUrlSlugResolverResult,
     Link,
     RichTextContentType,
     RichTextImage,
@@ -43,7 +43,7 @@ export class RichTextResolver {
         const result = data.richTextHtmlParser.resolveRichTextElement(
             'root',
             contentItemCodename, html, elementName, {
-                getLinkResult: (itemId: string, linkText: string) => this.getLinkResult({
+                getUrlSlugResult: (itemId: string, linkText: string) => this.getUrlSlugResult({
                     config: config,
                     links: data.links,
                     itemId: itemId,
@@ -180,13 +180,13 @@ export class RichTextResolver {
         });
     }
 
-    private getLinkResult(data: {
+    private getUrlSlugResult(data: {
         itemId: string,
         config: IHtmlResolverConfig,
         links: Link[],
         getLinkedItem: (codename: string) => IContentItem | undefined,
         linkText: string
-    }): string | ILinkResolverResult {
+    }): IUrlSlugResolverResult {
         // find link with the id of content item
         const existingLink = data.links.find(m => m.linkId === data.itemId);
 
@@ -194,41 +194,50 @@ export class RichTextResolver {
             if (data.config.enableAdvancedLogging) {
                 console.warn(`Cannot resolve URL for item '${data.itemId}' because no link with this id was found. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
             }
-            return '';
+            return {
+                html: '',
+                url: ''
+            };
         }
 
-        // try to resolve link using the resolver passed through the query config
-        const queryLinkResolver = data.config.queryConfig.linkResolver;
-
-        let url;
+        const linkedItem = data.getLinkedItem(existingLink.codename);
 
         // prepare link context
-        const linkContext: ILinkResolverContext = {
+        const linkContext: IUrlSlugResolverContext = {
             linkText: data.linkText,
+            item: linkedItem,
+            linkId: data.itemId
         };
 
-        if (queryLinkResolver) {
-            // try to resolve url using the query config
-            url = queryLinkResolver(existingLink, linkContext);
-        } else {
-            // url was not resolved, try using global link resolver for item
-            const linkedItem = data.getLinkedItem(existingLink.codename);
+        // try to resolve link using the resolver passed through the query config
+        const queryUrlSlugResolver = data.config.queryConfig.urlSlugResolver;
 
-            if (linkedItem && linkedItem._config && linkedItem._config.linkResolver) {
-                // resolve url using link resolver defined on class level
-                url = linkedItem._config.linkResolver(existingLink, linkContext);
+        if (queryUrlSlugResolver) {
+            // resolve url using query config
+            const queryUrlSlugResult = queryUrlSlugResolver(existingLink, linkContext);
+            if (queryUrlSlugResult) {
+                return queryUrlSlugResult;
             }
         }
 
-        // url still wasn't resolved
-        if (!url) {
-            if (data.config.enableAdvancedLogging) {
-                console.warn(`Url for content type '${existingLink.type}' with id '${existingLink.linkId}' resolved to null/undefined. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+        // url was not resolved, try using global link resolver for item
+        if (linkedItem && linkedItem._config && linkedItem._config.urlSlugResolver) {
+            const globalUrlSlugResult = linkedItem._config.urlSlugResolver(existingLink, linkContext);
+            if (globalUrlSlugResult) {
+                return globalUrlSlugResult;
             }
-            return '';
         }
 
-        return url;
+        // url wasn't resolved
+        if (data.config.enableAdvancedLogging) {
+            console.warn(`Url for item of '${existingLink.type}' type with id '${existingLink.linkId}' wasn't resolved. Are you missing 'urlSlugResolver'?
+                This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+        }
+
+        return {
+            html: '',
+            url: ''
+        };
     }
 }
 

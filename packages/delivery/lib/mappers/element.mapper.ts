@@ -9,19 +9,13 @@ import {
     IContentItem,
     IContentItemsContainer,
     IItemQueryConfig,
-    ItemLinkResolver,
+    IMapElementsResult,
+    ItemUrlSlugResolver,
     Link,
     RichTextImage,
 } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
-
-export interface IMapElementsResult<TItem extends IContentItem = IContentItem> {
-    item: TItem;
-    processedItems: IContentItemsContainer;
-    preparedItems: IContentItemsContainer;
-    processingStartedForCodenames: string[];
-}
 
 export class ElementMapper {
 
@@ -304,7 +298,7 @@ export class ElementMapper {
     }
 
     private mapUrlSlugElement(elementWrapper: ElementModels.IElementWrapper, item: IContentItem, queryConfig: IItemQueryConfig): Elements.UrlSlugElement {
-        const linkResolver = this.getLinkResolverForUrlSlugElement(item, queryConfig);
+        const resolver = this.getUrlSlugResolverForElement(item, elementWrapper, queryConfig);
         return new Elements.UrlSlugElement(
             elementWrapper,
             {
@@ -313,8 +307,8 @@ export class ElementMapper {
                     elementValue: elementWrapper.rawElement.value,
                     item: item,
                     enableAdvancedLogging: this.config.isDeveloperMode ? this.config.isDeveloperMode : false,
-                    linkResolver: linkResolver
-                })
+                    resolver: resolver
+                }).url || ''
             });
     }
 
@@ -363,17 +357,18 @@ export class ElementMapper {
         return result;
     }
 
-    private getLinkResolverForUrlSlugElement(item: IContentItem, queryConfig: IItemQueryConfig): ItemLinkResolver | undefined {
-        // link resolver defined by the query config (= by calling method) has priority over type's global link resolver
-        let linkResolver: ItemLinkResolver | undefined = undefined;
-
-        if (queryConfig.linkResolver) {
-            linkResolver = queryConfig.linkResolver;
-        } else if (item._config && item._config.linkResolver) {
-            linkResolver = item._config.linkResolver;
+    private getUrlSlugResolverForElement(item: IContentItem, elementWrapper: ElementModels.IElementWrapper, queryConfig: IItemQueryConfig): ItemUrlSlugResolver {
+        // query `urlSlugResolver` has priority over global resolver
+        if (queryConfig.urlSlugResolver) {
+            return queryConfig.urlSlugResolver;
         }
 
-        return linkResolver;
+        if (item._config && item._config.urlSlugResolver) {
+            return item._config.urlSlugResolver;
+        }
+
+        // resolve default link value
+        return () => elementWrapper.rawElement.value;
     }
 
     private getProcessedItem(codename: string, processedItems: IContentItemsContainer): IContentItem | undefined {
