@@ -48,7 +48,7 @@ describe('URLSlugElement', () => {
                 item: sharedActor,
                 elementValue: 'actor-slug',
                 elementName: 'name',
-                resolver: (link, context) => { return { url: 'resolved-link/' + link.urlSlug } }
+                resolver: (link, context) => { return { url: 'resolved-link/' + link.urlSlug }; }
             }).url || ''
         });
         expect(element1.resolveUrl()).toEqual('resolved-link/actor-slug');
