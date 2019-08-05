@@ -1,38 +1,16 @@
+## 6.0.0-rc.1 (2019-08-05)
+
+#### :boom: Breaking Change
+  * [#226](https://github.com/Kentico/kentico-cloud-js/pull/226) Renames `linkResolver` to `urlSlugResolver` and changes its return type to `IUrlSlugResolverResult` - this change means that string can no longer be a return type. ([@Enngage](https://github.com/Enngage))
+  * [#227](https://github.com/Kentico/kentico-cloud-js/pull/227) Adds configuration property `globalQueryConfig` which represents global configuration for all queries. Removes `secure` and `preview` configuration properties in favor of the new `globalQueryConfig`. Preview & Secured keys are defined directly in `IDeliveryClientConfig` ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-rc.0 (2019-07-17)
 
 #### :boom: Breaking Change
   * [#221](https://github.com/Kentico/kentico-cloud-js/pull/221) Fixes content type model names, refactors delivery client configuration (separates preview, secure & proxy into own sub categories) ([@Enngage](https://github.com/Enngage))
 
-New `IDeliveryClientConfig` signature is as follows:
-
-```typescript
-const config: IDeliveryClientConfig = {
-  projectId: 'xxx',
-  typeResolvers: [],
-  isDeveloperMode: true,
-  previewMode: {
-    isEnabledGlobally: false,
-    previewApiKey: 'preview-key'
-  },
-  secureMode: {
-    isEnabledGlobally: true
-    secureApiKey: 'secured-key'
-  },
-  proxy: {
-    baseUrl: 'custom-base.com',
-    basePreviewUrl: 'custom-preview.com'
-  },
-  defaultLanguage: 'en-US',
-  retryAttempts: 3,
-  globalHeaders: () => [],
-  retryStatusCodes: [500]
-};
-```
-
 * [#220](https://github.com/Kentico/kentico-cloud-js/pull/220) Renames response models, contracts & maps to match API endpoints & official docs (+ unification of names across endpoints) ([@Enngage](https://github.com/Enngage))
 
-- `previewApiKey` & `enablePreviewMode` moved to `previewMode`
-- `secureApiKey` & `enableSecuredMode` moved to `secureMode`
 - `baseUrl` & `basePreviewUrl` moved to `proxy`
 - `proxyUrl` renamed to `advancedProxyUrlResolver`
 - `enableAdvancedLogging` renamed to `isDeveloperMode`
@@ -42,7 +20,7 @@ const config: IDeliveryClientConfig = {
 - **Field** was renamed to **Element** to unify it with Kentico Cloud terminology. This change affects class names, namespaces, method names & file paths.
 - Type specific properties for elements (e.g. 'text' property for `TextElement` or 'number' for `NumberElement` ) were replaced by `value` property
 - `getHtml` renamed to `resolveHtml` in `RichTextElement`
-- `getUrl` renamed to 'resolveUrl' in `UrlSlugElement`
+- `getUrl` renamed to `resolveUrl` in `UrlSlugElement`
 - `CustomField` renamed to `DefaultCustomElement`
 
   * [#216](https://github.com/Kentico/kentico-cloud-js/pull/216) Renames `debug` property to `_debug` on `ContentItem`, groups resolver properties under `_config` property rather than polluting `ContentItem` model, improves typings on `ContentItem`  ([@Enngage](https://github.com/Enngage))
