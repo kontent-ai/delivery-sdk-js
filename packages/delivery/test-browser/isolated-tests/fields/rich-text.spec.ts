@@ -52,12 +52,14 @@ class ActorMock extends ContentItem {
                 resolveLinkFunc: () => urlSlugResolver.resolveUrl({
                     elementName: 'name',
                     item: this,
-                    linkResolver: (link: Link) => {
-                        return `/actor-rt/` + link.urlSlug;
-                    },
                     enableAdvancedLogging: true,
-                    elementValue: codename
-                })
+                    elementValue: codename,
+                    resolver: (link, context) => {
+                        return {
+                            url: `/actor-rt/` + link.urlSlug
+                        };
+                    },
+                }).url || ''
             });
     }
 }
@@ -127,10 +129,14 @@ describe('RichTextElement', () => {
                 linkedItemWrapperClasses: ['kc-wrapper-class'],
                 linkedItemWrapperTag: 'kcelem',
                 queryConfig: {
-                    richTextResolver: (item: ContentItem, context) => {
+                    richTextResolver: (item, context) => {
                         return `<p class="testing_richtext">${(<ActorMock>item).firstName.value}</p>`;
                     },
-                    linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
+                    urlSlugResolver: (link, context) => {
+                        return {
+                            url: '/actor-rt/' + link.urlSlug,
+                        };
+                    }
                 },
             }),
             images: []
@@ -141,7 +147,7 @@ describe('RichTextElement', () => {
         expect(element.name).toEqual('name');
     });
 
-    it(`checks value`, () => {
+    it(`value should be original (unresolved) html`, () => {
         expect(element.value).toEqual(html);
     });
 
@@ -204,8 +210,12 @@ describe('RichTextElement', () => {
                     linkedItemWrapperClasses: ['kc-wrapper-class'],
                     linkedItemWrapperTag: 'kc-item-wrapper',
                     queryConfig: {
-                        richTextResolver: undefined as any,
-                        linkResolver: (link: Link) => '/actor-rt/' + link.urlSlug
+                        richTextResolver: undefined,
+                        urlSlugResolver: (link, context) => {
+                            return {
+                                url: '/actor-rt/' + link.urlSlug
+                            };
+                        }
                     },
                 }),
                 images: []

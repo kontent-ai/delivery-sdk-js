@@ -7,8 +7,10 @@ class MockMovie extends ContentItem {
 
     constructor() {
         super({
-            linkResolver: (link: Link) => {
-                return 'globalSlug/' + link.urlSlug;
+            urlSlugResolver: (link: Link) => {
+                return {
+                    url: 'globalSlug/' + link.urlSlug
+                };
             }
         });
     }
@@ -38,11 +40,13 @@ describe('URL slug resolver', () => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
 
         responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {
-            linkResolver: (link: Link) => {
+            urlSlugResolver: (link: Link) => {
                 // store links
                 links.push(link);
 
-                return 'querySlug/' + link.urlSlug;
+                return {
+                    url: 'querySlug/' + link.urlSlug
+                };
             }
         });
         done();

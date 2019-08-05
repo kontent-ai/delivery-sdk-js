@@ -1,13 +1,19 @@
 import { ItemContracts } from '../../data-contracts/item-contracts';
 import { IQueryConfig } from '../common/common-models';
 import {
-    ItemLinkResolver,
+    ItemUrlSlugResolver,
     ItemPropertyResolver,
     ItemResolver,
     ItemRichTextResolver,
     RichTextImageResolver,
 } from './item-resolvers';
 
+export interface IMapElementsResult<TItem extends IContentItem = IContentItem> {
+    item: TItem;
+    processedItems: IContentItemsContainer;
+    preparedItems: IContentItemsContainer;
+    processingStartedForCodenames: string[];
+}
 
 export interface IContentItemSystemAttributes {
     /**
@@ -227,23 +233,33 @@ export interface ITypeResolverData {
 
 export interface IItemQueryConfig extends IQueryConfig {
     throwErrorForMissingLinkedItems?: boolean;
-    linkResolver?: ItemLinkResolver;
+    urlSlugResolver?: ItemUrlSlugResolver;
     richTextResolver?: ItemRichTextResolver<IContentItem>;
     itemResolver?: ItemResolver;
     richTextImageResolver?: RichTextImageResolver;
 }
 
-export interface ILinkResolverContext {
+export interface IUrlSlugResolverContext {
 
     /**
      * Original link text (available only for links in rich text element)
      */
     linkText?: string;
+
+    /**
+     * Content item if available
+     */
+    item?: IContentItem;
+
+    /**
+     * Link id (equal to `contentItem` id). Available only for links inside `richTextElement`
+     */
+    linkId?: string;
 }
 
-export interface ILinkResolverResult {
-    asHtml?: string;
-    asUrl?: string;
+export interface IUrlSlugResolverResult {
+    html?: string;
+    url?: string;
 }
 
 export interface IRichTextResolverContext {
@@ -266,9 +282,9 @@ export interface IContentItemConfig {
     propertyResolver?: ItemPropertyResolver;
 
     /**
-     *  Function used to resolve links or URL slug elements
+     *  Function used to resolve url slug elements
      */
-    linkResolver?: ItemLinkResolver;
+    urlSlugResolver?: ItemUrlSlugResolver;
 
     /**
      * Function used to resolve linked items in rich text elements to HTML

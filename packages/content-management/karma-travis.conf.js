@@ -53,7 +53,7 @@ module.exports = function (config) {
         client: {
             clearContext: false // leave Jasmine Spec Runner output visible in browser
         },
-        logLevel: config.LOG_ERROR,
+        logLevel: config.DEBUG,
         browserDisconnectTolerance: 2,
         browserNoActivityTimeout: 50000
     });

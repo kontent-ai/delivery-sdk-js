@@ -2,13 +2,11 @@ import {
     ContentItem,
     ContentItemSystemAttributes,
     Elements,
-    IDeliveryClientConfig,
+    getParserAdapter,
+    IUrlSlugResolverResult,
     Link,
     richTextResolver,
-    TypeResolver,
     urlSlugResolver,
-    getParserAdapter,
-    ILinkResolverResult
 } from '../../../lib';
 
 class ActorMock extends ContentItem {
@@ -50,15 +48,17 @@ class ActorMock extends ContentItem {
                 type: ''
             }
         }, {
-            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                elementName: 'name',
-                item: this,
-                linkResolver: (link: Link) => <ILinkResolverResult>{
-                    asHtml: `<test>${link.urlSlug}</test>`,
-                },
-                enableAdvancedLogging: true,
-                elementValue: codename
-            })
+                resolveLinkFunc: () => urlSlugResolver.resolveUrl({
+                    elementName: 'name',
+                    item: this,
+                    resolver: (link, context) => {
+                        return {
+                            html: `<test>${link.urlSlug}</test>`,
+                        };
+                    },
+                    enableAdvancedLogging: true,
+                    elementValue: codename
+                }).html || ''
             });
     }
 }
@@ -117,24 +117,24 @@ describe('RichTextElement with Html links', () => {
                 value: html
             }
         }, linkedItems.map(m => m.system.codename), {
-            links: links,
-            resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
-                enableAdvancedLogging: false,
                 links: links,
-                getLinkedItem: getLinkedItem,
-                images: [],
-                richTextHtmlParser: getParserAdapter(),
-                linkedItemWrapperClasses: ['kc-wrapper-class'],
-                linkedItemWrapperTag: 'kc-item-wrapper',
-                queryConfig: {
-                    richTextResolver: undefined as any,
-                    linkResolver: (link) => <ILinkResolverResult>{
-                        asHtml: `<test>${link.urlSlug}</test>`,
-                    }
-                },
-            }),
-            images: []
-        });
+                resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                    enableAdvancedLogging: false,
+                    links: links,
+                    getLinkedItem: getLinkedItem,
+                    images: [],
+                    richTextHtmlParser: getParserAdapter(),
+                    linkedItemWrapperClasses: ['kc-wrapper-class'],
+                    linkedItemWrapperTag: 'kc-item-wrapper',
+                    queryConfig: {
+                        richTextResolver: undefined as any,
+                        urlSlugResolver: (link) => <IUrlSlugResolverResult>{
+                            html: `<test>${link.urlSlug}</test>`,
+                        }
+                    },
+                }),
+                images: []
+            });
 
         const expectedHtml1 = `${beforeLinkText}<test>slug_for_joel</test>${afterLinkText}`;
         const expectedHtml2 = `${beforeLinkText}<test>slug_for_tom</test>${afterLinkText}`;

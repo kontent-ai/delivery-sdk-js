@@ -10,10 +10,10 @@ class Actor extends KenticoCloud.ContentItem {
             richTextResolver: (item, context) => {
                 return `<p>${item.first_name.value}</p>`;
             },
-            linkResolver: (link, context) => {
+            urlSlugResolver: (link, context) => {
                 linkContexts[link.codename] = context;
                 return {
-                    asHtml: `<test>${link.urlSlug}</test>`
+                    html: `<test>${link.urlSlug}</test>`
                 }
             }
         });
@@ -29,8 +29,8 @@ class Movie extends KenticoCloud.ContentItem {
                     return 'releaseCategory';
                 }
             },
-            richTextResolver: (item, context) => {
-                return `<p>${item.title.value}</p>`;
+            urlSlugResolver: (item, context) => {
+                return { url: `<p>${item.title.value}</p>`};
             }
         }, );
     }

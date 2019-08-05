@@ -1,4 +1,4 @@
-import { ILinkResolverResult, RichTextContentType } from '../../models';
+import { IUrlSlugResolverResult, RichTextContentType } from '../../models';
 import {
     IFeaturedObjects,
     IHtmlResolverConfig,
@@ -111,40 +111,28 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         // get original link text (the one inside <a> tag)
                         const linkText = element.innerHTML;
 
-                        const linkResult = replacement.getLinkResult(link.dataItemId, linkText);
-                        let useResultAsUrl: boolean = true;
+                        const urlSlugResult = replacement.getUrlSlugResult(link.dataItemId, linkText);
 
-                        if (typeof linkResult === 'string') {
-                            // use result as URL
-                            useResultAsUrl = true;
-                        } else {
-                            useResultAsUrl = false;
-                        }
-
-                        if (!useResultAsUrl) {
-                            // replace whole link (<a> tag)
-                            if (linkResult) {
-                                // html for link is defined
-                                const linkHtml = (<ILinkResolverResult>linkResult).asHtml;
-                                element.outerHTML = linkHtml ? linkHtml : '';
-                                const parent = element.parentNode;
-                                if (parent) {
-                                    parent.replaceChild(element, element);
-                                }
+                        // html has priority over url resolver
+                        if (urlSlugResult.html) {
+                            // replace link html
+                            const linkHtml = (<IUrlSlugResolverResult>urlSlugResult).html;
+                            element.outerHTML = linkHtml ? linkHtml : '';
+                            const parent = element.parentNode;
+                            if (parent) {
+                                parent.replaceChild(element, element);
                             }
-                        }
-
-                        if (useResultAsUrl) {
-                            // add url to link
+                        } else if (urlSlugResult.url) {
+                            // set link url only
                             const hrefAttribute = element.attributes.getNamedItem('href');
                             if (!hrefAttribute) {
                                 // href attribute is missing
                                 if (config.enableAdvancedLogging) {
-                                    console.warn(`Cannot set url '${linkResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                                    console.warn(`Cannot set url '${urlSlugResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                                 }
                             } else {
                                 // get link url
-                                const linkUrlResult: string | undefined = typeof linkResult === 'string' ? <string>linkResult : (<ILinkResolverResult>linkResult).asUrl;
+                                const linkUrlResult: string | undefined = typeof urlSlugResult === 'string' ? <string>urlSlugResult : (<IUrlSlugResolverResult>urlSlugResult).url;
                                 hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
                             }
                         }

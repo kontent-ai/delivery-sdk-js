@@ -1,4 +1,4 @@
-import { ILinkResolverResult, Link, RichTextImage } from '..';
+import { Link, RichTextImage } from '..';
 import { ElementContracts } from '../data-contracts';
 import { ElementModels } from './element-models';
 import { ElementType } from './element-type';
@@ -251,13 +251,13 @@ export namespace Elements {
         }
     }
 
-    export class UrlSlugElement extends BaseElement<string | undefined | ILinkResolverResult> {
+    export class UrlSlugElement extends BaseElement<string> {
 
-        private resolvedUrl?: string | undefined | ILinkResolverResult;
+        private resolvedUrl?: string;
 
-        private resolveLinkFunc: () => string | undefined | ILinkResolverResult;
+        private resolveLinkFunc: () => string;
 
-        public value: string | undefined | ILinkResolverResult;
+        public value: string;
 
         /**
         * Represents URL slug element of Kentico Cloud item
@@ -270,7 +270,7 @@ export namespace Elements {
                 /**
                  * Callback for resolving link
                  */
-                resolveLinkFunc: () => string | undefined | ILinkResolverResult
+                resolveLinkFunc: () => string
             }
         ) {
             super({
@@ -278,10 +278,11 @@ export namespace Elements {
                 elementWrapper: elementWrapper,
             });
 
+            this.value = elementWrapper.rawElement.value;
             this.resolveLinkFunc = data.resolveLinkFunc;
         }
 
-        resolveUrl(): string | undefined | ILinkResolverResult {
+        resolveUrl(): string {
             if (this.resolvedUrl) {
                 return this.resolvedUrl;
             }

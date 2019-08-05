@@ -7,7 +7,7 @@ import {
     serialize,
 } from 'parse5';
 
-import { ILinkResolverResult, RichTextContentType } from '../../models';
+import { IUrlSlugResolverResult, RichTextContentType } from '../../models';
 import {
     IFeaturedObjects,
     IHtmlResolverConfig,
@@ -131,40 +131,28 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
             originalLinkText = linkTextNode.value;
         }
 
-        const linkResult = replacement.getLinkResult(link.dataItemId, originalLinkText || '');
-        let useResultAsUrl: boolean = true;
+        const urlSlugResult = replacement.getUrlSlugResult(link.dataItemId, originalLinkText || '');
 
-        if (typeof linkResult === 'string') {
-            // use result as URL
-            useResultAsUrl = true;
-        } else {
-            useResultAsUrl = false;
-        }
-
-        if (useResultAsUrl) {
-            // assign url to 'href' attribute of the link
+        // html has priority over url
+        if (urlSlugResult.html) {
+            // replace entire link html
+            const linkHtml = (<IUrlSlugResolverResult>urlSlugResult).html ? (<IUrlSlugResolverResult>urlSlugResult).html : '';
+            if (linkHtml) {
+                const newNode = parseFragment(parse5Utils.createTextNode(''), linkHtml);
+                parse5Utils.replaceNode(element, (newNode as any).childNodes[0]);
+            }
+        } else if (urlSlugResult.url) {
+            // replace just link href
             const hrefAttribute = attributes.find(m => m.name === 'href');
             if (!hrefAttribute) {
                 // href attribute is missing
                 if (config.enableAdvancedLogging) {
-                    console.warn(`Cannot set url '${linkResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                    console.warn(`Cannot set url '${urlSlugResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
                 }
             } else {
                 // get link url
-                const linkUrlResult: string | undefined = typeof linkResult === 'string' ? <string>linkResult : (<ILinkResolverResult>linkResult).asUrl;
+                const linkUrlResult: string | undefined = typeof urlSlugResult === 'string' ? <string>urlSlugResult : (<IUrlSlugResolverResult>urlSlugResult).url;
                 hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
-            }
-        }
-
-        if (!useResultAsUrl) {
-            // replace whole link (<a> tag)
-            if (linkResult) {
-                // html for link is defined
-                const linkHtml = (<ILinkResolverResult>linkResult).asHtml ? (<ILinkResolverResult>linkResult).asHtml : '';
-                if (linkHtml) {
-                    const newNode = parseFragment(parse5Utils.createTextNode(''), linkHtml);
-                    parse5Utils.replaceNode(element, (newNode as any).childNodes[0]);
-                }
             }
         }
     }

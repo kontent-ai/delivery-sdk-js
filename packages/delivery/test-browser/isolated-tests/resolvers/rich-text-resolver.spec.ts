@@ -1,12 +1,12 @@
 import { HttpService } from 'kentico-cloud-core';
 
-import { ContentItem, Elements, ILinkResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
+import { ContentItem, Elements, IUrlSlugResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
 
 describe('Rich text resolver', () => {
 
-    const localLinkContexts: { [s: string]: ILinkResolverContext } = {};
-    const globalLinkContexts: { [s: string]: ILinkResolverContext } = {};
+    const localLinkContexts: { [s: string]: IUrlSlugResolverContext } = {};
+    const globalLinkContexts: { [s: string]: IUrlSlugResolverContext } = {};
 
     class MockMovie extends ContentItem {
         public plot!: Elements.RichTextElement;
@@ -20,9 +20,11 @@ describe('Rich text resolver', () => {
                 richTextResolver: (item, richTextContext) => {
                     return `<h1>${(<MockActor>item).first_name.value}</h1>`;
                 },
-                linkResolver: (link, linkContext) => {
+                urlSlugResolver: (link, linkContext) => {
                     globalLinkContexts[link.codename] = linkContext;
-                    return `/global-actor/${link.urlSlug}/global-link`;
+                    return {
+                        url: `/global-actor/${link.urlSlug}/global-link`
+                    };
                 }
             });
         }
@@ -55,9 +57,11 @@ describe('Rich text resolver', () => {
             richTextResolver: (item, richTextContext) => {
                 return `<h2>${(<MockActor>item).first_name.value}</h2>`;
             },
-            linkResolver: (link, linkContext) => {
+            urlSlugResolver: (link, linkContext) => {
                 localLinkContexts[link.codename] = linkContext;
-                return `/local-actor/${link.urlSlug}/local-link`;
+                return {
+                    url: `/local-actor/${link.urlSlug}/local-link`
+                };
             }
         });
 

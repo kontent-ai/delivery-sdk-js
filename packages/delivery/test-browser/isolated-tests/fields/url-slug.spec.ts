@@ -1,4 +1,4 @@
-import { ContentItemSystemAttributes, Elements, Link, urlSlugResolver, ElementModels } from '../../../lib';
+import { ContentItemSystemAttributes, ElementModels, Elements, urlSlugResolver } from '../../../lib';
 import { Actor } from '../../setup';
 
 describe('URLSlugElement', () => {
@@ -24,6 +24,23 @@ describe('URLSlugElement', () => {
         }
     };
 
+    it(`value should be raw (unresolved) value of element`, () => {
+        const urlSlugElement = new Elements.UrlSlugElement(elementMapWrapper, {
+            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
+                enableAdvancedLogging: false,
+                item: sharedActor,
+                elementValue: 'actor-slug',
+                elementName: 'name',
+                resolver: (link, context) => {
+                    return {
+                        url: 'resolved-link/' + link.urlSlug
+                    };
+                }
+            }).url || ''
+        });
+        expect(urlSlugElement.value).toEqual('actor-slug');
+    });
+
     it(`checks that element is defined and correct`, () => {
         const element1 = new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
@@ -31,8 +48,8 @@ describe('URLSlugElement', () => {
                 item: sharedActor,
                 elementValue: 'actor-slug',
                 elementName: 'name',
-                linkResolver: (link: Link) => 'resolved-link/' + link.urlSlug
-            })
+                resolver: (link, context) => { return { url: 'resolved-link/' + link.urlSlug } }
+            }).url || ''
         });
         expect(element1.resolveUrl()).toEqual('resolved-link/actor-slug');
         expect(element1.name).toBeDefined();
@@ -60,146 +77,51 @@ describe('URLSlugElement', () => {
                 value: 'actor-slug'
             }
         }, {
-            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                elementValue: 'actor-slug',
-                elementName: 'name',
-                item: actor,
-                enableAdvancedLogging: false,
-                linkResolver: (link: Link) => {
-                    if (link.type === 'actor') {
-                        return 'actor-link/' + link.urlSlug;
+                resolveLinkFunc: () => urlSlugResolver.resolveUrl({
+                    elementValue: 'actor-slug',
+                    elementName: 'name',
+                    item: actor,
+                    enableAdvancedLogging: false,
+                    resolver: (link, context) => {
+                        if (link.type === 'actor') {
+                            return { url: 'actor-link/' + link.urlSlug };
+                        }
+                        return { url: 'unknown-link' };
                     }
-                    return 'unknown-link';
-                }
-            })
-        });
+                }).url || ''
+            });
 
         expect(element.resolveUrl()).toEqual('unknown-link');
     });
 
-    it(`url should be undefined when no resolver is passed`, () => {
+    it(`url should be empty string`, () => {
         const url = (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
                 elementValue: 'actor-slug',
                 elementName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: false,
-                linkResolver: undefined
-            })
+                resolver: (link, context) => undefined
+            }).url || ''
         })).resolveUrl();
-        expect(url).toBeUndefined();
-    });
 
-    it(`url should be undefined when invalid item is passed`, () => {
-        const url = (new Elements.UrlSlugElement(elementMapWrapper, {
-            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                elementValue: 'actor-slug',
-                elementName: 'name',
-                item: undefined as any,
-                enableAdvancedLogging: false,
-                linkResolver: undefined
-            })
-        })).resolveUrl();
-        expect(url).toBeUndefined();
-    });
-
-    it(`url should be undefined`, () => {
-        const url = (new Elements.UrlSlugElement(elementMapWrapper, {
-            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                elementValue: 'actor-slug',
-                elementName: 'name',
-                item: sharedActor,
-                enableAdvancedLogging: false,
-                linkResolver: () => undefined as any
-            })
-        })).resolveUrl();
-        expect(url).toBeUndefined();
+        expect(url).toEqual('');
     });
 
     it(`Checks that console.warn displays/not displays information when url resolving fails due to invalid resolver`, () => {
         console.warn = jasmine.createSpy('warn');
 
-       (new Elements.UrlSlugElement(elementMapWrapper, {
-        resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                elementValue: 'actor-slug',
-                elementName: 'name',
-                item: sharedActor,
-                enableAdvancedLogging: false,
-                linkResolver: () => undefined as any
-            })
-        })).resolveUrl();
-
-        expect(console.warn).toHaveBeenCalledTimes(0);
-
-         (new Elements.UrlSlugElement(elementMapWrapper, {
-            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                elementValue: 'actor-slug',
-                elementName: 'name',
-                item: sharedActor,
-                enableAdvancedLogging: true,
-                linkResolver: () => undefined as any
-            })
-        })).resolveUrl();
-
-        expect(console.warn).toHaveBeenCalledTimes(1);
-    });
-
-    it(`Checks that console.warn displays/not displays information when url resolving fails due to invalid item`, () => {
-        console.warn = jasmine.createSpy('warn');
-
-        (new Elements.UrlSlugElement(elementMapWrapper, {
-            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                elementValue: 'actor-slug',
-                elementName: 'name',
-                item: undefined as any,
-                enableAdvancedLogging: false,
-                linkResolver: () => undefined as any
-            })
-        })).resolveUrl();
-
-        expect(console.warn).toHaveBeenCalledTimes(0);
-
-        (new Elements.UrlSlugElement(elementMapWrapper, {
-            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                elementValue: 'actor-slug',
-                elementName: 'name',
-                item: undefined as any,
-                enableAdvancedLogging: true,
-                linkResolver: () => undefined as any
-            })
-        })).resolveUrl();
-
-        expect(console.warn).toHaveBeenCalledTimes(1);
-    });
-
-    it(`Checks that console.warn displays information that url was resolved to improper value`, () => {
-        console.warn = jasmine.createSpy('warn');
-
-        (new Elements.UrlSlugElement(elementMapWrapper, {
-            resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                elementValue: 'actor-slug',
-                elementName: 'name',
-                item: sharedActor,
-                enableAdvancedLogging: false,
-                linkResolver: () => 'test'
-            })
-        })).resolveUrl();
-
-        expect(console.warn).toHaveBeenCalledTimes(0);
-
         (new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
                 elementValue: 'actor-slug',
                 elementName: 'name',
                 item: sharedActor,
                 enableAdvancedLogging: true,
-                linkResolver: () => ''
-            })
+                resolver: (link, context) => undefined
+            }).url || ''
         })).resolveUrl();
 
         expect(console.warn).toHaveBeenCalledTimes(1);
-
     });
-
 });
 
