@@ -44,14 +44,9 @@ export function setup(context: Context) {
     const deliveryClientConfig: IDeliveryClientConfig = {
         projectId: projectId,
         typeResolvers: typeResolvers,
-        previewMode: {
-            isEnabledGlobally: context.usePreviewMode,
-            previewApiKey: previewApiKey || ''
-        },
-        secureMode: {
-            isEnabledGlobally: context.useSecuredMode,
-            secureApiKey: securedApiKey || ''
-        },
+        secureApiKey: securedApiKey,
+        previewApiKey: previewApiKey,
+        globalQueryConfig: context.globalQueryConfig,
         defaultLanguage: context.defaultLanguage,
         proxy: {
             baseUrl: context.baseUrl,
@@ -75,13 +70,7 @@ export function setup(context: Context) {
     context.projectId = projectId;
     context.previewApiKey = previewApiKey;
     context.typeResolvers = typeResolvers;
-    context.defaultLanguage = context.defaultLanguage;
-    context.baseUrl = context.baseUrl;
-    context.basePreviewUrl = context.basePreviewUrl;
     context.securedApiKey = securedApiKey;
-    context.retryAttempts = context.retryAttempts;
-    context.enableAdvancedLogging = context.enableAdvancedLogging;
-    context.globalHeaders = context.globalHeaders;
 
     // set delivery client
     context.deliveryClient = new DeliveryClient(deliveryClientConfig);

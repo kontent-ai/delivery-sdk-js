@@ -6,7 +6,9 @@ describe('Live authorization headers', () => {
     const authorizationHeader: string = 'authorization';
 
     const context = new Context({
-        usePreviewMode: true
+        globalQueryConfig: {
+            usePreviewMode: true
+        }
     });
 
     setup(context);

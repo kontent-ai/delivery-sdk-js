@@ -109,18 +109,16 @@ export abstract class BaseDeliveryQueryService {
     getHeaders(queryConfig: IQueryConfig): IHeader[] {
         const headers: IHeader[] = [];
 
+        // add SDK Id header for monitoring SDK usage
+        headers.push(this.getSdkIdHeader());
+
         // add headers from global config
         if (this.config.globalHeaders) {
             headers.push(...this.config.globalHeaders(queryConfig));
         }
 
-        // add headers from query config
-        if (queryConfig.customHeaders) {
-            headers.push(...queryConfig.customHeaders);
-        }
-
-        // add SDK Id header for monitoring SDK usage
-        headers.push(this.getSdkIdHeader());
+        // add query / global headers from query config
+        headers.push(...this.getQueryHeaders(queryConfig));
 
         if (
             this.isPreviewModeEnabled(queryConfig) &&
@@ -130,17 +128,17 @@ export abstract class BaseDeliveryQueryService {
         }
 
         // add preview header is required
-        if (this.isPreviewModeEnabled(queryConfig) && this.config.previewMode) {
-            headers.push(this.getAuthorizationHeader(this.config.previewMode.previewApiKey));
+        if (this.isPreviewModeEnabled(queryConfig) && this.config.previewApiKey) {
+            headers.push(this.getAuthorizationHeader(this.config.previewApiKey));
         }
 
         // add secured mode header is required
-        if (this.isSecuredModeEnabled(queryConfig) && this.config.secureMode) {
-            headers.push(this.getAuthorizationHeader(this.config.secureMode.secureApiKey));
+        if (this.isSecuredModeEnabled(queryConfig) && this.config.secureApiKey) {
+            headers.push(this.getAuthorizationHeader(this.config.secureApiKey));
         }
 
         // add 'X-KC-Wait-For-Loading-New-Content' header if required
-        if (queryConfig.waitForLoadingNewContent) {
+        if (this.shouldAddWaitForLoadingNewContentHeader(queryConfig)) {
             headers.push({
                 header: this.waitForLoadingNewContentHeader,
                 value: 'true'
@@ -225,15 +223,46 @@ export abstract class BaseDeliveryQueryService {
     * @param queryConfig Query configuration
     */
     private isPreviewModeEnabled(queryConfig: IQueryConfig): boolean {
-        if (queryConfig.usePreviewMode != null) {
+        if (queryConfig.usePreviewMode !== undefined) {
             return queryConfig.usePreviewMode;
         }
 
-        if (!this.config.previewMode) {
+        if (!this.config.globalQueryConfig) {
             return false;
         }
 
-        return this.config.previewMode.isEnabledGlobally;
+        if (this.config.globalQueryConfig.usePreviewMode === true) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private getQueryHeaders(queryConfig: IQueryConfig): IHeader[] {
+        if (queryConfig.customHeaders) {
+            return queryConfig.customHeaders;
+        }
+
+        if (!this.config.globalQueryConfig || !this.config.globalQueryConfig.customHeaders) {
+            return [];
+        }
+        return this.config.globalQueryConfig.customHeaders;
+    }
+
+    private shouldAddWaitForLoadingNewContentHeader(queryConfig: IQueryConfig): boolean {
+        if (queryConfig.waitForLoadingNewContent !== undefined) {
+            return queryConfig.waitForLoadingNewContent;
+        }
+
+        if (!this.config.globalQueryConfig) {
+            return false;
+        }
+
+        if (this.config.globalQueryConfig.waitForLoadingNewContent === true) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -241,15 +270,19 @@ export abstract class BaseDeliveryQueryService {
     * @param queryConfig Query configuration
     */
     private isSecuredModeEnabled(queryConfig: IQueryConfig): boolean {
-        if (queryConfig.useSecuredMode != null) {
+        if (queryConfig.useSecuredMode !== undefined) {
             return queryConfig.useSecuredMode;
         }
 
-        if (!this.config.secureMode) {
+        if (!this.config.globalQueryConfig) {
             return false;
         }
 
-        return this.config.secureMode.isEnabledGlobally;
+        if (this.config.globalQueryConfig.useSecuredMode === true) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -258,8 +291,7 @@ export abstract class BaseDeliveryQueryService {
     */
     private getDomain(queryConfig: IQueryConfig): string {
         if (this.isPreviewModeEnabled(queryConfig)) {
-            console.log(queryConfig, this.config.previewMode);
-            if (!this.config.previewMode || !this.config.previewMode.previewApiKey) {
+            if (!this.config.previewApiKey) {
                 throw Error(
                     `Preview API key is not configured.`
                 );
