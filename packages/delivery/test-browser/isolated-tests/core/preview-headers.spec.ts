@@ -4,7 +4,9 @@ import { IHeader } from 'kentico-cloud-core';
 describe('Preview headers', () => {
 
     const context = new Context({
-        usePreviewMode: true
+        globalQueryConfig: {
+            usePreviewMode: true
+        }
     });
 
     setup(context);

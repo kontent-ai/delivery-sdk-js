@@ -488,9 +488,11 @@ You can enable the preview mode either globally (when initializing the DeliveryC
 import { DeliveryClient } from 'kentico-cloud-delivery';
 
 const deliveryClient = new DeliveryClient({
-  enablePreviewMode: true,
   projectId = 'xxx';
-  previewApiKey: 'yyy'
+  previewApiKey: 'yyy',
+  globalQueryConfig: {
+    usePreviewMode: true
+  }
 });
 ```
 
@@ -515,8 +517,10 @@ import { DeliveryClient } from 'kentico-cloud-delivery';
 
 const deliveryClient = new DeliveryClient({
   projectId = 'xxx';
-  enableSecuredMode: true,
-  securedApiKey: 'yyy'
+  secureApiKey: 'yyy',
+    globalQueryConfig: {
+      useSecuredMode: true
+  }
 });
 ```
 
@@ -837,67 +841,57 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | projectId      | string | ProjectId of your Kentico Cloud project|
 | typeResolvers?| TypeResolver[] | Array of resolvers that are used to create instances of registered classes automatically. If not set, items will be instances of 'ContentItem' class|
 | elementResolver?| ElementResolver | Element resolver used to map custom elements to models |
-| enableAdvancedLogging?| boolean | Indicates if advanced (developer's) issues are logged in console. Enable for development and disable in production.|
+| isDeveloperMode?| boolean | Indicates if advanced debug information are logged to console |
 | previewApiKey?| string| Preview API key used to get unpublished content items |
-| enablePreviewMode?| boolean| Indicates if preview mode is enabled globally. This can be overriden on query level|
 | defaultLanguage?| string| Sets default language that will be used for all queries unless overriden with query parameters|
-| baseUrl?| string| Can be used to configure custom base url (i.e. for testing) |
-| basePreviewUrl?| string| Can be used to configure custom preview url |
-| securedApiKey?| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
-| enableSecuredMode?| boolean| Indicates if secured mode is enabled globally. This can be overriden on query level |
+| proxy?| IDeliveryClientProxyConfig | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'projectId' |
+| secureApiKey?| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
+| globalQueryConfig? | IQueryConfig | Default configuration for all queries. Can be overriden by indidividual queries
 | retryAttempts?| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
-| linkedItemResolver.linkedItemWrapperTag? | string | HTML tag used to wrap resolved linked items in Rich text elements (defaults to 'p') |
+| linkedItemResolver.linkedItemWrapperTag? | string | HTML tag used to wrap resolved linked items in Rich text elements (defaults to 'div') |
 | linkedItemResolver.linkedItemWrapperClasses? | string[] | Array of classes added to linked item wrapper. Defaults to a single class 'kc-linked-item-wrapper' |
 | httpService ?| IHttpService | Can be useud to inject custom http service for performing requests |
 | globalHeaders? | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request |
 | collissionResolver? | ItemElementElementResolver[] | Resolver called when there are multiple elements with the same name in content item (example collision element names include 'system' or 'elements'). By default an underscore is added before original element name. If the element name is still in collission, element is excluded from mapping. |
 | retryStatusCodes? | number[] | Array of status codes that should be retried when request fails. Defaults to requests with '500' status code. |
-| proxyUrl? | (data: IProxyUrlData) => string | Can be used to fully customize request URLs. The data callback parameter contains context information from current request such as `projectId`, `queryString`, `action` and others. See [example](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/DOCS.md#using-proxy-urls) |
 
-## Using proxy URLs
+## Proxy configuration
 
-If you want to use a proxy server, you need to transform request URLs to use different domain. In some cases you might also want to transform URL in some way such as to hide projectId from URL, add custom parameters etc...
+If you want to use a proxy server, you need to use different domain or otherwise transform URL. By using `proxy` configuration option you can define your own base domains as well as URL format. This is useful if you need to for example hide the `projectId` from URL. 
 
-To achieve this with SDK you have 2 options - either you set `baseUrl` and `basePreview` or you construct url using `proxyUrl` callback. 
+`IDeliveryClientProxyConfig` offers 3 ways of configuring proxy url:
 
-Example call:
+1) `baseUrl` - Base url used for preview reqeusts. Defaults to 'preview-deliver.kenticocloud.com'
+2) `basePreviewUrl` - Base url used for all requests. Defaults to 'deliver.kenticocloud.com'
+3) `advancedProxyUrlResolver` - Resolver function where you get `IProxyUrlData` context data (includes domain, action, query parameters..) and can fully customize final URL. 
 
-```typescript
-const requestUrl = client
-  .item('xCodename')
-  .depthParameter(1)
-  .elementsParameter(['xElement'])
-  .queryConfig({
-    useSecuredMode: true
-  })
-  .getUrl();
-```
-
-`baseUrl` configuration:
+Examples:
 
 ```typescript
 const client = new DeliveryClient({
   projectId: 'xxx',
   // Will be used instead of 'https://deliver.kenticocloud.com' for all requests.
-  // Parameters, filters, project Id and other parts of URL will use default behavior. 
-  baseUrl: 'http://my-proxy.io' 
+  // Parameters, filters, project Id and other parts of URL will use default values. 
+  proxy: {
+    baseUrl: 'http://my-proxy.io'
+  }
 });
 ```
-
-`proxyUrl` configuration:
 
 ```typescript
 const client = new DeliveryClient({
   projectId: 'xxx',
-  proxyUrl: (data) => {
-    const action = data.action; // /items/xCodename
-    const domain = data.domain; // https://deliver.kenticocloud.com
-    const projectId = data.projectId; // xxx
-    const queryString = data.queryString; // ?depth=1&elements=xElement
-    const queryParameters = data.queryParameters; // array with 2 parameters: depthParameter & elementsParameter
-    const queryConfig = data.queryConfig; // query configuration with 'useSecuredMode' enabled
-    return `http://my-proxy.io${action}${queryString}`; // proxy url with omitted project Id
-  }
+  proxy: {
+    advancedProxyUrlResolver: (data) => {
+      const action = data.action; // /items
+      const domain = data.domain; // https://deliver.kenticocloud.com
+      const projectId = data.projectId; // xxx
+      const queryString = data.queryString; // e.g. ?depth=1&elements=xElement
+      const queryParameters = data.queryParameters; // array with query parameters parameters
+      const queryConfig = data.queryConfig; // query configuration
+      return `http://my-proxy.io${action}${queryString}`; // proxy url with omitted project Id
+    }
+  } 
 });
 ```
 

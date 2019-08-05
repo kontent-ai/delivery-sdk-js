@@ -3,8 +3,10 @@ import { Context, setup } from '../../setup';
 describe('Using secured with preview mode', () => {
 
     const context = new Context({
-        useSecuredMode: true,
-        usePreviewMode: true
+        globalQueryConfig: {
+            usePreviewMode: true,
+            useSecuredMode: true
+        }
     });
 
     setup(context);

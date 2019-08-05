@@ -12,6 +12,7 @@ export class Context {
    */
   public richTextHtmlParser?: IRichTextHtmlParser = getParserAdapter();
 
+  public globalQueryConfig?: IQueryConfig;
   public typeResolvers!: TypeResolver[];
   public projectId!: string;
   public previewApiKey?: string;
@@ -28,19 +29,18 @@ export class Context {
 
   constructor(
     options?: {
+      globalQueryConfig?: IQueryConfig;
       typeResolvers?: TypeResolver[],
       projectId?: string,
       previewApiKey?: string,
       deliveryClient?: DeliveryClient,
-      usePreviewMode?: boolean,
       defaultLanguage?: string,
       baseUrl?: string,
       basePreviewUrl?: string,
       securedApiKey?: string,
-      useSecuredMode?: boolean,
       retryAttempts?: number,
       enableAdvancedLogging?: boolean,
-      globalHeaders?: IHeader[],
+      globalHeaders?: (queryConfig: IQueryConfig) => IHeader[],
       retryStatusCodes?: number[];
     }
   ) {
@@ -54,14 +54,9 @@ export class Context {
       projectId: this.projectId,
       typeResolvers: this.typeResolvers,
       isDeveloperMode: this.enableAdvancedLogging,
-      previewMode: {
-        isEnabledGlobally: this.usePreviewMode,
-        previewApiKey: this.previewApiKey || ''
-      },
-      secureMode: {
-        isEnabledGlobally: this.useSecuredMode,
-        secureApiKey: this.securedApiKey || ''
-      },
+      previewApiKey: this.previewApiKey,
+      secureApiKey: this.securedApiKey,
+      globalQueryConfig: this.globalQueryConfig,
       proxy: {
         baseUrl: this.baseUrl,
         basePreviewUrl: this.basePreviewUrl

@@ -3,30 +3,6 @@ import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService } from 
 import { ElementResolver } from '../elements';
 import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, TypeResolver } from '../models';
 
-export interface IDeliveryClientPreviewConfig {
-    /**
-     * Indicates if preview mode should be enabled globally
-     */
-    isEnabledGlobally: boolean;
-    /**
-    * Preview API key
-    */
-    previewApiKey: string;
-}
-
-export interface IDeliveryClientSecureConfig {
-    /**
-    * Indicates if secure mode should be enabled globally
-    */
-    isEnabledGlobally: boolean;
-    /**
-    * Secure API key
-    * Important: Use secured API only when running on Node.JS server, otherwise
-    * your key will be visible in browsers when making requests.
-    */
-    secureApiKey: string;
-}
-
 export interface IDeliveryClientProxyConfig {
     /**
      * Base url used for preview reqeusts. Defaults to 'preview-deliver.kenticocloud.com'
@@ -62,6 +38,18 @@ export interface IDeliveryClientConfig {
     typeResolvers?: TypeResolver[];
 
     /**
+    * Preview API key
+    */
+    previewApiKey?: string;
+
+    /**
+    * Secure API key
+    * Important: Use secured API only when running on Node.JS server, otherwise
+    * your key will be visible in browsers when making requests.
+    */
+    secureApiKey?: string;
+
+    /**
      * Resolver used for using custom models for custom elements.
      */
     elementResolver?: ElementResolver;
@@ -71,16 +59,6 @@ export interface IDeliveryClientConfig {
     * Disable in production environments.
     */
     isDeveloperMode?: boolean;
-
-    /**
-     * Preview mode configuration
-     */
-    previewMode?: IDeliveryClientPreviewConfig;
-
-    /**
-     * Secure mode configuration
-     */
-    secureMode?: IDeliveryClientSecureConfig;
 
     /**
      * Proxy configuration
@@ -138,6 +116,11 @@ export interface IDeliveryClientConfig {
      * Array of status codes that should be retried when request fails. Defaults [500].
      */
     retryStatusCodes?: number[];
+
+    /**
+     * Default query configuration. Can be overriden by individual queries.
+     */
+    globalQueryConfig?: IQueryConfig;
 
 }
 

@@ -4,7 +4,9 @@ import { IHeader } from 'kentico-cloud-core';
 describe('Secured headers', () => {
 
     const context = new Context({
-        useSecuredMode: true
+        globalQueryConfig: {
+            useSecuredMode: true
+        }
     });
 
     setup(context);
