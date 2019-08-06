@@ -41,7 +41,7 @@ describe('Element types', () => {
   });
 
   it(`check that 'stars' property contains objects of 'Actor' type`, () => {
-    expect(response.item.stars[0]).toEqual(jasmine.any(Actor));
+    expect(response.item.stars.value[0]).toEqual(jasmine.any(Actor));
   });
 
   it(`check 'UrlSlugElement' type`, () => {

@@ -4,7 +4,6 @@ import { defaultCollissionResolver, IDeliveryClientConfig } from '../config';
 import { ElementContracts, ItemContracts } from '../data-contracts';
 import { ElementDecorators, ElementModels, Elements, ElementType } from '../elements';
 import {
-    ContentItem,
     ElementCollisionResolver,
     IContentItem,
     IContentItemsContainer,
@@ -114,7 +113,7 @@ export class ElementMapper {
             processedItems: IContentItemsContainer,
             processingStartedForCodenames: string[],
             preparedItems: IContentItemsContainer
-        }): undefined | ElementModels.IElement<any> | IContentItem[] {
+        }): ElementModels.IElement<any> {
         const elementType = enumHelper.getEnumFromValue<ElementType>(ElementType, data.elementWrapper.rawElement.type);
         if (elementType) {
 
@@ -163,8 +162,8 @@ export class ElementMapper {
                 return this.mapCustomElement(data.elementWrapper);
             }
         }
-        console.warn(`Skipping unknown element type '${data.elementWrapper.rawElement.type}' of element '${data.elementWrapper.rawElement.name}'`);
-        return undefined;
+        console.warn(`Could not map element '${data.elementWrapper.rawElement.name}' of type '${data.elementWrapper.rawElement.type}'. Returning unknown element instead.`);
+        return this.mapUnknowElement(data.elementWrapper);
     }
 
     private mapRichTextElement(
@@ -284,6 +283,10 @@ export class ElementMapper {
         return new Elements.TaxonomyElement(elementWrapper);
     }
 
+    private mapUnknowElement(elementWrapper: ElementModels.IElementWrapper): Elements.UnknownElement {
+        return new Elements.UnknownElement(elementWrapper);
+    }
+
     private mapCustomElement(elementWrapper: ElementModels.IElementWrapper): Elements.DefaultCustomElement | ElementModels.IElement<string> {
         // try to find element resolver
         if (this.config.elementResolver) {
@@ -320,23 +323,9 @@ export class ElementMapper {
         processingStartedForCodenames: string[],
         preparedItems: IContentItemsContainer
     }
-    ): ContentItem[] {
-        if (!data.elementWrapper) {
-            if (this.config.isDeveloperMode) {
-                console.warn(`Cannot map linked item element because element does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
-            }
-            return [];
-        }
-
-        if (!data.elementWrapper.rawElement.value) {
-            if (this.config.isDeveloperMode) {
-                console.warn(`Cannot map linked item of '${data.elementWrapper.rawElement.name}' because its value does not exist. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
-            }
-            return [];
-        }
-
-        // result is always an array of content items
-        const result: IContentItem[] = [];
+    ): Elements.LinkedItemsElement<IContentItem> {
+        // prepare linked items
+        const linkedItems: IContentItem[] = [];
 
         // value = array of item codenames
         const linkedItemCodenames = data.elementWrapper.rawElement.value as string[];
@@ -344,7 +333,7 @@ export class ElementMapper {
             const linkedItem = this.getOrSaveLinkedItemForElement(codename, data.elementWrapper.rawElement, data.queryConfig, data.modularContent, data.processedItems, data.processingStartedForCodenames, data.preparedItems);
             if (linkedItem) {
                 // add item to result
-                result.push(linkedItem);
+                linkedItems.push(linkedItem);
             } else {
                 // item was not found
                 if (this.config.isDeveloperMode) {
@@ -354,7 +343,7 @@ export class ElementMapper {
             }
         });
 
-        return result;
+        return new Elements.LinkedItemsElement(data.elementWrapper, linkedItems);
     }
 
     private getUrlSlugResolverForElement(item: IContentItem, elementWrapper: ElementModels.IElementWrapper, queryConfig: IItemQueryConfig): ItemUrlSlugResolver {

@@ -244,10 +244,11 @@ export class Movie extends ContentItem {
   public length: Elements.NumberElement;
   public poster: Elements.AssetsElement;
   public category: Elements.MultipleChoiceElement;
+  public stars: Elements.LinkedItemsElement;
 }
 ```
 
-Supported elements: `TextElement`, `MultipleChoiceElement`, `DateTimeElement`, `RichTextElement`, `NumberElement`, `AssetsElement`, `UrlSlugElement`, `TaxonomyElement` and `DefaultCustomElement`
+Supported elements: `TextElement`, `MultipleChoiceElement`, `DateTimeElement`, `RichTextElement`, `NumberElement`, `AssetsElement`, `UrlSlugElement`, `TaxonomyElement`, `LinkedItemsElement` and `DefaultCustomElement`. Additionally you might also get `UknownElement` or custom model if you register it for your custom elements instead of `DefaultCustomElement`
 
 #### Using custom models for Custom elements
 
@@ -701,7 +702,7 @@ deliveryClient.item<Movie>('pain_and_gain')
 
 ### Strongly typed nested items
 
-If your item has linked items, they will be resolved using the `typeResolver` defined for that type. This is recursive and will be applied for all items in your response. 
+If your item has linked items, they will be resolved using the `typeResolver` defined for that type. This is recursive and will be applied for all items in your response. If the content item is not present in model, try increasing `depth` of your request. 
 
 If you are using typescript, you would define elements such as:
 
@@ -714,7 +715,7 @@ export class Actor extends ContentItem {
 
 export class Movie extends ContentItem {
   public title: Elements.TextElement;
-  public stars: Actor[];
+  public stars: Elements.LinkedItemsElement<Actor>[];
 }
 ```
 
