@@ -31,7 +31,8 @@ export class TestHttpService implements IHttpService {
             useRetryForResponseCodes: number[];
             delay: number;
         }): Promise<T> {
-        throw new Error('Not implemented');
+        console.log('Retry is not implemented in test service. Returning original Promise');
+        return promise;
     }
 
     get<TError extends any, TRawData extends any>(
