@@ -11,5 +11,6 @@ export enum ElementType {
     MultipleChoice = 'multiple_choice',
     UrlSlug = 'url_slug',
     Taxonomy = 'taxonomy',
-    Custom = 'custom'
+    Custom = 'custom',
+    Unknown = 'unknown'
 }

@@ -43,7 +43,7 @@ export class Movie extends ContentItem {
   public length!: Elements.NumberElement;
   public poster!: Elements.AssetsElement;
   public category!: Elements.MultipleChoiceElement;
-  public stars!: Actor[];
+  public stars!: Elements.LinkedItemsElement<Actor>;
   public seoname!: Elements.UrlSlugElement;
   public releaseCategory!: Elements.TaxonomyElement;
 

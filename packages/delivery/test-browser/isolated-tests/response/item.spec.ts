@@ -69,7 +69,7 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks assets element`, () => {
-        expect(response.item.stars.length).toEqual(2);
+        expect(response.item.stars.value.length).toEqual(2);
     });
 
     it(`checks that linked items are defined`, () => {
@@ -77,19 +77,19 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks that correct number of linked items are created`, () => {
-        expect(response.item.stars.length).toEqual(2);
+        expect(response.item.stars.value.length).toEqual(2);
     });
 
     it(`checks that linked items are of proper type`, () => {
-        expect(response.item.stars[0]).toEqual(jasmine.any(Actor));
+        expect(response.item.stars.value[0]).toEqual(jasmine.any(Actor));
     });
 
     it(`checks that text element in first linked item is set`, () => {
-        expect(response.item.stars[0].firstName.value).toEqual('Tom');
+        expect(response.item.stars.value[0].firstName.value).toEqual('Tom');
     });
 
     it(`checks that text element in second linked item is set`, () => {
-        expect(response.item.stars[1].firstName.value).toEqual('Joel');
+        expect(response.item.stars.value[1].firstName.value).toEqual('Joel');
     });
 });
 

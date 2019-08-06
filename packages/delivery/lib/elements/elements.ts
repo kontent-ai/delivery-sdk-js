@@ -1,5 +1,6 @@
 import { Link, RichTextImage } from '..';
 import { ElementContracts } from '../data-contracts';
+import { IContentItem } from '../models';
 import { ElementModels } from './element-models';
 import { ElementType } from './element-type';
 
@@ -33,8 +34,8 @@ export namespace Elements {
             elementType: ElementType,
         }) {
             this.rawData = data.elementWrapper.rawElement;
-            this.name = data.elementWrapper.rawElement.name,
-                this.type = data.elementType;
+            this.name = data.elementWrapper.rawElement.name;
+            this.type = data.elementType;
         }
     }
 
@@ -58,6 +59,36 @@ export namespace Elements {
             });
 
             this.value = elementWrapper.rawElement.value;
+        }
+    }
+
+    export class LinkedItemsElement<TItem = IContentItem> extends BaseElement<TItem[]> {
+
+        /**
+         * Mapped linked items - contains only those items which are present in 'modular_content' section
+         * of the response which depends on the 'depth' of the query request.
+         * Codenames of all linked items are stored in 'itemCodenames' property.
+         */
+        public value: TItem[];
+
+        public itemCodenames: string[];
+
+        /**
+        * Represents text element of Kentico Cloud item
+        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+        * @param {IContentItem} mappedLinkedItems - Array of mapped linked items
+        */
+        constructor(
+            elementWrapper: ElementModels.IElementWrapper,
+            mappedLinkedItems: TItem[]
+        ) {
+            super({
+                elementType: ElementType.ModularContent,
+                elementWrapper: elementWrapper,
+            });
+
+            this.itemCodenames = elementWrapper.rawElement.value;
+            this.value = mappedLinkedItems;
         }
     }
 
@@ -331,6 +362,20 @@ export namespace Elements {
                     this.value.push(new ElementModels.TaxonomyTerm(rawTerm.name, rawTerm.codename));
                 }
             }
+        }
+    }
+
+    export class UnknownElement extends BaseElement<any> {
+
+        public value: any;
+
+        constructor(elementWrapper: ElementModels.IElementWrapper) {
+            super({
+                elementType: ElementType.Unknown,
+                elementWrapper: elementWrapper
+            });
+
+            this.value = elementWrapper.rawElement.value;
         }
     }
 

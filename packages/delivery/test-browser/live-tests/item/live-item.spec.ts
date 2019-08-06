@@ -93,7 +93,7 @@ describe('Live item', () => {
   });
 
   it(`check number of stars items`, () => {
-    expect(response.item.stars.length).toEqual(2);
+    expect(response.item.stars.value.length).toEqual(2);
   });
 
   it(`checks that linkedItemCodenames element is mapped and container proper data`, () => {
@@ -103,11 +103,11 @@ describe('Live item', () => {
   });
 
   it(`check that type of stars property is correct`, () => {
-    expect(response.item.stars[0]).toEqual(jasmine.any(Actor));
+    expect(response.item.stars.value[0]).toEqual(jasmine.any(Actor));
   });
 
   it(`check that linked item (Actor) has 'firstName' text properly assigned`, () => {
-    expect(response.item.stars[0].firstName.value).toEqual('Tom');
+    expect(response.item.stars.value[0].firstName.value).toEqual('Tom');
   });
 
   it(`url slug element should be defined`, () => {

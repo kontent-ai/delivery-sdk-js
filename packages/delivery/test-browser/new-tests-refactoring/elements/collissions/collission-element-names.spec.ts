@@ -1,5 +1,5 @@
-import { ContentItem, ContentItemSystemAttributes, Elements } from '../../../lib';
-import { getDeliveryClientWithJson } from '../setup';
+import { ContentItem, ContentItemSystemAttributes, Elements } from '../../../../lib';
+import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './collission-element-names.spec.json';
 
 const debugPropName = 'debug';

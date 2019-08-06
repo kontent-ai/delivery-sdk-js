@@ -1,5 +1,5 @@
-import { ContentItem, ElementModels, Elements, ElementType } from '../../../lib';
-import { getDeliveryClientWithJson } from '../setup';
+import { ContentItem, ElementModels, Elements, ElementType } from '../../../../lib';
+import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './custom-element.spec.json';
 
 class ColorElement extends Elements.CustomElement  {

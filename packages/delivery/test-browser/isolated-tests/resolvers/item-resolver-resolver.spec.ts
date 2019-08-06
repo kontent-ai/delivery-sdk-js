@@ -92,9 +92,9 @@ describe('Item resolver', () => {
         });
 
         // there should be some items mapped
-        expect(response.item.stars.length).toEqual(2);
+        expect(response.item.stars.value.length).toEqual(2);
 
-        for (const star of response.item.stars) {
+        for (const star of response.item.stars.value) {
 
             expect(star.elements).toBeDefined();
             expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));
@@ -113,9 +113,9 @@ describe('Item resolver', () => {
         });
 
         // there should be some items mapped
-        expect(response.item.stars.length).toEqual(2);
+        expect(response.item.stars.value.length).toEqual(2);
 
-        for (const star of response.item.stars) {
+        for (const star of response.item.stars.value) {
 
             expect(star._debug.rawElements).toBeDefined();
             expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));

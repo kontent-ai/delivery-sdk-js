@@ -1,0 +1,29 @@
+{
+    "items": [
+      {
+        "system": {
+          "id": "a3dde145-2456-445d-ac33-3d3f6a092da8",
+          "name": "Color item",
+          "codename": "color_item",
+          "language": "default",
+          "type": "with_color_picker",
+          "sitemap_locations": [],
+          "last_modified": "2019-01-04T09:56:04.372261Z"
+        },
+        "elements": {
+          "ufo": {
+            "type": "ufo",
+            "name": "Simple text",
+            "value": "simple text"
+          }
+        }
+      }
+    ],
+    "modular_content": {},
+    "pagination": {
+      "skip": 0,
+      "limit": 0,
+      "count": 1,
+      "next_page": ""
+    }
+  }
