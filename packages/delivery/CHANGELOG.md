@@ -1,3 +1,8 @@
+## 6.0.0-rc.2 (2019-08-06)
+
+#### :boom: Breaking Change
+  * [#229](https://github.com/Kentico/kentico-cloud-js/pull/229) Introduces new LinkedItemsElement used in favor of direct ContentItem mapping, adds UnknownElement to be future proof in case new element type is added to CMS ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-rc.1 (2019-08-05)
 
 #### :boom: Breaking Change
