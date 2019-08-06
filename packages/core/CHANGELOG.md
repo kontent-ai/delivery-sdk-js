@@ -1,3 +1,8 @@
+## 1.7.1 (2019-08-06)
+
+#### :rocket: Enhancement
+  * [#230](https://github.com/Kentico/kentico-cloud-js/pull/230) Implements retryPromise method in TestHttpService to not throw exceptions if used externally ([@Enngage](https://github.com/Enngage))
+
 ## 1.7.0 (2019-07-12)
 
 #### :rocket: Enhancement
