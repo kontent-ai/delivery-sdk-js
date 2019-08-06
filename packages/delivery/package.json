@@ -65,7 +65,7 @@
     "bundle-stats:browser:legacy": "npm run build:umd && webpack-bundle-analyzer _bundles/browser-legacy-stats.json"
   },
   "dependencies": {
-    "kentico-cloud-core": "1.7.0",
+    "kentico-cloud-core": "1.7.1",
     "parse5": "5.1.0",
     "reflect-metadata": "0.1.13"
   },
@@ -75,9 +75,9 @@
   "devDependencies": {
     "es6-symbol": "3.1.1",
     "es6-promise": "4.2.8",
-    "@types/jasmine": "3.3.13",
-    "@types/node": "12.6.2",
-    "@types/parse5": "5.0.1",
+    "@types/jasmine": "3.3.16",
+    "@types/node": "12.6.9",
+    "@types/parse5": "5.0.2",
     "colors": "1.3.3",
     "core-js": "3.1.4",
     "jasmine-core": "3.4.0",
@@ -86,22 +86,22 @@
     "karma-chrome-launcher": "3.0.0",
     "karma-cli": "2.0.0",
     "karma-coverage": "1.1.2",
-    "karma-coverage-istanbul-reporter": "2.0.5",
+    "karma-coverage-istanbul-reporter": "2.1.0",
     "karma-jasmine": "2.0.1",
     "karma-jasmine-html-reporter": "1.4.2",
     "karma-sourcemap-loader": "0.3.7",
     "karma-typescript": "4.1.1",
     "karma-typescript-es6-transform": "4.1.1",
     "lcov-parse": "1.0.0",
-    "mocha": "6.1.4",
+    "mocha": "6.2.0",
     "rxjs": "6.5.2",
     "ts-loader": "6.0.4",
     "ts-node": "8.3.0",
     "tslint": "5.18.0",
     "typescript": "3.5.3",
     "url-parse": "1.4.7",
-    "webpack": "4.35.3",
-    "webpack-bundle-analyzer": "3.3.2",
+    "webpack": "4.39.1",
+    "webpack-bundle-analyzer": "3.4.1",
     "webpack-cli": "3.3.6"
   }
 }
