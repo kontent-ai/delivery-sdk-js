@@ -188,7 +188,7 @@ export namespace Filters {
         }
     }
 
-    export class Infilter implements IQueryParameter {
+    export class InFilter implements IQueryParameter {
         constructor(
             public element: string,
             public values: string[]

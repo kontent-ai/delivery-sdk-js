@@ -276,7 +276,7 @@ describe('Item url filters', () => {
     });
 
     it(`Infilter without value should return empty string as param value`, () => {
-        expect(new Filters.Infilter('f', undefined as any).getParamValue()).toEqual('');
+        expect(new Filters.InFilter('f', undefined as any).getParamValue()).toEqual('');
     });
 
     it(`LessThanFilter without value should return empty string as param value`, () => {
