@@ -99,7 +99,7 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
      * @param values Values
      */
     inFilter(element: string, values: string[]): this {
-        this.parameters.push(new Filters.Infilter(element, values));
+        this.parameters.push(new Filters.InFilter(element, values));
         return this;
     }
 
