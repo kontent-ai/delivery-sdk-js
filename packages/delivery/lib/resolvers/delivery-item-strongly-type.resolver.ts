@@ -25,7 +25,7 @@ export class DeliveryItemStronglyTypeResolver {
             throw Error(`Item with codename '${data.item.system.codename}' could not be instantiated`);
         }
 
-        this.assignDefaultProperties(itemInstance, data.item);
+        this.assignRequiredContentItemData(itemInstance, data.item);
         return itemInstance;
     }
 
@@ -68,7 +68,7 @@ export class DeliveryItemStronglyTypeResolver {
      */
     private createContentItem(item: ItemContracts.IContentItemContract): IContentItem {
         const contentItem = new ContentItem();
-        this.assignDefaultProperties(contentItem, item);
+        this.assignRequiredContentItemData(contentItem, item);
         return contentItem;
     }
 
@@ -77,10 +77,10 @@ export class DeliveryItemStronglyTypeResolver {
      * @param item Mapped content item
      * @param rawItem Raw content item from response
      */
-    private assignDefaultProperties(item: IContentItem, rawItem: ItemContracts.IContentItemContract): void {
+    private assignRequiredContentItemData(item: IContentItem, rawItem: ItemContracts.IContentItemContract): void {
         item.system = this.mapSystemAttributes(rawItem[this.systemElementName]);
-        item._debug = {
-            rawElements: rawItem[this.elementsElementName],
+        item._raw = {
+            elements: rawItem[this.elementsElementName],
         };
     }
 

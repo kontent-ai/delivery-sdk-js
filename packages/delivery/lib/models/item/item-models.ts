@@ -72,7 +72,7 @@ export interface IContentItem {
     /**
      * Debug data of the item
      */
-    _debug: IContentItemDebugData;
+    _raw: IContentItemRawData;
 
     /**
      * Content item configuration
@@ -93,9 +93,9 @@ export class ContentItem implements IContentItem {
     public system!: ContentItemSystemAttributes;
 
     /**
-     * Debug data of the item
+     * Raw data
      */
-    public _debug!: IContentItemDebugData;
+    public _raw!: IContentItemRawData;
 
     /**
      * configuration
@@ -222,8 +222,8 @@ export class RichTextImage {
     }
 }
 
-export interface IContentItemDebugData {
-    rawElements: ItemContracts.IContentItemElementsContracts;
+export interface IContentItemRawData {
+    elements: ItemContracts.IContentItemElementsContracts;
 }
 
 export interface ITypeResolverData {
