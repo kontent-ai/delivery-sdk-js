@@ -1,3 +1,11 @@
+## 6.0.0-rc.3 (2019-08-08)
+
+#### :boom: Breaking Change
+  * [#232](https://github.com/Kentico/kentico-cloud-js/pull/232) Moves '_debug.rawElements' property of 'ContentItem' to '_raw.elements' ([@Enngage](https://github.com/Enngage))
+
+#### :bug: Bug Fix
+  * [#231](https://github.com/Kentico/kentico-cloud-js/pull/231) Fixes typo in 'InFilter' class ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-rc.2 (2019-08-06)
 
 #### :boom: Breaking Change
