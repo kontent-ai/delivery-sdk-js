@@ -20,7 +20,7 @@ class ActorMock extends ContentItem {
 
     setProperties(id: string, codename: string, firstName: string) {
         this.firstName = new Elements.TextElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'firstName',
             rawElement: {
                 name: '',
@@ -40,7 +40,7 @@ class ActorMock extends ContentItem {
         });
 
         this.url = new Elements.UrlSlugElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'urlSlugName',
             rawElement: {
                 name: '',
@@ -109,7 +109,7 @@ describe('RichTextElement with Html links', () => {
     it(`checks that links are resolved as HTML`, () => {
 
         const elementWithoutRichTextResolver = new Elements.RichTextElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'x',
             rawElement: {
                 name: 'x',

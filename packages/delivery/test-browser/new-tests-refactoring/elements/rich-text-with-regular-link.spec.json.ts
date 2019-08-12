@@ -14,7 +14,7 @@ describe('Rich text with regular link', () => {
                 type: 'x',
                 value: html
             },
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'name'
         }, linkedItems.map(m => m.system.codename), {
                 links: [],

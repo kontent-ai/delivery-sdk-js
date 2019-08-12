@@ -3,7 +3,7 @@ import { Elements } from '../../../lib';
 describe('Unknown field', () => {
 
     const element = new Elements.UnknownElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         rawElement: {
             name: 'name',
             type: '',

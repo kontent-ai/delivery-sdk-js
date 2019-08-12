@@ -293,7 +293,7 @@ const client = new DeliveryClient(
   {
     projectId: ''.
     elementResolver: (elementWrapper: ElementModels.IElementMapWrapper) => {
-      if (elementWrapper.contentTypeSystem.type === 'your-content-type' && elementWrapper.rawElement.name === 'your-element-name') {
+      if (elementWrapper.contentItemSystem.type === 'your-content-type' && elementWrapper.rawElement.name === 'your-element-name') {
         return new ColorElement(elementWrapper);
       }
 

@@ -3,7 +3,7 @@ import { Elements } from '../../../lib';
 describe('TextElement', () => {
 
     const element = new Elements.TextElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         rawElement: {
             name: 'name',
             type: '',

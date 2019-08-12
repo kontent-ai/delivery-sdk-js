@@ -18,7 +18,7 @@ describe('TaxonomyElement', () => {
 
     ];
     const element = new Elements.TaxonomyElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         propertyName: 'mappedName',
         rawElement: {
             taxonomy_group: 'taxgroup',

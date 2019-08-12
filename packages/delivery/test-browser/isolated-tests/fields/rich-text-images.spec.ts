@@ -43,7 +43,7 @@ describe('RichTextElement with Images', () => {
 
     // set images to rich text
     linkedItem['name'] = new Elements.RichTextElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         propertyName: 'name',
         rawElement: {
             name: 'name',
@@ -67,7 +67,7 @@ describe('RichTextElement with Images', () => {
 
     it(`Checks that images are resolved using default resolver`, () => {
         const element = new Elements.RichTextElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'name',
             rawElement: {
                 name: 'name',
@@ -102,7 +102,7 @@ describe('RichTextElement with Images', () => {
 
     it(`Checks that images are resolved using custom resolver`, () => {
         const element2 = new Elements.RichTextElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'name',
             rawElement: {
                 name: 'name',

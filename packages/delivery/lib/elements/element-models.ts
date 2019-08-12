@@ -5,7 +5,7 @@ export namespace ElementModels {
 
     export interface IElementWrapper {
         propertyName: string;
-        contentTypeSystem: ItemContracts.IContentItemSystemAttributesContract;
+        contentItemSystem: ItemContracts.IContentItemSystemAttributesContract;
         rawElement: ElementContracts.IElementContract;
     }
 

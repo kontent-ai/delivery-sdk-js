@@ -15,7 +15,7 @@ describe('URLSlugElement', () => {
     });
 
     const elementMapWrapper: ElementModels.IElementWrapper = {
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         propertyName: 'name',
         rawElement: {
             name: 'name',
@@ -69,7 +69,7 @@ describe('URLSlugElement', () => {
         });
 
         const element = new Elements.UrlSlugElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'name',
             rawElement: {
                 name: 'name',
