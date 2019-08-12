@@ -3,7 +3,7 @@ import { Elements } from '../../../lib';
 describe('DateTimeElement', () => {
 
     const element = new Elements.DateTimeElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         rawElement: {
             name: 'name',
             type: '',

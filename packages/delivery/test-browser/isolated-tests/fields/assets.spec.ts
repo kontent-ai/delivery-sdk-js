@@ -19,7 +19,7 @@ describe('AssetElement', () => {
     ];
 
     const element = new Elements.AssetsElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         rawElement: {
             name: 'name',
             type: '',

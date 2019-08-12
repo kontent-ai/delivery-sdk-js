@@ -42,11 +42,11 @@ describe('Custom element with custom model', () => {
                 const colorElement = responseJson.items[0].elements.color;
                 const markdownElement = responseJson.items[0].elements.markdown;
 
-                if (elementWrapper.contentTypeSystem.type === responseItem.system.type && elementWrapper.rawElement.name === colorElement.name) {
+                if (elementWrapper.contentItemSystem.type === responseItem.system.type && elementWrapper.rawElement.name === colorElement.name) {
                     return new ColorElement(elementWrapper);
                 }
 
-                if (elementWrapper.contentTypeSystem.type === responseItem.system.type && elementWrapper.rawElement.name === markdownElement.name) {
+                if (elementWrapper.contentItemSystem.type === responseItem.system.type && elementWrapper.rawElement.name === markdownElement.name) {
                     return new MarkdownElement(elementWrapper);
                 }
                 return undefined;

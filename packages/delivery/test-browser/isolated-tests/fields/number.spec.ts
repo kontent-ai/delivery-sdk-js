@@ -3,7 +3,7 @@ import { Elements } from '../../../lib';
 describe('NumberElement', () => {
 
     const element = new Elements.NumberElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         rawElement: {
             name: 'name',
             type: '',

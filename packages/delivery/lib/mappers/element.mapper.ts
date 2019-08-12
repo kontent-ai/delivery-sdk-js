@@ -75,7 +75,7 @@ export class ElementMapper {
 
             const elementMap = this.resolveElementMap(itemInstance, elementCodename);
             const elementWrapper: ElementModels.IElementWrapper = {
-                contentTypeSystem: data.item.system,
+                contentItemSystem: data.item.system,
                 rawElement: data.item.elements[elementCodename],
                 propertyName: elementMap.resolvedName,
             };

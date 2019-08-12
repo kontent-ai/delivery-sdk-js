@@ -19,7 +19,7 @@ describe('MultipleChoiceElement', () => {
     ];
 
     const element = new Elements.MultipleChoiceElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         rawElement: {
             name: 'name',
             type: '',
@@ -29,7 +29,7 @@ describe('MultipleChoiceElement', () => {
     });
 
     const elementWithNoValue = new Elements.TextElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         rawElement: {
             name: 'name',
             type: '',

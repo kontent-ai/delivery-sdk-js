@@ -22,7 +22,7 @@ class ActorMock extends ContentItem {
     setProperties(id: string, codename: string, firstName: string) {
 
         this.firstName = new Elements.TextElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'firstName',
             rawElement: {
                 name: '',
@@ -41,7 +41,7 @@ class ActorMock extends ContentItem {
         });
 
         this.url = new Elements.UrlSlugElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'urlSlugName',
             rawElement: {
                 name: 'name',
@@ -111,7 +111,7 @@ describe('RichTextElement', () => {
     `;
 
     const element = new Elements.RichTextElement({
-        contentTypeSystem: {} as any,
+        contentItemSystem: {} as any,
         propertyName: 'resolvedName',
         rawElement: {
             name: 'name',
@@ -192,7 +192,7 @@ describe('RichTextElement', () => {
     it(`checks that links are resolved even if the rich text resolver is not set`, () => {
 
         const elementWithoutRichTextResolver = new Elements.RichTextElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'x',
             rawElement: {
                 name: '',
@@ -231,7 +231,7 @@ describe('RichTextElement', () => {
         const contexts: IRichTextResolverContext[] = [];
 
         const elementWithRichTextResolver = new Elements.RichTextElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'x',
             rawElement: {
                 name: '',
@@ -267,7 +267,7 @@ describe('RichTextElement', () => {
 
     it(`error should be preserved when it originates from richTextResolver`, () => {
         const elementWithRichTextResolver = new Elements.RichTextElement({
-            contentTypeSystem: {} as any,
+            contentItemSystem: {} as any,
             propertyName: 'x',
             rawElement: {
                 name: '',
