@@ -229,7 +229,9 @@ export namespace Elements {
         elementType: ElementType.Number,
         elementWrapper: elementWrapper
       });
-      if (elementWrapper.rawElement.value) {
+      if (elementWrapper.rawElement.value === 0) {
+        this.value = 0;
+      } else if (elementWrapper.rawElement.value) {
         this.value = +elementWrapper.rawElement.value;
       } else {
         this.value = null;
