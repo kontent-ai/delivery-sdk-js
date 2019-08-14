@@ -5,414 +5,387 @@ import { ElementModels } from './element-models';
 import { ElementType } from './element-type';
 
 export namespace Elements {
+  abstract class BaseElement<TValue> implements ElementModels.IElement<TValue> {
+    /**
+     * Element name
+     */
+    public name: string;
 
-    abstract class BaseElement<TValue> implements ElementModels.IElement<TValue> {
+    /**
+     * Element type
+     */
+    public type: ElementType;
 
-        /**
-         * Element name
-         */
-        public name: string;
+    /**
+     * Raw element value (from JSON response)
+     */
+    public rawData: ElementContracts.IElementContract;
 
-        /**
-         * Element type
-         */
-        public type: ElementType;
+    /**
+     * Mapped value of element.
+     * For example, value for number elements are converted to number javascript type
+     */
+    public abstract value: TValue;
 
-        /**
-         * Raw element value (from JSON response)
-         */
-        public rawData: ElementContracts.IElementContract;
+    constructor(data: { elementWrapper: ElementModels.IElementWrapper; elementType: ElementType }) {
+      this.rawData = data.elementWrapper.rawElement;
+      this.name = data.elementWrapper.rawElement.name;
+      this.type = data.elementType;
+    }
+  }
 
-        /**
-         * Mapped value of element.
-         * For example, value for number elements are converted to number javascript type
-         */
-        public abstract value: TValue;
+  export class TextElement extends BaseElement<string> {
+    /**
+     * Text value
+     */
+    public value: string;
 
-        constructor(data: {
-            elementWrapper: ElementModels.IElementWrapper,
-            elementType: ElementType,
-        }) {
-            this.rawData = data.elementWrapper.rawElement;
-            this.name = data.elementWrapper.rawElement.name;
-            this.type = data.elementType;
+    /**
+     * Represents text element of Kentico Cloud item
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     */
+    constructor(elementWrapper: ElementModels.IElementWrapper) {
+      super({
+        elementType: ElementType.Text,
+        elementWrapper: elementWrapper
+      });
+
+      this.value = elementWrapper.rawElement.value;
+    }
+  }
+
+  export class LinkedItemsElement<TItem = IContentItem> extends BaseElement<TItem[]> {
+    /**
+     * Mapped linked items - contains only those items which are present in 'modular_content' section
+     * of the response which depends on the 'depth' of the query request.
+     * Codenames of all linked items are stored in 'itemCodenames' property.
+     */
+    public value: TItem[];
+
+    public itemCodenames: string[];
+
+    /**
+     * Represents text element of Kentico Cloud item
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     * @param {IContentItem} mappedLinkedItems - Array of mapped linked items
+     */
+    constructor(elementWrapper: ElementModels.IElementWrapper, mappedLinkedItems: TItem[]) {
+      super({
+        elementType: ElementType.ModularContent,
+        elementWrapper: elementWrapper
+      });
+
+      this.itemCodenames = elementWrapper.rawElement.value;
+      this.value = mappedLinkedItems;
+    }
+  }
+
+  export class MultipleChoiceElement extends BaseElement<ElementModels.MultipleChoiceOption[]> {
+    /**
+     * Multiple choice options
+     */
+    public value: ElementModels.MultipleChoiceOption[] = [];
+
+    /**
+     * Represents multiple choice element of Kentico Cloud item
+     * @constructor
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     */
+    constructor(elementWrapper: ElementModels.IElementWrapper) {
+      super({
+        elementType: ElementType.MultipleChoice,
+        elementWrapper: elementWrapper
+      });
+
+      if (elementWrapper.rawElement.value && Array.isArray(elementWrapper.rawElement.value)) {
+        for (const valueItem of elementWrapper.rawElement.value) {
+          const rawOption = valueItem as ElementContracts.IMultipleChoiceOptionContract;
+          if (rawOption && rawOption.name && rawOption.codename) {
+            this.value.push(new ElementModels.MultipleChoiceOption(rawOption.name, rawOption.codename));
+          }
         }
+      }
+    }
+  }
+
+  export class DateTimeElement extends BaseElement<Date | null> {
+    /**
+     * Date time value
+     */
+    public value: Date | null;
+
+    /**
+     * Type of the element
+     */
+    public type: ElementType = ElementType.DateTime;
+
+    /**
+     * Represents date time element of Kentico Cloud item
+     * @constructor
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     */
+    constructor(elementWrapper: ElementModels.IElementWrapper) {
+      super({
+        elementType: ElementType.DateTime,
+        elementWrapper: elementWrapper
+      });
+      if (elementWrapper.rawElement.value) {
+        this.value = new Date(elementWrapper.rawElement.value);
+      } else {
+        this.value = null;
+      }
+    }
+  }
+
+  export class RichTextElement extends BaseElement<string> {
+    /**
+     * Function that is responsible for getting resolved HTML of the element
+     */
+    private resolveHtmlFunc: () => string;
+
+    /**
+     * Resolved html in element - store here once the html was resolved to avoid resolving it multiple times
+     */
+    private resolvedHtml?: string;
+
+    /**
+     * Unresolved html value of rich text element
+     */
+    public value: string;
+
+    /**
+     * Type of the element
+     */
+    public type: ElementType = ElementType.RichText;
+
+    /**
+     * Links
+     */
+    public links: Link[];
+
+    /**
+     * Images included within rich text element
+     */
+    public images: RichTextImage[];
+
+    /**
+     * Array of linked item codenames
+     */
+    public linkedItemCodenames: string[];
+
+    /**
+     * Represents rich text element of Kentico Cloud item
+     * @constructor
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     * @param {string[]} linkedItemCodenames - Array of linked codenames
+     */
+    constructor(
+      elementWrapper: ElementModels.IElementWrapper,
+      linkedItemCodenames: string[],
+      data: {
+        resolveHtmlFunc: () => string;
+        links: Link[];
+        images: RichTextImage[];
+      }
+    ) {
+      super({
+        elementType: ElementType.RichText,
+        elementWrapper: elementWrapper
+      });
+
+      this.linkedItemCodenames = linkedItemCodenames;
+      this.resolveHtmlFunc = data.resolveHtmlFunc;
+      this.links = data.links;
+      this.images = data.images;
+
+      this.value = elementWrapper.rawElement.value;
     }
 
-    export class TextElement extends BaseElement<string> {
+    resolveHtml(): string {
+      // check if html was already resolved
+      if (this.resolvedHtml) {
+        return this.resolvedHtml;
+      }
 
+      this.resolvedHtml = this.resolveHtmlFunc();
+
+      return this.resolvedHtml;
+    }
+  }
+
+  export class NumberElement extends BaseElement<number | null> {
+    /**
+     * Number value of this element
+     */
+    public value: number | null;
+
+    /**
+     * Represents number element of Kentico Cloud item
+     * @constructor
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     */
+    constructor(elementWrapper: ElementModels.IElementWrapper) {
+      super({
+        elementType: ElementType.Number,
+        elementWrapper: elementWrapper
+      });
+      if (elementWrapper.rawElement.value) {
+        this.value = +elementWrapper.rawElement.value;
+      } else {
+        this.value = null;
+      }
+    }
+  }
+
+  export class AssetsElement extends BaseElement<ElementModels.AssetModel[]> {
+    /**
+     * List of assets used in this element
+     */
+    public value: ElementModels.AssetModel[] = [];
+
+    /**
+     * Represents asset element of Kentico Cloud item
+     * @constructor
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     */
+    constructor(elementWrapper: ElementModels.IElementWrapper) {
+      super({
+        elementType: ElementType.Asset,
+        elementWrapper: elementWrapper
+      });
+      if (elementWrapper.rawElement.value && Array.isArray(elementWrapper.rawElement.value)) {
+        const rawAssets = elementWrapper.rawElement.value as ElementContracts.IAssetContract[];
+        for (const rawAsset of rawAssets) {
+          this.value.push(new ElementModels.AssetModel(rawAsset));
+        }
+      }
+    }
+  }
+
+  export class UrlSlugElement extends BaseElement<string> {
+    private resolvedUrl?: string;
+
+    private resolveLinkFunc: () => string;
+
+    public value: string;
+
+    /**
+     * Represents URL slug element of Kentico Cloud item
+     * @constructor
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     */
+    constructor(
+      elementWrapper: ElementModels.IElementWrapper,
+      data: {
         /**
-         * Text value
+         * Callback for resolving link
          */
-        public value: string;
+        resolveLinkFunc: () => string;
+      }
+    ) {
+      super({
+        elementType: ElementType.UrlSlug,
+        elementWrapper: elementWrapper
+      });
 
-        /**
-        * Represents text element of Kentico Cloud item
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper
-        ) {
-            super({
-                elementType: ElementType.Text,
-                elementWrapper: elementWrapper,
-            });
-
-            this.value = elementWrapper.rawElement.value;
-        }
+      this.value = elementWrapper.rawElement.value;
+      this.resolveLinkFunc = data.resolveLinkFunc;
     }
 
-    export class LinkedItemsElement<TItem = IContentItem> extends BaseElement<TItem[]> {
+    resolveUrl(): string {
+      if (this.resolvedUrl) {
+        return this.resolvedUrl;
+      }
 
-        /**
-         * Mapped linked items - contains only those items which are present in 'modular_content' section
-         * of the response which depends on the 'depth' of the query request.
-         * Codenames of all linked items are stored in 'itemCodenames' property.
-         */
-        public value: TItem[];
+      this.resolvedUrl = this.resolveLinkFunc();
 
-        public itemCodenames: string[];
-
-        /**
-        * Represents text element of Kentico Cloud item
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        * @param {IContentItem} mappedLinkedItems - Array of mapped linked items
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper,
-            mappedLinkedItems: TItem[]
-        ) {
-            super({
-                elementType: ElementType.ModularContent,
-                elementWrapper: elementWrapper,
-            });
-
-            this.itemCodenames = elementWrapper.rawElement.value;
-            this.value = mappedLinkedItems;
-        }
+      return this.resolvedUrl;
     }
+  }
 
-    export class MultipleChoiceElement extends BaseElement<ElementModels.MultipleChoiceOption[]> {
+  export class TaxonomyElement extends BaseElement<ElementModels.TaxonomyTerm[]> {
+    /**
+     * List of assigned taxonomy terms
+     */
+    public value: ElementModels.TaxonomyTerm[] = [];
 
-        /**
-        * Multiple choice options
-        */
-        public value: ElementModels.MultipleChoiceOption[] = [];
+    /**
+     * Taxonomy group
+     */
+    public taxonomyGroup: string;
 
-        /**
-        * Represents multiple choice element of Kentico Cloud item
-        * @constructor
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper
-        ) {
-            super({
-                elementType: ElementType.MultipleChoice,
-                elementWrapper: elementWrapper,
-            });
+    /**
+     * Represents number element of Kentico Cloud item
+     * @constructor
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     */
+    constructor(elementWrapper: ElementModels.IElementWrapper) {
+      super({
+        elementType: ElementType.Taxonomy,
+        elementWrapper: elementWrapper
+      });
 
-            if (elementWrapper.rawElement.value && Array.isArray(elementWrapper.rawElement.value)) {
-                for (const valueItem of elementWrapper.rawElement.value) {
-                    const rawOption = valueItem as ElementContracts.IMultipleChoiceOptionContract;
-                    if (rawOption && rawOption.name && rawOption.codename) {
-                        this.value.push(new ElementModels.MultipleChoiceOption(
-                            rawOption.name,
-                            rawOption.codename
-                        ));
-                    }
-                }
-            }
+      if (elementWrapper.rawElement.taxonomy_group) {
+        this.taxonomyGroup = elementWrapper.rawElement.taxonomy_group;
+      } else {
+        console.warn(
+          `Taxonomy group for element '${elementWrapper.rawElement.name}' is invalid. Assigning empty string`
+        );
+        this.taxonomyGroup = '';
+      }
+
+      if (elementWrapper.rawElement.value && Array.isArray(elementWrapper.rawElement.value)) {
+        const rawTerms = elementWrapper.rawElement.value as ElementContracts.ITaxonomyTerm[];
+        for (const rawTerm of rawTerms) {
+          this.value.push(new ElementModels.TaxonomyTerm(rawTerm.name, rawTerm.codename));
         }
+      }
     }
+  }
 
-    export class DateTimeElement extends BaseElement<Date> {
+  export class UnknownElement extends BaseElement<any> {
+    public value: any;
 
-        /**
-        * Date time value
-        */
-        public value: Date;
+    constructor(elementWrapper: ElementModels.IElementWrapper) {
+      super({
+        elementType: ElementType.Unknown,
+        elementWrapper: elementWrapper
+      });
 
-        /**
-        * Type of the element
-        */
-        public type: ElementType = ElementType.DateTime;
-
-        /**
-        * Represents date time element of Kentico Cloud item
-        * @constructor
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper
-        ) {
-            super({
-                elementType: ElementType.DateTime,
-                elementWrapper: elementWrapper,
-            });
-            this.value = new Date(elementWrapper.rawElement.value);
-        }
+      this.value = elementWrapper.rawElement.value;
     }
+  }
 
-    export class RichTextElement extends BaseElement<string> {
+  export abstract class CustomElement extends BaseElement<string | null> {
+    public value: string | null;
 
-        /**
-         * Function that is responsible for getting resolved HTML of the element
-         */
-        private resolveHtmlFunc: () => string;
+    constructor(elementWrapper: ElementModels.IElementWrapper) {
+      super({
+        elementType: ElementType.Custom,
+        elementWrapper: elementWrapper
+      });
 
-        /**
-        * Resolved html in element - store here once the html was resolved to avoid resolving it multiple times
-        */
-        private resolvedHtml?: string;
-
-        /**
-         * Unresolved html value of rich text element
-         */
-        public value: string;
-
-        /**
-        * Type of the element
-        */
-        public type: ElementType = ElementType.RichText;
-
-        /**
-         * Links
-         */
-        public links: Link[];
-
-        /**
-         * Images included within rich text element
-         */
-        public images: RichTextImage[];
-
-        /**
-         * Array of linked item codenames
-         */
-        public linkedItemCodenames: string[];
-
-        /**
-        * Represents rich text element of Kentico Cloud item
-        * @constructor
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        * @param {string[]} linkedItemCodenames - Array of linked codenames
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper,
-            linkedItemCodenames: string[],
-            data: {
-                resolveHtmlFunc: () => string,
-                links: Link[],
-                images: RichTextImage[]
-            }
-        ) {
-            super({
-                elementType: ElementType.RichText,
-                elementWrapper: elementWrapper,
-            });
-
-            this.linkedItemCodenames = linkedItemCodenames;
-            this.resolveHtmlFunc = data.resolveHtmlFunc;
-            this.links = data.links;
-            this.images = data.images;
-
-            this.value = elementWrapper.rawElement.value;
-        }
-
-        resolveHtml(): string {
-            // check if html was already resolved
-            if (this.resolvedHtml) {
-                return this.resolvedHtml;
-            }
-
-            this.resolvedHtml = this.resolveHtmlFunc();
-
-            return this.resolvedHtml;
-        }
+      this.value = elementWrapper.rawElement.value;
     }
+  }
 
-    export class NumberElement extends BaseElement<number> {
+  export class DefaultCustomElement extends BaseElement<string | null> {
+    /**
+     * Resolved value of custom element
+     */
+    public value: string | null;
 
-        /**
-        * Number value of this element
-        */
-        public value: number;
-
-        /**
-        * Represents number element of Kentico Cloud item
-        * @constructor
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper
-        ) {
-            super({
-                elementType: ElementType.Number,
-                elementWrapper: elementWrapper,
-            });
-            this.value = +elementWrapper.rawElement.value;
-        }
+    /**
+     * Represents base custom element
+     * @constructor
+     * @param {ElementModels.IElementWrapper} elementWrapper - Element data
+     */
+    constructor(elementWrapper: ElementModels.IElementWrapper) {
+      super({
+        elementType: ElementType.Custom,
+        elementWrapper: elementWrapper
+      });
+      this.value = elementWrapper.rawElement.value;
     }
-
-    export class AssetsElement extends BaseElement<ElementModels.AssetModel[]> {
-
-        /**
-        * List of assets used in this element
-        */
-        public value: ElementModels.AssetModel[] = [];
-
-        /**
-        * Represents asset element of Kentico Cloud item
-        * @constructor
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper
-        ) {
-            super({
-                elementType: ElementType.Asset,
-                elementWrapper: elementWrapper,
-            });
-            if (elementWrapper.rawElement.value && Array.isArray(elementWrapper.rawElement.value)) {
-                const rawAssets = elementWrapper.rawElement.value as ElementContracts.IAssetContract[];
-                for (const rawAsset of rawAssets) {
-                    this.value.push(new ElementModels.AssetModel(rawAsset));
-                }
-            }
-        }
-    }
-
-    export class UrlSlugElement extends BaseElement<string> {
-
-        private resolvedUrl?: string;
-
-        private resolveLinkFunc: () => string;
-
-        public value: string;
-
-        /**
-        * Represents URL slug element of Kentico Cloud item
-        * @constructor
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper,
-            data: {
-                /**
-                 * Callback for resolving link
-                 */
-                resolveLinkFunc: () => string
-            }
-        ) {
-            super({
-                elementType: ElementType.UrlSlug,
-                elementWrapper: elementWrapper,
-            });
-
-            this.value = elementWrapper.rawElement.value;
-            this.resolveLinkFunc = data.resolveLinkFunc;
-        }
-
-        resolveUrl(): string {
-            if (this.resolvedUrl) {
-                return this.resolvedUrl;
-            }
-
-            this.resolvedUrl = this.resolveLinkFunc();
-
-            return this.resolvedUrl;
-        }
-    }
-
-    export class TaxonomyElement extends BaseElement<ElementModels.TaxonomyTerm[]> {
-
-        /**
-        * List of assigned taxonomy terms
-        */
-        public value: ElementModels.TaxonomyTerm[] = [];
-
-        /**
-         * Taxonomy group
-         */
-        public taxonomyGroup: string;
-
-        /**
-        * Represents number element of Kentico Cloud item
-        * @constructor
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper
-        ) {
-            super({
-                elementType: ElementType.Taxonomy,
-                elementWrapper: elementWrapper,
-            });
-
-            if (elementWrapper.rawElement.taxonomy_group) {
-                this.taxonomyGroup = elementWrapper.rawElement.taxonomy_group;
-            } else {
-                console.warn(`Taxonomy group for element '${elementWrapper.rawElement.name}' is invalid. Assigning empty string`);
-                this.taxonomyGroup = '';
-            }
-
-            if (elementWrapper.rawElement.value && Array.isArray(elementWrapper.rawElement.value)) {
-                const rawTerms = elementWrapper.rawElement.value as ElementContracts.ITaxonomyTerm[];
-                for (const rawTerm of rawTerms) {
-                    this.value.push(new ElementModels.TaxonomyTerm(rawTerm.name, rawTerm.codename));
-                }
-            }
-        }
-    }
-
-    export class UnknownElement extends BaseElement<any> {
-
-        public value: any;
-
-        constructor(elementWrapper: ElementModels.IElementWrapper) {
-            super({
-                elementType: ElementType.Unknown,
-                elementWrapper: elementWrapper
-            });
-
-            this.value = elementWrapper.rawElement.value;
-        }
-    }
-
-    export abstract class CustomElement extends BaseElement<string> {
-
-        public value: string;
-
-        constructor(elementWrapper: ElementModels.IElementWrapper) {
-            super({
-                elementType: ElementType.Custom,
-                elementWrapper: elementWrapper
-            });
-
-            this.value = elementWrapper.rawElement.value;
-        }
-    }
-
-    export class DefaultCustomElement extends BaseElement<string | undefined> {
-
-        /**
-         * Resolved value of custom element
-         */
-        public value: string | undefined;
-
-        /**
-        * Represents base custom element
-        * @constructor
-        * @param {ElementModels.IElementWrapper} elementWrapper - Element data
-        */
-        constructor(
-            elementWrapper: ElementModels.IElementWrapper,
-        ) {
-            super({
-                elementType: ElementType.Custom,
-                elementWrapper: elementWrapper,
-            });
-            this.value = elementWrapper.rawElement.value;
-        }
-    }
+  }
 }

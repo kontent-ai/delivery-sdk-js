@@ -36,5 +36,19 @@ describe('Custom element', () => {
         expect(element.value).toEqual(rawElement.value);
     });
 
+    it(`Custom element should preserve null value`, () => {
+        const element = new Elements.DefaultCustomElement({
+            contentItemSystem: null as any,
+            propertyName: 'x',
+            rawElement: {
+                name: 'y',
+                type: ElementType.Custom,
+                value: null
+            }
+        });
+
+        expect(element.value).toBeNull();
+    });
+
 });
 
