@@ -1,3 +1,9 @@
+
+## 6.0.0-rc.5 (2019-08-14)
+
+#### :bug: Bug Fix
+  * [#235](https://github.com/Kentico/kentico-cloud-js/pull/235) Fixes mapping of 0 values in number element ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-rc.4 (2019-08-14)
 
 #### :boom: Breaking Change
