@@ -1,3 +1,11 @@
+## 6.0.0-rc.4 (2019-08-14)
+
+#### :boom: Breaking Change
+  * [#234](https://github.com/Kentico/kentico-cloud-js/pull/234) Preserves null values for number/custom and datetime elements ([@Enngage](https://github.com/Enngage))
+
+#### :bug: Bug Fix
+  * [#233](https://github.com/Kentico/kentico-cloud-js/pull/233) Renames 'contentTypeSystem' to 'contentItemSystem' in IElementWrapper ([@Enngage](https://github.com/Enngage))
+
 ## 6.0.0-rc.3 (2019-08-08)
 
 #### :boom: Breaking Change
