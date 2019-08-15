@@ -666,7 +666,7 @@ class Movie extends ContentItem {
 deliveryClient.item<Movie>('pain_and_gain')
   .toObservable()
   .subscribe(response => {
-    console.log(response.item.plot.getHtml());
+    console.log(response.item.plot.resolveHtml());
     // Example output:
     // {html from your rich text element before the linked item}
     // <h3>Dwayne Johsnon</h3>
@@ -692,7 +692,7 @@ deliveryClient.item<Movie>('pain_and_gain')
   })
   .toObservable()
   .subscribe(response => {
-    console.log(response.item.plot.getHtml());
+    console.log(response.item.plot.resolveHtml());
     // Example output:
     // {html from your rich text element before the linked item}
     // <h3>Dwayne Johsnon</h3>
