@@ -10,6 +10,9 @@
 # dependencies
 /node_modules
 
+# test data
+/test
+
 # IDEs and editors
 /.idea
 .project

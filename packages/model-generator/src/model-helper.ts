@@ -1,4 +1,4 @@
-import { ContentType, FieldType } from 'kentico-cloud-delivery';
+import { ContentType, ElementType } from 'kentico-cloud-delivery';
 
 import { generatorConfig } from './config';
 import { CodeType, ModuleResolution } from './enums';
@@ -16,7 +16,7 @@ export class ModelHelper {
         throw Error(`Unsupported code type '${codeType}'`);
     }
 
-    getClassDefinition(type: ContentType, moduleResolution: ModuleResolution, codeType: CodeType): string {
+    getClassDefinition(type: ContentType, moduleResolution: ModuleResolution, codeType: CodeType, strictPropertyInitalization: boolean): string {
         let definition = `
 ${this.getImports(type, moduleResolution, codeType).join('\n')}
 ${codeType === CodeType.TypeScript ? generatorConfig.tsNotice : generatorConfig.jsNotice}
@@ -25,7 +25,7 @@ ${this.getExportClass(type, moduleResolution)}
 
 // include fields only for ts
 if (codeType === CodeType.TypeScript) {
-    definition += `${this.getContentTypeFields(type, moduleResolution).join(`
+    definition += `${this.getContentTypeElements(type, moduleResolution, strictPropertyInitalization).join(`
     `).trim()}
 `;
 }
@@ -56,7 +56,7 @@ if (codeType === CodeType.TypeScript) {
         if (moduleType === ModuleResolution.CommonJs && codeType === CodeType.TypeScript) {
             requiredImport = `import * as ${generatorConfig.CommonJsRequiredName} from '${generatorConfig.npmPackage}';`;
         } else if (moduleType === ModuleResolution.ES2015) {
-            requiredImport = `import { ${generatorConfig.itemBaseClass}, ${generatorConfig.fieldsNamespace} } from '${generatorConfig.npmPackage}';`;
+            requiredImport = `import { ${generatorConfig.itemBaseClass}, ${generatorConfig.elementsNamespace} } from '${generatorConfig.npmPackage}';`;
         } else if (moduleType === ModuleResolution.CommonJs) {
             requiredImport = `var ${generatorConfig.CommonJsRequiredName} = require('${generatorConfig.npmPackage}');`;
         } else {
@@ -68,28 +68,39 @@ if (codeType === CodeType.TypeScript) {
         return imports;
     }
 
-    private getContentTypeFields(type: ContentType, moduleResolution: ModuleResolution): string[] {
+    private getContentTypeElements(type: ContentType, moduleResolution: ModuleResolution, strictPropertyInitalization: boolean): string[] {
         const properties: string[] = [];
         const that = this;
 
         type.elements.forEach(element => {
-            const property = `public ${that.getPropertyName(element.codename)}: ${moduleResolution === ModuleResolution.CommonJs ? (generatorConfig.CommonJsRequiredName + '.') : ''}${that.mapFieldTypeToName(element.type)};`;
+            const property = `public ${that.getPropertyName(element.codename)}${this.getStrictInitialization(strictPropertyInitalization)}: ${this.getModuleResolution(moduleResolution)}${that.mapElementTypeToName(element.type)};`;
             properties.push(property);
         });
 
         return properties;
     }
 
+    private getModuleResolution(moduleResolution: ModuleResolution): string {
+        return `${moduleResolution === ModuleResolution.CommonJs ? (generatorConfig.CommonJsRequiredName + '.') : ''}`;
+    }
+
+    private getStrictInitialization(strictPropertyInitalization: boolean): string {
+        if (strictPropertyInitalization) {
+            return `!`;
+        }
+        return '';
+    }
+
     private getConstructor(type: ContentType, codeType: CodeType): string | undefined {
         const fieldBindings: string[] = [];
-        let explicitFieldReturn = '';
+        let explicitElementReturn = '';
         const that = this;
 
         type.elements.forEach(element => {
             if (that.propertyRequiresCapitalization(element.codename)) {
                 const propertyName = that.getPropertyName(element.codename);
                 const binding =
-                    `if (fieldName === '${element.codename}') {
+                    `if (elementName === '${element.codename}') {
                     return '${propertyName}';
                 }`;
                 fieldBindings.push(binding);
@@ -99,16 +110,16 @@ if (codeType === CodeType.TypeScript) {
         if (fieldBindings.length <= 0) {
             return undefined;
         } else {
-            explicitFieldReturn = `return fieldName;`;
+            explicitElementReturn = `return elementName;`;
         }
 
         const constructor =
             `    constructor() {
         super({
-            ${generatorConfig.propertyResolver}: ((fieldName${codeType === CodeType.TypeScript ? ': string' : ''}) => {
+            ${generatorConfig.propertyResolver}: ((elementName${codeType === CodeType.TypeScript ? ': string' : ''}) => {
                 ${fieldBindings.join(`
                 `)}
-                ${explicitFieldReturn}
+                ${explicitElementReturn}
             })
         });
     }
@@ -138,34 +149,32 @@ if (codeType === CodeType.TypeScript) {
         return type.system.codename;
     }
 
-    private mapFieldTypeToName(fieldType: string): string {
-        let result;
-        if (fieldType.toLowerCase() === FieldType.Text.toLowerCase()) {
-            result = 'TextField';
-        } else if (fieldType.toLowerCase()  === FieldType.Number.toLowerCase() ) {
-            result = 'NumberField';
-        } else if (fieldType.toLowerCase()  === FieldType.ModularContent.toLowerCase() ) {
-            // we don't what type of linked item there can be or if its an array or single object
-            // => use base content item class
-            return generatorConfig.modularFieldReplacement;
-        } else if (fieldType.toLowerCase()  === FieldType.Asset.toLowerCase() ) {
-            result = 'AssetsField';
-        } else if (fieldType.toLowerCase()  === FieldType.DateTime.toLowerCase() ) {
-            result = 'DateTimeField';
-        } else if (fieldType.toLowerCase()  === FieldType.RichText.toLowerCase() ) {
-            result = 'RichTextField';
-        } else if (fieldType.toLowerCase()  === FieldType.MultipleChoice.toLowerCase() ) {
-            result = 'MultipleChoiceField';
-        } else if (fieldType.toLowerCase()  === FieldType.UrlSlug.toLowerCase() ) {
-            result = 'UrlSlugField';
-        } else if (fieldType.toLowerCase()  === FieldType.Taxonomy.toLowerCase() ) {
-            result = 'TaxonomyField';
-        } else if (fieldType.toLowerCase()  === FieldType.Custom.toLowerCase() ) {
-            result = 'CustomField';
+    private mapElementTypeToName(elementType: string): string {
+        let result: string = '';
+        if (elementType.toLowerCase() === ElementType.Text.toLowerCase()) {
+            result = 'TextElement';
+        } else if (elementType.toLowerCase()  === ElementType.Number.toLowerCase() ) {
+            result = 'NumberElement';
+        } else if (elementType.toLowerCase()  === ElementType.ModularContent.toLowerCase() ) {
+            result = `LinkedItemsElement<${generatorConfig.itemBaseClass}>`;
+        } else if (elementType.toLowerCase()  === ElementType.Asset.toLowerCase() ) {
+            result = 'AssetsElement';
+        } else if (elementType.toLowerCase()  === ElementType.DateTime.toLowerCase() ) {
+            result = 'DateTimeElement';
+        } else if (elementType.toLowerCase()  === ElementType.RichText.toLowerCase() ) {
+            result = 'RichTextElement';
+        } else if (elementType.toLowerCase()  === ElementType.MultipleChoice.toLowerCase() ) {
+            result = 'MultipleChoiceElement';
+        } else if (elementType.toLowerCase()  === ElementType.UrlSlug.toLowerCase() ) {
+            result = 'UrlSlugElement';
+        } else if (elementType.toLowerCase()  === ElementType.Taxonomy.toLowerCase() ) {
+            result = 'TaxonomyElement';
+        } else if (elementType.toLowerCase()  === ElementType.Custom.toLowerCase() ) {
+            result = 'CustomElement';
         } else {
-            console.warn(`Unsupported field type '${fieldType}'`);
+            console.warn(`Unsupported element type '${elementType}'`);
         }
-        return generatorConfig.fieldsNamespace + '.' + result;
+        return generatorConfig.elementsNamespace + '.' + result;
     }
 }
 
