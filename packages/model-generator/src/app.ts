@@ -12,6 +12,7 @@ const projectId = argv.projectId;
 const moduleResolution = argv.moduleResolution;
 const codeType = argv.codeType;
 const secureAccessKey = argv.secureAccessKey;
+const strictPropertyInitalization = argv.strictPropertyInitalization;
 
 if (!moduleResolution) {
   throw Error(`Please specify 'moduleResolution' argument. Available options are: ${generatorConfig.moduleOptions.join(',')}`);
@@ -31,7 +32,8 @@ const generator = new Generator({
   type: moduleResolution,
   codeType: utilities.getCodeType(codeType),
   moduleResolution: utilities.getModuleResolution(moduleResolution),
-  secureAccessKey: secureAccessKey
+  secureAccessKey: secureAccessKey,
+  strictPropertyInitalization: strictPropertyInitalization === 'true' ? true : false
 });
 
 generator.startModelGenerator();

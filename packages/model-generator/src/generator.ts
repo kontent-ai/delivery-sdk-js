@@ -14,6 +14,7 @@ export class Generator {
     public readonly moduleResolution!: ModuleResolution;
     public readonly codeType!: CodeType;
     public readonly secureAccessKey?: string;
+    public readonly strictPropertyInitalization!: boolean;
 
     constructor(
         config: {
@@ -21,6 +22,7 @@ export class Generator {
             type: string,
             moduleResolution: ModuleResolution,
             codeType: CodeType,
+            strictPropertyInitalization: boolean,
             secureAccessKey?: string
         }) {
 
@@ -29,8 +31,10 @@ export class Generator {
         // init delivery client
         this.deliveryClient = new DeliveryClient({
             projectId: this.projectId,
-            securedApiKey: config.secureAccessKey,
-            enableSecuredMode: config.secureAccessKey ? true : false
+            secureApiKey: config.secureAccessKey,
+            globalQueryConfig: {
+                useSecuredMode: config.secureAccessKey ? true : false
+            }
         });
     }
 
@@ -39,7 +43,7 @@ export class Generator {
 
         // get data from Kentico Cloud and generate classes out of given project
         this.deliveryClient.types()
-            .getObservable()
+            .toObservable()
             .pipe(
                 map(typesResponse => {
                     typesResponse.types.forEach(type => {
@@ -63,7 +67,7 @@ export class Generator {
             throw Error('Invalid type');
         }
         const classFileName = modelHelper.getFullClassFileName(type, this.codeType);
-        const classContent = modelHelper.getClassDefinition(type, this.moduleResolution, this.codeType);
+        const classContent = modelHelper.getClassDefinition(type, this.moduleResolution, this.codeType, this.strictPropertyInitalization);
 
         // create class file
         fs.writeFile('./' + classFileName, classContent, (error) => {
