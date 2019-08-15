@@ -1,4 +1,10 @@
 
+## 6.0.0 (2019-08-15)
+
+This release contains several breaking changes. To see how you can upgrade from version `5.x.y` see this [upgrade guide](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/UPGRADE.md)
+
+You may also see the changelog below for a list of commits/PRs that were made since previous major release. 
+
 ## 6.0.0-rc.5 (2019-08-14)
 
 #### :bug: Bug Fix
