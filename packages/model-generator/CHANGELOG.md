@@ -1,3 +1,8 @@
+## 2.1.0 (2019-08-15)
+
+#### :bug: Bug Fix
+  * Fixes script path in `package.json`
+
 ## 2.0.0 (2019-08-15)
 
 #### :rocket: Enhancement
