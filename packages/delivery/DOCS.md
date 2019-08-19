@@ -13,6 +13,10 @@ npm i rxjs --save
 npm i kentico-cloud-delivery --save
 ```
 
+## Upgrade
+
+See our [upgrade guide](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/UPGRADE.md) if you are upgrading from previous versions. Currently, the latest major upgrade is from version `5.x.y` to `6.0.0`
+
 ### UMD Bundles
 
 When using UMD bundle and including this library in `script` tag on your `html` page, you can find it under the `kenticoCloudDelivery` global variable.

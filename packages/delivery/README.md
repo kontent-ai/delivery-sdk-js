@@ -17,6 +17,7 @@ A client library for retrieving content from [Kentico Cloud](https://kenticoclou
 |  [Full Documentation](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery/DOCS.md) |
 |  [Example apps](https://github.com/Kentico/kentico-cloud-js/tree/master/examples) | 
 |  [API Reference](https://kentico.github.io/kentico-cloud-js/delivery/) | 
+|  [Upgrade guide](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/UPGRADE.md) | 
 
 
 ## Installation

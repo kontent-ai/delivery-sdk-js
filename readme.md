@@ -20,6 +20,7 @@ A client library for retrieving data from [Kentico Cloud](https://kenticocloud.c
 * [Full documentation](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery/DOCS.md)
 * [Example apps](https://github.com/Kentico/kentico-cloud-js/tree/master/examples)
 * [Changelog](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/CHANGELOG.md)
+* [Upgrade guide](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/UPGRADE.md)
 
 ## [Content Management Javascript SDK](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/content-management)
 
