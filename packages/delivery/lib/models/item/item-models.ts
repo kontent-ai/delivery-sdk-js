@@ -57,6 +57,8 @@ export interface IContentItemSystemAttributes {
  */
 export type ContentItemIndexer = any;
 
+export type ContentItemType = 'component' | 'linkedItem';
+
 export interface IContentItem {
 
     /**

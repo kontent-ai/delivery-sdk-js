@@ -53,7 +53,11 @@ describe('RichTextElement with Images', () => {
     }, [], {
         images: images,
         links: [],
-        resolveHtmlFunc: () => ''
+        resolveRichTextFunc: () => ({
+            html: '',
+            componentCodenames: [],
+            linkedItemCodenames: []
+        })
     });
 
     const image1 = images[0];
@@ -76,7 +80,7 @@ describe('RichTextElement with Images', () => {
             }
         }, [], {
             links: [],
-            resolveHtmlFunc: () => richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
+            resolveRichTextFunc: () => richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
                 enableAdvancedLogging: false,
                 links: [],
                 getLinkedItem: (codename) => linkedItem,
@@ -111,7 +115,7 @@ describe('RichTextElement with Images', () => {
             }
         }, [], {
             links: [],
-            resolveHtmlFunc: () => richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
+            resolveRichTextFunc: () => richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
                 enableAdvancedLogging: false,
                 links: [],
                 getLinkedItem: (codename) => linkedItem,

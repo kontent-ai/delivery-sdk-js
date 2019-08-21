@@ -4,7 +4,9 @@ export const parserConfiguration = {
     modularContentElementData: {
         type: 'application/kenticocloud',
         dataType: 'data-type',
-        dataCodename: 'data-codename'
+        dataCodename: 'data-codename',
+        relAttribute: 'data-rel',
+        componentRel: 'component'
     },
     linkElementData: {
         nodeName: 'a',

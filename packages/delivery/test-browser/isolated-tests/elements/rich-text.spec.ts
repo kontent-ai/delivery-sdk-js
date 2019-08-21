@@ -120,7 +120,7 @@ describe('RichTextElement', () => {
         }
     }, linkedItems.map(m => m.system.codename), {
             links: links,
-            resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+            resolveRichTextFunc: () => richTextResolver.resolveHtml('', html, 'name', {
                 enableAdvancedLogging: false,
                 links: links,
                 getLinkedItem: getLinkedItem,
@@ -201,7 +201,7 @@ describe('RichTextElement', () => {
             }
         }, linkedItems.map(m => m.system.codename), {
                 links: links,
-                resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                resolveRichTextFunc: () => richTextResolver.resolveHtml('', html, 'name', {
                     enableAdvancedLogging: false,
                     links: links,
                     getLinkedItem: getLinkedItem,
@@ -240,7 +240,7 @@ describe('RichTextElement', () => {
             }
         }, linkedItems.map(m => m.system.codename), {
                 links: links,
-                resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                resolveRichTextFunc: () => richTextResolver.resolveHtml('', html, 'name', {
                     enableAdvancedLogging: false,
                     links: links,
                     getLinkedItem: getLinkedItem,
@@ -276,7 +276,7 @@ describe('RichTextElement', () => {
             }
         }, linkedItems.map(m => m.system.codename), {
                 links: links,
-                resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                resolveRichTextFunc: () => richTextResolver.resolveHtml('', html, 'name', {
                     enableAdvancedLogging: false,
                     links: links,
                     getLinkedItem: getLinkedItem,

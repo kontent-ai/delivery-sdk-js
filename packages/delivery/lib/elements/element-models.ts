@@ -3,6 +3,12 @@ import { ElementType } from './element-type';
 
 export namespace ElementModels {
 
+    export interface IRichTextResolverData {
+        html: string;
+        linkedItemCodenames: string[];
+        componentCodenames: string[];
+    }
+
     export interface IElementWrapper {
         propertyName: string;
         contentItemSystem: ItemContracts.IContentItemSystemAttributesContract;

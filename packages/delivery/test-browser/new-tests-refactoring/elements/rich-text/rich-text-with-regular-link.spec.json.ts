@@ -1,4 +1,4 @@
-import { ContentItem, Elements, getParserAdapter, IUrlSlugResolverResult, richTextResolver } from '../../../lib';
+import { ContentItem, Elements, getParserAdapter, IUrlSlugResolverResult, richTextResolver } from '../../../../lib';
 
 describe('Rich text with regular link', () => {
     const linkedItems: ContentItem[] = [];
@@ -18,7 +18,7 @@ describe('Rich text with regular link', () => {
             propertyName: 'name'
         }, linkedItems.map(m => m.system.codename), {
                 links: [],
-                resolveHtmlFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                resolveRichTextFunc: () => richTextResolver.resolveHtml('', html, 'name', {
                     enableAdvancedLogging: false,
                     links: [],
                     getLinkedItem: getLinkedItem,
