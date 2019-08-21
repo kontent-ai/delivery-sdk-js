@@ -1,3 +1,8 @@
+## 6.2.0 (2019-08-21)
+
+#### :rocket: Enhancement
+  * [#239](https://github.com/Kentico/kentico-cloud-js/pull/239) Handles unknown data item types in rich text elements, renames richTextElement.resolveHtml to resolveData ([@Enngage](https://github.com/Enngage))
+
 ## 6.1.0 (2019-08-21)
 
 #### :rocket: Enhancement
