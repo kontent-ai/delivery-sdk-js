@@ -7,7 +7,7 @@ import {
     serialize,
 } from 'parse5';
 
-import { IUrlSlugResolverResult, RichTextContentType } from '../../models';
+import { IUrlSlugResolverResult, RichTextContentType, ContentItemType } from '../../models';
 import {
     IFeaturedObjects,
     IHtmlResolverConfig,
@@ -187,10 +187,18 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
             }
 
             const itemCodename = dataCodenameAttribute.value;
+            let itemType: ContentItemType = 'linkedItem';
+
+            // get rel attribute for components
+            const relAttribute: Attribute | undefined = attributes.find(m => m.name === parserConfiguration.modularContentElementData.relAttribute);
+            if (relAttribute && relAttribute.value === parserConfiguration.modularContentElementData.componentRel) {
+                itemType = 'component';
+            }
 
             const linkedItem: ILinkedItemContentObject = {
                 dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
-                dataType: dataTypeAttribute ? dataTypeAttribute.value : ''
+                dataType: dataTypeAttribute ? dataTypeAttribute.value : '',
+                itemType: itemType
             };
 
             // add to result

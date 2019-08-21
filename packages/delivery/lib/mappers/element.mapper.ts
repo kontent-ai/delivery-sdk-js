@@ -241,7 +241,7 @@ export class ElementMapper {
             rawElement.modular_content,
             {
                 links: links,
-                resolveHtmlFunc: () => richTextResolver.resolveHtml(item.system.codename, rawElement.value, elementWrapper.propertyName, {
+                resolveRichTextFunc: () => richTextResolver.resolveHtml(item.system.codename, rawElement.value, elementWrapper.propertyName, {
                     enableAdvancedLogging: this.config.isDeveloperMode ? this.config.isDeveloperMode : false,
                     images: images,
                     richTextHtmlParser: this.richTextHtmlParser,

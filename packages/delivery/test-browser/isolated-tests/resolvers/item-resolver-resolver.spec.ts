@@ -59,7 +59,18 @@ describe('Item resolver', () => {
         }).toThrowError();
     });
 
-    it(`Resolving linked items in rich text element should always throw exception because items are not present in response and could not be parsed`, () => {
+    it(`Resolving linked items in rich text element should throw exception when items are not present in response`, () => {
+        expect(() => {
+            const result = getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
+                throwErrorForMissingLinkedItems: true,
+            });
+
+            result.item.plot.resolveHtml();
+
+        }).toThrowError();
+    });
+
+    it(`Resolving linked items in rich text element should not throw exception when items are not present in response`, () => {
         expect(() => {
             const result = getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
                 throwErrorForMissingLinkedItems: false,
@@ -67,7 +78,7 @@ describe('Item resolver', () => {
 
             result.item.plot.resolveHtml();
 
-        }).toThrowError();
+        }).not.toThrowError();
     });
 
     it(`Resolving linked items should NOT throw exception when linked content item is missing and 'throwErrorForMissingLinkedItems' is disabled`, () => {

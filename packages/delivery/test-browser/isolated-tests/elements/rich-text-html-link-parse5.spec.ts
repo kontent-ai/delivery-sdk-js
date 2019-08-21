@@ -2,12 +2,12 @@ import {
     ContentItem,
     ContentItemSystemAttributes,
     Elements,
-    getParserAdapter,
     IUrlSlugResolverResult,
     Link,
     richTextResolver,
     urlSlugResolver,
 } from '../../../lib';
+import { Parse5RichTextParser } from '../../../lib/parser/adapters/parse5-rich-text.parser';
 
 class ActorMock extends ContentItem {
     firstName!: Elements.TextElement;
@@ -39,31 +39,35 @@ class ActorMock extends ContentItem {
             lastModified: new Date()
         });
 
-        this.url = new Elements.UrlSlugElement({
-            contentItemSystem: {} as any,
-            propertyName: 'urlSlugName',
-            rawElement: {
-                name: '',
-                value: codename,
-                type: ''
+        this.url = new Elements.UrlSlugElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'urlSlugName',
+                rawElement: {
+                    name: '',
+                    value: codename,
+                    type: ''
+                }
+            },
+            {
+                resolveLinkFunc: () =>
+                    urlSlugResolver.resolveUrl({
+                        elementName: 'name',
+                        item: this,
+                        resolver: (link, context) => {
+                            return {
+                                html: `<test>${link.urlSlug}</test>`
+                            };
+                        },
+                        enableAdvancedLogging: true,
+                        elementValue: codename
+                    }).html || ''
             }
-        }, {
-                resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                    elementName: 'name',
-                    item: this,
-                    resolver: (link, context) => {
-                        return {
-                            html: `<test>${link.urlSlug}</test>`,
-                        };
-                    },
-                    enableAdvancedLogging: true,
-                    elementValue: codename
-                }).html || ''
-            });
+        );
     }
 }
 
-describe('RichTextElement with Html links', () => {
+describe('RichTextElement with Html links parse5', () => {
     // prepare linked items
     const linkedItems: ActorMock[] = [];
 
@@ -82,13 +86,13 @@ describe('RichTextElement with Html links', () => {
             linkId: tomHardy.system.id,
             codename: tomHardy.system.codename,
             type: tomHardy.system.type,
-            urlSlug: 'slug_for_tom',
+            urlSlug: 'slug_for_tom'
         }),
         new Link({
             linkId: joelEdgerton.system.id,
             codename: joelEdgerton.system.codename,
             type: joelEdgerton.system.type,
-            urlSlug: 'slug_for_joel',
+            urlSlug: 'slug_for_joel'
         })
     ];
 
@@ -98,7 +102,8 @@ describe('RichTextElement with Html links', () => {
     const beforeLinkText = 'BEFORELINK';
     const afterLinkText = 'AFTERLINK';
 
-    const getLinkedItem: (codename: string) => ContentItem | undefined = (codename) => linkedItems.find(m => m.system.codename === codename);
+    const getLinkedItem: (codename: string) => ContentItem | undefined = codename =>
+        linkedItems.find(m => m.system.codename === codename);
 
     // prepare html
     // tslint:disable:max-line-length
@@ -107,34 +112,39 @@ describe('RichTextElement with Html links', () => {
     `;
 
     it(`checks that links are resolved as HTML`, () => {
-
-        const elementWithoutRichTextResolver = new Elements.RichTextElement({
-            contentItemSystem: {} as any,
-            propertyName: 'x',
-            rawElement: {
-                name: 'x',
-                type: '',
-                value: html
-            }
-        }, linkedItems.map(m => m.system.codename), {
+        const elementWithoutRichTextResolver = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'x',
+                rawElement: {
+                    name: 'x',
+                    type: '',
+                    value: html
+                }
+            },
+            linkedItems.map(m => m.system.codename),
+            {
                 links: links,
-                resolveRichTextFunc: () => richTextResolver.resolveHtml('', html, 'name', {
-                    enableAdvancedLogging: false,
-                    links: links,
-                    getLinkedItem: getLinkedItem,
-                    images: [],
-                    richTextHtmlParser: getParserAdapter(),
-                    linkedItemWrapperClasses: ['kc-wrapper-class'],
-                    linkedItemWrapperTag: 'kc-item-wrapper',
-                    queryConfig: {
-                        richTextResolver: undefined as any,
-                        urlSlugResolver: (link) => <IUrlSlugResolverResult>{
-                            html: `<test>${link.urlSlug}</test>`,
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveHtml('', html, 'name', {
+                        enableAdvancedLogging: false,
+                        links: links,
+                        getLinkedItem: getLinkedItem,
+                        images: [],
+                        richTextHtmlParser: new Parse5RichTextParser(),
+                        linkedItemWrapperClasses: ['kc-wrapper-class'],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextResolver: undefined as any,
+                            urlSlugResolver: link =>
+                                <IUrlSlugResolverResult>{
+                                    html: `<test>${link.urlSlug}</test>`
+                                }
                         }
-                    },
-                }),
+                    }),
                 images: []
-            });
+            }
+        );
 
         const expectedHtml1 = `${beforeLinkText}<test>slug_for_joel</test>${afterLinkText}`;
         const expectedHtml2 = `${beforeLinkText}<test>slug_for_tom</test>${afterLinkText}`;
@@ -142,4 +152,3 @@ describe('RichTextElement with Html links', () => {
         expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });
 });
-

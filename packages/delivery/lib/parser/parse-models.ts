@@ -1,4 +1,4 @@
-import { IItemQueryConfig, IUrlSlugResolverResult, IRichTextImageResolverResult, RichTextContentType } from '../models';
+import { IItemQueryConfig, IUrlSlugResolverResult, IRichTextImageResolverResult, RichTextContentType, ContentItemType } from '../models';
 
 export type ResolverContext = 'root' | 'nested';
 
@@ -32,6 +32,7 @@ export interface IHtmlResolverConfig {
 export interface ILinkedItemContentObject {
     dataType: string;
     dataCodename: string;
+    itemType: ContentItemType;
 }
 
 export interface ILinkObject {
