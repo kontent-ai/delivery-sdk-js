@@ -7,7 +7,7 @@ import {
     serialize,
 } from 'parse5';
 
-import { IUrlSlugResolverResult, RichTextContentType, ContentItemType } from '../../models';
+import { ContentItemType, IUrlSlugResolverResult, RichTextItemDataType } from '../../models';
 import {
     IFeaturedObjects,
     IHtmlResolverConfig,
@@ -23,19 +23,33 @@ import { parserConfiguration } from '../parser-configuration';
 import { parse5Utils } from './parse5utils';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
-
     private readonly resolvedLinkedItemAttribute = 'data-sdk-resolved';
 
-    resolveRichTextElement(resolverContext: ResolverContext, contentItemCodename: string, html: string, elementName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult {
+    resolveRichTextElement(
+        resolverContext: ResolverContext,
+        contentItemCodename: string,
+        html: string,
+        elementName: string,
+        replacement: IRichTextReplacements,
+        config: IHtmlResolverConfig
+    ): IRichTextResolverResult {
         // create document
         const documentFragment = parseFragment(html) as DefaultTreeDocumentFragment;
 
         // get all linked items
-        const result = this.processRichTextElement(resolverContext, contentItemCodename, elementName, this.getChildNodes(documentFragment), replacement, config, {
-            links: [],
-            linkedItems: [],
-            images: []
-        });
+        const result = this.processRichTextElement(
+            resolverContext,
+            contentItemCodename,
+            elementName,
+            this.getChildNodes(documentFragment),
+            replacement,
+            config,
+            {
+                links: [],
+                linkedItems: [],
+                images: []
+            }
+        );
 
         const resolvedHtml = serialize(documentFragment);
 
@@ -47,20 +61,44 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         };
     }
 
-    private processRichTextElement(resolverContext: ResolverContext, contentItemCodename: string, elementName: string, elements: DefaultTreeElement[], replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): IFeaturedObjects {
+    private processRichTextElement(
+        resolverContext: ResolverContext,
+        contentItemCodename: string,
+        elementName: string,
+        elements: DefaultTreeElement[],
+        replacement: IRichTextReplacements,
+        config: IHtmlResolverConfig,
+        result: IFeaturedObjects
+    ): IFeaturedObjects {
         if (!elements || elements.length === 0) {
             // there are no more elements
         } else {
             elements.forEach(element => {
                 if (element.attrs) {
                     this.processModularContentItem(resolverContext, elementName, element, replacement, config, result);
-                    this.processImage(resolverContext, contentItemCodename, elementName, element, replacement, config, result);
+                    this.processImage(
+                        resolverContext,
+                        contentItemCodename,
+                        elementName,
+                        element,
+                        replacement,
+                        config,
+                        result
+                    );
                     this.processLink(element, replacement, config, result);
                 }
 
                 if (element.childNodes) {
                     // recursively process all childs
-                    this.processRichTextElement(resolverContext, contentItemCodename, elementName, this.getChildNodes(element), replacement, config, result);
+                    this.processRichTextElement(
+                        resolverContext,
+                        contentItemCodename,
+                        elementName,
+                        this.getChildNodes(element),
+                        replacement,
+                        config,
+                        result
+                    );
                 }
             });
         }
@@ -68,7 +106,15 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         return result;
     }
 
-    private processImage(resolverContext: ResolverContext, contentItemCodename: string, elementName: string, element: DefaultTreeElement, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): void {
+    private processImage(
+        resolverContext: ResolverContext,
+        contentItemCodename: string,
+        elementName: string,
+        element: DefaultTreeElement,
+        replacement: IRichTextReplacements,
+        config: IHtmlResolverConfig,
+        result: IFeaturedObjects
+    ): void {
         const attributes = element.attrs;
 
         if (element.nodeName !== parserConfiguration.imageElementData.nodeName) {
@@ -100,7 +146,12 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         }
     }
 
-    private processLink(element: DefaultTreeElement, replacement: IRichTextReplacements, config: IHtmlResolverConfig, result: IFeaturedObjects): void {
+    private processLink(
+        element: DefaultTreeElement,
+        replacement: IRichTextReplacements,
+        config: IHtmlResolverConfig,
+        result: IFeaturedObjects
+    ): void {
         const attributes = element.attrs;
 
         if (element.nodeName !== parserConfiguration.linkElementData.nodeName) {
@@ -136,7 +187,9 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         // html has priority over url
         if (urlSlugResult.html) {
             // replace entire link html
-            const linkHtml = (<IUrlSlugResolverResult>urlSlugResult).html ? (<IUrlSlugResolverResult>urlSlugResult).html : '';
+            const linkHtml = (<IUrlSlugResolverResult>urlSlugResult).html
+                ? (<IUrlSlugResolverResult>urlSlugResult).html
+                : '';
             if (linkHtml) {
                 const newNode = parseFragment(parse5Utils.createTextNode(''), linkHtml);
                 parse5Utils.replaceNode(element, (newNode as any).childNodes[0]);
@@ -147,11 +200,16 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
             if (!hrefAttribute) {
                 // href attribute is missing
                 if (config.enableAdvancedLogging) {
-                    console.warn(`Cannot set url '${urlSlugResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`);
+                    console.warn(
+                        `Cannot set url '${urlSlugResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
+                    );
                 }
             } else {
                 // get link url
-                const linkUrlResult: string | undefined = typeof urlSlugResult === 'string' ? <string>urlSlugResult : (<IUrlSlugResolverResult>urlSlugResult).url;
+                const linkUrlResult: string | undefined =
+                    typeof urlSlugResult === 'string'
+                        ? <string>urlSlugResult
+                        : (<IUrlSlugResolverResult>urlSlugResult).url;
                 hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
             }
         }
@@ -163,72 +221,93 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         element: DefaultTreeElement,
         replacement: IRichTextReplacements,
         config: IHtmlResolverConfig,
-        result: IFeaturedObjects): void {
+        result: IFeaturedObjects
+    ): void {
         const attributes = element.attrs;
 
-        const dataTypeAttribute = attributes.find(m => m.name === parserConfiguration.modularContentElementData.dataType);
+        const dataTypeAttribute = attributes.find(
+            m => m.name === parserConfiguration.modularContentElementData.dataType
+        );
         const resolvedDataAttribute = attributes.find(m => m.name === this.resolvedLinkedItemAttribute);
 
         // process linked itmes
         if (dataTypeAttribute && !resolvedDataAttribute) {
-
             // get type of resolving item
-            let type: RichTextContentType | undefined;
+            let type: RichTextItemDataType | undefined;
             if (dataTypeAttribute.value === 'item') {
-                type = RichTextContentType.Item;
+                type = RichTextItemDataType.Item;
+
+                // get codename of the modular content
+                const dataCodenameAttribute: Attribute | undefined = attributes.find(
+                    m => m.name === parserConfiguration.modularContentElementData.dataCodename
+                );
+                if (dataCodenameAttribute == null) {
+                    throw Error(
+                        `The '${
+                            parserConfiguration.modularContentElementData.dataCodename
+                        }' attribute is missing and therefore linked item cannot be retrieved`
+                    );
+                }
+
+                const itemCodename = dataCodenameAttribute.value;
+                let itemType: ContentItemType = 'linkedItem';
+
+                // get rel attribute for components
+                const relAttribute: Attribute | undefined = attributes.find(
+                    m => m.name === parserConfiguration.modularContentElementData.relAttribute
+                );
+                if (relAttribute && relAttribute.value === parserConfiguration.modularContentElementData.componentRel) {
+                    itemType = 'component';
+                }
+
+                const linkedItem: ILinkedItemContentObject = {
+                    dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
+                    dataType: dataTypeAttribute ? dataTypeAttribute.value : '',
+                    itemType: itemType
+                };
+
+                // add to result
+                result.linkedItems.push(linkedItem);
+
+                const linkedItemHtml = replacement.getLinkedItemHtml(itemCodename, type);
+
+                // flag element as resolved to avoid duplicate resolving
+                element.attrs.push({
+                    name: this.resolvedLinkedItemAttribute,
+                    value: '1'
+                });
+
+                // get html
+                const resultHtml = this.resolveRichTextElement(
+                    'nested',
+                    itemCodename,
+                    linkedItemHtml,
+                    elementName,
+                    replacement,
+                    config
+                ).resolvedHtml;
+
+                // replace 'object' tag name
+                element.tagName = config.linkedItemWrapperTag;
+
+                // add classes
+                element.attrs.push({
+                    name: 'class',
+                    value: config.linkedItemWrapperClasses.map(m => m).join(' ')
+                });
+
+                // get serialized set of nodes from HTML
+                const serializedChildNodes = parseFragment(resultHtml) as any;
+
+                // add child nodes
+                element.childNodes = serializedChildNodes.childNodes;
             } else {
-                throw Error(`Unknown data type '${type}' found in rich text element response. `);
+                if (config.enableAdvancedLogging) {
+                    console.warn(
+                        `Rich text element contains object with unsupported data type '${dataTypeAttribute.value}'`
+                    );
+                }
             }
-
-            // get codename of the modular content
-            const dataCodenameAttribute: Attribute | undefined = attributes.find(m => m.name === parserConfiguration.modularContentElementData.dataCodename);
-            if (dataCodenameAttribute == null) {
-                throw Error(`The '${parserConfiguration.modularContentElementData.dataCodename}' attribute is missing and therefore linked item cannot be retrieved`);
-            }
-
-            const itemCodename = dataCodenameAttribute.value;
-            let itemType: ContentItemType = 'linkedItem';
-
-            // get rel attribute for components
-            const relAttribute: Attribute | undefined = attributes.find(m => m.name === parserConfiguration.modularContentElementData.relAttribute);
-            if (relAttribute && relAttribute.value === parserConfiguration.modularContentElementData.componentRel) {
-                itemType = 'component';
-            }
-
-            const linkedItem: ILinkedItemContentObject = {
-                dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
-                dataType: dataTypeAttribute ? dataTypeAttribute.value : '',
-                itemType: itemType
-            };
-
-            // add to result
-            result.linkedItems.push(linkedItem);
-
-            const linkedItemHtml = replacement.getLinkedItemHtml(itemCodename, type);
-
-            // flag element as resolved to avoid duplicate resolving
-            element.attrs.push({
-                name: this.resolvedLinkedItemAttribute,
-                value: '1'
-            });
-
-            // get html
-            const resultHtml = this.resolveRichTextElement('nested', itemCodename, linkedItemHtml, elementName, replacement, config).resolvedHtml;
-
-            // replace 'object' tag name
-            element.tagName = config.linkedItemWrapperTag;
-
-            // add classes
-            element.attrs.push({
-                name: 'class',
-                value: config.linkedItemWrapperClasses.map(m => m).join(' ')
-            });
-
-            // get serialized set of nodes from HTML
-            const serializedChildNodes = parseFragment(resultHtml) as any;
-
-            // add child nodes
-            element.childNodes = serializedChildNodes.childNodes;
         }
     }
 
@@ -236,4 +315,3 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         return (documentFragment as DefaultTreeDocumentFragment).childNodes as DefaultTreeElement[];
     }
 }
-

@@ -7,7 +7,7 @@ import {
     IUrlSlugResolverContext,
     IUrlSlugResolverResult,
     Link,
-    RichTextContentType,
+    RichTextItemDataType,
     RichTextImage,
 } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser, ResolverContext } from '../parser';
@@ -17,7 +17,7 @@ export class RichTextResolver {
      * Resolves linked items inside the Rich text element.
      * Rich text resolved needs to be configured either on the model or query level
      */
-    resolveHtml(
+    resolveData(
         contentItemCodename: string,
         html: string,
         elementName: string,
@@ -54,7 +54,7 @@ export class RichTextResolver {
                         getLinkedItem: data.getLinkedItem,
                         linkText: linkText
                     }),
-                getLinkedItemHtml: (itemCodename: string, itemType: RichTextContentType) =>
+                getLinkedItemHtml: (itemCodename: string, itemType: RichTextItemDataType) =>
                     this.getLinkedItemHtml({
                         itemCodename: itemCodename,
                         config: config,
@@ -179,7 +179,7 @@ export class RichTextResolver {
         itemCodename: string;
         config: IHtmlResolverConfig;
         getLinkedItem: (codename: string) => IContentItem | undefined;
-        itemType: RichTextContentType;
+        itemType: RichTextItemDataType;
     }): string {
         // get linked item
         const linkedItem = data.getLinkedItem(data.itemCodename);

@@ -118,7 +118,7 @@ describe('RichTextElement with Html links', () => {
             }
         }, linkedItems.map(m => m.system.codename), {
                 links: links,
-                resolveRichTextFunc: () => richTextResolver.resolveHtml('', html, 'name', {
+                resolveRichTextFunc: () => richTextResolver.resolveData('', html, 'name', {
                     enableAdvancedLogging: false,
                     links: links,
                     getLinkedItem: getLinkedItem,

@@ -126,7 +126,7 @@ describe('RichTextElement with Html links parse5', () => {
             {
                 links: links,
                 resolveRichTextFunc: () =>
-                    richTextResolver.resolveHtml('', html, 'name', {
+                    richTextResolver.resolveData('', html, 'name', {
                         enableAdvancedLogging: false,
                         links: links,
                         getLinkedItem: getLinkedItem,
