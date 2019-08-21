@@ -265,14 +265,14 @@ export interface IUrlSlugResolverResult {
 }
 
 export interface IRichTextResolverContext {
-    contentType: RichTextContentType;
+    contentType: RichTextItemDataType;
 }
 
 export interface IRichTextImageResolverResult {
     url: string;
 }
 
-export enum RichTextContentType {
+export enum RichTextItemDataType {
     Item = 'item',
 }
 

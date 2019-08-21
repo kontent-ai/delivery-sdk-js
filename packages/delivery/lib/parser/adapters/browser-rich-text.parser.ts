@@ -1,4 +1,4 @@
-import { IUrlSlugResolverResult, RichTextContentType, ContentItemType } from '../../models';
+import { ContentItemType, IUrlSlugResolverResult, RichTextItemDataType } from '../../models';
 import {
     IFeaturedObjects,
     IHtmlResolverConfig,
@@ -95,18 +95,19 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
 
                     let itemType: ContentItemType = 'linkedItem';
 
-                    if (relAttribute && relAttribute.value === parserConfiguration.modularContentElementData.componentRel) {
+                    if (
+                        relAttribute &&
+                        relAttribute.value === parserConfiguration.modularContentElementData.componentRel
+                    ) {
                         itemType = 'component';
                     }
 
+                    // prepare link item object
                     const linkItemContentObject: ILinkedItemContentObject = {
                         dataCodename: dataCodenameAttribute ? dataCodenameAttribute.value : '',
                         dataType: dataTypeAttribute ? dataTypeAttribute.value : '',
                         itemType: itemType
                     };
-
-                    // add to result
-                    result.linkedItems.push(linkItemContentObject);
 
                     // replace html
                     const parentElement = element.parentElement;
@@ -118,34 +119,46 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                             }' because parent node is undefined. Please report this error if you are seeing this.`
                         );
                     } else {
-                        // create new element
-                        const newElem = document.createElement(config.linkedItemWrapperTag);
-
-                        // get type of resolving item
-                        let type: RichTextContentType | undefined;
                         if (dataTypeAttribute.value === 'item') {
-                            type = RichTextContentType.Item;
+                            // add to result
+                            result.linkedItems.push(linkItemContentObject);
+
+                            // create new element
+                            const newElem = document.createElement(config.linkedItemWrapperTag);
+
+                            // get type of resolving item
+                            let type: RichTextItemDataType | undefined;
+                            type = RichTextItemDataType.Item;
+
+                            const linkedItemHtml = replacement.getLinkedItemHtml(
+                                linkItemContentObject.dataCodename,
+                                type
+                            );
+
+                            // recursively run resolver on the HTML obtained by resolver
+                            newElem.innerHTML = this.resolveRichTextElement(
+                                'nested',
+                                linkItemContentObject.dataCodename,
+                                linkedItemHtml,
+                                elementName,
+                                replacement,
+                                config
+                            ).resolvedHtml;
+
+                            // add classes
+                            newElem.className = config.linkedItemWrapperClasses.map(m => m).join(' ');
+
+                            // replace original node with new one
+                            parentElement.replaceChild(newElem, element);
                         } else {
-                            throw Error(`Unknown data type '${type}' found in rich text element.`);
+                            if (config.enableAdvancedLogging) {
+                                console.warn(
+                                    `Rich text element contains object with unsupported data type '${
+                                        dataTypeAttribute.value
+                                    }'`
+                                );
+                            }
                         }
-
-                        const linkedItemHtml = replacement.getLinkedItemHtml(linkItemContentObject.dataCodename, type);
-
-                        // recursively run resolver on the HTML obtained by resolver
-                        newElem.innerHTML = this.resolveRichTextElement(
-                            'nested',
-                            linkItemContentObject.dataCodename,
-                            linkedItemHtml,
-                            elementName,
-                            replacement,
-                            config
-                        ).resolvedHtml;
-
-                        // add classes
-                        newElem.className = config.linkedItemWrapperClasses.map(m => m).join(' ');
-
-                        // replace original node with new one
-                        parentElement.replaceChild(newElem, element);
                     }
                 }
 

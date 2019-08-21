@@ -80,7 +80,7 @@ describe('RichTextElement with Images', () => {
             }
         }, [], {
             links: [],
-            resolveRichTextFunc: () => richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
+            resolveRichTextFunc: () => richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                 enableAdvancedLogging: false,
                 links: [],
                 getLinkedItem: (codename) => linkedItem,
@@ -115,7 +115,7 @@ describe('RichTextElement with Images', () => {
             }
         }, [], {
             links: [],
-            resolveRichTextFunc: () => richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
+            resolveRichTextFunc: () => richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                 enableAdvancedLogging: false,
                 links: [],
                 getLinkedItem: (codename) => linkedItem,

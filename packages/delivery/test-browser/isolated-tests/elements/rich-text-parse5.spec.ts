@@ -4,7 +4,7 @@ import {
     Elements,
     IRichTextResolverContext,
     Link,
-    RichTextContentType,
+    RichTextItemDataType,
     richTextResolver,
     urlSlugResolver,
 } from '../../../lib';
@@ -128,7 +128,7 @@ describe('RichTextElement parse5', () => {
         {
             links: links,
             resolveRichTextFunc: () =>
-                richTextResolver.resolveHtml('', html, 'name', {
+                richTextResolver.resolveData('', html, 'name', {
                     enableAdvancedLogging: false,
                     links: links,
                     getLinkedItem: getLinkedItem,
@@ -212,7 +212,7 @@ describe('RichTextElement parse5', () => {
             {
                 links: links,
                 resolveRichTextFunc: () =>
-                    richTextResolver.resolveHtml('', html, 'name', {
+                    richTextResolver.resolveData('', html, 'name', {
                         enableAdvancedLogging: false,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -256,7 +256,7 @@ describe('RichTextElement parse5', () => {
             {
                 links: links,
                 resolveRichTextFunc: () =>
-                    richTextResolver.resolveHtml('', html, 'name', {
+                    richTextResolver.resolveData('', html, 'name', {
                         enableAdvancedLogging: false,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -279,7 +279,7 @@ describe('RichTextElement parse5', () => {
 
         expect(contexts).toBeDefined();
         expect(contexts.length).toEqual(2);
-        expect(contexts.filter(m => m.contentType === RichTextContentType.Item).length).toEqual(2);
+        expect(contexts.filter(m => m.contentType === RichTextItemDataType.Item).length).toEqual(2);
     });
 
     it(`error should be preserved when it originates from richTextResolver`, () => {
@@ -297,7 +297,7 @@ describe('RichTextElement parse5', () => {
             {
                 links: links,
                 resolveRichTextFunc: () =>
-                    richTextResolver.resolveHtml('', html, 'name', {
+                    richTextResolver.resolveData('', html, 'name', {
                         enableAdvancedLogging: false,
                         links: links,
                         getLinkedItem: getLinkedItem,

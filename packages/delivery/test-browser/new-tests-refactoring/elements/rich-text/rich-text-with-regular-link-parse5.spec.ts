@@ -9,7 +9,7 @@ describe('Rich text with regular link parse5', () => {
     const html = `Text with <a href="domain.com">link</a>`;
 
     it(`Resolving HTML should succeed`, () => {
-        const elementWithoutRichTextResolver = new Elements.RichTextElement(
+        const element = new Elements.RichTextElement(
             {
                 rawElement: {
                     name: 'name',
@@ -24,7 +24,7 @@ describe('Rich text with regular link parse5', () => {
             {
                 links: [],
                 resolveRichTextFunc: () =>
-                    richTextResolver.resolveHtml('', html, 'name', {
+                    richTextResolver.resolveData('', html, 'name', {
                         enableAdvancedLogging: false,
                         links: [],
                         getLinkedItem: getLinkedItem,
@@ -45,6 +45,6 @@ describe('Rich text with regular link parse5', () => {
         );
 
         const expectedHtml = `Text with <a href="domain.com">link</a>`;
-        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml);
+        expect(element.resolveHtml()).toContain(expectedHtml);
     });
 });

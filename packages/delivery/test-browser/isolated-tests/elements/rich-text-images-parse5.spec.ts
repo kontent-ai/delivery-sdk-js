@@ -87,7 +87,7 @@ describe('RichTextElement with Images parse5', () => {
             {
                 links: [],
                 resolveRichTextFunc: () =>
-                    richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
+                    richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                         enableAdvancedLogging: false,
                         links: [],
                         getLinkedItem: codename => linkedItem,
@@ -127,7 +127,7 @@ describe('RichTextElement with Images parse5', () => {
             {
                 links: [],
                 resolveRichTextFunc: () =>
-                    richTextResolver.resolveHtml(linkedItemCodename, html, 'name', {
+                    richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                         enableAdvancedLogging: false,
                         links: [],
                         getLinkedItem: codename => linkedItem,
