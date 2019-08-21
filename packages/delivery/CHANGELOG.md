@@ -1,3 +1,7 @@
+## 6.1.0 (2019-08-21)
+
+#### :rocket: Enhancement
+  * [#238](https://github.com/Kentico/kentico-cloud-js/pull/238) Extracts codenames of linked items & components from rich text elements and adds 'resolveData' method to 'RichTextElement' which can be used instead of 'getHtml' to retrieve additional data. Improves error/warning messages in resolver and adds parse5 tests covering rich text. ([@Enngage](https://github.com/Enngage))
 
 ## 6.0.0 (2019-08-15)
 
