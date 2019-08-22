@@ -315,7 +315,7 @@ class Movie extends ContentItem {
 
 ### Content item debug data
 
-In version `5.x.y` content items had a property `elements` which contained raw data fetched from Delivery API. This has been moved to `_raw.rawElements`.  
+In version `5.x.y` content items had a property `elements` which contained raw data fetched from Delivery API. This has been moved to `_raw.elements`.  
 
 Old:
 
@@ -328,7 +328,7 @@ New:
 
 ```typescript
 const item: ContentItem = await client.item('x').toPromise();
-const rawTitleElement = item._raw.elements;
+const rawTitleElement = item._raw.elements.title;
 ```
 
 
