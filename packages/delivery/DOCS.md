@@ -280,7 +280,7 @@ class ColorElement extends Elements.CustomElement {
     constructor(
        public elementWrapper: ElementModels.IElementMapWrapper
     ) {
-      super(element);
+      super(elementWrapper);
 
       const value = elementWrapper.rawElement.value; // "{\"red\":167,\"green\":96,\"blue\":197}"
       const parsed = JSON.parse(value);
