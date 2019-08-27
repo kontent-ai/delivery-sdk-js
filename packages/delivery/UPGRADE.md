@@ -120,10 +120,10 @@ const numberField: Fields.NumberField;
 const value = numberField.number;
 
 const textField: Fields.TextField;
-const value = numberField.text;
+const value = textField.text;
 
 const dateTimeField: Fields.DateTimeField;
-const value = numberField.datetime;
+const value = dateTimeField.datetime;
 ```
 
 This has been unified in version `6.0.0` so that every element now has a `value` property instead:
@@ -133,10 +133,10 @@ const numberField: Elements.NumberElement;
 const value = numberField.value;
 
 const textField: Elements.TextElement;
-const value = numberField.value;
+const value = textField.value;
 
 const dateTimeField: Elements.DateTimeElement;
-const value = numberField.value;
+const value = dateTimeField.value;
 ```
 
 The only exception to this is `Elements.RichTextElement` and `Elements.UrlSlugElement` which contain dedicated methods `resolveHtml` and `resolveUrl`. 
