@@ -76,7 +76,7 @@ The word `Field` was replaced with `Element` across all methods/properties/class
 Most common changes will relate to your models:
 
 - `Fields.TextField` -> `Elements.TextElement`
-- `Fields.TextElement` -> `Elements.MultipleChoiceElement`
+- `Fields.MultipleChoiceField` -> `Elements.MultipleChoiceElement`
 - `Fields.DateTimeField` -> `Elements.DateTimeElement`
 - `Fields.RichTextField` -> `Elements.RichTextElement`
 - `Fields.NumberField` -> `Elements.NumberElement`
