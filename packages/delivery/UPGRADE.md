@@ -234,7 +234,7 @@ export class Actor extends ContentItem {
     constructor() {
     super({
       linkResolver: (link, context) => {
-        return `/actors/${url_slug}`;
+        return `/actors/${link.urlSlug}`;
       }
     })
   }
@@ -255,7 +255,7 @@ export class Actor extends ContentItem {
     constructor() {
     super({
       urlSlugResolver: (link, context) => {
-        return { url: `/actors/${url_slug}` };
+        return { url: `/actors/${urlSlug.urlSlug}` };
       }
     })
   }
