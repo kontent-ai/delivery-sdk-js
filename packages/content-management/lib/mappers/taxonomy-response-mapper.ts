@@ -1,19 +1,33 @@
 import { IBaseResponse } from 'kentico-cloud-core';
 
 import { TaxonomyContracts } from '../contracts';
-import { TaxonomyModels } from '../models';
+import { TaxonomyModels, SharedModels } from '../models';
 import { TaxonomyResponses as TaxonomyResponses } from '../responses';
 import { BaseMapper } from './base-mapper';
 
 export class TaxonomyResponseMapper extends BaseMapper {
 
     mapListingTaxonomysResponse(
-        response: IBaseResponse<TaxonomyContracts.ITaxonomyContract[]>
+        response: IBaseResponse<TaxonomyContracts.ITemporaryTaxonomyListResponse>
     ): TaxonomyResponses.TaxonomyListResponse {
 
-        const taxonomies = response.data.map(m => this.mapTaxonomy(m));
+        let taxonomies: TaxonomyModels.Taxonomy[];
+        let pagination: SharedModels.Pagination;
 
-        return new TaxonomyResponses.TaxonomyListResponse(super.mapResponseDebug(response), response.data, taxonomies);
+        // temporary mapping of taxonomies before API breaking change
+        if (Array.isArray(response.data)) {
+             taxonomies = response.data.map(m => this.mapTaxonomy(m));
+             pagination = new SharedModels.Pagination(null, null);
+        } else {
+            // new API response model
+            taxonomies = response.data.taxonomies.map(m => this.mapTaxonomy(m));
+            pagination = super.mapPagination(response.data.pagination);
+        }
+
+        return new TaxonomyResponses.TaxonomyListResponse(super.mapResponseDebug(response), response.data, {
+            pagination: pagination,
+            taxonomies: taxonomies
+        });
     }
 
     mapDeleteTaxonomyResponse(

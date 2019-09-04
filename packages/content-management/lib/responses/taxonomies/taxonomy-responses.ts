@@ -1,14 +1,20 @@
 import { TaxonomyContracts } from '../../contracts';
-import { TaxonomyModels } from '../../models';
+import { TaxonomyModels, SharedModels } from '../../models';
 import { BaseResponses } from '../base-responses';
 
 export namespace TaxonomyResponses {
 
-    export class TaxonomyListResponse extends BaseResponses.BaseContentManagementResponse<TaxonomyContracts.ITaxonomyContract[], TaxonomyModels.Taxonomy[]>  {
+    export class TaxonomyListResponse extends BaseResponses.BaseContentManagementResponse<TaxonomyContracts.ITemporaryTaxonomyListResponse, {
+        taxonomies: TaxonomyModels.Taxonomy[],
+        pagination: SharedModels.Pagination
+    }>  {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
-            rawData: TaxonomyContracts.ITaxonomyContract[],
-            data: TaxonomyModels.Taxonomy[]
+            rawData: TaxonomyContracts.ITemporaryTaxonomyListResponse,
+            data: {
+                taxonomies: TaxonomyModels.Taxonomy[],
+                pagination: SharedModels.Pagination
+            }
         ) {
             super(debug, rawData, data);
         }
