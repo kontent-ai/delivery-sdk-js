@@ -1,0 +1,168 @@
+{
+    "variants": [
+        {
+          "elements": [
+            {
+              "element": {
+                  "id": "85d5efc6-f47e-2fde-a6f5-0950fe89ecd1"
+              },
+              "value": "On Roasts"
+            },
+            {
+              "element": {
+                  "id": "62eb9881-e222-6b81-91d2-fdf052726414"
+              },
+              "value": [
+                  {
+                      "id": "f6daed1f-3f3b-4036-a9c7-9519359b9601"
+                  }
+              ]
+            },
+            {
+              "element": {
+                  "id": "4ae5f7a9-fe1f-1e8c-bfec-d321455139c4"
+              },
+              "value": "2014-11-07T00:00:00Z"
+            },
+            {
+              "element": {
+                  "id": "90550cbe-7bff-40a9-2947-9c81489fe562"
+              },
+              "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee, with varying concentration of caffeine and intensity of the original flavor."
+            },
+            {
+              "element": {
+                  "id": "108ed7c0-fc8c-c0ec-d0b5-5a8071408b54"
+              },
+              "value": "<p>There’s nothing complicated about roasting. It’s as easy as baking a pie, maybe even simpler as there’s just one ingredient. What’s complicated is fine-tuning the whole process to perfection. It’s also a huge responsibility. You can easily ruin something that’s been in the works for months and has been perfect up until now.</p><h3>Light Roasts</h3><p>Usually roasted for 6-8 minutes or simply until achieving a light brown color. This method is used for milder coffee varieties and for coffee tasting. This type of roasting allows the natural characteristics of each coffee to show. The aroma of coffees produced from light roasts is usually more intense. The cup itself is more acidic and the concentration of caffeine is higher.</p><h3>Medium roast</h3><p>These exempt a stronger flavor than light roasts. The beans are still more matte than oily. Caffeine contents are decreased. Medium roasts lack the grainy taste of lighter roasts. You also get a more balanced flavor, aroma and acidity.</p><h3>Dark Roasts</h3><p>Dark roast beans are achieved by a 12-13 minute roasting process. The beans have a heavier body, a surface that appears a little oily and a somewhat shiny. Darker roasts have a more chocolate-like flavor. The sugars in the coffee caramelize more than with light roasts and make their way to the surface of the bean. This makes the beans less acidic as well.</p><p>To put it in points, these are general rules that apply to different levels of roasts:</p><ul><li>Caffeine level decreases the darker the roast is.</li><li>Darker roasts exempt less acidity than lighter roasts.</li><li>The darker beans get roasted, the oilier their surface becomes.</li><li>Lighter roasts maintain more of the original flavors of their varieties, while the darker they get, they tend to take on more flavor from the roasting process itself.</li><li>The body of the coffee gets heavier until taken to really high temperatures, where they emit what is called a ‘second crack’. Then the body starts thinning out again.</li></ul><p>You can easily imprint your own signature into each coffee that you make during the roasting process. At Dancing Goat, though, we choose to instead highlight what makes of the varietal great and unique.</p>"
+            },
+            {
+              "element": {
+                  "id": "ee7c3687-b469-6c56-3ac6-c8dfdc8b58b5"
+              },
+              "value": [
+                  {
+                      "id": "117cdfae-52cf-4885-b271-66aef6825612"
+                  },
+                  {
+                      "id": "b2fea94c-73fd-42ec-a22f-f409878de187"
+                  }
+              ]
+            },
+            {
+              "element": {
+                  "id": "5efb2425-5987-a4a6-a2d3-b14712b56e73"
+              },
+              "value": "roasts, coffee"
+            },
+            {
+              "element": {
+                  "id": "0a16b642-ac3e-584d-a45a-ba354a30b2bd"
+              },
+              "value": [
+                  {
+                      "id": "6a372f43-ccd7-e524-6308-c2094e7b6596"
+                  },
+                  {
+                      "id": "4fa27320-c363-3ebe-5ab5-b531300f053f"
+                  }
+              ]
+            },
+            {
+              "element": {
+                  "id": "b9dc537c-2518-e4f5-8325-ce4fce26171e"
+              },
+              "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee."
+            },
+            {
+              "element": {
+                  "id": "f2ff5e3f-a9ca-4604-58b0-34a2ad6a7cf1"
+              },
+              "value": "on-roasts"
+            },
+            {
+              "element": {
+                  "id": "09398b24-61ed-512e-5b5c-affd54a098e5"
+              },
+              "value": "On Roasts"
+            },
+            {
+              "element": {
+                  "id": "2e555cc1-1eae-520c-189e-28548904f529"
+              },
+              "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee."
+            },
+            {
+              "element": {
+                  "id": "1db86c7a-e836-3c4e-01e6-4f704ad38ba5"
+              },
+              "value": "On Roasts"
+            },
+            {
+              "element": {
+                  "id": "05987dc9-ebe3-7b61-b949-522eb42dbc0d"
+              },
+              "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee."
+            },
+            {
+              "element": {
+                  "id": "ce6cda71-9d38-1d57-3ac3-ec9b2e286edd"
+              },
+              "value": [
+                  {
+                      "id": "f6daed1f-3f3b-4036-a9c7-9519359b9601"
+                  }
+              ]
+            },
+            {
+              "element": {
+                  "id": "34213fdf-0015-8f4f-e5e6-83c6842cff4a"
+              },
+              "value": "Dancing Goat"
+            },
+            {
+              "element": {
+                  "id": "68f65095-c9b4-05d6-a473-2883c2f0c7af"
+              },
+              "value": "@kenticoCloud"
+            },
+            {
+              "element": {
+                  "id": "b208d3dc-bd8d-b1af-5ef0-747650730ba7"
+              },
+              "value": "On Roasts"
+            },
+            {
+              "element": {
+                  "id": "b7d1dd8b-a5d8-2ad8-2f57-49881363f6f7"
+              },
+              "value": "Roasting coffee beans can take from 6 to 13 minutes. Different roasting times produce different types of coffee."
+            },
+            {
+              "element": {
+                  "id": "63793ba4-6004-a93c-68ca-52a1f0482bca"
+              },
+              "value": [
+                  {
+                      "id": "f6daed1f-3f3b-4036-a9c7-9519359b9601"
+                  }
+              ]
+            }
+        ],
+        "workflow_step":{
+          "id":"c4c2904a-e18c-48ae-9835-2405923262ba"
+        },
+        "item":{
+          "id":"f4b3fc05-e988-4dae-9ac1-a94aba566474"
+        },
+        "language":{
+          "id":"00000000-0000-0000-0000-000000000000"
+        },
+        "last_modified":"2017-12-08T08:49:53.6039943Z"
+      }
+    ],
+    "pagination":{
+      "continuation_token":"MTAw",
+      "next_page":"https://manage.kenticocloud.com/v2/projects/975bf280-fd91-488c-994c-2f04416e5ee3/types/b7aa4a53-d9b1-48cf-b7a6-ed0b182c4b89/variants?continuationToken=MTAw"
+    }
+  }   

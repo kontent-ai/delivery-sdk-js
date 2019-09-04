@@ -21,7 +21,7 @@ export class UpdateAssetQuery extends BaseQuery<AssetResponses.UpdateAssetRespon
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.updateAsset(this.data.assetId);
+    return this.apiEndpoints.updateAsset(this.data.assetId);
   }
 }
 

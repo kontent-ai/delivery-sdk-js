@@ -6,23 +6,22 @@ import { LanguageVariantResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
 
-export class ViewLanguageVariantQuery extends BaseQuery<LanguageVariantResponses.ViewLanguageVariantResponse> {
+export class ListLanguageVariantsOfItemQuery extends BaseQuery<LanguageVariantResponses.ListLanguageVariantsOfItemResponse> {
 
   constructor(
     protected config: IContentManagementClientConfig,
     protected queryService: ContentManagementQueryService,
-    public contentItemIdentifier: Identifiers.ContentItemIdentifier,
-    public languageIdentifier: Identifiers.LanguageIdentifier,
+    protected identifier: Identifiers.ContentItemIdentifier,
   ) {
     super(config, queryService);
   }
 
-  toObservable(): Observable<LanguageVariantResponses.ViewLanguageVariantResponse> {
-    return this.queryService.viewLanguageVariant(this.getUrl(), this.queryConfig);
+  toObservable(): Observable<LanguageVariantResponses.ListLanguageVariantsOfItemResponse> {
+    return this.queryService.listLanguageVariantsOfItem(this.getUrl(), this.queryConfig);
   }
 
   protected getAction(): string {
-    return this.apiEndpoints.viewOrUpsertLanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
+    return this.apiEndpoints.listLanguageVariantsOfItem(this.identifier);
   }
 }
 

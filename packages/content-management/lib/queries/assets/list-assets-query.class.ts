@@ -19,6 +19,6 @@ export class ListAssetsQuery extends BaseQuery<AssetResponses.AssetsListResponse
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.listAssets();
+    return this.apiEndpoints.listAssets();
   }
 }

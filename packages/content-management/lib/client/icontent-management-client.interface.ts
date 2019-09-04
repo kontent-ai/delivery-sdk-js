@@ -9,7 +9,9 @@ import {
     AssetIdentifierQueryClass,
     CancelScheduledPublishingOfLanguageVariantQuery,
     ChangeWorkflowStepOfLanguageOrVariantQuery,
+    ContentItemExternalIdIdentifierQuery,
     ContentItemIdentifierQuery,
+    ContentTypeCodenameAndExternalIdIdentifierQuery,
     ContentTypeIdentifierQuery,
     CreateNewVersionOfLanguageVariantQuery,
     DataQuery,
@@ -24,7 +26,8 @@ import {
     ListContentItemsQuery,
     ListContentTypeSnippetsQuery,
     ListContentTypesQuery,
-    ListLanguageVariantsQuery,
+    ListLanguageVariantsOfContentTypeQuery,
+    ListLanguageVariantsOfItemQuery,
     ListTaxonomiesQuery,
     ListWorkflowStepsQuery,
     ProjectIdIdentifierQuery,
@@ -35,6 +38,7 @@ import {
     UpdateContentItemQuery,
     UploadBinaryFileQuery,
     UpsertAssetQuery,
+    UpsertContentItemQuery,
     UpsertLanguageVariantQuery,
     ValidateProjectContentQuery,
     ViewAssetsQuery,
@@ -43,37 +47,44 @@ import {
     ViewContentTypeSnippetQuery,
     ViewLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
-    UpsertContentItemQuery,
-    ContentItemExternalIdIdentifierQuery,
 } from '../queries';
 
 export interface IContentManagementClient {
+    /**
+     * Create a new version of a published language variant while keeping the original version published and available through Delivery API. Equivalent to the UI action of creating new versions of content.
+     */
+    createNewVersionOfLanguageVariant(): ContentItemIdentifierQuery<
+        LanguageIdentifierQuery<CreateNewVersionOfLanguageVariantQuery>
+    >;
 
     /**
-    * Create a new version of a published language variant while keeping the original version published and available through Delivery API. Equivalent to the UI action of creating new versions of content.
-    */
-    createNewVersionOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<CreateNewVersionOfLanguageVariantQuery>>;
-
-    /**
-    * Unpublish a language variant to make it no longer accessible through Delivery API. Equivalent to the UI action of unpublishing content.
-    * You can only unpublish language variants that are published and don't already have a Draft (unpublished) version.
-    */
+     * Unpublish a language variant to make it no longer accessible through Delivery API. Equivalent to the UI action of unpublishing content.
+     * You can only unpublish language variants that are published and don't already have a Draft (unpublished) version.
+     */
     unpublishLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<UnpublishLanguageVariantQuery>>;
 
     /**
-    * Cancel scheduling of a language variant. Equivalent to the UI action of canceling scheduled content. If the language variant is not scheduled, nothing happens.
-    */
-    cancelSheduledPublishingOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<CancelScheduledPublishingOfLanguageVariantQuery>>;
+     * Cancel scheduling of a language variant. Equivalent to the UI action of canceling scheduled content. If the language variant is not scheduled, nothing happens.
+     */
+    cancelSheduledPublishingOfLanguageVariant(): ContentItemIdentifierQuery<
+        LanguageIdentifierQuery<CancelScheduledPublishingOfLanguageVariantQuery>
+    >;
 
     /**
      * Change the workflow of the specified language variant to the specified workflow step. Equivalent to the UI operation of updating workflow.
      */
-    changeWorkflowStepOfLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>>;
+    changeWorkflowStepOfLanguageVariant(): ContentItemIdentifierQuery<
+        LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>
+    >;
 
     /**
      * Change the workflow step of the specified language variant to "Published" or schedule publishing at the specified time.
      */
-    publishOrScheduleLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<DataQuery<PublishOrScheduleLanguageVariantQuery, WorkflowModels.IPublishOrSchedulePublishData>>>;
+    publishOrScheduleLanguageVariant(): ContentItemIdentifierQuery<
+        LanguageIdentifierQuery<
+            DataQuery<PublishOrScheduleLanguageVariantQuery, WorkflowModels.IPublishOrSchedulePublishData>
+        >
+    >;
 
     /**
      * Query to list all workflow steps in project
@@ -106,9 +117,11 @@ export interface IContentManagementClient {
     viewLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>;
 
     /**
-    * Query to upsert language variant
-    */
-    upsertLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>>;
+     * Query to upsert language variant
+     */
+    upsertLanguageVariant(): ContentItemIdentifierQuery<
+        LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>
+    >;
 
     /**
      * Query to validate project content
@@ -136,13 +149,13 @@ export interface IContentManagementClient {
     listContentTypes(): ListContentTypesQuery;
 
     /**
-    * Query to delete a taxonomy
-    */
+     * Query to delete a taxonomy
+     */
     deleteTaxonomy(): TaxonomyIdentifierQuery<DeleteTaxonomyQuery>;
 
     /**
-    * Query to add a taxonomy
-    */
+     * Query to add a taxonomy
+     */
     addTaxonomy(): DataQuery<AddTaxonomyQuery, TaxonomyModels.IAddTaxonomyRequestModel>;
 
     /**
@@ -156,8 +169,8 @@ export interface IContentManagementClient {
     deleteAsset(): AssetIdentifierQueryClass<DeleteAssetQuery>;
 
     /**
-    * Query to upsert an asset from uploaded binary file
-    */
+     * Query to upsert an asset from uploaded binary file
+     */
     upsertAsset(): DataQuery<UpsertAssetQuery, AssetModels.IUpsertAssetRequestData>;
 
     /**
@@ -196,19 +209,23 @@ export interface IContentManagementClient {
     viewContentItem(): ContentItemIdentifierQuery<ViewContentItemQuery>;
 
     /**
-    * Add content item query
-    */
+     * Add content item query
+     */
     addContentItem(): DataQuery<AddContentItemQuery, ContentItemContracts.IAddContentItemPostContract>;
 
     /**
      * Update content item query
      */
-    updateContentItem(): ContentItemIdentifierQuery<DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>>;
+    updateContentItem(): ContentItemIdentifierQuery<
+        DataQuery<UpdateContentItemQuery, ContentItemContracts.IUpdateContentItemPostContract>
+    >;
 
     /**
      * Upsert content item query
      */
-    upsertContentItem(): ContentItemExternalIdIdentifierQuery<DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>>;
+    upsertContentItem(): ContentItemExternalIdIdentifierQuery<
+        DataQuery<UpsertContentItemQuery, ContentItemContracts.IUpsertContentItemPostContract>
+    >;
 
     /**
      * Delete content item query
@@ -216,7 +233,14 @@ export interface IContentManagementClient {
     deleteContentItem(): ContentItemIdentifierQuery<DeleteContentItemQuery>;
 
     /**
-     * List language variants query
+     * List language variants of a specific content item query
      */
-    listLanguageVariants(): ContentItemIdentifierQuery<ListLanguageVariantsQuery>;
+    listLanguageVariantsOfItem(): ContentItemIdentifierQuery<ListLanguageVariantsOfItemQuery>;
+
+    /**
+     * List language variants of a specific content type query
+     */
+    listLanguageVariantsOfContentType(): ContentTypeCodenameAndExternalIdIdentifierQuery<
+        ListLanguageVariantsOfContentTypeQuery
+    >;
 }

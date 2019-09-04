@@ -21,6 +21,6 @@ export class AddTaxonomyQuery extends BaseQuery<TaxonomyResponses.AddTaxonomyRes
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.listTaxonomies();
+    return this.apiEndpoints.listTaxonomies();
   }
 }

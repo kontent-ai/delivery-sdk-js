@@ -23,7 +23,7 @@ export class UpsertLanguageVariantQuery extends BaseQuery<LanguageVariantRespons
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.viewOrUpsertLanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
+    return this.apiEndpoints.viewOrUpsertLanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
   }
 }
 

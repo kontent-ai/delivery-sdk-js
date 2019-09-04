@@ -1,18 +1,35 @@
 import { LanguageVariantContracts } from '../../contracts';
-import { LanguageVariantModels } from '../../models';
+import { LanguageVariantModels, SharedModels } from '../../models';
 import { BaseResponses } from '../base-responses';
 
 export namespace LanguageVariantResponses {
 
-    export class ListLanguageVariantsResponse extends BaseResponses.BaseContentManagementResponse<LanguageVariantContracts.IListLanguageVariantsResponseContract[],
+    export class ListLanguageVariantsOfItemResponse extends BaseResponses.BaseContentManagementResponse<LanguageVariantContracts.IListLanguageVariantsOfItemResponseContract[],
         {
             variants: LanguageVariantModels.ContentItemLanguageVariant[],
         }>  {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
-            rawData: LanguageVariantContracts.IListLanguageVariantsResponseContract[],
+            rawData: LanguageVariantContracts.IListLanguageVariantsOfItemResponseContract[],
             data: {
                 variants: LanguageVariantModels.ContentItemLanguageVariant[],
+            }
+        ) {
+            super(debug, rawData, data);
+        }
+    }
+
+    export class ListLanguageVariantsOfContentTypeResponse extends BaseResponses.BaseContentManagementResponse<LanguageVariantContracts.IListLanguageVariantsOfContentTypeResponseContract,
+        {
+            variants: LanguageVariantModels.ContentItemLanguageVariant[],
+            pagination: SharedModels.Pagination
+        }>  {
+        constructor(
+            debug: BaseResponses.IContentManagementResponseDebug,
+            rawData: LanguageVariantContracts.IListLanguageVariantsOfContentTypeResponseContract,
+            data: {
+                variants: LanguageVariantModels.ContentItemLanguageVariant[],
+                pagination: SharedModels.Pagination
             }
         ) {
             super(debug, rawData, data);

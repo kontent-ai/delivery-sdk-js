@@ -23,6 +23,6 @@ export class PublishOrScheduleLanguageVariantQuery extends BaseQuery<BaseRespons
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.publishOrScheduleLaguageVariant(this.contentItemIdentifier, this.languageIdentifier);
+    return this.apiEndpoints.publishOrScheduleLaguageVariant(this.contentItemIdentifier, this.languageIdentifier);
   }
 }

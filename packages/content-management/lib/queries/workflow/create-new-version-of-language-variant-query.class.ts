@@ -22,6 +22,6 @@ export class CreateNewVersionOfLanguageVariantQuery extends BaseQuery<BaseRespon
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.createNewVersionOfALanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
+    return this.apiEndpoints.createNewVersionOfALanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
   }
 }

@@ -1,7 +1,7 @@
 import { Identifiers } from './identifiers';
 
 
-class ContentManagementContentItemActions {
+export class ContentManagementApiEndpoints {
 
     changeWorkflowStepOfLanguageVariant(itemIdentifier: Identifiers.ContentItemIdentifier, languageIdentifier: Identifiers.LanguageIdentifier, workflowIdentifier: Identifiers.WorkflowIdentifier): string {
         return `items/${itemIdentifier.getParamValue()}/variants/${languageIdentifier.getParamValue()}/workflow/${workflowIdentifier.getParamValue()}`;
@@ -127,8 +127,12 @@ class ContentManagementContentItemActions {
         return `items/${identifier.getParamValue()}`;
     }
 
-    listLanguageVariants(itemIdentifier: Identifiers.ContentItemIdentifier): string {
-        return `items/${itemIdentifier.getParamValue()}/variants`;
+    listLanguageVariantsOfItem(identifier: Identifiers.ContentItemIdentifier): string {
+        return `items/${identifier.getParamValue()}/variants`;
+    }
+
+    listLanguageVariantsOfContentType(identifier: Identifiers.ContentTypeIdentifier): string {
+        return `types/${identifier.getParamValue()}/variants`;
     }
 
     viewOrUpsertLanguageVariant(itemIdentifier: Identifiers.ContentItemIdentifier, langaugeIdentifier: Identifiers.LanguageIdentifier): string {
@@ -136,8 +140,4 @@ class ContentManagementContentItemActions {
     }
 }
 
-export class ContentManagementActions {
-    public contentItemActions: ContentManagementContentItemActions = new ContentManagementContentItemActions();
-}
-
-export const contentManagementActions = new ContentManagementActions();
+export const contentManagementApiEndpoints = new ContentManagementApiEndpoints();

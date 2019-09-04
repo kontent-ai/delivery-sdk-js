@@ -23,6 +23,6 @@ export class UpsertContentItemQuery extends BaseQuery<ContentItemResponses.Upser
   }
 
   protected getAction(): string {
-      return this.actions.contentItemActions.upsertContentItem(this.identifier);
+      return this.apiEndpoints.upsertContentItem(this.identifier);
   }
 }

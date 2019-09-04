@@ -21,6 +21,6 @@ export class DeleteContentTypeSnippetQuery extends BaseQuery<ContentTypeSnippetR
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.deleteContentTypeSnippet(this.identifier);
+    return this.apiEndpoints.deleteContentTypeSnippet(this.identifier);
   }
 }

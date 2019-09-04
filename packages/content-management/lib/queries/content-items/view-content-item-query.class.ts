@@ -21,6 +21,6 @@ export class ViewContentItemQuery extends BaseQuery<ContentItemResponses.ViewCon
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.viewContentItem(this.identifier);
+    return this.apiEndpoints.viewContentItem(this.identifier);
   }
 }

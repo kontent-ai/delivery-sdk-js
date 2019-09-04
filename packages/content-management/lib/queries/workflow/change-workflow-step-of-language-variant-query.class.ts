@@ -23,6 +23,6 @@ export class ChangeWorkflowStepOfLanguageOrVariantQuery extends BaseQuery<BaseRe
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.changeWorkflowStepOfLanguageVariant(this.contentItemIdentifier, this.languageIdentifier, this.workflowIdentifier);
+    return this.apiEndpoints.changeWorkflowStepOfLanguageVariant(this.contentItemIdentifier, this.languageIdentifier, this.workflowIdentifier);
   }
 }
