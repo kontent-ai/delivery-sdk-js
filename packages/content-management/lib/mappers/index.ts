@@ -8,4 +8,5 @@ export * from './project-mapper';
 export * from './language-variant-response-mapper';
 export * from './content-type-snippet-mapper';
 export * from './workflow-response-mapper';
+export * from './language-response-mapper';
 

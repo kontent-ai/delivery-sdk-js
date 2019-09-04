@@ -12,6 +12,7 @@ import {
     ProjectContracts,
     TaxonomyContracts,
     WorkflowContracts,
+    LanguageContracts,
 } from '../contracts';
 import {
     assetsResponseMapper,
@@ -22,6 +23,7 @@ import {
     projectMapper,
     taxonomyResponseMapper,
     workflowResponseMapper,
+    languageResponseMapper,
 } from '../mappers';
 import {
     AssetModels,
@@ -31,6 +33,7 @@ import {
     LanguageVariantModels,
     TaxonomyModels,
     WorkflowModels,
+    LanguageModels,
 } from '../models';
 import {
     AssetResponses,
@@ -42,6 +45,7 @@ import {
     ProjectResponses,
     TaxonomyResponses as TaxonomyResponses,
     WorkflowResponses,
+    LanguageResponses,
 } from '../responses';
 import { BaseContentManagementQueryService } from './base-content-management-service.class';
 
@@ -638,6 +642,70 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         ).pipe(
             map(response => {
                 return languageVariantResponseMapper.mapLanguageVariantsOfContentTypeResponse(response);
+            })
+        );
+    }
+
+    listLanguages(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<LanguageResponses.ListLanguagesResponse> {
+        return this.getResponse<LanguageContracts.IListLanguagesResponseContract>(
+            url,
+            {},
+            config
+        ).pipe(
+            map(response => {
+                return languageResponseMapper.mapListLanguagesResponse(response);
+            })
+        );
+    }
+
+    viewLanguage(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<LanguageResponses.ViewLanguageResponse> {
+        return this.getResponse<LanguageContracts.IViewLanguageResponseContract>(
+            url,
+            {},
+            config
+        ).pipe(
+            map(response => {
+                return languageResponseMapper.mapViewLanguageResponse(response);
+            })
+        );
+    }
+
+    addLanguage(
+        url: string,
+        config: IContentManagementQueryConfig,
+        data: LanguageModels.IAddLanguageData
+    ): Observable<LanguageResponses.AddLanguageResponse> {
+        return this.postResponse<LanguageContracts.IAddLanguageResponseContract>(
+            url,
+            data,
+            {},
+            config,
+        ).pipe(
+            map(response => {
+                return languageResponseMapper.mapAddLanguageResponse(response);
+            })
+        );
+    }
+
+    modifyLanguage(
+        url: string,
+        config: IContentManagementQueryConfig,
+        data: LanguageModels.IModifyLanguageData[]
+    ): Observable<LanguageResponses.ModifyLanguageResponse> {
+        return this.postResponse<LanguageContracts.IModifyLanguageResponseContract>(
+            url,
+            data,
+            {},
+            config,
+        ).pipe(
+            map(response => {
+                return languageResponseMapper.mapModifyLanguageResponse(response);
             })
         );
     }

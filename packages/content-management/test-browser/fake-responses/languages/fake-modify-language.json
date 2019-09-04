@@ -1,0 +1,11 @@
+{
+    "id": "2ea66788-d3b8-5ff5-b37e-258502e4fd5d",
+    "name": "German",
+    "codename": "de-DE",
+    "external_id": "standard-german",
+    "is_active": true,
+    "is_default": false,
+    "fallback_language": {
+      "id": "00000000-0000-0000-0000-000000000000"
+    }
+  }

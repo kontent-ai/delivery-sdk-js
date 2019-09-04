@@ -1,0 +1,38 @@
+{
+    "languages": [
+      {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "English (American)",
+        "codename": "en-US",
+        "is_active": true,
+        "is_default": true,
+        "fallback_language": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        }
+      },
+      {
+        "id": "5b700fac-d375-4504-88e3-c482c34d9049",
+        "name": "English (British)",
+        "codename": "en-GB",
+        "is_active": true,
+        "is_default": false,
+        "fallback_language": {
+          "id": "00000000-0000-0000-0000-000000000000"
+        }
+      },
+      {
+        "id": "3cd98a5a-d33a-4b00-9980-11e7a1c97bb2",
+        "name": "German (Austrian)",
+        "codename": "de-AT",
+        "is_active": true,
+        "is_default": false,
+        "fallback_language": {
+          "id": "5b700fac-d375-4504-88e3-c482c34d9049"
+        }
+      }
+    ],
+    "pagination": {
+      "continuation_token": null,
+      "next_page": null
+    }
+  }

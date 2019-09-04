@@ -34,7 +34,7 @@ describe('List taxonomies', () => {
 
     it(`taxonomy properties should be mapped`, () => {
         expect(Array.isArray(response.data)).toBeTruthy();
-        expect(response.data.length).toBeGreaterThan(0);
+        expect(response.data.length).toEqual(listingTaxonomyResponseJson.length);
 
         response.data.forEach(m => {
             // find original item

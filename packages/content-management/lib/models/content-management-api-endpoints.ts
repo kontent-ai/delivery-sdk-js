@@ -138,6 +138,22 @@ export class ContentManagementApiEndpoints {
     viewOrUpsertLanguageVariant(itemIdentifier: Identifiers.ContentItemIdentifier, langaugeIdentifier: Identifiers.LanguageIdentifier): string {
         return `items/${itemIdentifier.getParamValue()}/variants/${langaugeIdentifier.getParamValue()}`;
     }
+
+    viewLanguage(identifier: Identifiers.LanguageIdentifier): string {
+        return `languages/${identifier.getParamValue()}`;
+    }
+
+    addLanguage(): string {
+        return `languages`;
+    }
+
+    modifyLanguage(identifier: Identifiers.LanguageIdentifier): string {
+        return `languages/${identifier.getParamValue()}`;
+    }
+
+    listLanguages(): string {
+        return `languages`;
+    }
 }
 
 export const contentManagementApiEndpoints = new ContentManagementApiEndpoints();
