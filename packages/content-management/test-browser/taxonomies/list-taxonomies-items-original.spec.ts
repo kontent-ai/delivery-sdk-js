@@ -1,11 +1,12 @@
 import { TaxonomyModels, TaxonomyResponses } from '../../lib';
-import * as responseJson from '../fake-responses/taxonomies/fake-list-taxonomies.json';
+import * as listingTaxonomyResponseJson from '../fake-responses/taxonomies/fake-list-taxonomies-original.json';
 import { cmTestClient, getTestClientWithJson, testProjectId } from '../setup';
 
-describe('List taxonomies', () => {
+describe('List taxonomies original (before API breaking change)', () => {
     let response: TaxonomyResponses.TaxonomyListResponse;
+
     beforeAll((done) => {
-        getTestClientWithJson(responseJson).listTaxonomies()
+        getTestClientWithJson(listingTaxonomyResponseJson).listTaxonomies()
             .toObservable()
             .subscribe(result => {
                 response = result;
@@ -33,11 +34,11 @@ describe('List taxonomies', () => {
 
     it(`taxonomy properties should be mapped`, () => {
         expect(Array.isArray(response.data.taxonomies)).toBeTruthy();
-        expect(response.data.taxonomies.length).toEqual(responseJson.taxonomies.length);
+        expect(response.data.taxonomies.length).toEqual(listingTaxonomyResponseJson.length);
 
         response.data.taxonomies.forEach(m => {
             // find original item
-            const originalItem = responseJson.taxonomies.find(s => s.id === m.id);
+            const originalItem = listingTaxonomyResponseJson.find(s => s.id === m.id);
 
             if (!originalItem) {
                 throw Error(`Taxonomy with id '${m.id}' was not found in fake response`);

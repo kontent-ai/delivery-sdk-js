@@ -1,3 +1,5 @@
+import { SharedContracts } from './shared-contracts';
+
 export namespace TaxonomyContracts {
 
     export interface ITaxonomyContract {
@@ -6,6 +8,13 @@ export namespace TaxonomyContracts {
         id: string;
         codename: string;
         terms: ITaxonomyContract[];
+    }
+
+    export type ITemporaryTaxonomyListResponse = ITaxonomyContract[] | IListTaxonomyResponse;
+
+    export interface IListTaxonomyResponse {
+        pagination: SharedContracts.IPaginationModelContract;
+        taxonomies: ITaxonomyContract[];
     }
 
     export interface IViewTaxonomyResponseContract extends ITaxonomyContract {
