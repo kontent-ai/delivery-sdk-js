@@ -14,6 +14,7 @@ import {
     ChangeWorkflowStepOfLanguageOrVariantQuery,
     ContentItemExternalIdIdentifierQuery,
     ContentItemIdentifierQuery,
+    ContentTypeCodenameAndExternalIdIdentifierQuery,
     ContentTypeIdentifierQuery,
     CreateNewVersionOfLanguageVariantQuery,
     DataQuery,
@@ -28,6 +29,7 @@ import {
     ListContentItemsQuery,
     ListContentTypeSnippetsQuery,
     ListContentTypesQuery,
+    ListLanguageVariantsOfContentTypeQuery,
     ListLanguageVariantsOfItemQuery,
     ListTaxonomiesQuery,
     ListWorkflowStepsQuery,
@@ -346,6 +348,14 @@ export class ContentManagementClient implements IContentManagementClient {
             this.config,
             this.queryService,
             (config, queryService, identifier) => new ListLanguageVariantsOfItemQuery(config, queryService, identifier)
+        );
+    }
+
+    listLanguageVariantsOfContentType(): ContentTypeCodenameAndExternalIdIdentifierQuery<ListLanguageVariantsOfContentTypeQuery> {
+        return new ContentTypeCodenameAndExternalIdIdentifierQuery<ListLanguageVariantsOfContentTypeQuery>(
+            this.config,
+            this.queryService,
+            (config, queryService, identifier) => new ListLanguageVariantsOfContentTypeQuery(config, queryService, identifier)
         );
     }
 }

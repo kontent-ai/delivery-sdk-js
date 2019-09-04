@@ -612,7 +612,7 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
         );
     }
 
-    listLanguageVariants(
+    listLanguageVariantsOfItem(
         url: string,
         config: IContentManagementQueryConfig
     ): Observable<LanguageVariantResponses.ListLanguageVariantsOfItemResponse> {
@@ -622,7 +622,22 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
             config
         ).pipe(
             map(response => {
-                return languageVariantResponseMapper.mapLanguageVariantListResponse(response);
+                return languageVariantResponseMapper.mapLanguageVariantsOfItemResponse(response);
+            })
+        );
+    }
+
+    listLanguageVariantsOfContentType(
+        url: string,
+        config: IContentManagementQueryConfig
+    ): Observable<LanguageVariantResponses.ListLanguageVariantsOfContentTypeResponse> {
+        return this.getResponse<LanguageVariantContracts.IListLanguageVariantsOfContentTypeResponseContract>(
+            url,
+            {},
+            config
+        ).pipe(
+            map(response => {
+                return languageVariantResponseMapper.mapLanguageVariantsOfContentTypeResponse(response);
             })
         );
     }

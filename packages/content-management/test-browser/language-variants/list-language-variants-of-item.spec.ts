@@ -1,9 +1,9 @@
 import { ElementModels, LanguageVariantResponses, SharedModels } from '../../lib';
-import * as listLanguageVariantsJson from '../fake-responses/language-variants/fake-list-language-variants.json';
+import * as listLanguageVariantsJson from '../fake-responses/language-variants/fake-list-language-variants-of-item.json';
 import { cmTestClient, getTestClientWithJson, testProjectId } from '../setup';
 
 
-describe('List language variants', () => {
+describe('List language variants of item', () => {
     let response: LanguageVariantResponses.ListLanguageVariantsOfItemResponse;
 
     beforeAll((done) => {
@@ -26,7 +26,7 @@ describe('List language variants', () => {
         expect(externalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/external-id/xExternalId/variants`);
     });
 
-    it(`response should be instance of ListLanguageVariantsResponse class`, () => {
+    it(`response should be instance of ListLanguageVariantsOfItemResponse class`, () => {
         expect(response).toEqual(jasmine.any(LanguageVariantResponses.ListLanguageVariantsOfItemResponse));
     });
 

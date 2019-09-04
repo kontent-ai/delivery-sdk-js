@@ -22,12 +22,22 @@ export class LanguageVariantResponseMapper extends BaseMapper {
         return new LanguageVariantResponses.ViewLanguageVariantResponse(super.mapResponseDebug(response), response.data, variant);
     }
 
-    mapLanguageVariantListResponse(
+    mapLanguageVariantsOfItemResponse(
         response: IBaseResponse<LanguageVariantContracts.IListLanguageVariantsOfItemResponseContract[]>,
     ): LanguageVariantResponses.ListLanguageVariantsOfItemResponse {
         const variants = response.data.map(m => this.mapLanguageVariant(m));
         return new LanguageVariantResponses.ListLanguageVariantsOfItemResponse(super.mapResponseDebug(response), response.data, {
             variants: variants
+        });
+    }
+
+    mapLanguageVariantsOfContentTypeResponse(
+        response: IBaseResponse<LanguageVariantContracts.IListLanguageVariantsOfContentTypeResponseContract>,
+    ): LanguageVariantResponses.ListLanguageVariantsOfContentTypeResponse {
+        const variants = response.data.variants.map(m => this.mapLanguageVariant(m));
+        return new LanguageVariantResponses.ListLanguageVariantsOfContentTypeResponse(super.mapResponseDebug(response), response.data, {
+            variants: variants,
+            pagination: super.mapPagination(response.data.pagination)
         });
     }
 

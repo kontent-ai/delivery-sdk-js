@@ -14,6 +14,11 @@ export namespace LanguageVariantContracts {
     export interface IListLanguageVariantsOfItemResponseContract extends ILanguageVariantModelContract {
     }
 
+    export interface IListLanguageVariantsOfContentTypeResponseContract {
+        variants: ILanguageVariantModelContract[];
+        pagination: SharedContracts.IPaginationModelContract;
+    }
+
     export interface IUpsertLanguageVariantResponseContract extends ILanguageVariantModelContract {
     }
 
