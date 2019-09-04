@@ -14,7 +14,8 @@ export namespace Identifiers {
 
     export enum LanguageIdentifierEnum {
         InternalId = 'internalId',
-        Codename = 'codename'
+        Codename = 'codename',
+        ExternalId = 'externalId'
     }
 
     export enum WorkflowIdentifierEnum {
@@ -136,6 +137,9 @@ export namespace Identifiers {
 
             if (this.identifier === LanguageIdentifierEnum.InternalId) {
                 return `${this.value}`;
+            }
+            if (this.identifier === LanguageIdentifierEnum.ExternalId) {
+                return `external-id/${this.value}`;
             }
             throw Error(`Unsupported identifier '${this.identifier}'`);
         }

@@ -1,10 +1,18 @@
 import { ContentItemContracts } from '../contracts';
-import { AssetModels, ContentTypeModels, ContentTypeSnippetModels, TaxonomyModels, WorkflowModels } from '../models';
+import {
+    AssetModels,
+    ContentTypeModels,
+    ContentTypeSnippetModels,
+    LanguageModels,
+    TaxonomyModels,
+    WorkflowModels,
+} from '../models';
 import {
     AddAssetQuery,
     AddContentItemQuery,
     AddContentTypeQuery,
     AddContentTypeSnippetQuery,
+    AddLanguageQuery,
     AddTaxonomyQuery,
     AssetIdentifierQueryClass,
     CancelScheduledPublishingOfLanguageVariantQuery,
@@ -20,16 +28,19 @@ import {
     DeleteContentTypeQuery,
     DeleteContentTypeSnippetQuery,
     DeleteTaxonomyQuery,
+    LanguageIdAndCodenameIdentifierQuery,
     LanguageIdentifierQuery,
     LanguageVariantElementsQuery,
     ListAssetsQuery,
     ListContentItemsQuery,
     ListContentTypeSnippetsQuery,
     ListContentTypesQuery,
+    ListLanguagesQuery,
     ListLanguageVariantsOfContentTypeQuery,
     ListLanguageVariantsOfItemQuery,
     ListTaxonomiesQuery,
     ListWorkflowStepsQuery,
+    ModifyLanguageQuery,
     ProjectIdIdentifierQuery,
     PublishOrScheduleLanguageVariantQuery,
     TaxonomyIdentifierQuery,
@@ -45,6 +56,7 @@ import {
     ViewContentItemQuery,
     ViewContentTypeQuery,
     ViewContentTypeSnippetQuery,
+    ViewLanguageQuery,
     ViewLanguageVariantQuery,
     WorkflowStepIdentifierQuery,
 } from '../queries';
@@ -54,34 +66,36 @@ export interface IContentManagementClient {
      * Create a new version of a published language variant while keeping the original version published and available through Delivery API. Equivalent to the UI action of creating new versions of content.
      */
     createNewVersionOfLanguageVariant(): ContentItemIdentifierQuery<
-        LanguageIdentifierQuery<CreateNewVersionOfLanguageVariantQuery>
+        LanguageIdAndCodenameIdentifierQuery<CreateNewVersionOfLanguageVariantQuery>
     >;
 
     /**
      * Unpublish a language variant to make it no longer accessible through Delivery API. Equivalent to the UI action of unpublishing content.
      * You can only unpublish language variants that are published and don't already have a Draft (unpublished) version.
      */
-    unpublishLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<UnpublishLanguageVariantQuery>>;
+    unpublishLanguageVariant(): ContentItemIdentifierQuery<
+        LanguageIdAndCodenameIdentifierQuery<UnpublishLanguageVariantQuery>
+    >;
 
     /**
      * Cancel scheduling of a language variant. Equivalent to the UI action of canceling scheduled content. If the language variant is not scheduled, nothing happens.
      */
     cancelSheduledPublishingOfLanguageVariant(): ContentItemIdentifierQuery<
-        LanguageIdentifierQuery<CancelScheduledPublishingOfLanguageVariantQuery>
+        LanguageIdAndCodenameIdentifierQuery<CancelScheduledPublishingOfLanguageVariantQuery>
     >;
 
     /**
      * Change the workflow of the specified language variant to the specified workflow step. Equivalent to the UI operation of updating workflow.
      */
     changeWorkflowStepOfLanguageVariant(): ContentItemIdentifierQuery<
-        LanguageIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>
+        LanguageIdAndCodenameIdentifierQuery<WorkflowStepIdentifierQuery<ChangeWorkflowStepOfLanguageOrVariantQuery>>
     >;
 
     /**
      * Change the workflow step of the specified language variant to "Published" or schedule publishing at the specified time.
      */
     publishOrScheduleLanguageVariant(): ContentItemIdentifierQuery<
-        LanguageIdentifierQuery<
+        LanguageIdAndCodenameIdentifierQuery<
             DataQuery<PublishOrScheduleLanguageVariantQuery, WorkflowModels.IPublishOrSchedulePublishData>
         >
     >;
@@ -114,13 +128,13 @@ export interface IContentManagementClient {
     /**
      * Query to view language variant
      */
-    viewLanguageVariant(): ContentItemIdentifierQuery<LanguageIdentifierQuery<ViewLanguageVariantQuery>>;
+    viewLanguageVariant(): ContentItemIdentifierQuery<LanguageIdAndCodenameIdentifierQuery<ViewLanguageVariantQuery>>;
 
     /**
      * Query to upsert language variant
      */
     upsertLanguageVariant(): ContentItemIdentifierQuery<
-        LanguageIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>
+        LanguageIdAndCodenameIdentifierQuery<LanguageVariantElementsQuery<UpsertLanguageVariantQuery>>
     >;
 
     /**
@@ -243,4 +257,24 @@ export interface IContentManagementClient {
     listLanguageVariantsOfContentType(): ContentTypeCodenameAndExternalIdIdentifierQuery<
         ListLanguageVariantsOfContentTypeQuery
     >;
+
+    /**
+     * List languages in project
+     */
+    listLanguages(): ListLanguagesQuery;
+
+    /**
+     * View language
+     */
+    viewLanguage(): LanguageIdentifierQuery<ViewLanguageQuery>;
+
+    /**
+     * Adds new language
+     */
+    addLanguage(): DataQuery<AddLanguageQuery, LanguageModels.IAddLanguageData>;
+
+    /**
+     * Modifies existing language
+     */
+    modifyLanguage(): LanguageIdentifierQuery<DataQuery<ModifyLanguageQuery, LanguageModels.IModifyLanguageData[]>>;
 }

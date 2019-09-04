@@ -2,7 +2,7 @@ import { IContentManagementClientConfig } from '../../config';
 import { Identifiers } from '../../models';
 import { ContentManagementQueryService } from '../../services';
 
-export class LanguageIdentifierQuery<TResult> {
+export class LanguageIdAndCodenameIdentifierQuery<TResult> {
 
     constructor(
         protected config: IContentManagementClientConfig,
@@ -12,14 +12,6 @@ export class LanguageIdentifierQuery<TResult> {
             queryService: ContentManagementQueryService,
             identifier: Identifiers.LanguageIdentifier) => TResult
     ) {
-    }
-
-    /**
-    * Gets using external Id
-    * @param externalId Internal Id
-    */
-    byExternalId(externalId: string): TResult {
-        return this.buildResult(this.config, this.queryService, new Identifiers.LanguageIdentifier(Identifiers.LanguageIdentifierEnum.ExternalId, externalId));
     }
 
     /**
