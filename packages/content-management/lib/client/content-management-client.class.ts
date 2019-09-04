@@ -28,7 +28,7 @@ import {
     ListContentItemsQuery,
     ListContentTypeSnippetsQuery,
     ListContentTypesQuery,
-    ListLanguageVariantsQuery,
+    ListLanguageVariantsOfItemQuery,
     ListTaxonomiesQuery,
     ListWorkflowStepsQuery,
     ProjectIdIdentifierQuery,
@@ -341,11 +341,11 @@ export class ContentManagementClient implements IContentManagementClient {
         );
     }
 
-    listLanguageVariants(): ContentItemIdentifierQuery<ListLanguageVariantsQuery> {
-        return new ContentItemIdentifierQuery<ListLanguageVariantsQuery>(
+    listLanguageVariantsOfItem(): ContentItemIdentifierQuery<ListLanguageVariantsOfItemQuery> {
+        return new ContentItemIdentifierQuery<ListLanguageVariantsOfItemQuery>(
             this.config,
             this.queryService,
-            (config, queryService, identifier) => new ListLanguageVariantsQuery(config, queryService, identifier)
+            (config, queryService, identifier) => new ListLanguageVariantsOfItemQuery(config, queryService, identifier)
         );
     }
 }

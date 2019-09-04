@@ -4,13 +4,13 @@ import { BaseResponses } from '../base-responses';
 
 export namespace LanguageVariantResponses {
 
-    export class ListLanguageVariantsResponse extends BaseResponses.BaseContentManagementResponse<LanguageVariantContracts.IListLanguageVariantsResponseContract[],
+    export class ListLanguageVariantsOfItemResponse extends BaseResponses.BaseContentManagementResponse<LanguageVariantContracts.IListLanguageVariantsOfItemResponseContract[],
         {
             variants: LanguageVariantModels.ContentItemLanguageVariant[],
         }>  {
         constructor(
             debug: BaseResponses.IContentManagementResponseDebug,
-            rawData: LanguageVariantContracts.IListLanguageVariantsResponseContract[],
+            rawData: LanguageVariantContracts.IListLanguageVariantsOfItemResponseContract[],
             data: {
                 variants: LanguageVariantModels.ContentItemLanguageVariant[],
             }

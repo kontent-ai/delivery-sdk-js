@@ -11,7 +11,7 @@ export namespace LanguageVariantContracts {
         workflow_step: SharedContracts.IReferenceObjectContract;
     }
 
-    export interface IListLanguageVariantsResponseContract extends ILanguageVariantModelContract {
+    export interface IListLanguageVariantsOfItemResponseContract extends ILanguageVariantModelContract {
     }
 
     export interface IUpsertLanguageVariantResponseContract extends ILanguageVariantModelContract {

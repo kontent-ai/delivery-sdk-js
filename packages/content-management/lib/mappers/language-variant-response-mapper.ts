@@ -23,10 +23,10 @@ export class LanguageVariantResponseMapper extends BaseMapper {
     }
 
     mapLanguageVariantListResponse(
-        response: IBaseResponse<LanguageVariantContracts.IListLanguageVariantsResponseContract[]>,
-    ): LanguageVariantResponses.ListLanguageVariantsResponse {
+        response: IBaseResponse<LanguageVariantContracts.IListLanguageVariantsOfItemResponseContract[]>,
+    ): LanguageVariantResponses.ListLanguageVariantsOfItemResponse {
         const variants = response.data.map(m => this.mapLanguageVariant(m));
-        return new LanguageVariantResponses.ListLanguageVariantsResponse(super.mapResponseDebug(response), response.data, {
+        return new LanguageVariantResponses.ListLanguageVariantsOfItemResponse(super.mapResponseDebug(response), response.data, {
             variants: variants
         });
     }

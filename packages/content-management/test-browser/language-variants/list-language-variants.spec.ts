@@ -4,10 +4,10 @@ import { cmTestClient, getTestClientWithJson, testProjectId } from '../setup';
 
 
 describe('List language variants', () => {
-    let response: LanguageVariantResponses.ListLanguageVariantsResponse;
+    let response: LanguageVariantResponses.ListLanguageVariantsOfItemResponse;
 
     beforeAll((done) => {
-        getTestClientWithJson(listLanguageVariantsJson).listLanguageVariants()
+        getTestClientWithJson(listLanguageVariantsJson).listLanguageVariantsOfItem()
             .byItemCodename('xxx')
             .toObservable()
             .subscribe(result => {
@@ -17,9 +17,9 @@ describe('List language variants', () => {
     });
 
     it(`url should be correct`, () => {
-        const codenameUrl = cmTestClient.listLanguageVariants().byItemCodename('xCodename').getUrl();
-        const internalIdUrl = cmTestClient.listLanguageVariants().byItemId('xInternalId').getUrl();
-        const externalIdUrl = cmTestClient.listLanguageVariants().byItemExternalId('xExternalId').getUrl();
+        const codenameUrl = cmTestClient.listLanguageVariantsOfItem().byItemCodename('xCodename').getUrl();
+        const internalIdUrl = cmTestClient.listLanguageVariantsOfItem().byItemId('xInternalId').getUrl();
+        const externalIdUrl = cmTestClient.listLanguageVariantsOfItem().byItemExternalId('xExternalId').getUrl();
 
         expect(codenameUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/codename/xCodename/variants`);
         expect(internalIdUrl).toEqual(`https://manage.kenticocloud.com/v2/projects/${testProjectId}/items/xInternalId/variants`);
@@ -27,7 +27,7 @@ describe('List language variants', () => {
     });
 
     it(`response should be instance of ListLanguageVariantsResponse class`, () => {
-        expect(response).toEqual(jasmine.any(LanguageVariantResponses.ListLanguageVariantsResponse));
+        expect(response).toEqual(jasmine.any(LanguageVariantResponses.ListLanguageVariantsOfItemResponse));
     });
 
     it(`response should contain debug data`, () => {

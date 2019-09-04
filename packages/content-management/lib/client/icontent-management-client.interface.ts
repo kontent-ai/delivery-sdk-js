@@ -24,7 +24,7 @@ import {
     ListContentItemsQuery,
     ListContentTypeSnippetsQuery,
     ListContentTypesQuery,
-    ListLanguageVariantsQuery,
+    ListLanguageVariantsOfItemQuery,
     ListTaxonomiesQuery,
     ListWorkflowStepsQuery,
     ProjectIdIdentifierQuery,
@@ -216,7 +216,7 @@ export interface IContentManagementClient {
     deleteContentItem(): ContentItemIdentifierQuery<DeleteContentItemQuery>;
 
     /**
-     * List language variants query
+     * List language variants of a specific content item query
      */
-    listLanguageVariants(): ContentItemIdentifierQuery<ListLanguageVariantsQuery>;
+    listLanguageVariantsOfItem(): ContentItemIdentifierQuery<ListLanguageVariantsOfItemQuery>;
 }

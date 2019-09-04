@@ -615,8 +615,8 @@ export class ContentManagementQueryService extends BaseContentManagementQuerySer
     listLanguageVariants(
         url: string,
         config: IContentManagementQueryConfig
-    ): Observable<LanguageVariantResponses.ListLanguageVariantsResponse> {
-        return this.getResponse<LanguageVariantContracts.IListLanguageVariantsResponseContract[]>(
+    ): Observable<LanguageVariantResponses.ListLanguageVariantsOfItemResponse> {
+        return this.getResponse<LanguageVariantContracts.IListLanguageVariantsOfItemResponseContract[]>(
             url,
             {},
             config

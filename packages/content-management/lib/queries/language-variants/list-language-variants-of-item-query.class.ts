@@ -6,7 +6,7 @@ import { LanguageVariantResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
 
-export class ListLanguageVariantsQuery extends BaseQuery<LanguageVariantResponses.ListLanguageVariantsResponse> {
+export class ListLanguageVariantsOfItemQuery extends BaseQuery<LanguageVariantResponses.ListLanguageVariantsOfItemResponse> {
 
   constructor(
     protected config: IContentManagementClientConfig,
@@ -16,7 +16,7 @@ export class ListLanguageVariantsQuery extends BaseQuery<LanguageVariantResponse
     super(config, queryService);
   }
 
-  toObservable(): Observable<LanguageVariantResponses.ListLanguageVariantsResponse> {
+  toObservable(): Observable<LanguageVariantResponses.ListLanguageVariantsOfItemResponse> {
     return this.queryService.listLanguageVariants(this.getUrl(), this.queryConfig);
   }
 
