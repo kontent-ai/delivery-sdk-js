@@ -22,6 +22,6 @@ export class CancelScheduledPublishingOfLanguageVariantQuery extends BaseQuery<B
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.cancelScheduledPublishingOfLanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
+    return this.apiEndpoints.cancelScheduledPublishingOfLanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
   }
 }

@@ -21,6 +21,6 @@ export class DeleteContentItemQuery extends BaseQuery<ContentItemResponses.Delet
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.deleteContentItem(this.identifier);
+    return this.apiEndpoints.deleteContentItem(this.identifier);
   }
 }

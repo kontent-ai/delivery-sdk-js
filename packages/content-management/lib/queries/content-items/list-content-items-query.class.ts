@@ -19,6 +19,6 @@ export class ListContentItemsQuery extends BaseQuery<ContentItemResponses.Conten
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.items();
+    return this.apiEndpoints.items();
   }
 }

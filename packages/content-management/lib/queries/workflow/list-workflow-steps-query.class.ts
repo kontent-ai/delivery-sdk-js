@@ -19,6 +19,6 @@ export class ListWorkflowStepsQuery extends BaseQuery<WorkflowResponses.ListWork
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.listWorkflowSteps();
+    return this.apiEndpoints.listWorkflowSteps();
   }
 }

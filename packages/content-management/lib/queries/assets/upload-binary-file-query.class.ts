@@ -21,7 +21,7 @@ export class UploadBinaryFileQuery extends BaseQuery<AssetResponses.UploadBinary
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.uploadBinaryFile(this.data.filename);
+    return this.apiEndpoints.uploadBinaryFile(this.data.filename);
   }
 }
 

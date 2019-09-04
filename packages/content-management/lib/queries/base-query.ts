@@ -2,27 +2,24 @@ import { IQueryParameter, Parameters } from 'kentico-cloud-core';
 import { Observable } from 'rxjs';
 
 import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
-import { IContentManagementQueryConfig } from '../models';
-import { ContentManagementActions, contentManagementActions } from '../models/content-management-actions';
+import { ContentManagementApiEndpoints, contentManagementApiEndpoints, IContentManagementQueryConfig } from '../models';
 import { BaseResponses } from '../responses';
 import { ContentManagementQueryService } from '../services';
 
 export abstract class BaseQuery<TResponse extends BaseResponses.IContentManagementResponse> {
-
     protected queryConfig: IContentManagementQueryConfig = {};
     protected parameters: IQueryParameter[] = [];
-    protected actions: ContentManagementActions = contentManagementActions;
+    protected apiEndpoints: ContentManagementApiEndpoints = contentManagementApiEndpoints;
     protected customUrl?: string;
 
     constructor(
         protected config: IContentManagementClientConfig,
         protected queryService: ContentManagementQueryService
-    ) {
-    }
+    ) {}
 
     /**
-    * Gets url for this query
-    */
+     * Gets url for this query
+     */
     getUrl(): string {
         // use custom URL if user specified it
         if (this.customUrl) {
@@ -84,6 +81,4 @@ export abstract class BaseQuery<TResponse extends BaseResponses.IContentManageme
      * Gets action for this query
      */
     protected abstract getAction(): string;
-
-
 }

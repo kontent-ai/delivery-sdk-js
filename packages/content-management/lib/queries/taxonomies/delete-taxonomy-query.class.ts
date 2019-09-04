@@ -21,6 +21,6 @@ export class DeleteTaxonomyQuery extends BaseQuery<TaxonomyResponses.DeleteTaxon
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.deleteTaxonomy(this.identifier);
+    return this.apiEndpoints.deleteTaxonomy(this.identifier);
   }
 }

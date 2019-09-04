@@ -21,7 +21,7 @@ export class AddContentItemQuery extends BaseQuery<ContentItemResponses.AddConte
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.addContentItem();
+    return this.apiEndpoints.addContentItem();
   }
 }
 

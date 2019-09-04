@@ -21,7 +21,7 @@ export class AddAssetQuery extends BaseQuery<AssetResponses.AddAssetResponse> {
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.addAsset();
+    return this.apiEndpoints.addAsset();
   }
 }
 

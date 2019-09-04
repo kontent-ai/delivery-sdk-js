@@ -23,6 +23,6 @@ export class UpdateContentItemQuery extends BaseQuery<ContentItemResponses.Updat
   }
 
   protected getAction(): string {
-      return this.actions.contentItemActions.updateContentItem(this.identifier);
+      return this.apiEndpoints.updateContentItem(this.identifier);
   }
 }

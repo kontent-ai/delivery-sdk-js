@@ -21,7 +21,7 @@ export class ViewContentTypeSnippetQuery extends BaseQuery<ContentTypeSnippetRes
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.viewContentTypeSnippet(this.identifier);
+    return this.apiEndpoints.viewContentTypeSnippet(this.identifier);
   }
 }
 

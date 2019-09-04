@@ -22,7 +22,7 @@ export class ValidateProjectContentQuery extends BaseQuery<ProjectResponses.Vali
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.validateProjectContent();
+    return this.apiEndpoints.validateProjectContent();
   }
 }
 

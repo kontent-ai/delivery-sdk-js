@@ -22,6 +22,6 @@ export class UnpublishLanguageVariantQuery extends BaseQuery<BaseResponses.Empty
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.unpublishLanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
+    return this.apiEndpoints.unpublishLanguageVariant(this.contentItemIdentifier, this.languageIdentifier);
   }
 }

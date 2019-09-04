@@ -21,7 +21,7 @@ export class ViewAssetsQuery extends BaseQuery<AssetResponses.ViewAssetResponse>
   }
 
   protected getAction(): string {
-      return this.actions.contentItemActions.viewAsset(this.identifier);
+      return this.apiEndpoints.viewAsset(this.identifier);
   }
 }
 

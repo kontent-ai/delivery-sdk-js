@@ -1,7 +1,7 @@
 import { Identifiers } from './identifiers';
 
 
-class ContentManagementContentItemActions {
+export class ContentManagementApiEndpoints {
 
     changeWorkflowStepOfLanguageVariant(itemIdentifier: Identifiers.ContentItemIdentifier, languageIdentifier: Identifiers.LanguageIdentifier, workflowIdentifier: Identifiers.WorkflowIdentifier): string {
         return `items/${itemIdentifier.getParamValue()}/variants/${languageIdentifier.getParamValue()}/workflow/${workflowIdentifier.getParamValue()}`;
@@ -136,8 +136,4 @@ class ContentManagementContentItemActions {
     }
 }
 
-export class ContentManagementActions {
-    public contentItemActions: ContentManagementContentItemActions = new ContentManagementContentItemActions();
-}
-
-export const contentManagementActions = new ContentManagementActions();
+export const contentManagementApiEndpoints = new ContentManagementApiEndpoints();

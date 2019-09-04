@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { IContentManagementClientConfig } from '../../config';
-import { Identifiers } from '../../models';
+import { Identifiers, contentManagementApiEndpoints } from '../../models';
 import { AssetResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
@@ -21,7 +21,7 @@ export class DeleteAssetQuery extends BaseQuery<AssetResponses.DeleteAssetRespon
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.deleteAsset(this.identifier);
+    return contentManagementApiEndpoints.deleteAsset(this.identifier);
   }
 }
 

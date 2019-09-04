@@ -21,7 +21,7 @@ export class ListLanguageVariantsQuery extends BaseQuery<LanguageVariantResponse
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.listLanguageVariants(this.identifier);
+    return this.apiEndpoints.listLanguageVariants(this.identifier);
   }
 }
 

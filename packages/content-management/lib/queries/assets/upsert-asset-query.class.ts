@@ -21,7 +21,7 @@ export class UpsertAssetQuery extends BaseQuery<AssetResponses.UpdateAssetRespon
   }
 
   protected getAction(): string {
-    return this.actions.contentItemActions.upsertAsset(this.data.assetExternalId);
+    return this.apiEndpoints.upsertAsset(this.data.assetExternalId);
   }
 }
 

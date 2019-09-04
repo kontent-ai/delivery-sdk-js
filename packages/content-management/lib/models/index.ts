@@ -1,5 +1,5 @@
 export * from './query-config.models';
-export * from './content-management-actions';
+export * from './content-management-api-endpoints';
 export * from './content-items/content-item.models';
 export * from './shared/shared-models';
 export * from './assets/asset.models';
