@@ -1,3 +1,13 @@
+## 0.0.17 (2019-09-09)
+
+#### :boom: Breaking Change
+  * [#247](https://github.com/Kentico/kentico-cloud-js/pull/247) Adds support for 'List language variants of a content type' api call, renames 'listLanguageVariants' and related models to contain item identifier such as 'listLanguageVariantsOfItem' ([@Enngage](https://github.com/Enngage))
+
+#### :rocket: Enhancement
+  * [#249](https://github.com/Kentico/kentico-cloud-js/pull/249) Adds support for new Taxonomy listing endpoint while staying compatible with previous one ([@Enngage](https://github.com/Enngage))
+  * [#248](https://github.com/Kentico/kentico-cloud-js/pull/248) Adds support for all Language related endpoints  ([@Enngage](https://github.com/Enngage))
+  * [#247](https://github.com/Kentico/kentico-cloud-js/pull/247) Adds support for 'List language variants of a content type' api call, renames 'listLanguageVariants' and related models to contain item identifier such as 'listLanguageVariantsOfItem' ([@Enngage](https://github.com/Enngage))
+
 ## 0.0.16 (2019-06-04)
 
 #### :rocket: Enhancement
