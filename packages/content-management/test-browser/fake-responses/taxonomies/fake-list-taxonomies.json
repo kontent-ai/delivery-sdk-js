@@ -79,5 +79,8 @@
             "codename": "personas"
         }
     ],
-    "pagination": 1
+    "pagination": {
+      "continuation_token": null,
+      "next_page": null
+    }
 }
