@@ -18,42 +18,44 @@ import { catchError, map, retryWhen } from 'rxjs/operators';
 
 @Injectable()
 export class AngularHttpService implements IHttpService {
+    constructor(private http: HttpClient) {}
 
-    constructor(
-        private http: HttpClient
-    ) { }
+    retryPromise<T>(
+        promise: Promise<T>,
+        options: {
+            maxRetryAttempts: number;
+            useRetryForResponseCodes: number[];
+        },
+        currentAttempt: number
+    ): Promise<T> {
+        return new Promise((resolve, reject) =>
+            promise
+                .then(response => {
+                    resolve(response);
+                })
+                .catch((reason: any) => {
+                    let statusCode = 0;
 
-    retryPromise<T>(promise: Promise<T>, options: {
-        maxRetryAttempts: number;
-        useRetryForResponseCodes: number[];
-    }, currentAttempt: number): Promise<T> {
-        return new Promise((resolve, reject) => promise
-            .then((response) => {
-                resolve(response);
-            })
-            .catch((reason: any) => {
-                let statusCode = 0;
+                    if (reason && reason.originalError && reason.originalError.request) {
+                        statusCode = reason.originalError.request.status;
+                    }
 
-                if (reason && reason.originalError && reason.originalError.request) {
-                    statusCode = reason.originalError.request.status;
-                }
+                    const retryCode = options.useRetryForResponseCodes.find(m => m === statusCode);
+                    if (!retryCode && retryCode !== 0) {
+                        return reject(reason);
+                    }
 
-                const retryCode = options.useRetryForResponseCodes.find(m => m === statusCode);
-                if (!retryCode && retryCode !== 0) {
+                    const retryTimeout = this.getRetryTimeout(currentAttempt);
+                    if (currentAttempt <= options.maxRetryAttempts) {
+                        return this.promiseRetryWait(retryTimeout)
+                            .then(() => {
+                                return this.retryPromise(promise, options, currentAttempt + 1);
+                            })
+                            .then(response => resolve(response))
+                            .catch(error => reject(error));
+                    }
                     return reject(reason);
-                }
-
-                const retryTimeout = this.getRetryTimeout(currentAttempt);
-                if (currentAttempt <= options.maxRetryAttempts) {
-                    return this.promiseRetryWait(retryTimeout)
-                        .then(() => {
-                            return this.retryPromise(promise, options, currentAttempt + 1);
-                        })
-                        .then((response) => resolve(response))
-                        .catch((error) => reject(error));
-                }
-                return reject(reason);
-            })
+                })
         );
     }
 
@@ -61,7 +63,6 @@ export class AngularHttpService implements IHttpService {
         call: IHttpGetQueryCall<TError>,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
-
         const angularObs = this.http.get(call.url, {
             headers: this.getAngularHeaders(options ? options.headers : undefined)
         });
@@ -73,9 +74,8 @@ export class AngularHttpService implements IHttpService {
         call: IHttpPostQueryCall<TError>,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
-
         const angularObs = this.http.post(call.url, call.body, {
-            headers: this.getAngularHeaders(options ? options.headers : undefined),
+            headers: this.getAngularHeaders(options ? options.headers : undefined)
         });
 
         return this.mapAngularObservable(angularObs, call, options);
@@ -85,9 +85,8 @@ export class AngularHttpService implements IHttpService {
         call: IHttpPutQueryCall<TError>,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
-
         const angularObs = this.http.put(call.url, call.body, {
-            headers: this.getAngularHeaders(options ? options.headers : undefined),
+            headers: this.getAngularHeaders(options ? options.headers : undefined)
         });
 
         return this.mapAngularObservable(angularObs, call, options);
@@ -97,9 +96,8 @@ export class AngularHttpService implements IHttpService {
         call: IHttpDeleteQueryCall<TError>,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
-
         const angularObs = this.http.delete(call.url, {
-            headers: this.getAngularHeaders(options ? options.headers : undefined),
+            headers: this.getAngularHeaders(options ? options.headers : undefined)
         });
 
         return this.mapAngularObservable(angularObs, call, options);
@@ -113,28 +111,29 @@ export class AngularHttpService implements IHttpService {
         return new Promise<number>(r => setTimeout(r, ms));
     }
 
-    private mapAngularObservable<TError extends any, TRawData extends any>(obs: Observable<any>, call: IHttpQueryCall<TError>, options?: IHttpQueryOptions): Observable<IBaseResponse<TRawData>> {
+    private mapAngularObservable<TError extends any, TRawData extends any>(
+        obs: Observable<any>,
+        call: IHttpQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse<TRawData>> {
         return obs.pipe(
-            map(response => <IBaseResponse<TRawData>>{
-                data: response,
-                response: undefined,
-            }),
+            map(
+                response =>
+                    <IBaseResponse<TRawData>>{
+                        data: response,
+                        response: undefined
+                    }
+            ),
             retryWhen(
                 retryStrategy.strategy({
-                    maxRetryAttempts:
-                        options && options.maxRetryAttempts ? options.maxRetryAttempts : 0,
+                    maxRetryAttempts: options && options.maxRetryAttempts ? options.maxRetryAttempts : 0,
                     useRetryForResponseCodes:
-                        options && options.useRetryForResponseCodes
-                            ? options.useRetryForResponseCodes
-                            : []
+                        options && options.useRetryForResponseCodes ? options.useRetryForResponseCodes : []
                 })
             ),
             catchError(error => {
                 if (options && options.logErrorToConsole) {
-                    console.warn(
-                        `Kentico Kontent SDK encountered an error posting data: `,
-                        error
-                    );
+                    console.warn(`Kentico Kontent SDK encountered an error posting data: `, error);
                 }
 
                 return throwError(<IBaseResponseError<TError>>{
