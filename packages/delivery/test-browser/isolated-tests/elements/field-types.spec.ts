@@ -1,6 +1,6 @@
 import { Elements, ItemResponses, sdkInfo } from '../../../lib';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
-import { HttpService } from 'kentico-cloud-core';
+import { HttpService } from '@kentico/kontent-core';
 
 describe('Element types', () => {
 

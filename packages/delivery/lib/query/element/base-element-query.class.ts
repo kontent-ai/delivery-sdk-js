@@ -1,12 +1,12 @@
-import { IHeader } from 'kentico-cloud-core';
+import { IHeader } from '@kentico/kontent-core';
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ElementResponses, ICloudResponse, IElementQueryConfig } from '../../models';
+import { ElementResponses, IKontentResponse, IElementQueryConfig } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export abstract class BaseElementQuery<TResponse extends ICloudResponse> extends BaseQuery<TResponse> {
+export abstract class BaseElementQuery<TResponse extends IKontentResponse> extends BaseQuery<TResponse> {
 
     protected _queryConfig: IElementQueryConfig = {};
 

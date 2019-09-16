@@ -6,7 +6,7 @@ import {
     IHttpPutQueryCall,
     IHttpQueryOptions,
     IHttpService,
-} from 'kentico-cloud-core';
+} from '@kentico/kontent-core';
 import { Observable, of } from 'rxjs';
 
 import { DeliveryClient } from '../../../lib';

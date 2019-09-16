@@ -1,6 +1,6 @@
-import { HttpService } from 'kentico-cloud-core';
+import { HttpService } from '@kentico/kontent-core';
 
-import { ItemResponses, ITypeResolverData, sdkInfo, TypeResolver } from '../../../lib';
+import { ITypeResolverData, sdkInfo, TypeResolver } from '../../../lib';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 
 let movieTypeResolverData: ITypeResolverData | undefined;
@@ -9,14 +9,18 @@ let actorTypeResolverData: ITypeResolverData | undefined;
 function getQueryService(advancedLogging: boolean = false): MockQueryService {
     const context = new Context();
     const typeResolvers: TypeResolver[] = [];
-    typeResolvers.push(new TypeResolver('movie', (data) => {
-        movieTypeResolverData = data;
-        return new Movie();
-    }));
-    typeResolvers.push(new TypeResolver('actor', (data) => {
-        actorTypeResolverData = data;
-        return new Actor();
-    }));
+    typeResolvers.push(
+        new TypeResolver('movie', data => {
+            movieTypeResolverData = data;
+            return new Movie();
+        })
+    );
+    typeResolvers.push(
+        new TypeResolver('actor', data => {
+            actorTypeResolverData = data;
+            return new Actor();
+        })
+    );
 
     context.typeResolvers = typeResolvers;
     setup(context);
@@ -32,14 +36,14 @@ function getQueryService(advancedLogging: boolean = false): MockQueryService {
 }
 
 describe('Type resolver data', () => {
-
-    beforeAll((done) => {
+    beforeAll(done => {
         done();
     });
 
     it('Type resolver should receive item contract and modular content as data parameter', () => {
         // response has to be called so that typ resolvers are triggered
-        const response: ItemResponses.ViewContentItemResponse<Movie> = getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {});
+        getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {});
+
         expect(movieTypeResolverData).toBeDefined();
         expect(actorTypeResolverData).toBeDefined();
 
@@ -51,6 +55,4 @@ describe('Type resolver data', () => {
             expect(actorTypeResolverData.modularContent).toEqual(warriorMovieJson.modular_content);
         }
     });
-
 });
-

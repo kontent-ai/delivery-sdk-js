@@ -1,0 +1,92 @@
+{
+    "assets": [
+        {
+            "id": "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
+            "file_name": "which-brewing-fits-you-1080px.jpg",
+            "title": "Coffee Brewing Techniques",
+            "size": 125770,
+            "type": "image/jpeg",
+            "image_width": 1000,
+            "image_height": 666,
+            "file_reference": {
+                "id": "fcbb12e6-66a3-4672-85d9-d502d16b8d9c",
+                "type": "internal"
+            },
+            "descriptions": [
+                {
+                    "language": {
+                        "id": "00000000-0000-0000-0000-000000000000"
+                    },
+                    "description": "Coffee Brewing Techniques"
+                },
+                {
+                    "language": {
+                        "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+                    },
+                    "description": "Técnicas para hacer café"
+                }
+            ],
+            "last_modified": "2017-09-12T08:29:36.1645977Z"
+        },
+        {
+            "id": "8858d272-777b-43bd-93be-53a98be97569",
+            "file_name": "cafe05.jpg",
+            "title": "Café - Los Angeles",
+            "size": 114844,
+            "type": "image/jpeg",
+            "image_width": 849,
+            "image_height": 565,
+            "file_reference": {
+                "id": "8858d272-777b-43bd-93be-53a98be97569",
+                "type": "internal"
+            },
+            "descriptions": [
+                {
+                    "language": {
+                        "id": "00000000-0000-0000-0000-000000000000"
+                    },
+                    "description": "Dancing Goat Café - Los Angeles"
+                },
+                {
+                    "language": {
+                        "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+                    },
+                    "description": "Dancing Goat Café - Los Angeles"
+                }
+            ],
+            "last_modified": "2017-07-04T10:29:35.0964697Z"
+        },
+        {
+            "id": "32d055c4-8b32-48f2-881d-058a1854e36e",
+            "file_name": "cafe06.jpg",
+            "title": "Café - New York",
+            "size": 275350,
+            "type": "image/jpeg",
+            "image_width": 849,
+            "image_height": 565,
+            "file_reference": {
+                "id": "32d055c4-8b32-48f2-881d-058a1854e36e",
+                "type": "internal"
+            },
+            "descriptions": [
+                {
+                    "language": {
+                        "id": "00000000-0000-0000-0000-000000000000"
+                    },
+                    "description": "Dancing Goat Café - New York"
+                },
+                {
+                    "language": {
+                        "id": "d1f95fde-af02-b3b5-bd9e-f232311ccab8"
+                    },
+                    "description": "Dancing Goat Café - New York"
+                }
+            ],
+            "last_modified": "2017-07-04T10:30:24.2190457Z"
+        }
+    ],
+    "pagination": {
+        "continuation_token": "MTAw",
+        "next_page": "https://manage.kontent.ai/v2/projects/975bf280-fd91-488c-994c-2f04416e5ee3/assets?continuationToken=MTAw"
+    }
+}

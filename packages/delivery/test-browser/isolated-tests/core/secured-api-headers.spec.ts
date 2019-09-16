@@ -1,5 +1,5 @@
 import { Context, setup } from '../../setup';
-import { IHeader } from 'kentico-cloud-core';
+import { IHeader } from '@kentico/kontent-core';
 
 describe('Secured headers', () => {
 

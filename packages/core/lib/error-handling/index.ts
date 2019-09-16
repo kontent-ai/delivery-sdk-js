@@ -1,2 +1,2 @@
-export * from './cloud-error';
-export * from './map-cloud-error';
+export * from './base-kontent-error';
+export * from './map-base-kontent-error';

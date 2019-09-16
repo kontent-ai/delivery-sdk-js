@@ -1,11 +1,11 @@
-import { IHeader, IQueryParameter } from 'kentico-cloud-core';
+import { IHeader, IQueryParameter } from '@kentico/kontent-core';
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ICloudResponse, IQueryConfig, Parameters } from '../../models';
+import { IKontentResponse, IQueryConfig, Parameters } from '../../models';
 import { QueryService } from '../../services';
 
-export abstract class BaseQuery<TResponse extends ICloudResponse> {
+export abstract class BaseQuery<TResponse extends IKontentResponse> {
   protected parameters: IQueryParameter[] = [];
   protected customUrl?: string;
 

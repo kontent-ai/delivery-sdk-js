@@ -1,5 +1,5 @@
 /**
-* Represents codename of Kentico Cloud element types
+* Represents codename of Kentico Kontent element types
 */
 export enum ElementType {
     Text = 'text',

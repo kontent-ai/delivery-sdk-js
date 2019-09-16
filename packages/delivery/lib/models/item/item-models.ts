@@ -278,8 +278,8 @@ export enum RichTextItemDataType {
 
 export interface IContentItemConfig {
     /**
-    * Function used to bind elements returned from Kentico Cloud to a model property.
-    * Common use is to bind e.g. 'FirstName' element from Kentico Cloud response to 'firstName' element in model
+    * Function used to bind elements returned from Kentico Kontent to a model property.
+    * Common use is to bind e.g. 'FirstName' element from Kentico Kontent response to 'firstName' element in model
     */
     propertyResolver?: ItemPropertyResolver;
 

@@ -1,10 +1,10 @@
 import { Pagination } from '../common';
-import { ICloudResponse, ICloudResponseDebug } from '../common/common-models';
+import { IKontentResponse, IKontentResponseDebug } from '../common/common-models';
 import { ContentType } from './content-type-models';
 
 export namespace TypeResponses {
 
-    export class ListContentTypesResponse implements ICloudResponse {
+    export class ListContentTypesResponse implements IKontentResponse {
 
         /**
         * Response containing multiple types
@@ -15,11 +15,11 @@ export namespace TypeResponses {
         constructor(
             public types: ContentType[],
             public pagination: Pagination,
-            public debug: ICloudResponseDebug
+            public debug: IKontentResponseDebug
         ) { }
     }
 
-    export class ViewContentTypeResponse implements ICloudResponse {
+    export class ViewContentTypeResponse implements IKontentResponse {
 
         /**
         * Response containing single type
@@ -28,7 +28,7 @@ export namespace TypeResponses {
         */
         constructor(
             public type: ContentType,
-            public debug: ICloudResponseDebug
+            public debug: IKontentResponseDebug
         ) { }
     }
 }

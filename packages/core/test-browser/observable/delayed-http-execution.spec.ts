@@ -10,7 +10,7 @@ describe('Delayed http execution when converting to Observable', () => {
 
         httpService.get({
             mapError: (err) => console.error('Debugging error', err),
-            url: 'https://deliver.kenticocloud.com/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items/warrior'
+            url: 'https://deliver.kontent.ai/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items/warrior'
         });
 
         // give async request some time to execute

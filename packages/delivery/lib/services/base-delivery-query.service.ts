@@ -1,13 +1,13 @@
 import {
-    CloudError,
+    BaseKontentError,
     IBaseResponse,
     IBaseResponseError,
     IHeader,
     IHttpService,
     IQueryParameter,
-    mapCloudError,
+    mapBaseKontentError,
     urlHelper,
-} from 'kentico-cloud-core';
+} from '@kentico/kontent-core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -36,13 +36,13 @@ export abstract class BaseDeliveryQueryService {
      * Default base Url to Kentico Delivery API
      */
     private readonly defaultBaseDeliveryApiUrl: string =
-        'https://deliver.kenticocloud.com';
+        'https://deliver.kontent.ai';
 
     /**
      * Default preview url to Kentico Delivery API
      */
     private readonly defaultPreviewDeliveryApiUrl: string =
-        'https://preview-deliver.kenticocloud.com';
+        'https://preview-deliver.kontent.ai';
 
     /**
      * Name of the header used when 'wait for loading new content' feature is used
@@ -162,10 +162,10 @@ export abstract class BaseDeliveryQueryService {
         }
 
         return this.httpService
-            .get<CloudError, TRawData>(
+            .get<BaseKontentError, TRawData>(
                 {
                     url: url,
-                    mapError: error => mapCloudError(error)
+                    mapError: error => mapBaseKontentError(error)
                 },
                 {
                     headers: this.getHeaders(queryConfig),
@@ -175,7 +175,7 @@ export abstract class BaseDeliveryQueryService {
                 }
             )
             .pipe(
-                catchError((error: IBaseResponseError<CloudError>) => {
+                catchError((error: IBaseResponseError<BaseKontentError>) => {
                     return throwError(error.mappedError);
                 })
             );

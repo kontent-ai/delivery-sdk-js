@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { ContentType, DeliveryClient } from 'kentico-cloud-delivery';
+import { ContentType, DeliveryClient } from '@kentico/kontent-delivery';
 import { finalize, map } from 'rxjs/operators';
 
 import { modelHelper } from './model-helper';
@@ -39,9 +39,9 @@ export class Generator {
     }
 
     startModelGenerator(): void {
-        console.log('Generator started ...');
+        console.log('Kontent generator started ...');
 
-        // get data from Kentico Cloud and generate classes out of given project
+        // get data from Kentico Kontent and generate classes out of given project
         this.deliveryClient.types()
             .toObservable()
             .pipe(
@@ -55,7 +55,7 @@ export class Generator {
                     console.log('Generator finished');
                 })
             )
-            .subscribe(() => undefined, err => {
+            .subscribe(() => undefined, (err: any) => {
                 console.log(`Generator failed with error:`);
                 console.log(err);
                 throw Error(err);

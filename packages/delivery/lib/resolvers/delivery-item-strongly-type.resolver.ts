@@ -55,8 +55,8 @@ export class DeliveryItemStronglyTypeResolver {
     }
 
     /**
-     * Gets TypeResolver associated with given type (type = codename of Kentico Cloud content type)
-     * @param type Kentico Cloud content type codename
+     * Gets TypeResolver associated with given type (type = codename of Kentico Kontent content type)
+     * @param type Kentico Kontent content type codename
      * @param resolvers Array of TypeResolver
      */
     private getTypeResolver(type: string, resolvers: TypeResolver[]): TypeResolver | undefined {

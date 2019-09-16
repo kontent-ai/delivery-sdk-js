@@ -1,4 +1,4 @@
-import { HttpService } from 'kentico-cloud-core';
+import { HttpService } from '@kentico/kontent-core';
 
 import { ContentItem, ContentItemSystemAttributes, sdkInfo, TypeResolver } from '../../../lib';
 import {

@@ -1,4 +1,4 @@
-import { HttpService } from 'kentico-cloud-core';
+import { HttpService } from '@kentico/kontent-core';
 
 import { ContentItem, Elements, IUrlSlugResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';

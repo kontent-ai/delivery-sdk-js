@@ -8,7 +8,7 @@ export namespace ElementDecorators {
   /**
    * Get the metadata entry saved by the decorator
    * @param target - object instance
-   * @param elementName - Element name (code name from Kentico Cloud)
+   * @param elementName - Element name (code name from Kentico Kontent)
    */
   export function getPropertyName(target: any, elementName: string): any | undefined {
     return Reflect.getMetadata(generateKey(elementName), target);

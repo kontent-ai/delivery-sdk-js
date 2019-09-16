@@ -5,7 +5,7 @@
   "lib": {
     "entryFile": "lib/public_api.ts",
     "umdModuleIds": {
-      "kentico-cloud-core" : "KenticoCloudCore"
+      "@kentico/kontent-core" : "kontentCore"
     }
   },
   "whitelistedNonPeerDependencies": [

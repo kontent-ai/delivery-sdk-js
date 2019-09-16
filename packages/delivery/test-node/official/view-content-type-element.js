@@ -1,7 +1,7 @@
 const assert = require('assert');
-const KenticoCloud = require('../../_commonjs');
+const KontentDelivery = require('../../_commonjs');
 
-const deliveryClient = new KenticoCloud.DeliveryClient({
+const deliveryClient = new KontentDelivery.DeliveryClient({
     projectId: 'e391c776-9d1e-4e1a-8a5a-1c327c2586b6',
 });
 
@@ -20,11 +20,11 @@ describe('#View content type element', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.ElementResponses.ViewContentTypeElementResponse));
+        assert.ok((result instanceof KontentDelivery.ElementResponses.ViewContentTypeElementResponse));
     });
 
     it('Response item should be of proper type', () => {
-        assert.ok(result.element instanceof KenticoCloud.GenericElement);
+        assert.ok(result.element instanceof KontentDelivery.GenericElement);
     });
 
 });

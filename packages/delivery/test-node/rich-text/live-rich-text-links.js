@@ -1,9 +1,9 @@
 const assert = require('assert');
-const KenticoCloud = require('../../_commonjs');
+const KontentDelivery = require('../../_commonjs');
 
 const linkContexts = {};
 
-class Actor extends KenticoCloud.ContentItem {
+class Actor extends KontentDelivery.ContentItem {
 
     constructor() {
         super({
@@ -20,7 +20,7 @@ class Actor extends KenticoCloud.ContentItem {
     }
 }
 
-class Movie extends KenticoCloud.ContentItem {
+class Movie extends KontentDelivery.ContentItem {
 
     constructor() {
         super({
@@ -38,11 +38,11 @@ class Movie extends KenticoCloud.ContentItem {
 
 const movieCodename = 'warrior';
 
-const deliveryClient = new KenticoCloud.DeliveryClient({
+const deliveryClient = new KontentDelivery.DeliveryClient({
     projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9',
     typeResolvers: [
-        new KenticoCloud.TypeResolver('movie', () => new Movie()),
-        new KenticoCloud.TypeResolver('actor', () => new Actor())
+        new KontentDelivery.TypeResolver('movie', () => new Movie()),
+        new KontentDelivery.TypeResolver('actor', () => new Actor())
     ],
 });
 

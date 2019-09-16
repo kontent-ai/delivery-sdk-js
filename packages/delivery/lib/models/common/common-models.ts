@@ -1,4 +1,4 @@
-import { IHeader, IQueryParameter } from 'kentico-cloud-core';
+import { IHeader, IQueryParameter } from '@kentico/kontent-core';
 
 export interface IProxyUrlData {
     action: string;
@@ -9,7 +9,7 @@ export interface IProxyUrlData {
     projectId: string;
 }
 
-export interface ICloudResponseDebug {
+export interface IKontentResponseDebug {
     response: any;
 }
 
@@ -30,8 +30,8 @@ export interface ISDKInfo {
 }
 
 
-export interface ICloudResponse {
-    debug: ICloudResponseDebug;
+export interface IKontentResponse {
+    debug: IKontentResponseDebug;
 }
 
 export interface IQueryConfig {

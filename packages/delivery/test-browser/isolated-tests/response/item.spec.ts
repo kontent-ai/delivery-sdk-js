@@ -1,6 +1,6 @@
 import { ItemResponses, sdkInfo } from '../../../lib';
 import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
-import { HttpService } from 'kentico-cloud-core';
+import { HttpService } from '@kentico/kontent-core';
 
 describe('Verifies mapping of delivery content item', () => {
 

@@ -1,4 +1,4 @@
-import { ContentType, ElementType } from 'kentico-cloud-delivery';
+import { ContentType, ElementType } from '@kentico/kontent-delivery';
 
 import { generatorConfig } from './config';
 import { CodeType, ModuleResolution } from './enums';

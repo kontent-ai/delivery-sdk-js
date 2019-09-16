@@ -17,7 +17,7 @@ Read more here: http://bit.ly/2tRViJ9
 
 The reason you see this error is because the `parse5` dependency we use for HTML parsing does not publish ES5 code to npm and therefore the build fails. 
 
-The best solution right now is to use `2.x.y alpha` version of `react-scripts` which resolves the ES6 code properly. You can find more details in [this issue](https://github.com/Kentico/kentico-cloud-js/issues/69). 
+The best solution right now is to use `2.x.y alpha` version of `react-scripts` which resolves the ES6 code properly. You can find more details in [this issue](https://github.com/Kentico/kentico-kontent-js/issues/69). 
 
 ## Angular Universal and pre-render
 
@@ -28,15 +28,15 @@ The reason is that Angular does not wait for http requests to finish unless they
 You may solve it by installing `` npm package and then injecting this service in your delivery client:
 
 ```
-npm i kentico-cloud-angular-http-service
+npm i kentico-kontent-angular-http-service
 ```
 
 ```typescript
-import { AngularHttpService } from 'kentico-cloud-angular-http-service';
+import { AngularHttpService } from 'kentico-kontent-angular-http-service';
 ```
 
 ```typescript
-import { AngularHttpService } from 'kentico-cloud-angular-http-service';
+import { AngularHttpService } from 'kentico-kontent-angular-http-service';
 
   constructor(angularHttpService: AngularHttpService) {
     const deliveryClient = new DeliveryClient({

@@ -1,23 +1,23 @@
 const http = require('http');
 const https = require('https');
 const Rx = require('rxjs');
-const KenticoCloud = require('../../_commonjs');
+const KontentDelivery = require('../../_commonjs');
 const assert = require('assert');
 const projectId = 'da5abe9f-fdad-4168-97cd-b3464be2ccb9';
 
-class Movie extends KenticoCloud.ContentItem {
+class Movie extends KontentDelivery.ContentItem {
 
 }
 
-class Actor extends KenticoCloud.ContentItem {
+class Actor extends KontentDelivery.ContentItem {
 
 }
 
-const deliveryClient = new KenticoCloud.DeliveryClient({
+const deliveryClient = new KontentDelivery.DeliveryClient({
   projectId: projectId,
   typeResolvers: [
-    new KenticoCloud.TypeResolver('movie', () => new Movie()),
-    new KenticoCloud.TypeResolver('actor', () => new Actor())
+    new KontentDelivery.TypeResolver('movie', () => new Movie()),
+    new KontentDelivery.TypeResolver('actor', () => new Actor())
   ]
 });
 

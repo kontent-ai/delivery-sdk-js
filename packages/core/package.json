@@ -1,16 +1,17 @@
 {
-  "name": "kentico-cloud-core",
-  "version": "1.7.1",
+  "name": "@kentico/kontent-core",
+  "version": "2.0.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kentico/kentico-cloud-js/tree/master/packages/core"
+    "url": "https://github.com/Kentico/kentico-kontent-js/tree/master/packages/core"
   },
   "private": false,
   "author": "richard sustek",
   "license": "MIT",
-  "description": "Core module containing shared functionality and used by individual packages",
+  "description": "Core package with shared / common functionality for Kentico Kontent SDKs",
   "keywords": [
-    "Kentico Core"
+    "Kentico SDK",
+    "Kentico Kontent"
   ],
   "engines": {
     "node": ">= 8"

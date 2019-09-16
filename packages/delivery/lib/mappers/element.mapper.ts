@@ -1,4 +1,4 @@
-import { enumHelper } from 'kentico-cloud-core';
+import { enumHelper } from '@kentico/kontent-core';
 
 import { defaultCollissionResolver, IDeliveryClientConfig } from '../config';
 import { ElementContracts, ItemContracts } from '../data-contracts';

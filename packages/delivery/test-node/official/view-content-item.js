@@ -1,16 +1,16 @@
 const assert = require('assert');
-const KenticoCloud = require('../../_commonjs');
+const KontentDelivery = require('../../_commonjs');
 
-class Article extends KenticoCloud.ContentItem {
+class Article extends KontentDelivery.ContentItem {
     constructor() {
         super();
     }
 }
 
-const deliveryClient = new KenticoCloud.DeliveryClient({
+const deliveryClient = new KontentDelivery.DeliveryClient({
     projectId: 'e391c776-9d1e-4e1a-8a5a-1c327c2586b6',
     typeResolvers: [
-        new KenticoCloud.TypeResolver('article', () => new Article())
+        new KontentDelivery.TypeResolver('article', () => new Article())
     ]
 });
 
@@ -31,11 +31,11 @@ describe('#View content item', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.ItemResponses.ViewContentItemResponse));
+        assert.ok((result instanceof KontentDelivery.ItemResponses.ViewContentItemResponse));
     });
 
     it('Response items should be of proper type', () => {
-        assert.ok(result.item instanceof KenticoCloud.ContentItem);
+        assert.ok(result.item instanceof KontentDelivery.ContentItem);
     });
 
 });

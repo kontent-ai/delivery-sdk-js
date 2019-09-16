@@ -18,9 +18,9 @@ describe('Base URL', () => {
 
   it(`protocol should be 'https:'`, () => expect(parsedUrl.protocol).toEqual('https:'));
 
-  it(`host should be 'deliver.kenticocloud.com'`, () => expect(parsedUrl.host).toEqual('deliver.kenticocloud.com'));
+  it(`host should be 'deliver.kontent.ai'`, () => expect(parsedUrl.host).toEqual('deliver.kontent.ai'));
 
-  it(`origin should be 'https://deliver.kenticocloud.com'`, () => expect(parsedUrl.origin).toEqual('https://deliver.kenticocloud.com'));
+  it(`origin should be 'https://deliver.kontent.ai'`, () => expect(parsedUrl.origin).toEqual('https://deliver.kontent.ai'));
 
   it(`pathname should contain project id'`, () => expect(itemsUrl).toContain(context.projectId));
 

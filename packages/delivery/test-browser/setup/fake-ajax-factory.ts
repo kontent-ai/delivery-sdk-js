@@ -1,4 +1,4 @@
-import { IBaseResponse } from 'kentico-cloud-core';
+import { IBaseResponse } from '@kentico/kontent-core';
 
 export class FakeResponseFactory {
 

@@ -34,7 +34,7 @@ describe('Proxy URL #1', () => {
     expect(proxyData.projectId).toEqual('xxx');
     expect(proxyData.queryString).toEqual('?depth=1&elements=xElement');
     expect(proxyData.queryConfig.useSecuredMode).toBeTruthy();
-    expect(proxyData.domain).toEqual('https://deliver.kenticocloud.com');
+    expect(proxyData.domain).toEqual('https://deliver.kontent.ai');
   });
 });
 

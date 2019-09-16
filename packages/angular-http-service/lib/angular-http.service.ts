@@ -12,7 +12,7 @@ import {
     IHttpQueryOptions,
     IHttpService,
     retryStrategy,
-} from 'kentico-cloud-core';
+} from '@kentico/kontent-core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, retryWhen } from 'rxjs/operators';
 
@@ -132,7 +132,7 @@ export class AngularHttpService implements IHttpService {
             catchError(error => {
                 if (options && options.logErrorToConsole) {
                     console.warn(
-                        `Kentico Cloud SDK encountered an error posting data: `,
+                        `Kentico Kontent SDK encountered an error posting data: `,
                         error
                     );
                 }

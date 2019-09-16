@@ -1,23 +1,23 @@
 # Kentico Cloud Delivery SDK
 
-[![npm version](https://badge.fury.io/js/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
-[![Build Status](https://api.travis-ci.com/Kentico/kentico-cloud-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-cloud-js)
-[![CircleCI](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-cloud-js/tree/master)
-[![npm](https://img.shields.io/npm/dt/kentico-cloud-delivery.svg)](https://www.npmjs.com/package/kentico-cloud-delivery)
+[![npm version](https://badge.fury.io/js/@kentico/kontent-delivery.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)
+[![Build Status](https://api.travis-ci.com/Kentico/kentico-kontent-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-kontent-js)
+[![CircleCI](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master)
+[![npm](https://img.shields.io/npm/dt/@kentico/kontent-delivery.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)
 [![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
-[![Known Vulnerabilities](https://snyk.io/test/github/Kentico/kentico-cloud-js/badge.svg)](https://snyk.io/test/github/kentico/kentico-cloud-js)
-[![GitHub license](https://img.shields.io/github/license/Kentico/kentico-cloud-js.svg)](https://github.com/Kentico/kentico-cloud-js)
-![Gzip browser bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
-[![](https://data.jsdelivr.com/v1/package/npm/kentico-cloud-delivery/badge)](https://www.jsdelivr.com/package/npm/kentico-cloud-delivery)
+[![Known Vulnerabilities](https://snyk.io/test/github/Kentico/kentico-kontent-js/badge.svg)](https://snyk.io/test/github/kentico/kentico-kontent-js)
+[![GitHub license](https://img.shields.io/github/license/Kentico/kentico-kontent-js.svg)](https://github.com/Kentico/kentico-kontent-js)
+![Gzip browser bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js?compression=gzip)
+[![](https://data.jsdelivr.com/v1/package/npm/@kentico/kontent-delivery/badge)](https://www.jsdelivr.com/package/npm/kentico-cloud-delivery)
 
-A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
+A client library for retrieving content from [Kentico Cloud](https://kontent.ai/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
 
 |  Resources 
 |---|
-|  [Full Documentation](https://github.com/Kentico/kentico-cloud-js/tree/master/packages/delivery/DOCS.md) |
-|  [Example apps](https://github.com/Kentico/kentico-cloud-js/tree/master/examples) | 
-|  [API Reference](https://kentico.github.io/kentico-cloud-js/delivery/) | 
-|  [Upgrade guide](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/UPGRADE.md) | 
+|  [Full Documentation](https://github.com/Kentico/kentico-kontent-js/tree/master/packages/delivery/DOCS.md) |
+|  [Example apps](https://github.com/Kentico/kentico-kontent-js/tree/master/examples) | 
+|  [API Reference](https://kentico.github.io/kentico-kontent-js/delivery/) | 
+|  [Upgrade guide](https://github.com/Kentico/kentico-kontent-js/blob/master/packages/delivery/UPGRADE.md) | 
 
 
 ## Installation
@@ -33,38 +33,38 @@ npm i kentico-cloud-delivery --save
 
 ### UMD Bundles
 
-When using UMD bundle and including this library in `script` tag on your `html` page, you can find it under the `kenticoCloudDelivery` global variable.
+When using UMD bundle and including this library in `script` tag on your `html` page, you can find it under the `kontentDelivery` global variable.
 
 Bundles are distributed in `_bundles` folder and there are several options that you can choose from. 
 
-- Use `kentico-cloud-delivery-sdk.browser.legacy.umd.min` if you need to support legacy browsers (IE9, IE10, IE11)
-- Use `kentico-cloud-delivery-sdk.browser.umd.min` if you intend to use SDK only in browsers (strips code specific to Node.js = smaller bundle)
-- Use `kentico-cloud-delivery-sdk.umd.min` if you need to use it in Node.js
+- Use `kontent-delivery.browser.legacy.umd.min` if you need to support legacy browsers (IE9, IE10, IE11)
+- Use `kontent-delivery.browser.umd.min` if you intend to use SDK only in browsers (strips code specific to Node.js = smaller bundle)
+- Use `kontent-delivery.umd.min` if you need to use it in Node.js
 
 #### CDN
 
-##### kentico-cloud-delivery-sdk.browser.legacy.umd.min
+##### kontent-delivery.browser.legacy.umd.min
 
-![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.legacy.umd.min.js?compression=gzip)
-
-```
-https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.legacy.umd.min.js
-```
-
-##### kentico-cloud-delivery-sdk.browser.umd.min
-
-![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
+![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.browser.legacy.umd.min.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.legacy.umd.min.js
 ```
 
-##### kentico-cloud-delivery-sdk.umd.min
+##### kontent-delivery.browser.umd.min
 
-![Gzip full bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js?compression=gzip)
+![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.browser.umd.min.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js
+```
+
+##### kontent-delivery.umd.min
+
+![Gzip full bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.umd.min.js?compression=gzip)
+
+```
+https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.umd.min.js
 ```
 
 ## TypeScript & ES6
@@ -75,7 +75,7 @@ import {
     Elements,
     TypeResolver,
     DeliveryClient
-    } from 'kentico-cloud-delivery';
+    } from '@kentico/kontent-delivery';
 
 /**
  * This is optional, but it is considered a best practice to define your models
@@ -129,18 +129,18 @@ deliveryClient.items<ContentItem>()
 ## JavaScript & CommonJS
 
 ```javascript
-const KenticoCloud = require('kentico-cloud-delivery');
+const KontentDelivery = require('@kentico/kontent-delivery');
 
-class Movie extends KenticoCloud.ContentItem {
+class Movie extends KontentDelivery.ContentItem {
     constructor() {
         super();
     }
 }
 
-const deliveryClient = new KenticoCloud.DeliveryClient({
+const deliveryClient = new KontentDelivery.DeliveryClient({
     projectId: 'xxx',
     typeResolvers: [
-        new KenticoCloud.TypeResolver('movie', () => new Movie()),
+        new KontentDelivery.TypeResolver('movie', () => new Movie()),
     ]
 });
 
@@ -182,9 +182,9 @@ deliveryClient.items()
 
 Bundles are distributed in `_bundles` folder and there are several options that you can choose from. 
 
-- Use `kentico-cloud-delivery-sdk.browser.legacy.umd.min` if you need to support legacy browsers (IE9, IE10, IE11)
-- Use `kentico-cloud-delivery-sdk.browser.umd.min` if you intend to use SDK only in browsers (strips code specific to Node.js = smaller bundle)
-- Use `kentico-cloud-delivery-sdk.umd.min` if you need to use it in Node.js
+- Use `kontent-delivery.browser.legacy.umd.min` if you need to support legacy browsers (IE9, IE10, IE11)
+- Use `kontent-delivery.browser.umd.min` if you intend to use SDK only in browsers (strips code specific to Node.js = smaller bundle)
+- Use `kontent-delivery.umd.min` if you need to use it in Node.js
 
 ```html
 <!DOCTYPE html>
@@ -192,12 +192,12 @@ Bundles are distributed in `_bundles` folder and there are several options that 
 <head>
     <title>Kentico Cloud SDK - Html sample</title>
     <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
 </head>
 <body>
 
 	<script type="text/javascript">
-		var Kc = window['kenticoCloudDelivery'];
+		var Kc = window['kontentDelivery'];
 
 		var deliveryClient = new Kc.DeliveryClient({
 			projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
@@ -229,4 +229,4 @@ Note: You need to have `Chrome` installed in order to run tests via Karma.
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
 
-![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-cloud-js/master/packages/delivery?pixel)
+![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-kontent-js/master/packages/delivery?pixel)

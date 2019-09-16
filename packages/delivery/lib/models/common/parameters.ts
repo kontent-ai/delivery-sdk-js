@@ -1,4 +1,4 @@
-import { IQueryParameter } from 'kentico-cloud-core';
+import { IQueryParameter } from '@kentico/kontent-core';
 
 import { SortOrder } from './sort-order.enum';
 

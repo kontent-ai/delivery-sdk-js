@@ -1,12 +1,12 @@
-import { IHeader } from 'kentico-cloud-core';
+import { IHeader } from '@kentico/kontent-core';
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ICloudResponse, ITaxonomyQueryConfig, TaxonomyResponses } from '../../models/';
+import { IKontentResponse, ITaxonomyQueryConfig, TaxonomyResponses } from '../../models/';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export abstract class BaseTaxonomyQuery<TResponse extends ICloudResponse> extends BaseQuery<TResponse> {
+export abstract class BaseTaxonomyQuery<TResponse extends IKontentResponse> extends BaseQuery<TResponse> {
 
     /**
      * Taxonomies endpoint URL action
