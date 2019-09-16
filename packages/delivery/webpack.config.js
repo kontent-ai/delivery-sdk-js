@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const libName = 'kentico-cloud-delivery-sdk';
+const libName = 'kontent-delivery';
 
 module.exports = (env, argv) => ({
     entry: {
@@ -15,7 +15,7 @@ module.exports = (env, argv) => ({
         filename: libName + (argv.mode === 'production' ? '.umd.min.js' : '.umd.js'),
         libraryTarget: 'umd',
         umdNamedDefine: true,
-        library: 'kenticoCloudDelivery',
+        library: 'kontentDelivery',
     },
     externals: [{
         'rxjs': {

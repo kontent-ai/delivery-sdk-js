@@ -80,7 +80,7 @@ export namespace ElementModels {
     export class MultipleChoiceOption {
 
         /**
-        * Represents Kentico Cloud's multiple choice option
+        * Represents Kentico Kontent's multiple choice option
         * @constructor
         * @param {string} name - Name of the option
         * @param {string} codename - Codename of the option

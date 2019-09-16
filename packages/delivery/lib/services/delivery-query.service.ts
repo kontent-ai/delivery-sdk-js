@@ -1,4 +1,4 @@
-import { IHttpService } from 'kentico-cloud-core';
+import { IHttpService } from '@kentico/kontent-core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

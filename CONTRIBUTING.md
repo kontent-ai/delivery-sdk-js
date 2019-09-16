@@ -15,7 +15,7 @@ Sorry to hear that. Just log a new [GitHub issue](../../issues) and someone will
 <img align="right" width="100" height="100" src="https://cdn.sstatic.net/Sites/stackoverflow/company/img/logos/so/so-icon.svg">
 
 To get help with coding and structuring your projects, use [StackOverflow](https://stackoverflow.com/) to ask questions with one of the following tags:
-- [`kentico-cloud`](https://stackoverflow.com/questions/tagged/kentico-cloud)
+- [`kentico-kontent`](https://stackoverflow.com/questions/tagged/kentico-kontent)
 - [`kentico`](https://stackoverflow.com/questions/tagged/kentico)
 
 Our team members and the community monitor these channels on a regular basis.

@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const libName = 'kentico-cloud-core-sdk';
+const libName = 'kontent-core';
 
 module.exports = (env, argv) => ({
     entry: {
@@ -31,7 +31,7 @@ module.exports = (env, argv) => ({
         filename: libName + (argv.mode === 'production' ? '.umd.min.js' : '.umd.js'),
         libraryTarget: 'umd',
         umdNamedDefine: true,
-        library: 'kenticoCloudCore'
+        library: 'kontentCore'
     },
     devtool: 'source-map',
     module: {

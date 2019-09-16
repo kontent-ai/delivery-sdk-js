@@ -41,7 +41,7 @@ export namespace Elements {
         public value: string;
 
         /**
-         * Represents text element of Kentico Cloud item
+         * Represents text element of Kentico Kontent item
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          */
         constructor(elementWrapper: ElementModels.IElementWrapper) {
@@ -65,7 +65,7 @@ export namespace Elements {
         public itemCodenames: string[];
 
         /**
-         * Represents text element of Kentico Cloud item
+         * Represents text element of Kentico Kontent item
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          * @param {IContentItem} mappedLinkedItems - Array of mapped linked items
          */
@@ -87,7 +87,7 @@ export namespace Elements {
         public value: ElementModels.MultipleChoiceOption[] = [];
 
         /**
-         * Represents multiple choice element of Kentico Cloud item
+         * Represents multiple choice element of Kentico Kontent item
          * @constructor
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          */
@@ -120,7 +120,7 @@ export namespace Elements {
         public type: ElementType = ElementType.DateTime;
 
         /**
-         * Represents date time element of Kentico Cloud item
+         * Represents date time element of Kentico Kontent item
          * @constructor
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          */
@@ -174,7 +174,7 @@ export namespace Elements {
         public linkedItemCodenames: string[];
 
         /**
-         * Represents rich text element of Kentico Cloud item
+         * Represents rich text element of Kentico Kontent item
          * @constructor
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          * @param {string[]} linkedItemCodenames - Array of linked codenames
@@ -228,7 +228,7 @@ export namespace Elements {
         public value: number | null;
 
         /**
-         * Represents number element of Kentico Cloud item
+         * Represents number element of Kentico Kontent item
          * @constructor
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          */
@@ -254,7 +254,7 @@ export namespace Elements {
         public value: ElementModels.AssetModel[] = [];
 
         /**
-         * Represents asset element of Kentico Cloud item
+         * Represents asset element of Kentico Kontent item
          * @constructor
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          */
@@ -280,7 +280,7 @@ export namespace Elements {
         public value: string;
 
         /**
-         * Represents URL slug element of Kentico Cloud item
+         * Represents URL slug element of Kentico Kontent item
          * @constructor
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          */
@@ -325,7 +325,7 @@ export namespace Elements {
         public taxonomyGroup: string;
 
         /**
-         * Represents number element of Kentico Cloud item
+         * Represents number element of Kentico Kontent item
          * @constructor
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          */

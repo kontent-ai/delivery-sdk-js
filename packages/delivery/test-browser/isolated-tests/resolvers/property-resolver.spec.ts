@@ -1,6 +1,6 @@
 import { ContentItem, ElementDecorators, Elements, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
 import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
-import { HttpService } from 'kentico-cloud-core';
+import { HttpService } from '@kentico/kontent-core';
 
 class MockMovie extends ContentItem {
     public titleTest!: Elements.TextElement;

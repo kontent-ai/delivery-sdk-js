@@ -1,9 +1,9 @@
-import { ICloudResponse, ICloudResponseDebug, Pagination } from '../common';
+import { IKontentResponse, IKontentResponseDebug, Pagination } from '../common';
 import { TaxonomyGroup } from './taxonomy-models';
 
 export namespace TaxonomyResponses {
 
-    export class ViewTaxonomyGroupResponse implements ICloudResponse {
+    export class ViewTaxonomyGroupResponse implements IKontentResponse {
         constructor(
             /**
              * Taxonomy group
@@ -13,12 +13,12 @@ export namespace TaxonomyResponses {
             /**
              * Debug information
              */
-            public debug: ICloudResponseDebug
+            public debug: IKontentResponseDebug
         ) {
         }
     }
 
-    export class ListTaxonomyGroupsResponse implements ICloudResponse {
+    export class ListTaxonomyGroupsResponse implements IKontentResponse {
         constructor(
             /**
              * Taxonomies
@@ -33,7 +33,7 @@ export namespace TaxonomyResponses {
             /**
              * Debug information
              */
-            public debug: ICloudResponseDebug
+            public debug: IKontentResponseDebug
         ) {
         }
     }

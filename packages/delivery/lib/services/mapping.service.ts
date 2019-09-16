@@ -1,11 +1,11 @@
-import { IBaseResponse } from 'kentico-cloud-core';
+import { IBaseResponse } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
 import { ElementContracts, ItemContracts, TaxonomyContracts, TypeContracts } from '../data-contracts';
 import { GenericElementMapper, ItemMapper, TaxonomyMapper, TypeMapper } from '../mappers';
 import {
     ElementResponses,
-    ICloudResponseDebug,
+    IKontentResponseDebug,
     IContentItem,
     IItemQueryConfig,
     ItemResponses,
@@ -46,7 +46,7 @@ export interface IMappingService {
         response: IBaseResponse<ElementContracts.IViewContentTypeElementContract>
     ): ElementResponses.ViewContentTypeElementResponse;
 
-    mapResponseDebug(response: IBaseResponse<any>): ICloudResponseDebug;
+    mapResponseDebug(response: IBaseResponse<any>): IKontentResponseDebug;
 }
 
 export class MappingService implements IMappingService {
@@ -229,7 +229,7 @@ export class MappingService implements IMappingService {
         );
     }
 
-    mapResponseDebug(response: IBaseResponse<any>): ICloudResponseDebug {
+    mapResponseDebug(response: IBaseResponse<any>): IKontentResponseDebug {
         if (!response) {
             throw Error(`Cannot map 'debug' model from the response`);
         }

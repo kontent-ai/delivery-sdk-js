@@ -1,6 +1,6 @@
 import { of, throwError } from 'rxjs';
 import { catchError, retryWhen, switchMap } from 'rxjs/operators';
-import { retryStrategy, retryService } from 'kentico-cloud-core';
+import { retryStrategy, retryService } from '@kentico/kontent-core';
 
 describe('Retry - isolated - retry', () => {
     const retryAttempts = 3;

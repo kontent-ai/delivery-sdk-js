@@ -1,0 +1,62 @@
+{
+    "items": [
+        {
+            "id": "a815faa5-009e-489b-b8bb-a7f3dda0e047",
+            "name": "Office in Australia",
+            "codename": "office_in_australia",
+            "type": {
+                "id": "e097306b-3893-4a42-9973-2525fad14d66"
+            },
+            "sitemap_locations": [
+                {
+                    "id": "aac5fdf9-5179-f788-8225-3bcee3093aa4"
+                },
+                {
+                    "id": "22110d88-4b92-32a0-db61-9b8dbe401920"
+                }
+            ],
+            "last_modified": "2016-10-20T10:50:51.0110853Z"
+        },
+        {
+            "id": "69f5c2f3-7efd-46cb-9adc-4fd0200f81cc",
+            "name": "Melbourne",
+            "codename": "melbourne",
+            "type": {
+                "id": "fe41ae5a-5fe2-420a-8560-f7d6d3533dc2"
+            },
+            "sitemap_locations": [
+                {
+                    "id": "a60fe91c-88ea-6990-fe3b-cf8f8504cd33"
+                },
+                {
+                    "id": "98c9e0f1-b6f7-510d-522a-0d39fc62aa1a"
+                }
+            ],
+            "last_modified": "2016-09-01T08:36:30.1564913Z"
+        },
+        {
+            "id": "e844a6aa-4dc4-464f-8ae9-f9f66cc6ab61",
+            "name": "Amsterdam",
+            "codename": "amsterdam",
+            "type": {
+                "id": "fe41ae5a-5fe2-420a-8560-f7d6d3533dc2"
+            },
+            "sitemap_locations": [
+                {
+                    "id": "ef86a740-9e4c-0b33-4275-ae78558e71a7"
+                },
+                {
+                    "id": "a65962ef-fccc-2112-956b-e831bb86dec0"
+                },
+                {
+                    "id": "a60fe91c-88ea-6990-fe3b-cf8f8504cd33"
+                }
+            ],
+            "last_modified": "2016-09-01T08:25:04.4666023Z"
+        }
+    ],
+    "pagination": {
+        "continuation_token": "MTAw",
+        "next_page": "https://manage.kontent.ai/v2/projects/975bf280-fd91-488c-994c-2f04416e5ee3/items?continuationToken=MTAw"
+    }
+}

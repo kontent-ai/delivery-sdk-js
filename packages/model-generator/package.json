@@ -1,13 +1,13 @@
 {
-  "name": "kentico-cloud-model-generator-utility",
-  "version": "2.1.0",
-  "description": "This utility generates strongly-typed models based on Content Types in a Kentico Cloud project. The models are supposed to be used together with the Kentico Cloud Typescript SDK.",
+  "name": "@kentico/kontent-model-generator",
+  "version": "3.0.0",
+  "description": "This utility generates strongly-typed models based on Content Types in a Kentico Kontent project. The models are supposed to be used together with the Kentico Kontent Typescript SDK.",
   "bin": {
-    "kc-generate": "./_commonjs/src/app.js"
+    "kontent-generate": "./_commonjs/src/app.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Kentico/kentico-cloud-js/tree/master/packages/model-generator"
+    "url": "https://github.com/Kentico/kentico-kontent-js/tree/master/packages/model-generator"
   },
   "author": "richard sustek",
   "main": "./_commonjs/src/app.js",
@@ -19,7 +19,7 @@
     "publish:beta": "npm publish --tag=next",
     "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs",
     "build:all": "npm run build:commonjs",
-    "test:all": "npm run build:all",
+    "test:all": "npm run build:all && npm run test:generate-models",
     "test:travis": "npm run build:all",
     "test:generate-models": "npm run build:commonjs && cd test && node ../_commonjs/src/app --projectId=da5abe9f-fdad-4168-97cd-b3464be2ccb9 --moduleResolution=ES2015 --codeType=typescript --strictPropertyInitalization=true",
     "ts-lint-local": "./node_modules/.bin/tslint",
@@ -28,14 +28,16 @@
   },
   "keywords": [
     "Kentico",
-    "Kentico Cloud",
-    "Kentico Utility",
+    "Kontent",
+    "Kentico Kontent",
+    "Kentico utility",
     "Kentico generator",
-    "Kentico models"
+    "Kentico models",
+    "Kontent model"
   ],
   "license": "MIT",
   "dependencies": {
-    "kentico-cloud-delivery": "6.0.0",
+    "@kentico/kontent-delivery": "7.0.0",
     "rxjs": "6.5.2",
     "yargs": "13.3.0"
   },

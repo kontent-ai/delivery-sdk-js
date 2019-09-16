@@ -1,4 +1,4 @@
-import { retryService } from 'kentico-cloud-core';
+import { retryService } from '@kentico/kontent-core';
 
 import { Context, setup } from '../../setup';
 

@@ -1,16 +1,16 @@
 const assert = require('assert');
-const KenticoCloud = require('../../_commonjs');
+const KontentDelivery = require('../../_commonjs');
 
-class Article extends KenticoCloud.ContentItem {
+class Article extends KontentDelivery.ContentItem {
     constructor() {
         super();
     }
 }
 
-const deliveryClient = new KenticoCloud.DeliveryClient({
+const deliveryClient = new KontentDelivery.DeliveryClient({
     projectId: 'e391c776-9d1e-4e1a-8a5a-1c327c2586b6',
     typeResolvers: [
-        new KenticoCloud.TypeResolver('article', () => new Article())
+        new KontentDelivery.TypeResolver('article', () => new Article())
     ]
 });
 
@@ -22,7 +22,7 @@ describe('#List content items', () => {
         deliveryClient.items()
             .equalsFilter('system.type', 'article')
             .elementsParameter(['title', 'summary', 'post_date', 'teaser_image'])
-            .orderParameter('elements.post_date', KenticoCloud.SortOrder.desc)
+            .orderParameter('elements.post_date', KontentDelivery.SortOrder.desc)
             .limitParameter(3)
             .toObservable()
             .subscribe(response => {
@@ -33,7 +33,7 @@ describe('#List content items', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.ItemResponses.ListContentItemsResponse));
+        assert.ok((result instanceof KontentDelivery.ItemResponses.ListContentItemsResponse));
     });
 
     it('Response should have > 0 && < 4 items', () => {

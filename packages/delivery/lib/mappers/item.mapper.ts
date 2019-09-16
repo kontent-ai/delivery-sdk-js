@@ -30,8 +30,8 @@ export class ItemMapper {
     }
 
     /**
-     * Maps single item to its proper strongly typed model from the given Cloud response
-     * @param response Cloud response used to map the item
+     * Maps single item to its proper strongly typed model from the given Kontent response
+     * @param response Kontent response used to map the item
      * @param queryConfig Query configuration
      */
     mapSingleItem<TItem extends IContentItem = IContentItem>(response: ItemContracts.IViewContentItemContract, queryConfig: IItemQueryConfig): MapItemResult<TItem> {
@@ -46,8 +46,8 @@ export class ItemMapper {
     }
 
     /**
-    * Maps multiple items to their strongly typed model from the given Cloud response
-    * @param response Cloud response used to map the item
+    * Maps multiple items to their strongly typed model from the given Kontent response
+    * @param response Kontent response used to map the item
     * @param queryConfig Query configuration
     */
     mapMultipleItems<TItem extends IContentItem = IContentItem>(response: ItemContracts.IListContentItemsContract, queryConfig: IItemQueryConfig): MapItemsResult<TItem> {

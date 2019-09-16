@@ -3,7 +3,7 @@ import { Context, Movie, setup } from '../../setup';
 
 describe('Custom URL', () => {
 
-  const itemsUrl: string = 'https://deliver.kenticocloud.com/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items?system.type=movie';
+  const itemsUrl: string = 'https://deliver.kontent.ai/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items?system.type=movie';
 
   const context = new Context();
   setup(context);

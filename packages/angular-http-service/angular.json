@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "kentico-cloud-angular-http-service": {
+    "kontent-angular-http-service": {
       "root": ".",
       "sourceRoot": ".",
       "projectType": "library",
@@ -44,5 +44,5 @@
       }
     }
   },
-  "defaultProject": "kentico-cloud-angular-http-service"
+  "defaultProject": "kontent-angular-http-service"
 }

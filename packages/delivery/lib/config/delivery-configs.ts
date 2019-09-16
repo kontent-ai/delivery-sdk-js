@@ -1,11 +1,11 @@
-import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService } from 'kentico-cloud-core';
+import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService } from '@kentico/kontent-core';
 
 import { ElementResolver } from '../elements';
 import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, TypeResolver } from '../models';
 
 export interface IDeliveryClientProxyConfig {
     /**
-     * Base url used for preview reqeusts. Defaults to 'preview-deliver.kenticocloud.com'
+     * Base url used for preview reqeusts. Defaults to 'preview-deliver.kontent.ai'
      */
     basePreviewUrl?: string;
 
@@ -17,7 +17,7 @@ export interface IDeliveryClientProxyConfig {
     advancedProxyUrlResolver?: (data: IProxyUrlData) => string;
 
     /**
-    * Base url used for all requests. Defaults to 'deliver.kenticocloud.com'
+    * Base url used for all requests. Defaults to 'deliver.kontent.ai'
     */
     baseUrl?: string;
 }
@@ -25,7 +25,7 @@ export interface IDeliveryClientProxyConfig {
 export interface IDeliveryClientConfig {
 
     /**
-     * ProjectId of your Kentico Cloud project
+     * ProjectId of your Kentico Kontent project
      */
     projectId: string;
 

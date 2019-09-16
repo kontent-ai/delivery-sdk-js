@@ -1,7 +1,7 @@
 import { DeliveryClient, IDeliveryClientConfig, TypeResolver, IQueryConfig } from '../../lib';
 import { IRichTextHtmlParser } from '../../lib/parser/parse-models';
 import { getParserAdapter } from '../../lib/parser/parser-adapter';
-import { IHeader } from 'kentico-cloud-core';
+import { IHeader } from '@kentico/kontent-core';
 
 export class Context {
 

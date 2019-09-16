@@ -1,14 +1,14 @@
 {
-	"name": "kentico-cloud-main",
+	"name": "kentico-kontent-js",
 	"private": true,
 	"author": "richard sustek",
-	"description": "Kentico Cloud SDKs",
+	"description": "Kentico Kontent SDKs",
 	"engines": {
 		"node": ">= 8"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Enngage/kentico-cloud-js"
+		"url": "https://github.com/Enngage/kentico-kontent-js"
 	},
 	"scripts": {
 		"prepare": "lerna bootstrap && npm run lerna:build:all && lerna bootstrap",

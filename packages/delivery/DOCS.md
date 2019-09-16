@@ -1,6 +1,6 @@
 ## SDK Documentation
 
-A client library for retrieving content from [Kentico Cloud](https://kenticocloud.com/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
+A client library for retrieving content from [Kentico Kontent](https://kontent.ai/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
 
 ## Installation
 
@@ -10,47 +10,47 @@ You can install this library using `npm` or you can use global CDNs such as `unp
 
 ```
 npm i rxjs --save
-npm i kentico-cloud-delivery --save
+npm i @kentico/kontent-delivery --save
 ```
 
 ## Upgrade
 
-See our [upgrade guide](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/UPGRADE.md) if you are upgrading from previous versions. Currently, the latest major upgrade is from version `5.x.y` to `6.0.0`
+See our [upgrade guide](https://github.com/Kentico/kentico-kontent-js/blob/master/packages/delivery/UPGRADE.md) if you are upgrading from previous versions. Currently, the latest major upgrade is from version `5.x.y` to `6.0.0`
 
 ### UMD Bundles
 
-When using UMD bundle and including this library in `script` tag on your `html` page, you can find it under the `kenticoCloudDelivery` global variable.
+When using UMD bundle and including this library in `script` tag on your `html` page, you can find it under the `kontentDelivery` global variable.
 
 Bundles are distributed in `_bundles` folder and there are several options that you can choose from. 
 
-- Use `kentico-cloud-delivery-sdk.browser.legacy.umd.min` if you need to support legacy browsers (IE9, IE10, IE11)
-- Use `kentico-cloud-delivery-sdk.browser.umd.min` if you intend to use SDK only in browsers (strips code specific to Node.js = smaller bundle)
-- Use `kentico-cloud-delivery-sdk.umd.min` if you need to use it in Node.js
+- Use `kontent-delivery.browser.legacy.umd.min` if you need to support legacy browsers (IE9, IE10, IE11)
+- Use `kontent-delivery.browser.umd.min` if you intend to use SDK only in browsers (strips code specific to Node.js = smaller bundle)
+- Use `kontent-delivery.umd.min` if you need to use it in Node.js
 
 #### CDN
 
-##### kentico-cloud-delivery-sdk.browser.legacy.umd.min
+##### kontent-delivery.browser.legacy.umd.min
 
-![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.legacy.umd.min.js?compression=gzip)
-
-```
-https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.legacy.umd.min.js
-```
-
-##### kentico-cloud-delivery-sdk.browser.umd.min
-
-![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js?compression=gzip)
+![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.browser.legacy.umd.min.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js
+https://cdn.jsdelivr.net/npm/kentico-kontent-delivery/_bundles/@kentico/kontent-delivery.browser.legacy.umd.min.js
 ```
 
-##### kentico-cloud-delivery-sdk.umd.min
+##### kontent-delivery.browser.umd.min
 
-![Gzip full bundle](https://img.badgesize.io/https://unpkg.com/kentico-cloud-delivery@latest/_bundles/kentico-cloud-delivery-sdk.umd.min.js?compression=gzip)
+![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.browser.umd.min.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.umd.min.js
+https://cdn.jsdelivr.net/npm/kentico-kontent-delivery/_bundles/@kentico/kontent-delivery.browser.umd.min.js
+```
+
+##### kontent-delivery.umd.min
+
+![Gzip full bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.umd.min.js?compression=gzip)
+
+```
+https://cdn.jsdelivr.net/npm/kentico-kontent-delivery/_bundles/@kentico/kontent-delivery.umd.min.js
 ```
 
 ## TypeScript & ES6
@@ -61,7 +61,7 @@ import {
     Elements,
     TypeResolver,
     DeliveryClient
-    } from 'kentico-cloud-delivery';
+    } from '@kentico/kontent-delivery';
 
 /**
  * This is optional, but it is considered a best practice to define your models
@@ -79,7 +79,7 @@ const deliveryClient = new DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Cloud as Promise */
+/** Getting items from Kentico Kontent as Promise */
 deliveryClient.items<Movie>()
     .type('movie')
     .toPromise()
@@ -88,7 +88,7 @@ deliveryClient.items<Movie>()
     )
 });
 
-/** Getting items from Kentico Cloud as Observable */
+/** Getting items from Kentico Kontent as Observable */
 deliveryClient.items<Movie>()
     .type('movie')
     .toObservable()
@@ -115,22 +115,22 @@ deliveryClient.items<ContentItem>()
 ## JavaScript & CommonJS
 
 ```javascript
-const KenticoCloud = require('kentico-cloud-delivery');
+const KenticoContent = require('@kentico/kontent-delivery');
 
-class Movie extends KenticoCloud.ContentItem {
+class Movie extends KenticoContent.ContentItem {
     constructor() {
         super();
     }
 }
 
-const deliveryClient = new KenticoCloud.DeliveryClient({
+const deliveryClient = new KenticoContent.DeliveryClient({
     projectId: 'xxx',
     typeResolvers: [
-        new KenticoCloud.TypeResolver('movie', () => new Movie()),
+        new KenticoContent.TypeResolver('movie', () => new Movie()),
     ]
 });
 
-/** Getting items from Kentico Cloud as Promise */
+/** Getting items from Kentico Kontent as Promise */
 deliveryClient.items()
     .type('movie')
     .toPromise()
@@ -139,7 +139,7 @@ deliveryClient.items()
     )
 });
 
-/** Getting items from Kentico Cloud as Observable */
+/** Getting items from Kentico Kontent as Observable */
 const subscription = deliveryClient.items()
     .type('movie')
     .toObservable()
@@ -153,7 +153,7 @@ Don't forget to unsubscribe from your Observables. You can use 'takeUntil' or 'u
 subscription.unsubscribe();
 
 /**
- * Fetch all items of 'movie' type and given parameters from Kentico Cloud.
+ * Fetch all items of 'movie' type and given parameters from Kentico Kontent.
  * Important note: SDK will convert items to your type if you registered it. For example,
  * in this case the objects will be of 'Movie' type we defined above. 
  * If you don't use custom models, 'ContentItem' object instances will be returned.
@@ -170,14 +170,14 @@ deliveryClient.items()
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kentico Cloud SDK - Html sample</title>
+    <title>Kentico Kontent SDK - Html sample</title>
     <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/kentico-cloud-delivery/_bundles/kentico-cloud-delivery-sdk.browser.umd.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
 </head>
 <body>
 
 	<script type="text/javascript">
-		var Kc = window['kenticoCloudDelivery'];
+		var Kc = window['kontentDelivery'];
 
 		var deliveryClient = new Kc.DeliveryClient({
 			projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
@@ -239,7 +239,7 @@ deliveryClient.item<Movie>('warrior')
 Every content type needs to have a corresponding class defined in both JavaScript & TypeScript. Each model class needs to extend the `ContentItem` class and each element needs to use one of the supported elements. For example, if you define a Text element in your content type, you need to use a `TextElement` in your model:
 
 ```typescript
-import { ContentItem, Elements} from 'kentico-cloud-delivery';
+import { ContentItem, Elements} from '@kentico/kontent-delivery';
 
 export class Movie extends ContentItem {
   public title: Elements.TextElement;
@@ -269,7 +269,7 @@ You can register `ElementResolver` to map Custom elements into dedicated element
 You can create `ColorElement` class extending from `CustomElement` (or class that implements `IElement` interface) and extract color values into dedicated properties (red, green, blue) so that they are easily accessible.
 
 ```typescript
-import { ElementModels, Elements } from 'kentico-cloud-delivery';
+import { ElementModels, Elements } from '@kentico/kontent-delivery';
 
 class ColorElement extends Elements.CustomElement {
 
@@ -311,12 +311,12 @@ Note that Custom elements are only supported in the latest version of the JavaSc
 
 #### Don't want to waste time creating models manually? 
 
-Use the [Kentico Cloud model generator utility](https://www.npmjs.com/package/kentico-cloud-model-generator-utility) to automatically generate TypeScript or JavaScript models based on the content types in your Kentico Cloud project
+Use the [Kontent Model Generator](https://www.npmjs.com/package/@kentico/kontent-model-generator) to automatically generate TypeScript or JavaScript models based on the content types in your Kentico Kontent project
 
 ### Initializing DeliveryClient
 
 ```typescript
-import { DeliveryClient, TypeResolver } from 'kentico-cloud-delivery';
+import { DeliveryClient, TypeResolver } from '@kentico/kontent-delivery';
 import { Movie } from './movie'; // use your own path to movie class model
 
 const deliveryClient = new DeliveryClient(
@@ -338,7 +338,7 @@ deliveryClient.items<Movie>()
 
 ### Using query parameters
 
-You can combine query parameters. For more information about parameters, see the [Kentico Cloud API reference](https://developer.kenticocloud.com/v1/reference#listing-response).
+You can combine query parameters. For more information about parameters, see the [Kentico Kontent API reference](https://developer.kenticocloud.com/v1/reference#listing-response).
 
 Supported query parameters: `depthParameter`, `elementsParameter`, `limitParameter`, `orderParameter`, `skipParameter` and `languageParameter`.
 
@@ -353,7 +353,7 @@ deliveryClient.items<Movie>()
 
 ### Filtering
 
-This example returns all **Movie** content items whose **title** element is equal to **Warrior**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Cloud API reference for more general examples.
+This example returns all **Movie** content items whose **title** element is equal to **Warrior**. Filters are also considered query parameters and can be combined. See [Content filtering](https://developer.kenticocloud.com/v1/reference#content-filtering) in the Kentico Kontent API reference for more general examples.
 
 Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter``.
 
@@ -415,7 +415,7 @@ When you have an URL (i.e. for `next page` in paging, for testing purposes or ju
 
 ```typescript
 deliveryClient.items<Movie>()
-  .withUrl('https://deliver.kenticocloud.com/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items?system.type=movie')
+  .withUrl('https://deliver.kontent.ai/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items?system.type=movie')
   .toObservable()
   .subscribe(response => console.log(response));
 ```
@@ -436,7 +436,7 @@ deliveryClient.items<Movie>()
 You can specify the [language of items](https://developer.kenticocloud.com/v1/docs/localization) with `languageParameter` of a particular query. You can also specify default language that will be used if `languageParameter` is not used during the initialization of delivery client.
 
 ```typescript
-import { DeliveryClient } from 'kentico-cloud-delivery';
+import { DeliveryClient } from '@kentico/kontent-delivery';
 import { Movie } from './movie'; // use your own path to movie class model
 
 var deliveryClient = new DeliveryClient({
@@ -458,10 +458,10 @@ deliveryClient.item<Movie>('warrior')
 
 ### Property binding in models
 
-Kentico Cloud returns all element names in **lowercase** or with **underscores**. You can bind original element names to your own javascript properties with `ElementDecorators`. The following example binds `first_name` element name to `firstName` javascript property.
+Kentico Kontent returns all element names in **lowercase** or with **underscores**. You can bind original element names to your own javascript properties with `ElementDecorators`. The following example binds `first_name` element name to `firstName` javascript property.
 
 ```typescript
-import { ContentItem, Elements, ElementDecorators  } from 'kentico-cloud-delivery';
+import { ContentItem, Elements, ElementDecorators  } from '@kentico/kontent-delivery';
 
 export class Actor extends ContentItem {
 
@@ -490,7 +490,7 @@ You can enable the preview mode either globally (when initializing the DeliveryC
 #### Enabling preview mode globally
 
 ```typescript
-import { DeliveryClient } from 'kentico-cloud-delivery';
+import { DeliveryClient } from '@kentico/kontent-delivery';
 
 const deliveryClient = new DeliveryClient({
   projectId = 'xxx';
@@ -518,7 +518,7 @@ deliveryClient.items<Movie>()
 **Important:** Using secured delivery API is recommend only in cases where the query is not run on a client because otherwise you will expose the API Key publicly. For example, using secured delivery API in a node.js is ok, but using it in a web application is not because anyone could see the key.
 
 ```typescript
-import { DeliveryClient } from 'kentico-cloud-delivery';
+import { DeliveryClient } from '@kentico/kontent-delivery';
 
 const deliveryClient = new DeliveryClient({
   projectId = 'xxx';
@@ -546,7 +546,7 @@ deliveryClient.items<Movie>()
 The `ImageUrlBuilder` exposes methods for applying image transformations on the Asset URL.
 
 ```typescript
-import { ImageUrlBuilder, ImageCompressionEnum } from 'kentico-cloud-delivery';
+import { ImageUrlBuilder, ImageCompressionEnum } from '@kentico/kontent-delivery';
 
 const assetUrl = `https://assets.kenticocloud.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/22504ba8-2075-48fa-9d4f-8fce3de1754a/warrior.jpg`
 
@@ -573,7 +573,7 @@ To access the resolved URL, call `resolveUrl` method.
 Note that when resolving links in `RichTextElement`, you resolve all of them with a single link resolver. For this reason, it is recommended that you specify the `type` of the content type you want to resolve. Also, if a link is inside RichTextElement, you may access the original link text using the `context` parameter.
 
 ```typescript
-import { ContentItem, Elements } from 'kentico-cloud-delivery';
+import { ContentItem, Elements } from '@kentico/kontent-delivery';
 
 export class Actor extends ContentItem {
   public title: Elements.TextElement;
@@ -597,7 +597,7 @@ deliveryClient.item<Actor>('tom_hardy')
 #### Resolving URL slugs on query level
 
 ```typescript
-import { ContentItem, Elements } from 'kentico-cloud-delivery';
+import { ContentItem, Elements } from '@kentico/kontent-delivery';
 
 deliveryClient.item<Actor>('tom_hardy')
   .queryConfig({
@@ -620,7 +620,7 @@ deliveryClient.item<Actor>('tom_hardy')
 In some cases you might want to customize link tag (`<a>`) to add CSS classes, attributes or otherwise customize the HTML. You can achieve this by setting `html` property of `IUrlSlugResolverResult` interface. See example:
 
 ```typescript
-import { ContentItem, Elements } from 'kentico-cloud-delivery';
+import { ContentItem, Elements } from '@kentico/kontent-delivery';
 
 deliveryClient.item<Actor>('tom_hardy')
   .queryConfig({
@@ -639,7 +639,7 @@ deliveryClient.item<Actor>('tom_hardy')
 
 ### Resolving content items and components in Rich text elements
 
-[Rich text elements](https://developer.kenticocloud.com/v1/reference#section-rich-text-element) in Kentico Cloud can contain other content items and [components](https://help.kenticocloud.com/composing-and-linking-content/components/structuring-editorial-articles-with-components). For example, if you write a blog post, you might want to insert a video or testimonial to a specific place in your article.
+[Rich text elements](https://developer.kenticocloud.com/v1/reference#section-rich-text-element) in Kentico Kontent can contain other content items and [components](https://help.kenticocloud.com/composing-and-linking-content/components/structuring-editorial-articles-with-components). For example, if you write a blog post, you might want to insert a video or testimonial to a specific place in your article.
 
 You need to define how these objects resolve to the HTML that will be rendered. This can be done globally for each content type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` content items or components used in all your rich text elements.
 
@@ -648,7 +648,7 @@ Note: Items and components are resolved using the same mechanism; your applicati
 #### Globally
 
 ```typescript
-import { ContentItem, Elements, RichTextContentType } from 'kentico-cloud-delivery';
+import { ContentItem, Elements, RichTextContentType } from '@kentico/kontent-delivery';
 
 class Actor extends ContentItem {
   public name: Elements.TextElement;
@@ -683,7 +683,7 @@ deliveryClient.item<Movie>('pain_and_gain')
 You can define a resolver for a particular query. Resolver defined this way has priority over the globally defined one.
 
 ```typescript
-import { ContentItem } from 'kentico-cloud-delivery';
+import { ContentItem } from '@kentico/kontent-delivery';
 
 deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
@@ -711,7 +711,7 @@ If your item has linked items, they will be resolved using the `typeResolver` de
 If you are using typescript, you would define elements such as:
 
 ```typescript
-import { ContentItem, Elements} from 'kentico-cloud-delivery';
+import { ContentItem, Elements} from '@kentico/kontent-delivery';
 
 export class Actor extends ContentItem {
   public name: Elements.TextElement;
@@ -747,7 +747,7 @@ deliveryClient.item<Movie>('pain_and_gain')
 If, for any reason, you need to use some custom resolving for specific item instead of default one. You may use `itemResolver` property in `queryConfig` of your query. 
 
 ```typescript
-import { ContentItem } from 'kentico-cloud-delivery';
+import { ContentItem } from '@kentico/kontent-delivery';
 
 class FakeActor extends ContentItem {
     constructor(
@@ -776,12 +776,12 @@ deliveryClient.item<Movie>('pain_and_gain')
 
 ### Image processing inside Rich Text elements
 
-Rich text elements may contain images and in some situation you might want to adjust the `src` attribute in order to optimize image delivery using for example [Image transformations](https://github.com/Kentico/kentico-cloud-js/blob/master/packages/delivery/DOCS.md#image-transformations) (compression, max height/width declaration etc.). 
+Rich text elements may contain images and in some situation you might want to adjust the `src` attribute in order to optimize image delivery using for example [Image transformations](https://github.com/Kentico/kentico-kontent-js/blob/master/packages/delivery/DOCS.md#image-transformations) (compression, max height/width declaration etc.). 
 
 To modify source of image, use `richTextImageResolver` property of the `queryConfig`. The `richTextImageResolver` expects you to return an object with `url` property. See example below:
 
 ```typescript
-import { ImageUrlBuilder, ImageCompressionEnum, ImageFitModeEnum } from 'kentico-cloud-delivery';
+import { ImageUrlBuilder, ImageCompressionEnum, ImageFitModeEnum } from '@kentico/kontent-delivery';
 
 deliveryClient.item<Movie>('warrior')
    .queryConfig({
@@ -843,7 +843,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 
 | Property        | type| description|
 | ------------- |:-------------:| -----:|
-| projectId      | string | ProjectId of your Kentico Cloud project|
+| projectId      | string | ProjectId of your Kentico Kontent project|
 | typeResolvers?| TypeResolver[] | Array of resolvers that are used to create instances of registered classes automatically. If not set, items will be instances of 'ContentItem' class|
 | elementResolver?| ElementResolver | Element resolver used to map custom elements to models |
 | isDeveloperMode?| boolean | Indicates if advanced debug information are logged to console |
@@ -866,8 +866,8 @@ If you want to use a proxy server, you need to use different domain or otherwise
 
 `IDeliveryClientProxyConfig` offers 3 ways of configuring proxy url:
 
-1) `baseUrl` - Base url used for preview reqeusts. Defaults to 'preview-deliver.kenticocloud.com'
-2) `basePreviewUrl` - Base url used for all requests. Defaults to 'deliver.kenticocloud.com'
+1) `baseUrl` - Base url used for preview reqeusts. Defaults to 'preview-deliver.kontent.ai'
+2) `basePreviewUrl` - Base url used for all requests. Defaults to 'deliver.kontent.ai'
 3) `advancedProxyUrlResolver` - Resolver function where you get `IProxyUrlData` context data (includes domain, action, query parameters..) and can fully customize final URL. 
 
 Examples:
@@ -875,7 +875,7 @@ Examples:
 ```typescript
 const client = new DeliveryClient({
   projectId: 'xxx',
-  // Will be used instead of 'https://deliver.kenticocloud.com' for all requests.
+  // Will be used instead of 'https://deliver.kontent.ai' for all requests.
   // Parameters, filters, project Id and other parts of URL will use default values. 
   proxy: {
     baseUrl: 'http://my-proxy.io'
@@ -889,7 +889,7 @@ const client = new DeliveryClient({
   proxy: {
     advancedProxyUrlResolver: (data) => {
       const action = data.action; // /items
-      const domain = data.domain; // https://deliver.kenticocloud.com
+      const domain = data.domain; // https://deliver.kontent.ai
       const projectId = data.projectId; // xxx
       const queryString = data.queryString; // e.g. ?depth=1&elements=xElement
       const queryParameters = data.queryParameters; // array with query parameters parameters
@@ -902,17 +902,17 @@ const client = new DeliveryClient({
 
 ## Handling errors
 
-Errors can be handled using the `error` parameter of the `subscribe` method (see [RxJS](https://github.com/ReactiveX/rxjs)) or by using the `catchError` rxjs parameter. If the error originates in Kentico Cloud (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `CloudError` model with more specific information. Otherwise, you will get an original exception.
+Errors can be handled using the `error` parameter of the `subscribe` method (see [RxJS](https://github.com/ReactiveX/rxjs)) or by using the `catchError` rxjs parameter. If the error originates in Kentico Kontent (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `BaseKontentError` model with more specific information. Otherwise, you will get an original exception.
 
 ```typescript
-import { CloudError } from 'kentico-cloud-delivery';
+import { BaseKontentError } from '@kentico/kontent-core';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 deliveryClient.item<Movie>('terminator_9')
   .get()
   .subscribe(response => console.log(response), err => {
-    if (err instanceof CloudError) {
+    if (err instanceof BaseKontentError) {
       console.log(err.message); 
     }
     else {
@@ -928,7 +928,7 @@ deliveryClient.item<Movie>('terminator_9')
     })
   )
   .catch(err => {
-      if (err instanceof CloudError) {
+      if (err instanceof BaseKontentError) {
         console.log(err.message);
       }
       else {
@@ -966,7 +966,7 @@ const queryText = deliveryClient.items<ContentItem>()
 
 console.log(queryText);
 // outputs:
-// https://deliver.kenticocloud.com/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
+// https://deliver.kontent.ai/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
 ```
 
 ### Using custom Http service
@@ -983,7 +983,7 @@ import {
     IHttpPostQueryCall,
     IHttpQueryOptions,
     IBaseResponse
-} from 'kentico-cloud-core';
+} from '@kentico/kontent-core';
 import { Observable, of } from 'rxjs';
 
 class CustomHttpService implements IHttpService {
@@ -1042,4 +1042,4 @@ class CustomHttpService implements IHttpService {
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
 
-![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-cloud-js/master/doc/delivery.md?pixel)
+![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-kontent-js/master/doc/delivery.md?pixel)

@@ -13,13 +13,13 @@ import { IHttpService } from './ihttp.service';
 
 export class TestHttpService implements IHttpService {
 
-    public throwCloudError: boolean = false;
+    public throwError: boolean = false;
     public fakeResponseJson: any = undefined;
     public errorJson: any = undefined;
 
     constructor(config: {
         fakeResponseJson?: any,
-        throwCloudError?: boolean,
+        throwError?: boolean,
         errorJson?: any
     }) {
         Object.assign(this, config);
@@ -40,8 +40,8 @@ export class TestHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
 
-        // throw cloud error
-        if (this.throwCloudError) {
+        // throw kontent error
+        if (this.throwError) {
             const fakeError = {
                 response: {
                     data: this.errorJson
@@ -65,8 +65,8 @@ export class TestHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
 
-        // throw cloud error
-        if (this.throwCloudError) {
+        // throw kontent error
+        if (this.throwError) {
             const fakeError = {
                 response: {
                     data: this.errorJson
@@ -90,8 +90,8 @@ export class TestHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
 
-        // throw cloud error
-        if (this.throwCloudError) {
+        // throw kontent error
+        if (this.throwError) {
             const fakeError = {
                 response: {
                     data: this.errorJson
@@ -115,8 +115,8 @@ export class TestHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
 
-        // throw cloud error
-        if (this.throwCloudError) {
+        // throw kontent error
+        if (this.throwError) {
             const fakeError = {
                 response: {
                     data: this.errorJson

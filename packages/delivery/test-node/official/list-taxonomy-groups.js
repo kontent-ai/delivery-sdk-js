@@ -1,7 +1,7 @@
 const assert = require('assert');
-const KenticoCloud = require('../../_commonjs');
+const KontentDelivery = require('../../_commonjs');
 
-const deliveryClient = new KenticoCloud.DeliveryClient({
+const deliveryClient = new KontentDelivery.DeliveryClient({
     projectId: 'e391c776-9d1e-4e1a-8a5a-1c327c2586b6',
 });
 
@@ -22,11 +22,11 @@ describe('#List taxonomy groups', () => {
 
     it('Response should be of proper type', () => {
         assert.ok(result);
-        assert.ok((result instanceof KenticoCloud.TaxonomyResponses.ListTaxonomyGroupsResponse));
+        assert.ok((result instanceof KontentDelivery.TaxonomyResponses.ListTaxonomyGroupsResponse));
     });
 
     it('Response items should be of proper type', () => {
-        assert.ok(result.taxonomies[0] instanceof KenticoCloud.TaxonomyGroup);
+        assert.ok(result.taxonomies[0] instanceof KontentDelivery.TaxonomyGroup);
     });
 
 });

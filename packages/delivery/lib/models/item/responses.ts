@@ -1,10 +1,10 @@
 import { Pagination } from '../common';
-import { ICloudResponse, ICloudResponseDebug } from '../common/common-models';
+import { IKontentResponse, IKontentResponseDebug } from '../common/common-models';
 import { IContentItem, IContentItemsContainer } from './item-models';
 
 export namespace ItemResponses {
 
-    export class ListContentItemsResponse<TItem extends IContentItem = IContentItem> implements ICloudResponse {
+    export class ListContentItemsResponse<TItem extends IContentItem = IContentItem> implements IKontentResponse {
 
         /**
          * Indicates if response contains any items
@@ -27,13 +27,13 @@ export namespace ItemResponses {
         * @param {TItem[]} items - Collection of content items
         * @param {Pagination} pagination - Pagination object
         * @param {IContentItemsContainer} linkedItems - Content items that were processed during request
-        * @param {ICloudResponseDebug} debug - Debug information from the request
+        * @param {IKontentResponseDebug} debug - Debug information from the request
         */
         constructor(
             public items: TItem[],
             public pagination: Pagination,
             public linkedItems: IContentItemsContainer,
-            public debug: ICloudResponseDebug
+            public debug: IKontentResponseDebug
         ) {
             this.isEmpty = this.getIsEmpty();
             this.lastItem = this.getLastItem();
@@ -72,7 +72,7 @@ export namespace ItemResponses {
         }
     }
 
-    export class ViewContentItemResponse<TItem extends IContentItem = IContentItem> implements ICloudResponse {
+    export class ViewContentItemResponse<TItem extends IContentItem = IContentItem> implements IKontentResponse {
 
         /**
          * Indicates if response contains item
@@ -84,12 +84,12 @@ export namespace ItemResponses {
         * @constructor
         * @param {TItem} item - Returned item
         * @param {IContentItemsContainer} linkedItems - Content items that were processed during request
-        * @param {ICloudResponseDebug} debug - Debug information from the request
+        * @param {IKontentResponseDebug} debug - Debug information from the request
         */
         constructor(
             public item: TItem,
             public linkedItems: IContentItemsContainer,
-            public debug: ICloudResponseDebug
+            public debug: IKontentResponseDebug
         ) {
             this.isEmpty = this.getIsEmpty();
         }

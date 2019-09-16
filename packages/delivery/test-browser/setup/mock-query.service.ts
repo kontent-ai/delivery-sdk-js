@@ -1,4 +1,4 @@
-import { IHttpService } from 'kentico-cloud-core';
+import { IHttpService } from '@kentico/kontent-core';
 
 import { ContentItem, IDeliveryClientConfig, IItemQueryConfig, ISDKInfo, MappingService } from '../../lib';
 import { ItemResponses } from '../../lib/models/item/responses';

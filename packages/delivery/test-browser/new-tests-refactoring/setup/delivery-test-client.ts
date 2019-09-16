@@ -1,4 +1,4 @@
-import { TestHttpService } from 'kentico-cloud-core';
+import { TestHttpService } from '@kentico/kontent-core';
 
 import { DeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../../lib';
 
@@ -15,7 +15,7 @@ export function getDeliveryClientWithError(errorJson: any): DeliveryClient {
         projectId: testProjectId,
         httpService: new TestHttpService({
             fakeResponseJson: undefined,
-            throwCloudError: true,
+            throwError: true,
             errorJson: errorJson
         })
     });
@@ -27,7 +27,7 @@ export function getDeliveryClientWithJson(json: any, config?: IDeliveryClientCon
             projectId: testProjectId,
             httpService: new TestHttpService({
                 fakeResponseJson: json,
-                throwCloudError: false
+                throwError: false
             })
         });
     }
@@ -35,7 +35,7 @@ export function getDeliveryClientWithJson(json: any, config?: IDeliveryClientCon
     // always set http service
     config.httpService = new TestHttpService({
         fakeResponseJson: json,
-        throwCloudError: false
+        throwError: false
     });
 
     return new DeliveryClient(config);
