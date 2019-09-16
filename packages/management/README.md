@@ -42,9 +42,9 @@ If you'd like to use this library directly in browser, place following script ta
 The following code example shows how to create new content item in your Kentico Kontent project.
 
 ```javascript
-import { ContentManagementClient } from '@kentico/kontent-core';
+import { ManagementClient } from '@kentico/kontent-core';
 
-const client = new ContentManagementClient({
+const client = new ManagementClient({
         projectId: 'xxx', // id of your Kentico Kontent project
         apiKey: 'yyy', // Content management API token
     });
@@ -81,7 +81,7 @@ If you are using `UMD` bundles directly in browsers, you can find this library u
     <script type="text/javascript">
         var KontentManagement = window['KontentManagement'];
 
-		var client = new KontentManagement.ContentManagementClient({
+		var client = new KontentManagement.ManagementClient({
 			projectId: 'xxx',
 			apiKey: 'yyy'
 		});
@@ -109,10 +109,10 @@ If you are using `UMD` bundles directly in browsers, you can find this library u
 
 ### Configuration
 
-The `ContentManagementClient` contains several configuration options:
+The `ManagementClient` contains several configuration options:
 
 ```javascript
-const client = new ContentManagementClient({
+const client = new ManagementClient({
     // configuration options
 });
 ```

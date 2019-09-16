@@ -1,7 +1,7 @@
 import { IQueryParameter, Parameters } from '@kentico/kontent-core';
 import { Observable } from 'rxjs';
 
-import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
+import { IManagementClientConfig } from '../config/imanagement-client-config.interface';
 import { ContentManagementApiEndpoints, contentManagementApiEndpoints, IContentManagementQueryConfig } from '../models';
 import { BaseResponses } from '../responses';
 import { ContentManagementQueryService } from '../services';
@@ -13,7 +13,7 @@ export abstract class BaseQuery<TResponse extends BaseResponses.IContentManageme
     protected customUrl?: string;
 
     constructor(
-        protected config: IContentManagementClientConfig,
+        protected config: IManagementClientConfig,
         protected queryService: ContentManagementQueryService
     ) {}
 

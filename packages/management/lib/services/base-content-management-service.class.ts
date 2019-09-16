@@ -13,7 +13,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
+import { IManagementClientConfig } from '../config/imanagement-client-config.interface';
 import { SharedContracts } from '../contracts';
 import { IContentManagementQueryConfig, SharedModels, IContentManagementInternalQueryConfig } from '../models';
 
@@ -35,7 +35,7 @@ export abstract class BaseContentManagementQueryService {
     private readonly defaultRetryStatusCodes: number[] = [500];
 
     constructor(
-        protected config: IContentManagementClientConfig,
+        protected config: IManagementClientConfig,
         protected httpService: IHttpService,
         protected sdkInfo: ISDKInfo
     ) { }

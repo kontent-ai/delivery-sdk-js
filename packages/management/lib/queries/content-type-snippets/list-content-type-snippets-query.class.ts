@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { IContentManagementClientConfig } from '../../config';
+import { IManagementClientConfig } from '../../config';
 import { ContentTypeSnippetResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
@@ -8,7 +8,7 @@ import { BaseQuery } from '../base-query';
 export class ListContentTypeSnippetsQuery extends BaseQuery<ContentTypeSnippetResponses.ContentTypeSnippetListResponse> {
 
   constructor(
-    protected config: IContentManagementClientConfig,
+    protected config: IManagementClientConfig,
     protected queryService: ContentManagementQueryService
   ) {
     super(config, queryService);

@@ -1,6 +1,6 @@
 import { HttpService } from '@kentico/kontent-core';
 
-import { IContentManagementClientConfig } from '../config';
+import { IManagementClientConfig } from '../config';
 import { ContentItemContracts } from '../contracts';
 import { AssetModels, ContentTypeModels, ContentTypeSnippetModels, TaxonomyModels, WorkflowModels, LanguageModels } from '../models';
 import {
@@ -58,13 +58,13 @@ import {
 } from '../queries';
 import { sdkInfo } from '../sdk-info.generated';
 import { ContentManagementQueryService } from '../services';
-import { IContentManagementClient } from './icontent-management-client.interface';
+import { IManagementClient } from './imanagement-client.interface';
 
-export class ContentManagementClient implements IContentManagementClient {
+export class ManagementClient implements IManagementClient {
     private queryService: ContentManagementQueryService;
 
     constructor(
-        protected config: IContentManagementClientConfig
+        protected config: IManagementClientConfig
     ) {
         this.queryService = new ContentManagementQueryService(
             config,

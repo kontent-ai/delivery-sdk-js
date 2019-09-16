@@ -1,14 +1,14 @@
-import { IContentManagementClientConfig } from '../../config';
+import { IManagementClientConfig } from '../../config';
 import { LanguageVariantModels } from '../../models';
 import { ContentManagementQueryService } from '../../services';
 
 export class LanguageVariantElementsQuery<TResult> {
 
     constructor(
-        protected config: IContentManagementClientConfig,
+        protected config: IManagementClientConfig,
         protected queryService: ContentManagementQueryService,
         protected buildResult: (
-            config: IContentManagementClientConfig,
+            config: IManagementClientConfig,
             queryService: ContentManagementQueryService,
             data: LanguageVariantModels.ILanguageVariantElement[]) => TResult
     ) {

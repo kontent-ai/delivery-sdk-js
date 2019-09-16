@@ -1,14 +1,14 @@
-import { IContentManagementClientConfig } from '../../config';
+import { IManagementClientConfig } from '../../config';
 import { Identifiers } from '../../models';
 import { ContentManagementQueryService } from '../../services';
 
 export class IdCodenameIdentifierQuery<TResult> {
 
     constructor(
-        protected config: IContentManagementClientConfig,
+        protected config: IManagementClientConfig,
         protected queryService: ContentManagementQueryService,
         protected buildResult: (
-            config: IContentManagementClientConfig,
+            config: IManagementClientConfig,
             queryService: ContentManagementQueryService,
             identifier: Identifiers.ContentItemIdentifier) => TResult
     ) {

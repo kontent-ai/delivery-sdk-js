@@ -61,7 +61,7 @@ import {
     WorkflowStepIdentifierQuery,
 } from '../queries';
 
-export interface IContentManagementClient {
+export interface IManagementClient {
     /**
      * Create a new version of a published language variant while keeping the original version published and available through Delivery API. Equivalent to the UI action of creating new versions of content.
      */

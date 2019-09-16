@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { IContentManagementClientConfig } from '../../config';
+import { IManagementClientConfig } from '../../config';
 import { Identifiers } from '../../models';
 import { LanguageVariantResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
@@ -9,7 +9,7 @@ import { BaseQuery } from '../base-query';
 export class ListLanguageVariantsOfContentTypeQuery extends BaseQuery<LanguageVariantResponses.ListLanguageVariantsOfContentTypeResponse> {
 
   constructor(
-    protected config: IContentManagementClientConfig,
+    protected config: IManagementClientConfig,
     protected queryService: ContentManagementQueryService,
     protected identifier: Identifiers.ContentTypeIdentifier,
   ) {

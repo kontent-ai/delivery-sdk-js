@@ -1,6 +1,6 @@
 import { IHttpService } from '@kentico/kontent-core';
 
-export interface IContentManagementClientConfig {
+export interface IManagementClientConfig {
     /**
      * Kentico Kontent project id
      */

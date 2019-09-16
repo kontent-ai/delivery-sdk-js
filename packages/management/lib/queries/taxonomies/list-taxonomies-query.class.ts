@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { IContentManagementClientConfig } from '../../config';
+import { IManagementClientConfig } from '../../config';
 import { TaxonomyResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
@@ -8,7 +8,7 @@ import { BaseQuery } from '../base-query';
 export class ListTaxonomiesQuery extends BaseQuery<TaxonomyResponses.TaxonomyListResponse> {
 
   constructor(
-    protected config: IContentManagementClientConfig,
+    protected config: IManagementClientConfig,
     protected queryService: ContentManagementQueryService
   ) {
     super(config, queryService);

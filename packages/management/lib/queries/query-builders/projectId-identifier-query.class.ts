@@ -1,13 +1,13 @@
-import { IContentManagementClientConfig } from '../../config';
+import { IManagementClientConfig } from '../../config';
 import { ContentManagementQueryService } from '../../services';
 
 export class ProjectIdIdentifierQuery<TResult> {
 
     constructor(
-        protected config: IContentManagementClientConfig,
+        protected config: IManagementClientConfig,
         protected queryService: ContentManagementQueryService,
         protected buildResult: (
-            config: IContentManagementClientConfig,
+            config: IManagementClientConfig,
             queryService: ContentManagementQueryService,
             projectId: string) => TResult
     ) {

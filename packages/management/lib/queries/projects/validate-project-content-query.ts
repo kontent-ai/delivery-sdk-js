@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { IContentManagementClientConfig } from '../../config';
+import { IManagementClientConfig } from '../../config';
 import { ProjectResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
 import { BaseQuery } from '../base-query';
@@ -8,7 +8,7 @@ import { BaseQuery } from '../base-query';
 export class ValidateProjectContentQuery extends BaseQuery<ProjectResponses.ValidateProjectContentResponse> {
 
   constructor(
-    protected config: IContentManagementClientConfig,
+    protected config: IManagementClientConfig,
     protected queryService: ContentManagementQueryService,
     public projectId: string,
   ) {

@@ -1,2 +1,2 @@
-export * from './icontent-management-client.interface';
-export * from './content-management-client.class';
+export * from './imanagement-client.interface';
+export * from './management-client.class';

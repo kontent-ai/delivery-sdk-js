@@ -2,7 +2,7 @@ import { IHeader, IHttpService, ISDKInfo } from '@kentico/kontent-core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { IContentManagementClientConfig } from '../config/icontent-management-client-config.interface';
+import { IManagementClientConfig } from '../config/imanagement-client-config.interface';
 import {
     AssetContracts,
     ContentItemContracts,
@@ -52,7 +52,7 @@ import { BaseContentManagementQueryService } from './base-content-management-ser
 export class ContentManagementQueryService extends BaseContentManagementQueryService {
 
     constructor(
-        protected config: IContentManagementClientConfig,
+        protected config: IManagementClientConfig,
         protected httpService: IHttpService,
         protected sdkInfo: ISDKInfo
     ) {

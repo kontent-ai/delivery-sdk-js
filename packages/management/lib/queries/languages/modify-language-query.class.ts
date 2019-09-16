@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { IContentManagementClientConfig } from '../../config';
+import { IManagementClientConfig } from '../../config';
 import { Identifiers, LanguageModels } from '../../models';
 import { LanguageResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
@@ -9,7 +9,7 @@ import { BaseQuery } from '../base-query';
 export class ModifyLanguageQuery extends BaseQuery<LanguageResponses.ModifyLanguageResponse> {
 
   constructor(
-    protected config: IContentManagementClientConfig,
+    protected config: IManagementClientConfig,
     protected queryService: ContentManagementQueryService,
     public identifier: Identifiers.LanguageIdentifier,
     public data: LanguageModels.IModifyLanguageData[]

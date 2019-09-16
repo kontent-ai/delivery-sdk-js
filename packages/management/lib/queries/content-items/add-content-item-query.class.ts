@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 
-import { IContentManagementClientConfig } from '../../config';
+import { IManagementClientConfig } from '../../config';
 import { ContentItemContracts } from '../../contracts';
 import { ContentItemResponses } from '../../responses';
 import { ContentManagementQueryService } from '../../services';
@@ -9,7 +9,7 @@ import { BaseQuery } from '../base-query';
 export class AddContentItemQuery extends BaseQuery<ContentItemResponses.AddContentItemResponse> {
 
   constructor(
-    protected config: IContentManagementClientConfig,
+    protected config: IManagementClientConfig,
     protected queryService: ContentManagementQueryService,
     public data: ContentItemContracts.IAddContentItemPostContract
   ) {
@@ -27,7 +27,7 @@ export class AddContentItemQuery extends BaseQuery<ContentItemResponses.AddConte
 
 export class AddContentItemQueryInit {
   constructor(
-    protected config: IContentManagementClientConfig,
+    protected config: IManagementClientConfig,
     protected queryService: ContentManagementQueryService,
   ) {
   }

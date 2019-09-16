@@ -1,1 +1,1 @@
-export * from './icontent-management-client-config.interface';
+export * from './imanagement-client-config.interface';
