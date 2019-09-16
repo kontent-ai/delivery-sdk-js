@@ -4,7 +4,7 @@
 
 ## [Delivery Javascript SDK](https://github.com/Kentico/kentico-kontent-js/tree/master/packages/delivery)
 
-[![npm version](https://badge.fury.io/js/@kentico/kontent-delivery.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)
+[![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-delivery.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-delivery)
 [![Build Status](https://api.travis-ci.com/Kentico/kentico-kontent-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-kontent-js)
 [![CircleCI](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master)
 [![npm](https://img.shields.io/npm/dt/@kentico/kontent-delivery.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)
@@ -26,7 +26,7 @@ A client library for retrieving data from [Kentico Kontent](https://kontent.ai/)
 
 Javascript SDK for the [Kontent Management API](https://developer.kenticocloud.com/v1/reference#content-management-api-v2). Helps you manage content in your [Kentico Kontent](https://kontent.ai/) projects. Work both in `node.js` and `browsers`.
 
-[![npm version](https://badge.fury.io/js/@kentico/kontent-management.svg)](https://www.npmjs.com/package/@kentico/kontent-management)
+[![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-management.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-management)
 [![Build Status](https://api.travis-ci.com/Kentico/kentico-kontent-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-kontent-js)
 [![CircleCI](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master)
 [![npm](https://img.shields.io/npm/dt/@kentico/kontent-management.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)

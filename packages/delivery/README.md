@@ -1,6 +1,6 @@
 # Kentico Cloud Delivery SDK
 
-[![npm version](https://badge.fury.io/js/@kentico/kontent-delivery.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)
+[![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-delivery.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-delivery)
 [![Build Status](https://api.travis-ci.com/Kentico/kentico-kontent-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-kontent-js)
 [![CircleCI](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master)
 [![npm](https://img.shields.io/npm/dt/@kentico/kontent-delivery.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)

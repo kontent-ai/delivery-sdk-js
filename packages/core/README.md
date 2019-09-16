@@ -1,5 +1,5 @@
 
-[![CircleCI](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master)
+[![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-core.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-core)
 
 # Core package
 

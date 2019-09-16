@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/@kentico/kontent-model-generator.svg)](https://www.npmjs.com/package/@kentico/kontent-model-generator)
+[![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-model-generator.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-model-generator)
 [![Build Status](https://api.travis-ci.com/Kentico/KontentDeliveryModelGeneratorUtility.svg?branch=master)](https://travis-ci.com/Kentico/KontentDeliveryModelGeneratorUtility)
 [![npm](https://img.shields.io/npm/dt/@kentico/kontent-model-generator.svg)](https://www.npmjs.com/package/@kentico/kontent-model-generator)
 ![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.browser.umd.min.js?compression=gzip)
