@@ -67,6 +67,7 @@
     "karma-coverage": "1.1.2",
     "karma-coverage-istanbul-reporter": "2.0.5",
     "karma-jasmine": "2.0.1",
+    "follow-redirects": "1.9.0",
     "karma-jasmine-html-reporter": "1.4.2",
     "karma-sourcemap-loader": "0.3.7",
     "karma-chrome-launcher": "3.0.0",
