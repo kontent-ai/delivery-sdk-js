@@ -32,7 +32,7 @@
       "rxjs": [
         "./node_modules/rxjs"
       ]
-    },
+    }
   },
   "include": [
     "lib/**/*",
@@ -40,6 +40,6 @@
     "test-browser/**/*"
   ],
   "exclude": [
-    "node_modules",
+    "node_modules"
   ]
 }

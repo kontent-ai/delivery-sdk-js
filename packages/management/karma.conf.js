@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = function (config) {
     config.set({
         frameworks: ["jasmine", "karma-typescript"],
@@ -8,7 +6,6 @@ module.exports = function (config) {
             require("karma-typescript"),
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
-            require('karma-coverage'),
         ],
         files: [
             { pattern: "lib/**/*.ts" },
@@ -17,17 +14,16 @@ module.exports = function (config) {
         exclude: [
         ],
         preprocessors: {
-            "lib/**/*.ts": ["karma-typescript", "coverage"],
+            "lib/**/*.ts": ["karma-typescript"],
             "test-browser/**/*.ts": ["karma-typescript"]
         },
-        reporters: ["kjhtml", "progress", "coverage"],
+        reporters: ["kjhtml", "progress", "karma-typescript"],
         browsers: ["Chrome"],
         karmaTypescriptConfig: {
             compilerOptions: {
                 emitDecoratorMetadata: true,
                 experimentalDecorators: true,
                 resolveJsonModule: true,
-                jsx: "react",
                 module: "commonjs",
                 sourceMap: true,
                 target: "ES5"

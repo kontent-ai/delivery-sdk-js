@@ -22,7 +22,7 @@
 		"lerna:travis": "npm run lerna:install:all && npm run lerna:test:travis"
 	},
 	"devDependencies": {
-		"lerna": "3.15.0",
+		"lerna": "3.16.4",
 		"lerna-changelog": "0.8.2"
 	}
 }

@@ -1,14 +1,11 @@
-const path = require('path');
-
 module.exports = function (config) {
     config.set({
-        frameworks: ["jasmine"],
+        frameworks: ["jasmine", "karma-typescript"],
         plugins: [
             require("karma-jasmine"),
-            require("karma-webpack"),
+            require("karma-typescript"),
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
-            require('karma-coverage'),
         ],
         files: [
             { pattern: "lib/**/*.ts" },
@@ -17,32 +14,26 @@ module.exports = function (config) {
         exclude: [
         ],
         preprocessors: {
-            "lib/**/*.ts": ["webpack", "coverage"],
-            "test-browser/**/*.ts": ["webpack"]
+            "lib/**/*.ts": ["karma-typescript"],
+            "test-browser/**/*.ts": ["karma-typescript"]
         },
-        reporters: ["kjhtml", "progress", "coverage"],
+        reporters: ["kjhtml", "progress", "karma-typescript"],
         browsers: ["Chrome"],
-        webpack: {
-            resolve: { 
-                extensions: ['.ts', '.js', '.json'],
+        karmaTypescriptConfig: {
+            compilerOptions: {
+                emitDecoratorMetadata: true,
+                experimentalDecorators: true,
+                resolveJsonModule: true,
+                module: "commonjs",
+                sourceMap: true,
+                target: "ES5"
             },
-            mode: 'development',
-            devtool: 'source-map',
-            module: {
-                rules: [
-                    {
-                        test: /\.ts$/, 
-                        loader: 'ts-loader',
-                        include: [
-                            path.resolve(__dirname, 'lib'), // lib
-                            path.resolve(__dirname, 'test-browser'), // tests
-                        ],
-                        options: {
-                            configFile: require.resolve('./tsconfig.webpack.json')
-                        }
-                    },
+            exclude: ["node_modules"],
+            bundlerOptions: {
+                transforms: [
+                    require("karma-typescript-es6-transform")()
                 ]
-            },
+            }
         },
         coverageReporter: {
             reporters: [
@@ -60,6 +51,6 @@ module.exports = function (config) {
         },
         logLevel: config.DEBUG,
         browserDisconnectTolerance: 2,
-        browserNoActivityTimeout: 500000
+        browserNoActivityTimeout: 5000000
     });
 };
