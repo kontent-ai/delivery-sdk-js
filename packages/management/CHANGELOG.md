@@ -1,3 +1,8 @@
+## 0.1.0 (2019-09-16)
+
+#### :rocket: Enhancement
+  * Release for new `Kentico Kontent` branding. 
+
 ## 0.0.17 (2019-09-09)
 
 #### :boom: Breaking Change

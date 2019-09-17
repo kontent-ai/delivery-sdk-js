@@ -1,4 +1,9 @@
-## 2.1.0 (2019-08-15)
+## 3.0.0 (2019-09-16)
+
+#### :rocket: Enhancement
+  * Release for new `Kentico Kontent` branding. 
+
+# 2.1.0 (2019-08-15)
 
 #### :bug: Bug Fix
   * Fixes script path in `package.json`
