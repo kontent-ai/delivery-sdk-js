@@ -28,7 +28,7 @@ You can install this library using `npm` or you can use global CDNs such `jsdeli
 
 ```
 npm i rxjs --save
-npm i kentico-cloud-delivery --save
+npm i @kentico/kontent-delivery --save
 ```
 
 ### UMD Bundles
