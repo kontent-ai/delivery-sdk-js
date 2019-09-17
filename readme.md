@@ -43,7 +43,7 @@ Javascript SDK for the [Kontent Management API](https://developer.kenticocloud.c
 
 ## [Javascript model generator for Delivery SDK](https://github.com/Kentico/kentico-kontent-js/tree/master/packages/model-generator)
 
-[![npm version](https://badge.fury.io/js/@kentico/kontent-model-generator.svg)](https://www.npmjs.com/package/@kentico/kontent-model-generator)
+[![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-model-generator.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-model-generator)
 [![Build Status](https://api.travis-ci.com/Kentico/kentico-kontent-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-kontent-js)
 [![npm](https://img.shields.io/npm/dt/@kentico/kontent-model-generator.svg)](https://www.npmjs.com/package/@kentico/kontent-model-generator)
 
