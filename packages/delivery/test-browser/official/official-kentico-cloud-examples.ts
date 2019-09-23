@@ -17,7 +17,7 @@ import { observableFactory } from '../setup';
 class Article extends ContentItem {
 }
 
-describe('Official Kentico Kotent examples (used in API reference https://developer.kenticocloud.com/v1/reference#delivery-api)', () => {
+describe('Official Kentico Kotent examples', () => {
 
     /* ----------- Initial setup ----------- */
     // Create strongly typed models according to https://github.com/Kentico/kentico-kontent-js/blob/master/doc/delivery.md#creating-models

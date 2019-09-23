@@ -92,7 +92,7 @@ const deliveryClient = new DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Cloud as Promise */
+/** Getting items from Kentico Kontent as Promise */
 deliveryClient.items<Movie>()
     .type('movie')
     .toPromise()
@@ -101,7 +101,7 @@ deliveryClient.items<Movie>()
     )
 });
 
-/** Getting items from Kentico Cloud as Observable */
+/** Getting items from Kentico Kontent as Observable */
 deliveryClient.items<Movie>()
     .type('movie')
     .toObservable()
@@ -143,7 +143,7 @@ const deliveryClient = new KontentDelivery.DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Cloud as Promise */
+/** Getting items from Kentico Kontent as Promise */
 deliveryClient.items()
     .type('movie')
     .toPromise()
@@ -152,7 +152,7 @@ deliveryClient.items()
     )
 });
 
-/** Getting items from Kentico Cloud as Observable */
+/** Getting items from Kentico Kontent as Observable */
 const subscription = deliveryClient.items()
     .type('movie')
     .toObservable()
@@ -166,7 +166,7 @@ Don't forget to unsubscribe from your Observables. You can use 'takeUntil' or 'u
 subscription.unsubscribe();
 
 /**
- * Fetch all items of 'movie' type and given parameters from Kentico Cloud.
+ * Fetch all items of 'movie' type and given parameters from Kentico Kontent.
  * Important note: SDK will convert items to your type if you registered it. For example,
  * in this case the objects will be of 'Movie' type we defined above. 
  * If you don't use custom models, 'ContentItem' object instances will be returned.
@@ -189,7 +189,7 @@ Bundles are distributed in `_bundles` folder and there are several options that 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kentico Cloud SDK - Html sample</title>
+    <title>Kentico Kontent SDK - Html sample</title>
     <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
 </head>

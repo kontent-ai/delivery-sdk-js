@@ -6,7 +6,6 @@
 [![Build Status](https://api.travis-ci.com/Kentico/kentico-kontent-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-kontent-js)
 [![CircleCI](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master)
 [![npm](https://img.shields.io/npm/dt/@kentico/kontent-management.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)
-[![Forums](https://img.shields.io/badge/chat-on%20forums-orange.svg)](https://forums.kenticocloud.com)
 [![Known Vulnerabilities](https://snyk.io/test/github/Kentico/kentico-kontent-js/badge.svg)](https://snyk.io/test/github/kentico/kentico-kontent-js)
 [![GitHub license](https://img.shields.io/github/license/Kentico/kentico-kontent-js.svg)](https://github.com/Kentico/kentico-kontent-js)
 ![Gzip bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kentico/kontent-management/_bundles/kontent-management.umd.min.js?compression=gzip)
