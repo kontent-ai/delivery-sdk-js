@@ -1,4 +1,4 @@
-# Kentico Cloud Delivery SDK
+# Kentico Kontent Delivery SDK
 
 [![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-delivery.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-delivery)
 [![Build Status](https://api.travis-ci.com/Kentico/kentico-kontent-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-kontent-js)
