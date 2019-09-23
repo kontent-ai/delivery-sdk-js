@@ -39,7 +39,7 @@ Javascript SDK for the [Kontent Management API](https://developer.kenticocloud.c
 
 * [Quickstart](https://github.com/Kentico/kentico-kontent-js/tree/master/packages/management)
 * [Examples](https://github.com/Kentico/kentico-kontent-js/tree/master/packages/management/demo)
-* [Changelog](https://github.com/Kentico/kentico-kontent-js/blob/master/packages/content-management/CHANGELOG.md)
+* [Changelog](https://github.com/Kentico/kentico-kontent-js/blob/master/packages/management/CHANGELOG.md)
 
 ## [Javascript model generator for Delivery SDK](https://github.com/Kentico/kentico-kontent-js/tree/master/packages/model-generator)
 
