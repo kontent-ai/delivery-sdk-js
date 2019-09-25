@@ -1,3 +1,8 @@
+## 7.0.1 (2019-09-25)
+
+#### :rocket: Enhancement
+  * Updates docs on npm. No code changes.
+
 ## 7.0.0 (2019-09-16)
 
 #### :rocket: Enhancement
