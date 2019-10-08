@@ -1,1 +1,0 @@
-console.log('There are currently no tests for Angular http service');
