@@ -13,10 +13,10 @@ A client library for retrieving content from [Kentico Kontent](https://kontent.a
 
 |  Resources 
 |---|
-|  [Full Documentation](https://github.com/Kentico/kentico-kontent-js/tree/master/packages/delivery/DOCS.md) |
-|  [Example apps](https://github.com/Kentico/kentico-kontent-js/tree/master/examples) | 
+|  [Full Documentation](https://github.com/Kentico/kontent-delivery-sdk-js/blob/master/DOCS.md) |
+|  [Example apps](https://github.com/Kentico/kontent-delivery-sdk-js/tree/master/examples) | 
 |  [API Reference](https://kentico.github.io/kentico-kontent-js/delivery/) | 
-|  [Upgrade guide](https://github.com/Kentico/kentico-kontent-js/blob/master/packages/delivery/UPGRADE.md) | 
+|  [Upgrade guide](https://github.com/Kentico/kontent-delivery-sdk-js/blob/master/UPGRADE.md) | 
 
 
 ## Installation
