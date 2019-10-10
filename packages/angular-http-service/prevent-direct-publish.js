@@ -1,1 +1,0 @@
-throw Error(`Direct publish with 'npm publish' is not supported. This library is using 'ng-packagr' and needs to be published with npm command 'npm run publish:lib'`);
