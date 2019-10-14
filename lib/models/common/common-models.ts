@@ -11,6 +11,8 @@ export interface IProxyUrlData {
 
 export interface IKontentResponseDebug {
     response: any;
+    status: number;
+    headers: IHeader[];
 }
 
 export interface ISDKInfo {
@@ -32,6 +34,7 @@ export interface ISDKInfo {
 
 export interface IKontentResponse {
     debug: IKontentResponseDebug;
+    hasStaleContent: boolean;
 }
 
 export interface IQueryConfig {

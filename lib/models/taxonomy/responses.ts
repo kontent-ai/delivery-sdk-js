@@ -1,9 +1,10 @@
-import { IKontentResponse, IKontentResponseDebug, Pagination } from '../common';
+import { IBaseResponse } from '@kentico/kontent-core';
+
+import { BaseKontentResponse, Pagination } from '../common';
 import { TaxonomyGroup } from './taxonomy-models';
 
 export namespace TaxonomyResponses {
-
-    export class ViewTaxonomyGroupResponse implements IKontentResponse {
+    export class ViewTaxonomyGroupResponse extends BaseKontentResponse {
         constructor(
             /**
              * Taxonomy group
@@ -11,14 +12,15 @@ export namespace TaxonomyResponses {
             public taxonomy: TaxonomyGroup,
 
             /**
-             * Debug information
+             * Response
              */
-            public debug: IKontentResponseDebug
+            public response: IBaseResponse<any>
         ) {
+            super(response);
         }
     }
 
-    export class ListTaxonomyGroupsResponse implements IKontentResponse {
+    export class ListTaxonomyGroupsResponse extends BaseKontentResponse {
         constructor(
             /**
              * Taxonomies
@@ -31,10 +33,11 @@ export namespace TaxonomyResponses {
             public pagination: Pagination,
 
             /**
-             * Debug information
+             * Response
              */
-            public debug: IKontentResponseDebug
+            public response: IBaseResponse<any>
         ) {
+            super(response);
         }
     }
 }
