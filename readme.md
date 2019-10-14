@@ -1,11 +1,11 @@
 # Kentico Kontent Delivery SDK
 
 [![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-delivery.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-delivery)
-[![Build Status](https://api.travis-ci.com/Kentico/kentico-kontent-js.svg?branch=master)](https://travis-ci.com/Kentico/kentico-kontent-js)
-[![CircleCI](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kentico-kontent-js/tree/master)
+[![Build Status](https://api.travis-ci.com/Kentico/kontent-delivery-sdk-js.svg?branch=master)](https://travis-ci.com/Kentico/kontent-delivery-sdk-js)
+[![CircleCI](https://circleci.com/gh/Kentico/kontent-delivery-sdk-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kontent-delivery-sdk-js/tree/master)
 [![npm](https://img.shields.io/npm/dt/@kentico/kontent-delivery.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)
-[![Known Vulnerabilities](https://snyk.io/test/github/Kentico/kentico-kontent-js/badge.svg)](https://snyk.io/test/github/kentico/kentico-kontent-js)
-[![GitHub license](https://img.shields.io/github/license/Kentico/kentico-kontent-js.svg)](https://github.com/Kentico/kentico-kontent-js)
+[![Known Vulnerabilities](https://snyk.io/test/github/Kentico/kontent-delivery-sdk-js/badge.svg)](https://snyk.io/test/github/kentico/kontent-delivery-sdk-js)
+[![GitHub license](https://img.shields.io/github/license/Kentico/kontent-delivery-sdk-js.svg)](https://github.com/Kentico/kontent-delivery-sdk-js)
 ![Gzip browser bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js?compression=gzip)
 [![](https://data.jsdelivr.com/v1/package/npm/@kentico/kontent-delivery/badge)](https://www.jsdelivr.com/package/npm/kentico-kotent-delivery)
 
@@ -15,7 +15,6 @@ A client library for retrieving content from [Kentico Kontent](https://kontent.a
 |---|
 |  [Full Documentation](https://github.com/Kentico/kontent-delivery-sdk-js/blob/master/DOCS.md) |
 |  [Example apps](https://github.com/Kentico/kontent-delivery-sdk-js/tree/master/examples) | 
-|  [API Reference](https://kentico.github.io/kentico-kontent-js/delivery/) | 
 |  [Upgrade guide](https://github.com/Kentico/kontent-delivery-sdk-js/blob/master/UPGRADE.md) | 
 
 
@@ -228,4 +227,4 @@ Note: You need to have `Chrome` installed in order to run tests via Karma.
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
 
-![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-kontent-js/master/packages/delivery?pixel)
+![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kontent-delivery-sdk-js/master/packages/delivery?pixel)
