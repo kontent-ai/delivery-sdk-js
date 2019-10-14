@@ -1,7 +1,8 @@
 import { HttpService } from '@kentico/kontent-core';
 
 import { ITypeResolverData, sdkInfo, TypeResolver } from '../../../lib';
-import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
+import { Actor, Context, MockQueryService, Movie, setup } from '../../setup';
+import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 let movieTypeResolverData: ITypeResolverData | undefined;
 let actorTypeResolverData: ITypeResolverData | undefined;
@@ -42,17 +43,17 @@ describe('Type resolver data', () => {
 
     it('Type resolver should receive item contract and modular content as data parameter', () => {
         // response has to be called so that typ resolvers are triggered
-        getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {});
+        getQueryService().mockGetSingleItem<Movie>(warriorJson, {});
 
         expect(movieTypeResolverData).toBeDefined();
         expect(actorTypeResolverData).toBeDefined();
 
         if (movieTypeResolverData && actorTypeResolverData) {
-            expect(movieTypeResolverData.item).toEqual(warriorMovieJson.item);
+            expect(movieTypeResolverData.item).toEqual(warriorJson.item);
             expect(actorTypeResolverData.item.system.type).toEqual('actor');
 
-            expect(movieTypeResolverData.modularContent).toEqual(warriorMovieJson.modular_content);
-            expect(actorTypeResolverData.modularContent).toEqual(warriorMovieJson.modular_content);
+            expect(movieTypeResolverData.modularContent).toEqual(warriorJson.modular_content);
+            expect(actorTypeResolverData.modularContent).toEqual(warriorJson.modular_content);
         }
     });
 });

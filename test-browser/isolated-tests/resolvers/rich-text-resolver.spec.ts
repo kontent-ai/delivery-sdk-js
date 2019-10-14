@@ -1,7 +1,8 @@
 import { HttpService } from '@kentico/kontent-core';
 
 import { ContentItem, Elements, IUrlSlugResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
-import { Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
+import { Context, MockQueryService, setup } from '../../setup';
+import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 describe('Rich text resolver', () => {
 
@@ -51,9 +52,9 @@ describe('Rich text resolver', () => {
     let localPlot: string = '';
 
     beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
+        response = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {});
 
-        responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {
+        responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {
             richTextResolver: (item, richTextContext) => {
                 return `<h2>${(<MockActor>item).first_name.value}</h2>`;
             },

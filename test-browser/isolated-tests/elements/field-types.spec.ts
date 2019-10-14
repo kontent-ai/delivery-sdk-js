@@ -1,6 +1,7 @@
 import { Elements, ItemResponses, sdkInfo } from '../../../lib';
-import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
+import { Actor, Context, MockQueryService, Movie, setup } from '../../setup';
 import { HttpService } from '@kentico/kontent-core';
+import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 describe('Element types', () => {
 
@@ -16,7 +17,7 @@ describe('Element types', () => {
   let response: ItemResponses.ViewContentItemResponse<Movie>;
 
   beforeAll((done) => {
-    response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {});
+    response = mockQueryService.mockGetSingleItem<Movie>(warriorJson, {});
     done();
   });
 

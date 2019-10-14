@@ -1,20 +1,12 @@
 import { HttpService } from '@kentico/kontent-core';
 
 import { ContentItem, ContentItemSystemAttributes, sdkInfo, TypeResolver } from '../../../lib';
-import {
-    Actor,
-    Context,
-    MockQueryService,
-    Movie,
-    setup,
-    warriorMovieJson,
-    warriorMovieWithoutModularContentJson,
-} from '../../setup';
+import { Actor, Context, MockQueryService, Movie, setup } from '../../setup';
+import * as warriorJson from '../fake-data/fake-warrior-response.json';
+import * as warriorWithoutModularDataJson from '../fake-data/fake-warrior-without-modular-data-response.json';
 
 class CustomActor extends ContentItem {
-
-    constructor(
-        public customName: string) {
+    constructor(public customName: string) {
         super();
     }
 }
@@ -39,61 +31,57 @@ function getQueryService(advancedLogging: boolean = false): MockQueryService {
 }
 
 describe('Item resolver', () => {
-
-    beforeAll((done) => {
+    beforeAll(done => {
         done();
     });
 
     it(`Resolving linked items should NOT throw exception because modular content item is missing (default behavior)`, () => {
         expect(() => {
-            getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-            });
+            getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {});
         }).not.toThrowError();
     });
 
     it(`Resolving linked items should throw exception when linked item is missing and 'throwErrorForMissingLinkedItems' is enabled`, () => {
         expect(() => {
-            getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-                throwErrorForMissingLinkedItems: true,
+            getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+                throwErrorForMissingLinkedItems: true
             });
         }).toThrowError();
     });
 
     it(`Resolving linked items in rich text element should throw exception when items are not present in response`, () => {
         expect(() => {
-            const result = getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-                throwErrorForMissingLinkedItems: true,
+            const result = getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+                throwErrorForMissingLinkedItems: true
             });
 
             result.item.plot.resolveHtml();
-
         }).toThrowError();
     });
 
     it(`Resolving linked items in rich text element should not throw exception when items are not present in response`, () => {
         expect(() => {
-            const result = getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-                throwErrorForMissingLinkedItems: false,
+            const result = getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+                throwErrorForMissingLinkedItems: false
             });
 
             result.item.plot.resolveHtml();
-
         }).not.toThrowError();
     });
 
     it(`Resolving linked items should NOT throw exception when linked content item is missing and 'throwErrorForMissingLinkedItems' is disabled`, () => {
-        getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-            throwErrorForMissingLinkedItems: false,
+        getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+            throwErrorForMissingLinkedItems: false
         });
         expect(() => {
-            getQueryService().mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-                throwErrorForMissingLinkedItems: false,
+            getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+                throwErrorForMissingLinkedItems: false
             });
         }).not.toThrowError();
     });
 
     it(`Custom item resolver should be used to resolve items`, () => {
-        const response = getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {
+        const response = getQueryService().mockGetSingleItem<Movie>(warriorJson, {
             itemResolver: (element, rawItem, modularContent, queryConfig) => {
                 if (rawItem.system.codename === 'tom_hardy' || rawItem.system.codename === 'joel_edgerton') {
                     return new CustomActor('testName');
@@ -106,18 +94,16 @@ describe('Item resolver', () => {
         expect(response.item.stars.value.length).toEqual(2);
 
         for (const star of response.item.stars.value) {
-
             expect(star.elements).toBeDefined();
             expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));
 
             expect(star).toEqual(jasmine.any(CustomActor));
-            expect((star as any as CustomActor).customName).toEqual('testName');
+            expect(((star as any) as CustomActor).customName).toEqual('testName');
         }
-
     });
 
     it(`Default resolver should be used when content item resolver resolves to undefined`, () => {
-        const response = getQueryService().mockGetSingleItem<Movie>(warriorMovieJson, {
+        const response = getQueryService().mockGetSingleItem<Movie>(warriorJson, {
             itemResolver: (element, rawItem, modularContent, queryConfig) => {
                 return undefined;
             }
@@ -127,7 +113,6 @@ describe('Item resolver', () => {
         expect(response.item.stars.value.length).toEqual(2);
 
         for (const star of response.item.stars.value) {
-
             expect(star._raw.elements).toBeDefined();
             expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));
 
@@ -140,13 +125,10 @@ describe('Item resolver', () => {
 
         console.warn = jasmine.createSpy('warn');
 
-        getQueryService(true).mockGetSingleItem<Movie>(warriorMovieWithoutModularContentJson, {
-            throwErrorForMissingLinkedItems: false,
+        getQueryService(true).mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+            throwErrorForMissingLinkedItems: false
         });
 
         expect(console.warn).toHaveBeenCalledTimes(expectedNumberOfWarning); // 2 times because there are 2 missing linked items
-
     });
-
 });
-
