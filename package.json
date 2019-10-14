@@ -1,6 +1,6 @@
 {
     "name": "@kentico/kontent-delivery",
-    "version": "7.1.0",
+    "version": "9.9.9",
     "repository": {
         "type": "git",
         "url": "https://github.com/Kentico/kentico-kontent-js/tree/master/packages/delivery"
@@ -35,6 +35,11 @@
     },
     "main": "./_commonjs/index.js",
     "types": "./_commonjs/index.d.ts",
+    "standard-version": {
+        "scripts": {
+            "prebump": "echo 9.9.9"
+        }
+    },
     "scripts": {
         "release": "npm run set-sdk-version && standard-version",
         "standard-version": "7.0.0",
