@@ -1,6 +1,6 @@
 {
     "name": "@kentico/kontent-delivery",
-    "version": "7.0.1",
+    "version": "7.1.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/Kentico/kentico-kontent-js/tree/master/packages/delivery"
