@@ -1,6 +1,6 @@
 {
     "name": "@kentico/kontent-delivery",
-    "version": "7.1.1",
+    "version": "7.1.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/Kentico/kentico-kontent-js/tree/master/packages/delivery"
@@ -41,7 +41,7 @@
         }
     },
     "scripts": {
-        "release": "npm run set-sdk-version && standard-version",
+        "release": "standard-version",
         "standard-version": "7.0.0",
         "tsc-local": "./node_modules/.bin/tsc",
         "webpack-local": "./node_modules/.bin/webpack",
