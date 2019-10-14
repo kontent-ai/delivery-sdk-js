@@ -8,7 +8,9 @@ describe('Mapping service', () => {
 
     const listingResponse: ItemResponses.ListContentItemsResponse = client.mappingService.listContentItemsResponse({
         data: responseJson,
-        response: null
+        response: null,
+        headers: [],
+        status: 200
     }, {});
 
     it(`Listing response should be mapped correctly`, () => {

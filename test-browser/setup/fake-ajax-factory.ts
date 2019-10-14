@@ -13,7 +13,9 @@ export class FakeResponseFactory {
 
         return {
             data: json,
-            response: fakeResponse
+            response: fakeResponse,
+            status: 200,
+            headers: []
         };
     }
 }

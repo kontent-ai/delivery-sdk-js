@@ -2,6 +2,7 @@ import {
     IBaseResponse,
     IHttpDeleteQueryCall,
     IHttpGetQueryCall,
+    IHttpPatchQueryCall,
     IHttpPostQueryCall,
     IHttpPutQueryCall,
     IHttpQueryOptions,
@@ -12,8 +13,10 @@ import { Observable, of } from 'rxjs';
 import { DeliveryClient } from '../../../lib';
 
 class CustomHttpService implements IHttpService {
-
-    retryPromise<T>(promise: Promise<T>, options: { maxRetryAttempts: number; useRetryForResponseCodes: number[]; delay: number; }): Promise<T> {
+    retryPromise<T>(
+        promise: Promise<T>,
+        options: { maxRetryAttempts: number; useRetryForResponseCodes: number[]; delay: number }
+    ): Promise<T> {
         throw new Error('Method not implemented.');
     }
 
@@ -22,8 +25,10 @@ class CustomHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         return of(<IBaseResponse<TRawData>>{
-            data: {},
-            response: undefined
+            data: {} as any,
+            response: undefined,
+            headers: [],
+            status: 200
         });
     }
 
@@ -42,8 +47,22 @@ class CustomHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         return of(<IBaseResponse<TRawData>>{
-            data: {},
-            response: undefined
+            data: {} as any,
+            response: undefined,
+            headers: [],
+            status: 200
+        });
+    }
+
+    patch<TError extends any, TRawData extends any>(
+        call: IHttpPatchQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse<TRawData>> {
+        return of(<IBaseResponse<TRawData>>{
+            data: {} as any,
+            response: undefined,
+            headers: [],
+            status: 200
         });
     }
 
@@ -52,8 +71,10 @@ class CustomHttpService implements IHttpService {
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
         return of(<IBaseResponse<TRawData>>{
-            data: {},
-            response: undefined
+            data: {} as any,
+            response: undefined,
+            headers: [],
+            status: 200
         });
     }
 }
