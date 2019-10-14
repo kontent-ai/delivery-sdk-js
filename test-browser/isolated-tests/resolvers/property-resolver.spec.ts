@@ -1,6 +1,7 @@
 import { ContentItem, ElementDecorators, Elements, ItemResponses, sdkInfo, TypeResolver } from '../../../lib';
-import { Actor, Context, MockQueryService, setup, warriorMovieJson } from '../../setup';
+import { Actor, Context, MockQueryService, setup } from '../../setup';
 import { HttpService } from '@kentico/kontent-core';
+import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 class MockMovie extends ContentItem {
     public titleTest!: Elements.TextElement;
@@ -43,7 +44,7 @@ describe('Property resolver', () => {
     let response: ItemResponses.ViewContentItemResponse<MockMovie>;
 
     beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<MockMovie>(warriorMovieJson, {});
+        response = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {});
         done();
     });
 

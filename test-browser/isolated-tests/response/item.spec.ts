@@ -1,9 +1,10 @@
-import { ItemResponses, sdkInfo } from '../../../lib';
-import { Actor, Context, MockQueryService, Movie, setup, warriorMovieJson } from '../../setup';
 import { HttpService } from '@kentico/kontent-core';
 
-describe('Verifies mapping of delivery content item', () => {
+import { ItemResponses, sdkInfo } from '../../../lib';
+import { Actor, Context, MockQueryService, Movie, setup } from '../../setup';
+import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
+describe('Verifies mapping of delivery content item', () => {
     const context = new Context();
     setup(context);
 
@@ -15,8 +16,8 @@ describe('Verifies mapping of delivery content item', () => {
 
     let response: ItemResponses.ViewContentItemResponse<Movie>;
 
-    beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<Movie>(warriorMovieJson, {});
+    beforeAll(done => {
+        response = mockQueryService.mockGetSingleItem<Movie>(warriorJson, {});
         done();
     });
 
@@ -34,7 +35,6 @@ describe('Verifies mapping of delivery content item', () => {
 
     it(`checks last modified`, () => {
         expect(response.item.system.lastModified).toEqual(jasmine.any(Date));
-        expect(response.item.system.lastModified).toEqual(new Date('2017-06-21T12:22:09.1437891Z'));
     });
 
     it(`checks language`, () => {
@@ -42,9 +42,7 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks site map locations`, () => {
-        const locations: string[] = [
-            'main_sitemap'
-        ];
+        const locations: string[] = ['main_sitemap'];
         expect(response.item.system.sitemapLocations).toEqual(locations);
     });
 
@@ -92,4 +90,3 @@ describe('Verifies mapping of delivery content item', () => {
         expect(response.item.stars.value[1].firstName.value).toEqual('Joel');
     });
 });
-
