@@ -6,7 +6,7 @@ const testProjectId: string = 'delivery-project-id';
 
 export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDeliveryClient {
     return new DeliveryClient(config ? config : {
-        projectId: testProjectId
+        projectId: testProjectId,
     });
 }
 

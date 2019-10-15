@@ -53,7 +53,7 @@ export function setup(context: Context) {
             basePreviewUrl: context.basePreviewUrl,
         },
         retryAttempts: context.retryAttempts,
-        isDeveloperMode: context.enableAdvancedLogging,
+        isDeveloperMode: context.isDeveloperMode,
         globalHeaders: context.globalHeaders,
         retryStatusCodes: context.retryStatusCodes,
         httpInterceptors: {

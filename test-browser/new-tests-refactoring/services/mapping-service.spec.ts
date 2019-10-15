@@ -4,7 +4,10 @@ import * as responseJson from './mapping-service.spec.json';
 
 describe('Mapping service', () => {
 
-    const client = getTestDeliveryClient();
+    const client = getTestDeliveryClient({
+        projectId: 'x',
+        isDeveloperMode: true
+    });
 
     const listingResponse: ItemResponses.ListContentItemsResponse = client.mappingService.listContentItemsResponse({
         data: responseJson,
@@ -16,7 +19,10 @@ describe('Mapping service', () => {
     it(`Listing response should be mapped correctly`, () => {
         expect(listingResponse).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
         expect(listingResponse.debug).toBeDefined();
-        expect(listingResponse.debug.response).toBeNull();
+
+        if (listingResponse.debug) {
+            expect(listingResponse.debug.response).toBeNull();
+        }
 
         expect(listingResponse.items.length).toEqual(responseJson.items.length);
 

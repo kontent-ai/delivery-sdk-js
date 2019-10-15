@@ -14,9 +14,10 @@ export namespace TaxonomyResponses {
             /**
              * Response
              */
-            public response: IBaseResponse<any>
+            response: IBaseResponse<any>,
+            isDeveloperMode: boolean
         ) {
-            super(response);
+            super(response, isDeveloperMode);
         }
     }
 
@@ -35,9 +36,10 @@ export namespace TaxonomyResponses {
             /**
              * Response
              */
-            public response: IBaseResponse<any>
+            response: IBaseResponse<any>,
+            isDeveloperMode: boolean
         ) {
-            super(response);
+            super(response, isDeveloperMode);
         }
     }
 }

@@ -31,9 +31,10 @@ export namespace ItemResponses {
             public items: TItem[],
             public pagination: Pagination,
             public linkedItems: IContentItemsContainer,
-            public response: IBaseResponse<any>
+            response: IBaseResponse<any>,
+            isDeveloperMode: boolean
         ) {
-            super(response);
+            super(response, isDeveloperMode);
             this.isEmpty = this.getIsEmpty();
             this.lastItem = this.getLastItem();
             this.firstItem = this.getFirstItem();
@@ -86,9 +87,10 @@ export namespace ItemResponses {
         constructor(
             public item: TItem,
             public linkedItems: IContentItemsContainer,
-            public response: IBaseResponse<any>
+            response: IBaseResponse<any>,
+            isDeveloperMode: boolean
         ) {
-            super(response);
+            super(response, isDeveloperMode);
             this.isEmpty = this.getIsEmpty();
         }
 

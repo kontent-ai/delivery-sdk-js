@@ -11,8 +11,8 @@ export namespace TypeResponses {
          * @param {IContentType[]} types - Content types
          * @param {Pagination} pagination - Pagination object
          */
-        constructor(public types: ContentType[], public pagination: Pagination, public response: IBaseResponse<any>) {
-            super(response);
+        constructor(public types: ContentType[], public pagination: Pagination, response: IBaseResponse<any>, isDeveloperMode: boolean) {
+            super(response, isDeveloperMode);
         }
     }
 
@@ -22,8 +22,8 @@ export namespace TypeResponses {
          * @constructor
          * @param {IContentType} type - Content type
          */
-        constructor(public type: ContentType, public response: IBaseResponse<any>) {
-            super(response);
+        constructor(public type: ContentType, response: IBaseResponse<any>, isDeveloperMode: boolean) {
+            super(response, isDeveloperMode);
         }
     }
 }

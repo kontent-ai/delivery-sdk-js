@@ -52,11 +52,14 @@ export class MappingService implements IMappingService {
     private readonly taxonomyMapper: TaxonomyMapper;
     private readonly genericElementMapper: GenericElementMapper;
 
+    private readonly isDeveloperMode: boolean;
+
     constructor(readonly config: IDeliveryClientConfig, readonly richTextHtmlParser: IRichTextHtmlParser) {
         this.typeMapper = new TypeMapper();
         this.itemMapper = new ItemMapper(config, richTextHtmlParser);
         this.taxonomyMapper = new TaxonomyMapper();
         this.genericElementMapper = new GenericElementMapper();
+        this.isDeveloperMode = config.isDeveloperMode === true ? true : false;
     }
 
     /**
@@ -77,7 +80,7 @@ export class MappingService implements IMappingService {
             nextPage: response.data.pagination.next_page
         });
 
-        return new TypeResponses.ListContentTypesResponse(types, pagination, response);
+        return new TypeResponses.ListContentTypesResponse(types, pagination, response, this.isDeveloperMode);
     }
 
     /**
@@ -91,7 +94,7 @@ export class MappingService implements IMappingService {
         // map type
         const type = this.typeMapper.mapSingleType(response.data);
 
-        return new TypeResponses.ViewContentTypeResponse(type, response);
+        return new TypeResponses.ViewContentTypeResponse(type, response, this.isDeveloperMode);
     }
 
     /**
@@ -106,7 +109,7 @@ export class MappingService implements IMappingService {
         // map item
         const itemResult = this.itemMapper.mapSingleItem<TItem>(response.data, queryConfig);
 
-        return new ItemResponses.ViewContentItemResponse<TItem>(itemResult.item, itemResult.processedItems, response);
+        return new ItemResponses.ViewContentItemResponse<TItem>(itemResult.item, itemResult.processedItems, response, this.isDeveloperMode);
     }
 
     /**
@@ -133,7 +136,8 @@ export class MappingService implements IMappingService {
             itemsResult.items,
             pagination,
             itemsResult.processedItems,
-            response
+            response,
+            this.isDeveloperMode
         );
     }
 
@@ -147,7 +151,7 @@ export class MappingService implements IMappingService {
         // map taxonomy
         const taxonomy = this.taxonomyMapper.mapTaxonomy(response.data.system, response.data.terms);
 
-        return new TaxonomyResponses.ViewTaxonomyGroupResponse(taxonomy, response);
+        return new TaxonomyResponses.ViewTaxonomyGroupResponse(taxonomy, response, this.isDeveloperMode);
     }
 
     /**
@@ -168,7 +172,7 @@ export class MappingService implements IMappingService {
             nextPage: response.data.pagination.next_page
         });
 
-        return new TaxonomyResponses.ListTaxonomyGroupsResponse(taxonomies, pagination, response);
+        return new TaxonomyResponses.ListTaxonomyGroupsResponse(taxonomies, pagination, response, this.isDeveloperMode);
     }
 
     /**
@@ -181,6 +185,6 @@ export class MappingService implements IMappingService {
         // map element
         const element = this.genericElementMapper.mapElement(response.data);
 
-        return new ElementResponses.ViewContentTypeElementResponse(element, response);
+        return new ElementResponses.ViewContentTypeElementResponse(element, response, this.isDeveloperMode);
     }
 }

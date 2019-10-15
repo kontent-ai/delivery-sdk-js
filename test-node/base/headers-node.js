@@ -3,7 +3,8 @@ const KontentDelivery = require('../../_commonjs');
 
 const deliveryClient = new KontentDelivery.DeliveryClient({
     projectId: 'e391c776-9d1e-4e1a-8a5a-1c327c2586b6',
-    typeResolvers: []
+    typeResolvers: [],
+    isDeveloperMode: true
 });
 
 const contentTypeHeaderName = 'Content-Type';

@@ -33,7 +33,7 @@ export interface ISDKInfo {
 
 
 export interface IKontentResponse {
-    debug: IKontentResponseDebug;
+    debug?: IKontentResponseDebug;
     hasStaleContent: boolean;
 }
 

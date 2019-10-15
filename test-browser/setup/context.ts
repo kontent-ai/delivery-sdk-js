@@ -23,7 +23,7 @@ export class Context {
   public baseUrl?: string;
   public basePreviewUrl?: string;
   public retryAttempts?: number;
-  public enableAdvancedLogging?: boolean;
+  public isDeveloperMode?: boolean = true;
   public globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
   public retryStatusCodes?: number[];
 
@@ -39,7 +39,7 @@ export class Context {
       basePreviewUrl?: string,
       securedApiKey?: string,
       retryAttempts?: number,
-      enableAdvancedLogging?: boolean,
+      isDeveloperMode?: boolean,
       globalHeaders?: (queryConfig: IQueryConfig) => IHeader[],
       retryStatusCodes?: number[];
     }
@@ -53,7 +53,7 @@ export class Context {
     return {
       projectId: this.projectId,
       typeResolvers: this.typeResolvers,
-      isDeveloperMode: this.enableAdvancedLogging,
+      isDeveloperMode: this.isDeveloperMode,
       previewApiKey: this.previewApiKey,
       secureApiKey: this.securedApiKey,
       globalQueryConfig: this.globalQueryConfig,
@@ -64,7 +64,7 @@ export class Context {
       defaultLanguage: this.defaultLanguage,
       retryAttempts: this.retryAttempts,
       globalHeaders: this.globalHeaders,
-      retryStatusCodes: this.retryStatusCodes
+      retryStatusCodes: this.retryStatusCodes,
     };
   }
 }

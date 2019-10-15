@@ -11,8 +11,8 @@ export namespace ElementResponses {
          * @constructor
          * @param {GenericElement} element - Content type element
          */
-        constructor(public element: GenericElement, public response: IBaseResponse<any>) {
-            super(response);
+        constructor(public element: GenericElement, response: IBaseResponse<any>, isDeveloperMode: boolean) {
+            super(response, isDeveloperMode);
         }
     }
 }

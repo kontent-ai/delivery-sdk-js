@@ -7,8 +7,9 @@ describe('Live authorization headers', () => {
 
     const context = new Context({
         globalQueryConfig: {
-            usePreviewMode: true
-        }
+            usePreviewMode: true,
+        },
+        isDeveloperMode: true
     });
 
     setup(context);
@@ -26,6 +27,9 @@ describe('Live authorization headers', () => {
     });
 
     it(`Verifies authorization header is actually present in sent request`, () => {
+        if (!response.debug) {
+            throw Error(`Debug is not available - use developer mode`);
+        }
         const debugResponse = response.debug.response as any;
         const header = debugResponse.config.headers[authorizationHeader];
 
