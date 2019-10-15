@@ -75,7 +75,7 @@
         "bundle-stats:browser:legacy": "npm run build:umd && webpack-bundle-analyzer _bundles/browser-legacy-stats.json"
     },
     "dependencies": {
-        "@kentico/kontent-core": "3.0.0",
+        "@kentico/kontent-core": "3.1.0",
         "parse5": "5.1.0",
         "reflect-metadata": "0.1.13"
     },

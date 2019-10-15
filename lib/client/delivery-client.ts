@@ -19,7 +19,6 @@ import { IDeliveryClient } from './idelivery-client.interface';
 export class DeliveryClient implements IDeliveryClient {
 
   private queryService: QueryService;
-
   public mappingService: IMappingService;
 
   /**
