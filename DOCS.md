@@ -15,7 +15,7 @@ npm i @kentico/kontent-delivery --save
 
 ## Upgrade
 
-See our [upgrade guide](https://github.com/Kentico/kentico-kontent-js/blob/master/packages/delivery/UPGRADE.md) if you are upgrading from previous versions. Currently, the latest major upgrade is from version `5.x.y` to `6.0.0`
+See our [upgrade guide](https://github.com/Kentico/kontent-delivery-sdk-js/blob/master/UPGRADE.md) if you are upgrading from previous versions. 
 
 ### UMD Bundles
 
