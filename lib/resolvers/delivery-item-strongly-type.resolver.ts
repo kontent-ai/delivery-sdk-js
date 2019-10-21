@@ -7,6 +7,14 @@ export class DeliveryItemStronglyTypeResolver {
     private readonly systemElementName = 'system';
     private readonly elementsElementName = 'elements';
 
+    tryCreateEmptyItemInstanceOfType<TItem extends IContentItem = IContentItem>(type: string, typeResolvers: TypeResolver[]): TItem | undefined {
+        const resolver = this.getTypeResolver(type, typeResolvers);
+        if (!resolver) {
+           return undefined;
+        }
+        return this.createInstanceWithResolver<TItem>(resolver, undefined);
+    }
+
     /**
      * Creates item instance using either TypeResolver (if registered) or returns ContentItem
      */
@@ -15,7 +23,7 @@ export class DeliveryItemStronglyTypeResolver {
         let itemInstance: TItem | undefined;
         if (typeResolver) {
             // type resolver is registered, create new instance of given type
-            itemInstance = this.createInstanceWithResolver<TItem>(data, typeResolver);
+            itemInstance = this.createInstanceWithResolver<TItem>(typeResolver, data);
         } else {
             // not type resolver is register for this type, use ContentItem
             itemInstance = this.createContentItem(data.item) as TItem;
@@ -47,10 +55,10 @@ export class DeliveryItemStronglyTypeResolver {
 
     /**
      * Creates new instance of given type
+     * @param resolver Type resolver
      * @param type Type of the content item
-     * @param resolvers Type resolvers
      */
-    private createInstanceWithResolver<TItem extends IContentItem>(data: ITypeResolverData, resolver: TypeResolver): TItem {
+    private createInstanceWithResolver<TItem extends IContentItem>(resolver: TypeResolver, data?: ITypeResolverData): TItem {
         return resolver.resolve(data) as TItem;
     }
 

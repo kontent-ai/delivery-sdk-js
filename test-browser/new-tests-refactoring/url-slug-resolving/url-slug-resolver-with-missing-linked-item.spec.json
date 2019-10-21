@@ -1,0 +1,35 @@
+{
+    "item": {
+      "system": {
+        "id": "9dd83c03-a416-4a4c-8399-1d7ee35d8b2f",
+        "name": "Evaluation Forms",
+        "codename": "evaluation_forms",
+        "language": "default",
+        "type": "page",
+        "sitemap_locations": [],
+        "last_modified": "2019-10-21T07:17:19.5892788Z"
+      },
+      "elements": {
+        "body": {
+          "type": "rich_text",
+          "name": "Body",
+          "images": {},
+          "links": {
+            "b6001684-0254-4ee3-bdcd-14effc784ff9": {
+              "codename": "spiral_evaluation_form_imperial",
+              "type": "page",
+              "url_slug": ""
+            },
+            "daa5a831-e7db-436c-b6ac-a0b713e7a54f": {
+              "codename": "industries",
+              "type": "page",
+              "url_slug": ""
+            }
+          },
+          "modular_content": [],
+          "value": "<p>Praesent turpis. Etiam sollicitudin, ipsum eu pulvinar rutrum, tellus ipsum laoreet sapien, quis venenatis ante odio sit amet eros. Praesent ac sem eget est egestas volutpat. Nullam cursus lacinia erat. Maecenas vestibulum mollis diam.</p>\n<ul>\n  <li>Spiral form (<a data-item-id=\"b6001684-0254-4ee3-bdcd-14effc784ff9\" href=\"\">Imperial</a> or <a data-item-id=\"daa5a831-e7db-436c-b6ac-a0b713e7a54f\" href=\"\">Metric</a>)</li>\n</ul>"
+        }
+      }
+    },
+    "modular_content": {}
+  }

@@ -1,8 +1,9 @@
-import { ContentItem, Elements, getParserAdapter, IUrlSlugResolverResult, richTextResolver } from '../../../../lib';
+import { ContentItem, Elements, getParserAdapter, IUrlSlugResolverResult, richTextResolver, ItemUrlSlugResolver } from '../../../../lib';
 
 describe('Rich text with regular link', () => {
     const linkedItems: ContentItem[] = [];
     const getLinkedItem: (codename: string) => ContentItem | undefined = (codename) => linkedItems.find(m => m.system.codename === codename);
+    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => undefined;
 
     const html = `Text with <a href="domain.com">link</a>`;
 
@@ -20,6 +21,7 @@ describe('Rich text with regular link', () => {
                 links: [],
                 resolveRichTextFunc: () => richTextResolver.resolveData('', html, 'name', {
                     enableAdvancedLogging: false,
+                    getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                     links: [],
                     getLinkedItem: getLinkedItem,
                     images: [],

@@ -5,6 +5,7 @@ import {
     ImageUrlBuilder,
     RichTextImage,
     richTextResolver,
+    ItemUrlSlugResolver,
 } from '../../../lib';
 import { Parse5RichTextParser } from '../../../lib/parser/adapters/parse5-rich-text.parser';
 
@@ -69,6 +70,10 @@ describe('RichTextElement with Images parse5', () => {
     const image1Html = getImageHtml('assetId1', image1.imageId, image1.url, image1.description);
     const image2Html = getImageHtml('assetId2', image2.imageId, image2.url, image2.description);
 
+    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => {
+        return undefined;
+    };
+
     const html = `
     Testing html with images. ${image1Html} and ${image2Html}`;
 
@@ -89,6 +94,7 @@ describe('RichTextElement with Images parse5', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                         enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
                         getLinkedItem: codename => linkedItem,
                         images: images,
@@ -129,6 +135,7 @@ describe('RichTextElement with Images parse5', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                         enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
                         getLinkedItem: codename => linkedItem,
                         images: images,

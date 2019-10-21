@@ -4,6 +4,7 @@ import {
     Elements,
     getParserAdapter,
     IRichTextResolverContext,
+    ItemUrlSlugResolver,
     Link,
     RichTextItemDataType,
     richTextResolver,
@@ -20,7 +21,6 @@ class ActorMock extends ContentItem {
     }
 
     setProperties(id: string, codename: string, firstName: string) {
-
         this.firstName = new Elements.TextElement({
             contentItemSystem: {} as any,
             propertyName: 'firstName',
@@ -40,27 +40,31 @@ class ActorMock extends ContentItem {
             lastModified: new Date()
         });
 
-        this.url = new Elements.UrlSlugElement({
-            contentItemSystem: {} as any,
-            propertyName: 'urlSlugName',
-            rawElement: {
-                name: 'name',
-                value: codename,
-                type: ''
+        this.url = new Elements.UrlSlugElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'urlSlugName',
+                rawElement: {
+                    name: 'name',
+                    value: codename,
+                    type: ''
+                }
+            },
+            {
+                resolveLinkFunc: () =>
+                    urlSlugResolver.resolveUrl({
+                        elementName: 'name',
+                        item: this,
+                        enableAdvancedLogging: true,
+                        elementValue: codename,
+                        resolver: (link, context) => {
+                            return {
+                                url: `/actor-rt/` + link.urlSlug
+                            };
+                        }
+                    }).url || ''
             }
-        }, {
-                resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                    elementName: 'name',
-                    item: this,
-                    enableAdvancedLogging: true,
-                    elementValue: codename,
-                    resolver: (link, context) => {
-                        return {
-                            url: `/actor-rt/` + link.urlSlug
-                        };
-                    },
-                }).url || ''
-            });
+        );
     }
 }
 
@@ -83,20 +87,29 @@ describe('RichTextElement', () => {
             linkId: tomHardy.system.id,
             codename: tomHardy.system.codename,
             type: tomHardy.system.type,
-            urlSlug: 'slug_for_tom',
+            urlSlug: 'slug_for_tom'
         }),
         new Link({
             linkId: joelEdgerton.system.id,
             codename: joelEdgerton.system.codename,
             type: joelEdgerton.system.type,
-            urlSlug: 'slug_for_joel',
+            urlSlug: 'slug_for_joel'
         })
     ];
 
     linkedItems.push(tomHardy);
     linkedItems.push(joelEdgerton);
 
-    const getLinkedItem: (codename: string) => ContentItem | undefined = (codename) => linkedItems.find(m => m.system.codename === codename);
+    const getLinkedItem: (codename: string) => ContentItem | undefined = codename =>
+        linkedItems.find(m => m.system.codename === codename);
+
+    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => {
+        const mockActor = new ActorMock();
+        if (mockActor._config && mockActor._config.urlSlugResolver) {
+            return mockActor._config.urlSlugResolver;
+        }
+        return undefined;
+    };
 
     // prepare html
     // tslint:disable:max-line-length
@@ -110,38 +123,43 @@ describe('RichTextElement', () => {
     and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>
     `;
 
-    const element = new Elements.RichTextElement({
-        contentItemSystem: {} as any,
-        propertyName: 'resolvedName',
-        rawElement: {
-            name: 'name',
-            value: html,
-            type: ''
-        }
-    }, linkedItems.map(m => m.system.codename), {
+    const element = new Elements.RichTextElement(
+        {
+            contentItemSystem: {} as any,
+            propertyName: 'resolvedName',
+            rawElement: {
+                name: 'name',
+                value: html,
+                type: ''
+            }
+        },
+        linkedItems.map(m => m.system.codename),
+        {
             links: links,
-            resolveRichTextFunc: () => richTextResolver.resolveData('', html, 'name', {
-                enableAdvancedLogging: false,
-                links: links,
-                getLinkedItem: getLinkedItem,
-                images: [],
-                richTextHtmlParser: getParserAdapter(),
-                linkedItemWrapperClasses: ['kc-wrapper-class'],
-                linkedItemWrapperTag: 'kcelem',
-                queryConfig: {
-                    richTextResolver: (item, context) => {
-                        return `<p class="testing_richtext">${(<ActorMock>item).firstName.value}</p>`;
-                    },
-                    urlSlugResolver: (link, context) => {
-                        return {
-                            url: '/actor-rt/' + link.urlSlug,
-                        };
+            resolveRichTextFunc: () =>
+                richTextResolver.resolveData('', html, 'name', {
+                    enableAdvancedLogging: false,
+                    getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                    links: links,
+                    getLinkedItem: getLinkedItem,
+                    images: [],
+                    richTextHtmlParser: getParserAdapter(),
+                    linkedItemWrapperClasses: ['kc-wrapper-class'],
+                    linkedItemWrapperTag: 'kcelem',
+                    queryConfig: {
+                        richTextResolver: (item, context) => {
+                            return `<p class="testing_richtext">${(<ActorMock>item).firstName.value}</p>`;
+                        },
+                        urlSlugResolver: (link, context) => {
+                            return {
+                                url: '/actor-rt/' + link.urlSlug
+                            };
+                        }
                     }
-                },
-            }),
+                }),
             images: []
-        });
-
+        }
+    );
 
     it(`checks name`, () => {
         expect(element.name).toEqual('name');
@@ -190,36 +208,41 @@ describe('RichTextElement', () => {
     });
 
     it(`checks that links are resolved even if the rich text resolver is not set`, () => {
-
-        const elementWithoutRichTextResolver = new Elements.RichTextElement({
-            contentItemSystem: {} as any,
-            propertyName: 'x',
-            rawElement: {
-                name: '',
-                value: html,
-                type: ''
-            }
-        }, linkedItems.map(m => m.system.codename), {
+        const elementWithoutRichTextResolver = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'x',
+                rawElement: {
+                    name: '',
+                    value: html,
+                    type: ''
+                }
+            },
+            linkedItems.map(m => m.system.codename),
+            {
                 links: links,
-                resolveRichTextFunc: () => richTextResolver.resolveData('', html, 'name', {
-                    enableAdvancedLogging: false,
-                    links: links,
-                    getLinkedItem: getLinkedItem,
-                    images: [],
-                    richTextHtmlParser: getParserAdapter(),
-                    linkedItemWrapperClasses: ['kc-wrapper-class'],
-                    linkedItemWrapperTag: 'kc-item-wrapper',
-                    queryConfig: {
-                        richTextResolver: undefined,
-                        urlSlugResolver: (link, context) => {
-                            return {
-                                url: '/actor-rt/' + link.urlSlug
-                            };
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData('', html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: links,
+                        getLinkedItem: getLinkedItem,
+                        images: [],
+                        richTextHtmlParser: getParserAdapter(),
+                        linkedItemWrapperClasses: ['kc-wrapper-class'],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextResolver: undefined,
+                            urlSlugResolver: (link, context) => {
+                                return {
+                                    url: '/actor-rt/' + link.urlSlug
+                                };
+                            }
                         }
-                    },
-                }),
+                    }),
                 images: []
-            });
+            }
+        );
 
         const expectedHtml1 = `href="/actor-rt/slug_for_joel"`;
         const expectedHtml2 = `href="/actor-rt/slug_for_tom"`;
@@ -230,33 +253,39 @@ describe('RichTextElement', () => {
     it(`checks that rich text context is set`, () => {
         const contexts: IRichTextResolverContext[] = [];
 
-        const elementWithRichTextResolver = new Elements.RichTextElement({
-            contentItemSystem: {} as any,
-            propertyName: 'x',
-            rawElement: {
-                name: '',
-                value: html,
-                type: ''
-            }
-        }, linkedItems.map(m => m.system.codename), {
+        const elementWithRichTextResolver = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'x',
+                rawElement: {
+                    name: '',
+                    value: html,
+                    type: ''
+                }
+            },
+            linkedItems.map(m => m.system.codename),
+            {
                 links: links,
-                resolveRichTextFunc: () => richTextResolver.resolveData('', html, 'name', {
-                    enableAdvancedLogging: false,
-                    links: links,
-                    getLinkedItem: getLinkedItem,
-                    images: [],
-                    richTextHtmlParser: getParserAdapter(),
-                    linkedItemWrapperClasses: ['kc-wrapper-class'],
-                    linkedItemWrapperTag: 'kc-item-wrapper',
-                    queryConfig: {
-                        richTextResolver: (item, context) => {
-                            contexts.push(context);
-                            return '';
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData('', html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: links,
+                        getLinkedItem: getLinkedItem,
+                        images: [],
+                        richTextHtmlParser: getParserAdapter(),
+                        linkedItemWrapperClasses: ['kc-wrapper-class'],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextResolver: (item, context) => {
+                                contexts.push(context);
+                                return '';
+                            }
                         }
-                    },
-                }),
+                    }),
                 images: []
-            });
+            }
+        );
 
         elementWithRichTextResolver.resolveHtml();
 
@@ -266,34 +295,39 @@ describe('RichTextElement', () => {
     });
 
     it(`error should be preserved when it originates from richTextResolver`, () => {
-        const elementWithRichTextResolver = new Elements.RichTextElement({
-            contentItemSystem: {} as any,
-            propertyName: 'x',
-            rawElement: {
-                name: '',
-                value: html,
-                type: ''
-            }
-        }, linkedItems.map(m => m.system.codename), {
+        const elementWithRichTextResolver = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'x',
+                rawElement: {
+                    name: '',
+                    value: html,
+                    type: ''
+                }
+            },
+            linkedItems.map(m => m.system.codename),
+            {
                 links: links,
-                resolveRichTextFunc: () => richTextResolver.resolveData('', html, 'name', {
-                    enableAdvancedLogging: false,
-                    links: links,
-                    getLinkedItem: getLinkedItem,
-                    images: [],
-                    richTextHtmlParser: getParserAdapter(),
-                    linkedItemWrapperClasses: ['kc-wrapper-class'],
-                    linkedItemWrapperTag: 'kc-item-wrapper',
-                    queryConfig: {
-                        richTextResolver: (item, context) => {
-                            throw Error(`Custom processing error`);
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData('', html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: links,
+                        getLinkedItem: getLinkedItem,
+                        images: [],
+                        richTextHtmlParser: getParserAdapter(),
+                        linkedItemWrapperClasses: ['kc-wrapper-class'],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextResolver: (item, context) => {
+                                throw Error(`Custom processing error`);
+                            }
                         }
-                    },
-                }),
+                    }),
                 images: []
-            });
+            }
+        );
 
         expect(() => elementWithRichTextResolver.resolveHtml()).toThrowError('Custom processing error');
     });
 });
-

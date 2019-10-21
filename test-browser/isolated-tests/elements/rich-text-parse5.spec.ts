@@ -3,6 +3,7 @@ import {
     ContentItemSystemAttributes,
     Elements,
     IRichTextResolverContext,
+    ItemUrlSlugResolver,
     Link,
     RichTextItemDataType,
     richTextResolver,
@@ -102,6 +103,14 @@ describe('RichTextElement parse5', () => {
     const getLinkedItem: (codename: string) => ContentItem | undefined = codename =>
         linkedItems.find(m => m.system.codename === codename);
 
+    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => {
+        const mockActor = new ActorMock();
+        if (mockActor._config && mockActor._config.urlSlugResolver) {
+            return mockActor._config.urlSlugResolver;
+        }
+        return undefined;
+    };
+
     // prepare html
     // tslint:disable:max-line-length
     const html = `
@@ -130,6 +139,7 @@ describe('RichTextElement parse5', () => {
             resolveRichTextFunc: () =>
                 richTextResolver.resolveData('', html, 'name', {
                     enableAdvancedLogging: false,
+                    getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                     links: links,
                     getLinkedItem: getLinkedItem,
                     images: [],
@@ -213,6 +223,7 @@ describe('RichTextElement parse5', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         enableAdvancedLogging: false,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -258,6 +269,7 @@ describe('RichTextElement parse5', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
                         enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
                         images: [],
@@ -299,6 +311,7 @@ describe('RichTextElement parse5', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
                         enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
                         images: [],

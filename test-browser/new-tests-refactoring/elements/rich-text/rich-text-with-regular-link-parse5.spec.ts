@@ -1,10 +1,11 @@
-import { ContentItem, Elements, IUrlSlugResolverResult, richTextResolver } from '../../../../lib';
+import { ContentItem, Elements, IUrlSlugResolverResult, richTextResolver, ItemUrlSlugResolver } from '../../../../lib';
 import { Parse5RichTextParser } from '../../../../lib/parser/adapters/parse5-rich-text.parser';
 
 describe('Rich text with regular link parse5', () => {
     const linkedItems: ContentItem[] = [];
     const getLinkedItem: (codename: string) => ContentItem | undefined = codename =>
         linkedItems.find(m => m.system.codename === codename);
+    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => undefined;
 
     const html = `Text with <a href="domain.com">link</a>`;
 
@@ -26,6 +27,7 @@ describe('Rich text with regular link parse5', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
                         enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
                         getLinkedItem: getLinkedItem,
                         images: [],

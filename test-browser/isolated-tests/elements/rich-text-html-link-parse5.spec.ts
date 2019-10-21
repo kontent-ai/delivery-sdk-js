@@ -2,6 +2,7 @@ import {
     ContentItem,
     ContentItemSystemAttributes,
     Elements,
+    ItemUrlSlugResolver,
     IUrlSlugResolverResult,
     Link,
     richTextResolver,
@@ -105,6 +106,14 @@ describe('RichTextElement with Html links parse5', () => {
     const getLinkedItem: (codename: string) => ContentItem | undefined = codename =>
         linkedItems.find(m => m.system.codename === codename);
 
+    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => {
+        const mockActor = new ActorMock();
+        if (mockActor._config && mockActor._config.urlSlugResolver) {
+            return mockActor._config.urlSlugResolver;
+        }
+        return undefined;
+    };
+
     // prepare html
     // tslint:disable:max-line-length
     const html = `
@@ -128,6 +137,7 @@ describe('RichTextElement with Html links parse5', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
                         enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
                         images: [],
