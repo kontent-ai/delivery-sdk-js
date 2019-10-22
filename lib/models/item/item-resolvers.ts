@@ -1,11 +1,10 @@
-import { ElementContracts, ItemContracts } from '../../data-contracts';
+import { ItemContracts } from '../../data-contracts';
 import {
     ContentItem,
     IContentItem,
-    IItemQueryConfig,
-    IUrlSlugResolverContext,
     IRichTextImageResolverResult,
     IRichTextResolverContext,
+    IUrlSlugResolverContext,
     IUrlSlugResolverResult,
     Link,
     RichTextImage,
@@ -14,6 +13,12 @@ import {
 export type ElementCollisionResolver = (elementCodename: string) => string;
 export type ItemPropertyResolver = (elementCodename: string) => string;
 export type ItemUrlSlugResolver = (link: Link, context: IUrlSlugResolverContext) => IUrlSlugResolverResult | undefined;
-export type ItemRichTextResolver<TItem extends IContentItem> = (contentItem: TItem, context: IRichTextResolverContext) => string;
-export type ItemResolver = (rawElement: ElementContracts.IElementContract, rawItem: ItemContracts.IContentItemContract, modularContent: ItemContracts.IModularContentContract, queryConfig: IItemQueryConfig) => ContentItem | undefined;
+export type ItemRichTextResolver<TItem extends IContentItem> = (
+    contentItem: TItem,
+    context: IRichTextResolverContext
+) => string;
+export type ItemResolver = (
+    rawItem: ItemContracts.IContentItemContract,
+    modularContent: ItemContracts.IModularContentContract
+) => ContentItem | undefined;
 export type RichTextImageResolver = (image: RichTextImage, elementName: string) => IRichTextImageResolverResult;

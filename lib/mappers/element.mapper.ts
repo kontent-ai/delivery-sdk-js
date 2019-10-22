@@ -36,7 +36,7 @@ export class ElementMapper {
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemsContainer;
-    }): IMapElementsResult<TItem> {
+    }): IMapElementsResult<TItem> | undefined {
         // return processed item if possible (to avoid infinite recursion)
         const processedItem = this.getProcessedItem(data.item.system.codename, data.processedItems);
         if (processedItem) {
@@ -50,35 +50,23 @@ export class ElementMapper {
         }
 
         const elementCodenames = Object.getOwnPropertyNames(data.item.elements);
+        const itemInstance = data.preparedItems[data.item.system.codename] as TItem | undefined;
 
-        const itemInstance = stronglyTypedResolver.createItemInstance<TItem>(
-            data.item.system.type,
-            {
-                item: data.item,
-                modularContent: data.modularContent
-            },
-            this.config.typeResolvers || []
-        );
-
-        if (!data.preparedItems) {
-            data.preparedItems = <IContentItemsContainer>{};
+        if (!itemInstance) {
+            // item is not present in response, no need to do any mapping
+            return undefined;
         }
-
-        // add to prepared items
-        data.preparedItems[data.item.system.codename] = itemInstance;
 
         elementCodenames.forEach(elementCodename => {
             if (!itemInstance) {
                 throw Error(`Item instance was not initiazed correctly.`);
             }
-
             const elementMap = this.resolveElementMap(itemInstance, elementCodename);
             const elementWrapper: ElementModels.IElementWrapper = {
                 contentItemSystem: data.item.system,
                 rawElement: data.item.elements[elementCodename],
                 propertyName: elementMap.resolvedName
             };
-
             if (elementMap.shouldMapElement) {
                 const mappedElement = this.mapElement({
                     elementWrapper: elementWrapper,
@@ -89,7 +77,6 @@ export class ElementMapper {
                     processedItems: data.processedItems,
                     queryConfig: data.queryConfig
                 });
-
                 // set mapped element to item instance
                 (itemInstance as IContentItem)[elementMap.resolvedName] = mappedElement;
             }
@@ -432,8 +419,8 @@ export class ElementMapper {
 
         if (mappingStartedForCodenames.find(m => m === codename)) {
             // item was already processed, but may not have yet been resolved (e.g. when child references parent)
-            // return reference to prepared item
-            return preparedItems[codename];
+            // return reference to prepared item. This item does not have mapped data yet.
+            return this.getPreparedItem(codename, preparedItems);
         }
 
         mappingStartedForCodenames.push(codename);
@@ -441,7 +428,7 @@ export class ElementMapper {
         // try getting item from modular content
         const rawItem = modularContent[codename] as ItemContracts.IContentItemContract | undefined;
 
-        // if not found item might not be a linked item, but can still be in standard response
+        // item might not be a linked item, but can still be in standard response
         // (e.g. when linked item references item in standard response)
         if (!rawItem) {
             const preparedItem = this.getPreparedItem(codename, preparedItems);
@@ -451,16 +438,7 @@ export class ElementMapper {
         }
 
         // by default errors are not thrown
-        let throwErrorForMissingLinkedItems: boolean = false;
-
-        // check if errors should be thrown for missing linked items
-        if (
-            queryConfig.throwErrorForMissingLinkedItems === false ||
-            queryConfig.throwErrorForMissingLinkedItems === true
-        ) {
-            // variable is a boolean
-            throwErrorForMissingLinkedItems = queryConfig.throwErrorForMissingLinkedItems;
-        }
+        const throwErrorForMissingLinkedItems: boolean = queryConfig.throwErrorForMissingLinkedItems === true ? true : false;
 
         // throw error if item is not in response and errors are not skipped
         if (!rawItem) {
@@ -476,18 +454,6 @@ export class ElementMapper {
 
         let mappedLinkedItem: IContentItem | undefined;
 
-        // try resolving item using custom item resolver if its set
-        if (queryConfig.itemResolver) {
-            const customMappedItem = queryConfig.itemResolver(element, rawItem, modularContent, queryConfig);
-
-            if (customMappedItem) {
-                // if user used custom mapping, make sure to add 'system' and 'elements' properties to result
-                customMappedItem.system = stronglyTypedResolver.mapSystemAttributes(rawItem.system);
-                customMappedItem.elements = rawItem.elements;
-                mappedLinkedItem = customMappedItem;
-            }
-        }
-
         // original resolving if item is still undefined
         if (!mappedLinkedItem) {
             const mappedLinkedItemResult = this.mapElements({
@@ -499,11 +465,14 @@ export class ElementMapper {
                 queryConfig: queryConfig
             });
 
-            mappedLinkedItem = mappedLinkedItemResult.item;
+            if (mappedLinkedItemResult) {
+                mappedLinkedItem = mappedLinkedItemResult.item;
+
+                // add to processed items
+                processedItems[codename] = mappedLinkedItem;
+            }
         }
 
-        // add to processed items
-        processedItems[codename] = mappedLinkedItem;
         return mappedLinkedItem;
     }
 
@@ -593,7 +562,7 @@ export class ElementMapper {
     }
 
     private getGlobalUrlSlugResolverForType(type: string): ItemUrlSlugResolver | undefined {
-        const item = stronglyTypedResolver.tryCreateEmptyItemInstanceOfType(type, this.config.typeResolvers || []);
+        const item = stronglyTypedResolver.createEmptyItemInstanceOfType(type, this.config.typeResolvers || []);
         if (item && item._config && item._config.urlSlugResolver) {
             return item._config.urlSlugResolver;
         }

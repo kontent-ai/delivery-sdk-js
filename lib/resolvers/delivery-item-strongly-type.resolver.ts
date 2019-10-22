@@ -1,16 +1,18 @@
 import { ItemContracts } from '../data-contracts';
-import { ContentItem, ContentItemSystemAttributes, IContentItem, ITypeResolverData } from '../models';
+import { ContentItem, ContentItemSystemAttributes, IContentItem, ItemResolver, ITypeResolverData } from '../models';
 import { TypeResolver } from '../models/item/type-resolver.class';
 
 export class DeliveryItemStronglyTypeResolver {
-
     private readonly systemElementName = 'system';
     private readonly elementsElementName = 'elements';
 
-    tryCreateEmptyItemInstanceOfType<TItem extends IContentItem = IContentItem>(type: string, typeResolvers: TypeResolver[]): TItem | undefined {
+    createEmptyItemInstanceOfType<TItem extends IContentItem = IContentItem>(
+        type: string,
+        typeResolvers: TypeResolver[]
+    ): TItem {
         const resolver = this.getTypeResolver(type, typeResolvers);
         if (!resolver) {
-           return undefined;
+            return this.createContentItem(undefined) as TItem;
         }
         return this.createInstanceWithResolver<TItem>(resolver, undefined);
     }
@@ -18,15 +20,26 @@ export class DeliveryItemStronglyTypeResolver {
     /**
      * Creates item instance using either TypeResolver (if registered) or returns ContentItem
      */
-    createItemInstance<TItem extends IContentItem = IContentItem>(type: string, data: ITypeResolverData, typeResolvers: TypeResolver[]): TItem {
-        const typeResolver = this.getTypeResolver(type, typeResolvers);
+    createItemInstance<TItem extends IContentItem = IContentItem>(
+        data: ITypeResolverData,
+        typeResolvers: TypeResolver[],
+        itemResolver?: ItemResolver
+    ): TItem {
         let itemInstance: TItem | undefined;
-        if (typeResolver) {
-            // type resolver is registered, create new instance of given type
-            itemInstance = this.createInstanceWithResolver<TItem>(typeResolver, data);
-        } else {
-            // not type resolver is register for this type, use ContentItem
-            itemInstance = this.createContentItem(data.item) as TItem;
+
+        if (itemResolver) {
+            itemInstance = itemResolver(data.item, data.modularContent) as TItem;
+        }
+
+        if (!itemInstance) {
+            const typeResolver = this.getTypeResolver(data.item.system.type, typeResolvers);
+            if (typeResolver) {
+                // type resolver is registered, create new instance of given type
+                itemInstance = this.createInstanceWithResolver<TItem>(typeResolver, data);
+            } else {
+                // not type resolver is register for this type, use ContentItem
+                itemInstance = this.createContentItem(data.item) as TItem;
+            }
         }
 
         if (!itemInstance) {
@@ -58,7 +71,10 @@ export class DeliveryItemStronglyTypeResolver {
      * @param resolver Type resolver
      * @param type Type of the content item
      */
-    private createInstanceWithResolver<TItem extends IContentItem>(resolver: TypeResolver, data?: ITypeResolverData): TItem {
+    private createInstanceWithResolver<TItem extends IContentItem>(
+        resolver: TypeResolver,
+        data?: ITypeResolverData
+    ): TItem {
         return resolver.resolve(data) as TItem;
     }
 
@@ -74,9 +90,11 @@ export class DeliveryItemStronglyTypeResolver {
     /**
      * Creates base ContentItem when content type does not have a strongly typed model
      */
-    private createContentItem(item: ItemContracts.IContentItemContract): IContentItem {
+    private createContentItem(item?: ItemContracts.IContentItemContract): IContentItem {
         const contentItem = new ContentItem();
-        this.assignRequiredContentItemData(contentItem, item);
+        if (item) {
+            this.assignRequiredContentItemData(contentItem, item);
+        }
         return contentItem;
     }
 
@@ -88,10 +106,9 @@ export class DeliveryItemStronglyTypeResolver {
     private assignRequiredContentItemData(item: IContentItem, rawItem: ItemContracts.IContentItemContract): void {
         item.system = this.mapSystemAttributes(rawItem[this.systemElementName]);
         item._raw = {
-            elements: rawItem[this.elementsElementName],
+            elements: rawItem[this.elementsElementName]
         };
     }
-
 }
 
 export const stronglyTypedResolver = new DeliveryItemStronglyTypeResolver();

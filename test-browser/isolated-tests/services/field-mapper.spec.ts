@@ -31,23 +31,30 @@ describe('ElementMapper', () => {
 
         const fakeElement = new FakeElement('testElement', 'testValue');
 
-        const item: FakeContentItem = {
-            elements: { 'testElement': fakeElement },
-            system: {
-                type: 'movie',
+        const systemData = {
+            type: 'movie',
                 codename: 'cd',
                 id: '',
                 last_modified: '2019-04-11T12:26:37.6196731Z',
                 name: 'name',
                 sitemap_locations: [],
                 language: 'en'
-            }
+        };
+
+        const item: FakeContentItem = {
+            elements: { 'testElement': fakeElement },
+            system: systemData
         };
 
         elementMapper.mapElements({
             item: item,
             modularContent: {},
-            preparedItems: {},
+            preparedItems: {
+                'cd': {
+                    _raw: null as any,
+                    system: systemData as any
+                }
+            },
             processedItems: {},
             processingStartedForCodenames: [],
             queryConfig: {}
