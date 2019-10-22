@@ -975,27 +975,36 @@ SDK allows you to inject your own instance of class implementing `IHttpService` 
 
 ```typescript
 import {
-    DeliveryClient,
-    IHttpService,
-    IHttpPutQueryCall,
-    IHttpDeleteQueryCall
+    IBaseResponse,
+    IHttpDeleteQueryCall,
     IHttpGetQueryCall,
+    IHttpPatchQueryCall,
     IHttpPostQueryCall,
+    IHttpPutQueryCall,
     IHttpQueryOptions,
-    IBaseResponse
+    IHttpService,
 } from '@kentico/kontent-core';
 import { Observable, of } from 'rxjs';
 
+import { DeliveryClient } from '../../../lib';
+
 class CustomHttpService implements IHttpService {
+    retryPromise<T>(
+        promise: Promise<T>,
+        options: { maxRetryAttempts: number; useRetryForResponseCodes: number[]; delay: number }
+    ): Promise<T> {
+        throw new Error('Method not implemented.');
+    }
+
     get<TError extends any, TRawData extends any>(
         call: IHttpGetQueryCall<TError>,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
-
-        // your code for executing GET requests
-        return of(<IBaseResponse<any>>{
-            data: undefined,
-            response: undefined
+        return of(<IBaseResponse<TRawData>>{
+            data: {} as any,
+            response: undefined,
+            headers: [],
+            status: 200
         });
     }
 
@@ -1003,10 +1012,8 @@ class CustomHttpService implements IHttpService {
         call: IHttpPostQueryCall<TError>,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
-
-      // your code for executing POST requests
-        return of(<IBaseResponse<any>>{
-            data: undefined,
+        return of(<IBaseResponse<TRawData>>{
+            data: {},
             response: undefined
         });
     }
@@ -1015,11 +1022,23 @@ class CustomHttpService implements IHttpService {
         call: IHttpPutQueryCall<TError>,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
+        return of(<IBaseResponse<TRawData>>{
+            data: {} as any,
+            response: undefined,
+            headers: [],
+            status: 200
+        });
+    }
 
-      // your code for executing PUT requests
-        return of(<IBaseResponse<any>>{
-            data: undefined,
-            response: undefined
+    patch<TError extends any, TRawData extends any>(
+        call: IHttpPatchQueryCall<TError>,
+        options?: IHttpQueryOptions
+    ): Observable<IBaseResponse<TRawData>> {
+        return of(<IBaseResponse<TRawData>>{
+            data: {} as any,
+            response: undefined,
+            headers: [],
+            status: 200
         });
     }
 
@@ -1027,11 +1046,11 @@ class CustomHttpService implements IHttpService {
         call: IHttpDeleteQueryCall<TError>,
         options?: IHttpQueryOptions
     ): Observable<IBaseResponse<TRawData>> {
-
-      // your code for executing DELETE requests
-        return of(<IBaseResponse<any>>{
-            data: undefined,
-            response: undefined
+        return of(<IBaseResponse<TRawData>>{
+            data: {} as any,
+            response: undefined,
+            headers: [],
+            status: 200
         });
     }
 }
