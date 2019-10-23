@@ -38,9 +38,15 @@ export namespace ItemContracts {
     sitemap_locations: string[];
   }
 
-  export interface IListContentItemsContract {
+  export interface IItemsWithModularContentContract {
     items: IContentItemContract[];
     modular_content: ItemContracts.IModularContentContract;
+  }
+
+  export interface IItemsFeedContract extends IItemsWithModularContentContract {
+    }
+
+  export interface IListContentItemsContract extends IItemsWithModularContentContract {
     pagination: IPaginationContract;
   }
 

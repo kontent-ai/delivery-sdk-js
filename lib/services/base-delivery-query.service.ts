@@ -104,10 +104,14 @@ export abstract class BaseDeliveryQueryService {
     /**
     * Gets proper set of headers for given request.
     * @param queryConfig Query configuration
-    * @param customHeaders Custom headers
+    * @param additionalHeaders Custom headers
     */
-    getHeaders(queryConfig: IQueryConfig): IHeader[] {
+    getHeaders(queryConfig: IQueryConfig, additionalHeaders?: IHeader[]): IHeader[] {
         const headers: IHeader[] = [];
+
+        if (additionalHeaders) {
+            headers.push(...additionalHeaders);
+        }
 
         // add SDK Id header for monitoring SDK usage
         headers.push(this.getSdkIdHeader());
@@ -155,10 +159,21 @@ export abstract class BaseDeliveryQueryService {
      */
     protected getResponse<TRawData>(
         url: string,
-        queryConfig?: IQueryConfig
+        queryConfig?: IQueryConfig,
+        serviceConfig?: {
+            headers?: IHeader[]
+        }
     ): Observable<IBaseResponse<TRawData>> {
         if (!queryConfig) {
             queryConfig = {};
+        }
+
+        if (!serviceConfig) {
+            serviceConfig = {};
+        }
+
+        if (serviceConfig.headers) {
+
         }
 
         return this.httpService

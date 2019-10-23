@@ -1,0 +1,39 @@
+{
+    "items": [
+      {
+        "system": {
+          "id": "b69ed774-8fb2-4413-8d12-d4c193a66f7a",
+          "name": "Getting content",
+          "codename": "getting_content",
+          "language": "default",
+          "type": "article",
+          "sitemap_locations": [],
+          "last_modified": "2019-09-12T07:11:43.2391249Z"
+        },
+        "elements": {
+          "title": {
+            "type": "text",
+            "name": "Title",
+            "value": "Getting content"
+          },
+          "introduction": {
+            "type": "rich_text",
+            "name": "Introduction",
+            "images": {},
+            "links": {},
+            "modular_content": [],
+            "value": "<p>While your copywriters write articles and add finishing touches to the content in your project, you can deliver that content to web and mobile applications via an API. In this tutorial, you'll learn how to retrieve your content from Kentico Kontent using the Delivery API.</p>"
+          },
+          "content": {
+            "type": "rich_text",
+            "name": "Content",
+            "images": {},
+            "links": {},
+            "modular_content": [],
+            "value": "<p>The Delivery API is a read-only REST API that can serve your content in two modes: public and preview.</p>"
+          }
+        }
+      }
+    ],
+    "modular_content": {}
+  }

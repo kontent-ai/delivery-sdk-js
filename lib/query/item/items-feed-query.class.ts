@@ -5,11 +5,12 @@ import { ContentItem, Filters, ItemResponses, Parameters, SortOrder } from '../.
 import { QueryService } from '../../services';
 import { BaseItemQuery } from './base-item-query.class';
 
-export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
-    TItem,
-    ItemResponses.ListContentItemsResponse<TItem>
-> {
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+export class ItemsFeedQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.ItemsFeedResponse<TItem>> {
+
+    constructor(
+        protected config: IDeliveryClientConfig,
+        protected queryService: QueryService
+    ) {
         super(config, queryService);
     }
 
@@ -93,15 +94,6 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
-     * Indicates depth of query that affects loading of nested linked items.
-     * @param depth Depth of the query (> 0)
-     */
-    depthParameter(depth: number): this {
-        this.parameters.push(new Parameters.DepthParameter(depth));
-        return this;
-    }
-
-    /**
      * In filter
      * @param element Element to filter.
      * @param values Values
@@ -141,15 +133,6 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
-     * Limits the number of items returned by query
-     * @param limit Number of items to load
-     */
-    limitParameter(limit: number): this {
-        this.parameters.push(new Parameters.LimitParameter(limit));
-        return this;
-    }
-
-    /**
      * Orders query based on given element and sort order
      * @param element Element by which to order
      * @param sortOrder Asc/Desc order type
@@ -178,25 +161,16 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
-     * Skips the selected number of items
-     * @param skip Number of items to skip
-     */
-    skipParameter(skip: number): this {
-        this.parameters.push(new Parameters.SkipParameter(skip));
-        return this;
-    }
-
-    /**
      * Gets the runnable Observable
      */
-    toObservable(): Observable<ItemResponses.ListContentItemsResponse<TItem>> {
-        return super.runMultipleItemsQuery();
+    toObservable(): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
+        return super.runItemsFeedQuery();
     }
 
     /**
      * Gets 'Url' representation of query
      */
     getUrl(): string {
-        return super.getMultipleItemsQueryUrl();
+        return super.getItemFeedQueryUrl();
     }
 }

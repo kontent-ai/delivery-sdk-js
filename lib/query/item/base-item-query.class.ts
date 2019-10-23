@@ -43,13 +43,13 @@ export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends
         return this;
     }
 
-    /**
-     * Indicates depth of query that affects loading of nested linked items.
-     * @param depth Depth of the query (> 0)
-     */
-    depthParameter(depth: number): this {
-        this.parameters.push(new Parameters.DepthParameter(depth));
-        return this;
+    protected getItemFeedQueryUrl(): string {
+        const action = '/items-feed';
+
+        // add default language is necessry
+        this.processDefaultLanguageParameter();
+
+        return super.resolveUrlInternal(action);
     }
 
     protected getMultipleItemsQueryUrl(): string {
@@ -68,6 +68,12 @@ export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends
         this.processDefaultLanguageParameter();
 
         return super.resolveUrlInternal(action);
+    }
+
+    protected runItemsFeedQuery(): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
+        const url = this.getItemFeedQueryUrl();
+
+        return this.queryService.getItemsFeed(url);
     }
 
     protected runMultipleItemsQuery(): Observable<ItemResponses.ListContentItemsResponse<TItem>> {

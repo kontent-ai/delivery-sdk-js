@@ -19,6 +19,10 @@ export interface IMappingService {
         response: IBaseResponse<TypeContracts.IListContentTypeContract>
     ): TypeResponses.ListContentTypesResponse;
 
+    itemsFeedResponse<TItem extends IContentItem>(
+        response: IBaseResponse<ItemContracts.IItemsFeedContract>,
+    ): ItemResponses.ItemsFeedResponse<TItem>;
+
     viewContentTypeResponse(
         response: IBaseResponse<TypeContracts.IViewContentTypeContract>
     ): TypeResponses.ViewContentTypeResponse;
@@ -69,10 +73,8 @@ export class MappingService implements IMappingService {
     listContentTypesResponse(
         response: IBaseResponse<TypeContracts.IListContentTypeContract>
     ): TypeResponses.ListContentTypesResponse {
-        // map types
         const types = this.typeMapper.mapMultipleTypes(response.data);
 
-        // pagination
         const pagination: Pagination = new Pagination({
             skip: response.data.pagination.skip,
             count: response.data.pagination.count,
@@ -91,10 +93,17 @@ export class MappingService implements IMappingService {
     viewContentTypeResponse(
         response: IBaseResponse<TypeContracts.IViewContentTypeContract>
     ): TypeResponses.ViewContentTypeResponse {
-        // map type
         const type = this.typeMapper.mapSingleType(response.data);
 
         return new TypeResponses.ViewContentTypeResponse(type, response, this.isDeveloperMode);
+    }
+
+    itemsFeedResponse<TItem extends IContentItem>(
+        response: IBaseResponse<ItemContracts.IItemsFeedContract>,
+    ): ItemResponses.ItemsFeedResponse<TItem> {
+        const itemsResult = this.itemMapper.mapMultipleItems<TItem>(response.data, {});
+
+        return new ItemResponses.ItemsFeedResponse(itemsResult.items, itemsResult.processedItems, response, this.isDeveloperMode);
     }
 
     /**
@@ -106,7 +115,6 @@ export class MappingService implements IMappingService {
         response: IBaseResponse<ItemContracts.IViewContentItemContract>,
         queryConfig: IItemQueryConfig
     ): ItemResponses.ViewContentItemResponse<TItem> {
-        // map item
         const itemResult = this.itemMapper.mapSingleItem<TItem>(response.data, queryConfig);
 
         return new ItemResponses.ViewContentItemResponse<TItem>(itemResult.item, itemResult.processedItems, response, this.isDeveloperMode);
@@ -121,10 +129,7 @@ export class MappingService implements IMappingService {
         response: IBaseResponse<ItemContracts.IListContentItemsContract>,
         queryConfig: IItemQueryConfig
     ): ItemResponses.ListContentItemsResponse<TItem> {
-        // map items
         const itemsResult = this.itemMapper.mapMultipleItems<TItem>(response.data, queryConfig);
-
-        // pagination
         const pagination: Pagination = new Pagination({
             skip: response.data.pagination.skip,
             count: response.data.pagination.count,
@@ -148,7 +153,6 @@ export class MappingService implements IMappingService {
     viewTaxonomyGroupResponse(
         response: IBaseResponse<TaxonomyContracts.IViewTaxonomyGroupContract>
     ): TaxonomyResponses.ViewTaxonomyGroupResponse {
-        // map taxonomy
         const taxonomy = this.taxonomyMapper.mapTaxonomy(response.data.system, response.data.terms);
 
         return new TaxonomyResponses.ViewTaxonomyGroupResponse(taxonomy, response, this.isDeveloperMode);
@@ -161,10 +165,8 @@ export class MappingService implements IMappingService {
     listTaxonomyGroupsResponse(
         response: IBaseResponse<TaxonomyContracts.IListTaxonomyGroupsContract>
     ): TaxonomyResponses.ListTaxonomyGroupsResponse {
-        // map taxonomies
         const taxonomies = this.taxonomyMapper.mapTaxonomies(response.data.taxonomies);
 
-        // pagination
         const pagination: Pagination = new Pagination({
             skip: response.data.pagination.skip,
             count: response.data.pagination.count,
@@ -182,7 +184,6 @@ export class MappingService implements IMappingService {
     viewContentTypeElementResponse(
         response: IBaseResponse<ElementContracts.IViewContentTypeElementContract>
     ): ElementResponses.ViewContentTypeElementResponse {
-        // map element
         const element = this.genericElementMapper.mapElement(response.data);
 
         return new ElementResponses.ViewContentTypeElementResponse(element, response, this.isDeveloperMode);

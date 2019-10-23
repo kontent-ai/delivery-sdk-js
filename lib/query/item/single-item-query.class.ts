@@ -1,12 +1,14 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ContentItem, ItemResponses } from '../../models';
+import { ContentItem, ItemResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseItemQuery } from './base-item-query.class';
 
-export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.ViewContentItemResponse<TItem>> {
-
+export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
+    TItem,
+    ItemResponses.ViewContentItemResponse<TItem>
+> {
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
@@ -20,15 +22,24 @@ export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<TI
     }
 
     /**
-    * Gets the runnable Observable
-    */
+     * Indicates depth of query that affects loading of nested linked items.
+     * @param depth Depth of the query (> 0)
+     */
+    depthParameter(depth: number): this {
+        this.parameters.push(new Parameters.DepthParameter(depth));
+        return this;
+    }
+
+    /**
+     * Gets the runnable Observable
+     */
     toObservable(): Observable<ItemResponses.ViewContentItemResponse<TItem>> {
         return super.runSingleItemQuery(this.codename);
     }
 
     /**
-    * Gets 'Url' representation of query
-    */
+     * Gets 'Url' representation of query
+     */
     getUrl(): string {
         return super.getSingleItemQueryUrl(this.codename);
     }

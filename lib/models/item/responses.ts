@@ -1,9 +1,31 @@
-import { IBaseResponse } from '@kentico/kontent-core';
+import { IBaseResponse, IHeader } from '@kentico/kontent-core';
 
 import { BaseKontentResponse, Pagination } from '../common';
 import { IContentItem, IContentItemsContainer } from './item-models';
 
 export namespace ItemResponses {
+
+    export class ItemsFeedResponse<TItem extends IContentItem = IContentItem> extends BaseKontentResponse {
+
+        private readonly continuationTokenHeaderName: string = 'X-Continuation';
+        public continuationToken?: string;
+
+        constructor(
+            public items: TItem[],
+            public linkedItems: IContentItemsContainer,
+            response: IBaseResponse<any>,
+            isDeveloperMode: boolean,
+        ) {
+            super(response, isDeveloperMode);
+            this.continuationToken = this.getContinuationToken(response.headers);
+        }
+
+        private getContinuationToken(headers: IHeader[]): string | undefined {
+            const header = headers.find(m => m.header.toLowerCase() === this.continuationTokenHeaderName.toLowerCase());
+            return header ? header.value : undefined;
+        }
+    }
+
     export class ListContentItemsResponse<TItem extends IContentItem = IContentItem> extends BaseKontentResponse {
         /**
          * Indicates if response contains any items

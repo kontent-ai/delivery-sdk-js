@@ -3,8 +3,9 @@ import { IBaseResponse } from '@kentico/kontent-core';
 import { IKontentResponse, IKontentResponseDebug } from './common-models';
 
 export class BaseKontentResponse implements IKontentResponse {
+    protected readonly staleContentHeaderName: string = 'X-Stale-Content';
+
     public readonly debug?: IKontentResponseDebug;
-    public readonly staleContentHeaderName: string = 'X-Stale-Content';
     public readonly hasStaleContent: boolean;
     public readonly isDeveloperMode: boolean;
 

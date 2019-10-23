@@ -76,7 +76,7 @@ export class ItemMapper {
      * @param queryConfig Query configuration
      */
     mapMultipleItems<TItem extends IContentItem = IContentItem>(
-        response: ItemContracts.IListContentItemsContract,
+        response: ItemContracts.IItemsWithModularContentContract,
         queryConfig: IItemQueryConfig
     ): MapItemsResult<TItem> {
         const that = this;
