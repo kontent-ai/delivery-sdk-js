@@ -1,4 +1,4 @@
-import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService } from '@kentico/kontent-core';
+import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService, IRetryStrategyOptions } from '@kentico/kontent-core';
 
 import { ElementResolver } from '../elements';
 import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, TypeResolver } from '../models';
@@ -71,9 +71,9 @@ export interface IDeliveryClientConfig {
     defaultLanguage?: string;
 
     /**
-     * Number of retry attempts for failed requests. Defaults to 3. To disable retries set use 0.
+     * Retry policy configuration
      */
-    retryAttempts?: number;
+    retryStrategy?: IRetryStrategyOptions;
 
     /**
      * Can be used to inject custom Http service to perform requests

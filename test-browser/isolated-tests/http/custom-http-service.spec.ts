@@ -7,16 +7,14 @@ import {
     IHttpPutQueryCall,
     IHttpQueryOptions,
     IHttpService,
+    IRetryStrategyOptions,
 } from '@kentico/kontent-core';
 import { Observable, of } from 'rxjs';
 
 import { DeliveryClient } from '../../../lib';
 
 class CustomHttpService implements IHttpService {
-    retryPromise<T>(
-        promise: Promise<T>,
-        options: { maxRetryAttempts: number; useRetryForResponseCodes: number[]; delay: number }
-    ): Promise<T> {
+    retryPromise<T>(promise: Promise<T>, options?: IRetryStrategyOptions): Promise<T> {
         throw new Error('Method not implemented.');
     }
 

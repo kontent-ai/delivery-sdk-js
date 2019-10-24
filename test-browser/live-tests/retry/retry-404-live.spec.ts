@@ -4,11 +4,12 @@ import { Context, setup } from '../../setup';
 
 describe('Live 404 retry', () => {
     const context = new Context();
-
-    const retryAttempts = 3;
-
-    // set retry attempts
-    context.retryAttempts = retryAttempts;
+    context.retryStrategy = {
+        addJitter: false,
+        deltaBackoffMs: 1000,
+        maxCumulativeWaitTimeMs: 5000,
+        useRetryForResponseCodes: []
+    };
 
     // set fake base url because we want this to fail
     context.baseUrl = 'http://fakeurl';

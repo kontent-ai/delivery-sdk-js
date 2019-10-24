@@ -52,10 +52,9 @@ export function setup(context: Context) {
             baseUrl: context.baseUrl,
             basePreviewUrl: context.basePreviewUrl,
         },
-        retryAttempts: context.retryAttempts,
+        retryStrategy: context.retryStrategy,
         isDeveloperMode: context.isDeveloperMode,
         globalHeaders: context.globalHeaders,
-        retryStatusCodes: context.retryStatusCodes,
         httpInterceptors: {
             requestInterceptor: (config) => {
                 return config;

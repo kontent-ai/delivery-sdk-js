@@ -1,7 +1,7 @@
 import { DeliveryClient, IDeliveryClientConfig, TypeResolver, IQueryConfig } from '../../lib';
 import { IRichTextHtmlParser } from '../../lib/parser/parse-models';
 import { getParserAdapter } from '../../lib/parser/parser-adapter';
-import { IHeader } from '@kentico/kontent-core';
+import { IHeader, IRetryStrategyOptions } from '@kentico/kontent-core';
 
 export class Context {
 
@@ -22,10 +22,9 @@ export class Context {
   public defaultLanguage?: string;
   public baseUrl?: string;
   public basePreviewUrl?: string;
-  public retryAttempts?: number;
   public isDeveloperMode?: boolean = true;
   public globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
-  public retryStatusCodes?: number[];
+  public retryStrategy?: IRetryStrategyOptions;
 
   constructor(
     options?: {
@@ -38,10 +37,9 @@ export class Context {
       baseUrl?: string,
       basePreviewUrl?: string,
       securedApiKey?: string,
-      retryAttempts?: number,
       isDeveloperMode?: boolean,
       globalHeaders?: (queryConfig: IQueryConfig) => IHeader[],
-      retryStatusCodes?: number[];
+      retryStrategy?: IRetryStrategyOptions;
     }
   ) {
     if (options) {
@@ -62,9 +60,8 @@ export class Context {
         basePreviewUrl: this.basePreviewUrl
       },
       defaultLanguage: this.defaultLanguage,
-      retryAttempts: this.retryAttempts,
       globalHeaders: this.globalHeaders,
-      retryStatusCodes: this.retryStatusCodes,
+      retryStrategy: this.retryStrategy,
     };
   }
 }

@@ -4,11 +4,17 @@ import { Context } from '../../setup/context';
 import { setup } from '../../setup/setup';
 
 describe('Retry Promise - isolated - retry', () => {
-    const retryAttempts = 3;
+    const retryAttempts = 2;
     const MAX_SAFE_TIMEOUT = Math.pow(2, 31) - 1;
 
     const context = new Context();
-    context.retryStatusCodes = [0];
+    context.retryStrategy = {
+        addJitter: false,
+        deltaBackoffMs: 1000,
+        maxCumulativeWaitTimeMs: 5000,
+        useRetryForResponseCodes: [404]
+    };
+
     setup(context);
     const client = context.deliveryClient;
 
@@ -17,7 +23,7 @@ describe('Retry Promise - isolated - retry', () => {
     beforeAll((done) => {
         spyOn(retryService, 'debugLogAttempt').and.callThrough();
 
-        const promise = client.items().withUrl('fakeUrl').toPromise();
+        const promise = client.item('xxxyyyy').toPromise(); // throws 404 which we retry
 
         promise.then((response) => {
             throw Error(`This call should not succeed`);
