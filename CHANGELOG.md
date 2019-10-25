@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com///compare/v7.2.0...v8.0.0) (2019-10-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* Updates @kentico/kontent-core to v4 and uses new and improved retry strategy. 'retryAttempts' configuration option was removed in favor of 'retryStrategy' object.
+
+### Features
+
+* adds 'itemsFeedAll' method to get all items from a project. This method may execute multiple HTTP requests. Reworks base responses & debug to allow different debug types per response. ([72e03fd](https://github.com///commit/72e03fd3587573d82d665e0010c696e122e73248))
+* adds support for 'items-feed' endpoint ([29913c9](https://github.com///commit/29913c984b073166a8f0ddc12f69106c7d476efd))
+* Updates @kentico/kontent-core to v4 and uses new and improved retry strategy. 'retryAttempts' configuration option was removed in favor of 'retryStrategy' object. ([e2abd02](https://github.com///commit/e2abd02a233f78f9c9152397f5eb915d73ba1189))
+
+
+### Bug Fixes
+
+* prepares instances of all items before resolving occurs to prevent some items from being skipped ([5559cb6](https://github.com///commit/5559cb608668f608f759256f0a35486fb7397d9c))
+
 ## [7.2.0](https://github.com///compare/v7.1.0...v7.2.0) (2019-10-21)
 
 
