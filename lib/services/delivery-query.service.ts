@@ -1,4 +1,4 @@
-import { IHttpService, IHeader } from '@kentico/kontent-core';
+import { IBaseResponse, IHeader, IHttpService } from '@kentico/kontent-core';
 import { Observable, of } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
 
@@ -47,16 +47,29 @@ export class QueryService extends BaseDeliveryQueryService {
     }
 
     /**
-     * Gets all items from feed. This method executes multiple HTTP requests.
+     * Gets single feed response. Might not contain all items in your project.
      * @param url Url
      * @param queryConfig Query configuration
      */
-    getItemsFeed<TItem extends ContentItem>(
-        url: string
-    ): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
+    getItemsFeed<TItem extends ContentItem>(url: string): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
         return this.getResponse<ItemContracts.IItemsFeedContract>(url).pipe(
             map(response => {
                 return this.mappingService.itemsFeedResponse<TItem>(response);
+            })
+        );
+    }
+
+    /**
+     * Gets all items from feed. This method may execute multiple HTTP requests.
+     * @param url Url
+     * @param queryConfig Query configuration
+     */
+    getItemsFeedAll<TItem extends ContentItem>(url: string): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
+        const responses: IBaseResponse<ItemContracts.IItemsFeedContract>[] = [];
+
+        return this.getAllItemsFeedResponses(url, {}, responses).pipe(
+            map(() => {
+                return this.mappingService.itemsFeedAllResponse(responses);
             })
         );
     }
@@ -157,11 +170,10 @@ export class QueryService extends BaseDeliveryQueryService {
         );
     }
 
-    private getAllItemsFromFeed(
+    private getAllItemsFeedResponses(
         url: string,
         queryConfig: IItemQueryConfig,
-        items: ItemContracts.IContentItemContract[],
-        linkedItems: ItemContracts.IModularContentContract,
+        responses: IBaseResponse<ItemContracts.IItemsFeedContract>[],
         continuationToken?: string
     ): Observable<void> {
         const headers: IHeader[] = [];
@@ -177,17 +189,13 @@ export class QueryService extends BaseDeliveryQueryService {
             headers: headers
         }).pipe(
             flatMap(response => {
-                items.push(...response.data.items);
-                for (const linkedItemCodename of Object.keys(response.data.modular_content)) {
-                    const linkedItem = response.data.modular_content[linkedItemCodename];
-                    linkedItems[linkedItemCodename] = linkedItem;
-                }
+                responses.push(response);
 
                 const continuationHeader = response.headers.find(
                     m => m.header.toLowerCase() === this.ContinuationHeaderName.toLowerCase()
                 );
                 if (continuationHeader) {
-                    return this.getAllItemsFromFeed(url, queryConfig, items, linkedItems, continuationHeader.value);
+                    return this.getAllItemsFeedResponses(url, queryConfig, responses, continuationHeader.value);
                 }
 
                 return of(undefined);

@@ -10,4 +10,5 @@ export * from './taxonomy/taxonomy-query.class';
 export * from './type/base-type-query.class';
 export * from './type/multiple-type-query.class';
 export * from './type/single-type-query.class';
-export * from './item/items-feed-query.class';
+export * from './items-feed/items-feed-query.class';
+export * from './items-feed/items-feed-query-all.class';

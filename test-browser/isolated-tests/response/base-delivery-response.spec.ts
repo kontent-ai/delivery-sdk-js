@@ -1,8 +1,8 @@
-import { BaseKontentResponse as BaseDeliveryResponse } from '../../../lib';
+import { BaseKontentResponseStandardDebug } from '../../../lib';
 
 describe('Base Kontent response', () => {
     it(`Debug props should be mapped when developer mode is enabled`, () => {
-        const response = new BaseDeliveryResponse(
+        const response = new BaseKontentResponseStandardDebug(
             {
                 data: {},
                 headers: [
@@ -25,7 +25,7 @@ describe('Base Kontent response', () => {
     });
 
     it(`Debug props should not be mapped when developer mode is disabled`, () => {
-        const response = new BaseDeliveryResponse(
+        const response = new BaseKontentResponseStandardDebug(
             {
                 data: {},
                 headers: [
@@ -43,7 +43,7 @@ describe('Base Kontent response', () => {
     });
 
     it(`X-Stale-Content should always be false when header is not present`, () => {
-        const response = new BaseDeliveryResponse(
+        const response = new BaseKontentResponseStandardDebug(
             {
                 data: {},
                 headers: [],
@@ -56,7 +56,7 @@ describe('Base Kontent response', () => {
     });
 
     it(`X-Stale-Content should be true when header has value of 1`, () => {
-        const response = new BaseDeliveryResponse(
+        const response = new BaseKontentResponseStandardDebug(
             {
                 data: {},
                 headers: [

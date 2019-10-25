@@ -8,6 +8,7 @@ import {
     SingleTypeQuery,
     TaxonomiesQuery,
     TaxonomyQuery,
+    ItemsFeedQueryAll,
 } from '../query';
 import { IMappingService } from '../services';
 
@@ -34,9 +35,14 @@ export interface IDeliveryClient {
     items<TItem extends ContentItem>(): MultipleItemQuery<TItem>;
 
     /**
-     * Gets query for items feed
+     * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent project.
      */
     itemsFeed<TItem extends ContentItem>(): ItemsFeedQuery<TItem>;
+
+    /**
+     * Gets query for all items feed. This may execute multiple HTTP calls depending on number of items in your Kontent project.
+     */
+    itemsFeedAll<TItem extends ContentItem>(): ItemsFeedQueryAll<TItem>;
 
     /**
      * Gets query for single item

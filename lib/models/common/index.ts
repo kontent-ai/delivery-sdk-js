@@ -3,4 +3,4 @@ export * from './pagination.class';
 export * from './parameters';
 export * from './sort-order.enum';
 export * from './common-models';
-export * from './base-delivery-response.class';
+export * from './base-responses';

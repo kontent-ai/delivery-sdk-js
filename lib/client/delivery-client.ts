@@ -12,6 +12,7 @@ import {
     SingleTypeQuery,
     TaxonomiesQuery,
     TaxonomyQuery,
+    ItemsFeedQueryAll,
 } from '../query';
 import { sdkInfo } from '../sdk-info.generated';
 import { IMappingService, MappingService, QueryService } from '../services';
@@ -86,10 +87,17 @@ export class DeliveryClient implements IDeliveryClient {
     }
 
     /**
-     * Gets query for items feed
+     * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent project.
      */
     itemsFeed<TItem extends ContentItem>(): ItemsFeedQuery<TItem> {
         return new ItemsFeedQuery<TItem>(this.config, this.queryService);
+    }
+
+    /**
+     * Gets query for all items feed. This may execute multiple HTTP calls depending on number of items in your Kontent project.
+     */
+    itemsFeedAll<TItem extends ContentItem>(): ItemsFeedQueryAll<TItem> {
+        return new ItemsFeedQueryAll<TItem>(this.config, this.queryService);
     }
 
     /**

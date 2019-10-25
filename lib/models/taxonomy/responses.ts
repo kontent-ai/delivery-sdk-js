@@ -1,10 +1,10 @@
 import { IBaseResponse } from '@kentico/kontent-core';
 
-import { BaseKontentResponse, Pagination } from '../common';
+import { BaseKontentResponseStandardDebug, Pagination } from '../common';
 import { TaxonomyGroup } from './taxonomy-models';
 
 export namespace TaxonomyResponses {
-    export class ViewTaxonomyGroupResponse extends BaseKontentResponse {
+    export class ViewTaxonomyGroupResponse extends BaseKontentResponseStandardDebug {
         constructor(
             /**
              * Taxonomy group
@@ -21,7 +21,7 @@ export namespace TaxonomyResponses {
         }
     }
 
-    export class ListTaxonomyGroupsResponse extends BaseKontentResponse {
+    export class ListTaxonomyGroupsResponse extends BaseKontentResponseStandardDebug {
         constructor(
             /**
              * Taxonomies

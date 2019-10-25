@@ -32,8 +32,8 @@ export interface ISDKInfo {
 }
 
 
-export interface IKontentResponse {
-    debug?: IKontentResponseDebug;
+export interface IKontentResponse<TDebugData> {
+    debug?: TDebugData;
     hasStaleContent: boolean;
 }
 

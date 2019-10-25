@@ -1,16 +1,13 @@
-import { Observable } from 'rxjs';
-
 import { IDeliveryClientConfig } from '../../config';
-import { ContentItem, Filters, ItemResponses, Parameters, SortOrder } from '../../models';
+import { BaseKontentResponse, ContentItem, Filters, Parameters, SortOrder } from '../../models';
 import { QueryService } from '../../services';
-import { BaseItemQuery } from './base-item-query.class';
+import { BaseItemQuery } from '../item/base-item-query.class';
 
-export class ItemsFeedQuery<TItem extends ContentItem> extends BaseItemQuery<TItem, ItemResponses.ItemsFeedResponse<TItem>> {
-
-    constructor(
-        protected config: IDeliveryClientConfig,
-        protected queryService: QueryService
-    ) {
+export abstract class BaseItemsFeedQuery<
+    TItem extends ContentItem,
+    TResponse extends BaseKontentResponse<any>
+> extends BaseItemQuery<TItem, TResponse> {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
 
@@ -158,19 +155,5 @@ export class ItemsFeedQuery<TItem extends ContentItem> extends BaseItemQuery<TIt
     orderByAscending(element: string): this {
         this.parameters.push(new Parameters.OrderParameter(element, SortOrder.asc));
         return this;
-    }
-
-    /**
-     * Gets the runnable Observable
-     */
-    toObservable(): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
-        return super.runItemsFeedQuery();
-    }
-
-    /**
-     * Gets 'Url' representation of query
-     */
-    getUrl(): string {
-        return super.getItemFeedQueryUrl();
     }
 }

@@ -2,18 +2,16 @@ import { IHeader } from '@kentico/kontent-core';
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ElementResponses, IKontentResponse, IElementQueryConfig } from '../../models';
+import { ElementResponses, IElementQueryConfig, IKontentResponse, IKontentResponseDebug } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export abstract class BaseElementQuery<TResponse extends IKontentResponse> extends BaseQuery<TResponse> {
-
+export abstract class BaseElementQuery<TResponse extends IKontentResponse<IKontentResponseDebug>> extends BaseQuery<
+    TResponse
+> {
     protected _queryConfig: IElementQueryConfig = {};
 
-    constructor(
-        protected config: IDeliveryClientConfig,
-        protected queryService: QueryService
-    ) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
 
@@ -39,7 +37,10 @@ export abstract class BaseElementQuery<TResponse extends IKontentResponse> exten
         return super.resolveUrlInternal(action);
     }
 
-    protected runElementQuery(typeCodename: string, elementCodename: string): Observable<ElementResponses.ViewContentTypeElementResponse> {
+    protected runElementQuery(
+        typeCodename: string,
+        elementCodename: string
+    ): Observable<ElementResponses.ViewContentTypeElementResponse> {
         return this.queryService.getElement(this.getElementQueryUrl(typeCodename, elementCodename), this._queryConfig);
     }
 }

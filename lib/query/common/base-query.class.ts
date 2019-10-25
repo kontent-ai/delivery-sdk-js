@@ -5,7 +5,7 @@ import { IDeliveryClientConfig } from '../../config';
 import { IKontentResponse, IQueryConfig, Parameters } from '../../models';
 import { QueryService } from '../../services';
 
-export abstract class BaseQuery<TResponse extends IKontentResponse> {
+export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
   protected parameters: IQueryParameter[] = [];
   protected customUrl?: string;
 

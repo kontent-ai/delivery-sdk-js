@@ -11,6 +11,7 @@ import {
     Pagination,
     TaxonomyResponses,
     TypeResponses,
+    IContentItemsContainer,
 } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 
@@ -22,6 +23,10 @@ export interface IMappingService {
     itemsFeedResponse<TItem extends IContentItem>(
         response: IBaseResponse<ItemContracts.IItemsFeedContract>,
     ): ItemResponses.ItemsFeedResponse<TItem>;
+
+    itemsFeedAllResponse<TItem extends IContentItem>(
+        responses: IBaseResponse<ItemContracts.IItemsFeedContract>[],
+    ): ItemResponses.ItemsFeedAllResponse<TItem>;
 
     viewContentTypeResponse(
         response: IBaseResponse<TypeContracts.IViewContentTypeContract>
@@ -104,6 +109,22 @@ export class MappingService implements IMappingService {
         const itemsResult = this.itemMapper.mapMultipleItems<TItem>(response.data, {});
 
         return new ItemResponses.ItemsFeedResponse(itemsResult.items, itemsResult.processedItems, response, this.isDeveloperMode);
+    }
+
+    itemsFeedAllResponse<TItem extends IContentItem>(
+        responses: IBaseResponse<ItemContracts.IItemsFeedContract>[],
+    ): ItemResponses.ItemsFeedAllResponse<TItem> {
+
+        const allItems: TItem[] = [];
+        let allProcessedItems: IContentItemsContainer = {};
+
+        for (const response of responses) {
+            const itemsFeedResponse = this.itemsFeedResponse<TItem>(response);
+            allItems.push(...itemsFeedResponse.items);
+            allProcessedItems = {...allProcessedItems, ...itemsFeedResponse.linkedItems};
+        }
+
+        return new ItemResponses.ItemsFeedAllResponse(allItems, allProcessedItems, responses, this.isDeveloperMode);
     }
 
     /**

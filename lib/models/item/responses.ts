@@ -1,12 +1,21 @@
 import { IBaseResponse, IHeader } from '@kentico/kontent-core';
 
-import { BaseKontentResponse, Pagination } from '../common';
+import { BaseKontentResponseArrayDebug, BaseKontentResponseStandardDebug, Pagination } from '../common';
 import { IContentItem, IContentItemsContainer } from './item-models';
 
 export namespace ItemResponses {
+    export class ItemsFeedAllResponse<TItem extends IContentItem = IContentItem> extends BaseKontentResponseArrayDebug {
+        constructor(
+            public items: TItem[],
+            public linkedItems: IContentItemsContainer,
+            responses: IBaseResponse<any>[],
+            isDeveloperMode: boolean
+        ) {
+            super(responses, isDeveloperMode);
+        }
+    }
 
-    export class ItemsFeedResponse<TItem extends IContentItem = IContentItem> extends BaseKontentResponse {
-
+    export class ItemsFeedResponse<TItem extends IContentItem = IContentItem> extends BaseKontentResponseStandardDebug {
         private readonly continuationTokenHeaderName: string = 'X-Continuation';
         public continuationToken?: string;
 
@@ -14,7 +23,7 @@ export namespace ItemResponses {
             public items: TItem[],
             public linkedItems: IContentItemsContainer,
             response: IBaseResponse<any>,
-            isDeveloperMode: boolean,
+            isDeveloperMode: boolean
         ) {
             super(response, isDeveloperMode);
             this.continuationToken = this.getContinuationToken(response.headers);
@@ -26,7 +35,9 @@ export namespace ItemResponses {
         }
     }
 
-    export class ListContentItemsResponse<TItem extends IContentItem = IContentItem> extends BaseKontentResponse {
+    export class ListContentItemsResponse<
+        TItem extends IContentItem = IContentItem
+    > extends BaseKontentResponseStandardDebug {
         /**
          * Indicates if response contains any items
          */
@@ -94,7 +105,9 @@ export namespace ItemResponses {
         }
     }
 
-    export class ViewContentItemResponse<TItem extends IContentItem = IContentItem> extends BaseKontentResponse {
+    export class ViewContentItemResponse<
+        TItem extends IContentItem = IContentItem
+    > extends BaseKontentResponseStandardDebug {
         /**
          * Indicates if response contains item
          */

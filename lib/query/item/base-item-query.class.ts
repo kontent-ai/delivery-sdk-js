@@ -1,18 +1,24 @@
 import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
-import { ContentItem, ItemResponses, Parameters, IKontentResponse, IItemQueryConfig } from '../../models';
+import {
+    ContentItem,
+    IItemQueryConfig,
+    IKontentResponse,
+    IKontentResponseDebug,
+    ItemResponses,
+    Parameters,
+} from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends IKontentResponse> extends BaseQuery<TResponse> {
-
+export abstract class BaseItemQuery<
+    TItem extends ContentItem,
+    TResponse extends IKontentResponse<IKontentResponseDebug | IKontentResponseDebug[]>
+> extends BaseQuery<TResponse> {
     protected _queryConfig: IItemQueryConfig = {};
 
-    constructor(
-        protected config: IDeliveryClientConfig,
-        protected queryService: QueryService
-    ) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
 
@@ -74,6 +80,12 @@ export abstract class BaseItemQuery<TItem extends ContentItem, TResponse extends
         const url = this.getItemFeedQueryUrl();
 
         return this.queryService.getItemsFeed(url);
+    }
+
+    protected runItemsFeedQueryAll(): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
+        const url = this.getItemFeedQueryUrl();
+
+        return this.queryService.getItemsFeedAll(url);
     }
 
     protected runMultipleItemsQuery(): Observable<ItemResponses.ListContentItemsResponse<TItem>> {
