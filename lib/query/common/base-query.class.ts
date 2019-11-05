@@ -55,7 +55,7 @@ export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
   }
 
   toPromise(): Promise<TResponse> {
-    return this.queryService.retryPromise(this.toObservable().toPromise());
+    return this.toObservable().toPromise();
   }
 
   protected resolveUrlInternal(action: string): string {
