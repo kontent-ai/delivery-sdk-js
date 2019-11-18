@@ -86,6 +86,24 @@ export namespace Parameters {
         }
     }
 
+    export class IncludeTotalCountParameter implements IQueryParameter {
+
+        /**
+        * Adds 'includeTotalCount' query parameter to query
+        * @constructor
+        */
+        constructor() {
+        }
+
+        public getParam(): string {
+            return 'includeTotalCount';
+        }
+
+        public getParamValue(): string {
+            return 'true';
+        }
+    }
+
     export class SkipParameter implements IQueryParameter {
 
         /**

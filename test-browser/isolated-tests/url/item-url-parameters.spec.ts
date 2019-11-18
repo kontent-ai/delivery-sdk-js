@@ -6,6 +6,18 @@ describe('Item url parameters', () => {
     const context = new Context();
     setup(context);
 
+    it(`includeTotalCount parameter should be set to true when used`, () => {
+        const url = new URL(
+            context.deliveryClient.items()
+                .includeTotalCountParameter()
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('includeTotalCount');
+
+        expect(param).toEqual('true');
+    });
+
     it(`depth param should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()

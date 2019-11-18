@@ -3,4 +3,5 @@ export interface IPaginationContract {
     limit: number;
     count: number;
     next_page: string;
+    total_count?: number;
 }

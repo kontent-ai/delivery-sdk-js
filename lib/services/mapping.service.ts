@@ -155,7 +155,8 @@ export class MappingService implements IMappingService {
             skip: response.data.pagination.skip,
             count: response.data.pagination.count,
             limit: response.data.pagination.limit,
-            nextPage: response.data.pagination.next_page
+            nextPage: response.data.pagination.next_page,
+            totalCount: response.data.pagination.total_count
         });
 
         return new ItemResponses.ListContentItemsResponse<TItem>(

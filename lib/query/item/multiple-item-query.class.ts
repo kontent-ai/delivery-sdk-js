@@ -14,6 +14,16 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
+     * Adds information about the total number of content items matching your query.
+     * When set to true, the pagination object returned in the API response contains
+     * an additional total_count property.
+     */
+    includeTotalCountParameter(): this {
+        this.parameters.push(new Parameters.IncludeTotalCountParameter());
+        return this;
+    }
+
+    /**
      * Gets only item of given type
      * @param type Codename of type to get
      */
