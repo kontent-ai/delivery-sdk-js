@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.1.0](https://github.com///compare/v8.0.0...v8.1.0) (2019-11-18)
+
+
+### Features
+
+* adds support for 'includeTotalCount| parameter ([c39a301](https://github.com///commit/c39a301bf73c72b4e87db071a4293c7f45ef0c8e))
+
+
+### Bug Fixes
+
+* updates kontent-core package which fixes http retry requests ([53a4318](https://github.com///commit/53a43184a708c0c36fbe611d99a6298f24ad097a))
+
 ## [8.0.0](https://github.com///compare/v7.2.0...v8.0.0) (2019-10-25)
 
 
