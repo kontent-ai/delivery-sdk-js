@@ -52,12 +52,13 @@ describe('ElementMapper', () => {
             preparedItems: {
                 'cd': {
                     _raw: null as any,
-                    system: systemData as any
+                    system: systemData as any,
+                    getAllElements: () => []
                 }
             },
             processedItems: {},
             processingStartedForCodenames: [],
-            queryConfig: {}
+            queryConfig: {},
         });
 
         expect(console.warn).toHaveBeenCalledTimes(1);

@@ -3,7 +3,7 @@ import { IQueryParameter } from '@kentico/kontent-core';
 import { ItemResponses } from '../../../../lib';
 import { Context, setup } from '../../../setup';
 import { getDeliveryClientWithJson } from '../../setup';
-import * as responseJson from './items-with-total-count.json';
+import * as responseJson from './items-with-total-count.spec.json';
 
 describe('Items with total count', () => {
     const context = new Context();

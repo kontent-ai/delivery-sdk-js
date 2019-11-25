@@ -7,6 +7,8 @@ import {
     ItemRichTextResolver,
     RichTextImageResolver,
 } from './item-resolvers';
+import { ElementModels } from '../../elements/element-models';
+import { Elements } from '../../elements/elements';
 
 export interface IMapElementsResult<TItem extends IContentItem = IContentItem> {
     item: TItem;
@@ -80,6 +82,12 @@ export interface IContentItem {
      * Content item configuration
      */
     _config?: IContentItemConfig;
+
+    /**
+     * Gets array of all elements assigned to content item.
+     * This is an alternative to accessing elements via properties.
+     */
+    getAllElements(): ElementModels.IElement<any>[];
 }
 
 export class ContentItem implements IContentItem {
@@ -111,6 +119,26 @@ export class ContentItem implements IContentItem {
     constructor(config?: IContentItemConfig) {
         this._config = config;
     }
+
+    /**
+     * Gets array of all elements assigned to content item.
+     * This is an alternative to accessing elements via properties.
+     */
+    getAllElements(): ElementModels.IElement<any>[] {
+        const elements: ElementModels.IElement<any>[] = [];
+
+        // get all props
+        for (const key of Object.keys(this)) {
+            const prop = this[key];
+
+            if (prop instanceof Elements.BaseElement) {
+                elements.push(prop);
+            }
+        }
+
+        return elements;
+    }
+
 }
 
 export class ContentItemSystemAttributes implements IContentItemSystemAttributes {

@@ -5,7 +5,7 @@ import { ElementModels } from './element-models';
 import { ElementType } from './element-type';
 
 export namespace Elements {
-    abstract class BaseElement<TValue> implements ElementModels.IElement<TValue> {
+    export abstract class BaseElement<TValue> implements ElementModels.IElement<TValue> {
         /**
          * Element name
          */

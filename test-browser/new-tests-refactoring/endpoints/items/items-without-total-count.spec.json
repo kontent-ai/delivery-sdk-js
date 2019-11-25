@@ -1,0 +1,39 @@
+{
+    "items": [
+      {
+        "system": {
+          "id": "3120ec15-a4a2-47ec-8ccd-c85ac8ac5ba5",
+          "name": "Which brewing fits you?",
+          "codename": "which_brewing_fits_you_",
+          "language": "en-US",
+          "type": "article",
+          "sitemap_locations": [],
+          "last_modified": "2019-03-27T13:24:54.042Z"
+        },
+        "elements": {
+          "title": {
+            "type": "text",
+            "name": "Title",
+            "value": "Which brewing fits you?"
+          },
+          "summary": {
+            "type": "text",
+            "name": "Summary",
+            "value": "We have put down three procedures with clearly written steps describing the process of making coffee. Read this article to convince yourself that brewing coffee is no science."
+          },
+          "post_date": {
+            "type": "date_time",
+            "name": "Post date",
+            "value": "2014-10-27T00:00:00Z"
+          }
+        }
+      }
+    ],
+    "modular_content": {},
+    "pagination": {
+      "skip": 0,
+      "limit": 0,
+      "count": 1,
+      "next_page": ""
+    }
+  }
