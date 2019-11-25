@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [8.1.0](https://github.com///compare/v8.0.0...v8.1.0) (2019-11-18)
+## [8.1.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v8.0.0...v8.1.0) (2019-11-18)
 
 
 ### Features
@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * updates kontent-core package which fixes http retry requests ([53a4318](https://github.com///commit/53a43184a708c0c36fbe611d99a6298f24ad097a))
 
-## [8.0.0](https://github.com///compare/v7.2.0...v8.0.0) (2019-10-25)
+## [8.0.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v7.2.0...v8.0.0) (2019-10-25)
 
 
 ### ⚠ BREAKING CHANGES
@@ -32,7 +32,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * prepares instances of all items before resolving occurs to prevent some items from being skipped ([5559cb6](https://github.com///commit/5559cb608668f608f759256f0a35486fb7397d9c))
 
-## [7.2.0](https://github.com///compare/v7.1.0...v7.2.0) (2019-10-21)
+## [7.2.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v7.1.0...v7.2.0) (2019-10-21)
 
 
 ### Features
@@ -43,11 +43,11 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## 7.1.0 (2019-10-14)
 
-## [7.1.0](https://github.com///compare/v7.0.1...v7.1.0) (2019-10-14)
+## [7.1.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v7.0.1...v7.1.0) (2019-10-14)
 
 ### Features
 
 * adds hasStaleContent property to all responses and uses new BaseDeliveryResponse base class ([3dc5046](https://github.com///commit/3dc50463a70a3f70e3f0920ed11758f62efdb236))
 
-### [7.0.1](https://github.com///compare/v1.1.0...v7.0.1) (2019-10-14)
+### [7.0.1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v1.1.0...v7.0.1) (2019-10-14)
 
