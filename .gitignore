@@ -6,6 +6,7 @@
 # compiled output
 /definitions
 /_commonjs
+/_esNext
 /_es2015
 /_bundles
 /tmp

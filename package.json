@@ -68,6 +68,7 @@
         "publish:beta": "npm publish --tag=next",
         "build:umd": "npm run webpack:dev && npm run webpack:prod && npm run webpack:browser && npm run webpack:browser:legacy",
         "build:es2015": "npm run tsc-local -- -m es2015 --outDir _es2015 --p tsconfig.prod.json",
+        "build:esNext": "npm run tsc-local -- -m esNext --outDir _esNext --p tsconfig.prod.json",
         "build:commonjs": "npm run tsc-local -- -m commonjs --outDir _commonjs --p tsconfig.prod.json",
         "build:all": "npm run build:umd && npm run build:es2015 && npm run build:commonjs",
         "bundle-stats": "npm run build:umd && webpack-bundle-analyzer _bundles/stats.json",
