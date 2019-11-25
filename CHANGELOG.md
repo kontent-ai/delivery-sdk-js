@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.2.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v8.1.0...v8.2.0) (2019-11-25)
+
+
+### Features
+
+* adds helper method to return linked items as array (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/240) ([b832f7b](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b832f7b67c85fce0d80e763a2207afb859855fc8))
+* extends ContentItem with ability to get all elements in an array (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/241) ([120918b](https://github.com/Kentico/kontent-delivery-sdk-js/commit/120918bc9d724efd765cf320e676bbd56a6f9fa4))
+* updates all dependencies (including dev depencies such as the use of latest TypeScript..) ([62a9ffc](https://github.com/Kentico/kontent-delivery-sdk-js/commit/62a9ffc1b8ead493b6adc891fbb9bd05ed629070))
+
+
+### Bug Fixes
+
+* fixes github repo url in package.json & fixes changelog links (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/268) ([a4132e7](https://github.com/Kentico/kontent-delivery-sdk-js/commit/a4132e7d95a6c99ade17c487b68721fb0bafc58c))
+
 ## [8.1.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v8.0.0...v8.1.0) (2019-11-18)
 
 
