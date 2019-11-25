@@ -73,11 +73,18 @@ export namespace ItemResponses {
             this.firstItem = this.getFirstItem();
         }
 
+        /**
+         * Flattens linkedItems object to an array
+         */
+        getLinkedItemsAsArray(): IContentItem[] {
+            return Object.values(this.items);
+        }
+
         getIsEmpty(): boolean {
             if (!this.items) {
                 return true;
             }
-            return this.items.length <= 0;
+            return this.items.length === 0;
         }
 
         getFirstItem(): TItem | undefined {
