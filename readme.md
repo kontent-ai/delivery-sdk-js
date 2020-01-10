@@ -97,8 +97,7 @@ deliveryClient.items<Movie>()
     .toPromise()
     .then(response => {
         const movieText = response.items[0].title.value;
-    )
-});
+    });
 
 /** Getting items from Kentico Kontent as Observable */
 deliveryClient.items<Movie>()
@@ -106,8 +105,7 @@ deliveryClient.items<Movie>()
     .toObservable()
     .subscribe(response => {
         const movieText = response.items[0].title.value;
-    )
-});
+    });
 
 /**
  * Get data without having custom models 
@@ -148,8 +146,7 @@ deliveryClient.items()
     .toPromise()
     .then(response => {
         const movieText = response.items[0].title.value;
-    )
-});
+    });
 
 /** Getting items from Kentico Kontent as Observable */
 const subscription = deliveryClient.items()
