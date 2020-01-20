@@ -51,10 +51,10 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url
      * @param queryConfig Query configuration
      */
-    getItemsFeed<TItem extends ContentItem>(url: string): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
+    getItemsFeed<TItem extends ContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
         return this.getResponse<ItemContracts.IItemsFeedContract>(url).pipe(
             map(response => {
-                return this.mappingService.itemsFeedResponse<TItem>(response);
+                return this.mappingService.itemsFeedResponse<TItem>(response, queryConfig);
             })
         );
     }
@@ -64,12 +64,12 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url
      * @param queryConfig Query configuration
      */
-    getItemsFeedAll<TItem extends ContentItem>(url: string): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
+    getItemsFeedAll<TItem extends ContentItem>(url: string,  queryConfig: IItemQueryConfig): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
         const responses: IBaseResponse<ItemContracts.IItemsFeedContract>[] = [];
 
         return this.getAllItemsFeedResponses(url, {}, responses).pipe(
             map(() => {
-                return this.mappingService.itemsFeedAllResponse(responses);
+                return this.mappingService.itemsFeedAllResponse(responses, queryConfig);
             })
         );
     }

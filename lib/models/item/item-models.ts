@@ -254,7 +254,6 @@ export class RichTextImage {
 
 export interface ITypeResolverData {
     item: ItemContracts.IContentItemContract;
-    modularContent: ItemContracts.IModularContentContract;
 }
 
 export interface IItemQueryConfig extends IQueryConfig {

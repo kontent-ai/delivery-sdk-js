@@ -82,7 +82,7 @@ describe('Item resolver', () => {
 
     it(`Custom item resolver should be used to resolve items`, () => {
         const response = getQueryService().mockGetSingleItem<Movie>(warriorJson, {
-            itemResolver: (rawItem, modularContent) => {
+            itemResolver: (rawItem) => {
                 if (rawItem.system.codename === 'tom_hardy' || rawItem.system.codename === 'joel_edgerton') {
                     return new CustomActor('testName');
                 }
@@ -104,7 +104,7 @@ describe('Item resolver', () => {
 
     it(`Default resolver should be used when content item resolver resolves to undefined`, () => {
         const response = getQueryService().mockGetSingleItem<Movie>(warriorJson, {
-            itemResolver: (rawItem, modularContent) => {
+            itemResolver: (rawItem) => {
                 return undefined;
             }
         });

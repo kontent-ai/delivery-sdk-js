@@ -79,13 +79,13 @@ export abstract class BaseItemQuery<
     protected runItemsFeedQuery(): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
         const url = this.getItemFeedQueryUrl();
 
-        return this.queryService.getItemsFeed(url);
+        return this.queryService.getItemsFeed(url, this._queryConfig);
     }
 
     protected runItemsFeedQueryAll(): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
         const url = this.getItemFeedQueryUrl();
 
-        return this.queryService.getItemsFeedAll(url);
+        return this.queryService.getItemsFeedAll(url, this._queryConfig);
     }
 
     protected runMultipleItemsQuery(): Observable<ItemResponses.ListContentItemsResponse<TItem>> {

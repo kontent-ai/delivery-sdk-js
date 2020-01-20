@@ -1,39 +1,248 @@
 {
-    "items": [
-      {
+    "items": [{
+      "system": {
+        "id": "325e2acb-1c14-47f6-af9a-27bc8b6c16fe",
+        "name": "Warrior",
+        "codename": "warrior",
+        "language": "en",
+        "type": "movie",
+        "sitemap_locations": [
+          "main_sitemap"
+        ],
+        "last_modified": "2019-09-05T10:51:15.6555984Z"
+      },
+      "elements": {
+        "title": {
+          "type": "text",
+          "name": "Title",
+          "value": "Warrior"
+        },
+        "plot": {
+          "type": "rich_text",
+          "name": "Plot",
+          "images": {
+            "22504ba8-2075-48fa-9d4f-8fce3de1754a": {
+              "image_id": "22504ba8-2075-48fa-9d4f-8fce3de1754a",
+              "description": null,
+              "url": "https://assets-us-01.kc-usercontent.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/22504ba8-2075-48fa-9d4f-8fce3de1754a/warrior.jpg",
+              "width": 648,
+              "height": 1000
+            },
+            "bb0899cf-2c3a-4e3f-8962-60e5a54fcca5": {
+              "image_id": "bb0899cf-2c3a-4e3f-8962-60e5a54fcca5",
+              "description": null,
+              "url": "https://assets-us-01.kc-usercontent.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/bb0899cf-2c3a-4e3f-8962-60e5a54fcca5/tom_hardy.jpg",
+              "width": 214,
+              "height": 317
+            }
+          },
+          "links": {
+            "3294e4b0-e58b-49d7-85fa-5bc9a86556ec": {
+              "codename": "joel_edgerton",
+              "type": "actor",
+              "url_slug": "joel-edgerton"
+            },
+            "d1557cb1-d7ec-4d04-9742-f86b52bc34fc": {
+              "codename": "tom_hardy",
+              "type": "actor",
+              "url_slug": "tom-hardy"
+            }
+          },
+          "modular_content": [
+            "tom_hardy",
+            "joel_edgerton",
+            "ec9813f6_194d_018f_e20c_36855fb6e600"
+          ],
+          "value": "<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"link\" data-codename=\"tom_hardy\"></object>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"link\" data-codename=\"joel_edgerton\"></object>\n<p><br></p>\n<p>See more in profile of <a data-item-id=\"3294e4b0-e58b-49d7-85fa-5bc9a86556ec\" href=\"\">Joel Edgerton</a> and <a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a></p>\n<p>And here are some images:&nbsp;</p>\n<figure data-asset-id=\"22504ba8-2075-48fa-9d4f-8fce3de1754a\" data-image-id=\"22504ba8-2075-48fa-9d4f-8fce3de1754a\"><img src=\"https://assets-us-01.kc-usercontent.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/22504ba8-2075-48fa-9d4f-8fce3de1754a/warrior.jpg\" data-asset-id=\"22504ba8-2075-48fa-9d4f-8fce3de1754a\" data-image-id=\"22504ba8-2075-48fa-9d4f-8fce3de1754a\" alt=\"\"></figure>\n<figure data-asset-id=\"bb0899cf-2c3a-4e3f-8962-60e5a54fcca5\" data-image-id=\"bb0899cf-2c3a-4e3f-8962-60e5a54fcca5\"><img src=\"https://assets-us-01.kc-usercontent.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/bb0899cf-2c3a-4e3f-8962-60e5a54fcca5/tom_hardy.jpg\" data-asset-id=\"bb0899cf-2c3a-4e3f-8962-60e5a54fcca5\" data-image-id=\"bb0899cf-2c3a-4e3f-8962-60e5a54fcca5\" alt=\"\"></figure>\n<p><br></p>\n<p>Also, why not include content component in the mix?</p>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"component\" data-codename=\"ec9813f6_194d_018f_e20c_36855fb6e600\"></object>"
+        },
+        "released": {
+          "type": "date_time",
+          "name": "Released",
+          "value": "2011-09-09T00:00:00Z"
+        },
+        "length": {
+          "type": "number",
+          "name": "Length",
+          "value": 151
+        },
+        "poster": {
+          "type": "asset",
+          "name": "Poster",
+          "value": [
+            {
+              "name": "warrior.jpg",
+              "description": null,
+              "type": "image/jpeg",
+              "size": 111004,
+              "url": "https://assets-us-01.kc-usercontent.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/22504ba8-2075-48fa-9d4f-8fce3de1754a/warrior.jpg",
+              "width": 648,
+              "height": 1000
+            }
+          ]
+        },
+        "category": {
+          "type": "multiple_choice",
+          "name": "Category",
+          "value": [
+            {
+              "name": "Action",
+              "codename": "action"
+            },
+            {
+              "name": "Drama",
+              "codename": "drama"
+            }
+          ]
+        },
+        "stars": {
+          "type": "modular_content",
+          "name": "Stars",
+          "value": [
+            "tom_hardy",
+            "joel_edgerton"
+          ]
+        },
+        "seoname": {
+          "type": "url_slug",
+          "name": "SeoName",
+          "value": "warrior"
+        },
+        "releasecategory": {
+          "type": "taxonomy",
+          "name": "ReleaseCategory",
+          "taxonomy_group": "releasecategory",
+          "value": [
+            {
+              "name": "Global release",
+              "codename": "global_release"
+            },
+            {
+              "name": "US only",
+              "codename": "us_only"
+            }
+          ]
+        }
+      }
+    }],
+    "modular_content": {
+      "ec9813f6_194d_018f_e20c_36855fb6e600": {
         "system": {
-          "id": "b69ed774-8fb2-4413-8d12-d4c193a66f7a",
-          "name": "Getting content",
-          "codename": "getting_content",
-          "language": "default",
-          "type": "article",
+          "id": "ec9813f6-194d-018f-e20c-36855fb6e600",
+          "name": "ec9813f6-194d-018f-e20c-36855fb6e600",
+          "codename": "ec9813f6_194d_018f_e20c_36855fb6e600",
+          "language": "en",
+          "type": "actor",
           "sitemap_locations": [],
-          "last_modified": "2019-09-12T07:11:43.2391249Z"
+          "last_modified": "2019-09-05T10:51:15.6555984Z"
         },
         "elements": {
-          "title": {
+          "first_name": {
             "type": "text",
-            "name": "Title",
-            "value": "Getting content"
+            "name": "First name",
+            "value": "Jennifer "
           },
-          "introduction": {
-            "type": "rich_text",
-            "name": "Introduction",
-            "images": {},
-            "links": {},
-            "modular_content": [],
-            "value": "<p>While your copywriters write articles and add finishing touches to the content in your project, you can deliver that content to web and mobile applications via an API. In this tutorial, you'll learn how to retrieve your content from Kentico Kontent using the Delivery API.</p>"
+          "last_name": {
+            "type": "text",
+            "name": "Last name",
+            "value": "Morrison"
           },
-          "content": {
-            "type": "rich_text",
-            "name": "Content",
-            "images": {},
-            "links": {},
-            "modular_content": [],
-            "value": "<p>The Delivery API is a read-only REST API that can serve your content in two modes: public and preview.</p>"
+          "url": {
+            "type": "url_slug",
+            "name": "Url",
+            "value": "component-actor-url"
+          },
+          "photo": {
+            "type": "asset",
+            "name": "Photo",
+            "value": []
+          }
+        }
+      },
+      "joel_edgerton": {
+        "system": {
+          "id": "3294e4b0-e58b-49d7-85fa-5bc9a86556ec",
+          "name": "Joel Edgerton",
+          "codename": "joel_edgerton",
+          "language": "en",
+          "type": "actor",
+          "sitemap_locations": [],
+          "last_modified": "2017-08-03T09:21:21.3857294Z"
+        },
+        "elements": {
+          "url": {
+            "type": "url_slug",
+            "name": "Url",
+            "value": "joel-edgerton"
+          },
+          "first_name": {
+            "type": "text",
+            "name": "First name",
+            "value": "Joel"
+          },
+          "last_name": {
+            "type": "text",
+            "name": "Last name",
+            "value": "Edgerton"
+          },
+          "photo": {
+            "type": "asset",
+            "name": "Photo",
+            "value": [
+              {
+                "name": "joel_edgerton.jpg",
+                "description": null,
+                "type": "image/jpeg",
+                "size": 6460,
+                "url": "https://assets-us-01.kc-usercontent.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/2855720a-4ca4-4687-826a-29f9635088e0/joel_edgerton.jpg",
+                "width": 211,
+                "height": 317
+              }
+            ]
+          }
+        }
+      },
+      "tom_hardy": {
+        "system": {
+          "id": "d1557cb1-d7ec-4d04-9742-f86b52bc34fc",
+          "name": "Tom Hardy",
+          "codename": "tom_hardy",
+          "language": "en",
+          "type": "actor",
+          "sitemap_locations": [],
+          "last_modified": "2018-02-09T13:11:32.5769383Z"
+        },
+        "elements": {
+          "url": {
+            "type": "url_slug",
+            "name": "Url",
+            "value": "tom-hardy"
+          },
+          "first_name": {
+            "type": "text",
+            "name": "First name",
+            "value": "Tom"
+          },
+          "last_name": {
+            "type": "text",
+            "name": "Last name",
+            "value": "Hardy"
+          },
+          "photo": {
+            "type": "asset",
+            "name": "Photo",
+            "value": [
+              {
+                "name": "tom_hardy.jpg",
+                "description": null,
+                "type": "image/jpeg",
+                "size": 8091,
+                "url": "https://assets-us-01.kc-usercontent.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/bb0899cf-2c3a-4e3f-8962-60e5a54fcca5/tom_hardy.jpg",
+                "width": 214,
+                "height": 317
+              }
+            ]
           }
         }
       }
-    ],
-    "modular_content": {}
+    }
   }

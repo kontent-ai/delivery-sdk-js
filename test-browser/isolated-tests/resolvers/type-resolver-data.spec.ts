@@ -51,9 +51,6 @@ describe('Type resolver data', () => {
         if (movieTypeResolverData && actorTypeResolverData) {
             expect(movieTypeResolverData.item).toEqual(warriorJson.item);
             expect(actorTypeResolverData.item.system.type).toEqual('actor');
-
-            expect(movieTypeResolverData.modularContent).toEqual(warriorJson.modular_content);
-            expect(actorTypeResolverData.modularContent).toEqual(warriorJson.modular_content);
         }
     });
 });

@@ -5,13 +5,13 @@ import * as responseJson from './type-resolver.spec.json';
 class Article extends ContentItem {
 
     public articleId: string;
-    public typeResolverData: ITypeResolverData;
+    public typeResolverData?: ITypeResolverData;
 
-    constructor(data: ITypeResolverData) {
+    constructor(data?: ITypeResolverData) {
         super();
 
         this.typeResolverData = data;
-        this.articleId = data.item.system.id;
+        this.articleId = data?.item.system.id ?? '0';
     }
 }
 
@@ -45,8 +45,7 @@ describe('Type resolver', () => {
 
             expect(mappedArticle).toEqual(jasmine.any(Article));
 
-            expect(mappedArticle.typeResolverData.item).toEqual(rawArticle);
-            expect(mappedArticle.typeResolverData.modularContent).toEqual(responseJson.modular_content);
+            expect(mappedArticle.typeResolverData?.item).toEqual(rawArticle);
 
         }
     });

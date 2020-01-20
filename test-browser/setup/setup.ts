@@ -3,7 +3,7 @@ import { Actor, Movie } from '../setup';
 import { Context } from './context';
 
 // ---------- default setup ------------- //
-const defaultTypeResolvers: TypeResolver[] = [
+export const defaultTypeResolvers: TypeResolver[] = [
     new TypeResolver('movie', (data) => new Movie()),
     new TypeResolver('actor', (data) => new Actor())
 ];

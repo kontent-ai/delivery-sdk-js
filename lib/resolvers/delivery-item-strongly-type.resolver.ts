@@ -26,7 +26,7 @@ export class DeliveryItemStronglyTypeResolver {
         let itemInstance: TItem | undefined;
 
         if (itemResolver) {
-            itemInstance = itemResolver(data.item, data.modularContent) as TItem;
+            itemInstance = itemResolver(data.item) as TItem;
         }
 
         if (!itemInstance) {

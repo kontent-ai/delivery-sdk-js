@@ -18,7 +18,6 @@ export type ItemRichTextResolver<TItem extends IContentItem> = (
     context: IRichTextResolverContext
 ) => string;
 export type ItemResolver = (
-    rawItem: ItemContracts.IContentItemContract,
-    modularContent: ItemContracts.IModularContentContract
+    rawItem: ItemContracts.IContentItemContract
 ) => ContentItem | undefined;
 export type RichTextImageResolver = (image: RichTextImage, elementName: string) => IRichTextImageResolverResult;

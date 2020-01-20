@@ -34,49 +34,19 @@ export class ItemMapper {
      * @param response Kontent response used to map the item
      * @param queryConfig Query configuration
      */
-    mapSingleItem<TItem extends IContentItem = IContentItem>(
+    mapSingleItemFromResponse<TItem extends IContentItem = IContentItem>(
         response: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
     ): ISingleItemMapResult<TItem> {
-        const preparedItems: IContentItemsContainer = {};
-        const itemResolver = queryConfig && queryConfig.itemResolver ? queryConfig.itemResolver : undefined;
-
-        const preparedItem: IContentItem = stronglyTypedResolver.createItemInstance(
-            {
-                item: response.item,
-                modularContent: response.modular_content
-            },
-            this.config.typeResolvers || [],
-            itemResolver
-        );
-
-        preparedItems[response.item.system.codename] = preparedItem;
-
-        for (const linkedItemCodename of Object.keys(response.modular_content)) {
-            const item = response.modular_content[linkedItemCodename];
-            preparedItems[linkedItemCodename] = stronglyTypedResolver.createItemInstance(
-                {
-                    item: item,
-                    modularContent: response.modular_content
-                },
-                this.config.typeResolvers || [],
-                itemResolver
-            );
-        }
-
-        const mapResult = this.mapItem<TItem>({
-            item: response.item,
-            preparedItems: preparedItems,
-            processedItems: {},
-            processingStartedForCodenames: [],
+        const mapResult = this.mapItems<TItem>({
+            mainItems: [response.item],
+            linkedItems: Object.values(response.modular_content),
             queryConfig: queryConfig
         });
 
-        const linkedItems = this.extractLinkedItemsFromProcessedItems(response.modular_content, mapResult.processedItems);
-
         return {
-            item: mapResult.item,
-            linkedItems: linkedItems
+            item: mapResult.items[0],
+            linkedItems: mapResult.linkedItems
         };
     }
 
@@ -85,59 +55,82 @@ export class ItemMapper {
      * @param response Kontent response used to map the item
      * @param queryConfig Query configuration
      */
-    mapMultipleItems<TItem extends IContentItem = IContentItem>(
+    mapMultipleItemsFromResponse<TItem extends IContentItem = IContentItem>(
         response: ItemContracts.IItemsWithModularContentContract,
         queryConfig: IItemQueryConfig
     ): IMultipleItemsMapResult<TItem> {
+        const mapResult = this.mapItems<TItem>({
+            mainItems: response.items,
+            linkedItems: Object.values(response.modular_content),
+            queryConfig: queryConfig
+        });
+
+        return mapResult;
+    }
+
+    /**
+     * Maps item contracts to full models
+     */
+    mapItems<TItem extends IContentItem = IContentItem>(data: {
+        mainItems: ItemContracts.IContentItemContract[];
+        linkedItems: ItemContracts.IContentItemContract[];
+        queryConfig: IItemQueryConfig;
+    }): IMultipleItemsMapResult<TItem> {
         const that = this;
-        const itemResolver = queryConfig && queryConfig.itemResolver ? queryConfig.itemResolver : undefined;
+        const itemResolver =
+            data.queryConfig && data.queryConfig.itemResolver ? data.queryConfig.itemResolver : undefined;
         const processedItems: IContentItemsContainer = {};
         const preparedItems: IContentItemsContainer = {};
         const processingStartedForCodenames: string[] = [];
-        const mappedItems: TItem[] = [];
+        const mappedMainItems: TItem[] = [];
+        const mappedLinkedItems: IContentItemsContainer = {};
+        const itemsToResolve: ItemContracts.IContentItemContract[] = [...data.mainItems, ...data.linkedItems];
 
-        // prepare future reference for items
-        for (const item of response.items) {
+        // first prepare reference for all items
+        for (const item of itemsToResolve) {
             preparedItems[item.system.codename] = stronglyTypedResolver.createItemInstance(
                 {
-                    item: item,
-                    modularContent: response.modular_content
-                },
-                this.config.typeResolvers || [],
-                itemResolver
-            );
-        }
-        for (const linkedItemCodename of Object.keys(response.modular_content)) {
-            const item = response.modular_content[linkedItemCodename];
-            preparedItems[linkedItemCodename] = stronglyTypedResolver.createItemInstance(
-                {
-                    item: item,
-                    modularContent: response.modular_content
+                    item: item
                 },
                 this.config.typeResolvers || [],
                 itemResolver
             );
         }
 
-        response.items.forEach(item => {
+        // then resolve items
+        for (const item of data.mainItems) {
             const itemResult = that.mapItem<TItem>({
                 item: item,
                 processedItems: processedItems,
-                queryConfig: queryConfig,
+                queryConfig: data.queryConfig,
                 preparedItems: preparedItems,
                 processingStartedForCodenames: processingStartedForCodenames
             });
-            mappedItems.push(itemResult.item);
-        });
 
-        const linkedItems = this.extractLinkedItemsFromProcessedItems(response.modular_content, processedItems);
+            mappedMainItems.push(itemResult.item);
+        }
+
+        for (const item of data.linkedItems) {
+            const itemResult = that.mapItem<TItem>({
+                item: item,
+                processedItems: processedItems,
+                queryConfig: data.queryConfig,
+                preparedItems: preparedItems,
+                processingStartedForCodenames: processingStartedForCodenames
+            });
+
+            mappedLinkedItems[item.system.codename] = itemResult.item;
+        }
 
         return {
-            items: mappedItems,
-            linkedItems: linkedItems
+            items: mappedMainItems,
+            linkedItems: mappedLinkedItems
         };
     }
 
+    /**
+     * Maps item contract to full model
+     */
     private mapItem<TItem extends IContentItem = IContentItem>(data: {
         item: ItemContracts.IContentItemContract;
         queryConfig: IItemQueryConfig;
@@ -158,9 +151,7 @@ export class ItemMapper {
         });
 
         if (!result) {
-            if (!result) {
-                throw Error(`Mapping of content iteam '${data.item.system.codename}' failed`);
-            }
+            throw Error(`Mapping of content item '${data.item.system.codename}' failed`);
         }
         return {
             item: result.item,
@@ -168,17 +159,5 @@ export class ItemMapper {
             preparedItems: result.preparedItems,
             processingStartedForCodenames: result.processingStartedForCodenames
         };
-    }
-
-    private extractLinkedItemsFromProcessedItems(
-        modular_content: ItemContracts.IModularContentContract,
-        processedItems: IContentItemsContainer
-    ): IContentItemsContainer {
-        const linkedItems: IContentItemsContainer = {};
-        for (const key of Object.keys(modular_content)) {
-            linkedItems[key] = processedItems[key];
-        }
-
-        return linkedItems;
     }
 }
