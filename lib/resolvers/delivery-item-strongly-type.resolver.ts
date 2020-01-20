@@ -3,8 +3,6 @@ import { ContentItem, ContentItemSystemAttributes, IContentItem, ItemResolver, I
 import { TypeResolver } from '../models/item/type-resolver.class';
 
 export class DeliveryItemStronglyTypeResolver {
-    private readonly systemElementName = 'system';
-    private readonly elementsElementName = 'elements';
 
     createEmptyItemInstanceOfType<TItem extends IContentItem = IContentItem>(
         type: string,
@@ -104,10 +102,8 @@ export class DeliveryItemStronglyTypeResolver {
      * @param rawItem Raw content item from response
      */
     private assignRequiredContentItemData(item: IContentItem, rawItem: ItemContracts.IContentItemContract): void {
-        item.system = this.mapSystemAttributes(rawItem[this.systemElementName]);
-        item._raw = {
-            elements: rawItem[this.elementsElementName]
-        };
+        item.system = this.mapSystemAttributes(rawItem.system);
+        item._raw = rawItem;
     }
 }
 

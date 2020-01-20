@@ -76,7 +76,7 @@ export interface IContentItem {
     /**
      * Debug data of the item
      */
-    _raw: IContentItemRawData;
+    _raw: ItemContracts.IContentItemContract;
 
     /**
      * Content item configuration
@@ -105,7 +105,7 @@ export class ContentItem implements IContentItem {
     /**
      * Raw data
      */
-    public _raw!: IContentItemRawData;
+    public _raw!: ItemContracts.IContentItemContract;
 
     /**
      * configuration
@@ -250,10 +250,6 @@ export class RichTextImage {
     ) {
         Object.assign(this, data);
     }
-}
-
-export interface IContentItemRawData {
-    elements: ItemContracts.IContentItemElementsContracts;
 }
 
 export interface ITypeResolverData {

@@ -62,7 +62,6 @@ export class ItemMapper {
 
         return this.mapItem<TItem>({
             item: response.item,
-            modularContent: response.modular_content,
             preparedItems: preparedItems,
             processedItems: {},
             processingStartedForCodenames: [],
@@ -112,7 +111,6 @@ export class ItemMapper {
         response.items.forEach(item => {
             const itemResult = that.mapItem<TItem>({
                 item: item,
-                modularContent: response.modular_content,
                 processedItems: processedItems,
                 queryConfig: queryConfig,
                 preparedItems: preparedItems,
@@ -131,7 +129,6 @@ export class ItemMapper {
 
     private mapItem<TItem extends IContentItem = IContentItem>(data: {
         item: ItemContracts.IContentItemContract;
-        modularContent: ItemContracts.IModularContentContract;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
@@ -143,7 +140,6 @@ export class ItemMapper {
 
         const result = this.elementMapper.mapElements<TItem>({
             item: data.item,
-            modularContent: data.modularContent,
             preparedItems: data.preparedItems,
             processingStartedForCodenames: [],
             processedItems: data.processedItems,

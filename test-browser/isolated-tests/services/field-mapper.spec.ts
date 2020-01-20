@@ -48,7 +48,6 @@ describe('ElementMapper', () => {
 
         elementMapper.mapElements({
             item: item,
-            modularContent: {},
             preparedItems: {
                 'cd': {
                     _raw: null as any,

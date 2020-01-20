@@ -21,11 +21,11 @@ export interface IMappingService {
     ): TypeResponses.ListContentTypesResponse;
 
     itemsFeedResponse<TItem extends IContentItem>(
-        response: IBaseResponse<ItemContracts.IItemsFeedContract>,
+        response: IBaseResponse<ItemContracts.IItemsFeedContract>
     ): ItemResponses.ItemsFeedResponse<TItem>;
 
     itemsFeedAllResponse<TItem extends IContentItem>(
-        responses: IBaseResponse<ItemContracts.IItemsFeedContract>[],
+        responses: IBaseResponse<ItemContracts.IItemsFeedContract>[]
     ): ItemResponses.ItemsFeedAllResponse<TItem>;
 
     viewContentTypeResponse(
@@ -104,24 +104,28 @@ export class MappingService implements IMappingService {
     }
 
     itemsFeedResponse<TItem extends IContentItem>(
-        response: IBaseResponse<ItemContracts.IItemsFeedContract>,
+        response: IBaseResponse<ItemContracts.IItemsFeedContract>
     ): ItemResponses.ItemsFeedResponse<TItem> {
         const itemsResult = this.itemMapper.mapMultipleItems<TItem>(response.data, {});
 
-        return new ItemResponses.ItemsFeedResponse(itemsResult.items, itemsResult.processedItems, response, this.isDeveloperMode);
+        return new ItemResponses.ItemsFeedResponse(
+            itemsResult.items,
+            itemsResult.processedItems,
+            response,
+            this.isDeveloperMode
+        );
     }
 
     itemsFeedAllResponse<TItem extends IContentItem>(
-        responses: IBaseResponse<ItemContracts.IItemsFeedContract>[],
+        responses: IBaseResponse<ItemContracts.IItemsFeedContract>[]
     ): ItemResponses.ItemsFeedAllResponse<TItem> {
-
         const allItems: TItem[] = [];
         let allProcessedItems: IContentItemsContainer = {};
 
         for (const response of responses) {
             const itemsFeedResponse = this.itemsFeedResponse<TItem>(response);
             allItems.push(...itemsFeedResponse.items);
-            allProcessedItems = {...allProcessedItems, ...itemsFeedResponse.linkedItems};
+            allProcessedItems = { ...allProcessedItems, ...itemsFeedResponse.linkedItems };
         }
 
         return new ItemResponses.ItemsFeedAllResponse(allItems, allProcessedItems, responses, this.isDeveloperMode);
@@ -138,7 +142,14 @@ export class MappingService implements IMappingService {
     ): ItemResponses.ViewContentItemResponse<TItem> {
         const itemResult = this.itemMapper.mapSingleItem<TItem>(response.data, queryConfig);
 
-        return new ItemResponses.ViewContentItemResponse<TItem>(itemResult.item, itemResult.processedItems, response, this.isDeveloperMode);
+        const linkedItems = this.extractLinkedItemsFromProcessedItems(response.data.modular_content, itemResult.processedItems);
+
+        return new ItemResponses.ViewContentItemResponse<TItem>(
+            itemResult.item,
+            linkedItems,
+            response,
+            this.isDeveloperMode
+        );
     }
 
     /**
@@ -159,10 +170,12 @@ export class MappingService implements IMappingService {
             totalCount: response.data.pagination.total_count
         });
 
+        const linkedItems = this.extractLinkedItemsFromProcessedItems(response.data.modular_content, itemsResult.processedItems);
+
         return new ItemResponses.ListContentItemsResponse<TItem>(
             itemsResult.items,
             pagination,
-            itemsResult.processedItems,
+            linkedItems,
             response,
             this.isDeveloperMode
         );
@@ -209,5 +222,17 @@ export class MappingService implements IMappingService {
         const element = this.genericElementMapper.mapElement(response.data);
 
         return new ElementResponses.ViewContentTypeElementResponse(element, response, this.isDeveloperMode);
+    }
+
+    private extractLinkedItemsFromProcessedItems(
+        modular_content: ItemContracts.IModularContentContract,
+        processedItems: IContentItemsContainer
+    ): IContentItemsContainer {
+        const linkedItems: IContentItemsContainer = {};
+        for (const key of Object.keys(modular_content)) {
+            linkedItems[key] = processedItems[key];
+        }
+
+        return linkedItems;
     }
 }

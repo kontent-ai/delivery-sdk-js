@@ -31,14 +31,13 @@ export class ElementMapper {
      */
     mapElements<TItem extends IContentItem>(data: {
         item: ItemContracts.IContentItemContract;
-        modularContent: ItemContracts.IModularContentContract;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemsContainer;
     }): IMapElementsResult<TItem> | undefined {
         // return processed item if possible (to avoid infinite recursion)
-        const processedItem = this.getProcessedItem(data.item.system.codename, data.processedItems);
+        const processedItem = data.processedItems[data.item.system.codename];
         if (processedItem) {
             // item was already resolved, return it
             return {
@@ -58,9 +57,6 @@ export class ElementMapper {
         }
 
         elementCodenames.forEach(elementCodename => {
-            if (!itemInstance) {
-                throw Error(`Item instance was not initiazed correctly.`);
-            }
             const elementMap = this.resolveElementMap(itemInstance, elementCodename);
             const elementWrapper: ElementModels.IElementWrapper = {
                 contentItemSystem: data.item.system,
@@ -71,7 +67,6 @@ export class ElementMapper {
                 const mappedElement = this.mapElement({
                     elementWrapper: elementWrapper,
                     item: itemInstance,
-                    modularContent: data.modularContent,
                     preparedItems: data.preparedItems,
                     processingStartedForCodenames: data.processingStartedForCodenames,
                     processedItems: data.processedItems,
@@ -92,7 +87,6 @@ export class ElementMapper {
 
     private mapElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
-        modularContent: ItemContracts.IModularContentContract;
         item: IContentItem;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
@@ -104,7 +98,6 @@ export class ElementMapper {
             if (elementType === ElementType.ModularContent) {
                 return this.mapLinkedItemsElement({
                     elementWrapper: data.elementWrapper,
-                    modularContent: data.modularContent,
                     preparedItems: data.preparedItems,
                     processingStartedForCodenames: data.processingStartedForCodenames,
                     processedItems: data.processedItems,
@@ -134,7 +127,6 @@ export class ElementMapper {
                 return this.mapRichTextElement(
                     data.item,
                     data.elementWrapper,
-                    data.modularContent,
                     data.queryConfig,
                     data.processedItems,
                     data.processingStartedForCodenames,
@@ -163,7 +155,6 @@ export class ElementMapper {
     private mapRichTextElement(
         item: IContentItem,
         elementWrapper: ElementModels.IElementWrapper,
-        modularContent: ItemContracts.IModularContentContract,
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         processingStartedForCodenames: string[],
@@ -178,14 +169,13 @@ export class ElementMapper {
             if (Array.isArray(rawElement.modular_content)) {
                 rawElement.modular_content.forEach(codename => {
                     // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
-                    const rawItem = modularContent[codename] as ItemContracts.IContentItemContract | undefined;
+                    const preparedItem = preparedItems[codename];
 
                     // first try to get existing item
                     const existingLinkedItem = this.getOrSaveLinkedItemForElement(
                         codename,
                         rawElement,
                         queryConfig,
-                        modularContent,
                         processedItems,
                         processingStartedForCodenames,
                         preparedItems
@@ -207,7 +197,7 @@ export class ElementMapper {
                         }
 
                         // throw error if raw item is not available and errors are not skipped
-                        if (!rawItem) {
+                        if (!preparedItem) {
                             const msg = `Mapping RichTextElement element '${rawElement.name}' failed because referenced linked item with codename '${codename}' could not be found in Delivery response.
                             Increasing 'depth' parameter may solve this issue as it will include nested items. Alternatively you may disable 'throwErrorForMissingLinkedItems' in your query`;
 
@@ -217,10 +207,9 @@ export class ElementMapper {
                         }
 
                         // item was not found or not yet resolved
-                        if (rawItem) {
+                        if (preparedItem) {
                             const mappedLinkedItemResult = this.mapElements({
-                                item: rawItem,
-                                modularContent: modularContent,
+                                item: preparedItem._raw,
                                 preparedItems: preparedItems,
                                 processingStartedForCodenames: processingStartedForCodenames,
                                 processedItems: processedItems,
@@ -254,7 +243,6 @@ export class ElementMapper {
                             codename,
                             rawElement,
                             queryConfig,
-                            modularContent,
                             processedItems,
                             processingStartedForCodenames,
                             preparedItems
@@ -336,7 +324,6 @@ export class ElementMapper {
 
     private mapLinkedItemsElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
-        modularContent: ItemContracts.IModularContentContract;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
@@ -352,7 +339,6 @@ export class ElementMapper {
                 codename,
                 data.elementWrapper.rawElement,
                 data.queryConfig,
-                data.modularContent,
                 data.processedItems,
                 data.processingStartedForCodenames,
                 data.preparedItems
@@ -392,56 +378,36 @@ export class ElementMapper {
         return () => elementWrapper.rawElement.value;
     }
 
-    private getProcessedItem(codename: string, processedItems: IContentItemsContainer): IContentItem | undefined {
-        return processedItems[codename];
-    }
-
-    private getPreparedItem(codename: string, preparedItems: IContentItemsContainer): IContentItem | undefined {
-        return preparedItems[codename];
-    }
-
     private getOrSaveLinkedItemForElement(
         codename: string,
         element: ElementContracts.IElementContract,
         queryConfig: IItemQueryConfig,
-        modularContent: ItemContracts.IModularContentContract,
         processedItems: IContentItemsContainer,
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemsContainer
     ): IContentItem | undefined {
         // first check if item was already resolved and return it if it was
-        const processedItem = this.getProcessedItem(codename, processedItems);
+        const processedItem = processedItems[codename];
 
         if (processedItem) {
             // item was already resolved
             return processedItem;
         }
 
-        if (mappingStartedForCodenames.find(m => m === codename)) {
-            // item was already processed, but may not have yet been resolved (e.g. when child references parent)
-            // return reference to prepared item. This item does not have mapped data yet.
-            return this.getPreparedItem(codename, preparedItems);
+        const preparedItem = preparedItems[codename];
+
+        if (mappingStartedForCodenames.includes(codename)) {
+            return preparedItem;
         }
 
         mappingStartedForCodenames.push(codename);
 
-        // try getting item from modular content
-        const rawItem = modularContent[codename] as ItemContracts.IContentItemContract | undefined;
-
-        // item might not be a linked item, but can still be in standard response
-        // (e.g. when linked item references item in standard response)
-        if (!rawItem) {
-            const preparedItem = this.getPreparedItem(codename, preparedItems);
-            if (preparedItem) {
-                return preparedItem;
-            }
-        }
-
         // by default errors are not thrown
-        const throwErrorForMissingLinkedItems: boolean = queryConfig.throwErrorForMissingLinkedItems === true ? true : false;
+        const throwErrorForMissingLinkedItems: boolean =
+            queryConfig.throwErrorForMissingLinkedItems === true ? true : false;
 
         // throw error if item is not in response and errors are not skipped
-        if (!rawItem) {
+        if (!preparedItem) {
             if (throwErrorForMissingLinkedItems) {
                 throw Error(`Linked item with codename '${codename}' could not be found in Delivery response.
                 This linked item was requested by '${element.name}' element of '${element.type}'.
@@ -455,22 +421,19 @@ export class ElementMapper {
         let mappedLinkedItem: IContentItem | undefined;
 
         // original resolving if item is still undefined
-        if (!mappedLinkedItem) {
-            const mappedLinkedItemResult = this.mapElements({
-                item: rawItem,
-                modularContent: modularContent,
-                preparedItems: preparedItems,
-                processingStartedForCodenames: mappingStartedForCodenames,
-                processedItems: processedItems,
-                queryConfig: queryConfig
-            });
+        const mappedLinkedItemResult = this.mapElements({
+            item: preparedItem._raw,
+            preparedItems: preparedItems,
+            processingStartedForCodenames: mappingStartedForCodenames,
+            processedItems: processedItems,
+            queryConfig: queryConfig
+        });
 
-            if (mappedLinkedItemResult) {
-                mappedLinkedItem = mappedLinkedItemResult.item;
+        if (mappedLinkedItemResult) {
+            mappedLinkedItem = mappedLinkedItemResult.item;
 
-                // add to processed items
-                processedItems[codename] = mappedLinkedItem;
-            }
+            // add to processed items
+            processedItems[codename] = mappedLinkedItem;
         }
 
         return mappedLinkedItem;

@@ -166,7 +166,7 @@ describe('Live item', () => {
 
   it(`verify linked items included in response`, () => {
     expect(Object.keys(response.linkedItems).length).toEqual(3);
-
+    console.log(response);
     for (const key of Object.keys(response.linkedItems)) {
       const linkedItem = response.linkedItems[key];
       expect(linkedItem).toEqual(jasmine.any(Actor));
