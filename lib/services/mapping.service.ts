@@ -110,7 +110,7 @@ export class MappingService implements IMappingService {
 
         return new ItemResponses.ItemsFeedResponse(
             itemsResult.items,
-            itemsResult.processedItems,
+            itemsResult.linkedItems,
             response,
             this.isDeveloperMode
         );
@@ -142,11 +142,9 @@ export class MappingService implements IMappingService {
     ): ItemResponses.ViewContentItemResponse<TItem> {
         const itemResult = this.itemMapper.mapSingleItem<TItem>(response.data, queryConfig);
 
-        const linkedItems = this.extractLinkedItemsFromProcessedItems(response.data.modular_content, itemResult.processedItems);
-
         return new ItemResponses.ViewContentItemResponse<TItem>(
             itemResult.item,
-            linkedItems,
+            itemResult.linkedItems,
             response,
             this.isDeveloperMode
         );
@@ -170,12 +168,10 @@ export class MappingService implements IMappingService {
             totalCount: response.data.pagination.total_count
         });
 
-        const linkedItems = this.extractLinkedItemsFromProcessedItems(response.data.modular_content, itemsResult.processedItems);
-
         return new ItemResponses.ListContentItemsResponse<TItem>(
             itemsResult.items,
             pagination,
-            linkedItems,
+            itemsResult.linkedItems,
             response,
             this.isDeveloperMode
         );
@@ -222,17 +218,5 @@ export class MappingService implements IMappingService {
         const element = this.genericElementMapper.mapElement(response.data);
 
         return new ElementResponses.ViewContentTypeElementResponse(element, response, this.isDeveloperMode);
-    }
-
-    private extractLinkedItemsFromProcessedItems(
-        modular_content: ItemContracts.IModularContentContract,
-        processedItems: IContentItemsContainer
-    ): IContentItemsContainer {
-        const linkedItems: IContentItemsContainer = {};
-        for (const key of Object.keys(modular_content)) {
-            linkedItems[key] = processedItems[key];
-        }
-
-        return linkedItems;
     }
 }

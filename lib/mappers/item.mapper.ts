@@ -5,18 +5,21 @@ import { IRichTextHtmlParser } from '../parser';
 import { stronglyTypedResolver } from '../resolvers';
 import { ElementMapper } from './element.mapper';
 
-export interface MapItemResult<TItem extends IContentItem = IContentItem> {
+export interface IMapItemResult<TItem extends IContentItem = IContentItem> {
     item: TItem;
     processedItems: IContentItemsContainer;
     preparedItems: IContentItemsContainer;
     processingStartedForCodenames: string[];
 }
 
-export interface MapItemsResult<TItem extends IContentItem = IContentItem> {
+export interface IMultipleItemsMapResult<TItem extends IContentItem = IContentItem> {
     items: TItem[];
-    processedItems: IContentItemsContainer;
-    preparedItems: IContentItemsContainer;
-    processingStartedForCodenames: string[];
+    linkedItems: IContentItemsContainer;
+}
+
+export interface ISingleItemMapResult<TItem extends IContentItem = IContentItem> {
+    item: TItem;
+    linkedItems: IContentItemsContainer;
 }
 
 export class ItemMapper {
@@ -34,9 +37,10 @@ export class ItemMapper {
     mapSingleItem<TItem extends IContentItem = IContentItem>(
         response: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
-    ): MapItemResult<TItem> {
-        const itemResolver = queryConfig && queryConfig.itemResolver ? queryConfig.itemResolver : undefined;
+    ): ISingleItemMapResult<TItem> {
         const preparedItems: IContentItemsContainer = {};
+        const itemResolver = queryConfig && queryConfig.itemResolver ? queryConfig.itemResolver : undefined;
+
         const preparedItem: IContentItem = stronglyTypedResolver.createItemInstance(
             {
                 item: response.item,
@@ -45,6 +49,8 @@ export class ItemMapper {
             this.config.typeResolvers || [],
             itemResolver
         );
+
+        preparedItems[response.item.system.codename] = preparedItem;
 
         for (const linkedItemCodename of Object.keys(response.modular_content)) {
             const item = response.modular_content[linkedItemCodename];
@@ -58,15 +64,20 @@ export class ItemMapper {
             );
         }
 
-        preparedItems[response.item.system.codename] = preparedItem;
-
-        return this.mapItem<TItem>({
+        const mapResult = this.mapItem<TItem>({
             item: response.item,
             preparedItems: preparedItems,
             processedItems: {},
             processingStartedForCodenames: [],
             queryConfig: queryConfig
         });
+
+        const linkedItems = this.extractLinkedItemsFromProcessedItems(response.modular_content, mapResult.processedItems);
+
+        return {
+            item: mapResult.item,
+            linkedItems: linkedItems
+        };
     }
 
     /**
@@ -77,7 +88,7 @@ export class ItemMapper {
     mapMultipleItems<TItem extends IContentItem = IContentItem>(
         response: ItemContracts.IItemsWithModularContentContract,
         queryConfig: IItemQueryConfig
-    ): MapItemsResult<TItem> {
+    ): IMultipleItemsMapResult<TItem> {
         const that = this;
         const itemResolver = queryConfig && queryConfig.itemResolver ? queryConfig.itemResolver : undefined;
         const processedItems: IContentItemsContainer = {};
@@ -119,11 +130,11 @@ export class ItemMapper {
             mappedItems.push(itemResult.item);
         });
 
+        const linkedItems = this.extractLinkedItemsFromProcessedItems(response.modular_content, processedItems);
+
         return {
             items: mappedItems,
-            processedItems: processedItems,
-            preparedItems: preparedItems,
-            processingStartedForCodenames: processingStartedForCodenames
+            linkedItems: linkedItems
         };
     }
 
@@ -133,7 +144,7 @@ export class ItemMapper {
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemsContainer;
-    }): MapItemResult<TItem> {
+    }): IMapItemResult<TItem> {
         if (!data.item) {
             throw Error(`Could not map item because its undefined`);
         }
@@ -157,5 +168,17 @@ export class ItemMapper {
             preparedItems: result.preparedItems,
             processingStartedForCodenames: result.processingStartedForCodenames
         };
+    }
+
+    private extractLinkedItemsFromProcessedItems(
+        modular_content: ItemContracts.IModularContentContract,
+        processedItems: IContentItemsContainer
+    ): IContentItemsContainer {
+        const linkedItems: IContentItemsContainer = {};
+        for (const key of Object.keys(modular_content)) {
+            linkedItems[key] = processedItems[key];
+        }
+
+        return linkedItems;
     }
 }
