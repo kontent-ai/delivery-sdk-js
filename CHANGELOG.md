@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v8.2.0...v9.0.0) (2020-01-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* updates deps, refactors retry-strategy which enables specifying either maximum number of attemps or wait time and allows retry of any error even when response is not received (e.g. timeout which could not be retried previously)
+
+### Features
+
+* distributes library in esNext format ([bd9ea6f](https://github.com/Kentico/kontent-delivery-sdk-js/commit/bd9ea6f5f7dd81277d59c8a85e9952bde0ed74f6))
+* refactors item mappers and adds full mapping support to items-feed endpoints (e.g. rich text resolver, url slug resolver, image resolver ..) ([6e30485](https://github.com/Kentico/kontent-delivery-sdk-js/commit/6e304856fda0a7d9c55e2910dac2578014cedc37))
+* updates deps, refactors retry-strategy which enables specifying either maximum number of attemps or wait time and allows retry of any error even when response is not received (e.g. timeout which could not be retried previously) ([b7cf414](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b7cf414bc2da0f4fc42368fd5ab44a555bf36afc))
+
 ## [8.2.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v8.1.0...v8.2.0) (2019-11-25)
 
 
