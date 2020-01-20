@@ -13,10 +13,11 @@ describe('Retry rxjs - isolated - retry', () => {
 
         const context = new Context();
         context.retryStrategy = {
+            maxAttempts: retryAttempts,
             addJitter: false,
             deltaBackoffMs: 1000,
             maxCumulativeWaitTimeMs: 5000,
-            useRetryForResponseCodes: [404]
+            canRetryError: (error) => true
         };
 
         setup(context);

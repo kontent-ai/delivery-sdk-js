@@ -3,7 +3,7 @@ import { retryService } from '@kentico/kontent-core';
 import { Context, setup } from '../../setup';
 
 describe('Retry - isolated - do not retry', () => {
-    const retryAttempts = 3;
+    const retryAttempts = 0;
     const MAX_SAFE_TIMEOUT = Math.pow(2, 31) - 1;
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = MAX_SAFE_TIMEOUT;
@@ -13,10 +13,11 @@ describe('Retry - isolated - do not retry', () => {
 
         const context = new Context();
         context.retryStrategy = {
+            maxAttempts: 3,
             addJitter: false,
             deltaBackoffMs: 1000,
             maxCumulativeWaitTimeMs: 5000,
-            useRetryForResponseCodes: []
+            canRetryError: (error) => false
         };
 
         setup(context);

@@ -3,12 +3,15 @@ import { retryService } from '@kentico/kontent-core';
 import { Context, setup } from '../../setup';
 
 describe('Live 404 retry', () => {
+    const retryAttempts = 3;
+
     const context = new Context();
     context.retryStrategy = {
+        maxAttempts: retryAttempts,
         addJitter: false,
         deltaBackoffMs: 1000,
-        maxCumulativeWaitTimeMs: 5000,
-        useRetryForResponseCodes: []
+        maxCumulativeWaitTimeMs: 50000,
+        canRetryError: (error) => true
     };
 
     // set fake base url because we want this to fail
@@ -31,8 +34,8 @@ describe('Live 404 retry', () => {
             });
     });
 
-    it(`Warning for retry attempt should have been called '0' times because 404 response codes should not be retried`, () => {
-        expect(retryService.debugLogAttempt).toHaveBeenCalledTimes(0);
+    it(`Warning for retry attempt should have been called '${retryAttempts}' times`, () => {
+        expect(retryService.debugLogAttempt).toHaveBeenCalledTimes(retryAttempts);
     });
 });
 

@@ -162,11 +162,8 @@ export abstract class BaseDeliveryQueryService {
                     mapError: error => mapBaseKontentError(error)
                 },
                 {
+                    retryStrategy: this.config.retryStrategy,
                     headers: this.getHeaders(queryConfig, serviceConfig.headers ? serviceConfig.headers : []),
-                    useRetryForResponseCodes: this.config.retryStrategy ? this.config.retryStrategy.useRetryForResponseCodes : undefined,
-                    addJitterToRetryAttempts: this.config.retryStrategy ? this.config.retryStrategy.addJitter : undefined,
-                    deltaBackoffMs: this.config.retryStrategy ? this.config.retryStrategy.deltaBackoffMs : undefined,
-                    maxCumulativeWaitTimeMs: this.config.retryStrategy ? this.config.retryStrategy.maxCumulativeWaitTimeMs : undefined,
                     logErrorToConsole: this.config.isDeveloperMode
                 }
             )

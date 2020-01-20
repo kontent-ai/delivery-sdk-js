@@ -9,10 +9,11 @@ describe('Retry Promise - isolated - retry', () => {
 
     const context = new Context();
     context.retryStrategy = {
+        canRetryError: (error) => true,
+        maxAttempts: 2,
         addJitter: false,
         deltaBackoffMs: 1000,
         maxCumulativeWaitTimeMs: 5000,
-        useRetryForResponseCodes: [404]
     };
 
     setup(context);
