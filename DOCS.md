@@ -295,7 +295,7 @@ In order to register mapping of custom elements use `ElementResolver` configurat
 ```typescript
 const client = new DeliveryClient(
   {
-    projectId: ''.
+    projectId: '',
     elementResolver: (elementWrapper: ElementModels.IElementMapWrapper) => {
       if (elementWrapper.contentItemSystem.type === 'your-content-type' && elementWrapper.rawElement.name === 'your-element-name') {
         return new ColorElement(elementWrapper);
