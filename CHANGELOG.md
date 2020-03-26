@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.1.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.0.0...v9.1.0) (2020-03-26)
+
+
+### Features
+
+* exposes richTextParserAdapter via config ([62659a6](https://github.com/Kentico/kontent-delivery-sdk-js/commit/62659a688661b5e786b853e7dd0e59aac2eeb02c))
+
+
+### Bug Fixes
+
+* fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/286 & unifies parse5 / browser tests ([2a787f4](https://github.com/Kentico/kontent-delivery-sdk-js/commit/2a787f4ec237528a55ae3df7676ed348cf502e87))
+
 ## [9.0.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v8.2.0...v9.0.0) (2020-01-20)
 
 
