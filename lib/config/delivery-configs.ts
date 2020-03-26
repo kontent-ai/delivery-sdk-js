@@ -2,6 +2,7 @@ import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService, IRetry
 
 import { ElementResolver } from '../elements';
 import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, TypeResolver } from '../models';
+import { IRichTextHtmlParser } from '../parser';
 
 export interface IDeliveryClientProxyConfig {
     /**
@@ -121,6 +122,11 @@ export interface IDeliveryClientConfig {
      * Default query configuration. Can be overriden by individual queries.
      */
     globalQueryConfig?: IQueryConfig;
+
+    /**
+     * Rich text parser adapter. When not set, default afapter for either browse or node.js is used
+     */
+    richTextParserAdapter?: IRichTextHtmlParser;
 
 }
 

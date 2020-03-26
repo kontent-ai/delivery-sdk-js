@@ -32,7 +32,7 @@ export class DeliveryClient implements IDeliveryClient {
             throw Error(`Delivery client configuration is not set`);
         }
 
-        this.mappingService = new MappingService(config, getParserAdapter());
+        this.mappingService = new MappingService(config, config.richTextParserAdapter ? config.richTextParserAdapter : getParserAdapter());
         this.queryService = new QueryService(
             config,
             config.httpService
