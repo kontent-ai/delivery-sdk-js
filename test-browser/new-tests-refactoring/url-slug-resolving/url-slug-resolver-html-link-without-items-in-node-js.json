@@ -1,0 +1,76 @@
+{
+    "item": {
+      "system": {
+        "id": "194e6d57-05ae-41e4-84c0-64f105049392",
+        "name": "Download",
+        "codename": "download",
+        "language": "default",
+        "type": "plain_text_page",
+        "sitemap_locations": [
+          "specials"
+        ],
+        "last_modified": "2019-09-30T07:41:21.6493462Z"
+      },
+      "elements": {
+        "url_slug": {
+          "type": "url_slug",
+          "name": "URL slug",
+          "value": "download"
+        },
+        "heading": {
+          "type": "rich_text",
+          "name": "Heading",
+          "images": {},
+          "links": {},
+          "modular_content": [],
+          "value": "<h1>Download<strong>.</strong></h1>"
+        },
+        "text": {
+          "type": "rich_text",
+          "name": "Text",
+          "images": {},
+          "links": {
+            "2ad895c7-ce0d-4c50-88fa-9461ef6d4774": {
+              "codename": "kentico_cloud_logotype",
+              "type": "file",
+              "url_slug": ""
+            },
+            "131339cb-e3d3-4f85-ba0f-319ed11436db": {
+              "codename": "logo___powered_by_kentico_kontent_badge",
+              "type": "file",
+              "url_slug": ""
+            },
+            "dd146b1e-7f81-4fc1-9a8b-579a83481260": {
+              "codename": "logo___kentico_kontent_partner_badges",
+              "type": "file",
+              "url_slug": ""
+            }
+          },
+          "modular_content": [],
+          "value": "<h3><strong>Logotypes &amp; Badges</strong></h3>\n<p><a data-item-id=\"2ad895c7-ce0d-4c50-88fa-9461ef6d4774\" href=\"\">Kentico Kontent Logotype (zip)</a></p>\n<p><a data-item-id=\"131339cb-e3d3-4f85-ba0f-319ed11436db\" href=\"\">Powered by Kentico Kontent (zip)</a></p>\n<p><a data-item-id=\"dd146b1e-7f81-4fc1-9a8b-579a83481260\" href=\"\">Kentico Kontent Partner Badge (zip)</a></p>"
+        },
+        "metadata_title": {
+          "type": "text",
+          "name": "Metadata title",
+          "value": "Download"
+        },
+        "metadata_description": {
+          "type": "text",
+          "name": "Metadata description",
+          "value": "Download all important Kentico Kontent marketing & sales files "
+        },
+        "release_projects": {
+          "type": "taxonomy",
+          "name": "Release projects",
+          "taxonomy_group": "release_projects",
+          "value": [
+            {
+              "name": "Rebranding",
+              "codename": "rebranding"
+            }
+          ]
+        }
+      }
+    },
+    "modular_content": {}
+  }

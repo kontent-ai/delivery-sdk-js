@@ -9,6 +9,8 @@ import {
     RichTextItemDataType,
     richTextResolver,
     urlSlugResolver,
+    BrowserRichTextParser,
+    Parse5RichTextParser
 } from '../../../lib';
 
 class ActorMock extends ContentItem {
@@ -207,7 +209,7 @@ describe('RichTextElement', () => {
         expect(element.links.length).toEqual(links.length);
     });
 
-    it(`checks that links are resolved even if the rich text resolver is not set`, () => {
+    it(`checks that links are resolved even if the rich text resolver is not set (browser)`, () => {
         const elementWithoutRichTextResolver = new Elements.RichTextElement(
             {
                 contentItemSystem: {} as any,
@@ -228,7 +230,7 @@ describe('RichTextElement', () => {
                         links: links,
                         getLinkedItem: getLinkedItem,
                         images: [],
-                        richTextHtmlParser: getParserAdapter(),
+                        richTextHtmlParser: new BrowserRichTextParser(),
                         linkedItemWrapperClasses: ['kc-wrapper-class'],
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {
@@ -250,7 +252,7 @@ describe('RichTextElement', () => {
         expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });
 
-    it(`checks that rich text context is set`, () => {
+    it(`checks that rich text context is set (browser)`, () => {
         const contexts: IRichTextResolverContext[] = [];
 
         const elementWithRichTextResolver = new Elements.RichTextElement(
@@ -273,7 +275,7 @@ describe('RichTextElement', () => {
                         links: links,
                         getLinkedItem: getLinkedItem,
                         images: [],
-                        richTextHtmlParser: getParserAdapter(),
+                        richTextHtmlParser: new BrowserRichTextParser(),
                         linkedItemWrapperClasses: ['kc-wrapper-class'],
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {
@@ -294,7 +296,7 @@ describe('RichTextElement', () => {
         expect(contexts.filter(m => m.contentType === RichTextItemDataType.Item).length).toEqual(2);
     });
 
-    it(`error should be preserved when it originates from richTextResolver`, () => {
+    it(`error should be preserved when it originates from richTextResolver (browser)`, () => {
         const elementWithRichTextResolver = new Elements.RichTextElement(
             {
                 contentItemSystem: {} as any,
@@ -315,7 +317,131 @@ describe('RichTextElement', () => {
                         links: links,
                         getLinkedItem: getLinkedItem,
                         images: [],
-                        richTextHtmlParser: getParserAdapter(),
+                        richTextHtmlParser: new BrowserRichTextParser(),
+                        linkedItemWrapperClasses: ['kc-wrapper-class'],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextResolver: (item, context) => {
+                                throw Error(`Custom processing error`);
+                            }
+                        }
+                    }),
+                images: []
+            }
+        );
+
+        expect(() => elementWithRichTextResolver.resolveHtml()).toThrowError('Custom processing error');
+    });
+
+    it(`checks that links are resolved even if the rich text resolver is not set (parse5)`, () => {
+        const elementWithoutRichTextResolver = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'x',
+                rawElement: {
+                    name: '',
+                    value: html,
+                    type: ''
+                }
+            },
+            linkedItems.map(m => m.system.codename),
+            {
+                links: links,
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData('', html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: links,
+                        getLinkedItem: getLinkedItem,
+                        images: [],
+                        richTextHtmlParser: new Parse5RichTextParser(),
+                        linkedItemWrapperClasses: ['kc-wrapper-class'],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextResolver: undefined,
+                            urlSlugResolver: (link, context) => {
+                                return {
+                                    url: '/actor-rt/' + link.urlSlug
+                                };
+                            }
+                        }
+                    }),
+                images: []
+            }
+        );
+
+        const expectedHtml1 = `href="/actor-rt/slug_for_joel"`;
+        const expectedHtml2 = `href="/actor-rt/slug_for_tom"`;
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
+        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
+    });
+
+    it(`checks that rich text context is set (parse5)`, () => {
+        const contexts: IRichTextResolverContext[] = [];
+
+        const elementWithRichTextResolver = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'x',
+                rawElement: {
+                    name: '',
+                    value: html,
+                    type: ''
+                }
+            },
+            linkedItems.map(m => m.system.codename),
+            {
+                links: links,
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData('', html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: links,
+                        getLinkedItem: getLinkedItem,
+                        images: [],
+                        richTextHtmlParser: new Parse5RichTextParser(),
+                        linkedItemWrapperClasses: ['kc-wrapper-class'],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextResolver: (item, context) => {
+                                contexts.push(context);
+                                return '';
+                            }
+                        }
+                    }),
+                images: []
+            }
+        );
+
+        elementWithRichTextResolver.resolveHtml();
+
+        expect(contexts).toBeDefined();
+        expect(contexts.length).toEqual(2);
+        expect(contexts.filter(m => m.contentType === RichTextItemDataType.Item).length).toEqual(2);
+    });
+
+    it(`error should be preserved when it originates from richTextResolver (parse5)`, () => {
+        const elementWithRichTextResolver = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'x',
+                rawElement: {
+                    name: '',
+                    value: html,
+                    type: ''
+                }
+            },
+            linkedItems.map(m => m.system.codename),
+            {
+                links: links,
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData('', html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: links,
+                        getLinkedItem: getLinkedItem,
+                        images: [],
+                        richTextHtmlParser: new Parse5RichTextParser(),
                         linkedItemWrapperClasses: ['kc-wrapper-class'],
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {

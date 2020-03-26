@@ -1,12 +1,15 @@
+
+
 import {
     ContentItem,
     ContentItemSystemAttributes,
     Elements,
-    getParserAdapter,
     ImageUrlBuilder,
+    ItemUrlSlugResolver,
     RichTextImage,
     richTextResolver,
-    ItemUrlSlugResolver,
+    BrowserRichTextParser,
+    Parse5RichTextParser
 } from '../../../lib';
 
 describe('RichTextElement with Images', () => {
@@ -31,7 +34,6 @@ describe('RichTextElement with Images', () => {
             description: undefined,
             height: 99,
             width: 88
-
         }),
         new RichTextImage({
             imageId: 'image2',
@@ -43,23 +45,27 @@ describe('RichTextElement with Images', () => {
     ];
 
     // set images to rich text
-    linkedItem['name'] = new Elements.RichTextElement({
-        contentItemSystem: {} as any,
-        propertyName: 'name',
-        rawElement: {
-            name: 'name',
-            type: 'x',
-            value: ''
+    linkedItem['name'] = new Elements.RichTextElement(
+        {
+            contentItemSystem: {} as any,
+            propertyName: 'name',
+            rawElement: {
+                name: 'name',
+                type: 'x',
+                value: ''
+            }
+        },
+        [],
+        {
+            images: images,
+            links: [],
+            resolveRichTextFunc: () => ({
+                html: '',
+                componentCodenames: [],
+                linkedItemCodenames: []
+            })
         }
-    }, [], {
-        images: images,
-        links: [],
-        resolveRichTextFunc: () => ({
-            html: '',
-            componentCodenames: [],
-            linkedItemCodenames: []
-        })
-    });
+    );
 
     const image1 = images[0];
     const image2 = images[1];
@@ -74,32 +80,37 @@ describe('RichTextElement with Images', () => {
     const html = `
     Testing html with images. ${image1Html} and ${image2Html}`;
 
-    it(`Checks that images are resolved using default resolver`, () => {
-        const element = new Elements.RichTextElement({
-            contentItemSystem: {} as any,
-            propertyName: 'name',
-            rawElement: {
-                name: 'name',
-                type: 'x',
-                value: html
-            }
-        }, [], {
-            links: [],
-            resolveRichTextFunc: () => richTextResolver.resolveData(linkedItemCodename, html, 'name', {
-                enableAdvancedLogging: false,
-                getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+    it(`Checks that images are resolved using default resolver (browser)`, () => {
+        const element = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'name',
+                rawElement: {
+                    name: 'name',
+                    type: 'x',
+                    value: html
+                }
+            },
+            [],
+            {
                 links: [],
-                getLinkedItem: (codename) => linkedItem,
-                images: images,
-                richTextHtmlParser: getParserAdapter(),
-                linkedItemWrapperClasses: [],
-                linkedItemWrapperTag: 'kc-item-wrapper',
-                queryConfig: {
-                    richTextImageResolver: undefined
-                },
-            }),
-            images: images
-        });
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData(linkedItemCodename, html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: [],
+                        getLinkedItem: codename => linkedItem,
+                        images: images,
+                        richTextHtmlParser: new BrowserRichTextParser(),
+                        linkedItemWrapperClasses: [],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextImageResolver: undefined
+                        }
+                    }),
+                images: images
+            }
+        );
 
         const expectedHtml1 = image1Html;
         const expectedHtml2 = image2Html;
@@ -110,40 +121,133 @@ describe('RichTextElement with Images', () => {
         expect(resultHtml).toContain(expectedHtml2);
     });
 
-    it(`Checks that images are resolved using custom resolver`, () => {
-        const element2 = new Elements.RichTextElement({
-            contentItemSystem: {} as any,
-            propertyName: 'name',
-            rawElement: {
-                name: 'name',
-                type: 'x',
-                value: html
-            }
-        }, [], {
-            links: [],
-            resolveRichTextFunc: () => richTextResolver.resolveData(linkedItemCodename, html, 'name', {
-                enableAdvancedLogging: false,
-                getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+    it(`Checks that images are resolved using custom resolver (browser)`, () => {
+        const element2 = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'name',
+                rawElement: {
+                    name: 'name',
+                    type: 'x',
+                    value: html
+                }
+            },
+            [],
+            {
                 links: [],
-                getLinkedItem: (codename) => linkedItem,
-                images: images,
-                richTextHtmlParser: getParserAdapter(),
-                linkedItemWrapperClasses: [],
-                linkedItemWrapperTag: 'kc-item-wrapper',
-                queryConfig: {
-                    richTextImageResolver: ((image, elementName) => {
-
-                        const newImageUrl = new ImageUrlBuilder(image.url)
-                            .withCustomParam('xParam', 'xValue')
-                            .getUrl();
-                        return {
-                            url: newImageUrl
-                        };
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData(linkedItemCodename, html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: [],
+                        getLinkedItem: codename => linkedItem,
+                        images: images,
+                        richTextHtmlParser: new BrowserRichTextParser(),
+                        linkedItemWrapperClasses: [],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextImageResolver: (image, elementName) => {
+                                const newImageUrl = new ImageUrlBuilder(image.url)
+                                    .withCustomParam('xParam', 'xValue')
+                                    .getUrl();
+                                return {
+                                    url: newImageUrl
+                                };
+                            }
+                        }
                     }),
-                },
-            }),
-            images: images
-        });
+                images: images
+            }
+        );
+
+        const expectedHtml1 = getImageSrcHtml(image1.url + '?xParam=xValue');
+        const expectedHtml2 = getImageSrcHtml(image2.url + '?xParam=xValue');
+
+        const resultHtml = element2.resolveHtml();
+
+        expect(resultHtml).toContain(expectedHtml1);
+        expect(resultHtml).toContain(expectedHtml2);
+    });
+
+    it(`Checks that images are resolved using default resolver (parse5)`, () => {
+        const element = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'name',
+                rawElement: {
+                    name: 'name',
+                    type: 'x',
+                    value: html
+                }
+            },
+            [],
+            {
+                links: [],
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData(linkedItemCodename, html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: [],
+                        getLinkedItem: codename => linkedItem,
+                        images: images,
+                        richTextHtmlParser: new Parse5RichTextParser(),
+                        linkedItemWrapperClasses: [],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextImageResolver: undefined
+                        }
+                    }),
+                images: images
+            }
+        );
+
+        const expectedHtml1 = image1Html;
+        const expectedHtml2 = image2Html;
+
+        const resultHtml = element.resolveHtml();
+
+        expect(resultHtml).toContain(expectedHtml1);
+        expect(resultHtml).toContain(expectedHtml2);
+    });
+
+    it(`Checks that images are resolved using custom resolver (parse5)`, () => {
+        const element2 = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'name',
+                rawElement: {
+                    name: 'name',
+                    type: 'x',
+                    value: html
+                }
+            },
+            [],
+            {
+                links: [],
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData(linkedItemCodename, html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: [],
+                        getLinkedItem: codename => linkedItem,
+                        images: images,
+                        richTextHtmlParser: new Parse5RichTextParser(),
+                        linkedItemWrapperClasses: [],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextImageResolver: (image, elementName) => {
+                                const newImageUrl = new ImageUrlBuilder(image.url)
+                                    .withCustomParam('xParam', 'xValue')
+                                    .getUrl();
+                                return {
+                                    url: newImageUrl
+                                };
+                            }
+                        }
+                    }),
+                images: images
+            }
+        );
 
         const expectedHtml1 = getImageSrcHtml(image1.url + '?xParam=xValue');
         const expectedHtml2 = getImageSrcHtml(image2.url + '?xParam=xValue');
@@ -159,7 +263,8 @@ describe('RichTextElement with Images', () => {
     }
 
     function getImageHtml(assetId: string, imageId: string, imageUrl: string, description?: string): string {
-        return `<figure data-asset-id="${assetId}" data-image-id="${imageId}"><img src="${imageUrl}" data-asset-id="${assetId}" data-image-id="${imageId}" alt="${description ? description : ''}"></figure>`;
+        return `<figure data-asset-id="${assetId}" data-image-id="${imageId}"><img src="${imageUrl}" data-asset-id="${assetId}" data-image-id="${imageId}" alt="${
+            description ? description : ''
+        }"></figure>`;
     }
 });
-

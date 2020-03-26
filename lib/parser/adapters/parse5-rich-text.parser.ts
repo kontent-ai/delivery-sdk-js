@@ -20,7 +20,6 @@ import {
     ResolverContext,
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
-import { parse5Utils } from './parse5utils';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
     private readonly resolvedLinkedItemAttribute = 'data-sdk-resolved';
@@ -191,8 +190,23 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                 ? (<IUrlSlugResolverResult>urlSlugResult).html
                 : '';
             if (linkHtml) {
-                const newNode = parseFragment(parse5Utils.createTextNode(''), linkHtml);
-                parse5Utils.replaceNode(element, (newNode as any).childNodes[0]);
+                const linkRootNodes = (parseFragment(linkHtml) as any).childNodes;
+
+                if (linkRootNodes.length !== 1) {
+                    throw Error(`Invalid number of root nodes.`);
+                }
+
+                const linkRootNode = linkRootNodes[0];
+                const linkNodes = linkRootNode.childNodes;
+
+                if (linkNodes.length !== 1) {
+                    throw Error(`When specifying 'html' in urlSlugResolver be sure to use single wrapper element.
+                    Valid syntax: '<p>data</p>'
+                    Invalid syntax: '<p><data></p><p>another data</p>'`);
+                }
+                element.attrs = []; // remove current attributes
+                element.tagName = linkRootNodes[0].tagName; // use first node as a tag wrapper
+                element.childNodes = linkNodes;
             }
         } else if (urlSlugResult.url) {
             // replace just link href
@@ -243,9 +257,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                 );
                 if (dataCodenameAttribute == null) {
                     throw Error(
-                        `The '${
-                            parserConfiguration.modularContentElementData.dataCodename
-                        }' attribute is missing and therefore linked item cannot be retrieved`
+                        `The '${parserConfiguration.modularContentElementData.dataCodename}' attribute is missing and therefore linked item cannot be retrieved`
                     );
                 }
 
