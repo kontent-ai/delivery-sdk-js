@@ -1,6 +1,6 @@
 import { ContentItem, Elements, TypeResolver, Parse5RichTextParser, BrowserRichTextParser } from '../../../lib';
 import { getDeliveryClientWithJson } from '../setup';
-import * as responseJson from './url-slug-resolver-html-link-without-items-in-node-js.json';
+import * as responseJson from './url-slug-resolver-html-link-without-items.json';
 
 class File extends ContentItem {
     public text!: Elements.RichTextElement;
