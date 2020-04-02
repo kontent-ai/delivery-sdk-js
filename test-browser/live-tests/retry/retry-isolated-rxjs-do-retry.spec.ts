@@ -15,7 +15,7 @@ describe('Retry rxjs - isolated - retry', () => {
         context.retryStrategy = {
             maxAttempts: retryAttempts,
             addJitter: false,
-            deltaBackoffMs: 1000,
+            deltaBackoffMs: 0,
             maxCumulativeWaitTimeMs: 5000,
             canRetryError: (error) => true
         };

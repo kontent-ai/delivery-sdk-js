@@ -15,7 +15,7 @@ describe('Retry - isolated - do not retry', () => {
         context.retryStrategy = {
             maxAttempts: 3,
             addJitter: false,
-            deltaBackoffMs: 1000,
+            deltaBackoffMs: 0,
             maxCumulativeWaitTimeMs: 5000,
             canRetryError: (error) => false
         };

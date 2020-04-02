@@ -12,7 +12,7 @@ describe('Retry Promise - isolated - retry', () => {
         canRetryError: (error) => true,
         maxAttempts: 2,
         addJitter: false,
-        deltaBackoffMs: 1000,
+        deltaBackoffMs: 0,
         maxCumulativeWaitTimeMs: 5000,
     };
 

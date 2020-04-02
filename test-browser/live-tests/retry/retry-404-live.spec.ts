@@ -3,19 +3,16 @@ import { retryService } from '@kentico/kontent-core';
 import { Context, setup } from '../../setup';
 
 describe('Live 404 retry', () => {
-    const retryAttempts = 3;
+    const retryAttempts = 1;
 
     const context = new Context();
     context.retryStrategy = {
         maxAttempts: retryAttempts,
         addJitter: false,
-        deltaBackoffMs: 1000,
-        maxCumulativeWaitTimeMs: 50000,
+        deltaBackoffMs: 0,
+        maxCumulativeWaitTimeMs: 5000,
         canRetryError: (error) => true
     };
-
-    // set fake base url because we want this to fail
-    context.baseUrl = 'http://fakeurl';
 
     setup(context);
 
@@ -26,7 +23,7 @@ describe('Live 404 retry', () => {
     beforeAll((done) => {
         // this will fail
         spyOn(retryService, 'debugLogAttempt').and.callThrough();
-        context.deliveryClient.items()
+        context.deliveryClient.items().withUrl('https://deliver.kenticocloud.com/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items/invalid-url')
             .toObservable()
             .subscribe(response => {
             }, err => {
