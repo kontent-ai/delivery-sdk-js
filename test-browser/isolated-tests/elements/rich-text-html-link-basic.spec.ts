@@ -121,7 +121,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
     <p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>\n<p>Stars:&nbsp;</p>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"tom_hardy\"></object>\n<object type=\"application/kenticocloud\" data-type=\"item\" data-codename=\"joel_edgerton\"></object>\n<p>See more in profile of ${beforeLinkText}<a data-item-id=\"3294e4b0-e58b-49d7-85fa-5bc9a86556ec\" href=\"\">Joel Edgerton</a>${afterLinkText} and ${beforeLinkText}<a data-item-id=\"d1557cb1-d7ec-4d04-9742-f86b52bc34fc\" href=\"\">Tom Hardy</a>${afterLinkText}</p>
     `;
 
-    it(`checks that links are resolved as HTML (parse5)`, () => {
+    it(`checks that links with attributes are resolved as HTML (parse5)`, () => {
         const elementWithoutRichTextResolver = new Elements.RichTextElement(
             {
                 contentItemSystem: {} as any,
@@ -149,7 +149,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                             richTextResolver: undefined as any,
                             urlSlugResolver: link =>
                                 <IUrlSlugResolverResult>{
-                                    html: `<test>${link.urlSlug}</test>`
+                                    html: `<test href="${link.type}" download>${link.urlSlug}</test>`
                                 }
                         }
                     }),
@@ -157,8 +157,8 @@ describe('RichTextElement with Html links parse5 basic', () => {
             }
         );
 
-        const expectedHtml1 = `${beforeLinkText}<test>slug_for_joel</test>${afterLinkText}`;
-        const expectedHtml2 = `${beforeLinkText}<test>slug_for_tom</test>${afterLinkText}`;
+        const expectedHtml1 = `${beforeLinkText}<test href="actor" download="">slug_for_joel</test>${afterLinkText}`;
+        const expectedHtml2 = `${beforeLinkText}<test href="actor" download="">slug_for_tom</test>${afterLinkText}`;
         expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
         expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });
@@ -205,7 +205,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
         expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });
 
-    it(`allow html resolver with a single tag as wrapper for parse5`, () => {
+    it(`verifies that only a single top tag is allowed for parse5`, () => {
         const elementWithoutRichTextResolver = new Elements.RichTextElement(
             {
                 contentItemSystem: {} as any,
@@ -244,7 +244,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
         expect(() => elementWithoutRichTextResolver.resolveHtml()).toThrowError();
     });
 
-    it(`checks that links are resolved as HTML (browser)`, () => {
+    it(`checks that links with attributes are resolved as HTML (browser)`, () => {
         const elementWithoutRichTextResolver = new Elements.RichTextElement(
             {
                 contentItemSystem: {} as any,
@@ -272,7 +272,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                             richTextResolver: undefined as any,
                             urlSlugResolver: link =>
                                 <IUrlSlugResolverResult>{
-                                    html: `<test>${link.urlSlug}</test>`
+                                    html: `<test href="${link.type}" download>${link.urlSlug}</test>`
                                 }
                         }
                     }),
@@ -280,8 +280,8 @@ describe('RichTextElement with Html links parse5 basic', () => {
             }
         );
 
-        const expectedHtml1 = `${beforeLinkText}<test>slug_for_joel</test>${afterLinkText}`;
-        const expectedHtml2 = `${beforeLinkText}<test>slug_for_tom</test>${afterLinkText}`;
+        const expectedHtml1 = `${beforeLinkText}<test href="actor" download="">slug_for_joel</test>${afterLinkText}`;
+        const expectedHtml2 = `${beforeLinkText}<test href="actor" download="">slug_for_tom</test>${afterLinkText}`;
         expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
         expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
     });

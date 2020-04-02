@@ -185,11 +185,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         if (urlSlugResult.html) {
                             // replace link html
                             const linkHtml = (<IUrlSlugResolverResult>urlSlugResult).html;
-                            element.outerHTML = linkHtml ? linkHtml : '';
-                            const parent = element.parentNode;
-                            if (parent) {
-                                parent.replaceChild(element, element);
-                            }
+                            element.outerHTML = linkHtml ?? '';
                         } else if (urlSlugResult.url) {
                             // set link url only
                             const hrefAttribute = element.attributes.getNamedItem('href');

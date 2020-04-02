@@ -9,7 +9,7 @@ class File extends ContentItem {
         super({
             urlSlugResolver: (link, context) => {
                 return {
-                    html: `<span>${link.codename}</span>`
+                    html: `<a href="${link.type}" download>${link.codename}</a>`
                 };
             }
         });
@@ -42,9 +42,9 @@ describe('Url slug resolver with html & without content items (browser)', () => 
             resolvedHtml = item.text.resolveHtml();
         }
 
-        expect(resolvedHtml).toContain('<span>kentico_cloud_logotype</span>');
-        expect(resolvedHtml).toContain('<span>logo___powered_by_kentico_kontent_badge</span>');
-        expect(resolvedHtml).toContain('<span>logo___kentico_kontent_partner_badges</span>');
+        expect(resolvedHtml).toContain('<a href="file" download="">kentico_cloud_logotype</a>');
+        expect(resolvedHtml).toContain('<a href="file" download="">logo___powered_by_kentico_kontent_badge</a>');
+        expect(resolvedHtml).toContain('<a href="file" download="">logo___kentico_kontent_partner_badges</a>');
     });
 });
 
@@ -74,8 +74,8 @@ describe('Url slug resolver with html & without content items (parse5)', () => {
             resolvedHtml = item.text.resolveHtml();
         }
 
-        expect(resolvedHtml).toContain('<span>kentico_cloud_logotype</span>');
-        expect(resolvedHtml).toContain('<span>logo___powered_by_kentico_kontent_badge</span>');
-        expect(resolvedHtml).toContain('<span>logo___kentico_kontent_partner_badges</span>');
+        expect(resolvedHtml).toContain('<a href="file" download="">kentico_cloud_logotype</a>');
+        expect(resolvedHtml).toContain('<a href="file" download="">logo___powered_by_kentico_kontent_badge</a>');
+        expect(resolvedHtml).toContain('<a href="file" download="">logo___kentico_kontent_partner_badges</a>');
     });
 });

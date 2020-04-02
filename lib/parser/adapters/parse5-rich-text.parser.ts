@@ -204,7 +204,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                     Valid syntax: '<p>data</p>'
                     Invalid syntax: '<p><data></p><p>another data</p>'`);
                 }
-                element.attrs = []; // remove current attributes
+                element.attrs = linkRootNode.attrs; //  preserve attributes from top node
                 element.tagName = linkRootNodes[0].tagName; // use first node as a tag wrapper
                 element.childNodes = linkNodes;
             }
