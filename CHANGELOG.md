@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.1.1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.1.0...v9.1.1) (2020-04-02)
+
+
+### Bug Fixes
+
+* fixes missing attributes in parse5 resolved links with custom html ([2e2f8c1](https://github.com/Kentico/kontent-delivery-sdk-js/commit/2e2f8c1d1c92d15395a0bfb646c32781ae06fdbf))
+
 ## [9.1.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.0.0...v9.1.0) (2020-03-26)
 
 
