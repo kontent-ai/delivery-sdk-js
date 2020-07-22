@@ -30,26 +30,26 @@ JavaScript Delivery SDK is a client library for retrieving content from [Kentico
     - [Get localized items](#get-localized-items)
     - [Property binding in models](#property-binding-in-models)
     - [Preview mode](#preview-mode)
-      - [Enabling preview mode globally](#enabling-preview-mode-globally)
-      - [Enabling preview mode per query](#enabling-preview-mode-per-query)
+      - [Enable preview mode globally](#enable-preview-mode-globally)
+      - [Enable preview mode per query](#enable-preview-mode-per-query)
     - [Secured Delivery API mode](#secured-delivery-api-mode)
     - [Image transformation](#image-transformation)
     - [URL Slugs (links)](#url-slugs-links)
-      - [Resolving URL slugs globally](#resolving-url-slugs-globally)
-      - [Resolving URL slugs on query level](#resolving-url-slugs-on-query-level)
-      - [Resolving URL slug as HTML](#resolving-url-slug-as-html)
-    - [Resolving content items and components in Rich text elements](#resolving-content-items-and-components-in-rich-text-elements)
+      - [Resolve URL slugs globally](#resolve-url-slugs-globally)
+      - [Resolve URL slugs on query level](#resolve-url-slugs-on-query-level)
+      - [Resolve URL slugs as HTML](#resolve-url-slugs-as-html)
+    - [Resolve content items and components in Rich text elements](#resolve-content-items-and-components-in-rich-text-elements)
       - [Globally](#globally)
       - [Locally per query](#locally-per-query)
     - [Strongly typed nested items](#strongly-typed-nested-items)
-    - [Handling missing referenced linked items](#handling-missing-referenced-linked-items)
+    - [Handle missing references to linked items](#handle-missing-references-to-linked-items)
     - [Custom resolving for content items](#custom-resolving-for-content-items)
     - [Image processing inside Rich Text elements](#image-processing-inside-rich-text-elements)
-  - [Getting content types](#getting-content-types)
-  - [Working with taxonomies](#working-with-taxonomies)
+  - [Get content types](#get-content-types)
+  - [Get taxonomies](#get-taxonomies)
   - [Client configuration](#client-configuration)
   - [Proxy configuration](#proxy-configuration)
-  - [Handling errors](#handling-errors)
+  - [Error handling](#error-handling)
   - [Debugging](#debugging)
     - [Accessing request data](#accessing-request-data)
     - [Getting URL of a query](#getting-url-of-a-query)
@@ -387,32 +387,29 @@ const deliveryClient = new DeliveryClient(
 )
 ```
 
-Once you have the client for your project, you can use its methods to, for example, get a list of movies.
+Once you initialize the delivery client for your project, you can use its methods to, for example, get a list of movies.
 
 ```typescript
-// Gets all content items based on the Movie type
+// Gets content items based on the Movie type
 deliveryClient.items<Movie>()
   .type('movie')
   .toObservable()
   .subscribe(response => console.log(response));
 ```
 
-If you need to retrieve hundreds or thousands of items, we recommend using the `itemsFeedAll` method. This method also guarantees retrieving (or enumerating) all items in the specified project, unlike the `items` method.
+If you need to retrieve hundreds or thousands of items, we recommend using the `itemsFeedAll` method. Unlike the `items` method, the `itemsFeedAll` method is not subject to [API limitations](https://docs.kontent.ai/reference/delivery-api#tag/API-limitations) of the Delivery API and guarantees retrieving all items matching your query.
 
 ```typescript
-// Gets a feed of movie items
-let feed = deliveryClient.itemsFeedAll<Movie>(
-    .type('movie')
-    .toObservable();
-
-while (feed.HasMoreResults)
-{
-    let response = await feed.FetchNextBatchAsync();
-    foreach(Movie movie in response) {
-        // Do something with the content item
-        ProcessContentItem(movie);
-    }
-}
+// Gets content items based on the Movie type
+deliveryClient.itemsFeedAll<Movie>(
+  .type('movie')
+  .toObservable()
+  .pipe(
+    map(response => {
+        // do something with feeds response
+    })
+  )
+  .subscribe();
 ```
 
 ### Use query parameters to get what you want
@@ -567,7 +564,7 @@ export class Actor extends ContentItem {
 
 You can enable the preview mode either globally (when [initializing the DeliveryClient](#how-to-use-deliveryclient)) or per query. For example, you might disable preview mode globally, but enable it for one query for testing purposes. In each case, you need to set `previewApiKey` in the delivery client global configuration.
 
-#### Enabling preview mode globally
+#### Enable preview mode globally
 
 ```typescript
 import { DeliveryClient } from '@kentico/kontent-delivery';
@@ -582,7 +579,7 @@ const deliveryClient = new DeliveryClient({
 });
 ```
 
-#### Enabling preview mode per query
+#### Enable preview mode per query
 
 ```typescript
 deliveryClient.items<Movie>()
@@ -597,7 +594,7 @@ deliveryClient.items<Movie>()
 
 ### Secured Delivery API mode
 
-**Important:** Using secure access to Delivery API is recommend only when the query is not run on a client because otherwise you will expose the API key publicly. For example, using secured delivery API in a Node.js app is ok, but using it in a web application is not because anyone could see the key.
+**Important**: Using the Delivery API with [secure access](https://docs.kontent.ai/tutorials/develop-apps/build-strong-foundation/restrict-public-access) enabled is recommend only when the query is not run on a client because otherwise you will expose the API key publicly. For example, using secured delivery API in a Node.js app is ok, but using it in a web application is not because anyone could see the key.
 
 ```typescript
 import { DeliveryClient } from '@kentico/kontent-delivery';
@@ -627,7 +624,7 @@ deliveryClient.items<Movie>()
 
 ### Image transformation
 
-The `ImageUrlBuilder` exposes methods for applying image transformations on asset URLs.
+The `ImageUrlBuilder` exposes methods for applying [image transformations](https://docs.kontent.ai/reference/image-transformation) on asset URLs.
 
 ```typescript
 import { ImageUrlBuilder, ImageCompressionEnum } from '@kentico/kontent-delivery';
@@ -648,7 +645,7 @@ const transformedUrl = imageUrlBuilder.getUrl();
 
 ### URL Slugs (links)
 
-#### Resolving URL slugs globally
+#### Resolve URL slugs globally
 
 The URL slugs (links) can be resolved in `URLSlugElement` or `RichTextElement` elements. The way how links are resolved depends on the `urlSlugResolver` which can be defined either globally in model class, or by using the `queryConfig` method of an API call. The query resolver has priority over the globally defined one.
 
@@ -678,7 +675,7 @@ deliveryClient.item<Actor>('tom_hardy')
   .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 
-#### Resolving URL slugs on query level
+#### Resolve URL slugs on query level
 
 ```typescript
 import { ContentItem, Elements } from '@kentico/kontent-delivery';
@@ -699,7 +696,7 @@ deliveryClient.item<Actor>('tom_hardy')
   .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 
-#### Resolving URL slug as HTML
+#### Resolve URL slugs as HTML
 
 In some cases you might want to customize link tag (`<a>`) to add CSS classes, attributes or otherwise customize the HTML. You can achieve this by setting `html` property of `IUrlSlugResolverResult` interface. See example:
 
@@ -721,7 +718,7 @@ deliveryClient.item<Actor>('tom_hardy')
   .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 
-### Resolving content items and components in Rich text elements
+### Resolve content items and components in Rich text elements
 
 [Rich text elements](https://developer.kenticocloud.com/v1/reference#section-rich-text-element) in Kentico Kontent can contain other content items and [components](https://help.kenticocloud.com/composing-and-linking-content/components/structuring-editorial-articles-with-components). For example, if you write a blog post, you might want to insert a video or testimonial to a specific place in your article.
 
@@ -807,13 +804,13 @@ export class Movie extends ContentItem {
 }
 ```
 
-### Handling missing referenced linked items
+### Handle missing references to linked items
 
-If one of your elements references linked items which are not present in response due to low 'depth' parameter, you may choose to throw an Error by enabling `throwErrorForMissingLinkedItems` in your `queryConfig`.
+If one of your elements references linked items which are not present in the response due to low 'depth' parameter, you can choose to throw an Error by enabling `throwErrorForMissingLinkedItems` in your `queryConfig`.
 
-Also, if you enable advanced logging, you will see a warning in console if such situation occurs. By default, sdk does not enforce you to load all items unless they are required for resolving (e.g. rich text resolver).
+Also, if you enable advanced logging, you will see a warning in console if such situation occurs. By default, the SDK doesn't enforce loading all items unless they are required for resolving (e.g. rich text resolver).
 
-Following example shows how to enforce that all referenced linked items are present in response:
+Following example shows how to enforce that all referenced linked items are present in the response:
 
 ```typescript
 deliveryClient.item<Movie>('pain_and_gain')
@@ -828,7 +825,7 @@ deliveryClient.item<Movie>('pain_and_gain')
 
 ### Custom resolving for content items
 
-If, for any reason, you need to use some custom resolving for specific item instead of default one. You may use `itemResolver` property in `queryConfig` of your query.
+If, for any reason, you need to use custom resolving for specific item instead of the default one, consider using the `itemResolver` property in `queryConfig` of your query.
 
 ```typescript
 import { ContentItem } from '@kentico/kontent-delivery';
@@ -847,7 +844,7 @@ deliveryClient.item<Movie>('pain_and_gain')
         if (itemCodename === 'itemCodename') {
           return new FakeActor('xxx'),
         }
-        // if you return 'undefined' default resolver will take place
+        // If you return 'undefined' default resolver will take place
         return undefined;
     })
   })
@@ -888,7 +885,7 @@ deliveryClient.item<Movie>('warrior')
 
 ```
 
-## Getting content types
+## Get content types
 
 To retrieve information about your content types, you can use the `type` and `types` methods.
 
@@ -903,7 +900,7 @@ deliveryClient.types()
   .subscribe(response => console.log(response));
 ```
 
-## Working with taxonomies
+## Get taxonomies
 
 To retrieve information about your taxonomies, you can use the `taxonomy` and `taxonomies` methods.
 
@@ -985,7 +982,7 @@ const client = new DeliveryClient({
 });
 ```
 
-## Handling errors
+## Error handling
 
 Errors can be handled using the `error` parameter of the `subscribe` method (see [RxJS](https://github.com/ReactiveX/rxjs)) or by using the `catchError` rxjs parameter. If the error originates in Kentico Kontent (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `BaseKontentError` model with more specific information. Otherwise, you will get an original exception.
 
