@@ -412,6 +412,8 @@ deliveryClient.itemsFeedAll<Movie>(
   .subscribe();
 ```
 
+You can also use the `itemsFeed` method if you want to retrieve only a few pages of the feed and not everything. The `itemsFeedAll` method handles paging for you and guarantees you get all content items.
+
 ### Use query parameters to get what you want
 
 To retrieve specific items, you can combine several query parameters. The SDK supports the following query parameters: `depthParameter`, `elementsParameter`, `limitParameter`, `orderParameter`, `skipParameter` and `languageParameter`. For more information about the parameters, see the [SDK query methods](#filter-content) below. You can also head over to [Delivery API reference](https://docs.kontent.ai/reference/delivery-api#tag/Filtering-content).
