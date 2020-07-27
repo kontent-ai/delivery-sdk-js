@@ -1,18 +1,16 @@
 import {
-    BaseKontentError,
     IBaseResponse,
-    IBaseResponseError,
     IHeader,
     IHttpService,
     IQueryParameter,
-    mapBaseKontentError,
     urlHelper,
 } from '@kentico/kontent-core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { AxiosError } from 'axios';
 
 import { IDeliveryClientConfig } from '../config';
-import { IQueryConfig, ISDKInfo } from '../models/common/common-models';
+import { IQueryConfig, ISDKInfo, IDeliveryErrorRaw, DeliveryError } from '../models/common/common-models';
 import { IMappingService } from './mapping.service';
 
 export abstract class BaseDeliveryQueryService {
@@ -156,10 +154,9 @@ export abstract class BaseDeliveryQueryService {
         }
 
         return this.httpService
-            .get<BaseKontentError, TRawData>(
+            .get<TRawData>(
                 {
                     url: url,
-                    mapError: error => mapBaseKontentError(error)
                 },
                 {
                     retryStrategy: this.config.retryStrategy,
@@ -168,8 +165,8 @@ export abstract class BaseDeliveryQueryService {
                 }
             )
             .pipe(
-                catchError((error: IBaseResponseError<BaseKontentError>) => {
-                    return throwError(error.mappedError);
+                catchError((error: any) => {
+                    return throwError(this.mapDeliveryError(error));
                 })
             );
     }
@@ -299,6 +296,27 @@ export abstract class BaseDeliveryQueryService {
             header: this.sdkVersionHeader,
             value: `${this.sdkInfo.host};${this.sdkInfo.name};${this.sdkInfo.version}`
         };
+    }
+
+    private mapDeliveryError(error: any): DeliveryError {
+        const axiosError = error as AxiosError;
+
+        if (!axiosError || !axiosError.isAxiosError) {
+            return error;
+        }
+
+        const deliveryErrorData = axiosError.response?.data as IDeliveryErrorRaw;
+
+        if (!deliveryErrorData || !deliveryErrorData.error_code) {
+            return error;
+        }
+
+        return new DeliveryError({
+            errorCode: deliveryErrorData.error_code,
+            message: deliveryErrorData.message,
+            specificCode: deliveryErrorData.specific_code,
+            requestId: deliveryErrorData.request_id,
+        });
     }
 
 }

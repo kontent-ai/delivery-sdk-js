@@ -986,41 +986,25 @@ const client = new DeliveryClient({
 
 ## Error handling
 
-Errors can be handled using the `error` parameter of the `subscribe` method (see [RxJS](https://github.com/ReactiveX/rxjs)) or by using the `catchError` rxjs parameter. If the error originates in Kentico Kontent (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `BaseKontentError` model with more specific information. Otherwise, you will get an original exception.
+If the error originates in Kentico Kontent (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `DeliveryError` object instance with more specific information. Otherwise, you will get original error.
 
 ```typescript
-import { BaseKontentError } from '@kentico/kontent-core';
+import { DeliveryError } from '@kentico/kontent-delivery';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 deliveryClient.item<Movie>('terminator_9')
   .get()
-  .subscribe(response => console.log(response), err => {
-    if (err instanceof BaseKontentError) {
-      console.log(err.message);
+  .subscribe(response => console.log(response), error => {
+    if (error instanceof DeliveryError) {
+      // delivery specific error (e.g. item with codename not found...)
+      console.log(err.message, err.errorCode);
     }
     else {
-      console.log(err);
+      // original error
+      console.log(error);
     }
   });
-
-deliveryClient.item<Movie>('terminator_9')
-  .get()
-  .pipe(
-    catchError(error => {
-      return throwError(error);
-    })
-  )
-  .catch(err => {
-      if (err instanceof BaseKontentError) {
-        console.log(err.message);
-      }
-      else {
-        console.log(err);
-      }
-    return err;
-  })
-  .subscribe(response => console.log(response))
 ```
 
 ## Debugging

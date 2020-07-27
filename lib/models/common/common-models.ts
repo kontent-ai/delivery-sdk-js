@@ -16,7 +16,6 @@ export interface IKontentResponseDebug {
 }
 
 export interface ISDKInfo {
-
     /**
      * Name of SDK
      */
@@ -30,7 +29,6 @@ export interface ISDKInfo {
      */
     host: string;
 }
-
 
 export interface IKontentResponse<TDebugData> {
     debug?: TDebugData;
@@ -60,4 +58,23 @@ export interface IQueryConfig {
     customHeaders?: IHeader[];
 }
 
+export interface IDeliveryErrorRaw {
+    message: string;
+    request_id: string | null;
+    error_code: number;
+    specific_code: number;
+}
 
+export class DeliveryError {
+    public message: string;
+    public requestId: string | null;
+    public errorCode: number;
+    public specificCode: number;
+
+    constructor(data: { message: string; requestId: string | null; errorCode: number; specificCode: number }) {
+        this.message = data.message;
+        this.requestId = data.requestId;
+        this.errorCode = data.errorCode;
+        this.specificCode = data.specificCode;
+    }
+}
