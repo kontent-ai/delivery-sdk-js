@@ -1,9 +1,7 @@
 import { IItemQueryConfig, IUrlSlugResolverResult, IRichTextImageResolverResult, RichTextItemDataType, ContentItemType } from '../models';
 
-export type ResolverContext = 'root' | 'nested';
-
 export interface IRichTextHtmlParser {
-    resolveRichTextElement(resolverContext: ResolverContext, contentItemCodename: string, html: string, elementName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
+    resolveRichTextElement(contentItemCodename: string, html: string, elementName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
 }
 
 export interface IFeaturedObjects {
@@ -19,7 +17,7 @@ export interface IRichTextResolverResult extends IFeaturedObjects {
 export interface IRichTextReplacements {
     getLinkedItemHtml: (itemCodename: string, itemType: RichTextItemDataType) => string;
     getUrlSlugResult: (itemId: string, linkText: string) => IUrlSlugResolverResult;
-    getImageResult: (resolverCotnext: ResolverContext, linkedItemCodename: string, imageId: string, elementName: string) => IRichTextImageResolverResult;
+    getImageResult: (linkedItemCodename: string, imageId: string, elementName: string) => IRichTextImageResolverResult;
 }
 
 export interface IHtmlResolverConfig {

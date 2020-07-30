@@ -8,13 +8,11 @@ import {
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
-    ResolverContext,
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
 
 export class BrowserRichTextParser implements IRichTextHtmlParser {
     resolveRichTextElement(
-        resolverContext: ResolverContext,
         contentItemCodename: string,
         html: string,
         elementName: string,
@@ -25,7 +23,6 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
 
         // get all linked items
         const result = this.processRichTextElement(
-            resolverContext,
             contentItemCodename,
             elementName,
             doc.children,
@@ -54,7 +51,6 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
     }
 
     private processRichTextElement(
-        resolverContext: ResolverContext,
         contentItemCodename: string,
         elementName: string,
         htmlCollection: HTMLCollection,
@@ -137,7 +133,6 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
 
                             // recursively run resolver on the HTML obtained by resolver
                             newElem.innerHTML = this.resolveRichTextElement(
-                                'nested',
                                 linkItemContentObject.dataCodename,
                                 linkedItemHtml,
                                 elementName,
@@ -226,7 +221,6 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
 
                         // get image result
                         const imageResult = replacement.getImageResult(
-                            resolverContext,
                             contentItemCodename,
                             imageObj.imageId,
                             elementName
@@ -253,7 +247,6 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                 // recursively process child nodes
                 if (element.children && element.children.length > 0) {
                     this.processRichTextElement(
-                        resolverContext,
                         contentItemCodename,
                         elementName,
                         element.children,

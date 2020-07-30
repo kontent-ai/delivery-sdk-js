@@ -17,7 +17,6 @@ import {
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
-    ResolverContext,
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
 
@@ -25,7 +24,6 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     private readonly resolvedLinkedItemAttribute = 'data-sdk-resolved';
 
     resolveRichTextElement(
-        resolverContext: ResolverContext,
         contentItemCodename: string,
         html: string,
         elementName: string,
@@ -37,7 +35,6 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
 
         // get all linked items
         const result = this.processRichTextElement(
-            resolverContext,
             contentItemCodename,
             elementName,
             this.getChildNodes(documentFragment),
@@ -61,7 +58,6 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     }
 
     private processRichTextElement(
-        resolverContext: ResolverContext,
         contentItemCodename: string,
         elementName: string,
         elements: DefaultTreeElement[],
@@ -74,9 +70,8 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         } else {
             elements.forEach(element => {
                 if (element.attrs) {
-                    this.processModularContentItem(resolverContext, elementName, element, replacement, config, result);
+                    this.processModularContentItem(elementName, element, replacement, config, result);
                     this.processImage(
-                        resolverContext,
                         contentItemCodename,
                         elementName,
                         element,
@@ -90,7 +85,6 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                 if (element.childNodes) {
                     // recursively process all childs
                     this.processRichTextElement(
-                        resolverContext,
                         contentItemCodename,
                         elementName,
                         this.getChildNodes(element),
@@ -106,7 +100,6 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     }
 
     private processImage(
-        resolverContext: ResolverContext,
         contentItemCodename: string,
         elementName: string,
         element: DefaultTreeElement,
@@ -136,7 +129,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         // add link to result
         result.images.push(image);
 
-        const linkResult = replacement.getImageResult(resolverContext, contentItemCodename, image.imageId, elementName);
+        const linkResult = replacement.getImageResult(contentItemCodename, image.imageId, elementName);
 
         // set url of image
         const srcAttribute = attributes.find(m => m.name === parserConfiguration.imageElementData.srcAttribute);
@@ -230,7 +223,6 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     }
 
     private processModularContentItem(
-        resolverContext: ResolverContext,
         elementName: string,
         element: DefaultTreeElement,
         replacement: IRichTextReplacements,
@@ -291,7 +283,6 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
 
                 // get html
                 const resultHtml = this.resolveRichTextElement(
-                    'nested',
                     itemCodename,
                     linkedItemHtml,
                     elementName,

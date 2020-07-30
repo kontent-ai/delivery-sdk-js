@@ -11,7 +11,7 @@ import {
     RichTextImage,
     RichTextItemDataType,
 } from '../models';
-import { IHtmlResolverConfig, IRichTextHtmlParser, ResolverContext } from '../parser';
+import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 
 export class RichTextResolver {
     /**
@@ -43,7 +43,6 @@ export class RichTextResolver {
         };
 
         const result = data.richTextHtmlParser.resolveRichTextElement(
-            'root',
             contentItemCodename,
             html,
             elementName,
@@ -65,13 +64,11 @@ export class RichTextResolver {
                         itemType: itemType
                     }),
                 getImageResult: (
-                    resolverContext: ResolverContext,
                     itemCodename: string,
                     imageId: string,
                     xElementName: string
                 ) =>
                     this.getImageResult({
-                        resolverContext: resolverContext,
                         getLinkedItem: data.getLinkedItem,
                         itemCodename: itemCodename,
                         config: config,
@@ -97,7 +94,6 @@ export class RichTextResolver {
     }
 
     private getImageResult(data: {
-        resolverContext: ResolverContext;
         itemCodename: string;
         getLinkedItem: (codename: string) => IContentItem | undefined;
         config: IHtmlResolverConfig;
@@ -130,17 +126,20 @@ export class RichTextResolver {
         // elements in linked item and find the image there.
         let image: RichTextImage | undefined;
 
-        if (data.resolverContext === 'nested') {
-            image = this.tryGetImageFromLinkedItem(data.imageId, linkedItem);
-        } else {
-            const richTextElement = linkedItem[data.elementName] as Elements.RichTextElement;
-
+        // try getting image from direct element richtext
+        const richTextElement = linkedItem[data.elementName] as Elements.RichTextElement | undefined;
+        if (richTextElement) {
             if (!(richTextElement instanceof Elements.RichTextElement)) {
                 throw Error(
                     `Linked item with codename '${data.itemCodename}' has invalid element '${data.elementName}'. This element is required to be of RichText type.`
                 );
             }
             image = richTextElement.images.find(m => m.imageId === data.imageId);
+        }
+
+        // image may be nested, go through all available content items & elements
+        if (!image) {
+            image = this.tryGetImageFromLinkedItem(data.imageId, linkedItem, data.getLinkedItem);
         }
 
         if (!image) {
@@ -160,17 +159,31 @@ export class RichTextResolver {
         };
     }
 
-    private tryGetImageFromLinkedItem(imageId: string, contentItem: IContentItem): RichTextImage | undefined {
+    private tryGetImageFromLinkedItem(imageId: string, contentItem: IContentItem, getLinkedItem: (codename: string) => IContentItem | undefined): RichTextImage | undefined {
         for (const propName of Object.keys(contentItem)) {
-            const prop = contentItem[propName];
-            if (prop instanceof Elements.RichTextElement) {
-                const image = prop.images.find(m => m.imageId === imageId);
+            const richTextElementProperty = contentItem[propName];
+            if (richTextElementProperty instanceof Elements.RichTextElement) {
+                const image = richTextElementProperty.images.find(m => m.imageId === imageId);
 
                 if (image) {
                     return image;
                 }
+
+                // try getting images recursively from referenced linked items
+                for (const linkedItemCodename of richTextElementProperty.linkedItemCodenames) {
+                    const linkedItem = getLinkedItem(linkedItemCodename);
+
+                    if (linkedItem) {
+                        const linkedImage = this.tryGetImageFromLinkedItem(imageId, linkedItem, getLinkedItem);
+
+                        if (linkedImage) {
+                            return linkedImage;
+                        }
+                    }
+                }
             }
         }
+
         return undefined;
     }
 

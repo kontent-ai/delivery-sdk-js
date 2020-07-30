@@ -30,7 +30,6 @@ describe('Retry rxjs - isolated - retry', () => {
                 throw Error(`This call should not succeed`);
             },
             error => {
-                console.warn(error);
                 done();
             }
         );
