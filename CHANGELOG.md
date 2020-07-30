@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.2.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.1.1...v9.2.0) (2020-07-30)
+
+
+### Features
+
+* updates dependencies, moves error handling logic from core package to sdk + fixes error mapping after recent error response change which now allows null in request_id property ([a11e745](https://github.com/Kentico/kontent-delivery-sdk-js/commit/a11e745d4148ac93dafa038f09bd6cd3b6b41a35))
+
+
+### Bug Fixes
+
+* improves handling of image resolving in rich text element and fixes parse5 parsing in nested component rich text resolver (https://github.com/Kentico/kontent-delivery-sdk-js/issues/294) ([9b82718](https://github.com/Kentico/kontent-delivery-sdk-js/commit/9b82718220c6affe62dfe8b79380323858db9e71))
+
 ### [9.1.1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.1.0...v9.1.1) (2020-04-02)
 
 
