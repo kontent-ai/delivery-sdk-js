@@ -5,6 +5,7 @@ import { ImageCompressionEnum, ImageFitModeEnum, ImageFormatEnum } from './image
 
 export class ImageUrlBuilder {
   private queryParams: IQueryParameter[] = [];
+  private readonly automaticFormatValue: string = 'format';
 
   constructor(
     /** Image url */
@@ -72,7 +73,7 @@ export class ImageUrlBuilder {
    */
   withAutomaticFormat(backupFormat?: ImageFormatEnum): this {
     this.queryParams.push(
-      new Parameters.QueryParameter('auto', ImageFormatEnum.Webp)
+      new Parameters.QueryParameter('auto', this.automaticFormatValue)
     );
 
     if (backupFormat) {

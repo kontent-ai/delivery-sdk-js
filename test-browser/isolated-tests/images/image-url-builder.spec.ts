@@ -28,14 +28,14 @@ describe('Image URL builder', () => {
     it(`Checks automatic format`, () => {
         const ib = getImageBuilder();
         ib.withAutomaticFormat();
-        expect(ib.getUrl()).toContain('auto=webp');
+        expect(ib.getUrl()).toContain('auto=format');
     });
 
     it(`Checks automatic format with backup`, () => {
         const ib = getImageBuilder();
         ib.withAutomaticFormat(ImageFormatEnum.Jpg);
         expect(ib.getUrl()).toContain('fm=jpg');
-        expect(ib.getUrl()).toContain('auto=webp');
+        expect(ib.getUrl()).toContain('auto=format');
     });
 
     it(`Checks dpr`, () => {
