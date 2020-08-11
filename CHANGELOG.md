@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.2.1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.2.0...v9.2.1) (2020-08-11)
+
+
+### Bug Fixes
+
+* fixes automatic format for image transformation api (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/296) ([42204ff](https://github.com/Kentico/kontent-delivery-sdk-js/commit/42204ff31a5f7cdbfcb684cb724ca6f24298f36c))
+
 ## [9.2.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.1.1...v9.2.0) (2020-07-30)
 
 
