@@ -18,7 +18,7 @@ describe('#Rich text element with images', () => {
         .queryConfig({
             richTextImageResolver: (image, elementName) => {
               var newUrl = new KontentDelivery.ImageUrlBuilder(image.url)
-                .withCustomParam('xParam', 'xValue')
+                .withCustomParam('x=y')
                 .getUrl();
 
               return {
@@ -36,7 +36,7 @@ describe('#Rich text element with images', () => {
  
     it('Rich text should contain expected image markup', () => {
         item.plot.images.forEach(image => {
-            const newImageUrl = image.url + '?xParam=xValue';
+            const newImageUrl = image.url + '?x=y';
             const imageHtml = getImageSrcHtml(newImageUrl);
             assert.ok(plot.includes(imageHtml));
         });
