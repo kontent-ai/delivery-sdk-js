@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.2.1...v10.0.0) (2020-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* Refactors IQueryParameter to allows value-less parameters which are required by new filtering operators (empty / nempty), adds support for new filter options (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/297)
+
+### Features
+
+* Refactors IQueryParameter to allows value-less parameters which are required by new filtering operators (empty / nempty), adds support for new filter options (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/297) ([b2ae46f](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b2ae46f615c6db7465125e09f8527fcfd49084a2))
+
+
+### Bug Fixes
+
+* fixes url resolving test for node.js ([212d343](https://github.com/Kentico/kontent-delivery-sdk-js/commit/212d34355104eb0201a3768d2bd198fc4b537176))
+
 ### [9.2.1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.2.0...v9.2.1) (2020-08-11)
 
 
