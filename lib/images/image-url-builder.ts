@@ -14,12 +14,11 @@ export class ImageUrlBuilder {
 
   /**
    * Used to add custom parameters to existing query string
-   * @param param Parameter name
-   * @param value Value
+   * @param param Parameter (may or may not include value)
    */
-  withCustomParam(param: string, value: string | undefined): this {
+  withCustomParam(param: string): this {
     this.queryParams.push(
-      new Parameters.CustomParameter(param, value)
+      new Parameters.CustomParameter(param)
     );
     return this;
   }
@@ -164,9 +163,9 @@ export class ImageUrlBuilder {
     let query: string = '';
     this.queryParams.forEach(filter => {
       if (query.indexOf('?') > -1) {
-        query = query + '&' + filter.getParam() + '=' + filter.getParamValue();
+        query = query + '&' + filter.getParam();
       } else {
-        query = query + '?' + filter.getParam() + '=' + filter.getParamValue();
+        query = query + '?' + filter.getParam();
       }
     });
 

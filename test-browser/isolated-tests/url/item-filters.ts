@@ -1,10 +1,33 @@
-import { Filters } from '../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Item url filters', () => {
 
     const context = new Context();
     setup(context);
+
+    it(`empty filter should be set`, () => {
+        const url = new URL(
+            context.deliveryClient.items()
+                .emptyFilter('x')
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('x[empty]');
+
+        expect(param).toBeDefined();
+    });
+
+    it(`notEmpty filter should be set`, () => {
+        const url = new URL(
+            context.deliveryClient.items()
+                .notEmptyFilter('x')
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('x[nempty]');
+
+        expect(param).toBeDefined();
+    });
 
     it(`type filter with single string should be set`, () => {
         const type = 'TypeA';
@@ -48,6 +71,30 @@ describe('Item url filters', () => {
     });
 
     it(`inFilter with multiple values should be set`, () => {
+        const url = new URL(
+            context.deliveryClient.items()
+                .notInFilter('elem1', ['val1', 'val2'])
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('elem1[nin]');
+
+        expect(param).toEqual('val1,val2');
+    });
+
+    it(`notInFilter with single value should be set`, () => {
+        const url = new URL(
+            context.deliveryClient.items()
+                .notInFilter('elem1', ['val1'])
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('elem1[nin]');
+
+        expect(param).toEqual('val1');
+    });
+
+    it(`notInFilter with multiple values should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()
                 .inFilter('elem1', ['val1', 'val2'])
@@ -114,7 +161,19 @@ describe('Item url filters', () => {
                 .getUrl()
         );
 
-        const param = url.searchParams.get('elem1');
+        const param = url.searchParams.get('elem1[eq]');
+
+        expect(param).toEqual('val1');
+    });
+
+    it(`notEqualsFilter should be set`, () => {
+        const url = new URL(
+            context.deliveryClient.items()
+                .notEqualsFilter('elem1', 'val1')
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('elem1[neq]');
 
         expect(param).toEqual('val1');
     });
@@ -207,7 +266,6 @@ describe('Item url filters', () => {
         expect(() => context.deliveryClient.items().rangeFilter('elem1', 10, 1)).toThrowError();
     });
 
-    // Null parameter checks
 
     it(`inFilter without element should throw an error`, () => {
         expect(() => context.deliveryClient.items().inFilter(null as any, ['val1'])).toThrowError();
@@ -249,51 +307,6 @@ describe('Item url filters', () => {
         expect(() => context.deliveryClient.items().equalsFilter(null as any, 'val1')).toThrowError();
     });
 
-    // null value checks
-
-    it(`EqualsFilter without value should return empty string as param value`, () => {
-        expect(new Filters.EqualsFilter('f', undefined as any).getParamValue()).toEqual('');
-    });
-
-    it(`AllFilter without value should return empty string as param value`, () => {
-        expect(new Filters.AllFilter('f', undefined as any).getParamValue()).toEqual('');
-    });
-
-    it(`AnyFilter without value should return empty string as param value`, () => {
-        expect(new Filters.AnyFilter('f', undefined as any).getParamValue()).toEqual('');
-    });
-
-    it(`ContainsFilter without value should return empty string as param value`, () => {
-        expect(new Filters.ContainsFilter('f', undefined as any).getParamValue()).toEqual('');
-    });
-
-    it(`GreaterThanFilter without value should return empty string as param value`, () => {
-        expect(new Filters.GreaterThanFilter('f', undefined as any).getParamValue()).toEqual('');
-    });
-
-    it(`GreaterThanOrEqualFilter without value should return empty string as param value`, () => {
-        expect(new Filters.GreaterThanOrEqualFilter('f', undefined as any).getParamValue()).toEqual('');
-    });
-
-    it(`Infilter without value should return empty string as param value`, () => {
-        expect(new Filters.InFilter('f', undefined as any).getParamValue()).toEqual('');
-    });
-
-    it(`LessThanFilter without value should return empty string as param value`, () => {
-        expect(new Filters.LessThanFilter('f', undefined as any).getParamValue()).toEqual('');
-    });
-
-    it(`LessThanOrEqualFilter without value should return empty string as param value`, () => {
-        expect(new Filters.LessThanOrEqualFilter('f', undefined as any).getParamValue()).toEqual('');
-    });
-
-    it(`RangeFilter without value should return empty string as param value`, () => {
-        expect(new Filters.RangeFilter('f', undefined as any, 3).getParamValue()).toEqual(',3');
-    });
-
-    it(`RangeFilter without value should return empty string as param value`, () => {
-        expect(new Filters.RangeFilter('f', 3, undefined as any).getParamValue()).toEqual('3,');
-    });
     // trim checks
 
     it(`inFilter should trim its element`, () => {
@@ -340,18 +353,6 @@ describe('Item url filters', () => {
         );
 
         const param = url.searchParams.get('elem1[contains]');
-
-        expect(param).toEqual('val1');
-    });
-
-    it(`equalsFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .equalsFilter(' elem1 ', 'val1')
-                .getUrl()
-        );
-
-        const param = url.searchParams.get('elem1');
 
         expect(param).toEqual('val1');
     });

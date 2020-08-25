@@ -42,6 +42,24 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
         return this;
     }
 
+     /**
+     * Empty filter condition
+     * @param element Element with empty value
+     */
+    emptyFilter(element: string): this {
+        this.parameters.push(new Filters.EmptyFilter(element));
+        return this;
+    }
+
+    /**
+     * Not empty filter condition
+     * @param element Element with non-empty value
+     */
+    notEmptyFilter(element: string): this {
+        this.parameters.push(new Filters.NotEmptyFilter(element));
+        return this;
+    }
+
     /**
      * Equals filter condition
      * @param element Element to filter. Example: 'elements.movie'
@@ -49,6 +67,16 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
      */
     equalsFilter(element: string, value: string): this {
         this.parameters.push(new Filters.EqualsFilter(element, value));
+        return this;
+    }
+
+    /**
+     * Not equals filter condition
+     * @param element Element to filter. Example: 'elements.movie'
+     * @param value Value to match. Example: 'Kingsman'
+     */
+    notEqualsFilter(element: string, value: string): this {
+        this.parameters.push(new Filters.NotEqualsFilter(element, value));
         return this;
     }
 
@@ -118,6 +146,16 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
      */
     inFilter(element: string, values: string[]): this {
         this.parameters.push(new Filters.InFilter(element, values));
+        return this;
+    }
+
+    /**
+     * Not in filter
+     * @param element Element to filter.
+     * @param values Values
+     */
+    notInFilter(element: string, values: string[]): this {
+        this.parameters.push(new Filters.NotInFilter(element, values));
         return this;
     }
 

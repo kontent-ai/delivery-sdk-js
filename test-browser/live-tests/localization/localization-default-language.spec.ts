@@ -1,6 +1,4 @@
-import { IQueryParameter } from '@kentico/kontent-core';
 
-import { Parameters } from '../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Language #1', () => {
@@ -13,14 +11,10 @@ describe('Language #1', () => {
     const movieCodename: string = 'warrior';
 
     const query = context.deliveryClient.item<Movie>(movieCodename).languageParameter(language);
+    const queryLanguageParam = query.getParameters().find(m => m.getParam() === `language=${language}`);
 
-    const languageParam = new Parameters.LanguageParameter('a');
-
-    const queryLanguageParam = query.getParameters().find(m => m.getParam() === languageParam.getParam()) as IQueryParameter;
-
-
-    it(`language should be '${language}'`, () => {
-        expect(queryLanguageParam.getParamValue()).toEqual(language);
+    it(`Language should be '${language}'`, () => {
+        expect(queryLanguageParam).toBeDefined();
     });
 
 });
@@ -35,13 +29,10 @@ describe('Language #2', () => {
     const newMovieCodename: string = 'warrior';
 
     const query = context.deliveryClient.item<Movie>(newMovieCodename).languageParameter(language);
-
-    const languageParam = new Parameters.LanguageParameter('a');
-
-    const queryLanguageParam = query.getParameters().find(m => m.getParam() === languageParam.getParam()) as IQueryParameter;
+    const queryLanguageParam = query.getParameters().find(m => m.getParam() === `language=${language}`);
 
     it(`language should be '${language}'`, () => {
-        expect(queryLanguageParam.getParamValue()).toEqual(language);
+        expect(queryLanguageParam).toBeDefined();
     });
 });
 

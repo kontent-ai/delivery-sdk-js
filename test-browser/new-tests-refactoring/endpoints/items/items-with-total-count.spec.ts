@@ -27,14 +27,10 @@ describe('Items with total count', () => {
 
     it(`Total count parameter should be set to true`, () => {
         const totalCountParameter = parameters.find(
-            m => m.getParam().toLowerCase() === 'includeTotalCount'.toLowerCase()
+            m => m.getParam().toLowerCase() === 'includeTotalCount=true'.toLowerCase()
         );
 
         expect(totalCountParameter).toBeDefined();
-
-        if (totalCountParameter) {
-            expect(totalCountParameter.getParamValue()).toEqual('true');
-        }
     });
 
     it(`Response should be of proper type`, () => {

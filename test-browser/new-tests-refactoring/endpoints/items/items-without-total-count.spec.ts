@@ -24,9 +24,9 @@ describe('Items without total count', () => {
         });
     });
 
-    it(`Total count parameter should be set to true`, () => {
+    it(`Total count parameter should not be set`, () => {
         const totalCountParameter = parameters.find(
-            m => m.getParam().toLowerCase() === 'includeTotalCount'.toLowerCase()
+            m => m.getParam().toLowerCase().startsWith('includeTotalCount'.toLowerCase())
         );
 
         expect(totalCountParameter).toBeUndefined();

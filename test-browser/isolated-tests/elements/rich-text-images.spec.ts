@@ -148,7 +148,7 @@ describe('RichTextElement with Images', () => {
                         queryConfig: {
                             richTextImageResolver: (image, elementName) => {
                                 const newImageUrl = new ImageUrlBuilder(image.url)
-                                    .withCustomParam('xParam', 'xValue')
+                                    .withCustomParam('x=y')
                                     .getUrl();
                                 return {
                                     url: newImageUrl
@@ -160,8 +160,8 @@ describe('RichTextElement with Images', () => {
             }
         );
 
-        const expectedHtml1 = getImageSrcHtml(image1.url + '?xParam=xValue');
-        const expectedHtml2 = getImageSrcHtml(image2.url + '?xParam=xValue');
+        const expectedHtml1 = getImageSrcHtml(image1.url + '?x=y');
+        const expectedHtml2 = getImageSrcHtml(image2.url + '?x=y');
 
         const resultHtml = element2.resolveHtml();
 
@@ -237,7 +237,7 @@ describe('RichTextElement with Images', () => {
                         queryConfig: {
                             richTextImageResolver: (image, elementName) => {
                                 const newImageUrl = new ImageUrlBuilder(image.url)
-                                    .withCustomParam('xParam', 'xValue')
+                                    .withCustomParam('x=y')
                                     .getUrl();
                                 return {
                                     url: newImageUrl
@@ -249,8 +249,8 @@ describe('RichTextElement with Images', () => {
             }
         );
 
-        const expectedHtml1 = getImageSrcHtml(image1.url + '?xParam=xValue');
-        const expectedHtml2 = getImageSrcHtml(image2.url + '?xParam=xValue');
+        const expectedHtml1 = getImageSrcHtml(image1.url + '?x=y');
+        const expectedHtml2 = getImageSrcHtml(image2.url + '?x=y');
 
         const resultHtml = element2.resolveHtml();
 

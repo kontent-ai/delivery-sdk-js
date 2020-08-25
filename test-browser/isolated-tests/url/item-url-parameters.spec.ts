@@ -1,4 +1,4 @@
-import { Parameters, SortOrder } from '../../../lib';
+import { SortOrder } from '../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Item url parameters', () => {
@@ -200,23 +200,6 @@ describe('Item url parameters', () => {
         const param = url.searchParams.get('order');
 
         expect(param).toEqual('elem1[asc]');
-    });
-
-      it(`language parameter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .languageParameter(' en ')
-                .getUrl()
-        );
-
-        const param = url.searchParams.get('language');
-
-        expect(param).toEqual('en');
-    });
-
-    // empty value checks
-    it(`ElementsParameter without value should return empty string as param value`, () => {
-        expect(new Parameters.ElementsParameter(undefined as any).getParamValue()).toEqual('');
     });
 });
 

@@ -115,7 +115,7 @@ describe('Image URL builder', () => {
 
     it(`Checks custom param`, () => {
         const ib = getImageBuilder();
-        ib.withCustomParam('xParam', 'xValue');
-        expect(ib.getUrl()).toContain('xParam=xValue');
+        ib.withCustomParam('x=y');
+        expect(ib.getUrl()).toContain('x=y');
     });
 });

@@ -11,17 +11,17 @@ export namespace Filters {
         ) {
         }
 
-        public getParam(): string {
+        getParam(): string {
             if (Array.isArray(this.type)) {
                 // multiple types
-                return 'system.type[in]';
+                return `system.type[in]=${this.getParamValue()}`;
             }
 
             // single type
-            return 'system.type';
+            return `system.type=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        private getParamValue(): string | undefined {
             if (!this.type) {
                 return defaultValue;
             }
@@ -47,6 +47,34 @@ export namespace Filters {
         }
     }
 
+    export class EmptyFilter implements IQueryParameter {
+        constructor(
+            public element: string,
+        ) {
+            if (!this.element) {
+                throw Error(`Element specified in 'EmptyFilter' is undefined `);
+            }
+        }
+
+        getParam(): string {
+            return `${this.element.trim()}[empty]`;
+        }
+    }
+
+    export class NotEmptyFilter implements IQueryParameter {
+        constructor(
+            public element: string,
+        ) {
+            if (!this.element) {
+                throw Error(`Element specified in 'NotEmptyFilter' is undefined `);
+            }
+        }
+
+        getParam(): string {
+            return `${this.element.trim()}[nempty]`;
+        }
+    }
+
     export class EqualsFilter implements IQueryParameter {
         constructor(
             public element: string,
@@ -57,12 +85,34 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
-
-            return this.element.trim();
+        getParam(): string {
+            return `${this.element.trim()}[eq]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        private getParamValue(): string | undefined {
+            if (!this.value) {
+                return defaultValue;
+            }
+
+            return this.value;
+        }
+    }
+
+    export class NotEqualsFilter implements IQueryParameter {
+        constructor(
+            public element: string,
+            public value: string
+        ) {
+            if (!this.element) {
+                throw Error(`Element specified in 'NotEqualsFilter' is undefined `);
+            }
+        }
+
+        getParam(): string {
+            return `${this.element.trim()}[neq]=${this.getParamValue()}`;
+        }
+
+        private getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -81,11 +131,11 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
-            return `${this.element.trim()}[all]`;
+        getParam(): string {
+            return `${this.element.trim()}[all]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        private getParamValue(): string | undefined {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -104,11 +154,11 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
-            return `${this.element.trim()}[any]`;
+        getParam(): string {
+            return `${this.element.trim()}[any]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        private getParamValue(): string | undefined {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -127,11 +177,11 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
-            return `${this.element.trim()}[contains]`;
+        getParam(): string {
+            return `${this.element.trim()}[contains]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        private getParamValue(): string | undefined {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -150,12 +200,12 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
+        getParam(): string {
 
-            return `${this.element.trim()}[gt]`;
+            return `${this.element.trim()}[gt]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        private getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -174,12 +224,12 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
+        getParam(): string {
 
-            return `${this.element.trim()}[gte]`;
+            return `${this.element.trim()}[gte]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -198,11 +248,37 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
-            return `${this.element.trim()}[in]`;
+        getParam(): string {
+            return `${this.element.trim()}[in]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        private getParamValue(): string | undefined {
+            if (!this.values || !Array.isArray(this.values)) {
+                return defaultValue;
+            }
+
+            return this.values.map(m => {
+                return m.trim();
+            }
+            ).join(',');
+        }
+    }
+
+    export class NotInFilter implements IQueryParameter {
+        constructor(
+            public element: string,
+            public values: string[]
+        ) {
+            if (!this.element) {
+                throw Error(`Element specified in 'NotInFilter' is undefined`);
+            }
+        }
+
+        getParam(): string {
+            return `${this.element.trim()}[nin]=${this.getParamValue()}`;
+        }
+
+        private getParamValue(): string | undefined {
             if (!this.values || !Array.isArray(this.values)) {
                 return defaultValue;
             }
@@ -224,11 +300,11 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
-            return `${this.element.trim()}[lt]`;
+        getParam(): string {
+            return `${this.element.trim()}[lt]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        private getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -246,12 +322,12 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
+        getParam(): string {
 
-            return `${this.element.trim()}[lte]`;
+            return `${this.element.trim()}[lte]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string | undefined {
+        private getParamValue(): string | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -275,11 +351,11 @@ export namespace Filters {
             }
         }
 
-        public getParam(): string {
-            return `${this.element.trim()}[range]`;
+        getParam(): string {
+            return `${this.element.trim()}[range]=${this.getParamValue()}`;
         }
 
-        public getParamValue(): string {
+        private getParamValue(): string | undefined {
             let lowerVal = defaultValue;
             let higherVal = defaultValue;
 

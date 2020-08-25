@@ -14,7 +14,7 @@ describe('Live item', () => {
       .queryConfig({
         richTextImageResolver: (image, elementName) => {
           const newImageUrl = new ImageUrlBuilder(image.url)
-            .withCustomParam('xParam', 'xValue')
+            .withCustomParam('x=y')
             .getUrl();
 
           return {
@@ -155,7 +155,7 @@ describe('Live item', () => {
       expect(image).toEqual(jasmine.any(RichTextImage));
 
       // get original image
-      const newImageUrl = image.url + '?xParam=xValue';
+      const newImageUrl = image.url + '?x=y';
       const plotHtml = response.item.plot.resolveHtml();
 
       expect(plotHtml).toContain(`src="${newImageUrl}"`);

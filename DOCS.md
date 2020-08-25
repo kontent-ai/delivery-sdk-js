@@ -432,7 +432,7 @@ deliveryClient.items<Movie>()
 
 This example returns all **Movie** content items whose **title** element is equal to **Warrior**. Filters are also considered query parameters and can be combined. See [Content filtering in API reference](https://docs.kontent.ai/reference/delivery-api#tag/Filtering-content) for more general examples.
 
-Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`.
+Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`, `greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`, `emptyFilter`, `notEmptyFilter`, `notEqualsFilter`, `NotInFilter`.
 
 ```typescript
 // Gets items based on the Movie type with 'Warrior' in their 'Title' element
@@ -445,20 +445,24 @@ deliveryClient.items<Movie>()
 
 ##### Filtering methods
 
-| Filter | parameters | Description |
-| ------ | --------------------- | ----------- |
-| type | string value | Retrieve only content items based on the given type. |
-| types | string[ ] values| Retrieve only content items based on the given types. |
-| allFilter | string element, string[ ] value | Element with an array of values contains the specified list of values. |
-| anyFilter | string element, string[ ] value | Element with an array of values contains any value from the specified list of values. |
-| containsFilter | string element, string[ ] value | Element with an array of values contains the specified value. |
-| equalsFilter | string element, string value| Element value is the same as the specified value |
-| greaterThanFilter | string element, string value | Element value is greater than the specified value. |
-| greaterThanOrEqualFilter | string element, string value | Element value is greater than or equals the specified value. |
-| infilter | string element, string[ ] value | Element value is in the specified list of values. |
-| lessThanFilter | string element, string value | Element value is less than the specified value. |
-| lessThanOrEqualFilter | string element, string value | Element value is less than or equals the specified value |
-| rangeFilter | string element, number low, number high | Element value falls in the specified range of two values, both inclusive. |
+| Filter  | Description |
+| ------ | ----------- |
+| type | Retrieve only content items based on the given type. |
+| types | Retrieve only content items based on the given types. |
+| allFilte | Element with an array of values contains the specified list of values. |
+| anyFilter | Element with an array of values contains any value from the specified list of values. |
+| containsFilter | Element with an array of values contains the specified value. |
+| equalsFilter | Element value is the same as the specified value |
+| greaterThanFilter | Element value is greater than the specified value. |
+| greaterThanOrEqualFilter | | Element value is greater than or equals the specified value. |
+| infilter | Element value is in the specified list of values. |
+| lessThanFilter | Element value is less than the specified value. |
+| lessThanOrEqualFilter | Element value is less than or equals the specified value |
+| rangeFilter | Element value falls in the specified range of two values, both inclusive. |
+| emptyFilter  | Property value is empty.  |
+| NotEmptyFilter | Property value is not empty. |
+| notEqualsFilter | Property value does not equal the specified value. |
+| notInFilter | Property value is not in the specified list of values. |
 
 #### Sort content
 
