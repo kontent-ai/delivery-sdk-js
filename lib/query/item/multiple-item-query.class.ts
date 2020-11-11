@@ -42,6 +42,25 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
         return this;
     }
 
+    /**
+     * Gets only item from given collection
+     * @param collection Codename of collection to get
+     */
+    collection(collection: string): this {
+        this.parameters.push(new Filters.CollectionFilter(collection));
+        return this;
+    }
+
+    /**
+     * Gets items from given collections (logical or)
+     * I.e. get items of either 'default' or 'christmas-campaign' collection
+     * @param collections Collections to get
+     */
+    collections(collections: string[]): this {
+        this.parameters.push(new Filters.CollectionFilter(collections));
+        return this;
+    }
+
      /**
      * Empty filter condition
      * @param element Element with empty value

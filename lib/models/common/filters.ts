@@ -5,6 +5,31 @@ export namespace Filters {
     const valueSeparator: string = ',';
     const defaultValue: string = '';
 
+    const getParamValueForSystemFilter = (param: string | string[]): string | undefined => {
+        if (!param) {
+            return defaultValue;
+        }
+
+        if (Array.isArray(param)) {
+            let value = '';
+            // use [in] filter
+            for (let i = 0; i < param.length; i++) {
+
+                value = value + param[i].toString();
+
+                if (i !== param.length - 1) {
+                    // append separator if its not last item
+                    value = value + valueSeparator;
+                }
+            }
+
+            return value;
+        }
+
+        // single param was given
+        return param.toString();
+    };
+
     export class TypeFilter implements IQueryParameter {
         constructor(
             public type: string | string[]
@@ -14,36 +39,28 @@ export namespace Filters {
         getParam(): string {
             if (Array.isArray(this.type)) {
                 // multiple types
-                return `system.type[in]=${this.getParamValue()}`;
+                return `system.type[in]=${getParamValueForSystemFilter(this.type)}`;
             }
 
             // single type
-            return `system.type=${this.getParamValue()}`;
+            return `system.type=${getParamValueForSystemFilter(this.type)}`;
+        }
+    }
+
+    export class CollectionFilter implements IQueryParameter {
+        constructor(
+            public collection: string | string[]
+        ) {
         }
 
-        private getParamValue(): string | undefined {
-            if (!this.type) {
-                return defaultValue;
+        getParam(): string {
+            if (Array.isArray(this.collection)) {
+                // multiple collections
+                return `system.collection[in]=${getParamValueForSystemFilter(this.collection)}`;
             }
 
-            if (Array.isArray(this.type)) {
-                let value = '';
-                // use [in] filter
-                for (let i = 0; i < this.type.length; i++) {
-
-                    value = value + this.type[i].toString();
-
-                    if (i !== this.type.length - 1) {
-                        // append separator if its not last item
-                        value = value + valueSeparator;
-                    }
-                }
-
-                return value;
-            }
-
-            // single type was given
-            return this.type.toString();
+            // single collection
+            return `system.collection=${getParamValueForSystemFilter(this.collection)}`;
         }
     }
 
