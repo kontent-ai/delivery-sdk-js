@@ -38,6 +38,7 @@ class ActorMock extends ContentItem {
             codename: codename,
             type: 'actor',
             sitemapLocations: [],
+            collection: 'default',
             language: 'en',
             lastModified: new Date()
         });

@@ -36,6 +36,7 @@ export namespace ItemContracts {
     last_modified: string;
     language: string;
     sitemap_locations: string[];
+    collection: string;
   }
 
   export interface IItemsWithModularContentContract {

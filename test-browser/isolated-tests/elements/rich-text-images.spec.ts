@@ -23,6 +23,7 @@ describe('RichTextElement with Images', () => {
         lastModified: new Date(),
         name: 'x linked item',
         sitemapLocations: [],
+        collection: 'default',
         type: 'article'
     });
 

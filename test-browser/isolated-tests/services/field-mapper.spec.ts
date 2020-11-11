@@ -38,6 +38,7 @@ describe('ElementMapper', () => {
                 last_modified: '2019-04-11T12:26:37.6196731Z',
                 name: 'name',
                 sitemap_locations: [],
+                collection: 'default',
                 language: 'en'
         };
 
