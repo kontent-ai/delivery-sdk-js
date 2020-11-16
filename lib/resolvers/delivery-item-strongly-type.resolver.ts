@@ -60,7 +60,8 @@ export class DeliveryItemStronglyTypeResolver {
             lastModified: new Date(rawSystem.last_modified),
             language: rawSystem.language,
             type: rawSystem.type,
-            sitemapLocations: rawSystem.sitemap_locations
+            sitemapLocations: rawSystem.sitemap_locations,
+            collection: rawSystem.collection
         });
     }
 

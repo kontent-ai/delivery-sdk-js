@@ -9,6 +9,7 @@
       "sitemap_locations": [
         "main_sitemap"
       ],
+      "collection": "default",
       "last_modified": "2019-04-29T07:32:51.6197915Z"
     },
     "elements": {
@@ -129,6 +130,7 @@
         "language": "en",
         "type": "actor",
         "sitemap_locations": [],
+        "collection": "default",
         "last_modified": "2019-04-29T07:32:51.6197915Z"
       },
       "elements": {
@@ -162,6 +164,7 @@
         "language": "en",
         "type": "actor",
         "sitemap_locations": [],
+        "collection": "default",
         "last_modified": "2017-08-03T09:21:21.3857294Z"
       },
       "elements": {
@@ -205,6 +208,7 @@
         "language": "en",
         "type": "actor",
         "sitemap_locations": [],
+        "collection": "default",
         "last_modified": "2018-02-09T13:11:32.5769383Z"
       },
       "elements": {

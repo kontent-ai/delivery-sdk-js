@@ -58,6 +58,35 @@ describe('Item url filters', () => {
         expect(param).toEqual(`${typeA},${typeB}`);
     });
 
+    it(`collection filter with single string should be set`, () => {
+        const collection = 'CollectionA';
+        const url = new URL(
+            context.deliveryClient.items()
+                .collection(collection)
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('system.collection');
+
+        expect(param).toEqual(collection);
+    });
+
+    it(`collection filter with multiple strings should be set`, () => {
+        const collectionA = 'CollectionA';
+        const collectionB = 'CollectionB';
+
+        const collections = [collectionA, collectionB];
+        const url = new URL(
+            context.deliveryClient.items()
+                .collections(collections)
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('system.collection[in]');
+
+        expect(param).toEqual(`${collectionA},${collectionB}`);
+    });
+
     it(`inFilter with single value should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()

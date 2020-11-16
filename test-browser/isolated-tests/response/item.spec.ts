@@ -33,6 +33,10 @@ describe('Verifies mapping of delivery content item', () => {
         expect(response.item.system.type).toEqual('movie');
     });
 
+    it(`checks system collection`, () => {
+        expect(response.item.system.collection).toEqual('christmas-campaign');
+    });
+
     it(`checks last modified`, () => {
         expect(response.item.system.lastModified).toEqual(jasmine.any(Date));
     });

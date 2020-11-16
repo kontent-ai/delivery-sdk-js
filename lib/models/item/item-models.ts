@@ -49,9 +49,14 @@ export interface IContentItemSystemAttributes {
     language: string;
 
     /**
-     * Array of sitemap locatoins
+     * Array of sitemap locations
      */
     sitemapLocations: string[];
+
+    /**
+     * Codename of the collection this item belongs to
+     */
+    collection: string;
 }
 
 /**
@@ -174,9 +179,14 @@ export class ContentItemSystemAttributes implements IContentItemSystemAttributes
     public language!: string;
 
     /**
-     * Array of sitemap locatoins
+     * Array of sitemap locations
      */
     public sitemapLocations!: string[];
+
+    /**
+     * Codename of the collection this item belongs to
+     */
+    public collection!: string;
 
     constructor(
         data: {
@@ -186,7 +196,8 @@ export class ContentItemSystemAttributes implements IContentItemSystemAttributes
             type: string,
             lastModified: Date,
             language: string,
-            sitemapLocations: string[]
+            sitemapLocations: string[],
+            collection: string
         }
     ) {
         Object.assign(this, data);

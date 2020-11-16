@@ -8,6 +8,7 @@
           "language": "default",
           "type": "with_color_picker",
           "sitemap_locations": [],
+          "collection": "default",
           "last_modified": "2019-01-04T09:56:04.372261Z"
         },
         "elements": {

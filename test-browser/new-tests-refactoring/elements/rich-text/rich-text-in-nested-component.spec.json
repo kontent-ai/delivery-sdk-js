@@ -7,6 +7,7 @@
       "language": "en",
       "type": "main",
       "sitemap_locations": [],
+      "collection": "default",
       "last_modified": "2020-07-27T10:33:51.6730201Z"
     },
     "elements": {
@@ -31,6 +32,7 @@
         "language": "en",
         "type": "item",
         "sitemap_locations": [],
+        "collection": "default",
         "last_modified": "2020-07-27T10:33:51.6730201Z"
       },
       "elements": {
