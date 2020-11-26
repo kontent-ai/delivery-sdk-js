@@ -1,4 +1,5 @@
-import { IHeader, IHttpRequestConfig, IHttpRequestResponse, IHttpService, IRetryStrategyOptions } from '@kentico/kontent-core';
+import { IHeader, IHttpService, IRetryStrategyOptions } from '@kentico/kontent-core';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { ElementResolver } from '../elements';
 import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, TypeResolver } from '../models';
@@ -99,8 +100,8 @@ export interface IDeliveryClientConfig {
      * Interceptors of HTTP requests. This may be used to alter request before its sent or response after its received.
      */
     httpInterceptors?: {
-        requestInterceptor?: (config: IHttpRequestConfig) => IHttpRequestConfig;
-        responseInterceptor?: (config: IHttpRequestResponse) => IHttpRequestResponse;
+        requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig;
+        responseInterceptor?: (config: AxiosResponse) => AxiosResponse;
     };
 
     /**
