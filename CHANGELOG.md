@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
+* adds support for collections
 * updates all dependencies, uses axios models directly for request interceptors ([5aa5f8b](https://github.com/Kentico/kontent-delivery-sdk-js/commit/5aa5f8b4529ecfb8c3a9763db3755a36fa385267))
 
 ## [10.0.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.2.1...v10.0.0) (2020-08-25)
