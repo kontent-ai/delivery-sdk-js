@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.1.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v10.0.0...v10.1.0) (2020-11-26)
+
+
+### Features
+
+* updates all dependencies, uses axios models directly for request interceptors ([5aa5f8b](https://github.com/Kentico/kontent-delivery-sdk-js/commit/5aa5f8b4529ecfb8c3a9763db3755a36fa385267))
+
 ## [10.0.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v9.2.1...v10.0.0) (2020-08-25)
 
 
