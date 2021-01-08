@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.2.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v10.1.0...v10.2.0) (2021-01-08)
+
+
+### Features
+
+* updates dependencies ([651ccb4](https://github.com/Kentico/kontent-delivery-sdk-js/commit/651ccb44626c2542bf1caee83fc31ee4fd0b53a5))
+
+
+### Bug Fixes
+
+* updates internal types of parse5 parser adapter ([83109f7](https://github.com/Kentico/kontent-delivery-sdk-js/commit/83109f73003e233938c753d6795899f1b55e8ce4))
+
 ## [10.1.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v10.0.0...v10.1.0) (2020-11-26)
 
 
