@@ -1,10 +1,10 @@
 import {
     Attribute,
-    DefaultTreeDocumentFragment,
-    DefaultTreeElement,
-    DefaultTreeTextNode,
+    DocumentFragment,
+    Element,
     parseFragment,
     serialize,
+    TextNode,
 } from 'parse5';
 
 import { ContentItemType, IUrlSlugResolverResult, RichTextItemDataType } from '../../models';
@@ -31,7 +31,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         config: IHtmlResolverConfig
     ): IRichTextResolverResult {
         // create document
-        const documentFragment = parseFragment(html) as DefaultTreeDocumentFragment;
+        const documentFragment = parseFragment(html);
 
         // get all linked items
         const result = this.processRichTextElement(
@@ -60,7 +60,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     private processRichTextElement(
         contentItemCodename: string,
         elementName: string,
-        elements: DefaultTreeElement[],
+        elements: Element[],
         replacement: IRichTextReplacements,
         config: IHtmlResolverConfig,
         result: IFeaturedObjects
@@ -102,7 +102,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     private processImage(
         contentItemCodename: string,
         elementName: string,
-        element: DefaultTreeElement,
+        element: Element,
         replacement: IRichTextReplacements,
         config: IHtmlResolverConfig,
         result: IFeaturedObjects
@@ -139,7 +139,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
     }
 
     private processLink(
-        element: DefaultTreeElement,
+        element: Element,
         replacement: IRichTextReplacements,
         config: IHtmlResolverConfig,
         result: IFeaturedObjects
@@ -169,7 +169,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         // get original link text (the one inside <a> tag from response)
         let originalLinkText: string | undefined = undefined;
 
-        const linkTextNode = element.childNodes[0] as DefaultTreeTextNode;
+        const linkTextNode = element.childNodes[0] as TextNode;
         if (linkTextNode) {
             originalLinkText = linkTextNode.value;
         }
@@ -183,7 +183,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                 ? (<IUrlSlugResolverResult>urlSlugResult).html
                 : '';
             if (linkHtml) {
-                const linkRootNodes = (parseFragment(linkHtml) as any).childNodes;
+                const linkRootNodes = (parseFragment(linkHtml)).childNodes as Element[];
 
                 if (linkRootNodes.length !== 1) {
                     throw Error(`Invalid number of root nodes.`);
@@ -224,7 +224,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
 
     private processModularContentItem(
         elementName: string,
-        element: DefaultTreeElement,
+        element: Element,
         replacement: IRichTextReplacements,
         config: IHtmlResolverConfig,
         result: IFeaturedObjects
@@ -314,7 +314,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         }
     }
 
-    private getChildNodes(documentFragment: DefaultTreeElement | DefaultTreeDocumentFragment): DefaultTreeElement[] {
-        return (documentFragment as DefaultTreeDocumentFragment).childNodes as DefaultTreeElement[];
+    private getChildNodes(documentFragment: DocumentFragment | Element): Element[] {
+        return documentFragment.childNodes as Element[];
     }
 }
