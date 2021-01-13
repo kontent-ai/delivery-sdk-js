@@ -1,16 +1,23 @@
 import { IBaseResponse } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
-import { ElementContracts, ItemContracts, TaxonomyContracts, TypeContracts } from '../data-contracts';
-import { GenericElementMapper, ItemMapper, TaxonomyMapper, TypeMapper } from '../mappers';
+import {
+    ElementContracts,
+    ItemContracts,
+    LanguageContracts,
+    TaxonomyContracts,
+    TypeContracts
+} from '../data-contracts';
+import { GenericElementMapper, ItemMapper, LanguageMapper, TaxonomyMapper, TypeMapper } from '../mappers';
 import {
     ElementResponses,
     IContentItem,
     IItemQueryConfig,
     ItemResponses,
+    LanguageResponses,
     Pagination,
     TaxonomyResponses,
-    TypeResponses,
+    TypeResponses
 } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 
@@ -54,10 +61,15 @@ export interface IMappingService {
     viewContentTypeElementResponse(
         response: IBaseResponse<ElementContracts.IViewContentTypeElementContract>
     ): ElementResponses.ViewContentTypeElementResponse;
+
+    listLanguagesResponse(
+        response: IBaseResponse<LanguageContracts.IListLanguagesContract>
+    ): LanguageResponses.ListLanguagesResponse;
 }
 
 export class MappingService implements IMappingService {
     private readonly typeMapper: TypeMapper;
+    private readonly languageMapper: LanguageMapper;
     private readonly itemMapper: ItemMapper;
     private readonly taxonomyMapper: TaxonomyMapper;
     private readonly genericElementMapper: GenericElementMapper;
@@ -66,6 +78,7 @@ export class MappingService implements IMappingService {
 
     constructor(readonly config: IDeliveryClientConfig, readonly richTextHtmlParser: IRichTextHtmlParser) {
         this.typeMapper = new TypeMapper();
+        this.languageMapper = new LanguageMapper();
         this.itemMapper = new ItemMapper(config, richTextHtmlParser);
         this.taxonomyMapper = new TaxonomyMapper();
         this.genericElementMapper = new GenericElementMapper();
@@ -73,7 +86,26 @@ export class MappingService implements IMappingService {
     }
 
     /**
-     * Gets response for getting a single type
+     * Gets response for list of languages
+     * @param response Response data
+     */
+    listLanguagesResponse(
+        response: IBaseResponse<LanguageContracts.IListLanguagesContract>
+    ): LanguageResponses.ListLanguagesResponse {
+        const languages = this.languageMapper.mapMultipleLanguages(response.data);
+
+        const pagination: Pagination = new Pagination({
+            skip: response.data.pagination.skip,
+            count: response.data.pagination.count,
+            limit: response.data.pagination.limit,
+            nextPage: response.data.pagination.next_page,
+        });
+
+        return new LanguageResponses.ListLanguagesResponse(languages, pagination, response, this.isDeveloperMode);
+    }
+
+    /**
+     * Gets response for getting a multiple type
      * @param response Response data
      */
     listContentTypesResponse(
@@ -92,7 +124,7 @@ export class MappingService implements IMappingService {
     }
 
     /**
-     * Gets resposne for getting multiple types
+     * Gets response for single type
      * @param response Response data
      * @param options Options
      */

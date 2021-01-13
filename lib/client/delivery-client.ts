@@ -13,6 +13,7 @@ import {
     TaxonomiesQuery,
     TaxonomyQuery,
     ItemsFeedQueryAll,
+    LanguagesQuery
 } from '../query';
 import { sdkInfo } from '../sdk-info.generated';
 import { IMappingService, MappingService, QueryService } from '../services';
@@ -32,7 +33,10 @@ export class DeliveryClient implements IDeliveryClient {
             throw Error(`Delivery client configuration is not set`);
         }
 
-        this.mappingService = new MappingService(config, config.richTextParserAdapter ? config.richTextParserAdapter : getParserAdapter());
+        this.mappingService = new MappingService(
+            config,
+            config.richTextParserAdapter ? config.richTextParserAdapter : getParserAdapter()
+        );
         this.queryService = new QueryService(
             config,
             config.httpService
@@ -54,6 +58,13 @@ export class DeliveryClient implements IDeliveryClient {
             },
             this.mappingService
         );
+    }
+
+    /**
+     * Gets query for multiple languages
+     */
+    languages(): LanguagesQuery {
+        return new LanguagesQuery(this.config, this.queryService);
     }
 
     /**

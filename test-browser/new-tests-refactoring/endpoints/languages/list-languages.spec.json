@@ -1,0 +1,423 @@
+{
+  "languages": [
+    {
+      "system": {
+        "id": "a151379f-332e-4b1e-842b-7519e0c28d56",
+        "name": "German",
+        "codename": "de"
+      }
+    },
+    {
+      "system": {
+        "id": "614d82f5-c16c-465b-a34b-a37a1b416d12",
+        "name": "German -- 11",
+        "codename": "de-DE---11"
+      }
+    },
+    {
+      "system": {
+        "id": "de7bffee-659e-495f-b462-073974c88147",
+        "name": "German -- 131",
+        "codename": "de-DE---131"
+      }
+    },
+    {
+      "system": {
+        "id": "b67aa235-4711-4f59-be02-6c2439fa3231",
+        "name": "German -- 161",
+        "codename": "de-DE---161"
+      }
+    },
+    {
+      "system": {
+        "id": "560ef6e2-fa13-4cde-a2f2-7219e4f0be38",
+        "name": "German -- 31",
+        "codename": "de-DE---31"
+      }
+    },
+    {
+      "system": {
+        "id": "7878060f-af11-4140-9cd8-64bf98bb4c32",
+        "name": "German -- 41",
+        "codename": "de-DE---41"
+      }
+    },
+    {
+      "system": {
+        "id": "29d27691-256a-4707-aac2-58a4bcc2a146",
+        "name": "German -- 51",
+        "codename": "de-DE---51"
+      }
+    },
+    {
+      "system": {
+        "id": "cff69077-dd72-436a-bd44-ec2161ebbf02",
+        "name": "German -- 61",
+        "codename": "de-DE---61"
+      }
+    },
+    {
+      "system": {
+        "id": "e8089efe-fd5a-4675-a226-83e878a4ccd1",
+        "name": "German -- 71",
+        "codename": "de-DE---71"
+      }
+    },
+    {
+      "system": {
+        "id": "869eabb8-3d9d-4581-8823-e499e400dbcf",
+        "name": "German -- 91",
+        "codename": "de-DE---91"
+      }
+    },
+    {
+      "system": {
+        "id": "e7d462c9-3d02-49d2-8255-0d453b25351f",
+        "name": "German -- 121",
+        "codename": "de-DE---_121"
+      }
+    },
+    {
+      "system": {
+        "id": "9a43bb60-7545-48ef-a3e4-3ba815de166c",
+        "name": "German -- 191",
+        "codename": "de-DE---_191"
+      }
+    },
+    {
+      "system": {
+        "id": "0ff7adc4-c297-4d2b-97ec-d25e3c7e8e66",
+        "name": "German -- 21",
+        "codename": "de-DE---_21"
+      }
+    },
+    {
+      "system": {
+        "id": "7106d69c-5b02-48b7-a88e-112a4ddd9100",
+        "name": "German -- 261",
+        "codename": "de-DE---_261"
+      }
+    },
+    {
+      "system": {
+        "id": "85e9d0b7-09e6-497c-91e7-a949676c8cc1",
+        "name": "German -- 281",
+        "codename": "de-DE---_281"
+      }
+    },
+    {
+      "system": {
+        "id": "13193a77-9684-4665-bfe7-751cf6e828d9",
+        "name": "German - 71",
+        "codename": "de-DE--71"
+      }
+    },
+    {
+      "system": {
+        "id": "e4a3c739-69a3-4f3a-be2e-042464423ca5",
+        "name": "German - 81",
+        "codename": "de-DE--81"
+      }
+    },
+    {
+      "system": {
+        "id": "9339dafc-6a64-45ca-bffd-d6ed1e9fa5da",
+        "name": "German - 0",
+        "codename": "de-DE-0"
+      }
+    },
+    {
+      "system": {
+        "id": "83d2cf55-87a8-4f16-b645-27ed2d110918",
+        "name": "German - 101",
+        "codename": "de-DE-101"
+      }
+    },
+    {
+      "system": {
+        "id": "09d573c6-976f-4ee3-88d6-5e8e2a921e80",
+        "name": "German - 11",
+        "codename": "de-DE-11"
+      }
+    },
+    {
+      "system": {
+        "id": "7dcaa4e5-ec87-48b6-8e79-94863fe2e6dd",
+        "name": "German - 121",
+        "codename": "de-DE-121"
+      }
+    },
+    {
+      "system": {
+        "id": "25a95f57-6d28-49b5-8ee3-ad45d05a7191",
+        "name": "German - 171",
+        "codename": "de-DE-171"
+      }
+    },
+    {
+      "system": {
+        "id": "b52570c5-0d92-4526-a9d8-efa5107d1bf0",
+        "name": "German - 191",
+        "codename": "de-DE-191"
+      }
+    },
+    {
+      "system": {
+        "id": "20f0fba0-9ee3-42a2-9502-0891dde37881",
+        "name": "German - 21",
+        "codename": "de-DE-21"
+      }
+    },
+    {
+      "system": {
+        "id": "73bf2fc6-47f4-49b1-bbe0-bdd482a20d53",
+        "name": "German - 271",
+        "codename": "de-DE-271"
+      }
+    },
+    {
+      "system": {
+        "id": "a2027e3a-eb07-420b-aebb-9536b80e0bdc",
+        "name": "German - 311",
+        "codename": "de-DE-311"
+      }
+    },
+    {
+      "system": {
+        "id": "eeda27e1-0191-4c85-b205-4f6dba123d6b",
+        "name": "German - 321",
+        "codename": "de-DE-321"
+      }
+    },
+    {
+      "system": {
+        "id": "1d28d836-24b8-4bad-8366-b5337449faa6",
+        "name": "German - 381",
+        "codename": "de-DE-381"
+      }
+    },
+    {
+      "system": {
+        "id": "a5fd9f3c-b500-4531-abeb-c3a26dd49be7",
+        "name": "German - 441",
+        "codename": "de-DE-441"
+      }
+    },
+    {
+      "system": {
+        "id": "699e94e5-05d7-47d0-8afb-b46769eb4c9a",
+        "name": "German - 491",
+        "codename": "de-DE-491"
+      }
+    },
+    {
+      "system": {
+        "id": "f377ceee-efa0-4e6b-a384-8d94ee74da4a",
+        "name": "German - 51",
+        "codename": "de-DE-51"
+      }
+    },
+    {
+      "system": {
+        "id": "85332170-baca-4925-a0e5-8ab1104ff829",
+        "name": "German - 61",
+        "codename": "de-DE-61"
+      }
+    },
+    {
+      "system": {
+        "id": "0f6f50d4-e3f5-48e8-9407-a86a1eb5b3a1",
+        "name": "German - 91",
+        "codename": "de-DE-91"
+      }
+    },
+    {
+      "system": {
+        "id": "79228548-6576-5a60-acad-53360bf23687",
+        "name": "German - ext",
+        "codename": "de-DE-ext"
+      }
+    },
+    {
+      "system": {
+        "id": "9c295dde-9f56-489a-9869-f8bab454ebfd",
+        "name": "German_131",
+        "codename": "de-DE_131"
+      }
+    },
+    {
+      "system": {
+        "id": "646bbcbe-bb5a-4aca-a513-9826d205a3df",
+        "name": "German_211",
+        "codename": "de-DE_211"
+      }
+    },
+    {
+      "system": {
+        "id": "13f6c434-1652-4850-b874-207207f0cffa",
+        "name": "German_221",
+        "codename": "de-DE_221"
+      }
+    },
+    {
+      "system": {
+        "id": "b87ebacc-1686-473a-ad56-ccb0b73ad0e4",
+        "name": "German_261",
+        "codename": "de-DE_261"
+      }
+    },
+    {
+      "system": {
+        "id": "3d15c7d7-2b6d-41a5-ab52-d42138ec23af",
+        "name": "German_31",
+        "codename": "de-DE_31"
+      }
+    },
+    {
+      "system": {
+        "id": "b800a209-1d0a-409c-8e3c-8fc8430257ad",
+        "name": "German_331",
+        "codename": "de-DE_331"
+      }
+    },
+    {
+      "system": {
+        "id": "23eec871-d70a-4d68-9e55-dec481b92fe5",
+        "name": "German_351",
+        "codename": "de-DE_351"
+      }
+    },
+    {
+      "system": {
+        "id": "251246ad-ca05-4e51-85e5-7c4a8a461e37",
+        "name": "German_401",
+        "codename": "de-DE_401"
+      }
+    },
+    {
+      "system": {
+        "id": "4a3ea19a-26a8-4536-840e-1963a46c5179",
+        "name": "German_451",
+        "codename": "de-DE_451"
+      }
+    },
+    {
+      "system": {
+        "id": "eed653b1-ecf4-41dc-b556-f9593f152dcf",
+        "name": "German_471",
+        "codename": "de-DE_471"
+      }
+    },
+    {
+      "system": {
+        "id": "ae46bbfa-adb1-43af-9687-d2f80d250a81",
+        "name": "German_491",
+        "codename": "de-DE_491"
+      }
+    },
+    {
+      "system": {
+        "id": "385077d2-ecc7-4483-b43f-d81626774cbe",
+        "name": "German_541",
+        "codename": "de-DE_541"
+      }
+    },
+    {
+      "system": {
+        "id": "4f34b0c3-f2cf-4e9f-8fba-7db8083a3be3",
+        "name": "German_591",
+        "codename": "de-DE_591"
+      }
+    },
+    {
+      "system": {
+        "id": "28ffafad-8b6c-4d41-a84b-2ed650f8aec2",
+        "name": "German_651",
+        "codename": "de-DE_651"
+      }
+    },
+    {
+      "system": {
+        "id": "47671fa3-79ea-4810-96c7-513f5d05d58e",
+        "name": "German_681",
+        "codename": "de-DE_681"
+      }
+    },
+    {
+      "system": {
+        "id": "1c35c688-8002-4201-b61c-70bc919e2c9c",
+        "name": "German_741",
+        "codename": "de-DE_741"
+      }
+    },
+    {
+      "system": {
+        "id": "bef4ed3b-b82e-443d-b69d-6c6504302422",
+        "name": "German_781",
+        "codename": "de-DE_781"
+      }
+    },
+    {
+      "system": {
+        "id": "5dfd9c2b-a0b4-4e21-9b52-6ec32840723e",
+        "name": "German_81",
+        "codename": "de-DE_81"
+      }
+    },
+    {
+      "system": {
+        "id": "51c9e330-68b1-4a8c-9eb7-0811fde43de0",
+        "name": "German_811",
+        "codename": "de-DE_811"
+      }
+    },
+    {
+      "system": {
+        "id": "7f9fda00-117e-48b9-8b64-ed6235162510",
+        "name": "German_861",
+        "codename": "de-DE_861"
+      }
+    },
+    {
+      "system": {
+        "id": "f00d0eb3-d637-4cf3-8d4b-0974576f81d5",
+        "name": "German_951",
+        "codename": "de-DE_951"
+      }
+    },
+    {
+      "system": {
+        "id": "00699ff5-8984-4d14-b8e8-ed74347bd97b",
+        "name": "German_961",
+        "codename": "de-DE_961"
+      }
+    },
+    {
+      "system": {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "name": "Default project language",
+        "codename": "default"
+      }
+    },
+    {
+      "system": {
+        "id": "8fab3c4c-2ba4-47a9-8e53-df8e6154054f",
+        "name": "looooooooooooooooooooong2",
+        "codename": "looooooooooooooooooooong2"
+      }
+    },
+    {
+      "system": {
+        "id": "24d5aaa6-a0db-4e20-8c11-6eb272bbe168",
+        "name": "loooooooooooooooooooooong",
+        "codename": "loooooooooooooooooooooong"
+      }
+    }
+  ],
+  "pagination": {
+    "skip": 100,
+    "limit": 0,
+    "count": 59,
+    "next_page": ""
+  }
+}

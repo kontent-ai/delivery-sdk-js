@@ -3,16 +3,24 @@ import { Observable, of } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
 
 import { IDeliveryClientConfig } from '../config';
-import { ElementContracts, ItemContracts, TaxonomyContracts, TypeContracts } from '../data-contracts';
+import {
+    ElementContracts,
+    ItemContracts,
+    LanguageContracts,
+    TaxonomyContracts,
+    TypeContracts
+} from '../data-contracts';
 import {
     ContentItem,
     ElementResponses,
     IContentTypeQueryConfig,
     IItemQueryConfig,
+    ILanguagesQueryConfig,
     ITaxonomyQueryConfig,
     ItemResponses,
+    LanguageResponses,
     TaxonomyResponses,
-    TypeResponses,
+    TypeResponses
 } from '../models';
 import { ISDKInfo } from '../models/common/common-models';
 import { BaseDeliveryQueryService } from './base-delivery-query.service';
@@ -40,7 +48,7 @@ export class QueryService extends BaseDeliveryQueryService {
         queryConfig: IItemQueryConfig
     ): Observable<ItemResponses.ViewContentItemResponse<TItem>> {
         return this.getResponse<ItemContracts.IViewContentItemContract>(url, queryConfig).pipe(
-            map(response => {
+            map((response) => {
                 return this.mappingService.viewContentItemResponse<TItem>(response, queryConfig);
             })
         );
@@ -51,9 +59,12 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url
      * @param queryConfig Query configuration
      */
-    getItemsFeed<TItem extends ContentItem>(url: string, queryConfig: IItemQueryConfig): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
+    getItemsFeed<TItem extends ContentItem>(
+        url: string,
+        queryConfig: IItemQueryConfig
+    ): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
         return this.getResponse<ItemContracts.IItemsFeedContract>(url).pipe(
-            map(response => {
+            map((response) => {
                 return this.mappingService.itemsFeedResponse<TItem>(response, queryConfig);
             })
         );
@@ -64,7 +75,10 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url
      * @param queryConfig Query configuration
      */
-    getItemsFeedAll<TItem extends ContentItem>(url: string,  queryConfig: IItemQueryConfig): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
+    getItemsFeedAll<TItem extends ContentItem>(
+        url: string,
+        queryConfig: IItemQueryConfig
+    ): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
         const responses: IBaseResponse<ItemContracts.IItemsFeedContract>[] = [];
 
         return this.getAllItemsFeedResponses(url, {}, responses).pipe(
@@ -84,7 +98,7 @@ export class QueryService extends BaseDeliveryQueryService {
         queryConfig: IItemQueryConfig
     ): Observable<ItemResponses.ListContentItemsResponse<TItem>> {
         return this.getResponse<ItemContracts.IListContentItemsContract>(url, queryConfig).pipe(
-            map(response => {
+            map((response) => {
                 return this.mappingService.listContentItemsResponse<TItem>(response, queryConfig);
             })
         );
@@ -100,7 +114,7 @@ export class QueryService extends BaseDeliveryQueryService {
         queryConfig: IContentTypeQueryConfig
     ): Observable<TypeResponses.ViewContentTypeResponse> {
         return this.getResponse<TypeContracts.IViewContentTypeContract>(url, queryConfig).pipe(
-            map(response => {
+            map((response) => {
                 return this.mappingService.viewContentTypeResponse(response);
             })
         );
@@ -116,8 +130,21 @@ export class QueryService extends BaseDeliveryQueryService {
         queryConfig: IContentTypeQueryConfig
     ): Observable<TypeResponses.ListContentTypesResponse> {
         return this.getResponse<TypeContracts.IListContentTypeContract>(url, queryConfig).pipe(
-            map(response => {
+            map((response) => {
                 return this.mappingService.listContentTypesResponse(response);
+            })
+        );
+    }
+
+    /**
+     * Gets languages
+     * @param url Url
+     * @param queryConfig Query configuration
+     */
+    getLanguages(url: string, queryConfig: ILanguagesQueryConfig): Observable<LanguageResponses.ListLanguagesResponse> {
+        return this.getResponse<LanguageContracts.IListLanguagesContract>(url, queryConfig).pipe(
+            map((response) => {
+                return this.mappingService.listLanguagesResponse(response);
             })
         );
     }
@@ -132,7 +159,7 @@ export class QueryService extends BaseDeliveryQueryService {
         queryConfig: ITaxonomyQueryConfig
     ): Observable<TaxonomyResponses.ViewTaxonomyGroupResponse> {
         return this.getResponse<TaxonomyContracts.IViewTaxonomyGroupContract>(url, queryConfig).pipe(
-            map(response => {
+            map((response) => {
                 return this.mappingService.viewTaxonomyGroupResponse(response);
             })
         );
@@ -148,7 +175,7 @@ export class QueryService extends BaseDeliveryQueryService {
         queryConfig: ITaxonomyQueryConfig
     ): Observable<TaxonomyResponses.ListTaxonomyGroupsResponse> {
         return this.getResponse<TaxonomyContracts.IListTaxonomyGroupsContract>(url, queryConfig).pipe(
-            map(response => {
+            map((response) => {
                 return this.mappingService.listTaxonomyGroupsResponse(response);
             })
         );
@@ -164,7 +191,7 @@ export class QueryService extends BaseDeliveryQueryService {
         queryConfig: ITaxonomyQueryConfig
     ): Observable<ElementResponses.ViewContentTypeElementResponse> {
         return this.getResponse<ElementContracts.IViewContentTypeElementContract>(url, queryConfig).pipe(
-            map(response => {
+            map((response) => {
                 return this.mappingService.viewContentTypeElementResponse(response);
             })
         );
@@ -188,11 +215,11 @@ export class QueryService extends BaseDeliveryQueryService {
         return this.getResponse<ItemContracts.IItemsFeedContract>(url, queryConfig, {
             headers: headers
         }).pipe(
-            flatMap(response => {
+            flatMap((response) => {
                 responses.push(response);
 
                 const continuationHeader = response.headers.find(
-                    m => m.header.toLowerCase() === this.ContinuationHeaderName.toLowerCase()
+                    (m) => m.header.toLowerCase() === this.ContinuationHeaderName.toLowerCase()
                 );
                 if (continuationHeader) {
                     return this.getAllItemsFeedResponses(url, queryConfig, responses, continuationHeader.value);

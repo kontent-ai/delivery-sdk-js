@@ -9,6 +9,7 @@ import {
     TaxonomiesQuery,
     TaxonomyQuery,
     ItemsFeedQueryAll,
+    LanguagesQuery,
 } from '../query';
 import { IMappingService } from '../services';
 
@@ -17,6 +18,11 @@ export interface IDeliveryClient {
      * Mapping service - can be used to get strongly typed responses from json result
      */
     mappingService: IMappingService;
+
+    /**
+     * Gets query for languages
+     */
+    languages(): LanguagesQuery;
 
     /**
      * Gets query for multiple types
