@@ -2,7 +2,7 @@ const assert = require('assert');
 const KontentDelivery = require('../../_commonjs');
 
 const deliveryClient = new KontentDelivery.DeliveryClient({
-    projectId: 'e391c776-9d1e-4e1a-8a5a-1c327c2586b6',
+    projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9',
     typeResolvers: [],
     isDeveloperMode: true
 });
