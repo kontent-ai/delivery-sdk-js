@@ -224,4 +224,3 @@ Note: You need to have `Chrome` installed in order to run tests via Karma.
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
 
-![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kontent-delivery-sdk-js/master/packages/delivery?pixel)
