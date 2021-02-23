@@ -45,4 +45,3 @@ This Code of Conduct is adapted from the [Contributor Covenant][homepage], versi
 [homepage]: https://contributor-covenant.org
 [version]: https://contributor-covenant.org/version/1/4/
 
-![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/Home/master/CODE_OF_CONDUCT.md?pixel)
