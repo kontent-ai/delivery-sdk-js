@@ -42,5 +42,4 @@ A simple example of including the SDK and RxJS in plain HTML using [UMD](https:/
 
 A simple example of including the SDK in plain HTML using [UMD](https://github.com/umdjs/umd) (no RxJS, only promises). 
 
-![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-kontent-js/master/examples/readme.md?pixel)
 
