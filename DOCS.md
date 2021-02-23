@@ -1134,4 +1134,3 @@ class CustomHttpService implements IHttpService {
 
 Feedback & Contributions are welcomed. Feel free to take/start an issue & submit PR.
 
-![Analytics](https://kentico-ga-beacon.azurewebsites.net/api/UA-69014260-4/Kentico/kentico-kontent-js/master/doc/delivery.md?pixel)
