@@ -1,6 +1,6 @@
 import { IBaseResponse, IHeader, IHttpService } from '@kentico/kontent-core';
 import { Observable, of } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { IDeliveryClientConfig } from '../config';
 import {
@@ -215,7 +215,7 @@ export class QueryService extends BaseDeliveryQueryService {
         return this.getResponse<ItemContracts.IItemsFeedContract>(url, queryConfig, {
             headers: headers
         }).pipe(
-            flatMap((response) => {
+            switchMap((response) => {
                 responses.push(response);
 
                 const continuationHeader = response.headers.find(
