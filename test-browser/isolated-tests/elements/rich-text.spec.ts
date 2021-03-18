@@ -473,7 +473,6 @@ describe('RichTextElement', () => {
         ];
 
 
-        console.log(resolvedHtml);
         for (const attr of expectedLinkedItemIndexAttributes) {
             expect(resolvedHtml).toContain(attr);
         }
