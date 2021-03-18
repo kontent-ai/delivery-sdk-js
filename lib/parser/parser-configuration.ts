@@ -16,5 +16,8 @@ export const parserConfiguration = {
         nodeName: 'img',
         dataImageId: 'data-image-id',
         srcAttribute: 'src'
-    }
+    },
+    resolvedLinkedItemIndexAttribute: 'data-sdk-item-index',
+    resolvedLinkedItemAttribute: 'data-sdk-resolved'
+
 };

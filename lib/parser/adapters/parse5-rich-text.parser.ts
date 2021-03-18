@@ -1,11 +1,4 @@
-import {
-    Attribute,
-    DocumentFragment,
-    Element,
-    parseFragment,
-    serialize,
-    TextNode,
-} from 'parse5';
+import { Attribute, DocumentFragment, Element, parseFragment, serialize, TextNode } from 'parse5';
 
 import { ContentItemType, IUrlSlugResolverResult, RichTextItemDataType } from '../../models';
 import {
@@ -17,18 +10,19 @@ import {
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
+    RichTextItemIndexReferenceWrapper
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
-    private readonly resolvedLinkedItemAttribute = 'data-sdk-resolved';
 
     resolveRichTextElement(
         contentItemCodename: string,
         html: string,
         elementName: string,
         replacement: IRichTextReplacements,
-        config: IHtmlResolverConfig
+        config: IHtmlResolverConfig,
+        linkedItemIndex: RichTextItemIndexReferenceWrapper = new RichTextItemIndexReferenceWrapper(0)
     ): IRichTextResolverResult {
         // create document
         const documentFragment = parseFragment(html);
@@ -44,7 +38,8 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                 links: [],
                 linkedItems: [],
                 images: []
-            }
+            },
+            linkedItemIndex
         );
 
         const resolvedHtml = serialize(documentFragment);
@@ -63,22 +58,16 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         elements: Element[],
         replacement: IRichTextReplacements,
         config: IHtmlResolverConfig,
-        result: IFeaturedObjects
+        result: IFeaturedObjects,
+        linkedItemIndex: RichTextItemIndexReferenceWrapper
     ): IFeaturedObjects {
         if (!elements || elements.length === 0) {
             // there are no more elements
         } else {
-            elements.forEach(element => {
+            elements.forEach((element) => {
                 if (element.attrs) {
-                    this.processModularContentItem(elementName, element, replacement, config, result);
-                    this.processImage(
-                        contentItemCodename,
-                        elementName,
-                        element,
-                        replacement,
-                        config,
-                        result
-                    );
+                    this.processModularContentItem(elementName, element, replacement, config, result, linkedItemIndex);
+                    this.processImage(contentItemCodename, elementName, element, replacement, config, result);
                     this.processLink(element, replacement, config, result);
                 }
 
@@ -90,7 +79,8 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                         this.getChildNodes(element),
                         replacement,
                         config,
-                        result
+                        result,
+                        linkedItemIndex
                     );
                 }
             });
@@ -115,7 +105,9 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         }
 
         // get image id attribute
-        const dataImageIdAttribute = attributes.find(m => m.name === parserConfiguration.imageElementData.dataImageId);
+        const dataImageIdAttribute = attributes.find(
+            (m) => m.name === parserConfiguration.imageElementData.dataImageId
+        );
         if (!dataImageIdAttribute) {
             // image tag does not have image id attribute
             return;
@@ -132,7 +124,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         const linkResult = replacement.getImageResult(contentItemCodename, image.imageId, elementName);
 
         // set url of image
-        const srcAttribute = attributes.find(m => m.name === parserConfiguration.imageElementData.srcAttribute);
+        const srcAttribute = attributes.find((m) => m.name === parserConfiguration.imageElementData.srcAttribute);
         if (srcAttribute) {
             srcAttribute.value = linkResult.url;
         }
@@ -152,7 +144,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         }
 
         // get all links which have item it attribute, ignore all other links (they can be regular links in rich text)
-        const dataItemIdAttribute = attributes.find(m => m.name === parserConfiguration.linkElementData.dataItemId);
+        const dataItemIdAttribute = attributes.find((m) => m.name === parserConfiguration.linkElementData.dataItemId);
         if (!dataItemIdAttribute) {
             // its either a regular link or the attribute is not defined
             return;
@@ -183,7 +175,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                 ? (<IUrlSlugResolverResult>urlSlugResult).html
                 : '';
             if (linkHtml) {
-                const linkRootNodes = (parseFragment(linkHtml)).childNodes as Element[];
+                const linkRootNodes = parseFragment(linkHtml).childNodes as Element[];
 
                 if (linkRootNodes.length !== 1) {
                     throw Error(`Invalid number of root nodes.`);
@@ -203,7 +195,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
             }
         } else if (urlSlugResult.url) {
             // replace just link href
-            const hrefAttribute = attributes.find(m => m.name === 'href');
+            const hrefAttribute = attributes.find((m) => m.name === 'href');
             if (!hrefAttribute) {
                 // href attribute is missing
                 if (config.enableAdvancedLogging) {
@@ -227,14 +219,15 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         element: Element,
         replacement: IRichTextReplacements,
         config: IHtmlResolverConfig,
-        result: IFeaturedObjects
+        result: IFeaturedObjects,
+        linkedItemIndex: RichTextItemIndexReferenceWrapper
     ): void {
         const attributes = element.attrs;
 
         const dataTypeAttribute = attributes.find(
-            m => m.name === parserConfiguration.modularContentElementData.dataType
+            (m) => m.name === parserConfiguration.modularContentElementData.dataType
         );
-        const resolvedDataAttribute = attributes.find(m => m.name === this.resolvedLinkedItemAttribute);
+        const resolvedDataAttribute = attributes.find((m) => m.name === parserConfiguration.resolvedLinkedItemAttribute);
 
         // process linked itmes
         if (dataTypeAttribute && !resolvedDataAttribute) {
@@ -245,7 +238,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
 
                 // get codename of the modular content
                 const dataCodenameAttribute: Attribute | undefined = attributes.find(
-                    m => m.name === parserConfiguration.modularContentElementData.dataCodename
+                    (m) => m.name === parserConfiguration.modularContentElementData.dataCodename
                 );
                 if (dataCodenameAttribute == null) {
                     throw Error(
@@ -258,7 +251,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
 
                 // get rel attribute for components
                 const relAttribute: Attribute | undefined = attributes.find(
-                    m => m.name === parserConfiguration.modularContentElementData.relAttribute
+                    (m) => m.name === parserConfiguration.modularContentElementData.relAttribute
                 );
                 if (relAttribute && relAttribute.value === parserConfiguration.modularContentElementData.componentRel) {
                     itemType = 'component';
@@ -277,9 +270,18 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
 
                 // flag element as resolved to avoid duplicate resolving
                 element.attrs.push({
-                    name: this.resolvedLinkedItemAttribute,
+                    name: parserConfiguration.resolvedLinkedItemAttribute,
                     value: '1'
                 });
+
+                // add index to resolved item (can be useful for identifying linked item and may be used in WebSpotlight)
+                element.attrs.push({
+                    name: parserConfiguration.resolvedLinkedItemIndexAttribute,
+                    value: linkedItemIndex.index.toString()
+                });
+
+                // increment index
+                linkedItemIndex.increment();
 
                 // get html
                 const resultHtml = this.resolveRichTextElement(
@@ -287,7 +289,8 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                     linkedItemHtml,
                     elementName,
                     replacement,
-                    config
+                    config,
+                    linkedItemIndex
                 ).resolvedHtml;
 
                 // replace 'object' tag name
@@ -296,7 +299,7 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                 // add classes
                 element.attrs.push({
                     name: 'class',
-                    value: config.linkedItemWrapperClasses.map(m => m).join(' ')
+                    value: config.linkedItemWrapperClasses.map((m) => m).join(' ')
                 });
 
                 // get serialized set of nodes from HTML

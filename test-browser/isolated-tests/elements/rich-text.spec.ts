@@ -371,10 +371,112 @@ describe('RichTextElement', () => {
             }
         );
 
+        const resolvedHtml = elementWithoutRichTextResolver.resolveHtml();
+
         const expectedHtml1 = `href="/actor-rt/slug_for_joel"`;
         const expectedHtml2 = `href="/actor-rt/slug_for_tom"`;
-        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml1);
-        expect(elementWithoutRichTextResolver.resolveHtml()).toContain(expectedHtml2);
+        expect(resolvedHtml).toContain(expectedHtml1);
+        expect(resolvedHtml).toContain(expectedHtml2);
+    });
+
+    it(`chceks that linked item index is set (parse5)`, () => {
+        const elementWithoutRichTextResolver = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'x',
+                rawElement: {
+                    name: '',
+                    value: html,
+                    type: ''
+                }
+            },
+            linkedItems.map(m => m.system.codename),
+            {
+                links: links,
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData('', html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: links,
+                        getLinkedItem: getLinkedItem,
+                        images: [],
+                        richTextHtmlParser: new Parse5RichTextParser(),
+                        linkedItemWrapperClasses: ['kc-wrapper-class'],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextResolver: undefined,
+                            urlSlugResolver: (link, context) => {
+                                return {
+                                    url: '/actor-rt/' + link.urlSlug
+                                };
+                            }
+                        }
+                    }),
+                images: []
+            }
+        );
+
+        const resolvedHtml = elementWithoutRichTextResolver.resolveHtml();
+
+        const expectedLinkedItemIndexAttributes: string[] = [
+            'data-sdk-item-index="0"',
+            'data-sdk-item-index="1"'
+        ];
+
+        for (const attr of expectedLinkedItemIndexAttributes) {
+            expect(resolvedHtml).toContain(attr);
+        }
+    });
+
+    it(`chceks that linked item index is set (parse5)`, () => {
+        const elementWithoutRichTextResolver = new Elements.RichTextElement(
+            {
+                contentItemSystem: {} as any,
+                propertyName: 'x',
+                rawElement: {
+                    name: '',
+                    value: html,
+                    type: ''
+                }
+            },
+            linkedItems.map(m => m.system.codename),
+            {
+                links: links,
+                resolveRichTextFunc: () =>
+                    richTextResolver.resolveData('', html, 'name', {
+                        enableAdvancedLogging: false,
+                        getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
+                        links: links,
+                        getLinkedItem: getLinkedItem,
+                        images: [],
+                        richTextHtmlParser: new BrowserRichTextParser(),
+                        linkedItemWrapperClasses: ['kc-wrapper-class'],
+                        linkedItemWrapperTag: 'kc-item-wrapper',
+                        queryConfig: {
+                            richTextResolver: undefined,
+                            urlSlugResolver: (link, context) => {
+                                return {
+                                    url: '/actor-rt/' + link.urlSlug
+                                };
+                            }
+                        }
+                    }),
+                images: []
+            }
+        );
+
+        const resolvedHtml = elementWithoutRichTextResolver.resolveHtml();
+
+        const expectedLinkedItemIndexAttributes: string[] = [
+            'data-sdk-item-index="0"',
+            'data-sdk-item-index="1"'
+        ];
+
+
+        console.log(resolvedHtml);
+        for (const attr of expectedLinkedItemIndexAttributes) {
+            expect(resolvedHtml).toContain(attr);
+        }
     });
 
     it(`checks that rich text context is set (parse5)`, () => {

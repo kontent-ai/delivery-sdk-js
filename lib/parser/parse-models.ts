@@ -1,5 +1,17 @@
 import { IItemQueryConfig, IUrlSlugResolverResult, IRichTextImageResolverResult, RichTextItemDataType, ContentItemType } from '../models';
 
+/**
+ * This class as a wrapper is required so we can pass
+ * index as a reference and not a value
+ */
+ export class RichTextItemIndexReferenceWrapper {
+    constructor(public index: number) {}
+
+    increment(): void {
+        this.index++;
+    }
+}
+
 export interface IRichTextHtmlParser {
     resolveRichTextElement(contentItemCodename: string, html: string, elementName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
 }

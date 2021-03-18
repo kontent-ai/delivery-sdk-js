@@ -8,6 +8,7 @@ import {
     IRichTextHtmlParser,
     IRichTextReplacements,
     IRichTextResolverResult,
+    RichTextItemIndexReferenceWrapper
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
 
@@ -17,7 +18,8 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         html: string,
         elementName: string,
         replacement: IRichTextReplacements,
-        config: IHtmlResolverConfig
+        config: IHtmlResolverConfig,
+        linkedItemIndex: RichTextItemIndexReferenceWrapper = new RichTextItemIndexReferenceWrapper(0)
     ): IRichTextResolverResult {
         const doc = this.createWrapperElement(html);
 
@@ -32,7 +34,8 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                 links: [],
                 linkedItems: [],
                 images: []
-            }
+            },
+            linkedItemIndex
         );
 
         return {
@@ -56,7 +59,8 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         htmlCollection: HTMLCollection,
         replacement: IRichTextReplacements,
         config: IHtmlResolverConfig,
-        result: IFeaturedObjects
+        result: IFeaturedObjects,
+        linkedItemIndex: RichTextItemIndexReferenceWrapper
     ): IFeaturedObjects {
         if (!htmlCollection || htmlCollection.length === 0) {
             // there are no more nodes
@@ -110,9 +114,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
 
                     if (!parentElement) {
                         console.warn(
-                            `Could not replace linked item '${linkItemContentObject.dataCodename}' of '${
-                                linkItemContentObject.dataType
-                            }' because parent node is undefined. Please report this error if you are seeing this.`
+                            `Could not replace linked item '${linkItemContentObject.dataCodename}' of '${linkItemContentObject.dataType}' because parent node is undefined. Please report this error if you are seeing this.`
                         );
                     } else {
                         if (dataTypeAttribute.value === 'item') {
@@ -131,6 +133,15 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                                 type
                             );
 
+                            // add sdk resolved flag
+                            newElem.setAttribute(parserConfiguration.resolvedLinkedItemAttribute, '1');
+
+                            // add index to resolved item (can be useful for identifying linked item and may be used in WebSpotlight)
+                            newElem.setAttribute(parserConfiguration.resolvedLinkedItemIndexAttribute, linkedItemIndex.index.toString());
+
+                            // increment index
+                            linkedItemIndex.increment();
+
                             // recursively run resolver on the HTML obtained by resolver
                             newElem.innerHTML = this.resolveRichTextElement(
                                 linkItemContentObject.dataCodename,
@@ -141,16 +152,14 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                             ).resolvedHtml;
 
                             // add classes
-                            newElem.className = config.linkedItemWrapperClasses.map(m => m).join(' ');
+                            newElem.className = config.linkedItemWrapperClasses.map((m) => m).join(' ');
 
                             // replace original node with new one
                             parentElement.replaceChild(newElem, element);
                         } else {
                             if (config.enableAdvancedLogging) {
                                 console.warn(
-                                    `Rich text element contains object with unsupported data type '${
-                                        dataTypeAttribute.value
-                                    }'`
+                                    `Rich text element contains object with unsupported data type '${dataTypeAttribute.value}'`
                                 );
                             }
                         }
@@ -164,17 +173,17 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                     );
 
                     if (dataItemIdAttribute) {
-                        const link: ILinkObject = {
+                        const linkObject: ILinkObject = {
                             dataItemId: dataItemIdAttribute ? dataItemIdAttribute.value : ''
                         };
 
                         // add to result
-                        result.links.push(link);
+                        result.links.push(linkObject);
 
                         // get original link text (the one inside <a> tag)
                         const linkText = element.innerHTML;
 
-                        const urlSlugResult = replacement.getUrlSlugResult(link.dataItemId, linkText);
+                        const urlSlugResult = replacement.getUrlSlugResult(linkObject.dataItemId, linkText);
 
                         // html has priority over url resolver
                         if (urlSlugResult.html) {
@@ -233,9 +242,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
 
                         if (!srcAttribute) {
                             throw Error(
-                                `Attribute '${
-                                    parserConfiguration.imageElementData.srcAttribute
-                                }' is missing. Source element: ${elementName}`
+                                `Attribute '${parserConfiguration.imageElementData.srcAttribute}' is missing. Source element: ${elementName}`
                             );
                         }
 
@@ -252,7 +259,8 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         element.children,
                         replacement,
                         config,
-                        result
+                        result,
+                        linkedItemIndex
                     );
                 }
             }
