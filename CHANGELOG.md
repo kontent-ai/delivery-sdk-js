@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.4.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v10.3.0...v10.4.0) (2021-03-18)
+
+
+### Features
+
+* adds resolved attribute to BrowserRichTextParser, adds index to every resolved linked item & component within rich text element values ([b81d523](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b81d523bb375b249e7ff44aec2df069890dfaba4))
+* use switchMap instead of deprecated flatMap operator ([59bd752](https://github.com/Kentico/kontent-delivery-sdk-js/commit/59bd752dc7a1288218d5a2b9e63a682a773833c9))
+
 ## [10.3.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v10.2.0...v10.3.0) (2021-02-05)
 
 
