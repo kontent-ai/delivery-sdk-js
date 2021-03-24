@@ -18,6 +18,7 @@ jobs:
     - run: sudo apt-get install -y xvfb
     - run: sudo apt-get -y install xorg xvfb gtk2-engines-pixbuf
     - run: sudo apt-get -y install dbus-x11 xfonts-base xfonts-100dpi xfonts-75dpi xfonts-cyrillic xfonts-scalable
+    - run: Xvfb -ac :99 -screen 0 1280x1024x16 & export DISPLAY=:99
     - run: npm i -g karma
     - run: npm i
     - run: npm run test:all
