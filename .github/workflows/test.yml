@@ -15,5 +15,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: npm i -g karma
     - run: npm i
     - run: npm run test:all
