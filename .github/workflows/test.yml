@@ -1,6 +1,6 @@
 name: Test
 
-on: [pull_request, push]
+on: [pull_request]
 
 jobs:
   build:
@@ -15,6 +15,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: sudo apt-get update
+    - run: sudo apt-get install -y libgbm-dev #add Chrome
     - run: npm i -g karma
     - run: npm i
     - run: npm run test:all
