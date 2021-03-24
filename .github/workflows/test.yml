@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14]
+        node-version: [14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -15,6 +15,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - run: sudo apt-get install -y xvfb
     - run: sh -e /etc/init.d/xvfb start # start chrome launcher
     - run: npm i -g karma
     - run: npm i
