@@ -19,12 +19,6 @@ module.exports = function (config) {
         },
         reporters: ["kjhtml", "progress", "karma-typescript"],
         browsers: ["Chrome"],
-        customLaunchers: {
-            ChromeHeadlessNoSandbox: {
-              base: 'ChromeHeadless',
-              flags: ['--no-sandbox']
-            }
-        },
         karmaTypescriptConfig: {
             compilerOptions: {
                 emitDecoratorMetadata: true,
