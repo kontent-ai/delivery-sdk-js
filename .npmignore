@@ -9,6 +9,7 @@
 !/_commonjs/**
 !/esNext/**
 !/_bundles/**
+!/_esNext/**
 !package.json
 !.npmignore
 !README.md
