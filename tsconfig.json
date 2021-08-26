@@ -9,7 +9,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "commonjs",
-    "target": "es5",
+    "target": "es6",
+    "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "resolveJsonModule": true,
@@ -25,21 +26,15 @@
       "./node_modules/@types"
     ],
     "lib": [
-      "es2015",
+      "ESNext",
       "dom"
-    ],
-    "paths": {
-      "rxjs": [
-        "./node_modules/rxjs"
-      ]
-    },
+    ]
   },
   "include": [
     "lib/**/*",
-    "test-node/**/*",
-    "test-browser/**/*",
+    "test/**/*",
   ],
   "exclude": [
-    "node_modules",
+    "node_modules"
   ]
 }

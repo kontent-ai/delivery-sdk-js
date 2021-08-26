@@ -1,5 +1,9 @@
 # Upgrade
 
+## Upgrading from `10.x.y` to `11.0.0`
+
+- Output & bundle files were moved to `dist` folder. For example, minified UMD bundle is available in `dist/bundles/kontent-delivery.umd.min.js`.
+
 ## Upgrading from `5.x.y` to `6.0.0`
 
 ### IDeliveryClientConfig
