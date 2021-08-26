@@ -28,7 +28,6 @@ jobs:
 
       - run: sudo npm i
       - run: sudo npm i -g cat
-      - run: sudo npm i rxjs
       - run: 
           name: "Setup custom environment variables"
           command: |

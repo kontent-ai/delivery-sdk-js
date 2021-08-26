@@ -19,17 +19,15 @@ export class Page extends ContentItem {
 describe('Url slug resolver with missing linked item', () => {
     let page: Page | undefined;
 
-    beforeAll(done => {
-        getDeliveryClientWithJson(responseJson, {
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
-            typeResolvers: [new TypeResolver('page', data => new Page())]
+            typeResolvers: [new TypeResolver('page', (data) => new Page())]
         })
             .item<Page>('x')
-            .toObservable()
-            .subscribe(result => {
-                page = result.item;
-                done();
-            });
+            .toPromise();
+
+        page = response.item;
     });
 
     it(`Links should be resolved in rich text`, () => {

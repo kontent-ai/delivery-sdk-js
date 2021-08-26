@@ -1,4 +1,4 @@
-import { IBaseResponse, IHeader } from '@kentico/kontent-core';
+import { IResponse, IHeader } from '@kentico/kontent-core';
 
 import { BaseKontentResponseArrayDebug, BaseKontentResponseStandardDebug, Pagination } from '../common';
 import { IContentItem, IContentItemsContainer } from './item-models';
@@ -8,10 +8,9 @@ export namespace ItemResponses {
         constructor(
             public items: TItem[],
             public linkedItems: IContentItemsContainer,
-            responses: IBaseResponse<any>[],
-            isDeveloperMode: boolean
+            responses: IResponse<any>[]
         ) {
-            super(responses, isDeveloperMode);
+            super(responses);
         }
     }
 
@@ -22,10 +21,9 @@ export namespace ItemResponses {
         constructor(
             public items: TItem[],
             public linkedItems: IContentItemsContainer,
-            response: IBaseResponse<any>,
-            isDeveloperMode: boolean
+            response: IResponse<any>
         ) {
-            super(response, isDeveloperMode);
+            super(response);
             this.continuationToken = this.getContinuationToken(response.headers);
         }
 
@@ -64,10 +62,9 @@ export namespace ItemResponses {
             public items: TItem[],
             public pagination: Pagination,
             public linkedItems: IContentItemsContainer,
-            response: IBaseResponse<any>,
-            isDeveloperMode: boolean
+            response: IResponse<any>
         ) {
-            super(response, isDeveloperMode);
+            super(response);
             this.isEmpty = this.getIsEmpty();
             this.lastItem = this.getLastItem();
             this.firstItem = this.getFirstItem();
@@ -129,10 +126,9 @@ export namespace ItemResponses {
         constructor(
             public item: TItem,
             public linkedItems: IContentItemsContainer,
-            response: IBaseResponse<any>,
-            isDeveloperMode: boolean
+            response: IResponse<any>
         ) {
-            super(response, isDeveloperMode);
+            super(response);
             this.isEmpty = this.getIsEmpty();
         }
 

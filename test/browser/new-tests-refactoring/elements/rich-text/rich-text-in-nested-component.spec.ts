@@ -25,8 +25,8 @@ class Item extends ContentItem {
 describe('Rich text resolving in nested component (Browser)', () => {
     let item: Main;
 
-    beforeAll((done) => {
-        getDeliveryClientWithJson(responseJson, {
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
             typeResolvers: [
                 new TypeResolver('main', (data) => new Main()),
@@ -35,11 +35,9 @@ describe('Rich text resolving in nested component (Browser)', () => {
             richTextParserAdapter: new BrowserRichTextParser()
         })
             .item<Main>('x')
-            .toObservable()
-            .subscribe((result) => {
-                item = result.item;
-                done();
-            });
+            .toPromise();
+
+        item = response.item;
     });
 
     it(`Rich text resolving succeeds`, () => {
@@ -52,8 +50,8 @@ describe('Rich text resolving in nested component (Browser)', () => {
 describe('Rich text resolving in nested component (Parse5)', () => {
     let item: Main;
 
-    beforeAll((done) => {
-        getDeliveryClientWithJson(responseJson, {
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
             typeResolvers: [
                 new TypeResolver('main', (data) => new Main()),
@@ -62,11 +60,9 @@ describe('Rich text resolving in nested component (Parse5)', () => {
             richTextParserAdapter: new Parse5RichTextParser()
         })
             .item<Main>('x')
-            .toObservable()
-            .subscribe((result) => {
-                item = result.item;
-                done();
-            });
+            .toPromise();
+
+        item = response.item;
     });
 
     it(`Rich text resolving succeeds`, () => {

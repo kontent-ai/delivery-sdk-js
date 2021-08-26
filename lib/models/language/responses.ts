@@ -1,4 +1,4 @@
-import { IBaseResponse } from '@kentico/kontent-core';
+import { IResponse } from '@kentico/kontent-core';
 
 import { BaseKontentResponseStandardDebug, Pagination } from '../common';
 import { Language } from './language-models';
@@ -20,10 +20,9 @@ export namespace LanguageResponses {
             /**
              * Response
              */
-            response: IBaseResponse<any>,
-            isDeveloperMode: boolean
+            response: IResponse<any>,
         ) {
-            super(response, isDeveloperMode);
+            super(response);
         }
     }
 }

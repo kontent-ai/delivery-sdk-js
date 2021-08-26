@@ -22,12 +22,11 @@ A client library for retrieving content from [Kentico Kontent](https://kontent.a
 
 ## Installation
 
-You can install this library using `npm` or you can use global CDNs such `jsdelivr` directly. In both cases, you will also need to include `rxjs` as its listed as peer dependency. 
+You can install this library using `npm` or you can use global CDNs such `jsdelivr` directly.
 
 ### npm
 
 ```
-npm i rxjs --save
 npm i @kentico/kontent-delivery --save
 ```
 
@@ -101,10 +100,10 @@ deliveryClient.items<Movie>()
         const movieText = response.items[0].title.value;
     });
 
-/** Getting items from Kentico Kontent as Observable */
+/** Getting items from Kentico Kontent as Promise */
 deliveryClient.items<Movie>()
     .type('movie')
-    .toObservable()
+    .toPromise()
     .subscribe(response => {
         const movieText = response.items[0].title.value;
     });
@@ -150,16 +149,16 @@ deliveryClient.items()
         const movieText = response.items[0].title.value;
     });
 
-/** Getting items from Kentico Kontent as Observable */
+/** Getting items from Kentico Kontent as Promise */
 const subscription = deliveryClient.items()
     .type('movie')
-    .toObservable()
+    .toPromise()
     .subscribe(response => {
         const movieText = response.items[0].title.value;
     });
 
 /*
-Don't forget to unsubscribe from your Observables. You can use 'takeUntil' or 'unsubscribe' method for this purpose. Unsubsription is usually done when you no longer need to process the result of Observable. (Example: 'ngOnDestroy' event in Angular app)
+Don't forget to unsubscribe from your Promises. You can use 'takeUntil' or 'unsubscribe' method for this purpose. Unsubsription is usually done when you no longer need to process the result of Promise. (Example: 'ngOnDestroy' event in Angular app)
 */
 subscription.unsubscribe();
 
@@ -171,25 +170,20 @@ subscription.unsubscribe();
  */
 deliveryClient.items()
     .type('movie')
-    .toObservable()
+    .toPromise()
     .subscribe(response => console.log(response));
 ```
 
 ## HTML & UMD
 
-Bundles are distributed in `_bundles` folder and there are several options that you can choose from. 
-
-- Use `kontent-delivery.browser.legacy.umd.min` if you need to support legacy browsers (IE9, IE10, IE11)
-- Use `kontent-delivery.browser.umd.min` if you intend to use SDK only in browsers (strips code specific to Node.js = smaller bundle)
-- Use `kontent-delivery.umd.min` if you need to use it in Node.js
+Bundles are distributed in `dist/bundles` folder and there are several options that you can choose from. 
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
     <title>Kentico Kontent SDK - Html sample</title>
-    <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/dist/bundles/kontent-delivery.umd.min.js"></script>
 </head>
 <body>
 

@@ -11,7 +11,7 @@ import {
     IMapElementsResult,
     ItemUrlSlugResolver,
     Link,
-    RichTextImage,
+    RichTextImage
 } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
 import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
@@ -56,7 +56,7 @@ export class ElementMapper {
             return undefined;
         }
 
-        elementCodenames.forEach(elementCodename => {
+        elementCodenames.forEach((elementCodename) => {
             const elementMap = this.resolveElementMap(itemInstance, elementCodename);
             const elementWrapper: ElementModels.IElementWrapper = {
                 contentItemSystem: data.item.system,
@@ -167,7 +167,7 @@ export class ElementMapper {
 
         if (rawElement.modular_content) {
             if (Array.isArray(rawElement.modular_content)) {
-                rawElement.modular_content.forEach(codename => {
+                rawElement.modular_content.forEach((codename) => {
                     // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
                     const preparedItem = preparedItems[codename];
 
@@ -234,11 +234,10 @@ export class ElementMapper {
             links: links,
             resolveRichTextFunc: () =>
                 richTextResolver.resolveData(item.system.codename, rawElement.value, elementWrapper.propertyName, {
-                    enableAdvancedLogging: this.config.isDeveloperMode ? this.config.isDeveloperMode : false,
-                    getGlobalUrlSlugResolver: type => this.getGlobalUrlSlugResolverForType(type),
+                    getGlobalUrlSlugResolver: (type) => this.getGlobalUrlSlugResolverForType(type),
                     images: images,
                     richTextHtmlParser: this.richTextHtmlParser,
-                    getLinkedItem: codename =>
+                    getLinkedItem: (codename) =>
                         this.getOrSaveLinkedItemForElement(
                             codename,
                             rawElement,
@@ -316,7 +315,6 @@ export class ElementMapper {
                     elementName: elementWrapper.propertyName,
                     elementValue: elementWrapper.rawElement.value,
                     item: item,
-                    enableAdvancedLogging: this.config.isDeveloperMode ? this.config.isDeveloperMode : false,
                     resolver: resolver
                 }).url || ''
         });
@@ -334,7 +332,7 @@ export class ElementMapper {
 
         // value = array of item codenames
         const linkedItemCodenames = data.elementWrapper.rawElement.value as string[];
-        linkedItemCodenames.forEach(codename => {
+        linkedItemCodenames.forEach((codename) => {
             const linkedItem = this.getOrSaveLinkedItemForElement(
                 codename,
                 data.elementWrapper.rawElement,
@@ -348,12 +346,9 @@ export class ElementMapper {
                 linkedItems.push(linkedItem);
             } else {
                 // item was not found
-                if (this.config.isDeveloperMode) {
-                    // tslint:disable-next-line:max-line-length
-                    console.warn(
-                        `Linked item with codename '${codename}' in linked items element '${data.elementWrapper.rawElement.name}' of '${data.elementWrapper.rawElement.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
-                    );
-                }
+                console.warn(
+                    `Linked item with codename '${codename}' in linked items element '${data.elementWrapper.rawElement.name}' of '${data.elementWrapper.rawElement.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
+                );
             }
         });
 

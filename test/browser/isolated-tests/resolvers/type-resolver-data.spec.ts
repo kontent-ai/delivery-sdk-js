@@ -27,7 +27,6 @@ function getQueryService(advancedLogging: boolean = false): MockQueryService {
     setup(context);
 
     const config = context.getConfig();
-    config.isDeveloperMode = advancedLogging;
 
     return new MockQueryService(config, new HttpService(), {
         host: sdkInfo.host,

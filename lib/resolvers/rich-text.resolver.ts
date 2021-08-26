@@ -9,7 +9,7 @@ import {
     IUrlSlugResolverResult,
     Link,
     RichTextImage,
-    RichTextItemDataType,
+    RichTextItemDataType
 } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
 
@@ -28,7 +28,6 @@ export class RichTextResolver {
             getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined;
             links: Link[];
             images: RichTextImage[];
-            enableAdvancedLogging: boolean;
             queryConfig: IItemQueryConfig;
             linkedItemWrapperTag: string;
             linkedItemWrapperClasses: string[];
@@ -36,7 +35,6 @@ export class RichTextResolver {
     ): ElementModels.IRichTextResolverData {
         // prepare config
         const config: IHtmlResolverConfig = {
-            enableAdvancedLogging: data.enableAdvancedLogging,
             queryConfig: data.queryConfig,
             linkedItemWrapperTag: data.linkedItemWrapperTag,
             linkedItemWrapperClasses: data.linkedItemWrapperClasses
@@ -63,11 +61,7 @@ export class RichTextResolver {
                         getLinkedItem: data.getLinkedItem,
                         itemType: itemType
                     }),
-                getImageResult: (
-                    itemCodename: string,
-                    imageId: string,
-                    xElementName: string
-                ) =>
+                getImageResult: (itemCodename: string, imageId: string, xElementName: string) =>
                     this.getImageResult({
                         getLinkedItem: data.getLinkedItem,
                         itemCodename: itemCodename,
@@ -79,7 +73,6 @@ export class RichTextResolver {
                     })
             },
             {
-                enableAdvancedLogging: data.enableAdvancedLogging,
                 queryConfig: data.queryConfig,
                 linkedItemWrapperTag: data.linkedItemWrapperTag,
                 linkedItemWrapperClasses: data.linkedItemWrapperClasses
@@ -88,8 +81,10 @@ export class RichTextResolver {
 
         return {
             html: result.resolvedHtml,
-            componentCodenames: result.linkedItems.filter(m => m.itemType === 'component').map(m => m.dataCodename),
-            linkedItemCodenames: result.linkedItems.filter(m => m.itemType === 'linkedItem').map(m => m.dataCodename)
+            componentCodenames: result.linkedItems.filter((m) => m.itemType === 'component').map((m) => m.dataCodename),
+            linkedItemCodenames: result.linkedItems
+                .filter((m) => m.itemType === 'linkedItem')
+                .map((m) => m.dataCodename)
         };
     }
 
@@ -111,11 +106,9 @@ export class RichTextResolver {
                     `Linked item with codename '${data.itemCodename}' was not found when resolving image with id '${data.imageId}'`
                 );
             }
-            if (data.config.enableAdvancedLogging) {
-                console.warn(
-                    `Cannot resolve image with id '${data.imageId}' because linked item with codename '${data.itemCodename}' is not available. Empty image URL is returned.`
-                );
-            }
+            console.warn(
+                `Cannot resolve image with id '${data.imageId}' because linked item with codename '${data.itemCodename}' is not available. Empty image URL is returned.`
+            );
             return {
                 url: ''
             };
@@ -134,7 +127,7 @@ export class RichTextResolver {
                     `Linked item with codename '${data.itemCodename}' has invalid element '${data.elementName}'. This element is required to be of RichText type.`
                 );
             }
-            image = richTextElement.images.find(m => m.imageId === data.imageId);
+            image = richTextElement.images.find((m) => m.imageId === data.imageId);
         }
 
         // image may be nested, go through all available content items & elements
@@ -159,11 +152,15 @@ export class RichTextResolver {
         };
     }
 
-    private tryGetImageFromLinkedItem(imageId: string, contentItem: IContentItem, getLinkedItem: (codename: string) => IContentItem | undefined): RichTextImage | undefined {
+    private tryGetImageFromLinkedItem(
+        imageId: string,
+        contentItem: IContentItem,
+        getLinkedItem: (codename: string) => IContentItem | undefined
+    ): RichTextImage | undefined {
         for (const propName of Object.keys(contentItem)) {
             const richTextElementProperty = contentItem[propName];
             if (richTextElementProperty instanceof Elements.RichTextElement) {
-                const image = richTextElementProperty.images.find(m => m.imageId === imageId);
+                const image = richTextElementProperty.images.find((m) => m.imageId === imageId);
 
                 if (image) {
                     return image;
@@ -203,11 +200,9 @@ export class RichTextResolver {
                     `Linked item with codename '${data.itemCodename}' could not be found in response and therefore the HTML of rich text element could not be evaluated. Increasing 'depth' parameter of your query may solve this issue.`
                 );
             }
-            if (data.config.enableAdvancedLogging) {
-                console.warn(
-                    `Cannot resolve linked item '${data.itemCodename}' because it is not available in response. Increasing 'depth' parameter of query may help. Item is resolved to empty string.`
-                );
-            }
+            console.warn(
+                `Cannot resolve linked item '${data.itemCodename}' because it is not available in response. Increasing 'depth' parameter of query may help. Item is resolved to empty string.`
+            );
             return '';
         }
         // get html to replace object using Rich text resolver function
@@ -224,12 +219,9 @@ export class RichTextResolver {
 
         // check resolver
         if (!resolver) {
-            if (data.config.enableAdvancedLogging) {
-                console.warn(
-                    `Cannot resolve html of '${linkedItem.system.type}' used by item '${data.itemCodename}' type in 'RichTextElement' because no rich text resolver was configured. Item is resolved to empty string.`
-                );
-                return '';
-            }
+            console.warn(
+                `Cannot resolve html of '${linkedItem.system.type}' used by item '${data.itemCodename}' type in 'RichTextElement' because no rich text resolver was configured. Item is resolved to empty string.`
+            );
             return '';
         }
         return resolver(linkedItem, {
@@ -246,12 +238,10 @@ export class RichTextResolver {
         linkText: string;
     }): IUrlSlugResolverResult {
         // find link with the id of content item
-        const existingLink = data.links.find(m => m.linkId === data.itemId);
+        const existingLink = data.links.find((m) => m.linkId === data.itemId);
 
         if (!existingLink) {
-            if (data.config.enableAdvancedLogging) {
-                console.warn(`Cannot resolve URL for item '${data.itemId}' because no link with this id was found.`);
-            }
+            console.warn(`Cannot resolve URL for item '${data.itemId}' because no link with this id was found.`);
             return {
                 html: '',
                 url: ''
@@ -288,11 +278,9 @@ export class RichTextResolver {
         }
 
         // url wasn't resolved
-        if (data.config.enableAdvancedLogging) {
-            console.warn(
-                `Url for item of '${existingLink.type}' type with id '${existingLink.linkId}' wasn't resolved. This might be caused by missing 'urlSlugResolver' for given type.`
-            );
-        }
+        console.warn(
+            `Url for item of '${existingLink.type}' type with id '${existingLink.linkId}' wasn't resolved. This might be caused by missing 'urlSlugResolver' for given type.`
+        );
 
         return {
             html: '',

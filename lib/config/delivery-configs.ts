@@ -1,5 +1,4 @@
 import { IHeader, IHttpService, IRetryStrategyOptions } from '@kentico/kontent-core';
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { ElementResolver } from '../elements';
 import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, TypeResolver } from '../models';
@@ -57,12 +56,6 @@ export interface IDeliveryClientConfig {
     elementResolver?: ElementResolver;
 
     /**
-    * When enabled, additional information are logged in console for certain issues.
-    * Disable in production environments.
-    */
-    isDeveloperMode?: boolean;
-
-    /**
      * Proxy configuration
      */
     proxy?: IDeliveryClientProxyConfig;
@@ -80,7 +73,7 @@ export interface IDeliveryClientConfig {
     /**
      * Can be used to inject custom Http service to perform requests
      */
-    httpService?: IHttpService;
+    httpService?: IHttpService<any>;
 
     /**
      * Global settings for linked item resolver
@@ -94,14 +87,6 @@ export interface IDeliveryClientConfig {
          * CSS classes applied to wrapper
          */
         linkedItemWrapperClasses?: string[]
-    };
-
-    /**
-     * Interceptors of HTTP requests. This may be used to alter request before its sent or response after its received.
-     */
-    httpInterceptors?: {
-        requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig;
-        responseInterceptor?: (config: AxiosResponse) => AxiosResponse;
     };
 
     /**

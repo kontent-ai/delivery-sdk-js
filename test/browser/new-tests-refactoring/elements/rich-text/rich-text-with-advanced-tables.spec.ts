@@ -18,7 +18,6 @@ class AdvancedTable extends ContentItem {
 }
 
 class LinkType1 extends ContentItem {
-
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -31,7 +30,6 @@ class LinkType1 extends ContentItem {
 }
 
 class LinkType2 extends ContentItem {
-
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -44,7 +42,6 @@ class LinkType2 extends ContentItem {
 }
 
 class LinkType3 extends ContentItem {
-
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -59,29 +56,27 @@ class LinkType3 extends ContentItem {
 const expectedResolvedContent: string[] = [
     `<link1>paper_filters_for_chemex</link1>`,
     `<link2>test_tables</link2>`,
-    `<link3>which_brewing_fits_you_</link3>`,
+    `<link3>which_brewing_fits_you_</link3>`
 ];
 
 describe('Rich text with advanced tables (parse5)', () => {
     let item: AdvancedTable;
 
-    beforeAll(done => {
-        getDeliveryClientWithJson(responseJson, {
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
             typeResolvers: [
-                new TypeResolver('advanced_table', data => new AdvancedTable()),
-                new TypeResolver('link_type_1', data => new LinkType1()),
-                new TypeResolver('link_type_2', data => new LinkType2()),
-                new TypeResolver('link_type_3', data => new LinkType3()),
+                new TypeResolver('advanced_table', (data) => new AdvancedTable()),
+                new TypeResolver('link_type_1', (data) => new LinkType1()),
+                new TypeResolver('link_type_2', (data) => new LinkType2()),
+                new TypeResolver('link_type_3', (data) => new LinkType3())
             ],
             richTextParserAdapter: new Parse5RichTextParser()
         })
             .item<AdvancedTable>('x')
-            .toObservable()
-            .subscribe(result => {
-                item = result.item;
-                done();
-            });
+            .toPromise();
+
+        item = response.item;
     });
 
     it(`Links should be resolved in rich text`, () => {
@@ -90,7 +85,6 @@ describe('Rich text with advanced tables (parse5)', () => {
 
         for (const expectedContent of expectedResolvedContent) {
             expect(resolvedHtml).toContain(expectedContent);
-
         }
     });
 });
@@ -98,23 +92,21 @@ describe('Rich text with advanced tables (parse5)', () => {
 describe('Rich text with advanced tables (browser)', () => {
     let item: AdvancedTable;
 
-    beforeAll(done => {
-        getDeliveryClientWithJson(responseJson, {
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
             typeResolvers: [
-                new TypeResolver('advanced_table', data => new AdvancedTable()),
-                new TypeResolver('link_type_1', data => new LinkType1()),
-                new TypeResolver('link_type_2', data => new LinkType2()),
-                new TypeResolver('link_type_3', data => new LinkType3()),
+                new TypeResolver('advanced_table', (data) => new AdvancedTable()),
+                new TypeResolver('link_type_1', (data) => new LinkType1()),
+                new TypeResolver('link_type_2', (data) => new LinkType2()),
+                new TypeResolver('link_type_3', (data) => new LinkType3())
             ],
             richTextParserAdapter: new BrowserRichTextParser()
         })
             .item<AdvancedTable>('x')
-            .toObservable()
-            .subscribe(result => {
-                item = result.item;
-                done();
-            });
+            .toPromise();
+
+        item = response.item;
     });
 
     it(`Links should be resolved in rich text`, () => {
@@ -123,8 +115,6 @@ describe('Rich text with advanced tables (browser)', () => {
 
         for (const expectedContent of expectedResolvedContent) {
             expect(resolvedHtml).toContain(expectedContent);
-
         }
     });
 });
-

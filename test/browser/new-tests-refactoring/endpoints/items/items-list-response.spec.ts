@@ -12,17 +12,14 @@ describe('Items list response', () => {
     let response: ItemResponses.ListContentItemsResponse;
     const parameters: IQueryParameter[] = [];
 
-    beforeAll(done => {
+    beforeAll(async () => {
         const query = getDeliveryClientWithJson(responseJson)
             .items()
             .includeTotalCountParameter();
 
         parameters.push(...query.getParameters());
 
-        query.toObservable().subscribe(result => {
-            response = result;
-            done();
-        });
+        response = await query.toPromise();
     });
 
     it(`Total count parameter should be set to true`, () => {

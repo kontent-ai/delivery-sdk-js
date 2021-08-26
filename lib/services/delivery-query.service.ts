@@ -1,6 +1,4 @@
-import { IBaseResponse, IHeader, IHttpService } from '@kentico/kontent-core';
-import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { IResponse, IHeader, IHttpService } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
 import {
@@ -31,7 +29,7 @@ export class QueryService extends BaseDeliveryQueryService {
 
     constructor(
         config: IDeliveryClientConfig,
-        httpService: IHttpService,
+        httpService: IHttpService<any>,
         sdkInfo: ISDKInfo,
         mappingService: IMappingService
     ) {
@@ -43,14 +41,13 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get single item
      * @param queryConfig Query configuration
      */
-    getSingleItem<TItem extends ContentItem>(
+    async getSingleItemAsync<TItem extends ContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Observable<ItemResponses.ViewContentItemResponse<TItem>> {
-        return this.getResponse<ItemContracts.IViewContentItemContract>(url, queryConfig).pipe(
-            map((response) => {
-                return this.mappingService.viewContentItemResponse<TItem>(response, queryConfig);
-            })
+    ): Promise<ItemResponses.ViewContentItemResponse<TItem>> {
+        return this.mappingService.viewContentItemResponse<TItem>(
+            await this.getResponseAsync<ItemContracts.IViewContentItemContract>(url, queryConfig),
+            queryConfig
         );
     }
 
@@ -59,14 +56,13 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url
      * @param queryConfig Query configuration
      */
-    getItemsFeed<TItem extends ContentItem>(
+    async getItemsFeed<TItem extends ContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
-        return this.getResponse<ItemContracts.IItemsFeedContract>(url).pipe(
-            map((response) => {
-                return this.mappingService.itemsFeedResponse<TItem>(response, queryConfig);
-            })
+    ): Promise<ItemResponses.ItemsFeedResponse<TItem>> {
+        return this.mappingService.itemsFeedResponse<TItem>(
+            await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url),
+            queryConfig
         );
     }
 
@@ -75,17 +71,15 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url
      * @param queryConfig Query configuration
      */
-    getItemsFeedAll<TItem extends ContentItem>(
+    async getItemsFeedAll<TItem extends ContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
-        const responses: IBaseResponse<ItemContracts.IItemsFeedContract>[] = [];
+    ): Promise<ItemResponses.ItemsFeedAllResponse<TItem>> {
+        const responses: IResponse<ItemContracts.IItemsFeedContract>[] = [];
 
-        return this.getAllItemsFeedResponses(url, {}, responses).pipe(
-            map(() => {
-                return this.mappingService.itemsFeedAllResponse(responses, queryConfig);
-            })
-        );
+        await this.getAllItemsFeedResponsesAsync(url, {}, responses);
+
+        return this.mappingService.itemsFeedAllResponse(responses, queryConfig);
     }
 
     /**
@@ -93,14 +87,13 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get multiple items
      * @param queryConfig Query configuration
      */
-    getMultipleItems<TItem extends ContentItem>(
+    async getMultipleItems<TItem extends ContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Observable<ItemResponses.ListContentItemsResponse<TItem>> {
-        return this.getResponse<ItemContracts.IListContentItemsContract>(url, queryConfig).pipe(
-            map((response) => {
-                return this.mappingService.listContentItemsResponse<TItem>(response, queryConfig);
-            })
+    ): Promise<ItemResponses.ListContentItemsResponse<TItem>> {
+        return this.mappingService.listContentItemsResponse(
+            await this.getResponseAsync<ItemContracts.IListContentItemsContract>(url, queryConfig),
+            queryConfig
         );
     }
 
@@ -109,14 +102,12 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get single type
      * @param queryConfig Query configuration
      */
-    getSingleType(
+    async getSingleType(
         url: string,
         queryConfig: IContentTypeQueryConfig
-    ): Observable<TypeResponses.ViewContentTypeResponse> {
-        return this.getResponse<TypeContracts.IViewContentTypeContract>(url, queryConfig).pipe(
-            map((response) => {
-                return this.mappingService.viewContentTypeResponse(response);
-            })
+    ): Promise<TypeResponses.ViewContentTypeResponse> {
+        return this.mappingService.viewContentTypeResponse(
+            await this.getResponseAsync<TypeContracts.IViewContentTypeContract>(url, queryConfig)
         );
     }
 
@@ -125,14 +116,12 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get multiple types
      * @param queryConfig Query configuration
      */
-    getMultipleTypes(
+    async getMultipleTypes(
         url: string,
         queryConfig: IContentTypeQueryConfig
-    ): Observable<TypeResponses.ListContentTypesResponse> {
-        return this.getResponse<TypeContracts.IListContentTypeContract>(url, queryConfig).pipe(
-            map((response) => {
-                return this.mappingService.listContentTypesResponse(response);
-            })
+    ): Promise<TypeResponses.ListContentTypesResponse> {
+        return this.mappingService.listContentTypesResponse(
+            await this.getResponseAsync<TypeContracts.IListContentTypeContract>(url, queryConfig)
         );
     }
 
@@ -141,11 +130,12 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url
      * @param queryConfig Query configuration
      */
-    getLanguages(url: string, queryConfig: ILanguagesQueryConfig): Observable<LanguageResponses.ListLanguagesResponse> {
-        return this.getResponse<LanguageContracts.IListLanguagesContract>(url, queryConfig).pipe(
-            map((response) => {
-                return this.mappingService.listLanguagesResponse(response);
-            })
+    async getLanguages(
+        url: string,
+        queryConfig: ILanguagesQueryConfig
+    ): Promise<LanguageResponses.ListLanguagesResponse> {
+        return this.mappingService.listLanguagesResponse(
+            await this.getResponseAsync<LanguageContracts.IListLanguagesContract>(url, queryConfig)
         );
     }
 
@@ -154,14 +144,12 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get single taxonomy
      * @param queryConfig Query configuration
      */
-    getTaxonomy(
+    async getTaxonomy(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Observable<TaxonomyResponses.ViewTaxonomyGroupResponse> {
-        return this.getResponse<TaxonomyContracts.IViewTaxonomyGroupContract>(url, queryConfig).pipe(
-            map((response) => {
-                return this.mappingService.viewTaxonomyGroupResponse(response);
-            })
+    ): Promise<TaxonomyResponses.ViewTaxonomyGroupResponse> {
+        return this.mappingService.viewTaxonomyGroupResponse(
+            await this.getResponseAsync<TaxonomyContracts.IViewTaxonomyGroupContract>(url, queryConfig)
         );
     }
 
@@ -170,14 +158,12 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get multiple taxonomies
      * @param queryConfig Query configuration
      */
-    getTaxonomies(
+    async getTaxonomies(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Observable<TaxonomyResponses.ListTaxonomyGroupsResponse> {
-        return this.getResponse<TaxonomyContracts.IListTaxonomyGroupsContract>(url, queryConfig).pipe(
-            map((response) => {
-                return this.mappingService.listTaxonomyGroupsResponse(response);
-            })
+    ): Promise<TaxonomyResponses.ListTaxonomyGroupsResponse> {
+        return this.mappingService.listTaxonomyGroupsResponse(
+            await this.getResponseAsync<TaxonomyContracts.IListTaxonomyGroupsContract>(url, queryConfig)
         );
     }
 
@@ -186,23 +172,21 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get single content type element
      * @param queryConfig Query configuration
      */
-    getElement(
+    async getElementAsync(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Observable<ElementResponses.ViewContentTypeElementResponse> {
-        return this.getResponse<ElementContracts.IViewContentTypeElementContract>(url, queryConfig).pipe(
-            map((response) => {
-                return this.mappingService.viewContentTypeElementResponse(response);
-            })
+    ): Promise<ElementResponses.ViewContentTypeElementResponse> {
+        return this.mappingService.viewContentTypeElementResponse(
+            await this.getResponseAsync<ElementContracts.IViewContentTypeElementContract>(url, queryConfig)
         );
     }
 
-    private getAllItemsFeedResponses(
+    private async getAllItemsFeedResponsesAsync(
         url: string,
         queryConfig: IItemQueryConfig,
-        responses: IBaseResponse<ItemContracts.IItemsFeedContract>[],
+        responses: IResponse<ItemContracts.IItemsFeedContract>[],
         continuationToken?: string
-    ): Observable<void> {
+    ): Promise<void> {
         const headers: IHeader[] = [];
 
         if (continuationToken) {
@@ -212,21 +196,17 @@ export class QueryService extends BaseDeliveryQueryService {
             });
         }
 
-        return this.getResponse<ItemContracts.IItemsFeedContract>(url, queryConfig, {
+        const response = await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url, queryConfig, {
             headers: headers
-        }).pipe(
-            switchMap((response) => {
-                responses.push(response);
+        });
 
-                const continuationHeader = response.headers.find(
-                    (m) => m.header.toLowerCase() === this.ContinuationHeaderName.toLowerCase()
-                );
-                if (continuationHeader) {
-                    return this.getAllItemsFeedResponses(url, queryConfig, responses, continuationHeader.value);
-                }
+        responses.push(response);
 
-                return of(undefined);
-            })
+        const continuationHeader = response.headers.find(
+            (m) => m.header.toLowerCase() === this.ContinuationHeaderName.toLowerCase()
         );
+        if (continuationHeader) {
+            await this.getAllItemsFeedResponsesAsync(url, queryConfig, responses, continuationHeader.value);
+        }
     }
 }

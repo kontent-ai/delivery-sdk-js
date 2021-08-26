@@ -1,5 +1,5 @@
 import {
-    IBaseResponse,
+    IResponse,
     IHttpDeleteQueryCall,
     IHttpGetQueryCall,
     IHttpPatchQueryCall,
@@ -7,73 +7,62 @@ import {
     IHttpPutQueryCall,
     IHttpQueryOptions,
     IHttpService,
-    IRetryStrategyOptions,
+    IHttpCancelRequestToken
 } from '@kentico/kontent-core';
-import { Observable, of } from 'rxjs';
 
 import { DeliveryClient } from '../../../../lib';
 
-class CustomHttpService implements IHttpService {
-    retryPromise<T>(promise: Promise<T>, options?: IRetryStrategyOptions): Promise<T> {
-        throw new Error('Method not implemented.');
+class CustomHttpService implements IHttpService<undefined> {
+    getAsync<TRawData>(call: IHttpGetQueryCall, options?: IHttpQueryOptions<undefined>): Promise<IResponse<TRawData>> {
+        return this.resolveTestCall();
     }
 
-    get<TRawData extends any>(
-        call: IHttpGetQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
-            data: {} as any,
-            response: undefined,
-            headers: [],
-            status: 200
-        });
-    }
-
-    post<TRawData extends any>(
+    postAsync<TRawData>(
         call: IHttpPostQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
-            data: {},
-            response: undefined
-        });
+        options?: IHttpQueryOptions<undefined>
+    ): Promise<IResponse<TRawData>> {
+        return this.resolveTestCall();
     }
 
-    put<TRawData extends any>(
-        call: IHttpPutQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
-            data: {} as any,
-            response: undefined,
-            headers: [],
-            status: 200
-        });
+    putAsync<TRawData>(call: IHttpPutQueryCall, options?: IHttpQueryOptions<undefined>): Promise<IResponse<TRawData>> {
+        return this.resolveTestCall();
     }
 
-    patch<TRawData extends any>(
+    patchAsync<TRawData>(
         call: IHttpPatchQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
-            data: {} as any,
-            response: undefined,
-            headers: [],
-            status: 200
-        });
+        options?: IHttpQueryOptions<undefined>
+    ): Promise<IResponse<TRawData>> {
+        return this.resolveTestCall();
     }
 
-    delete<TRawData extends any>(
+    deleteAsync<TRawData>(
         call: IHttpDeleteQueryCall,
-        options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
-            data: {} as any,
-            response: undefined,
-            headers: [],
-            status: 200
+        options?: IHttpQueryOptions<undefined>
+    ): Promise<IResponse<TRawData>> {
+        return this.resolveTestCall();
+    }
+
+    createCancelToken(): IHttpCancelRequestToken<undefined> {
+        return {
+            cancel: () => {},
+            token: undefined
+        };
+    }
+
+    private resolveTestCall(): Promise<IResponse<any>> {
+        const promise = new Promise<IResponse<any>>((resolve, reject) => {
+            resolve({
+                data: {},
+                headers: [],
+                rawResponse: {},
+                retryStrategy: {
+                    options: {},
+                    retryAttempts: 3
+                },
+                status: 200
+            });
         });
+        return promise;
     }
 }
 

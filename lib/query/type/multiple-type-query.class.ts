@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { Parameters, TypeResponses } from '../../models';
@@ -33,9 +33,9 @@ export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.ListContentTy
     }
 
     /**
-    * Gets the runnable Observable
+    * Gets the runnable Promise
     */
-    toObservable(): Observable<TypeResponses.ListContentTypesResponse> {
+    toPromise(): Promise<TypeResponses.ListContentTypesResponse> {
         return super.runMultipleTypesQuery();
     }
 

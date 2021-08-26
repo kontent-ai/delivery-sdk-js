@@ -97,7 +97,6 @@ describe('RichTextElement with Images', () => {
                 links: [],
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
                         getLinkedItem: codename => linkedItem,
@@ -138,7 +137,6 @@ describe('RichTextElement with Images', () => {
                 links: [],
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
                         getLinkedItem: codename => linkedItem,
@@ -186,7 +184,6 @@ describe('RichTextElement with Images', () => {
                 links: [],
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
                         getLinkedItem: codename => linkedItem,
@@ -227,7 +224,6 @@ describe('RichTextElement with Images', () => {
                 links: [],
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
                         getLinkedItem: codename => linkedItem,

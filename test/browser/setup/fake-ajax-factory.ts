@@ -1,8 +1,7 @@
-import { IBaseResponse } from '@kentico/kontent-core';
+import { IResponse } from '@kentico/kontent-core';
 
 export class FakeResponseFactory {
-
-    getFakeSuccessResponse(json: any): IBaseResponse<any> {
+    getFakeSuccessResponse(json: any): IResponse<any> {
         const fakeResponse: any = {};
 
         fakeResponse.response = json;
@@ -13,7 +12,11 @@ export class FakeResponseFactory {
 
         return {
             data: json,
-            response: fakeResponse,
+            rawResponse: fakeResponse,
+            retryStrategy: {
+                options: {},
+                retryAttempts: 0
+            },
             status: 200,
             headers: []
         };
@@ -21,6 +24,3 @@ export class FakeResponseFactory {
 }
 
 export const fakeResponseFactory = new FakeResponseFactory();
-
-
-

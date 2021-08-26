@@ -11,7 +11,7 @@ class CustomActor extends ContentItem {
     }
 }
 
-function getQueryService(advancedLogging: boolean = false): MockQueryService {
+function getQueryService(): MockQueryService {
     const context = new Context();
     const typeResolvers: TypeResolver[] = [];
     typeResolvers.push(new TypeResolver('movie', () => new Movie()));
@@ -21,7 +21,6 @@ function getQueryService(advancedLogging: boolean = false): MockQueryService {
     setup(context);
 
     const config = context.getConfig();
-    config.isDeveloperMode = advancedLogging;
 
     return new MockQueryService(config, new HttpService(), {
         host: sdkInfo.host,
@@ -31,7 +30,7 @@ function getQueryService(advancedLogging: boolean = false): MockQueryService {
 }
 
 describe('Item resolver', () => {
-    beforeAll(done => {
+    beforeAll((done) => {
         done();
     });
 
@@ -98,7 +97,7 @@ describe('Item resolver', () => {
             expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));
 
             expect(star).toEqual(jasmine.any(CustomActor));
-            expect(((star as any) as CustomActor).customName).toEqual('testName');
+            expect((star as any as CustomActor).customName).toEqual('testName');
         }
     });
 
@@ -118,17 +117,5 @@ describe('Item resolver', () => {
 
             expect(star).toEqual(jasmine.any(Actor));
         }
-    });
-
-    it(`Resolving linked items should NOT throw exception, but warning should be logged for each missing linked item`, () => {
-        const expectedNumberOfWarning = 2;
-
-        console.warn = jasmine.createSpy('warn');
-
-        getQueryService(true).mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
-            throwErrorForMissingLinkedItems: false
-        });
-
-        expect(console.warn).toHaveBeenCalledTimes(expectedNumberOfWarning); // 2 times because there are 2 missing linked items
     });
 });

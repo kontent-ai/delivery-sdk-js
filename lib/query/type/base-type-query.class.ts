@@ -1,5 +1,5 @@
 import { IHeader, IQueryParameter } from '@kentico/kontent-core';
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { IContentTypeQueryConfig, IKontentResponse, IKontentResponseDebug, TypeResponses } from '../../models';
@@ -44,11 +44,11 @@ export abstract class BaseTypeQuery<TResponse extends IKontentResponse<IKontentR
         return super.resolveUrlInternal(action);
     }
 
-    protected runMultipleTypesQuery(): Observable<TypeResponses.ListContentTypesResponse> {
+    protected runMultipleTypesQuery(): Promise<TypeResponses.ListContentTypesResponse> {
         return this.queryService.getMultipleTypes(this.getMultipleTypesQueryUrl(), this._queryConfig);
     }
 
-    protected runSingleTypeQuery(codename: string): Observable<TypeResponses.ViewContentTypeResponse> {
+    protected runSingleTypeQuery(codename: string): Promise<TypeResponses.ViewContentTypeResponse> {
         return this.queryService.getSingleType(this.getSingleTypeQueryUrl(codename), this._queryConfig);
     }
 }

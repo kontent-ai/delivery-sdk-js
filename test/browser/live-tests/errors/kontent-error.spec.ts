@@ -2,7 +2,6 @@ import { Context, Movie, setup } from '../../setup';
 import { DeliveryError } from '../../../../lib';
 
 describe('Delivery errors', () => {
-
     const context = new Context();
     setup(context);
 
@@ -10,18 +9,14 @@ describe('Delivery errors', () => {
     let succeeded: boolean;
     let error: any | DeliveryError;
 
-    beforeAll((done) => {
-        context.deliveryClient.item<Movie>(invalidCodename)
-            .toObservable()
-            .subscribe(response => {
-                succeeded = true;
-                done();
-            },
-            err => {
-                error = err;
-                succeeded = false;
-                done();
-            });
+    beforeAll(async () => {
+        try {
+            await context.deliveryClient.item<Movie>(invalidCodename).toPromise();
+            succeeded = true;
+        } catch (err) {
+            error = err;
+            succeeded = false;
+        }
     });
 
     it(`Response shouldn't succeed because the item does not exists`, () => {
@@ -40,4 +35,3 @@ describe('Delivery errors', () => {
         expect(baseError.requestId).toBeDefined();
     });
 });
-

@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import {
@@ -76,28 +76,28 @@ export abstract class BaseItemQuery<
         return super.resolveUrlInternal(action);
     }
 
-    protected runItemsFeedQuery(): Observable<ItemResponses.ItemsFeedResponse<TItem>> {
+    protected runItemsFeedQuery(): Promise<ItemResponses.ItemsFeedResponse<TItem>> {
         const url = this.getItemFeedQueryUrl();
 
         return this.queryService.getItemsFeed(url, this._queryConfig);
     }
 
-    protected runItemsFeedQueryAll(): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
+    protected runItemsFeedQueryAll(): Promise<ItemResponses.ItemsFeedAllResponse<TItem>> {
         const url = this.getItemFeedQueryUrl();
 
         return this.queryService.getItemsFeedAll(url, this._queryConfig);
     }
 
-    protected runMultipleItemsQuery(): Observable<ItemResponses.ListContentItemsResponse<TItem>> {
+    protected runMultipleItemsQuery(): Promise<ItemResponses.ListContentItemsResponse<TItem>> {
         const url = this.getMultipleItemsQueryUrl();
 
         return this.queryService.getMultipleItems(url, this._queryConfig);
     }
 
-    protected runSingleItemQuery(codename: string): Observable<ItemResponses.ViewContentItemResponse<TItem>> {
+    protected runSingleItemQuery(codename: string): Promise<ItemResponses.ViewContentItemResponse<TItem>> {
         const url = this.getSingleItemQueryUrl(codename);
 
-        return this.queryService.getSingleItem(url, this._queryConfig);
+        return this.queryService.getSingleItemAsync(url, this._queryConfig);
     }
 
     private processDefaultLanguageParameter(): void {

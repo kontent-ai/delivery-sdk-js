@@ -1,12 +1,4 @@
-import {
-    IBaseResponse,
-    IHeader,
-    IHttpService,
-    IQueryParameter,
-    urlHelper,
-} from '@kentico/kontent-core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { IResponse, IHeader, IHttpService, IQueryParameter, urlHelper } from '@kentico/kontent-core';
 import { AxiosError } from 'axios';
 
 import { IDeliveryClientConfig } from '../config';
@@ -14,7 +6,6 @@ import { IQueryConfig, ISDKInfo, IDeliveryErrorRaw, DeliveryError } from '../mod
 import { IMappingService } from './mapping.service';
 
 export abstract class BaseDeliveryQueryService {
-
     /**
      * Header name for SDK usage
      */
@@ -23,20 +14,17 @@ export abstract class BaseDeliveryQueryService {
     /**
      * Default base Url to Kentico Delivery API
      */
-    private readonly defaultBaseDeliveryApiUrl: string =
-        'https://deliver.kontent.ai';
+    private readonly defaultBaseDeliveryApiUrl: string = 'https://deliver.kontent.ai';
 
     /**
      * Default preview url to Kentico Delivery API
      */
-    private readonly defaultPreviewDeliveryApiUrl: string =
-        'https://preview-deliver.kontent.ai';
+    private readonly defaultPreviewDeliveryApiUrl: string = 'https://preview-deliver.kontent.ai';
 
     /**
      * Name of the header used when 'wait for loading new content' feature is used
      */
-    private readonly waitForLoadingNewContentHeader: string =
-        'X-KC-Wait-For-Loading-New-Content';
+    private readonly waitForLoadingNewContentHeader: string = 'X-KC-Wait-For-Loading-New-Content';
 
     constructor(
         /**
@@ -46,7 +34,7 @@ export abstract class BaseDeliveryQueryService {
         /**
          * Http service for fetching data
          */
-        protected readonly httpService: IHttpService,
+        protected readonly httpService: IHttpService<any>,
         /**
          * Information about the SDK
          */
@@ -55,20 +43,15 @@ export abstract class BaseDeliveryQueryService {
          * Mapping service
          */
         protected readonly mappingService: IMappingService
-    ) {
-    }
+    ) {}
 
     /**
-    * Gets url based on the action, query configuration and options (parameters)
-    * @param action Action (= url part) that will be hit
-    * @param queryConfig Query configuration
-    * @param options Query options
-    */
-    getUrl(
-        action: string,
-        queryConfig: IQueryConfig,
-        options?: IQueryParameter[]
-    ): string {
+     * Gets url based on the action, query configuration and options (parameters)
+     * @param action Action (= url part) that will be hit
+     * @param queryConfig Query configuration
+     * @param options Query options
+     */
+    getUrl(action: string, queryConfig: IQueryConfig, options?: IQueryParameter[]): string {
         if (!this.config.proxy || !this.config.proxy.advancedProxyUrlResolver) {
             return urlHelper.addOptionsToUrl(this.getBaseUrl(queryConfig) + action, options);
         }
@@ -83,10 +66,10 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-    * Gets proper set of headers for given request.
-    * @param queryConfig Query configuration
-    * @param additionalHeaders Custom headers
-    */
+     * Gets proper set of headers for given request.
+     * @param queryConfig Query configuration
+     * @param additionalHeaders Custom headers
+     */
     getHeaders(queryConfig: IQueryConfig, additionalHeaders?: IHeader[]): IHeader[] {
         const headers: IHeader[] = [];
 
@@ -105,10 +88,7 @@ export abstract class BaseDeliveryQueryService {
         // add query / global headers from query config
         headers.push(...this.getQueryHeaders(queryConfig));
 
-        if (
-            this.isPreviewModeEnabled(queryConfig) &&
-            this.isSecuredModeEnabled(queryConfig)
-        ) {
+        if (this.isPreviewModeEnabled(queryConfig) && this.isSecuredModeEnabled(queryConfig)) {
             throw Error(`Preview & secured modes cannot be used at the same time.`);
         }
 
@@ -138,13 +118,13 @@ export abstract class BaseDeliveryQueryService {
      * @param url Url of request
      * @param queryConfig Query config configuration
      */
-    protected getResponse<TRawData>(
+    protected async getResponseAsync<TRawData>(
         url: string,
         queryConfig?: IQueryConfig,
         serviceConfig?: {
-            headers?: IHeader[]
+            headers?: IHeader[];
         }
-    ): Observable<IBaseResponse<TRawData>> {
+    ): Promise<IResponse<TRawData>> {
         if (!queryConfig) {
             queryConfig = {};
         }
@@ -153,36 +133,35 @@ export abstract class BaseDeliveryQueryService {
             serviceConfig = {};
         }
 
-        return this.httpService
-            .get<TRawData>(
+        try {
+            return await this.httpService.getAsync<TRawData>(
                 {
-                    url: url,
+                    url: url
                 },
                 {
+                    cancelToken: queryConfig?.cancelTokenRequest,
+                    responseType: 'json',
                     retryStrategy: this.config.retryStrategy,
-                    headers: this.getHeaders(queryConfig, serviceConfig.headers ? serviceConfig.headers : []),
-                    logErrorToConsole: this.config.isDeveloperMode
+                    headers: this.getHeaders(queryConfig, serviceConfig.headers ? serviceConfig.headers : [])
                 }
-            )
-            .pipe(
-                catchError((error: any) => {
-                    return throwError(this.mapDeliveryError(error));
-                })
             );
+        } catch (error) {
+            throw this.mapDeliveryError(error);
+        }
     }
 
     /**
-    * Gets base URL of the request including the project Id
-    * @param queryConfig Query configuration
-    */
+     * Gets base URL of the request including the project Id
+     * @param queryConfig Query configuration
+     */
     protected getBaseUrl(queryConfig: IQueryConfig): string {
         return this.getDomain(queryConfig) + '/' + this.config.projectId;
     }
 
     /**
-    * Indicates if current query should use preview mode
-    * @param queryConfig Query configuration
-    */
+     * Indicates if current query should use preview mode
+     * @param queryConfig Query configuration
+     */
     private isPreviewModeEnabled(queryConfig: IQueryConfig): boolean {
         if (queryConfig.usePreviewMode !== undefined) {
             return queryConfig.usePreviewMode;
@@ -227,9 +206,9 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-    * Indicates if current query should use secured mode
-    * @param queryConfig Query configuration
-    */
+     * Indicates if current query should use secured mode
+     * @param queryConfig Query configuration
+     */
     private isSecuredModeEnabled(queryConfig: IQueryConfig): boolean {
         if (queryConfig.useSecuredMode !== undefined) {
             return queryConfig.useSecuredMode;
@@ -247,15 +226,13 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-    * Gets preview or standard URL based on client and query configuration
-    * @param queryConfig Query configuration
-    */
+     * Gets preview or standard URL based on client and query configuration
+     * @param queryConfig Query configuration
+     */
     private getDomain(queryConfig: IQueryConfig): string {
         if (this.isPreviewModeEnabled(queryConfig)) {
             if (!this.config.previewApiKey) {
-                throw Error(
-                    `Preview API key is not configured.`
-                );
+                throw Error(`Preview API key is not configured.`);
             }
 
             // check custom preview url
@@ -275,8 +252,8 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-    * Gets authorization header. This is used for 'preview' functionality
-    */
+     * Gets authorization header. This is used for 'preview' functionality
+     */
     private getAuthorizationHeader(key?: string): IHeader {
         if (!key) {
             throw Error(`Cannot get authorization header because key is invalid`);
@@ -289,8 +266,8 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-    * Header identifying SDK type & version for internal purposes of Kentico
-    */
+     * Header identifying SDK type & version for internal purposes of Kentico
+     */
     private getSdkIdHeader(): IHeader {
         return {
             header: this.sdkVersionHeader,
@@ -298,8 +275,14 @@ export abstract class BaseDeliveryQueryService {
         };
     }
 
-    private mapDeliveryError(error: any): DeliveryError {
-        const axiosError = error as AxiosError;
+    private mapDeliveryError(error: any): DeliveryError | any {
+        let axiosError: AxiosError | undefined;
+
+        if (error.error) {
+            axiosError = error.error;
+        } else {
+            axiosError = error;
+        }
 
         if (!axiosError || !axiosError.isAxiosError) {
             return error;
@@ -315,8 +298,7 @@ export abstract class BaseDeliveryQueryService {
             errorCode: deliveryErrorData.error_code,
             message: deliveryErrorData.message,
             specificCode: deliveryErrorData.specific_code,
-            requestId: deliveryErrorData.request_id,
+            requestId: deliveryErrorData.request_id
         });
     }
-
 }

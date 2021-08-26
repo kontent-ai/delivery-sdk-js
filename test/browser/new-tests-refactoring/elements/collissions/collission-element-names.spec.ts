@@ -8,13 +8,10 @@ const systemCollisionName = '_system';
 describe(`Collision element names`, () => {
     let item: ContentItem;
 
-    beforeAll((done) => {
-        getDeliveryClientWithJson(responseJson).item('x')
-            .toObservable()
-            .subscribe(result => {
-                item = result.item;
-                done();
-            });
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson).item('x').toPromise();
+
+        item = response.item;
     });
 
     it(`Element with codename '${debugPropName}' should not be remapped`, () => {
@@ -38,6 +35,4 @@ describe(`Collision element names`, () => {
         // original system attributes should still be mapped
         expect(item.system).toEqual(jasmine.any(ContentItemSystemAttributes));
     });
-
 });
-

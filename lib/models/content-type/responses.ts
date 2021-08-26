@@ -1,4 +1,4 @@
-import { IBaseResponse } from '@kentico/kontent-core';
+import { IResponse } from '@kentico/kontent-core';
 
 import { BaseKontentResponseStandardDebug, Pagination } from '../common';
 import { ContentType } from './content-type-models';
@@ -11,13 +11,8 @@ export namespace TypeResponses {
          * @param {IContentType[]} types - Content types
          * @param {Pagination} pagination - Pagination object
          */
-        constructor(
-            public types: ContentType[],
-            public pagination: Pagination,
-            response: IBaseResponse<any>,
-            isDeveloperMode: boolean
-        ) {
-            super(response, isDeveloperMode);
+        constructor(public types: ContentType[], public pagination: Pagination, response: IResponse<any>) {
+            super(response);
         }
     }
 
@@ -27,8 +22,8 @@ export namespace TypeResponses {
          * @constructor
          * @param {IContentType} type - Content type
          */
-        constructor(public type: ContentType, response: IBaseResponse<any>, isDeveloperMode: boolean) {
-            super(response, isDeveloperMode);
+        constructor(public type: ContentType, response: IResponse<any>) {
+            super(response);
         }
     }
 }

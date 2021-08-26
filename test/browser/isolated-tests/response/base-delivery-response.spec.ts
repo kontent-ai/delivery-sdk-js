@@ -1,7 +1,7 @@
 import { BaseKontentResponseStandardDebug } from '../../../../lib';
 
 describe('Base Kontent response', () => {
-    it(`Debug props should be mapped when developer mode is enabled`, () => {
+    it(`Debug props should be mapped`, () => {
         const response = new BaseKontentResponseStandardDebug(
             {
                 data: {},
@@ -11,10 +11,10 @@ describe('Base Kontent response', () => {
                         value: 'y'
                     }
                 ],
-                response: null,
+                rawResponse: null,
+                retryStrategy: {} as any,
                 status: 200
             },
-            true
         );
         expect(response.debug).toBeTruthy();
 
@@ -24,33 +24,15 @@ describe('Base Kontent response', () => {
         }
     });
 
-    it(`Debug props should not be mapped when developer mode is disabled`, () => {
-        const response = new BaseKontentResponseStandardDebug(
-            {
-                data: {},
-                headers: [
-                    {
-                        header: 'x',
-                        value: 'y'
-                    }
-                ],
-                response: null,
-                status: 200
-            },
-            false
-        );
-        expect(response.debug).toBeFalsy();
-    });
-
     it(`X-Stale-Content should always be false when header is not present`, () => {
         const response = new BaseKontentResponseStandardDebug(
             {
                 data: {},
                 headers: [],
-                response: null,
+                rawResponse: null,
+                retryStrategy: {} as any,
                 status: 200
             },
-            false
         );
         expect(response.hasStaleContent).toBeFalsy();
     });
@@ -65,10 +47,10 @@ describe('Base Kontent response', () => {
                         value: '1'
                     }
                 ],
-                response: {},
+                rawResponse: {},
+                retryStrategy: {} as any,
                 status: 200
             },
-            false
         );
         expect(response.hasStaleContent).toBeTruthy();
     });

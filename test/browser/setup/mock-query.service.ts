@@ -7,16 +7,18 @@ import { QueryService } from '../../../lib/services/delivery-query.service';
 import { fakeResponseFactory } from '.';
 
 export class MockQueryService extends QueryService {
-
     constructor(
         protected config: IDeliveryClientConfig,
-        protected httpService: IHttpService,
+        protected httpService: IHttpService<any>,
         protected sdkInfo: ISDKInfo
     ) {
         super(config, httpService, sdkInfo, new MappingService(config, getParserAdapter()));
     }
 
-    mockGetSingleItem<TItem extends ContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.ViewContentItemResponse<TItem> {
+    mockGetSingleItem<TItem extends ContentItem>(
+        json: any,
+        queryConfig: IItemQueryConfig
+    ): ItemResponses.ViewContentItemResponse<TItem> {
         if (!queryConfig) {
             queryConfig = {};
         }
@@ -26,7 +28,10 @@ export class MockQueryService extends QueryService {
         return this.mappingService.viewContentItemResponse<TItem>(fakeResponse, queryConfig);
     }
 
-    mockGetMultipleItems<TItem extends ContentItem>(json: any, queryConfig: IItemQueryConfig): ItemResponses.ListContentItemsResponse<TItem> {
+    mockGetMultipleItems<TItem extends ContentItem>(
+        json: any,
+        queryConfig: IItemQueryConfig
+    ): ItemResponses.ListContentItemsResponse<TItem> {
         if (!queryConfig) {
             queryConfig = {};
         }

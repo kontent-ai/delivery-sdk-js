@@ -39,18 +39,7 @@ export class DeliveryClient implements IDeliveryClient {
         );
         this.queryService = new QueryService(
             config,
-            config.httpService
-                ? config.httpService
-                : new HttpService({
-                      requestInterceptor:
-                          config.httpInterceptors && config.httpInterceptors.requestInterceptor
-                              ? config.httpInterceptors.requestInterceptor
-                              : undefined,
-                      responseInterceptor:
-                          config.httpInterceptors && config.httpInterceptors.responseInterceptor
-                              ? config.httpInterceptors.responseInterceptor
-                              : undefined
-                  }),
+            config.httpService ? config.httpService : new HttpService(),
             {
                 host: sdkInfo.host,
                 name: sdkInfo.name,

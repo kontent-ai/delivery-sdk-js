@@ -2,15 +2,12 @@ import { ContentItem, ElementModels, Elements, ElementType } from '../../../../.
 import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './custom-element.spec.json';
 
-class ColorElement extends Elements.CustomElement  {
-
+class ColorElement extends Elements.CustomElement {
     public red: number;
     public green: number;
     public blue: number;
 
-    constructor(
-        public element: ElementModels.IElementWrapper
-    ) {
+    constructor(public element: ElementModels.IElementWrapper) {
         super(element);
 
         const parsed = JSON.parse(element.rawElement.value);
@@ -21,12 +18,9 @@ class ColorElement extends Elements.CustomElement  {
 }
 
 class MarkdownElement extends Elements.CustomElement {
-
     public isMarkdown = true;
 
-    constructor(
-        public element: ElementModels.IElementWrapper,
-    ) {
+    constructor(public element: ElementModels.IElementWrapper) {
         super(element);
     }
 }
@@ -34,29 +28,34 @@ class MarkdownElement extends Elements.CustomElement {
 describe('Custom element with custom model', () => {
     let item: ContentItem;
 
-    beforeAll((done) => {
-        getDeliveryClientWithJson(responseJson, {
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
             elementResolver: (elementWrapper) => {
                 const responseItem = responseJson.items[0];
                 const colorElement = responseJson.items[0].elements.color;
                 const markdownElement = responseJson.items[0].elements.markdown;
 
-                if (elementWrapper.contentItemSystem.type === responseItem.system.type && elementWrapper.rawElement.name === colorElement.name) {
+                if (
+                    elementWrapper.contentItemSystem.type === responseItem.system.type &&
+                    elementWrapper.rawElement.name === colorElement.name
+                ) {
                     return new ColorElement(elementWrapper);
                 }
 
-                if (elementWrapper.contentItemSystem.type === responseItem.system.type && elementWrapper.rawElement.name === markdownElement.name) {
+                if (
+                    elementWrapper.contentItemSystem.type === responseItem.system.type &&
+                    elementWrapper.rawElement.name === markdownElement.name
+                ) {
                     return new MarkdownElement(elementWrapper);
                 }
                 return undefined;
             }
-        }).items()
-            .toObservable()
-            .subscribe(result => {
-                item = result.items[0];
-                done();
-            });
+        })
+            .items()
+            .toPromise();
+
+        item = response.items[0];
     });
 
     it(`Color element should be mapped to ColorElement`, () => {
@@ -84,6 +83,4 @@ describe('Custom element with custom model', () => {
         expect(element.type).toEqual(ElementType.Custom);
         expect(element.value).toEqual(rawElement.value);
     });
-
 });
-

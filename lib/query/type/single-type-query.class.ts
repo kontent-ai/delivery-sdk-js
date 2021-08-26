@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { TypeResponses } from '../../models';
@@ -20,9 +20,9 @@ export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.ViewContentType
     }
 
     /**
-    * Gets the runnable Observable
+    * Gets the runnable Promise
     */
-    toObservable(): Observable<TypeResponses.ViewContentTypeResponse> {
+    toPromise(): Promise<TypeResponses.ViewContentTypeResponse> {
         return super.runSingleTypeQuery(this.typeCodename);
     }
 

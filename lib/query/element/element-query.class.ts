@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { ElementResponses } from '../../models';
@@ -25,9 +25,9 @@ export class ElementQuery extends BaseElementQuery<ElementResponses.ViewContentT
     }
 
     /**
-    * Gets the runnable Observable
+    * Gets the runnable Promise
     */
-    toObservable(): Observable<ElementResponses.ViewContentTypeElementResponse> {
+    toPromise(): Promise<ElementResponses.ViewContentTypeElementResponse> {
         return super.runElementQuery(this.typeCodename, this.elementCodename);
     }
 

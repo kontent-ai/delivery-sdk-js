@@ -15,7 +15,6 @@ import {
 import { parserConfiguration } from '../parser-configuration';
 
 export class Parse5RichTextParser implements IRichTextHtmlParser {
-
     resolveRichTextElement(
         contentItemCodename: string,
         html: string,
@@ -198,11 +197,9 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
             const hrefAttribute = attributes.find((m) => m.name === 'href');
             if (!hrefAttribute) {
                 // href attribute is missing
-                if (config.enableAdvancedLogging) {
-                    console.warn(
-                        `Cannot set url '${urlSlugResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
-                    );
-                }
+                console.warn(
+                    `Cannot set url '${urlSlugResult}' because 'href' attribute is not present in the <a> tag. Please report this issue if you are seeing this. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
+                );
             } else {
                 // get link url
                 const linkUrlResult: string | undefined =
@@ -227,7 +224,9 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
         const dataTypeAttribute = attributes.find(
             (m) => m.name === parserConfiguration.modularContentElementData.dataType
         );
-        const resolvedDataAttribute = attributes.find((m) => m.name === parserConfiguration.resolvedLinkedItemAttribute);
+        const resolvedDataAttribute = attributes.find(
+            (m) => m.name === parserConfiguration.resolvedLinkedItemAttribute
+        );
 
         // process linked itmes
         if (dataTypeAttribute && !resolvedDataAttribute) {
@@ -308,11 +307,9 @@ export class Parse5RichTextParser implements IRichTextHtmlParser {
                 // add child nodes
                 element.childNodes = serializedChildNodes.childNodes;
             } else {
-                if (config.enableAdvancedLogging) {
-                    console.warn(
-                        `Rich text element contains object with unsupported data type '${dataTypeAttribute.value}'`
-                    );
-                }
+                console.warn(
+                    `Rich text element contains object with unsupported data type '${dataTypeAttribute.value}'`
+                );
             }
         }
     }

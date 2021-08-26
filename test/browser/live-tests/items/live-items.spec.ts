@@ -8,15 +8,8 @@ describe('Live items', () => {
     const type: string = 'movie';
     let response: ItemResponses.ListContentItemsResponse<Movie>;
 
-    beforeAll(done => {
-        context.deliveryClient
-            .items<Movie>()
-            .type(type)
-            .toObservable()
-            .subscribe(r => {
-                response = r;
-                done();
-            });
+    beforeAll(async () => {
+        response = await context.deliveryClient.items<Movie>().type(type).toPromise();
     });
 
     it(`items should be defined`, () => {
@@ -47,7 +40,7 @@ describe('Live items', () => {
     });
 
     it(`debug property should be set for all items`, () => {
-        response.items.forEach(item => {
+        response.items.forEach((item) => {
             expect(item).toEqual(jasmine.any(Movie));
             expect(item._raw).toBeDefined();
             expect(item._raw.elements).toBeDefined();

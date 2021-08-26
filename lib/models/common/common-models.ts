@@ -1,4 +1,4 @@
-import { IHeader, IQueryParameter } from '@kentico/kontent-core';
+import { IHeader, IHttpCancelRequestToken, IQueryParameter } from '@kentico/kontent-core';
 
 export interface IProxyUrlData {
     action: string;
@@ -56,6 +56,8 @@ export interface IQueryConfig {
     waitForLoadingNewContent?: boolean;
 
     customHeaders?: IHeader[];
+
+    cancelTokenRequest?: IHttpCancelRequestToken<any>;
 }
 
 export interface IDeliveryErrorRaw {

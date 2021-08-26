@@ -1,5 +1,5 @@
 import { IHeader } from '@kentico/kontent-core';
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { IKontentResponse, IKontentResponseDebug, ILanguagesQueryConfig, LanguageResponses } from '../../models';
@@ -45,7 +45,7 @@ export abstract class BaseLanguageQuery<
         return super.resolveUrlInternal(action);
     }
 
-    protected runLanguagesQuery(): Observable<LanguageResponses.ListLanguagesResponse> {
+    protected runLanguagesQuery(): Promise<LanguageResponses.ListLanguagesResponse> {
         return this.queryService.getLanguages(this.getLanguagesQueryUrl(), this._queryConfig);
     }
 }

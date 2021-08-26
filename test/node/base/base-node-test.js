@@ -1,6 +1,5 @@
 const http = require('http');
 const https = require('https');
-const Rx = require('rxjs');
 const KontentDelivery = require('../../../dist/cjs');
 const assert = require('assert');
 const projectId = 'da5abe9f-fdad-4168-97cd-b3464be2ccb9';
@@ -22,27 +21,25 @@ const deliveryClient = new KontentDelivery.DeliveryClient({
 });
 
 describe('Base node.js test', () => {
-  describe('#items', () => {
-    it('Response should be successful and should contain an item of defined type', (done) => {
-      deliveryClient.items()
-        .type('movie')
-        .limitParameter(10)
-        .toObservable()
-        .subscribe(response => {
 
-          var item = response.items[0];
+  let response;
 
-          assert.ok(item);
+  before(async () => {
+    response = await deliveryClient.items()
+      .type('movie')
+      .limitParameter(10)
+      .toPromise();
+  });
 
-          assert.ok(item.system.codename);
+  it('Response should be successful and should contain an item of defined type', () => {
 
-          assert.ok((item instanceof Movie));
+    var item = response.items[0];
 
-          assert.equal(item instanceof Actor, false)
+    assert.ok(item);
 
-          done();
-        }, );
-    });
+    assert.ok(item.system.codename);
+
+    assert.ok((item instanceof Movie));
   });
 });
 

@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { TaxonomyResponses } from '../../models';
@@ -20,9 +20,9 @@ export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.ViewTaxon
     }
 
     /**
-    * Gets the runnable Observable
+    * Gets the runnable Promise
     */
-    toObservable(): Observable<TaxonomyResponses.ViewTaxonomyGroupResponse> {
+    toPromise(): Promise<TaxonomyResponses.ViewTaxonomyGroupResponse> {
         return super.runTaxonomyQuery(this.taxonomyCodename);
     }
 

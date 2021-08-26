@@ -19,18 +19,16 @@ class File extends ContentItem {
 describe('Url slug resolver with html & without content items (browser)', () => {
     let item: File | undefined;
 
-    beforeAll(done => {
-        getDeliveryClientWithJson(responseJson, {
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
-            typeResolvers: [new TypeResolver('file', data => new File())],
+            typeResolvers: [new TypeResolver('file', (data) => new File())],
             richTextParserAdapter: new BrowserRichTextParser()
         })
             .item<File>('x')
-            .toObservable()
-            .subscribe(result => {
-                item = result.item;
-                done();
-            });
+            .toPromise();
+
+        item = response.item;
     });
 
     it(`Links should be resolved in rich text`, () => {
@@ -51,18 +49,16 @@ describe('Url slug resolver with html & without content items (browser)', () => 
 describe('Url slug resolver with html & without content items (parse5)', () => {
     let item: File | undefined;
 
-    beforeAll(done => {
-        getDeliveryClientWithJson(responseJson, {
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
-            typeResolvers: [new TypeResolver('file', data => new File())],
+            typeResolvers: [new TypeResolver('file', (data) => new File())],
             richTextParserAdapter: new Parse5RichTextParser()
         })
             .item<File>('x')
-            .toObservable()
-            .subscribe(result => {
-                item = result.item;
-                done();
-            });
+            .toPromise();
+
+        item = response.item;
     });
 
     it(`Links should be resolved in rich text`, () => {

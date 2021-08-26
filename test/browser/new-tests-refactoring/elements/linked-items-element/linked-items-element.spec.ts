@@ -15,19 +15,16 @@ class Movie extends ContentItem {
 describe('Linked items element', () => {
     let response: ItemResponses.ViewContentItemResponse<Movie>;
 
-    beforeAll((done) => {
-        getDeliveryClientWithJson(responseJson, {
+    beforeAll(async () => {
+        response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
             typeResolvers: [
                 new TypeResolver('movie', (data) => new Movie()),
                 new TypeResolver('actor', (data) => new Actor())
             ]
-        }).item<Movie>('x')
-            .toObservable()
-            .subscribe(result => {
-                response = result;
-                done();
-            });
+        })
+            .item<Movie>('x')
+            .toPromise();
     });
 
     it(`Stars element should be mapped to LinkedItemsElement along with properties`, () => {
@@ -46,6 +43,4 @@ describe('Linked items element', () => {
             expect(star).toEqual(jasmine.any(Actor));
         }
     });
-
 });
-

@@ -58,7 +58,6 @@ class ActorMock extends ContentItem {
                     urlSlugResolver.resolveUrl({
                         elementName: 'name',
                         item: this,
-                        enableAdvancedLogging: true,
                         elementValue: codename,
                         resolver: (link, context) => {
                             return {
@@ -141,7 +140,6 @@ describe('RichTextElement', () => {
             links: links,
             resolveRichTextFunc: () =>
                 richTextResolver.resolveData('', html, 'name', {
-                    enableAdvancedLogging: false,
                     getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                     links: links,
                     getLinkedItem: getLinkedItem,
@@ -226,7 +224,6 @@ describe('RichTextElement', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -271,7 +268,6 @@ describe('RichTextElement', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -313,7 +309,6 @@ describe('RichTextElement', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -350,7 +345,6 @@ describe('RichTextElement', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -395,7 +389,6 @@ describe('RichTextElement', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -444,7 +437,6 @@ describe('RichTextElement', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -496,7 +488,6 @@ describe('RichTextElement', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -538,7 +529,6 @@ describe('RichTextElement', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,

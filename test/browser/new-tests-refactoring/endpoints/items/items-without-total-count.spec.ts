@@ -12,21 +12,17 @@ describe('Items without total count', () => {
     let response: ItemResponses.ListContentItemsResponse;
     const parameters: IQueryParameter[] = [];
 
-    beforeAll(done => {
-        const query = getDeliveryClientWithJson(responseJson)
-            .items();
+    beforeAll(async () => {
+        const query = getDeliveryClientWithJson(responseJson).items();
 
         parameters.push(...query.getParameters());
 
-        query.toObservable().subscribe(result => {
-            response = result;
-            done();
-        });
+        response = await query.toPromise();
     });
 
     it(`Total count parameter should not be set`, () => {
-        const totalCountParameter = parameters.find(
-            m => m.getParam().toLowerCase().startsWith('includeTotalCount'.toLowerCase())
+        const totalCountParameter = parameters.find((m) =>
+            m.getParam().toLowerCase().startsWith('includeTotalCount'.toLowerCase())
         );
 
         expect(totalCountParameter).toBeUndefined();

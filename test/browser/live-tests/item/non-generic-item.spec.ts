@@ -2,7 +2,6 @@ import { ContentItem, ContentItemSystemAttributes, ItemResponses } from '../../.
 import { Context, setup } from '../../setup';
 
 describe('Non generic item tests', () => {
-
     const context = new Context();
     // remove type resolvers for testing
     context.typeResolvers = [];
@@ -11,13 +10,8 @@ describe('Non generic item tests', () => {
     const movieCodename: string = 'warrior';
     let response: ItemResponses.ViewContentItemResponse<ContentItem>;
 
-    beforeAll((done) => {
-        context.deliveryClient.item<ContentItem>(movieCodename)
-            .toObservable()
-            .subscribe(r => {
-                response = r;
-                done();
-            });
+    beforeAll(async () => {
+        response = await context.deliveryClient.item<ContentItem>(movieCodename).toPromise();
     });
 
     it(`ContentItem should be returned if `, () => {
@@ -31,6 +25,4 @@ describe('Non generic item tests', () => {
     it(`System attributes property should be set`, () => {
         expect(response.item.system).toEqual(jasmine.any(ContentItemSystemAttributes));
     });
-
 });
-

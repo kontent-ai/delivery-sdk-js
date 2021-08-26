@@ -12,22 +12,17 @@ describe('Items with total count', () => {
     let response: ItemResponses.ListContentItemsResponse;
     const parameters: IQueryParameter[] = [];
 
-    beforeAll(done => {
-        const query = getDeliveryClientWithJson(responseJson)
-            .items()
-            .includeTotalCountParameter();
+    beforeAll(async () => {
+        const query = getDeliveryClientWithJson(responseJson).items().includeTotalCountParameter();
 
         parameters.push(...query.getParameters());
 
-        query.toObservable().subscribe(result => {
-            response = result;
-            done();
-        });
+        response = await query.toPromise();
     });
 
     it(`Total count parameter should be set to true`, () => {
         const totalCountParameter = parameters.find(
-            m => m.getParam().toLowerCase() === 'includeTotalCount=true'.toLowerCase()
+            (m) => m.getParam().toLowerCase() === 'includeTotalCount=true'.toLowerCase()
         );
 
         expect(totalCountParameter).toBeDefined();

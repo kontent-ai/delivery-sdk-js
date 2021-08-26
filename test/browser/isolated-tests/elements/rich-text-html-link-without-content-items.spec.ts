@@ -90,7 +90,6 @@ describe('RichTextElement with Html links only (without content items in respons
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolverWithUrl,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -126,7 +125,6 @@ describe('RichTextElement with Html links only (without content items in respons
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolverWitHtml,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -162,7 +160,6 @@ describe('RichTextElement with Html links only (without content items in respons
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolverWithUrl,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -198,7 +195,6 @@ describe('RichTextElement with Html links only (without content items in respons
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolverWitHtml,
                         links: links,
                         getLinkedItem: getLinkedItem,

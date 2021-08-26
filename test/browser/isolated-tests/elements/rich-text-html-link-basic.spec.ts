@@ -62,7 +62,6 @@ class ActorMock extends ContentItem {
                                 html: `<test>${link.urlSlug}</test>`
                             };
                         },
-                        enableAdvancedLogging: true,
                         elementValue: codename
                     }).html || ''
             }
@@ -138,7 +137,6 @@ describe('RichTextElement with Html links parse5 basic', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -180,7 +178,6 @@ describe('RichTextElement with Html links parse5 basic', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -222,7 +219,6 @@ describe('RichTextElement with Html links parse5 basic', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: (type) => undefined,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -261,7 +257,6 @@ describe('RichTextElement with Html links parse5 basic', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,
@@ -303,7 +298,6 @@ describe('RichTextElement with Html links parse5 basic', () => {
                 links: links,
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: links,
                         getLinkedItem: getLinkedItem,

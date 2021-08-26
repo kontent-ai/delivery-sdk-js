@@ -33,7 +33,6 @@ export interface IRichTextReplacements {
 }
 
 export interface IHtmlResolverConfig {
-    enableAdvancedLogging: boolean;
     queryConfig: IItemQueryConfig;
     linkedItemWrapperTag: string;
     linkedItemWrapperClasses: string[];

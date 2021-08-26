@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { LanguageResponses, Parameters } from '../../models';
@@ -29,9 +29,9 @@ export class LanguagesQuery extends BaseLanguageQuery<LanguageResponses.ListLang
     }
 
     /**
-     * Gets the Observable
+     * Gets the Promise
      */
-    toObservable(): Observable<LanguageResponses.ListLanguagesResponse> {
+    toPromise(): Promise<LanguageResponses.ListLanguagesResponse> {
         return super.runLanguagesQuery();
     }
 

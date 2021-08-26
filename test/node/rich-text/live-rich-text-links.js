@@ -30,9 +30,9 @@ class Movie extends KontentDelivery.ContentItem {
                 }
             },
             urlSlugResolver: (item, context) => {
-                return { url: `<p>${item.title.value}</p>`};
+                return { url: `<p>${item.title.value}</p>` };
             }
-        }, );
+        });
     }
 }
 
@@ -53,17 +53,14 @@ describe('#Rich text element with HTML links', () => {
     const expectedLinkHtmlA = `<test>joel-edgerton</test>`;
     const expectedLinkHtmlB = `<test>tom-hardy</test>`;
 
-    before((done) => {
-        deliveryClient.item(movieCodename)
-        .toObservable()
-            .subscribe(response => {
-                result = response;
+    before(async () => {
+        const response = await deliveryClient.item(movieCodename)
+            .toPromise();
 
-                plot = response.item.plot.resolveHtml();
-                done();
-            });
+        result = response;
+        plot = response.item.plot.resolveHtml();
     });
- 
+
     it('Rich text should contain expected resolved HTML link A', () => {
         assert.ok(plot.includes(expectedLinkHtmlA));
     });
@@ -80,12 +77,12 @@ describe('#Rich text element with HTML links', () => {
 
         assert.ok(joelLink);
         if (joelLink) {
-            assert.equal(joelLink.linkText, 'Joel Edgerton');
+            assert.strictEqual(joelLink.linkText, 'Joel Edgerton');
         }
 
         assert.ok(tomLink);
         if (tomLink) {
-            assert.equal(tomLink.linkText, 'Tom Hardy');
+            assert.strictEqual(tomLink.linkText, 'Tom Hardy');
         }
     });
 

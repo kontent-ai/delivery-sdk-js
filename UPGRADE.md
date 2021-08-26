@@ -26,7 +26,6 @@ const client = new DeliveryClient({
     }],
     previewApiKey: '<key>',
     secureApiKey: '<key>',
-    isDeveloperMode: false,
     proxy: {
         baseUrl: 'http://www.base.io',
         basePreviewUrl: 'http://www.preview.io',
@@ -52,24 +51,24 @@ const client = new DeliveryClient({
 });
 ```
 
-### Observable & promise retrieval
+### Promise & promise retrieval
 
 Following methods were renamed:
 
 - `getPromise` -> `toPromise`
-- `getObservable` -> `toObservable` 
+- `getPromise` -> `toPromise` 
 
 If you had a code such as:
 
 ```typescript
-client.items().getObservable();
+client.items().getPromise();
 client.items().getPromise();
 ```
 
 you have to use new methods such as 
 
 ```typescript
-client.items().toObservable();
+client.items().toPromise();
 client.items().toPromise();
 ```
 
@@ -201,7 +200,7 @@ client.item('warrior')
         }
     })
   })
-  .toObservable()
+  .toPromise()
   .subscribe(response => {
     console.log(response.item.plot.getHtml());
   });
@@ -218,7 +217,7 @@ client.item('warrior')
         }
     })
   })
-  .toObservable()
+  .toPromise()
   .subscribe(response => {
     console.log(response.item.plot.resolveHtml());
   });
@@ -245,7 +244,7 @@ export class Actor extends ContentItem {
 }
 
 deliveryClient.item<Actor>('tom_hardy')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response.item.slug.getHtml()));
 ```
 
@@ -266,7 +265,7 @@ export class Actor extends ContentItem {
 }
 
 deliveryClient.item<Actor>('tom_hardy')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 

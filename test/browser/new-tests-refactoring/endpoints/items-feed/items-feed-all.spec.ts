@@ -6,15 +6,14 @@ import * as responseJson from './items-feed.spec.json';
 describe('Items feed all', () => {
     let response: ItemResponses.ItemsFeedAllResponse<Movie>;
 
-    beforeAll(done => {
-        getDeliveryClientWithJsonAndHeaders(responseJson, [], {
+    beforeAll(async () => {
+        response = await getDeliveryClientWithJsonAndHeaders(responseJson, {
             projectId: 'xx',
-            isDeveloperMode: true,
             typeResolvers: defaultTypeResolvers
         })
             .itemsFeedAll<Movie>()
             .queryConfig({
-                richTextResolver: item => {
+                richTextResolver: (item) => {
                     if (item.system.type === 'actor') {
                         const actor = item as Actor;
                         return `actor-${actor.firstName.value}`;
@@ -22,11 +21,7 @@ describe('Items feed all', () => {
                     return '';
                 }
             })
-            .toObservable()
-            .subscribe(result => {
-                response = result;
-                done();
-            });
+            .toPromise();
     });
 
     it(`Debug should be an array of responses`, () => {
@@ -50,7 +45,7 @@ describe('Items feed all', () => {
     });
 
     it(`Debug property should be set for all items`, () => {
-        response.items.forEach(item => {
+        response.items.forEach((item) => {
             expect(item._raw).toBeDefined();
             expect(item._raw.elements).toBeDefined();
         });

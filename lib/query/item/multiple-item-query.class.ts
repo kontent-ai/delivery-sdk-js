@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { ContentItem, Filters, ItemResponses, Parameters, SortOrder } from '../../models';
@@ -254,9 +254,9 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
-     * Gets the runnable Observable
+     * Gets the runnable Promise
      */
-    toObservable(): Observable<ItemResponses.ListContentItemsResponse<TItem>> {
+    toPromise(): Promise<ItemResponses.ListContentItemsResponse<TItem>> {
         return super.runMultipleItemsQuery();
     }
 

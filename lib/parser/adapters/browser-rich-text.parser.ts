@@ -137,7 +137,10 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                             newElem.setAttribute(parserConfiguration.resolvedLinkedItemAttribute, '1');
 
                             // add index to resolved item (can be useful for identifying linked item and may be used in WebSpotlight)
-                            newElem.setAttribute(parserConfiguration.resolvedLinkedItemIndexAttribute, linkedItemIndex.index.toString());
+                            newElem.setAttribute(
+                                parserConfiguration.resolvedLinkedItemIndexAttribute,
+                                linkedItemIndex.index.toString()
+                            );
 
                             // increment index
                             linkedItemIndex.increment();
@@ -157,11 +160,9 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                             // replace original node with new one
                             parentElement.replaceChild(newElem, element);
                         } else {
-                            if (config.enableAdvancedLogging) {
-                                console.warn(
-                                    `Rich text element contains object with unsupported data type '${dataTypeAttribute.value}'`
-                                );
-                            }
+                            console.warn(
+                                `Rich text element contains object with unsupported data type '${dataTypeAttribute.value}'`
+                            );
                         }
                     }
                 }
@@ -195,13 +196,11 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                             const hrefAttribute = element.attributes.getNamedItem('href');
                             if (!hrefAttribute) {
                                 // href attribute is missing
-                                if (config.enableAdvancedLogging) {
-                                    console.warn(
-                                        `Cannot set url '${urlSlugResult}' because 'href' attribute is not present in the <a> tag.
+                                console.warn(
+                                    `Cannot set url '${urlSlugResult}' because 'href' attribute is not present in the <a> tag.
                                         Please report this issue if you are seeing this.
                                         This warning can be turned off by disabling 'enableAdvancedLogging' option.`
-                                    );
-                                }
+                                );
                             } else {
                                 // get link url
                                 const linkUrlResult: string | undefined =

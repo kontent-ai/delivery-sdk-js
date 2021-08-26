@@ -9,14 +9,8 @@ describe('List languages', () => {
 
     let response: LanguageResponses.ListLanguagesResponse;
 
-    beforeAll((done) => {
-        getDeliveryClientWithJson(responseJson)
-            .languages()
-            .toObservable()
-            .subscribe((result) => {
-                response = result;
-                done();
-            });
+    beforeAll(async () => {
+        response = await getDeliveryClientWithJson(responseJson).languages().toPromise();
     });
 
     it(`Response should be of proper type`, () => {

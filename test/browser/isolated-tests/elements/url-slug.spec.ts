@@ -28,7 +28,6 @@ describe('URLSlugElement', () => {
     it(`value should be raw (unresolved) value of element`, () => {
         const urlSlugElement = new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                enableAdvancedLogging: false,
                 item: sharedActor,
                 elementValue: 'actor-slug',
                 elementName: 'name',
@@ -45,7 +44,6 @@ describe('URLSlugElement', () => {
     it(`checks that element is defined and correct`, () => {
         const element1 = new Elements.UrlSlugElement(elementMapWrapper, {
             resolveLinkFunc: () => urlSlugResolver.resolveUrl({
-                enableAdvancedLogging: false,
                 item: sharedActor,
                 elementValue: 'actor-slug',
                 elementName: 'name',
@@ -83,7 +81,6 @@ describe('URLSlugElement', () => {
                     elementValue: 'actor-slug',
                     elementName: 'name',
                     item: actor,
-                    enableAdvancedLogging: false,
                     resolver: (link, context) => {
                         if (link.type === 'actor') {
                             return { url: 'actor-link/' + link.urlSlug };
@@ -102,7 +99,6 @@ describe('URLSlugElement', () => {
                 elementValue: 'actor-slug',
                 elementName: 'name',
                 item: sharedActor,
-                enableAdvancedLogging: false,
                 resolver: (link, context) => undefined
             }).url || ''
         })).resolveUrl();
@@ -118,7 +114,6 @@ describe('URLSlugElement', () => {
                 elementValue: 'actor-slug',
                 elementName: 'name',
                 item: sharedActor,
-                enableAdvancedLogging: true,
                 resolver: (link, context) => undefined
             }).url || ''
         })).resolveUrl();

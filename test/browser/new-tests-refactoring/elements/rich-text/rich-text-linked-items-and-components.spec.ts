@@ -24,7 +24,6 @@ describe('Rich text linked items and components', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
-                        enableAdvancedLogging: false,
                         links: [],
                         getLinkedItem: () => undefined,
                         images: [],
@@ -79,7 +78,6 @@ describe('Rich text linked items and components', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
-                        enableAdvancedLogging: false,
                         links: [],
                         getLinkedItem: () => undefined,
                         images: [],

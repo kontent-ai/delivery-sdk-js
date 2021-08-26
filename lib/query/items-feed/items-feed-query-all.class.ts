@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { ContentItem, ItemResponses } from '../../models';
@@ -14,9 +14,9 @@ export class ItemsFeedQueryAll<TItem extends ContentItem> extends BaseItemsFeedQ
     }
 
     /**
-     * Gets the runnable Observable
+     * Gets the runnable Promise
      */
-    toObservable(): Observable<ItemResponses.ItemsFeedAllResponse<TItem>> {
+    toPromise(): Promise<ItemResponses.ItemsFeedAllResponse<TItem>> {
         return super.runItemsFeedQueryAll();
     }
 

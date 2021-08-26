@@ -156,4 +156,13 @@ export abstract class BaseItemsFeedQuery<
         this.parameters.push(new Parameters.OrderParameter(element, SortOrder.asc));
         return this;
     }
+
+    withContinuationToken(token: string): this {
+        this.withHeaders([{
+            header: this.continuationHeader,
+            value: token
+        }]);
+
+        return this;
+    }
 }

@@ -30,7 +30,7 @@ class Movie extends KontentDelivery.ContentItem {
             urlSlugResolver: (link, context) => {
                 return { url: 'testSlugUrl/' + link.urlSlug };
             }
-        }, );
+        });
     }
 }
 
@@ -62,15 +62,12 @@ describe('#Rich text element', () => {
     const expectedLinkA = '/actor/joel-edgerton';
     const expectedLinkB = '/actor/tom-hardy';
 
-    before((done) => {
-        deliveryClient.item(movieCodename)
-        .toObservable()
-            .subscribe(response => {
-                result = response;
+    before(async () => {
+        const response = await deliveryClient.item(movieCodename)
+            .toPromise();
 
-                plot = response.item.plot.resolveHtml();
-                done();
-            });
+        result = response;
+        plot = response.item.plot.resolveHtml();
     });
 
     it('Rich text should contain expected HTML A', () => {

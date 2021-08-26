@@ -7,14 +7,8 @@ describe('Live items feed', () => {
 
     let response: ItemResponses.ItemsFeedResponse;
 
-    beforeAll(done => {
-        context.deliveryClient
-            .itemsFeed()
-            .toObservable()
-            .subscribe(r => {
-                response = r;
-                done();
-            });
+    beforeAll(async () => {
+        response = await context.deliveryClient.itemsFeed().toPromise();
     });
 
     it(`Response should be of proper type`, () => {
@@ -42,7 +36,7 @@ describe('Live items feed', () => {
     });
 
     it(`debug property should be set for all items`, () => {
-        response.items.forEach(item => {
+        response.items.forEach((item) => {
             expect(item._raw).toBeDefined();
             expect(item._raw.elements).toBeDefined();
         });

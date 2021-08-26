@@ -53,16 +53,7 @@ export function setup(context: Context) {
             basePreviewUrl: context.basePreviewUrl,
         },
         retryStrategy: context.retryStrategy,
-        isDeveloperMode: context.isDeveloperMode,
         globalHeaders: context.globalHeaders,
-        httpInterceptors: {
-            requestInterceptor: (config) => {
-                return config;
-            },
-            responseInterceptor: (response) => {
-                return response;
-            }
-        }
     };
 
     // set context

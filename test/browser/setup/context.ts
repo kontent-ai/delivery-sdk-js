@@ -22,7 +22,6 @@ export class Context {
   public defaultLanguage?: string;
   public baseUrl?: string;
   public basePreviewUrl?: string;
-  public isDeveloperMode?: boolean = true;
   public globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
   public retryStrategy?: IRetryStrategyOptions;
 
@@ -37,7 +36,6 @@ export class Context {
       baseUrl?: string,
       basePreviewUrl?: string,
       securedApiKey?: string,
-      isDeveloperMode?: boolean,
       globalHeaders?: (queryConfig: IQueryConfig) => IHeader[],
       retryStrategy?: IRetryStrategyOptions;
     }
@@ -51,7 +49,6 @@ export class Context {
     return {
       projectId: this.projectId,
       typeResolvers: this.typeResolvers,
-      isDeveloperMode: this.isDeveloperMode,
       previewApiKey: this.previewApiKey,
       secureApiKey: this.securedApiKey,
       globalQueryConfig: this.globalQueryConfig,

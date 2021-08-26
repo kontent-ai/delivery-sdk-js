@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { ContentItem, ItemResponses, Parameters } from '../../models';
@@ -31,9 +31,9 @@ export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
-     * Gets the runnable Observable
+     * Gets the runnable Promise
      */
-    toObservable(): Observable<ItemResponses.ViewContentItemResponse<TItem>> {
+    toPromise(): Promise<ItemResponses.ViewContentItemResponse<TItem>> {
         return super.runSingleItemQuery(this.codename);
     }
 

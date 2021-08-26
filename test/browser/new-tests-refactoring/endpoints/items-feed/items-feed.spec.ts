@@ -9,23 +9,23 @@ describe('Items feed', () => {
 
     let response: ItemResponses.ItemsFeedResponse<Movie>;
 
-    beforeAll(done => {
-        getDeliveryClientWithJsonAndHeaders(
+    beforeAll(async () => {
+        response = await getDeliveryClientWithJsonAndHeaders(
             responseJson,
-            [
-                {
-                    header: 'X-Continuation',
-                    value: 'tokenX'
-                }
-            ],
             {
                 projectId: 'x',
                 typeResolvers: defaultTypeResolvers
-            }
+            },
+            [
+                {
+                    value: 'TokenX',
+                    header: 'X-Continuation'
+                }
+            ]
         )
             .itemsFeed<Movie>()
             .queryConfig({
-                richTextResolver: item => {
+                richTextResolver: (item) => {
                     if (item.system.type === 'actor') {
                         const actor = item as Actor;
                         return `actor-${actor.firstName.value}`;
@@ -33,15 +33,11 @@ describe('Items feed', () => {
                     return '';
                 }
             })
-            .toObservable()
-            .subscribe(result => {
-                response = result;
-                done();
-            });
+            .toPromise();
     });
 
     it(`Continuation token should be set`, () => {
-        expect(response.continuationToken).toEqual('tokenX');
+        expect(response.continuationToken).toEqual('TokenX');
     });
 
     it(`Response should be of proper type`, () => {
@@ -57,7 +53,7 @@ describe('Items feed', () => {
     });
 
     it(`Debug property should be set for all items`, () => {
-        response.items.forEach(item => {
+        response.items.forEach((item) => {
             expect(item._raw).toBeDefined();
             expect(item._raw.elements).toBeDefined();
         });

@@ -1,5 +1,5 @@
 import { IHeader } from '@kentico/kontent-core';
-import { Observable } from 'rxjs';
+
 
 import { IDeliveryClientConfig } from '../../config';
 import { IKontentResponse, ITaxonomyQueryConfig, TaxonomyResponses, IKontentResponseDebug } from '../../models/';
@@ -53,11 +53,11 @@ export abstract class BaseTaxonomyQuery<TResponse extends IKontentResponse<IKont
         return super.resolveUrlInternal(action);
     }
 
-    protected runTaxonomyQuery(codename: string): Observable<TaxonomyResponses.ViewTaxonomyGroupResponse> {
+    protected runTaxonomyQuery(codename: string): Promise<TaxonomyResponses.ViewTaxonomyGroupResponse> {
         return this.queryService.getTaxonomy(this.getTaxonomyQueryUrl(codename), this._queryConfig);
     }
 
-    protected runTaxonomiesQuery(): Observable<TaxonomyResponses.ListTaxonomyGroupsResponse> {
+    protected runTaxonomiesQuery(): Promise<TaxonomyResponses.ListTaxonomyGroupsResponse> {
         return this.queryService.getTaxonomies(this.getTaxonomiesQueryUrl(), this._queryConfig);
     }
 }

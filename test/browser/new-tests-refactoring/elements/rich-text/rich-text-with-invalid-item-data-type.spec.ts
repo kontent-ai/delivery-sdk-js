@@ -35,7 +35,6 @@ describe('Rich text with invalid item data type', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
-                        enableAdvancedLogging: false,
                         links: [],
                         getLinkedItem: getLinkedItem,
                         images: [],
@@ -72,7 +71,6 @@ describe('Rich text with invalid item data type', () => {
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
-                        enableAdvancedLogging: false,
                         links: [],
                         getLinkedItem: getLinkedItem,
                         images: [],

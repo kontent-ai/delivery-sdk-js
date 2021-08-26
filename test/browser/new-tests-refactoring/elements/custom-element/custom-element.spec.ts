@@ -4,14 +4,10 @@ import * as responseJson from './custom-element.spec.json';
 
 describe('Custom element', () => {
     let item: ContentItem;
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson).items().toPromise();
 
-    beforeAll((done) => {
-        getDeliveryClientWithJson(responseJson).items()
-            .toObservable()
-            .subscribe(result => {
-                item = result.items[0];
-                done();
-            });
+        item = response.items[0];
     });
 
     it(`Color element should be mapped to DefaultCustomElement`, () => {
@@ -49,6 +45,4 @@ describe('Custom element', () => {
 
         expect(element.value).toBeNull();
     });
-
 });
-

@@ -15,8 +15,7 @@ JavaScript Delivery SDK is a client library for retrieving content from [Kentico
   - [JavaScript & CommonJS](#javascript--commonjs)
   - [HTML & UMD & CDN](#html--umd--cdn)
   - [SDK Documentation](#sdk-documentation)
-    - [Why Observable & RxJS](#why-observable--rxjs)
-    - [Get data as Observable (recommended)](#get-data-as-observable-recommended)
+    - [Get data as Promise (recommended)](#get-data-as-Promise-recommended)
     - [Get data as Promise](#get-data-as-promise)
     - [Create typed models](#create-typed-models)
       - [Use custom models for Custom elements](#use-custom-models-for-custom-elements)
@@ -58,12 +57,11 @@ JavaScript Delivery SDK is a client library for retrieving content from [Kentico
 
 ## Installation
 
-You can install this library using `npm` or you can use global CDNs such as `unpkg` and `jsdelivr` directly. In both cases, you will also need to include `rxjs` because it's listed as peer dependency.
+You can install this library using `npm` or you can use global CDNs such as `unpkg` and `jsdelivr` directly.
 
 ### npm
 
 ```shell
-npm i rxjs --save
 npm i @kentico/kontent-delivery --save
 ```
 
@@ -142,10 +140,10 @@ deliveryClient.items<Movie>()
     )
 });
 
-/** Getting items from Kentico Kontent as Observable */
+/** Getting items from Kentico Kontent as Promise */
 deliveryClient.items<Movie>()
     .type('movie')
-    .toObservable()
+    .toPromise()
     .subscribe(response => {
         const movieText = response.items[0].title.value;
     )
@@ -193,16 +191,16 @@ deliveryClient.items()
     )
 });
 
-/** Getting items from Kentico Kontent as Observable */
+/** Getting items from Kentico Kontent as Promise */
 const subscription = deliveryClient.items()
     .type('movie')
-    .toObservable()
+    .toPromise()
     .subscribe(response => {
         const movieText = response.items[0].title.value;
     });
 
 /*
-Don't forget to unsubscribe from your Observables. You can use 'takeUntil' or 'unsubscribe' method for this purpose. Unsubsription is usually done when you no longer need to process the result of Observable. (Example: 'ngOnDestroy' event in Angular app)
+Don't forget to unsubscribe from your Promises. You can use 'takeUntil' or 'unsubscribe' method for this purpose. Unsubsription is usually done when you no longer need to process the result of Promise. (Example: 'ngOnDestroy' event in Angular app)
 */
 subscription.unsubscribe();
 
@@ -214,7 +212,7 @@ subscription.unsubscribe();
  */
 deliveryClient.items()
     .type('movie')
-    .toObservable()
+    .toPromise()
     .subscribe(response => console.log(response));
 ```
 
@@ -225,8 +223,7 @@ deliveryClient.items()
 <html>
 <head>
     <title>Kentico Kontent SDK - Html sample</title>
-    <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
+   	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/dist/bundles/kontent-delivery.umd.min.js"></script>
 </head>
 <body>
 
@@ -250,42 +247,17 @@ deliveryClient.items()
 
 ## SDK Documentation
 
-### Why Observable & RxJS
-
-We strongly recommend using `Observable` instead of `Promise` because observables support everything that Promises do, and much more. Using `Observables` is especially important if you are building any modern application (like single-page app with React or Angular) as it allows you to easily cancel requests, merge and flatten request, or retry them very easily.  
-
-When creating a subscription, don't forget to unsubcribe when you don't need the result anymore. For example, when navigating to different page.
-
-### Get data as Observable (recommended)
+### Get data as Promise (recommended)
 
 To get multiple content items, use the `items` method. You can specify the content type with the `type` method:
 
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')
-  .toObservable()
-  .subscribe(response => console.log(response));
+  .toPromise();
 
 deliveryClient.item<Movie>('warrior')
-  .toObservable()
-  .subscribe(response => console.log(response));
-```
-
-### Get data as Promise
-
-Get methods return rxjs [Observable](http://reactivex.io/rxjs/manual/overview.html#introduction) which is more powerful than a Promise (they are easily cancellable, repeatable, etc.), but you might want to use `Promises` instead depending on your scenario & application. Luckily, converting an `Observable` to a `Promise` is very easy with [toPromise()](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-toPromise) method. Or you can use the built-in `getPromise` method that we introduced as a shortcut.
-
-```typescript
-deliveryClient.item<Movie>('warrior')
-  .get()
-  .toPromise()
-    .then(response => console.log(response))
-    .catch(err => console.log('error:' + err));
-
-deliveryClient.item<Movie>('warrior')
-  .toPromise()
-    .then(response => console.log(response))
-    .catch(err => console.log('error:' + err));
+  .toPromise();
 ```
 
 ### Create typed models
@@ -393,7 +365,7 @@ Once you initialize the delivery client for your project, you can use its method
 // Gets content items based on the Movie type
 deliveryClient.items<Movie>()
   .type('movie')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -403,7 +375,7 @@ If you need to retrieve hundreds or thousands of items, we recommend using the `
 // Gets content items based on the Movie type
 deliveryClient.itemsFeedAll<Movie>(
   .type('movie')
-  .toObservable()
+  .toPromise()
   .pipe(
     map(response => {
         // do something with feeds response
@@ -424,7 +396,7 @@ deliveryClient.items<Movie>()
   .type('movie')
   .limitParameter(5)
   .skipParameter(2)
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -439,7 +411,7 @@ Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`
 deliveryClient.items<Movie>()
   .type('movie')
   .equalsFilter('elements.title', 'Warrior')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -472,7 +444,7 @@ You can sort using one of the 3 methods: `OrderByAscending`, `OrderByDescending`
 deliveryClient.items<Movie>()
   .type('movie')
   .orderByDescending('elements.title')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -480,7 +452,7 @@ deliveryClient.items<Movie>()
 deliveryClient.items<Movie>()
   .type('movie')
   .orderByAscending('elements.title')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -488,7 +460,7 @@ deliveryClient.items<Movie>()
 deliveryClient.items<Movie>()
   .type('movie')
   .orderParameter('elements.title', SortOrder.desc)
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -499,7 +471,7 @@ When you have an URL (i.e. for `next page` in paging, for testing purposes or ju
 ```typescript
 deliveryClient.items<Movie>()
   .withUrl('https://deliver.kontent.ai/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items?system.type=movie')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -510,7 +482,7 @@ In case you need to use custom parameters to build up an URL, use `withParameter
 ```typescript
 deliveryClient.items<Movie>()
   .withParameter('customParam', 'customVal')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -529,13 +501,13 @@ var deliveryClient = new DeliveryClient({
 
 // Gets items in 'es' language because it is marked as default
 deliveryClient.item<Movie>('warrior')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 
 // Gets items in 'en' language because language parameter has priority over the default one
 deliveryClient.item<Movie>('warrior')
   .languageParameter(`en`)
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -594,7 +566,7 @@ deliveryClient.items<Movie>()
     // Ensures that Preview API is used
     usePreviewMode: true
   })
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -624,7 +596,7 @@ deliveryClient.items<Movie>()
     // Enables secure access only for this query
     useSecuredMode: true
   })
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -677,7 +649,7 @@ export class Actor extends ContentItem {
 
 // get url
 deliveryClient.item<Actor>('tom_hardy')
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 
@@ -698,7 +670,7 @@ deliveryClient.item<Actor>('tom_hardy')
         return { url: 'unsupported-link'};
       }
   })
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 
@@ -720,7 +692,7 @@ deliveryClient.item<Actor>('tom_hardy')
         return undefined;
       }
   })
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response.item.slug.resolveUrl()));
 ```
 
@@ -755,7 +727,7 @@ class Movie extends ContentItem {
 }
 
 deliveryClient.item<Movie>('pain_and_gain')
-  .toObservable()
+  .toPromise()
   .subscribe(response => {
     console.log(response.item.plot.resolveHtml());
     // Example output:
@@ -781,7 +753,7 @@ deliveryClient.item<Movie>('pain_and_gain')
         }
     })
   })
-  .toObservable()
+  .toPromise()
   .subscribe(response => {
     console.log(response.item.plot.resolveHtml());
     // Example output:
@@ -823,7 +795,7 @@ deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
       throwErrorForMissingLinkedItems: true
     })
-  .toObservable()
+  .toPromise()
   .subscribe(response => {
     console.log(response);
   });
@@ -854,7 +826,7 @@ deliveryClient.item<Movie>('pain_and_gain')
         return undefined;
     })
   })
-  .toObservable()
+  .toPromise()
   .subscribe(response => {
     // 'actor' will be an instance of 'FakeActor' class
     const actor = response.item.stars[0];
@@ -884,7 +856,7 @@ deliveryClient.item<Movie>('warrior')
           };
         },
       })
-  .toObservable()
+  .toPromise()
   .subscribe(response => {
     // work with response
   });
@@ -898,11 +870,11 @@ To retrieve information about your content types, you can use the `type` and `ty
 ```typescript
 deliveryClient
   .type('movie') // codename of the type
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 
 deliveryClient.types()
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
 ```
 
@@ -913,13 +885,13 @@ To retrieve information about your taxonomies, you can use the `taxonomy` and `t
 ```typescript
 deliveryClient  
   .taxonomy('taxonomyGroupName') // codename of the Taxonomy group
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
   });  
 
 deliveryClient  
   .taxonomies()
-  .toObservable()
+  .toPromise()
   .subscribe(response => console.log(response));
   });
 ```
@@ -933,7 +905,6 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | projectId      | string | ProjectId of your Kentico Kontent project|
 | typeResolvers?| TypeResolver[] | Array of resolvers that are used to create instances of registered classes automatically. If not set, items will be instances of 'ContentItem' class|
 | elementResolver?| ElementResolver | Element resolver used to map custom elements to models |
-| isDeveloperMode?| boolean | Indicates if advanced debug information are logged to console |
 | previewApiKey?| string| Preview API key used to get unpublished content items |
 | defaultLanguage?| string| Sets default language that will be used for all queries unless overriden with query parameters|
 | proxy?| IDeliveryClientProxyConfig | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'projectId' |
@@ -994,8 +965,6 @@ If the error originates in Kentico Kontent (see [error responses](https://develo
 
 ```typescript
 import { DeliveryError } from '@kentico/kontent-delivery';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 
 deliveryClient.item<Movie>('terminator_9')
   .get()
@@ -1049,7 +1018,7 @@ Here's a sample `IHttpService` class:
 
 ```typescript
 import {
-    IBaseResponse,
+    IResponse,
     IHttpDeleteQueryCall,
     IHttpGetQueryCall,
     IHttpPatchQueryCall,
@@ -1058,7 +1027,6 @@ import {
     IHttpQueryOptions,
     IHttpService,
 } from '@kentico/kontent-core';
-import { Observable, of } from 'rxjs';
 
 import { DeliveryClient } from '../../../lib';
 
@@ -1073,8 +1041,8 @@ class CustomHttpService implements IHttpService {
     get<TError extends any, TRawData extends any>(
         call: IHttpGetQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
+    ): Promise<IResponse<TRawData>> {
+        return of(<IResponse<TRawData>>{
             data: {} as any,
             response: undefined,
             headers: [],
@@ -1085,8 +1053,8 @@ class CustomHttpService implements IHttpService {
     post<TError extends any, TRawData extends any>(
         call: IHttpPostQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
+    ): Promise<IResponse<TRawData>> {
+        return of(<IResponse<TRawData>>{
             data: {},
             response: undefined
         });
@@ -1095,8 +1063,8 @@ class CustomHttpService implements IHttpService {
     put<TError extends any, TRawData extends any>(
         call: IHttpPutQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
+    ): Promise<IResponse<TRawData>> {
+        return of(<IResponse<TRawData>>{
             data: {} as any,
             response: undefined,
             headers: [],
@@ -1107,8 +1075,8 @@ class CustomHttpService implements IHttpService {
     patch<TError extends any, TRawData extends any>(
         call: IHttpPatchQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
+    ): Promise<IResponse<TRawData>> {
+        return of(<IResponse<TRawData>>{
             data: {} as any,
             response: undefined,
             headers: [],
@@ -1119,8 +1087,8 @@ class CustomHttpService implements IHttpService {
     delete<TError extends any, TRawData extends any>(
         call: IHttpDeleteQueryCall<TError>,
         options?: IHttpQueryOptions
-    ): Observable<IBaseResponse<TRawData>> {
-        return of(<IBaseResponse<TRawData>>{
+    ): Promise<IResponse<TRawData>> {
+        return of(<IResponse<TRawData>>{
             data: {} as any,
             response: undefined,
             headers: [],

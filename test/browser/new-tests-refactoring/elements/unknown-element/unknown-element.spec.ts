@@ -5,13 +5,10 @@ import * as responseJson from './unknown-element.spec.json';
 describe('Unknown element', () => {
     let item: ContentItem;
 
-    beforeAll((done) => {
-        getDeliveryClientWithJson(responseJson).items()
-            .toObservable()
-            .subscribe(result => {
-                item = result.items[0];
-                done();
-            });
+    beforeAll(async () => {
+        const response = await getDeliveryClientWithJson(responseJson).items().toPromise();
+
+        item = response.items[0];
     });
 
     it(`Ufo element should be mapped to UnknownElement`, () => {
@@ -24,6 +21,4 @@ describe('Unknown element', () => {
         expect(element.type).toEqual(ElementType.Unknown);
         expect(element.value).toEqual(rawElement.value);
     });
-
 });
-

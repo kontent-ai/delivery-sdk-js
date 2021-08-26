@@ -1,14 +1,13 @@
 import { IHeader } from '@kentico/kontent-core';
-import { Observable } from 'rxjs';
 
 import { IDeliveryClientConfig } from '../../config';
 import { ElementResponses, IElementQueryConfig, IKontentResponse, IKontentResponseDebug } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export abstract class BaseElementQuery<TResponse extends IKontentResponse<IKontentResponseDebug>> extends BaseQuery<
-    TResponse
-> {
+export abstract class BaseElementQuery<
+    TResponse extends IKontentResponse<IKontentResponseDebug>
+> extends BaseQuery<TResponse> {
     protected _queryConfig: IElementQueryConfig = {};
 
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
@@ -40,7 +39,10 @@ export abstract class BaseElementQuery<TResponse extends IKontentResponse<IKonte
     protected runElementQuery(
         typeCodename: string,
         elementCodename: string
-    ): Observable<ElementResponses.ViewContentTypeElementResponse> {
-        return this.queryService.getElement(this.getElementQueryUrl(typeCodename, elementCodename), this._queryConfig);
+    ): Promise<ElementResponses.ViewContentTypeElementResponse> {
+        return this.queryService.getElementAsync(
+            this.getElementQueryUrl(typeCodename, elementCodename),
+            this._queryConfig
+        );
     }
 }

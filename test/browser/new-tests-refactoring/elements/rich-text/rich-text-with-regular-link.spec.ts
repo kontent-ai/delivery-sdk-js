@@ -26,7 +26,6 @@ describe('Rich text with regular link', () => {
                 links: [],
                 resolveRichTextFunc: () =>
                     richTextResolver.resolveData('', html, 'name', {
-                        enableAdvancedLogging: false,
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
                         getLinkedItem: getLinkedItem,
@@ -63,7 +62,6 @@ describe('Rich text with regular link', () => {
         }, linkedItems.map(m => m.system.codename), {
                 links: [],
                 resolveRichTextFunc: () => richTextResolver.resolveData('', html, 'name', {
-                    enableAdvancedLogging: false,
                     getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                     links: [],
                     getLinkedItem: getLinkedItem,
