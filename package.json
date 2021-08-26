@@ -33,8 +33,10 @@
     "engines": {
         "node": ">= 8"
     },
-    "main": "./_commonjs/index.js",
-    "types": "./_commonjs/index.d.ts",
+    "main": "./dist/cjs/index.js",
+    "module": "./dist/esm5/index.js",
+    "es2015": "./dist/esm/index.js",
+    "types": "./dist/cjs/index.d.ts",
     "standard-version": {
         "scripts": {
             "postchangelog": "npm run set-sdk-version"
