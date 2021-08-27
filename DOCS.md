@@ -459,7 +459,7 @@ deliveryClient.items<Movie>()
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')
-  .orderParameter('elements.title', SortOrder.desc)
+  .orderParameter('elements.title', 'desc')
   .toPromise()
   .subscribe(response => console.log(response));
 ```
@@ -1002,7 +1002,7 @@ In case you need to get the raw URL of a request before calling it, use the `get
 const queryText = deliveryClient.items<ContentItem>()
   .type('movie')
   .limitParameter(10)
-  .orderParameter('system.codename', SortOrder.desc)
+  .orderParameter('system.codename', 'desc')
   .getUrl();
 
 console.log(queryText);

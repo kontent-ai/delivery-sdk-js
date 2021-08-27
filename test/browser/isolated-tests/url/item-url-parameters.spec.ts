@@ -1,4 +1,3 @@
-import { SortOrder } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Item url parameters', () => {
@@ -77,7 +76,7 @@ describe('Item url parameters', () => {
     it(`order (desc) parameter should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()
-                .orderParameter('elem1', SortOrder.desc)
+                .orderParameter('elem1', 'desc')
                 .getUrl()
         );
 
@@ -89,19 +88,7 @@ describe('Item url parameters', () => {
     it(`order (asc) parameter should be set`, () => {
         const url = new URL(
             context.deliveryClient.items()
-                .orderParameter('elem1', SortOrder.asc)
-                .getUrl()
-        );
-
-        const param = url.searchParams.get('order');
-
-        expect(param).toEqual('elem1[asc]');
-    });
-
-    it(`order parameter with null 'SortOrder should be default to 'asc'`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .orderParameter('elem1', null as any)
+                .orderParameter('elem1', 'asc')
                 .getUrl()
         );
 
@@ -165,7 +152,7 @@ describe('Item url parameters', () => {
     // Null parameter checks
 
     it(`order parameter with null or empty element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().orderParameter(null as any, SortOrder.asc)).toThrowError();
+        expect(() => context.deliveryClient.items().orderParameter(null as any, 'asc')).toThrowError();
     });
 
     it(`elements parameter with empty or not set elements should throw error`, () => {
@@ -193,7 +180,7 @@ describe('Item url parameters', () => {
     it(`orderParameter should trim its element`, () => {
         const url = new URL(
             context.deliveryClient.items()
-                .orderParameter(' elem1 ', SortOrder.asc)
+                .orderParameter(' elem1 ', 'asc')
                 .getUrl()
         );
 

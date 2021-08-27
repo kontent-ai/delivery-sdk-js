@@ -144,7 +144,7 @@ export abstract class BaseItemsFeedQuery<
      * @param element Element by which to order
      */
     orderByDescending(element: string): this {
-        this.parameters.push(new Parameters.OrderParameter(element, SortOrder.desc));
+        this.parameters.push(new Parameters.OrderParameter(element, 'desc'));
         return this;
     }
 
@@ -153,7 +153,7 @@ export abstract class BaseItemsFeedQuery<
      * @param element Element by which to order
      */
     orderByAscending(element: string): this {
-        this.parameters.push(new Parameters.OrderParameter(element, SortOrder.asc));
+        this.parameters.push(new Parameters.OrderParameter(element, 'asc'));
         return this;
     }
 

@@ -1,6 +1,6 @@
 import { IQueryParameter } from '@kentico/kontent-core';
 
-import { SortOrder } from './sort-order.enum';
+import { SortOrder } from './sort-order';
 
 export namespace Parameters {
     const defaultValue: string = '';
@@ -116,13 +116,7 @@ export namespace Parameters {
         }
 
         private getParamValue(): string | undefined {
-            let order: string;
-            if (this.sortOrder === SortOrder.desc) {
-                order = 'desc';
-            } else {
-                order = 'asc';
-            }
-            return `${this.element.trim()}[${order}]`;
+            return `${this.element.trim()}[${this.sortOrder}]`;
         }
     }
 
