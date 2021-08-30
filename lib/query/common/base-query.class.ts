@@ -42,16 +42,33 @@ export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
         return this.queryService.getHeaders(this._queryConfig, this.headers);
     }
 
+    /**
+     * Sets request headers
+     */
     withHeaders(headers: IHeader[]): this {
         this.headers.push(...headers);
         return this;
     }
 
+    /**
+     * Sets request header
+     */
+    withHeader(header: IHeader): this {
+        this.headers.push(header);
+        return this;
+    }
+
+    /**
+     * Sets custom URL of request (overrides default URL of the query)
+     */
     withUrl(url: string): this {
         this.customUrl = url;
         return this;
     }
 
+    /**
+     * Gets all query parameter currently applied to query
+     */
     getParameters(): IQueryParameter[] {
         return this.parameters;
     }
