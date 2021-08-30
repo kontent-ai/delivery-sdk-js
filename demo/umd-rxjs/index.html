@@ -26,7 +26,10 @@
 					console.log(response);
 				})
 			)
-			.subscribe();
+			.toPromise()
+			.then(response => {
+				console.log(response);
+			});
 	</script>
 
 	<h1>See console</h1>

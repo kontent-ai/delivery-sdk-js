@@ -131,36 +131,19 @@ const deliveryClient = new DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Kontent as Promise */
-deliveryClient.items<Movie>()
+/* Get data with custom class */
+const response = await deliveryClient.items<Movie>()
     .type('movie')
-    .toPromise()
-    .then(response => {
-        const movieText = response.items[0].title.value;
-    )
-});
+    .toPromise();
 
-/** Getting items from Kentico Kontent as Promise */
-deliveryClient.items<Movie>()
-    .type('movie')
-    .toPromise()
-    .subscribe(response => {
-        const movieText = response.items[0].title.value;
-    )
-});
+const movieText = response.items[0].title.value;
 
-/**
- * Get data without having custom models
- */
-deliveryClient.items<ContentItem>()
+/* Get data without custom class */
+const response = deliveryClient.items<ContentItem>()
   .type('movie')
-  .get()
-  .subscribe(response => {
-    // you can access properties same way as with strongly typed models, but note
-    // that you don't get any intellisense and the underlying object
-    // instance is of 'ContentItem' type
-    console.log(response.items[0].title.value);
-});
+  .toPromise();
+
+const movieText = response.items[0].title.value;
 
 ```
 
@@ -182,38 +165,9 @@ const deliveryClient = new KenticoContent.DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Kontent as Promise */
-deliveryClient.items()
+const response = await deliveryClient.items()
     .type('movie')
-    .toPromise()
-    .then(response => {
-        const movieText = response.items[0].title.value;
-    )
-});
-
-/** Getting items from Kentico Kontent as Promise */
-const subscription = deliveryClient.items()
-    .type('movie')
-    .toPromise()
-    .subscribe(response => {
-        const movieText = response.items[0].title.value;
-    });
-
-/*
-Don't forget to unsubscribe from your Promises. You can use 'takeUntil' or 'unsubscribe' method for this purpose. Unsubsription is usually done when you no longer need to process the result of Promise. (Example: 'ngOnDestroy' event in Angular app)
-*/
-subscription.unsubscribe();
-
-/**
- * Fetch all items of 'movie' type and given parameters from Kentico Kontent.
- * Important note: SDK will convert items to your type if you registered it. For example,
- * in this case the objects will be of 'Movie' type we defined above.
- * If you don't use custom models, 'ContentItem' object instances will be returned.
- */
-deliveryClient.items()
-    .type('movie')
-    .toPromise()
-    .subscribe(response => console.log(response));
+    .toPromise();
 ```
 
 ## HTML & UMD & CDN
@@ -365,8 +319,7 @@ Once you initialize the delivery client for your project, you can use its method
 // Gets content items based on the Movie type
 deliveryClient.items<Movie>()
   .type('movie')
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 If you need to retrieve hundreds or thousands of items, we recommend using the `itemsFeedAll` method. Unlike the `items` method, the `itemsFeedAll` method is not subject to [API limitations](https://docs.kontent.ai/reference/delivery-api#tag/API-limitations) of the Delivery API and guarantees retrieving all items matching your query.
@@ -375,13 +328,7 @@ If you need to retrieve hundreds or thousands of items, we recommend using the `
 // Gets content items based on the Movie type
 deliveryClient.itemsFeedAll<Movie>(
   .type('movie')
-  .toPromise()
-  .pipe(
-    map(response => {
-        // do something with feeds response
-    })
-  )
-  .subscribe();
+  .toPromise();
 ```
 
 You can also use the `itemsFeed` method if you want to retrieve only a few pages of the feed and not everything. The `itemsFeedAll` method handles paging for you and guarantees you get all content items.
@@ -396,8 +343,7 @@ deliveryClient.items<Movie>()
   .type('movie')
   .limitParameter(5)
   .skipParameter(2)
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 #### Filter content
@@ -411,8 +357,7 @@ Supported filters:  `type`,  `types`, `allFilter`, `anyFilter`, `containsFilter`
 deliveryClient.items<Movie>()
   .type('movie')
   .equalsFilter('elements.title', 'Warrior')
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ##### Filtering methods
@@ -444,24 +389,21 @@ You can sort using one of the 3 methods: `OrderByAscending`, `OrderByDescending`
 deliveryClient.items<Movie>()
   .type('movie')
   .orderByDescending('elements.title')
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')
   .orderByAscending('elements.title')
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ```typescript
 deliveryClient.items<Movie>()
   .type('movie')
   .orderParameter('elements.title', 'desc')
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ### Execute queries with custom URL
@@ -471,8 +413,7 @@ When you have an URL (i.e. for `next page` in paging, for testing purposes or ju
 ```typescript
 deliveryClient.items<Movie>()
   .withUrl('https://deliver.kontent.ai/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items?system.type=movie')
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ### Custom parameters
@@ -482,8 +423,7 @@ In case you need to use custom parameters to build up an URL, use `withParameter
 ```typescript
 deliveryClient.items<Movie>()
   .withParameter('customParam', 'customVal')
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ### Get localized items
@@ -501,14 +441,12 @@ var deliveryClient = new DeliveryClient({
 
 // Gets items in 'es' language because it is marked as default
 deliveryClient.item<Movie>('warrior')
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 
 // Gets items in 'en' language because language parameter has priority over the default one
 deliveryClient.item<Movie>('warrior')
   .languageParameter(`en`)
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ### Property binding in models
@@ -566,8 +504,7 @@ deliveryClient.items<Movie>()
     // Ensures that Preview API is used
     usePreviewMode: true
   })
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ### Secured Delivery API mode
@@ -596,8 +533,7 @@ deliveryClient.items<Movie>()
     // Enables secure access only for this query
     useSecuredMode: true
   })
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ### Image transformation
@@ -648,9 +584,10 @@ export class Actor extends ContentItem {
 }
 
 // get url
-deliveryClient.item<Actor>('tom_hardy')
-  .toPromise()
-  .subscribe(response => console.log(response.item.slug.resolveUrl()));
+const response = await deliveryClient.item<Actor>('tom_hardy')
+  .toPromise();
+
+const resolvedUrl = response.item.slug.resolveUrl();
 ```
 
 #### Resolve URL slugs on query level
@@ -658,7 +595,7 @@ deliveryClient.item<Actor>('tom_hardy')
 ```typescript
 import { ContentItem, Elements } from '@kentico/kontent-delivery';
 
-deliveryClient.item<Actor>('tom_hardy')
+const response = await deliveryClient.item<Actor>('tom_hardy')
   .queryConfig({
     urlSlugResolver: (link, context) => {
         if (link.type === 'actor'){
@@ -670,8 +607,9 @@ deliveryClient.item<Actor>('tom_hardy')
         return { url: 'unsupported-link'};
       }
   })
-  .toPromise()
-  .subscribe(response => console.log(response.item.slug.resolveUrl()));
+  .toPromise();
+
+const resolvedUrl = response.item.slug.resolveUrl();
 ```
 
 #### Resolve URL slugs as HTML
@@ -681,7 +619,7 @@ In some cases you might want to customize link tag (`<a>`) to add CSS classes, a
 ```typescript
 import { ContentItem, Elements } from '@kentico/kontent-delivery';
 
-deliveryClient.item<Actor>('tom_hardy')
+const response = await deliveryClient.item<Actor>('tom_hardy')
   .queryConfig({
     urlSlugResolver: (link, context) => {
         if (link.type === 'actor'){
@@ -692,8 +630,9 @@ deliveryClient.item<Actor>('tom_hardy')
         return undefined;
       }
   })
-  .toPromise()
-  .subscribe(response => console.log(response.item.slug.resolveUrl()));
+  .toPromise();
+
+const resolvedUrl = response.item.slug.resolveUrl();
 ```
 
 ### Resolve content items and components in Rich text elements
@@ -726,15 +665,14 @@ class Movie extends ContentItem {
   public plot: Elements.RichTextElement;
 }
 
-deliveryClient.item<Movie>('pain_and_gain')
-  .toPromise()
-  .subscribe(response => {
-    console.log(response.item.plot.resolveHtml());
-    // Example output:
-    // {html from your rich text element before the linked item}
-    // <h3>Dwayne Johsnon</h3>
-    // {html from your rich text element after the linked item}
-  });
+const response = await deliveryClient.item<Movie>('pain_and_gain')
+  .toPromise();
+
+// Example output:
+// {html from your rich text element before the linked item}
+// <h3>Dwayne Johsnon</h3>
+// {html from your rich text element after the linked item}
+const resolvedHtml = response.item.plot.resolveHtml();
 ```
 
 #### Locally per query
@@ -744,7 +682,7 @@ You can define a resolver for a particular query. Resolver defined this way has 
 ```typescript
 import { ContentItem } from '@kentico/kontent-delivery';
 
-deliveryClient.item<Movie>('pain_and_gain')
+const response = await deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
       richTextResolver: (item: ContentItem, context) => {
         if (item.system.type == 'actor') {
@@ -753,14 +691,13 @@ deliveryClient.item<Movie>('pain_and_gain')
         }
     })
   })
-  .toPromise()
-  .subscribe(response => {
-    console.log(response.item.plot.resolveHtml());
-    // Example output:
-    // {html from your rich text element before the linked item}
-    // <h3>Dwayne Johsnon</h3>
-    // {html from your rich text element after the linked item}
-  });
+  .toPromise();
+
+// Example output:
+// {html from your rich text element before the linked item}
+// <h3>Dwayne Johsnon</h3>
+// {html from your rich text element after the linked item}
+const resolvedUrl = response.item.plot.resolveHtml();
 ```
 
 ### Strongly typed nested items
@@ -795,10 +732,7 @@ deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
       throwErrorForMissingLinkedItems: true
     })
-  .toPromise()
-  .subscribe(response => {
-    console.log(response);
-  });
+  .toPromise();
 ```
 
 ### Custom resolving for content items
@@ -816,7 +750,7 @@ class FakeActor extends ContentItem {
     }
 }
 
-deliveryClient.item<Movie>('pain_and_gain')
+const response = await deliveryClient.item<Movie>('pain_and_gain')
     queryConfig({
       itemResolver: (rawElement: ElementContracts.IElementContract, rawItem: ItemContracts.IContentItemContract, modularContent: ItemContracts.IModularContentContract, queryConfig: IItemQueryConfig) => {
         if (itemCodename === 'itemCodename') {
@@ -826,11 +760,10 @@ deliveryClient.item<Movie>('pain_and_gain')
         return undefined;
     })
   })
-  .toPromise()
-  .subscribe(response => {
-    // 'actor' will be an instance of 'FakeActor' class
-    const actor = response.item.stars[0];
-  });
+  .toPromise();
+
+// 'actor' will be an instance of 'FakeActor' class
+const actor = response.item.stars[0];
 ```
 
 ### Image processing inside Rich Text elements
@@ -856,10 +789,7 @@ deliveryClient.item<Movie>('warrior')
           };
         },
       })
-  .toPromise()
-  .subscribe(response => {
-    // work with response
-  });
+  .toPromise();
 
 ```
 
@@ -870,12 +800,10 @@ To retrieve information about your content types, you can use the `type` and `ty
 ```typescript
 deliveryClient
   .type('movie') // codename of the type
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 
 deliveryClient.types()
-  .toPromise()
-  .subscribe(response => console.log(response));
+  .toPromise();
 ```
 
 ## Get taxonomies
@@ -885,15 +813,11 @@ To retrieve information about your taxonomies, you can use the `taxonomy` and `t
 ```typescript
 deliveryClient  
   .taxonomy('taxonomyGroupName') // codename of the Taxonomy group
-  .toPromise()
-  .subscribe(response => console.log(response));
-  });  
+  .toPromise();
 
 deliveryClient  
   .taxonomies()
-  .toPromise()
-  .subscribe(response => console.log(response));
-  });
+  .toPromise();
 ```
 
 ## Client configuration
@@ -966,18 +890,18 @@ If the error originates in Kentico Kontent (see [error responses](https://develo
 ```typescript
 import { DeliveryError } from '@kentico/kontent-delivery';
 
-deliveryClient.item<Movie>('terminator_9')
-  .get()
-  .subscribe(response => console.log(response), error => {
-    if (error instanceof DeliveryError) {
+try {
+  await deliveryClient.item<Movie>('terminator_9').toPromise();
+} catch (error) {
+  if (error instanceof DeliveryError) {
       // delivery specific error (e.g. item with codename not found...)
       console.log(err.message, err.errorCode);
     }
     else {
-      // original error
+      // some other error
       console.log(error);
     }
-  });
+}
 ```
 
 ## Debugging
@@ -987,11 +911,10 @@ deliveryClient.item<Movie>('terminator_9')
 Every response from this SDK contains `debug` property which can be used to inspect raw response.
 
 ```typescript
-deliveryClient.items<ContentItem>()
-  .get()
-  .subscribe(response => {
-    console.log(response.debug);
-  });
+const response = await deliveryClient.items<ContentItem>()
+  .toPromise();
+
+const debugData = response.debug;
 ```
 
 ### Getting URL of a query

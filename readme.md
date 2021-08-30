@@ -93,34 +93,9 @@ const deliveryClient = new DeliveryClient({
 });
 
 /** Getting items from Kentico Kontent as Promise */
-deliveryClient.items<Movie>()
+const response = await deliveryClient.items<Movie>()
     .type('movie')
-    .toPromise()
-    .then(response => {
-        const movieText = response.items[0].title.value;
-    });
-
-/** Getting items from Kentico Kontent as Promise */
-deliveryClient.items<Movie>()
-    .type('movie')
-    .toPromise()
-    .subscribe(response => {
-        const movieText = response.items[0].title.value;
-    });
-
-/**
- * Get data without having custom models 
- */
-deliveryClient.items<ContentItem>()
-  .type('movie')
-  .get()
-  .subscribe(response => {
-    // you can access properties same way as with strongly typed models, but note
-    // that you don't get any intellisense and the underlying object 
-    // instance is of 'ContentItem' type
-    console.log(response.items[0].title.value);
-});
-
+    .toPromise();
 ```
 
 ## JavaScript & CommonJS
@@ -141,37 +116,9 @@ const deliveryClient = new KontentDelivery.DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Kontent as Promise */
-deliveryClient.items()
+const response = await deliveryClient.items()
     .type('movie')
-    .toPromise()
-    .then(response => {
-        const movieText = response.items[0].title.value;
-    });
-
-/** Getting items from Kentico Kontent as Promise */
-const subscription = deliveryClient.items()
-    .type('movie')
-    .toPromise()
-    .subscribe(response => {
-        const movieText = response.items[0].title.value;
-    });
-
-/*
-Don't forget to unsubscribe from your Promises. You can use 'takeUntil' or 'unsubscribe' method for this purpose. Unsubsription is usually done when you no longer need to process the result of Promise. (Example: 'ngOnDestroy' event in Angular app)
-*/
-subscription.unsubscribe();
-
-/**
- * Fetch all items of 'movie' type and given parameters from Kentico Kontent.
- * Important note: SDK will convert items to your type if you registered it. For example,
- * in this case the objects will be of 'Movie' type we defined above. 
- * If you don't use custom models, 'ContentItem' object instances will be returned.
- */
-deliveryClient.items()
-    .type('movie')
-    .toPromise()
-    .subscribe(response => console.log(response));
+    .toPromise();
 ```
 
 ## HTML & UMD
