@@ -17,12 +17,22 @@ export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
     abstract toPromise(): Promise<TResponse>;
 
     /**
+     * Adds custom parameter to query
+     * @param name Name of parameter
+     * @param value Value of parameter
+     */
+    withCustomParameter(name: string, value: string): this {
+        this.parameters.push(new Parameters.QueryParameter(name, value));
+        return this;
+    }
+
+    /**
      * Adds parameter to query
      * @param name Name of parameter
      * @param value Value of parameter
      */
-    withParameter(name: string, value: string): this {
-        this.parameters.push(new Parameters.QueryParameter(name, value));
+    withParameter(parameter: IQueryParameter): this {
+        this.parameters.push(parameter);
         return this;
     }
 
