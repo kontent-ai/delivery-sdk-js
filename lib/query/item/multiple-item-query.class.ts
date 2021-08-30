@@ -1,7 +1,5 @@
-
-
 import { IDeliveryClientConfig } from '../../config';
-import { ContentItem, Filters, ItemResponses, Parameters, SortOrder } from '../../models';
+import { ContentItem, continuationTokenHeaderName, Filters, ItemResponses, Parameters, SortOrder } from '../../models';
 import { QueryService } from '../../services';
 import { BaseItemQuery } from './base-item-query.class';
 
@@ -61,7 +59,7 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
         return this;
     }
 
-     /**
+    /**
      * Empty filter condition
      * @param element Element with empty value
      */
@@ -250,6 +248,20 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
      */
     skipParameter(skip: number): this {
         this.parameters.push(new Parameters.SkipParameter(skip));
+        return this;
+    }
+
+    /**
+     * Sets continuation token header
+     */
+    withContinuationToken(token: string): this {
+        this.withHeaders([
+            {
+                header: continuationTokenHeaderName,
+                value: token
+            }
+        ]);
+
         return this;
     }
 

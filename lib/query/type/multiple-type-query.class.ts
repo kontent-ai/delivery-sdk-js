@@ -1,23 +1,17 @@
-
-
 import { IDeliveryClientConfig } from '../../config';
-import { Parameters, TypeResponses } from '../../models';
+import { continuationTokenHeaderName, Parameters, TypeResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseTypeQuery } from './base-type-query.class';
 
 export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.ListContentTypesResponse> {
-
-    constructor(
-        protected config: IDeliveryClientConfig,
-        protected queryService: QueryService
-    ) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
 
     /**
-    * Limits the number of types returned by query
-    * @param limit Number of types to load
-    */
+     * Limits the number of types returned by query
+     * @param limit Number of types to load
+     */
     limitParameter(limit: number): this {
         this.parameters.push(new Parameters.LimitParameter(limit));
         return this;
@@ -33,15 +27,29 @@ export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.ListContentTy
     }
 
     /**
-    * Gets the runnable Promise
-    */
+     * Sets continuation token header
+     */
+    withContinuationToken(token: string): this {
+        this.withHeaders([
+            {
+                header: continuationTokenHeaderName,
+                value: token
+            }
+        ]);
+
+        return this;
+    }
+
+    /**
+     * Gets the runnable Promise
+     */
     toPromise(): Promise<TypeResponses.ListContentTypesResponse> {
         return super.runMultipleTypesQuery();
     }
 
     /**
-    * Gets 'Url' representation of query
-    */
+     * Gets 'Url' representation of query
+     */
     getUrl(): string {
         return super.getMultipleTypesQueryUrl();
     }

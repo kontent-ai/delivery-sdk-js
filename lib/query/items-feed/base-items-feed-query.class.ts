@@ -164,6 +164,9 @@ export abstract class BaseItemsFeedQuery<
         return this;
     }
 
+    /**
+     * Sets continuation token header
+     */
     withContinuationToken(token: string): this {
         this.withHeaders([
             {

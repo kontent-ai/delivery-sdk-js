@@ -1,7 +1,5 @@
-
-
 import { IDeliveryClientConfig } from '../../config';
-import { LanguageResponses, Parameters } from '../../models';
+import { continuationTokenHeaderName, LanguageResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseLanguageQuery } from './base-language-query.class';
 
@@ -25,6 +23,20 @@ export class LanguagesQuery extends BaseLanguageQuery<LanguageResponses.ListLang
      */
     skipParameter(skip: number): this {
         this.parameters.push(new Parameters.SkipParameter(skip));
+        return this;
+    }
+
+    /**
+     * Sets continuation token header
+     */
+    withContinuationToken(token: string): this {
+        this.withHeaders([
+            {
+                header: continuationTokenHeaderName,
+                value: token
+            }
+        ]);
+
         return this;
     }
 
