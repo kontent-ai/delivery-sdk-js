@@ -1,6 +1,6 @@
 import { IResponse, IHeader } from '@kentico/kontent-core';
 
-import { BaseKontentResponseArrayDebug, BaseKontentResponseStandardDebug, Pagination } from '../common';
+import { BaseKontentResponseArrayDebug, BaseKontentResponseStandardDebug, continuationTokenHeaderName, Pagination } from '../common';
 import { IContentItem, IContentItemsContainer } from './item-models';
 
 export namespace ItemResponses {
@@ -15,7 +15,6 @@ export namespace ItemResponses {
     }
 
     export class ItemsFeedResponse<TItem extends IContentItem = IContentItem> extends BaseKontentResponseStandardDebug {
-        private readonly continuationTokenHeaderName: string = 'X-Continuation';
         public continuationToken?: string;
 
         constructor(
@@ -28,7 +27,7 @@ export namespace ItemResponses {
         }
 
         private getContinuationToken(headers: IHeader[]): string | undefined {
-            const header = headers.find(m => m.header.toLowerCase() === this.continuationTokenHeaderName.toLowerCase());
+            const header = headers.find(m => m.header.toLowerCase() === continuationTokenHeaderName.toLowerCase());
             return header ? header.value : undefined;
         }
     }

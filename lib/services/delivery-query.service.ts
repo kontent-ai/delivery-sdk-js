@@ -10,6 +10,7 @@ import {
 } from '../data-contracts';
 import {
     ContentItem,
+    continuationTokenHeaderName,
     ElementResponses,
     IContentTypeQueryConfig,
     IItemQueryConfig,
@@ -25,7 +26,6 @@ import { BaseDeliveryQueryService } from './base-delivery-query.service';
 import { IMappingService } from './mapping.service';
 
 export class QueryService extends BaseDeliveryQueryService {
-    private readonly ContinuationHeaderName: string = 'X-Continuation';
 
     constructor(
         config: IDeliveryClientConfig,
@@ -191,7 +191,7 @@ export class QueryService extends BaseDeliveryQueryService {
 
         if (continuationToken) {
             headers.push({
-                header: this.ContinuationHeaderName,
+                header: continuationTokenHeaderName,
                 value: continuationToken
             });
         }
@@ -203,7 +203,7 @@ export class QueryService extends BaseDeliveryQueryService {
         responses.push(response);
 
         const continuationHeader = response.headers.find(
-            (m) => m.header.toLowerCase() === this.ContinuationHeaderName.toLowerCase()
+            (m) => m.header.toLowerCase() === continuationTokenHeaderName.toLowerCase()
         );
         if (continuationHeader) {
             await this.getAllItemsFeedResponsesAsync(url, queryConfig, responses, continuationHeader.value);

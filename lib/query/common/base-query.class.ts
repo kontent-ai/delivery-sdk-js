@@ -11,11 +11,6 @@ export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
 
     protected abstract _queryConfig: IQueryConfig;
 
-    /**
-     * Header name for next page
-     */
-    protected readonly continuationHeader: string = 'X-Continuation';
-
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {}
 
     abstract getUrl(): string;

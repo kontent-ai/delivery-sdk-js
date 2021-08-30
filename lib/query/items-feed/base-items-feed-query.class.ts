@@ -1,5 +1,12 @@
 import { IDeliveryClientConfig } from '../../config';
-import { BaseKontentResponse, ContentItem, Filters, Parameters, SortOrder } from '../../models';
+import {
+    BaseKontentResponse,
+    ContentItem,
+    continuationTokenHeaderName,
+    Filters,
+    Parameters,
+    SortOrder
+} from '../../models';
 import { QueryService } from '../../services';
 import { BaseItemQuery } from '../item/base-item-query.class';
 
@@ -158,10 +165,12 @@ export abstract class BaseItemsFeedQuery<
     }
 
     withContinuationToken(token: string): this {
-        this.withHeaders([{
-            header: this.continuationHeader,
-            value: token
-        }]);
+        this.withHeaders([
+            {
+                header: continuationTokenHeaderName,
+                value: token
+            }
+        ]);
 
         return this;
     }

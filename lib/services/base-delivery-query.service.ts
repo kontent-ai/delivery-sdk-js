@@ -1,16 +1,18 @@
 import { IResponse, IHeader, IHttpService, IQueryParameter, urlHelper } from '@kentico/kontent-core';
 import { AxiosError } from 'axios';
+import {
+    waitForLoadingNewContentHeader,
+    IQueryConfig,
+    ISDKInfo,
+    IDeliveryErrorRaw,
+    DeliveryError,
+    sdkVersionHeader
+} from '../models';
 
 import { IDeliveryClientConfig } from '../config';
-import { IQueryConfig, ISDKInfo, IDeliveryErrorRaw, DeliveryError } from '../models/common/common-models';
 import { IMappingService } from './mapping.service';
 
 export abstract class BaseDeliveryQueryService {
-    /**
-     * Header name for SDK usage
-     */
-    private readonly sdkVersionHeader: string = 'X-KC-SDKID';
-
     /**
      * Default base Url to Kentico Delivery API
      */
@@ -20,11 +22,6 @@ export abstract class BaseDeliveryQueryService {
      * Default preview url to Kentico Delivery API
      */
     private readonly defaultPreviewDeliveryApiUrl: string = 'https://preview-deliver.kontent.ai';
-
-    /**
-     * Name of the header used when 'wait for loading new content' feature is used
-     */
-    private readonly waitForLoadingNewContentHeader: string = 'X-KC-Wait-For-Loading-New-Content';
 
     constructor(
         /**
@@ -105,7 +102,7 @@ export abstract class BaseDeliveryQueryService {
         // add 'X-KC-Wait-For-Loading-New-Content' header if required
         if (this.shouldAddWaitForLoadingNewContentHeader(queryConfig)) {
             headers.push({
-                header: this.waitForLoadingNewContentHeader,
+                header: waitForLoadingNewContentHeader,
                 value: 'true'
             });
         }
@@ -270,7 +267,7 @@ export abstract class BaseDeliveryQueryService {
      */
     private getSdkIdHeader(): IHeader {
         return {
-            header: this.sdkVersionHeader,
+            header: sdkVersionHeader,
             value: `${this.sdkInfo.host};${this.sdkInfo.name};${this.sdkInfo.version}`
         };
     }

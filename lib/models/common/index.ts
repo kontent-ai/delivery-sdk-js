@@ -4,3 +4,4 @@ export * from './parameters';
 export * from './sort-order';
 export * from './common-models';
 export * from './base-responses';
+export * from './headers';
