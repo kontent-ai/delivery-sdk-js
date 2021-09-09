@@ -10,7 +10,7 @@ describe('Custom URL', () => {
     let responseItems: ItemResponses.ListContentItemsResponse<Movie>;
 
     beforeAll(async () => {
-        responseItems = await context.deliveryClient.items<Movie>().withUrl(itemsUrl).toPromise();
+        responseItems = await context.deliveryClient.items<Movie>().withCustomUrl(itemsUrl).toPromise();
     });
 
     it(`items should be defined`, () => {

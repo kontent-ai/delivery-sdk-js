@@ -71,7 +71,7 @@ export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
     /**
      * Sets custom URL of request (overrides default URL of the query)
      */
-    withUrl(url: string): this {
+    withCustomUrl(url: string): this {
         this.customUrl = url;
         return this;
     }
