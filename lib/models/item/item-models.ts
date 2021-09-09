@@ -5,7 +5,7 @@ import {
     ItemPropertyResolver,
     ItemResolver,
     ItemRichTextResolver,
-    RichTextImageResolver,
+    RichTextImageResolver
 } from './item-resolvers';
 import { ElementModels } from '../../elements/element-models';
 import { Elements } from '../../elements/elements';
@@ -19,8 +19,8 @@ export interface IMapElementsResult<TItem extends IContentItem = IContentItem> {
 
 export interface IContentItemSystemAttributes {
     /**
-   * Id of the item
-   */
+     * Id of the item
+     */
     id: string;
 
     /**
@@ -49,7 +49,7 @@ export interface IContentItemSystemAttributes {
     language: string;
 
     /**
-     * Array of sitemap locations
+     * Array of sitemap locations (obsolete)
      */
     sitemapLocations: string[];
 
@@ -57,6 +57,11 @@ export interface IContentItemSystemAttributes {
      * Codename of the collection this item belongs to
      */
     collection: string;
+
+    /**
+     * Workflow step of the item
+     */
+    workflowStep: string | 'published';
 }
 
 /**
@@ -67,10 +72,9 @@ export type ContentItemIndexer = any;
 export type ContentItemType = 'component' | 'linkedItem';
 
 export interface IContentItem {
-
     /**
-    * Indexer
-    */
+     * Indexer
+     */
     [key: string]: ContentItemIndexer;
 
     /**
@@ -96,7 +100,6 @@ export interface IContentItem {
 }
 
 export class ContentItem implements IContentItem {
-
     /**
      * Indexer
      */
@@ -118,9 +121,9 @@ export class ContentItem implements IContentItem {
     public _config?: IContentItemConfig;
 
     /**
-    * Base class representing content item type. All content type models need to extend this class.
-    * @constructor
-    */
+     * Base class representing content item type. All content type models need to extend this class.
+     * @constructor
+     */
     constructor(config?: IContentItemConfig) {
         this._config = config;
     }
@@ -143,69 +146,78 @@ export class ContentItem implements IContentItem {
 
         return elements;
     }
-
 }
 
 export class ContentItemSystemAttributes implements IContentItemSystemAttributes {
-
     /**
-    * Id of the item
-    */
-    public id!: string;
+     * Id of the item
+     */
+    public id: string;
 
     /**
      * Name of the item
      */
-    public name!: string;
+    public name: string;
 
     /**
      * Codename of the item
      */
-    public codename!: string;
+    public codename: string;
 
     /**
      * Codename of the type this item is using
      */
-    public type!: string;
+    public type: string;
 
     /**
      * Date when the item was last modified
      */
-    public lastModified!: Date;
+    public lastModified: Date;
 
     /**
      * Codename of the language
      */
-    public language!: string;
+    public language: string;
 
     /**
      * Array of sitemap locations
      */
-    public sitemapLocations!: string[];
+    public sitemapLocations: string[];
 
     /**
      * Codename of the collection this item belongs to
      */
-    public collection!: string;
+    public collection: string;
 
-    constructor(
-        data: {
-            id: string,
-            name: string,
-            codename: string,
-            type: string,
-            lastModified: Date,
-            language: string,
-            sitemapLocations: string[],
-            collection: string
-        }
-    ) {
-        Object.assign(this, data);
+    /**
+     *  Workflow step of the item
+     */
+    public workflowStep: string | 'published';
+
+    constructor(data: {
+        id: string;
+        name: string;
+        codename: string;
+        type: string;
+        lastModified: Date;
+        language: string;
+        sitemapLocations: string[];
+        collection: string;
+        workflowStep: string;
+    }) {
+        this.id = data.id;
+        this.type = data.type;
+        this.name = data.name;
+        this.codename = data.codename;
+        this.lastModified = data.lastModified;
+        this.language = data.language;
+        this.sitemapLocations = data.sitemapLocations;
+        this.collection = data.collection;
+        this.workflowStep = data.workflowStep;
     }
 }
 
 export class Link {
-
     /**
      * Id of the link
      */
@@ -226,14 +238,7 @@ export class Link {
      */
     public urlSlug!: string;
 
-    constructor(
-        data: {
-            linkId: string;
-            codename: string,
-            type: string,
-            urlSlug: string,
-        }
-    ) {
+    constructor(data: { linkId: string; codename: string; type: string; urlSlug: string }) {
         Object.assign(this, data);
     }
 }
@@ -243,22 +248,13 @@ export interface IContentItemsContainer<TItem extends IContentItem = IContentIte
 }
 
 export class RichTextImage {
-
     public imageId!: string;
     public url!: string;
     public description?: string;
     public width?: number;
     public height?: number;
 
-    constructor(
-        data: {
-            imageId: string,
-            url: string,
-            description?: string,
-            height?: number;
-            width?: number;
-        }
-    ) {
+    constructor(data: { imageId: string; url: string; description?: string; height?: number; width?: number }) {
         Object.assign(this, data);
     }
 }
@@ -276,7 +272,6 @@ export interface IItemQueryConfig extends IQueryConfig {
 }
 
 export interface IUrlSlugResolverContext {
-
     /**
      * Original link text (available only for links in rich text element)
      */
@@ -307,14 +302,14 @@ export interface IRichTextImageResolverResult {
 }
 
 export enum RichTextItemDataType {
-    Item = 'item',
+    Item = 'item'
 }
 
 export interface IContentItemConfig {
     /**
-    * Function used to bind elements returned from Kentico Kontent to a model property.
-    * Common use is to bind e.g. 'FirstName' element from Kentico Kontent response to 'firstName' element in model
-    */
+     * Function used to bind elements returned from Kentico Kontent to a model property.
+     * Common use is to bind e.g. 'FirstName' element from Kentico Kontent response to 'firstName' element in model
+     */
     propertyResolver?: ItemPropertyResolver;
 
     /**

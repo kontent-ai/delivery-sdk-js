@@ -24,7 +24,8 @@ describe('RichTextElement with Images', () => {
         name: 'x linked item',
         sitemapLocations: [],
         collection: 'default',
-        type: 'article'
+        type: 'article',
+        workflowStep: 'published'
     });
 
     // prepare images

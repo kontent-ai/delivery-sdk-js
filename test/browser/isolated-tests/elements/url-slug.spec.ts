@@ -12,7 +12,8 @@ describe('URLSlugElement', () => {
         language: 'en',
         lastModified: new Date(),
         sitemapLocations: [],
-        collection: 'default'
+        collection: 'default',
+        workflowStep: 'published'
     });
 
     const elementMapWrapper: ElementModels.IElementWrapper = {
@@ -65,7 +66,8 @@ describe('URLSlugElement', () => {
             language: 'en',
             lastModified: new Date(),
             sitemapLocations: [],
-            collection: 'default'
+            collection: 'default',
+            workflowStep: 'published'
         });
 
         const element = new Elements.UrlSlugElement({

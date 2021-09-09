@@ -10,7 +10,8 @@
         "main_sitemap"
       ],
       "collection": "christmas-campaign",
-      "last_modified": "2019-09-05T10:51:15.6555984Z"
+      "last_modified": "2019-09-05T10:51:15.6555984Z",
+      "workflow_step": "published"
     },
     "elements": {
       "title": {

@@ -16,7 +16,8 @@ describe('Delivery strongly type resolver', () => {
             name: 'name',
             sitemap_locations: [],
             collection: 'default',
-            type: 'type'
+            type: 'type',
+            workflow_step: 'published'
         });
 
         expect(systemAttributes).toEqual(jasmine.any(ContentItemSystemAttributes));

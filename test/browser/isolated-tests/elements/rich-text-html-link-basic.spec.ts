@@ -39,7 +39,8 @@ class ActorMock extends ContentItem {
             sitemapLocations: [],
             collection: 'default',
             language: 'en',
-            lastModified: new Date()
+            lastModified: new Date(),
+            workflowStep: 'published'
         });
 
         this.url = new Elements.UrlSlugElement(

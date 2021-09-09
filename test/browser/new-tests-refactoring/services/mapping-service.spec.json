@@ -11,7 +11,8 @@
             "articles"
           ],
           "collection": "default",
-          "last_modified": "2017-04-04T13:40:00.1102334Z"
+          "last_modified": "2017-04-04T13:40:00.1102334Z",
+          "workflow_step": "published"
         },
         "elements": {
           "title": {
@@ -55,7 +56,8 @@
             "articles"
           ],
           "collection": "default",
-          "last_modified": "2017-04-04T13:40:29.970377Z"
+          "last_modified": "2017-04-04T13:40:29.970377Z",
+          "workflow_step": "published"
         },
         "elements": {
           "title": {
@@ -99,7 +101,8 @@
             "articles"
           ],
           "collection": "default",
-          "last_modified": "2017-04-04T13:45:44.1533096Z"
+          "last_modified": "2017-04-04T13:45:44.1533096Z",
+          "workflow_step": "published"
         },
         "elements": {
           "title": {

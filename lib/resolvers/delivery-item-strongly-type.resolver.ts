@@ -3,7 +3,6 @@ import { ContentItem, ContentItemSystemAttributes, IContentItem, ItemResolver, I
 import { TypeResolver } from '../models/item/type-resolver.class';
 
 export class DeliveryItemStronglyTypeResolver {
-
     createEmptyItemInstanceOfType<TItem extends IContentItem = IContentItem>(
         type: string,
         typeResolvers: TypeResolver[]
@@ -61,7 +60,8 @@ export class DeliveryItemStronglyTypeResolver {
             language: rawSystem.language,
             type: rawSystem.type,
             sitemapLocations: rawSystem.sitemap_locations,
-            collection: rawSystem.collection
+            collection: rawSystem.collection,
+            workflowStep: rawSystem.workflow_step
         });
     }
 
@@ -83,7 +83,7 @@ export class DeliveryItemStronglyTypeResolver {
      * @param resolvers Array of TypeResolver
      */
     private getTypeResolver(type: string, resolvers: TypeResolver[]): TypeResolver | undefined {
-        return resolvers.find(m => m.type.toLowerCase() === type.toLowerCase());
+        return resolvers.find((m) => m.type.toLowerCase() === type.toLowerCase());
     }
 
     /**

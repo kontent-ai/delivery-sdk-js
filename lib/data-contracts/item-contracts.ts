@@ -35,6 +35,7 @@ export namespace ItemContracts {
     type: string;
     last_modified: string;
     language: string;
+    workflow_step: string;
     sitemap_locations: string[];
     collection: string;
   }

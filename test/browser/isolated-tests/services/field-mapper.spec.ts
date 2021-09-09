@@ -39,7 +39,8 @@ describe('ElementMapper', () => {
                 name: 'name',
                 sitemap_locations: [],
                 collection: 'default',
-                language: 'en'
+                language: 'en',
+                workflow_step: 'published'
         };
 
         const item: FakeContentItem = {
