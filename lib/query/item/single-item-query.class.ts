@@ -1,13 +1,11 @@
-
-
 import { IDeliveryClientConfig } from '../../config';
-import { ContentItem, ItemResponses, Parameters } from '../../models';
+import { ContentItem, IItemQueryConfig, ItemResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
-import { BaseItemQuery } from './base-item-query.class';
+import { BaseQuery } from '../common/base-query.class';
 
-export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
-    TItem,
-    ItemResponses.ViewContentItemResponse<TItem>
+export class SingleItemQuery<TItem extends ContentItem> extends BaseQuery<
+    ItemResponses.ViewContentItemResponse<TItem>,
+    IItemQueryConfig
 > {
     constructor(
         protected config: IDeliveryClientConfig,
@@ -31,16 +29,48 @@ export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
-     * Gets the runnable Promise
+     * Used to configure query
+     * @param queryConfig Query configuration
+     */
+    queryConfig(queryConfig: IItemQueryConfig): this {
+        this._queryConfig = queryConfig;
+        return this;
+    }
+
+    /**
+     * Language codename
+     * @param languageCodename Codename of the language
+     */
+    languageParameter(languageCodename: string): this {
+        this.parameters.push(new Parameters.LanguageParameter(languageCodename));
+        return this;
+    }
+
+    /**
+     * Used to limit the number of elements returned by query.
+     * @param elementCodenames Array of element codenames to fetch
+     */
+    elementsParameter(elementCodenames: string[]): this {
+        this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
+        return this;
+    }
+
+    /**
+     * Gets Promise
      */
     toPromise(): Promise<ItemResponses.ViewContentItemResponse<TItem>> {
-        return super.runSingleItemQuery(this.codename);
+        return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
     }
 
     /**
      * Gets 'Url' representation of query
      */
     getUrl(): string {
-        return super.getSingleItemQueryUrl(this.codename);
+        const action = '/items/' + this.codename;
+
+        // add default language is necessry
+        this.processDefaultLanguageParameter();
+
+        return super.resolveUrlInternal(action);
     }
 }

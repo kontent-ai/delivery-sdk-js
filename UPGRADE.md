@@ -6,6 +6,12 @@
 - Rxjs (`Obsevable`) was removed in favor of `Promise`. `toObservable` method on queries was therefore removed and the only available option now is the `toPromise`. If you still need to use observables, you may use `from` operator from rxjs (https://www.learnrxjs.io/learn-rxjs/operators/creation/from)
 - Makes `SortOrder` a type instead of enum. This means that rather then using `SortOrder.Desc` you only need to use `desc`.
 - Query extension method `withUrl` has been renamed to `withCustomUrl`
+- `MultipleItemQuery` has been renamed to `MultipleItemsQuery`
+- Removes `itemsFeedAll` query. The alternative way is to use `toPromiseAll` query extension method that is now available for all listing queries. This makes it very easy to iterate through all items of content items, content types, languages etc. 
+- Content properties (e.g. `types`, `taxonomies`, `languages`) in listing queries were unified under common `items` property. 
+- Renames `ListTaxonomyGroupsResponse` to `ListTaxonomiesResponse` and `ViewTaxonomyGroupResponse` to `ViewTaxonomyResponse`
+- Renames `ItemsFeedResponse` to `ListItemsFeedResponse`
+- `getIsEmpty`, `getFirstItem` and `getLastItem` from `ListContentItemsResponse` were removed
 
 ## Upgrading from `5.x.y` to `6.0.0`
 

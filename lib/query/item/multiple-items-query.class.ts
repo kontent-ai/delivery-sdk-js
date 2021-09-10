@@ -3,14 +3,23 @@ import { ContentItem, Filters, IItemQueryConfig, ItemResponses, Parameters } fro
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class ItemsFeedQuery<TItem extends ContentItem> extends BaseListingQuery<
-    ItemResponses.ListItemsFeedResponse<TItem>,
-    ItemResponses.ListItemsFeedAllResponse<TItem>,
+export class MultipleItemsQuery<TItem extends ContentItem> extends BaseListingQuery<
+    ItemResponses.ListContentItemsResponse<TItem>,
+    ItemResponses.ListContentItemsAllResponse<TItem>,
     IItemQueryConfig
 > {
-
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
+    }
+
+    /**
+     * Adds information about the total number of content items matching your query.
+     * When set to true, the pagination object returned in the API response contains
+     * an additional total_count property.
+     */
+    includeTotalCountParameter(): this {
+        this.parameters.push(new Parameters.IncludeTotalCountParameter());
+        return this;
     }
 
     /**
@@ -52,6 +61,15 @@ export class ItemsFeedQuery<TItem extends ContentItem> extends BaseListingQuery<
     }
 
     /**
+     * Indicates depth of query that affects loading of nested linked items.
+     * @param depth Depth of the query (> 0)
+     */
+    depthParameter(depth: number): this {
+        this.parameters.push(new Parameters.DepthParameter(depth));
+        return this;
+    }
+
+    /**
      * Language codename
      * @param languageCodename Codename of the language
      */
@@ -72,15 +90,15 @@ export class ItemsFeedQuery<TItem extends ContentItem> extends BaseListingQuery<
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<ItemResponses.ListItemsFeedResponse<TItem>> {
-        return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
+    toPromise(): Promise<ItemResponses.ListContentItemsResponse<TItem>> {
+        return this.queryService.getMultipleItems(this.getUrl(), this._queryConfig ?? {});
     }
 
     /**
      * Gets 'Url' representation of query
      */
     getUrl(): string {
-        const action = '/items-feed';
+        const action = '/items';
 
         // add default language is necessry
         this.processDefaultLanguageParameter();
@@ -88,19 +106,10 @@ export class ItemsFeedQuery<TItem extends ContentItem> extends BaseListingQuery<
         return super.resolveUrlInternal(action);
     }
 
-    /**
-     * Used to configure query
-     * @param queryConfig Query configuration
-     */
-    queryConfig(queryConfig: IItemQueryConfig): this {
-        this._queryConfig = queryConfig;
-        return this;
-    }
-
     protected allResponseFactory(
         items: any[],
-        responses: ItemResponses.ListItemsFeedResponse<TItem>[]
-    ): ItemResponses.ListItemsFeedAllResponse<TItem> {
-        return new ItemResponses.ListItemsFeedAllResponse<TItem>(items, responses);
+        responses: ItemResponses.ListContentItemsResponse<TItem>[]
+    ): ItemResponses.ListContentItemsAllResponse<TItem> {
+        return new ItemResponses.ListContentItemsAllResponse<TItem>(items, responses);
     }
 }

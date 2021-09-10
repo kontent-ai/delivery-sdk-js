@@ -95,7 +95,6 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks that text element in first linked item is set`, () => {
-        console.log(response.item.stars);
         expect(response.item.stars.value.find(m => m.firstName.value === warriorJson.modular_content.joel_edgerton.elements.first_name.value)).toBeDefined();
     });
 

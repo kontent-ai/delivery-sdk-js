@@ -1,12 +1,9 @@
-
-
 import { IDeliveryClientConfig } from '../../config';
-import { ElementResponses } from '../../models';
+import { ElementResponses, IElementQueryConfig } from '../../models';
 import { QueryService } from '../../services';
-import { BaseElementQuery } from './base-element-query.class';
+import { BaseQuery } from '../common/base-query.class';
 
-export class ElementQuery extends BaseElementQuery<ElementResponses.ViewContentTypeElementResponse> {
-
+export class ElementQuery extends BaseQuery<ElementResponses.ViewContentTypeElementResponse, IElementQueryConfig> {
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
@@ -25,16 +22,18 @@ export class ElementQuery extends BaseElementQuery<ElementResponses.ViewContentT
     }
 
     /**
-    * Gets the runnable Promise
-    */
+     * Gets the runnable Promise
+     */
     toPromise(): Promise<ElementResponses.ViewContentTypeElementResponse> {
-        return super.runElementQuery(this.typeCodename, this.elementCodename);
+        return this.queryService.getElementAsync(this.getUrl(), this._queryConfig ?? {});
     }
 
     /**
-    * Gets 'Url' representation of query
-    */
+     * Gets 'Url' representation of query
+     */
     getUrl(): string {
-        return super.getElementQueryUrl(this.typeCodename, this.elementCodename);
+        const action = '/types/' + this.typeCodename + '/elements/' + this.elementCodename;
+
+        return super.resolveUrlInternal(action);
     }
 }

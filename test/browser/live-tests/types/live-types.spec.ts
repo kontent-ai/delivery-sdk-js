@@ -20,15 +20,15 @@ describe('Live types', () => {
     });
 
     it(`there should be at least 1 type`, () => {
-        expect(response.types.length).toBeGreaterThan(0);
+        expect(response.items.length).toBeGreaterThan(0);
     });
 
     it(`elements should be defined`, () => {
-        expect(response.types[0].elements).toBeDefined();
+        expect(response.items[0].elements).toBeDefined();
     });
 
     it(`system properties should be defined`, () => {
-        expect(response.types[0].system).toBeDefined();
+        expect(response.items[0].system).toBeDefined();
     });
 
     it(`pagination should be defined`, () => {

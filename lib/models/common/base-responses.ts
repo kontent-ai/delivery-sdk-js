@@ -1,7 +1,6 @@
 import { IResponse } from '@kentico/kontent-core';
-import { IKontentResponse, IKontentResponseDebug } from './common-models';
-
-const staleContentHeaderName: string = 'X-Stale-Content';
+import { IKontentResponse } from './common-models';
+import { staleContentHeaderName } from './headers';
 
 function getHasStaleContent(response: IResponse<any>): boolean {
     const hasStaleContentHeader = response.headers.find(
@@ -16,46 +15,14 @@ function getHasStaleContent(response: IResponse<any>): boolean {
     return false;
 }
 
-function getResponseDebug(response: IResponse<any>): IKontentResponseDebug {
-    return {
-        response: response.data,
-        headers: response.headers,
-        status: response.status
-    };
-}
-
-export abstract class BaseKontentResponse<TDebugData> implements IKontentResponse<TDebugData> {
-    public readonly debug?: TDebugData;
-    public abstract hasStaleContent: boolean;
-
-    constructor() {}
-}
-
-export class BaseKontentResponseStandardDebug extends BaseKontentResponse<IKontentResponseDebug> {
-    public readonly debug?: IKontentResponseDebug;
-    public readonly hasStaleContent: boolean;
+export abstract class BaseKontentResponse implements IKontentResponse {
+    public hasStaleContent: boolean;
 
     constructor(response: IResponse<any>) {
-        super();
         this.hasStaleContent = getHasStaleContent(response);
-        this.debug = getResponseDebug(response);
     }
 }
 
-export class BaseKontentResponseArrayDebug extends BaseKontentResponse<IKontentResponseDebug[]> {
-    public readonly debug?: IKontentResponseDebug[] = [];
-    /**
-     * Always false for joined response data
-     */
-    public readonly hasStaleContent: boolean = false;
-
-    constructor(responses: IResponse<any>[]) {
-        super();
-
-        for (const response of responses) {
-            if (this.debug) {
-                this.debug.push(getResponseDebug(response));
-            }
-        }
-    }
+export abstract class BaseGroupedKontentResponse implements IKontentResponse {
+    constructor(public responses: IKontentResponse[]) {}
 }

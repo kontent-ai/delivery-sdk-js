@@ -1,10 +1,10 @@
 import { IResponse } from '@kentico/kontent-core';
 
-import { BaseKontentResponseStandardDebug } from '../common';
+import { BaseKontentResponse } from '../common';
 import { GenericElement } from './element-models';
 
 export namespace ElementResponses {
-    export class ViewContentTypeElementResponse extends BaseKontentResponseStandardDebug {
+    export class ViewContentTypeElementResponse extends BaseKontentResponse {
         /**
          * Response containing content type element
          *

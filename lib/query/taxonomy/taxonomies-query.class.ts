@@ -1,9 +1,18 @@
 import { IDeliveryClientConfig } from '../../config';
-import { continuationTokenHeaderName, Parameters, TaxonomyResponses } from '../../models';
+import { continuationTokenHeaderName, ITaxonomyQueryConfig, Parameters, TaxonomyResponses } from '../../models';
 import { QueryService } from '../../services';
-import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
+import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class TaxonomiesQuery extends BaseTaxonomyQuery<TaxonomyResponses.ListTaxonomyGroupsResponse> {
+export class TaxonomiesQuery extends BaseListingQuery<
+    TaxonomyResponses.ListTaxonomiesResponse,
+    TaxonomyResponses.ListTaxonomiesAllResponse,
+    ITaxonomyQueryConfig
+> {
+    /**
+     * Taxonomies endpoint URL action
+     */
+    protected readonly taxonomiesEndpoint: string = 'taxonomies';
+
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
@@ -29,8 +38,8 @@ export class TaxonomiesQuery extends BaseTaxonomyQuery<TaxonomyResponses.ListTax
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<TaxonomyResponses.ListTaxonomyGroupsResponse> {
-        return super.runTaxonomiesQuery();
+    toPromise(): Promise<TaxonomyResponses.ListTaxonomiesResponse> {
+        return this.queryService.getTaxonomies(this.getUrl(), this._queryConfig ?? {});
     }
 
     /**
@@ -51,6 +60,15 @@ export class TaxonomiesQuery extends BaseTaxonomyQuery<TaxonomyResponses.ListTax
      * Gets 'Url' representation of query
      */
     getUrl(): string {
-        return super.getTaxonomiesQueryUrl();
+        const action = '/' + this.taxonomiesEndpoint;
+
+        return super.resolveUrlInternal(action);
+    }
+
+    protected allResponseFactory(
+        items: any[],
+        responses: TaxonomyResponses.ListTaxonomiesResponse[]
+    ): TaxonomyResponses.ListTaxonomiesAllResponse {
+        return new TaxonomyResponses.ListTaxonomiesAllResponse(items, responses);
     }
 }

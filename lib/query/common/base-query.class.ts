@@ -4,12 +4,11 @@ import { IDeliveryClientConfig } from '../../config';
 import { IKontentResponse, IQueryConfig, Parameters } from '../../models';
 import { QueryService } from '../../services';
 
-export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
+export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig extends IQueryConfig> {
     protected parameters: IQueryParameter[] = [];
     protected headers: IHeader[] = [];
     protected customUrl?: string;
-
-    protected abstract _queryConfig: IQueryConfig;
+    protected _queryConfig?: TQueryConfig;
 
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {}
 
@@ -49,7 +48,7 @@ export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
      * Gets headers used by this query
      */
     getHeaders(): IHeader[] {
-        return this.queryService.getHeaders(this._queryConfig, this.headers);
+        return this.queryService.getHeaders(this._queryConfig ?? {}, this.headers);
     }
 
     /**
@@ -83,6 +82,15 @@ export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
         return this.parameters;
     }
 
+    /**
+     * Used to configure query
+     * @param queryConfig Query configuration
+     */
+    queryConfig(queryConfig?: TQueryConfig): this {
+        this._queryConfig = queryConfig;
+        return this;
+    }
+
     protected resolveUrlInternal(action: string): string {
         // use custom URL if user specified it
         if (this.customUrl) {
@@ -90,6 +98,17 @@ export abstract class BaseQuery<TResponse extends IKontentResponse<any>> {
         }
 
         // use original url
-        return this.queryService.getUrl(action, this._queryConfig, this.getParameters());
+        return this.queryService.getUrl(action, this._queryConfig ?? {}, this.getParameters());
+    }
+
+    protected processDefaultLanguageParameter(): void {
+        // add default language if none is specified && default language is specified globally
+        if (this.config.defaultLanguage) {
+            const languageParameter = this.getParameters().find((m) => m.getParam() === 'language');
+            if (!languageParameter) {
+                // language parameter was not specified in query, use globally defined language
+                this.parameters.push(new Parameters.LanguageParameter(this.config.defaultLanguage));
+            }
+        }
     }
 }

@@ -1,9 +1,18 @@
 import { IDeliveryClientConfig } from '../../config';
-import { continuationTokenHeaderName, LanguageResponses, Parameters } from '../../models';
+import { continuationTokenHeaderName, ILanguagesQueryConfig, LanguageResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
-import { BaseLanguageQuery } from './base-language-query.class';
+import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class LanguagesQuery extends BaseLanguageQuery<LanguageResponses.ListLanguagesResponse> {
+export class LanguagesQuery extends BaseListingQuery<
+    LanguageResponses.ListLanguagesResponse,
+    LanguageResponses.ListLanguagesAllResponse,
+    ILanguagesQueryConfig
+> {
+    /**
+     * Endpoint
+     */
+    protected readonly endpoint: string = 'languages';
+
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
@@ -41,16 +50,34 @@ export class LanguagesQuery extends BaseLanguageQuery<LanguageResponses.ListLang
     }
 
     /**
-     * Gets the Promise
+     * Gets Promise
      */
     toPromise(): Promise<LanguageResponses.ListLanguagesResponse> {
-        return super.runLanguagesQuery();
+        return this.queryService.getLanguages(this.getUrl(), this._queryConfig ?? {});
     }
 
     /**
-     * Gets 'Url' representation of query
+     * Gets url representation of query
      */
     getUrl(): string {
-        return super.getLanguagesQueryUrl();
+        const action = '/' + this.endpoint;
+
+        return super.resolveUrlInternal(action);
+    }
+
+    /**
+     * Used to configure query
+     * @param queryConfig Query configuration
+     */
+    queryConfig(queryConfig: ILanguagesQueryConfig): this {
+        this._queryConfig = queryConfig;
+        return this;
+    }
+
+    protected allResponseFactory(
+        items: any[],
+        responses: LanguageResponses.ListLanguagesResponse[]
+    ): LanguageResponses.ListLanguagesAllResponse {
+        return new LanguageResponses.ListLanguagesAllResponse(items, responses);
     }
 }

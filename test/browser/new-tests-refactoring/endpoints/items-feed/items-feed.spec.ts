@@ -7,7 +7,7 @@ describe('Items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ItemsFeedResponse<Movie>;
+    let response: ItemResponses.ListItemsFeedResponse<Movie>;
 
     beforeAll(async () => {
         response = await getDeliveryClientWithJsonAndHeaders(
@@ -41,7 +41,7 @@ describe('Items feed', () => {
     });
 
     it(`Response should be of proper type`, () => {
-        expect(response).toEqual(jasmine.any(ItemResponses.ItemsFeedResponse));
+        expect(response).toEqual(jasmine.any(ItemResponses.ListItemsFeedResponse));
     });
 
     it(`Response should have all properties assigned`, () => {

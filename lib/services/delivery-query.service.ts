@@ -1,4 +1,4 @@
-import { IResponse, IHeader, IHttpService } from '@kentico/kontent-core';
+import { IHttpService } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
 import {
@@ -10,7 +10,6 @@ import {
 } from '../data-contracts';
 import {
     ContentItem,
-    continuationTokenHeaderName,
     ElementResponses,
     IContentTypeQueryConfig,
     IItemQueryConfig,
@@ -21,12 +20,16 @@ import {
     TaxonomyResponses,
     TypeResponses
 } from '../models';
-import { ISDKInfo } from '../models/common/common-models';
+import {
+    IKontentListAllResponse,
+    IKontentListResponse,
+    IListQueryConfig,
+    ISDKInfo
+} from '../models/common/common-models';
 import { BaseDeliveryQueryService } from './base-delivery-query.service';
 import { IMappingService } from './mapping.service';
 
 export class QueryService extends BaseDeliveryQueryService {
-
     constructor(
         config: IDeliveryClientConfig,
         httpService: IHttpService<any>,
@@ -59,27 +62,11 @@ export class QueryService extends BaseDeliveryQueryService {
     async getItemsFeed<TItem extends ContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<ItemResponses.ItemsFeedResponse<TItem>> {
+    ): Promise<ItemResponses.ListItemsFeedResponse<TItem>> {
         return this.mappingService.itemsFeedResponse<TItem>(
             await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url),
             queryConfig
         );
-    }
-
-    /**
-     * Gets all items from feed. This method may execute multiple HTTP requests.
-     * @param url Url
-     * @param queryConfig Query configuration
-     */
-    async getItemsFeedAll<TItem extends ContentItem>(
-        url: string,
-        queryConfig: IItemQueryConfig
-    ): Promise<ItemResponses.ItemsFeedAllResponse<TItem>> {
-        const responses: IResponse<ItemContracts.IItemsFeedContract>[] = [];
-
-        await this.getAllItemsFeedResponsesAsync(url, {}, responses);
-
-        return this.mappingService.itemsFeedAllResponse(responses, queryConfig);
     }
 
     /**
@@ -144,10 +131,7 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get single taxonomy
      * @param queryConfig Query configuration
      */
-    async getTaxonomy(
-        url: string,
-        queryConfig: ITaxonomyQueryConfig
-    ): Promise<TaxonomyResponses.ViewTaxonomyGroupResponse> {
+    async getTaxonomy(url: string, queryConfig: ITaxonomyQueryConfig): Promise<TaxonomyResponses.ViewTaxonomyResponse> {
         return this.mappingService.viewTaxonomyGroupResponse(
             await this.getResponseAsync<TaxonomyContracts.IViewTaxonomyGroupContract>(url, queryConfig)
         );
@@ -161,7 +145,7 @@ export class QueryService extends BaseDeliveryQueryService {
     async getTaxonomies(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Promise<TaxonomyResponses.ListTaxonomyGroupsResponse> {
+    ): Promise<TaxonomyResponses.ListTaxonomiesResponse> {
         return this.mappingService.listTaxonomyGroupsResponse(
             await this.getResponseAsync<TaxonomyContracts.IListTaxonomyGroupsContract>(url, queryConfig)
         );
@@ -181,32 +165,65 @@ export class QueryService extends BaseDeliveryQueryService {
         );
     }
 
-    private async getAllItemsFeedResponsesAsync(
-        url: string,
-        queryConfig: IItemQueryConfig,
-        responses: IResponse<ItemContracts.IItemsFeedContract>[],
-        continuationToken?: string
-    ): Promise<void> {
-        const headers: IHeader[] = [];
+    async getListAllResponse<
+        TResponse extends IKontentListResponse,
+        TAllResponse extends IKontentListAllResponse
+    >(data: {
+        getResponse: (nextPageUrl?: string, continuationToken?: string) => Promise<TResponse>;
+        allResponseFactory: (items: any[], responses: TResponse[]) => TAllResponse;
+        listQueryConfig?: IListQueryConfig<TResponse>;
+    }): Promise<TAllResponse> {
+        const responses = await this.getListAllResponseInternalAsync({
+            resolvedResponses: [],
+            getResponse: data.getResponse,
+            nextPageUrl: undefined,
+            continuationToken: undefined,
+            listQueryConfig: data.listQueryConfig
+        });
 
-        if (continuationToken) {
-            headers.push({
-                header: continuationTokenHeaderName,
-                value: continuationToken
+        return data.allResponseFactory(
+            responses.reduce((prev: any[], current) => {
+                prev.push(...current.items);
+                return prev;
+            }, []),
+            responses
+        );
+    }
+
+    private async getListAllResponseInternalAsync<TResponse extends IKontentListResponse>(data: {
+        nextPageUrl?: string;
+        continuationToken?: string;
+        getResponse: (nextPageUrl?: string, continuationToken?: string) => Promise<TResponse>;
+        resolvedResponses: TResponse[];
+        listQueryConfig?: IListQueryConfig<TResponse>;
+    }): Promise<TResponse[]> {
+        const response = await data.getResponse(data.nextPageUrl, data.continuationToken);
+
+        if (data.listQueryConfig?.delayBetweenRequests) {
+            await this.sleep(data.listQueryConfig.delayBetweenRequests);
+        }
+
+        data.resolvedResponses.push(response);
+
+        if (data.listQueryConfig?.responseFetched) {
+            data.listQueryConfig.responseFetched(response, data.nextPageUrl, data.continuationToken);
+        }
+
+        if (response.pagination?.nextPage || response.continuationToken) {
+            // recursively fetch next page data
+            return await this.getListAllResponseInternalAsync({
+                nextPageUrl: response.pagination?.nextPage,
+                continuationToken: response.continuationToken,
+                listQueryConfig: data.listQueryConfig,
+                getResponse: data.getResponse,
+                resolvedResponses: data.resolvedResponses
             });
         }
 
-        const response = await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url, queryConfig, {
-            headers: headers
-        });
+        return data.resolvedResponses;
+    }
 
-        responses.push(response);
-
-        const continuationHeader = response.headers.find(
-            (m) => m.header.toLowerCase() === continuationTokenHeaderName.toLowerCase()
-        );
-        if (continuationHeader) {
-            await this.getAllItemsFeedResponsesAsync(url, queryConfig, responses, continuationHeader.value);
-        }
+    private sleep(ms: number): Promise<void> {
+        return new Promise((resolve) => setTimeout(resolve, ms));
     }
 }

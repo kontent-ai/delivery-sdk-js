@@ -24,21 +24,6 @@ describe('Live items', () => {
         expect(response.pagination).toBeDefined();
     });
 
-    it(`'isEmpty' should be false`, () => {
-        expect(response.isEmpty).toEqual(false);
-    });
-
-    it(`'firstItem' should be correctly assigned`, () => {
-        expect(response.items[0].system.codename).toEqual(response.items[0].system.codename);
-    });
-
-    it(`'lastItem' should be correctly assigned`, () => {
-        if (!response.lastItem) {
-            throw Error('invalid last item');
-        }
-        expect(response.lastItem.system.codename).toEqual(response.items[response.items.length - 1].system.codename);
-    });
-
     it(`debug property should be set for all items`, () => {
         response.items.forEach((item) => {
             expect(item).toEqual(jasmine.any(Movie));

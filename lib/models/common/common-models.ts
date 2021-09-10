@@ -1,4 +1,5 @@
 import { IHeader, IHttpCancelRequestToken, IQueryParameter } from '@kentico/kontent-core';
+import { Pagination } from './pagination.class';
 
 export interface IProxyUrlData {
     action: string;
@@ -7,12 +8,6 @@ export interface IProxyUrlData {
     queryString: string;
     queryConfig: IQueryConfig;
     projectId: string;
-}
-
-export interface IKontentResponseDebug {
-    response: any;
-    status: number;
-    headers: IHeader[];
 }
 
 export interface ISDKInfo {
@@ -30,9 +25,34 @@ export interface ISDKInfo {
     host: string;
 }
 
-export interface IKontentResponse<TDebugData> {
-    debug?: TDebugData;
-    hasStaleContent: boolean;
+export interface IKontentResponse {
+}
+
+export interface IKontentListWithHeaderResponse extends IKontentResponse {
+    items: any[];
+}
+
+export interface IKontentListResponse extends IKontentResponse {
+    pagination?: Pagination;
+    continuationToken?: string;
+    items: any[];
+}
+
+export interface IKontentListAllResponse extends IKontentResponse {
+    responses: any[];
+    items: any[];
+}
+
+export interface IListQueryConfig<TResponse extends IKontentListResponse> {
+    /**
+     * Delay between each HTTP requests
+     */
+    delayBetweenRequests?: number;
+
+    /**
+     * Executed when a list response is loaded
+     */
+    responseFetched?: (response: TResponse, nextPageUrl?: string, continuationToken?: string) => void;
 }
 
 export interface IQueryConfig {

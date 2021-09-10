@@ -1,10 +1,16 @@
 import { IResponse } from '@kentico/kontent-core';
 
-import { BaseKontentResponseStandardDebug, Pagination } from '../common';
+import {
+    BaseGroupedKontentResponse,
+    BaseKontentResponse,
+    IKontentListAllResponse,
+    IKontentListResponse,
+    Pagination
+} from '../common';
 import { TaxonomyGroup } from './taxonomy-models';
 
 export namespace TaxonomyResponses {
-    export class ViewTaxonomyGroupResponse extends BaseKontentResponseStandardDebug {
+    export class ViewTaxonomyResponse extends BaseKontentResponse {
         constructor(
             /**
              * Taxonomy group
@@ -20,12 +26,12 @@ export namespace TaxonomyResponses {
         }
     }
 
-    export class ListTaxonomyGroupsResponse extends BaseKontentResponseStandardDebug {
+    export class ListTaxonomiesResponse extends BaseKontentResponse implements IKontentListResponse {
         constructor(
             /**
              * Taxonomies
              */
-            public taxonomies: TaxonomyGroup[],
+            public items: TaxonomyGroup[],
 
             /**
              * Pagination
@@ -35,9 +41,15 @@ export namespace TaxonomyResponses {
             /**
              * Response
              */
-            response: IResponse<any>,
+            response: IResponse<any>
         ) {
             super(response);
+        }
+    }
+
+    export class ListTaxonomiesAllResponse extends BaseGroupedKontentResponse implements IKontentListAllResponse {
+        constructor(public items: TaxonomyGroup[], public responses: ListTaxonomiesResponse[]) {
+            super(responses);
         }
     }
 }

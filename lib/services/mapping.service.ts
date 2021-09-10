@@ -29,12 +29,7 @@ export interface IMappingService {
     itemsFeedResponse<TItem extends IContentItem>(
         response: IResponse<ItemContracts.IItemsFeedContract>,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ItemsFeedResponse<TItem>;
-
-    itemsFeedAllResponse<TItem extends IContentItem>(
-        responses: IResponse<ItemContracts.IItemsFeedContract>[],
-        queryConfig: IItemQueryConfig
-    ): ItemResponses.ItemsFeedAllResponse<TItem>;
+    ): ItemResponses.ListItemsFeedResponse<TItem>;
 
     viewContentTypeResponse(
         response: IResponse<TypeContracts.IViewContentTypeContract>
@@ -52,11 +47,11 @@ export interface IMappingService {
 
     viewTaxonomyGroupResponse(
         response: IResponse<TaxonomyContracts.IViewTaxonomyGroupContract>
-    ): TaxonomyResponses.ViewTaxonomyGroupResponse;
+    ): TaxonomyResponses.ViewTaxonomyResponse;
 
     listTaxonomyGroupsResponse(
         response: IResponse<TaxonomyContracts.IListTaxonomyGroupsContract>
-    ): TaxonomyResponses.ListTaxonomyGroupsResponse;
+    ): TaxonomyResponses.ListTaxonomiesResponse;
 
     viewContentTypeElementResponse(
         response: IResponse<ElementContracts.IViewContentTypeElementContract>
@@ -136,43 +131,17 @@ export class MappingService implements IMappingService {
     itemsFeedResponse<TItem extends IContentItem>(
         response: IResponse<ItemContracts.IItemsFeedContract>,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ItemsFeedResponse<TItem> {
+    ): ItemResponses.ListItemsFeedResponse<TItem> {
         const itemsResult = this.itemMapper.mapItems<TItem>({
             linkedItems: Object.values(response.data.modular_content),
             mainItems: response.data.items,
             queryConfig: queryConfig
         });
 
-        return new ItemResponses.ItemsFeedResponse(
+        return new ItemResponses.ListItemsFeedResponse(
             itemsResult.items,
             itemsResult.linkedItems,
             response
-        );
-    }
-
-    itemsFeedAllResponse<TItem extends IContentItem>(
-        responses: IResponse<ItemContracts.IItemsFeedContract>[],
-        queryConfig: IItemQueryConfig
-    ): ItemResponses.ItemsFeedAllResponse<TItem> {
-        // join data from all responses before resolving items
-        const allMainItems: ItemContracts.IContentItemContract[] = [];
-        let allLinkedItems: ItemContracts.IModularContentContract = {};
-
-        for (const response of responses) {
-            allMainItems.push(...response.data.items);
-            allLinkedItems = { ...allLinkedItems, ...response.data.modular_content };
-        }
-
-        const itemsResult = this.itemMapper.mapItems<TItem>({
-            linkedItems: Object.values(allLinkedItems),
-            mainItems: allMainItems,
-            queryConfig: queryConfig
-        });
-
-        return new ItemResponses.ItemsFeedAllResponse(
-            itemsResult.items,
-            itemsResult.linkedItems,
-            responses
         );
     }
 
@@ -226,10 +195,10 @@ export class MappingService implements IMappingService {
      */
     viewTaxonomyGroupResponse(
         response: IResponse<TaxonomyContracts.IViewTaxonomyGroupContract>
-    ): TaxonomyResponses.ViewTaxonomyGroupResponse {
+    ): TaxonomyResponses.ViewTaxonomyResponse {
         const taxonomy = this.taxonomyMapper.mapTaxonomy(response.data.system, response.data.terms);
 
-        return new TaxonomyResponses.ViewTaxonomyGroupResponse(taxonomy, response);
+        return new TaxonomyResponses.ViewTaxonomyResponse(taxonomy, response);
     }
 
     /**
@@ -238,7 +207,7 @@ export class MappingService implements IMappingService {
      */
     listTaxonomyGroupsResponse(
         response: IResponse<TaxonomyContracts.IListTaxonomyGroupsContract>
-    ): TaxonomyResponses.ListTaxonomyGroupsResponse {
+    ): TaxonomyResponses.ListTaxonomiesResponse {
         const taxonomies = this.taxonomyMapper.mapTaxonomies(response.data.taxonomies);
 
         const pagination: Pagination = new Pagination({
@@ -248,7 +217,7 @@ export class MappingService implements IMappingService {
             nextPage: response.data.pagination.next_page
         });
 
-        return new TaxonomyResponses.ListTaxonomyGroupsResponse(taxonomies, pagination, response);
+        return new TaxonomyResponses.ListTaxonomiesResponse(taxonomies, pagination, response);
     }
 
     /**

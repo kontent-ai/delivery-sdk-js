@@ -1,12 +1,9 @@
-
-
 import { IDeliveryClientConfig } from '../../config';
-import { TypeResponses } from '../../models';
+import { IContentTypeQueryConfig, TypeResponses } from '../../models';
 import { QueryService } from '../../services';
-import { BaseTypeQuery } from './base-type-query.class';
+import { BaseQuery } from '../common/base-query.class';
 
-export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.ViewContentTypeResponse> {
-
+export class SingleTypeQuery extends BaseQuery<TypeResponses.ViewContentTypeResponse, IContentTypeQueryConfig> {
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
@@ -20,16 +17,18 @@ export class SingleTypeQuery extends BaseTypeQuery<TypeResponses.ViewContentType
     }
 
     /**
-    * Gets the runnable Promise
-    */
+     * Gets the runnable Promise
+     */
     toPromise(): Promise<TypeResponses.ViewContentTypeResponse> {
-        return super.runSingleTypeQuery(this.typeCodename);
+        return this.queryService.getSingleType(this.getUrl(), this._queryConfig ?? {});
     }
 
     /**
-    * Gets 'Url' representation of query
-    */
+     * Gets 'Url' representation of query
+     */
     getUrl(): string {
-        return super.getSingleTypeQueryUrl(this.typeCodename);
+        const action = '/types/' + this.typeCodename;
+
+        return super.resolveUrlInternal(action);
     }
 }

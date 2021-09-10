@@ -1,22 +1,34 @@
 import { IResponse } from '@kentico/kontent-core';
 
-import { BaseKontentResponseStandardDebug, Pagination } from '../common';
+import {
+    BaseGroupedKontentResponse,
+    BaseKontentResponse,
+    IKontentListAllResponse,
+    IKontentListResponse,
+    Pagination
+} from '../common';
 import { ContentType } from './content-type-models';
 
 export namespace TypeResponses {
-    export class ListContentTypesResponse extends BaseKontentResponseStandardDebug {
+    export class ListContentTypesResponse extends BaseKontentResponse implements IKontentListResponse {
         /**
          * Response containing multiple types
          * @constructor
-         * @param {IContentType[]} types - Content types
+         * @param {IContentType[]} items - Content types
          * @param {Pagination} pagination - Pagination object
          */
-        constructor(public types: ContentType[], public pagination: Pagination, response: IResponse<any>) {
+        constructor(public items: ContentType[], public pagination: Pagination, response: IResponse<any>) {
             super(response);
         }
     }
 
-    export class ViewContentTypeResponse extends BaseKontentResponseStandardDebug {
+    export class ListContentTypesAllResponse extends BaseGroupedKontentResponse implements IKontentListAllResponse {
+        constructor(public items: ContentType[], public responses: ListContentTypesResponse[]) {
+            super(responses);
+        }
+    }
+
+    export class ViewContentTypeResponse extends BaseKontentResponse {
         /**
          * Response containing single type
          * @constructor

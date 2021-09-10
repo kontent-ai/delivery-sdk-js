@@ -1,56 +1,37 @@
 import { IDeliveryClientConfig } from '../../config';
-import { continuationTokenHeaderName, Parameters, TypeResponses } from '../../models';
+import { IContentTypeQueryConfig, TypeResponses } from '../../models';
 import { QueryService } from '../../services';
-import { BaseTypeQuery } from './base-type-query.class';
+import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class MultipleTypeQuery extends BaseTypeQuery<TypeResponses.ListContentTypesResponse> {
+export class MultipleTypeQuery extends BaseListingQuery<
+    TypeResponses.ListContentTypesResponse,
+    TypeResponses.ListContentTypesAllResponse,
+    IContentTypeQueryConfig
+> {
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
-    }
-
-    /**
-     * Limits the number of types returned by query
-     * @param limit Number of types to load
-     */
-    limitParameter(limit: number): this {
-        this.parameters.push(new Parameters.LimitParameter(limit));
-        return this;
-    }
-
-    /**
-     * Skips the selected number of types
-     * @param skip Number of types to skip
-     */
-    skipParameter(skip: number): this {
-        this.parameters.push(new Parameters.SkipParameter(skip));
-        return this;
-    }
-
-    /**
-     * Sets continuation token header
-     */
-    withContinuationToken(token: string): this {
-        this.withHeaders([
-            {
-                header: continuationTokenHeaderName,
-                value: token
-            }
-        ]);
-
-        return this;
     }
 
     /**
      * Gets the runnable Promise
      */
     toPromise(): Promise<TypeResponses.ListContentTypesResponse> {
-        return super.runMultipleTypesQuery();
+        return this.queryService.getMultipleTypes(this.getUrl(), this._queryConfig ?? {});
     }
 
     /**
      * Gets 'Url' representation of query
      */
     getUrl(): string {
-        return super.getMultipleTypesQueryUrl();
+        const action = '/types';
+
+        return super.resolveUrlInternal(action);
+    }
+
+    protected allResponseFactory(
+        items: any[],
+        responses: TypeResponses.ListContentTypesResponse[]
+    ): TypeResponses.ListContentTypesAllResponse {
+        return new TypeResponses.ListContentTypesAllResponse(items, responses);
     }
 }

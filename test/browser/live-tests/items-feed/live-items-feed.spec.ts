@@ -5,14 +5,14 @@ describe('Live items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ItemsFeedResponse;
+    let response: ItemResponses.ListItemsFeedResponse;
 
     beforeAll(async () => {
         response = await context.deliveryClient.itemsFeed().toPromise();
     });
 
     it(`Response should be of proper type`, () => {
-        expect(response).toEqual(jasmine.any(ItemResponses.ItemsFeedResponse));
+        expect(response).toEqual(jasmine.any(ItemResponses.ListItemsFeedResponse));
     });
 
     it(`Response should have all properties assigned`, () => {

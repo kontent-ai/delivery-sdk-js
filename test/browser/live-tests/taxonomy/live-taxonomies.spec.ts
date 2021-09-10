@@ -10,13 +10,13 @@ describe('Live taxonomies', () => {
     const existingTaxonomyCodename: string = 'movietype'; // codename of some of the defined taxonomies
     const numberOfTaxonomies: number = 2; // number of defined taxonomies
 
-    let response: TaxonomyResponses.ListTaxonomyGroupsResponse;
+    let response: TaxonomyResponses.ListTaxonomiesResponse;
     let taxonomy: TaxonomyGroup;
 
     beforeAll(async () => {
         response = await context.deliveryClient.taxonomies().toPromise();
 
-        taxonomy = response.taxonomies.find((m) => m.system.codename === existingTaxonomyCodename) as TaxonomyGroup;
+        taxonomy = response.items.find((m) => m.system.codename === existingTaxonomyCodename) as TaxonomyGroup;
     });
 
     it(`taxonomies should have pagination`, () => {
@@ -24,11 +24,11 @@ describe('Live taxonomies', () => {
     });
 
     it(`taxonomies should be defined`, () => {
-        expect(response.taxonomies).toBeDefined();
+        expect(response.items).toBeDefined();
     });
 
     it(`there should be '${numberOfTaxonomies}' taxonomies`, () => {
-        expect(response.taxonomies.length).toEqual(numberOfTaxonomies);
+        expect(response.items.length).toEqual(numberOfTaxonomies);
     });
 
     it(`taxonomy with codename '${existingTaxonomyCodename}' should be defined`, () => {

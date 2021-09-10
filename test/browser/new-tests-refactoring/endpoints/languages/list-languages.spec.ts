@@ -18,9 +18,9 @@ describe('List languages', () => {
     });
 
     it(`Response should have all properties assigned`, () => {
-        expect(response.languages.length).toEqual(responseJson.languages.length);
+        expect(response.items.length).toEqual(responseJson.languages.length);
 
-        for (const item of response.languages) {
+        for (const item of response.items) {
             const originalItem = responseJson.languages.find((m) => m.system.id === item.system.id);
 
             if (!originalItem) {

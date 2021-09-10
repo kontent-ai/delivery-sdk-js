@@ -75,8 +75,8 @@ export class AllTestObjects {
   public items!: ItemResponses.ListContentItemsResponse<Movie>;
 
   // taxonomies
-  public taxonomy!: TaxonomyResponses.ViewTaxonomyGroupResponse;
-  public taxonomies!: TaxonomyResponses.ListTaxonomyGroupsResponse;
+  public taxonomy!: TaxonomyResponses.ViewTaxonomyResponse;
+  public taxonomies!: TaxonomyResponses.ListTaxonomiesResponse;
 
   // types
   public type!: TypeResponses.ViewContentTypeResponse;
@@ -91,8 +91,8 @@ export class AllTestObjects {
     items: ItemResponses.ListContentItemsResponse<Movie>,
 
     // taxonomies
-    taxonomy: TaxonomyResponses.ViewTaxonomyGroupResponse,
-    taxonomies: TaxonomyResponses.ListTaxonomyGroupsResponse,
+    taxonomy: TaxonomyResponses.ViewTaxonomyResponse,
+    taxonomies: TaxonomyResponses.ListTaxonomiesResponse,
 
     // types
     type: TypeResponses.ViewContentTypeResponse,

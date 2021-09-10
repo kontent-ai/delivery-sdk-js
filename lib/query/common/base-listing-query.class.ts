@@ -1,61 +1,31 @@
-import { IDeliveryClientConfig } from '../../config';
-import { ContentItem, continuationTokenHeaderName, Filters, ItemResponses, Parameters, SortOrder } from '../../models';
-import { QueryService } from '../../services';
-import { BaseItemQuery } from './base-item-query.class';
 
-export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
-    TItem,
-    ItemResponses.ListContentItemsResponse<TItem>
-> {
+import { IDeliveryClientConfig } from '../../config';
+import {
+    continuationTokenHeaderName,
+    Filters,
+    IKontentListAllResponse,
+    IKontentListResponse,
+    IListQueryConfig,
+    IQueryConfig,
+    Parameters,
+    SortOrder
+} from '../../models';
+import { QueryService } from '../../services';
+import { BaseQuery } from './base-query.class';
+
+export abstract class BaseListingQuery<
+    TResponse extends IKontentListResponse,
+    TAllResponse extends IKontentListAllResponse,
+    TQueryConfig extends IQueryConfig
+> extends BaseQuery<TResponse, TQueryConfig> {
+    protected _listQueryConfig?: IListQueryConfig<TResponse>;
+
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
 
-    /**
-     * Adds information about the total number of content items matching your query.
-     * When set to true, the pagination object returned in the API response contains
-     * an additional total_count property.
-     */
-    includeTotalCountParameter(): this {
-        this.parameters.push(new Parameters.IncludeTotalCountParameter());
-        return this;
-    }
-
-    /**
-     * Gets only item of given type
-     * @param type Codename of type to get
-     */
-    type(type: string): this {
-        this.parameters.push(new Filters.TypeFilter(type));
-        return this;
-    }
-
-    /**
-     * Gets items of given types (logical or)
-     * I.e. get items of either 'Actor' or 'Movie' type
-     * @param types Types to get
-     */
-    types(types: string[]): this {
-        this.parameters.push(new Filters.TypeFilter(types));
-        return this;
-    }
-
-    /**
-     * Gets only item from given collection
-     * @param collection Codename of collection to get
-     */
-    collection(collection: string): this {
-        this.parameters.push(new Filters.CollectionFilter(collection));
-        return this;
-    }
-
-    /**
-     * Gets items from given collections (logical or)
-     * I.e. get items of either 'default' or 'christmas-campaign' collection
-     * @param collections Collections to get
-     */
-    collections(collections: string[]): this {
-        this.parameters.push(new Filters.CollectionFilter(collections));
+    listQueryConfig(config?: IListQueryConfig<TResponse>): this {
+        this._listQueryConfig = config;
         return this;
     }
 
@@ -144,15 +114,6 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
      */
     greaterThanOrEqualFilter(element: string, value: string): this {
         this.parameters.push(new Filters.GreaterThanOrEqualFilter(element, value));
-        return this;
-    }
-
-    /**
-     * Indicates depth of query that affects loading of nested linked items.
-     * @param depth Depth of the query (> 0)
-     */
-    depthParameter(depth: number): this {
-        this.parameters.push(new Parameters.DepthParameter(depth));
         return this;
     }
 
@@ -266,16 +227,24 @@ export class MultipleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
-     * Gets the runnable Promise
+     * Query to get all items. Uses paging data and may execute multiple HTTP requests depending on number of items
      */
-    toPromise(): Promise<ItemResponses.ListContentItemsResponse<TItem>> {
-        return super.runMultipleItemsQuery();
+    toAllPromise(): Promise<TAllResponse> {
+        return this.queryService.getListAllResponse<TResponse, TAllResponse>({
+            listQueryConfig: this._listQueryConfig,
+            allResponseFactory: (items, responses) => this.allResponseFactory(items, responses),
+            getResponse: (nextPageUrl, continuationToken) => {
+                if (nextPageUrl) {
+                    this.withCustomUrl(nextPageUrl).toPromise();
+                }
+                if (continuationToken) {
+                    this.withContinuationToken(continuationToken);
+                }
+
+                return this.toPromise();
+            }
+        });
     }
 
-    /**
-     * Gets 'Url' representation of query
-     */
-    getUrl(): string {
-        return super.getMultipleItemsQueryUrl();
-    }
+    protected abstract allResponseFactory(items: any[], responses: TResponse[]): TAllResponse;
 }

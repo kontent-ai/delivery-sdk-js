@@ -6,13 +6,12 @@ import { getParserAdapter } from '../parser/parser-adapter';
 import {
     ElementQuery,
     ItemsFeedQuery,
-    MultipleItemQuery,
+    MultipleItemsQuery,
     MultipleTypeQuery,
     SingleItemQuery,
     SingleTypeQuery,
     TaxonomiesQuery,
     TaxonomyQuery,
-    ItemsFeedQueryAll,
     LanguagesQuery
 } from '../query';
 import { sdkInfo } from '../sdk-info.generated';
@@ -74,8 +73,8 @@ export class DeliveryClient implements IDeliveryClient {
     /**
      * Gets query for multiple items
      */
-    items<TItem extends ContentItem>(): MultipleItemQuery<TItem> {
-        return new MultipleItemQuery<TItem>(this.config, this.queryService);
+    items<TItem extends ContentItem>(): MultipleItemsQuery<TItem> {
+        return new MultipleItemsQuery<TItem>(this.config, this.queryService);
     }
 
     /**
@@ -91,13 +90,6 @@ export class DeliveryClient implements IDeliveryClient {
      */
     itemsFeed<TItem extends ContentItem>(): ItemsFeedQuery<TItem> {
         return new ItemsFeedQuery<TItem>(this.config, this.queryService);
-    }
-
-    /**
-     * Gets query for all items feed. This may execute multiple HTTP calls depending on number of items in your Kontent project.
-     */
-    itemsFeedAll<TItem extends ContentItem>(): ItemsFeedQueryAll<TItem> {
-        return new ItemsFeedQueryAll<TItem>(this.config, this.queryService);
     }
 
     /**

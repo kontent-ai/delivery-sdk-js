@@ -23,11 +23,6 @@ describe('Mapping service', () => {
 
     it(`Listing response should be mapped correctly`, () => {
         expect(listingResponse).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
-        expect(listingResponse.debug).toBeDefined();
-
-        if (listingResponse.debug) {
-            expect(listingResponse.debug.response).toBeDefined();
-        }
 
         expect(listingResponse.items.length).toEqual(responseJson.items.length);
 
