@@ -10,7 +10,8 @@ describe('Localized item', () => {
     let response: ItemResponses.ViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
-        response = await context.deliveryClient.item<Movie>(movieCodename).languageParameter(language).toPromise();
+        response = (await context.deliveryClient.item<Movie>(movieCodename).languageParameter(language).toPromise())
+            .data;
     });
 
     it(`language should be '${language}'`, () => {

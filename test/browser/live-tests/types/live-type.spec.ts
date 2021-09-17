@@ -12,7 +12,7 @@ describe('Live type', () => {
     const taxonomyElement: string = 'releasecategory';
 
     beforeAll(async () => {
-        response = await context.deliveryClient.type(codename).toPromise();
+        response = (await context.deliveryClient.type(codename).toPromise()).data;
     });
 
     it(`type should be defined`, () => {

@@ -5,7 +5,7 @@ import * as responseJson from './custom-element.spec.json';
 describe('Custom element', () => {
     let item: ContentItem;
     beforeAll(async () => {
-        const response = await getDeliveryClientWithJson(responseJson).items().toPromise();
+        const response = (await getDeliveryClientWithJson(responseJson).items().toPromise()).data;
 
         item = response.items[0];
     });

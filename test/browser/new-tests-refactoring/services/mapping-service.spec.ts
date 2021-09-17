@@ -8,16 +8,7 @@ describe('Mapping service', () => {
     });
 
     const listingResponse: ItemResponses.ListContentItemsResponse = client.mappingService.listContentItemsResponse(
-        {
-            data: responseJson,
-            rawResponse: null,
-            retryStrategy: {
-                options: {},
-                retryAttempts: 0
-            },
-            headers: [],
-            status: 200
-        },
+        responseJson,
         {}
     );
 

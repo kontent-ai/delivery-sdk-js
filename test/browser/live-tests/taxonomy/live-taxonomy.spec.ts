@@ -12,7 +12,7 @@ describe('Live taxonomy', () => {
     let response: TaxonomyResponses.ViewTaxonomyResponse;
 
     beforeAll(async () => {
-        response = await context.deliveryClient.taxonomy(taxonomyCodename).toPromise();
+        response = (await context.deliveryClient.taxonomy(taxonomyCodename).toPromise()).data;
     });
 
     it(`taxomy should be defined`, () => {

@@ -16,15 +16,16 @@ describe('Live element', () => {
     let taxonomyElementResponse: ElementResponses.ViewContentTypeElementResponse;
 
     beforeAll(async () => {
-        textElementResponse = await context.deliveryClient.element(typeCodename, textElementCodename).toPromise();
+        textElementResponse = (await context.deliveryClient.element(typeCodename, textElementCodename).toPromise())
+            .data;
 
-        multipleChoiceElementResponse = await context.deliveryClient
-            .element(typeCodename, multipleChoiceElementCodename)
-            .toPromise();
+        multipleChoiceElementResponse = (
+            await context.deliveryClient.element(typeCodename, multipleChoiceElementCodename).toPromise()
+        ).data;
 
-        taxonomyElementResponse = await context.deliveryClient
-            .element(typeCodename, taxonomyElementCodename)
-            .toPromise();
+        taxonomyElementResponse = (
+            await context.deliveryClient.element(typeCodename, taxonomyElementCodename).toPromise()
+        ).data;
     });
 
     it(`element responses should be defined`, () => {

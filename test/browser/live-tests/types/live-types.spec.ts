@@ -8,7 +8,7 @@ describe('Live types', () => {
     let response: TypeResponses.ListContentTypesResponse;
 
     beforeAll(async () => {
-        response = await context.deliveryClient.types().toPromise();
+        response = (await context.deliveryClient.types().toPromise()).data;
     });
 
     it(`types should be defined`, () => {

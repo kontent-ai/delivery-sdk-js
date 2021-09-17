@@ -6,7 +6,7 @@ describe('Unknown element', () => {
     let item: ContentItem;
 
     beforeAll(async () => {
-        const response = await getDeliveryClientWithJson(responseJson).items().toPromise();
+        const response = (await getDeliveryClientWithJson(responseJson).items().toPromise()).data;
 
         item = response.items[0];
     });

@@ -17,7 +17,7 @@ describe('Items with total count', () => {
 
         parameters.push(...query.getParameters());
 
-        response = await query.toPromise();
+        response = (await query.toPromise()).data;
     });
 
     it(`Total count parameter should be set to true`, () => {

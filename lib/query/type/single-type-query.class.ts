@@ -1,5 +1,5 @@
 import { IDeliveryClientConfig } from '../../config';
-import { IContentTypeQueryConfig, TypeResponses } from '../../models';
+import { IContentTypeQueryConfig, IKontentNetworkResponse, TypeResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
@@ -19,7 +19,7 @@ export class SingleTypeQuery extends BaseQuery<TypeResponses.ViewContentTypeResp
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<TypeResponses.ViewContentTypeResponse> {
+    toPromise(): Promise<IKontentNetworkResponse<TypeResponses.ViewContentTypeResponse>> {
         return this.queryService.getSingleType(this.getUrl(), this._queryConfig ?? {});
     }
 

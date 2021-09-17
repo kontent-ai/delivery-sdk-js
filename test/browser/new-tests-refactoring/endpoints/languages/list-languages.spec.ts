@@ -10,7 +10,7 @@ describe('List languages', () => {
     let response: LanguageResponses.ListLanguagesResponse;
 
     beforeAll(async () => {
-        response = await getDeliveryClientWithJson(responseJson).languages().toPromise();
+        response = (await getDeliveryClientWithJson(responseJson).languages().toPromise()).data;
     });
 
     it(`Response should be of proper type`, () => {

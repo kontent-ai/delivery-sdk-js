@@ -9,7 +9,7 @@ describe(`Collision element names`, () => {
     let item: ContentItem;
 
     beforeAll(async () => {
-        const response = await getDeliveryClientWithJson(responseJson).item('x').toPromise();
+        const response = (await getDeliveryClientWithJson(responseJson).item('x').toPromise()).data;
 
         item = response.item;
     });

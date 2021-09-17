@@ -1,5 +1,5 @@
 import { IDeliveryClientConfig } from '../../config';
-import { ITaxonomyQueryConfig, TaxonomyResponses } from '../../models';
+import { IKontentNetworkResponse, ITaxonomyQueryConfig, TaxonomyResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
@@ -24,7 +24,7 @@ export class TaxonomyQuery extends BaseQuery<TaxonomyResponses.ViewTaxonomyRespo
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<TaxonomyResponses.ViewTaxonomyResponse> {
+    toPromise(): Promise<IKontentNetworkResponse<TaxonomyResponses.ViewTaxonomyResponse>> {
         return this.queryService.getTaxonomy(this.getUrl(), this._queryConfig ?? {});
     }
 

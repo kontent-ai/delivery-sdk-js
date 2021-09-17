@@ -8,7 +8,7 @@ describe('Circular references in linked items', () => {
     const modularItemElement = 'related_articles';
 
     beforeAll(async () => {
-        response = await getDeliveryClientWithJson(responseJson).item('x').toPromise();
+        response = (await getDeliveryClientWithJson(responseJson).item('x').toPromise()).data;
     });
 
     it(`Response should be defines and there should be no stackoverflow exception logged`, () => {

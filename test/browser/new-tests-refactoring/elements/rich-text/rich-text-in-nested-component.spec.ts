@@ -26,16 +26,18 @@ describe('Rich text resolving in nested component (Browser)', () => {
     let item: Main;
 
     beforeAll(async () => {
-        const response = await getDeliveryClientWithJson(responseJson, {
-            projectId: '',
-            typeResolvers: [
-                new TypeResolver('main', (data) => new Main()),
-                new TypeResolver('item', (data) => new Item())
-            ],
-            richTextParserAdapter: new BrowserRichTextParser()
-        })
-            .item<Main>('x')
-            .toPromise();
+        const response = (
+            await getDeliveryClientWithJson(responseJson, {
+                projectId: '',
+                typeResolvers: [
+                    new TypeResolver('main', (data) => new Main()),
+                    new TypeResolver('item', (data) => new Item())
+                ],
+                richTextParserAdapter: new BrowserRichTextParser()
+            })
+                .item<Main>('x')
+                .toPromise()
+        ).data;
 
         item = response.item;
     });
@@ -51,16 +53,18 @@ describe('Rich text resolving in nested component (Parse5)', () => {
     let item: Main;
 
     beforeAll(async () => {
-        const response = await getDeliveryClientWithJson(responseJson, {
-            projectId: '',
-            typeResolvers: [
-                new TypeResolver('main', (data) => new Main()),
-                new TypeResolver('item', (data) => new Item())
-            ],
-            richTextParserAdapter: new Parse5RichTextParser()
-        })
-            .item<Main>('x')
-            .toPromise();
+        const response = (
+            await getDeliveryClientWithJson(responseJson, {
+                projectId: '',
+                typeResolvers: [
+                    new TypeResolver('main', (data) => new Main()),
+                    new TypeResolver('item', (data) => new Item())
+                ],
+                richTextParserAdapter: new Parse5RichTextParser()
+            })
+                .item<Main>('x')
+                .toPromise()
+        ).data;
 
         item = response.item;
     });

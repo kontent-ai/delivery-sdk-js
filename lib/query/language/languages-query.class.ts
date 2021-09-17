@@ -1,5 +1,5 @@
 import { IDeliveryClientConfig } from '../../config';
-import { continuationTokenHeaderName, ILanguagesQueryConfig, LanguageResponses, Parameters } from '../../models';
+import { continuationTokenHeaderName, IKontentNetworkResponse, ILanguagesQueryConfig, LanguageResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
@@ -52,7 +52,7 @@ export class LanguagesQuery extends BaseListingQuery<
     /**
      * Gets Promise
      */
-    toPromise(): Promise<LanguageResponses.ListLanguagesResponse> {
+    toPromise(): Promise<IKontentNetworkResponse<LanguageResponses.ListLanguagesResponse>> {
         return this.queryService.getLanguages(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -76,7 +76,7 @@ export class LanguagesQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: LanguageResponses.ListLanguagesResponse[]
+        responses: IKontentNetworkResponse<LanguageResponses.ListLanguagesResponse>[]
     ): LanguageResponses.ListLanguagesAllResponse {
         return new LanguageResponses.ListLanguagesAllResponse(items, responses);
     }

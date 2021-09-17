@@ -9,18 +9,20 @@ describe('Live item', () => {
     let response: ItemResponses.ViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
-        response = await context.deliveryClient
-            .item<Movie>(movieCodename)
-            .queryConfig({
-                richTextImageResolver: (image, elementName) => {
-                    const newImageUrl = new ImageUrlBuilder(image.url).withCustomParam('x=y').getUrl();
+        response = (
+            await context.deliveryClient
+                .item<Movie>(movieCodename)
+                .queryConfig({
+                    richTextImageResolver: (image, elementName) => {
+                        const newImageUrl = new ImageUrlBuilder(image.url).withCustomParam('x=y').getUrl();
 
-                    return {
-                        url: newImageUrl
-                    };
-                }
-            })
-            .toPromise();
+                        return {
+                            url: newImageUrl
+                        };
+                    }
+                })
+                .toPromise()
+        ).data;
     });
 
     it(`item response should be defined`, () => {

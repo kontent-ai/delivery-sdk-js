@@ -1,7 +1,7 @@
 import { IHeader, IQueryParameter } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../../config';
-import { IKontentResponse, IQueryConfig, Parameters } from '../../models';
+import { IKontentNetworkResponse, IKontentResponse, IQueryConfig, Parameters } from '../../models';
 import { QueryService } from '../../services';
 
 export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig extends IQueryConfig> {
@@ -13,7 +13,7 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {}
 
     abstract getUrl(): string;
-    abstract toPromise(): Promise<TResponse>;
+    abstract toPromise(): Promise<IKontentNetworkResponse<TResponse>>;
 
     /**
      * Adds custom parameter to query

@@ -19,7 +19,7 @@ describe('Items list response', () => {
 
         parameters.push(...query.getParameters());
 
-        response = await query.toPromise();
+        response = (await query.toPromise()).data;
     });
 
     it(`Total count parameter should be set to true`, () => {

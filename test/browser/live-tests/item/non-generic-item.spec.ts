@@ -11,7 +11,7 @@ describe('Non generic item tests', () => {
     let response: ItemResponses.ViewContentItemResponse<ContentItem>;
 
     beforeAll(async () => {
-        response = await context.deliveryClient.item<ContentItem>(movieCodename).toPromise();
+        response = (await context.deliveryClient.item<ContentItem>(movieCodename).toPromise()).data;
     });
 
     it(`ContentItem should be returned if `, () => {

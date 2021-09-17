@@ -1,10 +1,11 @@
-
 import { IDeliveryClientConfig } from '../../config';
 import {
     continuationTokenHeaderName,
     Filters,
+    IGroupedKontentNetworkResponse,
     IKontentListAllResponse,
     IKontentListResponse,
+    IKontentNetworkResponse,
     IListQueryConfig,
     IQueryConfig,
     Parameters,
@@ -229,10 +230,16 @@ export abstract class BaseListingQuery<
     /**
      * Query to get all items. Uses paging data and may execute multiple HTTP requests depending on number of items
      */
-    toAllPromise(): Promise<TAllResponse> {
+    toAllPromise(): Promise<IGroupedKontentNetworkResponse<TAllResponse>> {
         return this.queryService.getListAllResponse<TResponse, TAllResponse>({
             listQueryConfig: this._listQueryConfig,
-            allResponseFactory: (items, responses) => this.allResponseFactory(items, responses),
+            allResponseFactory: (items, responses) => {
+                const response = this.allResponseFactory(items, responses);
+                return {
+                    data: response,
+                    responses: responses
+                };
+            },
             getResponse: (nextPageUrl, continuationToken) => {
                 if (nextPageUrl) {
                     this.withCustomUrl(nextPageUrl).toPromise();
@@ -246,5 +253,5 @@ export abstract class BaseListingQuery<
         });
     }
 
-    protected abstract allResponseFactory(items: any[], responses: TResponse[]): TAllResponse;
+    protected abstract allResponseFactory(items: any[], responses: IKontentNetworkResponse<TResponse>[]): TAllResponse;
 }

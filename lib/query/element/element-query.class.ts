@@ -1,5 +1,5 @@
 import { IDeliveryClientConfig } from '../../config';
-import { ElementResponses, IElementQueryConfig } from '../../models';
+import { ElementResponses, IElementQueryConfig, IKontentNetworkResponse } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
@@ -24,7 +24,7 @@ export class ElementQuery extends BaseQuery<ElementResponses.ViewContentTypeElem
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<ElementResponses.ViewContentTypeElementResponse> {
+    toPromise(): Promise<IKontentNetworkResponse<ElementResponses.ViewContentTypeElementResponse>> {
         return this.queryService.getElementAsync(this.getUrl(), this._queryConfig ?? {});
     }
 

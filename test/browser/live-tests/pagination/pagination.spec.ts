@@ -9,12 +9,9 @@ describe('Pagination', () => {
     let response: ItemResponses.ListContentItemsResponse<Movie>;
 
     beforeAll(async () => {
-        response = await context.deliveryClient
-            .items<Movie>()
-            .type(type)
-            .limitParameter(5)
-            .skipParameter(1)
-            .toPromise();
+        response = (
+            await context.deliveryClient.items<Movie>().type(type).limitParameter(5).skipParameter(1).toPromise()
+        ).data;
     });
 
     it(`pagination should be defined`, () => {

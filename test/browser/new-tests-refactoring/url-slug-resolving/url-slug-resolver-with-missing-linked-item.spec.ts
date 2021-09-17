@@ -27,7 +27,7 @@ describe('Url slug resolver with missing linked item', () => {
             .item<Page>('x')
             .toPromise();
 
-        page = response.item;
+        page = response.data.item;
     });
 
     it(`Links should be resolved in rich text`, () => {

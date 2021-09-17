@@ -28,7 +28,7 @@ describe('Url slug resolver with html & without content items (browser)', () => 
             .item<File>('x')
             .toPromise();
 
-        item = response.item;
+        item = response.data.item;
     });
 
     it(`Links should be resolved in rich text`, () => {
@@ -58,7 +58,7 @@ describe('Url slug resolver with html & without content items (parse5)', () => {
             .item<File>('x')
             .toPromise();
 
-        item = response.item;
+        item = response.data.item;
     });
 
     it(`Links should be resolved in rich text`, () => {

@@ -2,24 +2,18 @@ import { IResponse } from '@kentico/kontent-core';
 
 export class FakeResponseFactory {
     getFakeSuccessResponse(json: any): IResponse<any> {
-        const fakeResponse: any = {};
-
-        fakeResponse.response = json;
-        fakeResponse.status = 200;
-        fakeResponse.originalEvent = {};
-        fakeResponse.xhr = {};
-        fakeResponse.request = {};
-
-        return {
+        const fakeResponse: IResponse<any> = {
             data: json,
-            rawResponse: fakeResponse,
+            headers: [],
+            rawResponse: json,
             retryStrategy: {
                 options: {},
                 retryAttempts: 0
             },
-            status: 200,
-            headers: []
+            status: 200
         };
+
+        return fakeResponse;
     }
 }
 

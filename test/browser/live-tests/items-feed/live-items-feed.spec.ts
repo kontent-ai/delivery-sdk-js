@@ -1,27 +1,27 @@
-import { ContentItem, ItemResponses } from '../../../../lib';
+import { ContentItem, IKontentNetworkResponse, ItemResponses } from '../../../../lib';
 import { Actor, Context, Movie, setup } from '../../setup';
 
 describe('Live items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListItemsFeedResponse;
+    let response: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse>;
 
     beforeAll(async () => {
         response = await context.deliveryClient.itemsFeed().toPromise();
     });
 
     it(`Response should be of proper type`, () => {
-        expect(response).toEqual(jasmine.any(ItemResponses.ListItemsFeedResponse));
+        expect(response.data).toEqual(jasmine.any(ItemResponses.ListItemsFeedResponse));
     });
 
     it(`Response should have all properties assigned`, () => {
-        expect(response.items).toEqual(jasmine.any(Array));
-        expect(response.items.length).toBeGreaterThan(0);
-        expect(response.continuationToken).toBeUndefined();
-        expect(Object.keys(response.linkedItems).length).toBeGreaterThan(0);
+        expect(response.data.items).toEqual(jasmine.any(Array));
+        expect(response.data.items.length).toBeGreaterThan(0);
+        expect(response.xContinuationToken).toBeUndefined();
+        expect(Object.keys(response.data.linkedItems).length).toBeGreaterThan(0);
 
-        for (const item of response.items) {
+        for (const item of response.data.items) {
             if (item.system.type === 'movie') {
                 expect(item).toEqual(jasmine.any(Movie));
             } else if (item.system.type === 'actor') {
@@ -36,7 +36,7 @@ describe('Live items feed', () => {
     });
 
     it(`debug property should be set for all items`, () => {
-        response.items.forEach((item) => {
+        response.data.items.forEach((item) => {
             expect(item._raw).toBeDefined();
             expect(item._raw.elements).toBeDefined();
         });

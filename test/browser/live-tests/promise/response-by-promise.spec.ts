@@ -12,7 +12,7 @@ describe('Response with Promises', () => {
     context.deliveryClient.items<Movie>()
       .toPromise()
       .then(xResponse => {
-        response = xResponse;
+        response = xResponse.data;
         done();
       });
   });

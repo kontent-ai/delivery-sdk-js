@@ -16,15 +16,17 @@ describe('Linked items element', () => {
     let response: ItemResponses.ViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
-        response = await getDeliveryClientWithJson(responseJson, {
-            projectId: '',
-            typeResolvers: [
-                new TypeResolver('movie', (data) => new Movie()),
-                new TypeResolver('actor', (data) => new Actor())
-            ]
-        })
-            .item<Movie>('x')
-            .toPromise();
+        response = (
+            await getDeliveryClientWithJson(responseJson, {
+                projectId: '',
+                typeResolvers: [
+                    new TypeResolver('movie', (data) => new Movie()),
+                    new TypeResolver('actor', (data) => new Actor())
+                ]
+            })
+                .item<Movie>('x')
+                .toPromise()
+        ).data;
     });
 
     it(`Stars element should be mapped to LinkedItemsElement along with properties`, () => {

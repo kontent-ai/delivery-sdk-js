@@ -1,32 +1,17 @@
-import { IResponse } from '@kentico/kontent-core';
-
-import {
-    BaseGroupedKontentResponse,
-    BaseKontentResponse,
-    IKontentListAllResponse,
-    IKontentListResponse,
-    Pagination
-} from '../common';
+import { IKontentListAllResponse, IKontentListResponse, IKontentNetworkResponse, IKontentResponse, Pagination } from '../common';
 import { TaxonomyGroup } from './taxonomy-models';
 
 export namespace TaxonomyResponses {
-    export class ViewTaxonomyResponse extends BaseKontentResponse {
+    export class ViewTaxonomyResponse implements IKontentResponse {
         constructor(
             /**
              * Taxonomy group
              */
-            public taxonomy: TaxonomyGroup,
-
-            /**
-             * Response
-             */
-            response: IResponse<any>
-        ) {
-            super(response);
-        }
+            public taxonomy: TaxonomyGroup
+        ) {}
     }
 
-    export class ListTaxonomiesResponse extends BaseKontentResponse implements IKontentListResponse {
+    export class ListTaxonomiesResponse implements IKontentListResponse {
         constructor(
             /**
              * Taxonomies
@@ -36,20 +21,11 @@ export namespace TaxonomyResponses {
             /**
              * Pagination
              */
-            public pagination: Pagination,
-
-            /**
-             * Response
-             */
-            response: IResponse<any>
-        ) {
-            super(response);
-        }
+            public pagination: Pagination
+        ) {}
     }
 
-    export class ListTaxonomiesAllResponse extends BaseGroupedKontentResponse implements IKontentListAllResponse {
-        constructor(public items: TaxonomyGroup[], public responses: ListTaxonomiesResponse[]) {
-            super(responses);
-        }
+    export class ListTaxonomiesAllResponse implements IKontentListAllResponse {
+        constructor(public items: TaxonomyGroup[], public responses: IKontentNetworkResponse<ListTaxonomiesResponse>[]) {}
     }
 }

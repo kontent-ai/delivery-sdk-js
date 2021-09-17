@@ -25,7 +25,7 @@ export class MockQueryService extends QueryService {
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.mappingService.viewContentItemResponse<TItem>(fakeResponse, queryConfig);
+        return this.mappingService.viewContentItemResponse<TItem>(fakeResponse.data, queryConfig);
     }
 
     mockGetMultipleItems<TItem extends ContentItem>(
@@ -38,6 +38,6 @@ export class MockQueryService extends QueryService {
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.mappingService.listContentItemsResponse<TItem>(fakeResponse, queryConfig);
+        return this.mappingService.listContentItemsResponse<TItem>(fakeResponse.data, queryConfig);
     }
 }

@@ -9,7 +9,7 @@ describe('Live items', () => {
     let response: ItemResponses.ListContentItemsResponse<Movie>;
 
     beforeAll(async () => {
-        response = await context.deliveryClient.items<Movie>().type(type).toPromise();
+        response = (await context.deliveryClient.items<Movie>().type(type).toPromise()).data;
     });
 
     it(`items should be defined`, () => {

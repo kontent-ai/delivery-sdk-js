@@ -1,11 +1,8 @@
-import { IResponse } from '@kentico/kontent-core';
-
-import { BaseGroupedKontentResponse, BaseKontentResponse, IKontentListAllResponse, IKontentListResponse, Pagination } from '../common';
+import { IKontentListAllResponse, IKontentListResponse, IKontentNetworkResponse, Pagination } from '../common';
 import { Language } from './language-models';
 
 export namespace LanguageResponses {
-
-    export class ListLanguagesResponse extends BaseKontentResponse implements IKontentListResponse {
+    export class ListLanguagesResponse implements IKontentListResponse {
         constructor(
             /**
              * List of languages
@@ -15,20 +12,11 @@ export namespace LanguageResponses {
             /**
              * Pagination
              */
-            public pagination: Pagination,
-
-            /**
-             * Response
-             */
-            response: IResponse<any>,
-        ) {
-            super(response);
-        }
+            public pagination: Pagination
+        ) {}
     }
 
-    export class ListLanguagesAllResponse extends BaseGroupedKontentResponse implements IKontentListAllResponse {
-        constructor(public items: Language[], public responses: ListLanguagesResponse[]) {
-            super(responses);
-        }
+    export class ListLanguagesAllResponse implements IKontentListAllResponse {
+        constructor(public items: Language[], public responses: IKontentNetworkResponse<ListLanguagesResponse>[]) {}
     }
 }

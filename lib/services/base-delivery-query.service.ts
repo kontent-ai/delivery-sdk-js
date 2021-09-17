@@ -6,7 +6,10 @@ import {
     ISDKInfo,
     IDeliveryErrorRaw,
     DeliveryError,
-    sdkVersionHeader
+    sdkVersionHeader,
+    staleContentHeaderName,
+    continuationTokenHeaderName,
+    IKontentNetworkResponse
 } from '../models';
 
 import { IDeliveryClientConfig } from '../config';
@@ -155,6 +158,15 @@ export abstract class BaseDeliveryQueryService {
         return this.getDomain(queryConfig) + '/' + this.config.projectId;
     }
 
+    protected mapNetworkResponse<TData>(data: TData, response: IResponse<any>): IKontentNetworkResponse<TData> {
+        return {
+            data: data,
+            response: response,
+            hasStaleContent: this.getHasStaleContent(response.headers),
+            xContinuationToken: this.getContinuationToken(response.headers)
+        };
+    }
+
     /**
      * Indicates if current query should use preview mode
      * @param queryConfig Query configuration
@@ -297,5 +309,23 @@ export abstract class BaseDeliveryQueryService {
             specificCode: deliveryErrorData.specific_code,
             requestId: deliveryErrorData.request_id
         });
+    }
+
+    private getHasStaleContent(headers: IHeader[]): boolean {
+        const hasStaleContentHeader = headers.find(
+            (m) => m.header.toLowerCase() === staleContentHeaderName.toLowerCase()
+        );
+
+        if (hasStaleContentHeader) {
+            if (hasStaleContentHeader.value.toString() === '1') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private getContinuationToken(headers: IHeader[]): string | undefined {
+        const header = headers.find((m) => m.header.toLowerCase() === continuationTokenHeaderName.toLowerCase());
+        return header ? header.value : undefined;
     }
 }

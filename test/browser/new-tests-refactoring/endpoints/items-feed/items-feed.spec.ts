@@ -1,4 +1,4 @@
-import { ContentItem, ItemResponses } from '../../../../../lib';
+import { ContentItem, IKontentNetworkResponse, ItemResponses } from '../../../../../lib';
 import { Actor, Context, defaultTypeResolvers, Movie, setup } from '../../../setup';
 import { getDeliveryClientWithJsonAndHeaders } from '../../setup';
 import * as responseJson from './items-feed.spec.json';
@@ -7,7 +7,7 @@ describe('Items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListItemsFeedResponse<Movie>;
+    let response: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<Movie>>;
 
     beforeAll(async () => {
         response = await getDeliveryClientWithJsonAndHeaders(
@@ -37,30 +37,30 @@ describe('Items feed', () => {
     });
 
     it(`Continuation token should be set`, () => {
-        expect(response.continuationToken).toEqual('TokenX');
+        expect(response.xContinuationToken).toEqual('TokenX');
     });
 
     it(`Response should be of proper type`, () => {
-        expect(response).toEqual(jasmine.any(ItemResponses.ListItemsFeedResponse));
+        expect(response.data).toEqual(jasmine.any(ItemResponses.ListItemsFeedResponse));
     });
 
     it(`Response should have all properties assigned`, () => {
-        expect(response.items.length).toEqual(responseJson.items.length);
+        expect(response.data.items.length).toEqual(responseJson.items.length);
 
-        for (const item of response.items) {
+        for (const item of response.data.items) {
             expect(item).toEqual(jasmine.any(ContentItem));
         }
     });
 
     it(`Debug property should be set for all items`, () => {
-        response.items.forEach((item) => {
+        response.data.items.forEach((item) => {
             expect(item._raw).toBeDefined();
             expect(item._raw.elements).toBeDefined();
         });
     });
 
     it(`Rich text should be resolved`, () => {
-        const html = response.items[0].plot.resolveHtml();
+        const html = response.data.items[0].plot.resolveHtml();
         expect(html).toContain(`actor-Joel`);
         expect(html).toContain(`actor-Tom`);
     });

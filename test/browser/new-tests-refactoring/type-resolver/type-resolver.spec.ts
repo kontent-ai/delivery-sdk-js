@@ -25,7 +25,7 @@ describe('Type resolver', () => {
             .items<Article>()
             .toPromise();
 
-        articles.push(...response.items);
+        articles.push(...response.data.items);
     });
 
     it(`Items should have 'typeResolverData' set`, () => {

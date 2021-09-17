@@ -1,5 +1,3 @@
-import { IResponse } from '@kentico/kontent-core';
-
 import { IDeliveryClientConfig } from '../config';
 import {
     ElementContracts,
@@ -22,44 +20,38 @@ import {
 import { IRichTextHtmlParser } from '../parser';
 
 export interface IMappingService {
-    listContentTypesResponse(
-        response: IResponse<TypeContracts.IListContentTypeContract>
-    ): TypeResponses.ListContentTypesResponse;
+    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.ListContentTypesResponse;
 
     itemsFeedResponse<TItem extends IContentItem>(
-        response: IResponse<ItemContracts.IItemsFeedContract>,
+        data: ItemContracts.IItemsFeedContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.ListItemsFeedResponse<TItem>;
 
-    viewContentTypeResponse(
-        response: IResponse<TypeContracts.IViewContentTypeContract>
-    ): TypeResponses.ViewContentTypeResponse;
+    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.ViewContentTypeResponse;
 
     viewContentItemResponse<TItem extends IContentItem = IContentItem>(
-        response: IResponse<ItemContracts.IViewContentItemContract>,
+        data: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.ViewContentItemResponse<TItem>;
 
     listContentItemsResponse<TItem extends IContentItem = IContentItem>(
-        response: IResponse<ItemContracts.IListContentItemsContract>,
+        data: ItemContracts.IListContentItemsContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.ListContentItemsResponse<TItem>;
 
     viewTaxonomyGroupResponse(
-        response: IResponse<TaxonomyContracts.IViewTaxonomyGroupContract>
+        data: TaxonomyContracts.IViewTaxonomyGroupContract
     ): TaxonomyResponses.ViewTaxonomyResponse;
 
     listTaxonomyGroupsResponse(
-        response: IResponse<TaxonomyContracts.IListTaxonomyGroupsContract>
+        data: TaxonomyContracts.IListTaxonomyGroupsContract
     ): TaxonomyResponses.ListTaxonomiesResponse;
 
     viewContentTypeElementResponse(
-        response: IResponse<ElementContracts.IViewContentTypeElementContract>
+        data: ElementContracts.IViewContentTypeElementContract
     ): ElementResponses.ViewContentTypeElementResponse;
 
-    listLanguagesResponse(
-        response: IResponse<LanguageContracts.IListLanguagesContract>
-    ): LanguageResponses.ListLanguagesResponse;
+    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): LanguageResponses.ListLanguagesResponse;
 }
 
 export class MappingService implements IMappingService {
@@ -79,156 +71,141 @@ export class MappingService implements IMappingService {
 
     /**
      * Gets response for list of languages
-     * @param response Response data
+     * @param data Response data
      */
-    listLanguagesResponse(
-        response: IResponse<LanguageContracts.IListLanguagesContract>
-    ): LanguageResponses.ListLanguagesResponse {
-        const languages = this.languageMapper.mapMultipleLanguages(response.data);
+    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): LanguageResponses.ListLanguagesResponse {
+        const languages = this.languageMapper.mapMultipleLanguages(data);
 
         const pagination: Pagination = new Pagination({
-            skip: response.data.pagination.skip,
-            count: response.data.pagination.count,
-            limit: response.data.pagination.limit,
-            nextPage: response.data.pagination.next_page,
+            skip: data.pagination.skip,
+            count: data.pagination.count,
+            limit: data.pagination.limit,
+            nextPage: data.pagination.next_page
         });
 
-        return new LanguageResponses.ListLanguagesResponse(languages, pagination, response);
+        return new LanguageResponses.ListLanguagesResponse(languages, pagination);
     }
 
     /**
      * Gets response for getting a multiple type
-     * @param response Response data
+     * @param data Response data
      */
-    listContentTypesResponse(
-        response: IResponse<TypeContracts.IListContentTypeContract>
-    ): TypeResponses.ListContentTypesResponse {
-        const types = this.typeMapper.mapMultipleTypes(response.data);
+    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.ListContentTypesResponse {
+        const types = this.typeMapper.mapMultipleTypes(data);
 
         const pagination: Pagination = new Pagination({
-            skip: response.data.pagination.skip,
-            count: response.data.pagination.count,
-            limit: response.data.pagination.limit,
-            nextPage: response.data.pagination.next_page
+            skip: data.pagination.skip,
+            count: data.pagination.count,
+            limit: data.pagination.limit,
+            nextPage: data.pagination.next_page
         });
 
-        return new TypeResponses.ListContentTypesResponse(types, pagination, response);
+        return new TypeResponses.ListContentTypesResponse(types, pagination);
     }
 
     /**
      * Gets response for single type
-     * @param response Response data
+     * @param data Response data
      * @param options Options
      */
-    viewContentTypeResponse(
-        response: IResponse<TypeContracts.IViewContentTypeContract>
-    ): TypeResponses.ViewContentTypeResponse {
-        const type = this.typeMapper.mapSingleType(response.data);
+    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.ViewContentTypeResponse {
+        const type = this.typeMapper.mapSingleType(data);
 
-        return new TypeResponses.ViewContentTypeResponse(type, response);
+        return new TypeResponses.ViewContentTypeResponse(type);
     }
 
     itemsFeedResponse<TItem extends IContentItem>(
-        response: IResponse<ItemContracts.IItemsFeedContract>,
+        data: ItemContracts.IItemsFeedContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.ListItemsFeedResponse<TItem> {
         const itemsResult = this.itemMapper.mapItems<TItem>({
-            linkedItems: Object.values(response.data.modular_content),
-            mainItems: response.data.items,
+            linkedItems: Object.values(data.modular_content),
+            mainItems: data.items,
             queryConfig: queryConfig
         });
 
-        return new ItemResponses.ListItemsFeedResponse(
-            itemsResult.items,
-            itemsResult.linkedItems,
-            response
-        );
+        return new ItemResponses.ListItemsFeedResponse(itemsResult.items, itemsResult.linkedItems);
     }
 
     /**
      * Gets response for getting single item
-     * @param response Response data
+     * @param data Response data
      * @param queryConfig Query configuration
      */
     viewContentItemResponse<TItem extends IContentItem = IContentItem>(
-        response: IResponse<ItemContracts.IViewContentItemContract>,
+        data: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.ViewContentItemResponse<TItem> {
-        const itemResult = this.itemMapper.mapSingleItemFromResponse<TItem>(response.data, queryConfig);
+        const itemResult = this.itemMapper.mapSingleItemFromResponse<TItem>(data, queryConfig);
 
-        return new ItemResponses.ViewContentItemResponse<TItem>(
-            itemResult.item,
-            itemResult.linkedItems,
-            response
-        );
+        return new ItemResponses.ViewContentItemResponse<TItem>(itemResult.item, itemResult.linkedItems);
     }
 
     /**
      * Gets response for getting multiple items
-     * @param response Response data
+     * @param data Response data
      * @param queryConfig Query configuration
      */
     listContentItemsResponse<TItem extends IContentItem = IContentItem>(
-        response: IResponse<ItemContracts.IListContentItemsContract>,
+        data: ItemContracts.IListContentItemsContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.ListContentItemsResponse<TItem> {
-        const itemsResult = this.itemMapper.mapMultipleItemsFromResponse<TItem>(response.data, queryConfig);
+        const itemsResult = this.itemMapper.mapMultipleItemsFromResponse<TItem>(data, queryConfig);
         const pagination: Pagination = new Pagination({
-            skip: response.data.pagination.skip,
-            count: response.data.pagination.count,
-            limit: response.data.pagination.limit,
-            nextPage: response.data.pagination.next_page,
-            totalCount: response.data.pagination.total_count
+            skip: data.pagination.skip,
+            count: data.pagination.count,
+            limit: data.pagination.limit,
+            nextPage: data.pagination.next_page,
+            totalCount: data.pagination.total_count
         });
 
         return new ItemResponses.ListContentItemsResponse<TItem>(
             itemsResult.items,
             pagination,
-            itemsResult.linkedItems,
-            response
+            itemsResult.linkedItems
         );
     }
 
     /**
      * Gets response for getting single taxonomy item
-     * @param response Response data
+     * @param data Response data
      */
     viewTaxonomyGroupResponse(
-        response: IResponse<TaxonomyContracts.IViewTaxonomyGroupContract>
+        data: TaxonomyContracts.IViewTaxonomyGroupContract
     ): TaxonomyResponses.ViewTaxonomyResponse {
-        const taxonomy = this.taxonomyMapper.mapTaxonomy(response.data.system, response.data.terms);
+        const taxonomy = this.taxonomyMapper.mapTaxonomy(data.system, data.terms);
 
-        return new TaxonomyResponses.ViewTaxonomyResponse(taxonomy, response);
+        return new TaxonomyResponses.ViewTaxonomyResponse(taxonomy);
     }
 
     /**
      * Gets response for getting multiples taxonomies
-     * @param response Response data
+     * @param data Response data
      */
     listTaxonomyGroupsResponse(
-        response: IResponse<TaxonomyContracts.IListTaxonomyGroupsContract>
+        data: TaxonomyContracts.IListTaxonomyGroupsContract
     ): TaxonomyResponses.ListTaxonomiesResponse {
-        const taxonomies = this.taxonomyMapper.mapTaxonomies(response.data.taxonomies);
+        const taxonomies = this.taxonomyMapper.mapTaxonomies(data.taxonomies);
 
         const pagination: Pagination = new Pagination({
-            skip: response.data.pagination.skip,
-            count: response.data.pagination.count,
-            limit: response.data.pagination.limit,
-            nextPage: response.data.pagination.next_page
+            skip: data.pagination.skip,
+            count: data.pagination.count,
+            limit: data.pagination.limit,
+            nextPage: data.pagination.next_page
         });
 
-        return new TaxonomyResponses.ListTaxonomiesResponse(taxonomies, pagination, response);
+        return new TaxonomyResponses.ListTaxonomiesResponse(taxonomies, pagination);
     }
 
     /**
      * Gets response for getting single content type element
-     * @param response Response data
+     * @param data Response data
      */
     viewContentTypeElementResponse(
-        response: IResponse<ElementContracts.IViewContentTypeElementContract>
+        data: ElementContracts.IViewContentTypeElementContract
     ): ElementResponses.ViewContentTypeElementResponse {
-        const element = this.genericElementMapper.mapElement(response.data);
+        const element = this.genericElementMapper.mapElement(data);
 
-        return new ElementResponses.ViewContentTypeElementResponse(element, response);
+        return new ElementResponses.ViewContentTypeElementResponse(element);
     }
 }

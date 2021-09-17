@@ -1,5 +1,5 @@
 import { IDeliveryClientConfig } from '../../config';
-import { continuationTokenHeaderName, ITaxonomyQueryConfig, Parameters, TaxonomyResponses } from '../../models';
+import { continuationTokenHeaderName, IKontentNetworkResponse, ITaxonomyQueryConfig, Parameters, TaxonomyResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
@@ -38,7 +38,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<TaxonomyResponses.ListTaxonomiesResponse> {
+    toPromise(): Promise<IKontentNetworkResponse<TaxonomyResponses.ListTaxonomiesResponse>> {
         return this.queryService.getTaxonomies(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -67,7 +67,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: TaxonomyResponses.ListTaxonomiesResponse[]
+        responses: IKontentNetworkResponse<TaxonomyResponses.ListTaxonomiesResponse>[]
     ): TaxonomyResponses.ListTaxonomiesAllResponse {
         return new TaxonomyResponses.ListTaxonomiesAllResponse(items, responses);
     }

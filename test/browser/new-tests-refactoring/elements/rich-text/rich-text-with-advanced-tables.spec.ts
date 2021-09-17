@@ -63,18 +63,20 @@ describe('Rich text with advanced tables (parse5)', () => {
     let item: AdvancedTable;
 
     beforeAll(async () => {
-        const response = await getDeliveryClientWithJson(responseJson, {
-            projectId: '',
-            typeResolvers: [
-                new TypeResolver('advanced_table', (data) => new AdvancedTable()),
-                new TypeResolver('link_type_1', (data) => new LinkType1()),
-                new TypeResolver('link_type_2', (data) => new LinkType2()),
-                new TypeResolver('link_type_3', (data) => new LinkType3())
-            ],
-            richTextParserAdapter: new Parse5RichTextParser()
-        })
-            .item<AdvancedTable>('x')
-            .toPromise();
+        const response = (
+            await getDeliveryClientWithJson(responseJson, {
+                projectId: '',
+                typeResolvers: [
+                    new TypeResolver('advanced_table', (data) => new AdvancedTable()),
+                    new TypeResolver('link_type_1', (data) => new LinkType1()),
+                    new TypeResolver('link_type_2', (data) => new LinkType2()),
+                    new TypeResolver('link_type_3', (data) => new LinkType3())
+                ],
+                richTextParserAdapter: new Parse5RichTextParser()
+            })
+                .item<AdvancedTable>('x')
+                .toPromise()
+        ).data;
 
         item = response.item;
     });
@@ -93,18 +95,20 @@ describe('Rich text with advanced tables (browser)', () => {
     let item: AdvancedTable;
 
     beforeAll(async () => {
-        const response = await getDeliveryClientWithJson(responseJson, {
-            projectId: '',
-            typeResolvers: [
-                new TypeResolver('advanced_table', (data) => new AdvancedTable()),
-                new TypeResolver('link_type_1', (data) => new LinkType1()),
-                new TypeResolver('link_type_2', (data) => new LinkType2()),
-                new TypeResolver('link_type_3', (data) => new LinkType3())
-            ],
-            richTextParserAdapter: new BrowserRichTextParser()
-        })
-            .item<AdvancedTable>('x')
-            .toPromise();
+        const response = (
+            await getDeliveryClientWithJson(responseJson, {
+                projectId: '',
+                typeResolvers: [
+                    new TypeResolver('advanced_table', (data) => new AdvancedTable()),
+                    new TypeResolver('link_type_1', (data) => new LinkType1()),
+                    new TypeResolver('link_type_2', (data) => new LinkType2()),
+                    new TypeResolver('link_type_3', (data) => new LinkType3())
+                ],
+                richTextParserAdapter: new BrowserRichTextParser()
+            })
+                .item<AdvancedTable>('x')
+                .toPromise()
+        ).data;
 
         item = response.item;
     });

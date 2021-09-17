@@ -55,7 +55,7 @@ describe('Custom element with custom model', () => {
             .items()
             .toPromise();
 
-        item = response.items[0];
+        item = response.data.items[0];
     });
 
     it(`Color element should be mapped to ColorElement`, () => {

@@ -10,7 +10,7 @@ describe('Live item - base linked items', () => {
     let response: ItemResponses.ViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
-        response = await context.deliveryClient.item<Movie>(movieCodename).toPromise();
+        response = (await context.deliveryClient.item<Movie>(movieCodename).toPromise()).data;
     });
 
     it(`verify linked items included in response and are of 'ContentItem' type`, () => {

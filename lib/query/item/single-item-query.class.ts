@@ -1,5 +1,5 @@
 import { IDeliveryClientConfig } from '../../config';
-import { ContentItem, IItemQueryConfig, ItemResponses, Parameters } from '../../models';
+import { ContentItem, IItemQueryConfig, IKontentNetworkResponse, ItemResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
@@ -58,7 +58,7 @@ export class SingleItemQuery<TItem extends ContentItem> extends BaseQuery<
     /**
      * Gets Promise
      */
-    toPromise(): Promise<ItemResponses.ViewContentItemResponse<TItem>> {
+    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ViewContentItemResponse<TItem>>> {
         return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
     }
 

@@ -14,7 +14,7 @@ describe('Live taxonomies', () => {
     let taxonomy: TaxonomyGroup;
 
     beforeAll(async () => {
-        response = await context.deliveryClient.taxonomies().toPromise();
+        response = (await context.deliveryClient.taxonomies().toPromise()).data;
 
         taxonomy = response.items.find((m) => m.system.codename === existingTaxonomyCodename) as TaxonomyGroup;
     });

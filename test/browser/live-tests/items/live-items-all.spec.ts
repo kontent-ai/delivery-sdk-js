@@ -1,4 +1,4 @@
-import { ItemResponses } from '../../../../lib';
+import { IKontentNetworkResponse, ItemResponses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live items all', () => {
@@ -7,10 +7,10 @@ describe('Live items all', () => {
 
     const type: string = 'movie';
     let response: ItemResponses.ListContentItemsAllResponse<Movie>;
-    const responses: ItemResponses.ListContentItemsResponse<Movie>[] = [];
+    const responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<Movie>>[] = [];
 
     beforeAll(async () => {
-        response = await context.deliveryClient
+        response = (await context.deliveryClient
             .items<Movie>()
             .listQueryConfig({
                 responseFetched: (innerResponse, nextPage, continuationToken) => {
@@ -19,7 +19,7 @@ describe('Live items all', () => {
             })
             .limitParameter(2)
             .type(type)
-            .toAllPromise();
+            .toAllPromise()).data;
     });
 
     it(`items should be defined`, () => {
@@ -36,7 +36,7 @@ describe('Live items all', () => {
         expect(response.responses.length).toEqual(responses.length);
 
         for (const innerResponse of response.responses) {
-            expect(innerResponse).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
+            expect(innerResponse.data).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
         }
     });
 
