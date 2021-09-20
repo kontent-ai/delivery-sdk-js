@@ -1,6 +1,6 @@
 import { IHttpService } from '@kentico/kontent-core';
 
-import { ContentItem, IDeliveryClientConfig, IItemQueryConfig, ISDKInfo, MappingService } from '../../../lib';
+import { IContentItemElements, IDeliveryClientConfig, IItemQueryConfig, ISDKInfo, MappingService } from '../../../lib';
 import { ItemResponses } from '../../../lib/models/item/responses';
 import { getParserAdapter } from '../../../lib/parser/parser-adapter';
 import { QueryService } from '../../../lib/services/delivery-query.service';
@@ -15,29 +15,29 @@ export class MockQueryService extends QueryService {
         super(config, httpService, sdkInfo, new MappingService(config, getParserAdapter()));
     }
 
-    mockGetSingleItem<TItem extends ContentItem>(
+    mockGetSingleItem<TElements extends IContentItemElements>(
         json: any,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ViewContentItemResponse<TItem> {
+    ): ItemResponses.ViewContentItemResponse<TElements> {
         if (!queryConfig) {
             queryConfig = {};
         }
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.mappingService.viewContentItemResponse<TItem>(fakeResponse.data, queryConfig);
+        return this.mappingService.viewContentItemResponse<TElements>(fakeResponse.data, queryConfig);
     }
 
-    mockGetMultipleItems<TItem extends ContentItem>(
+    mockGetMultipleItems<TElements extends IContentItemElements>(
         json: any,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListContentItemsResponse<TItem> {
+    ): ItemResponses.ListContentItemsResponse<TElements> {
         if (!queryConfig) {
             queryConfig = {};
         }
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.mappingService.listContentItemsResponse<TItem>(fakeResponse.data, queryConfig);
+        return this.mappingService.listContentItemsResponse<TElements>(fakeResponse.data, queryConfig);
     }
 }

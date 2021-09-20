@@ -8,10 +8,10 @@ describe('Non generic item tests', () => {
     setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.ViewContentItemResponse<ContentItem>;
+    let response: ItemResponses.ViewContentItemResponse<any>;
 
     beforeAll(async () => {
-        response = (await context.deliveryClient.item<ContentItem>(movieCodename).toPromise()).data;
+        response = (await context.deliveryClient.item<any>(movieCodename).toPromise()).data;
     });
 
     it(`ContentItem should be returned if `, () => {
@@ -19,7 +19,7 @@ describe('Non generic item tests', () => {
     });
 
     it(`ContentItem should contain typed properties even though they are not defined as properties in class`, () => {
-        expect(response.item['title'].value.toLowerCase()).toEqual('warrior');
+        expect(response.item.elements['title'].value.toLowerCase()).toEqual('warrior');
     });
 
     it(`System attributes property should be set`, () => {

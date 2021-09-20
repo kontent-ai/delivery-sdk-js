@@ -839,7 +839,6 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | linkedItemResolver.linkedItemWrapperClasses? | string[] | Array of classes added to linked item wrapper. Defaults to a single class 'kc-linked-item-wrapper' |
 | httpService ?| IHttpService | Can be useud to inject custom http service for performing requests |
 | globalHeaders? | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request |
-| collissionResolver? | ItemElementElementResolver[] | Resolver called when there are multiple elements with the same name in content item (example collision element names include 'system' or 'elements'). By default an underscore is added before original element name. If the element name is still in collission, element is excluded from mapping. |
 | retryStatusCodes? | number[] | Array of status codes that should be retried when request fails. Defaults to requests with '500' status code. |
 | richTextParserAdapter? | IRichTextHtmlParser | Custom implementation of rich text parser. Default parser for browser / node.js is used if none is specified |
 

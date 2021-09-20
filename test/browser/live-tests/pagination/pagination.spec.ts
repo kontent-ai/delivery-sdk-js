@@ -1,16 +1,16 @@
 import { ItemResponses } from '../../../../lib';
-import { Context, Movie, setup } from '../../setup';
+import { Context, IMovieElements, setup } from '../../setup';
 
 describe('Pagination', () => {
     const context = new Context();
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.ListContentItemsResponse<Movie>;
+    let response: ItemResponses.ListContentItemsResponse<IMovieElements>;
 
     beforeAll(async () => {
         response = (
-            await context.deliveryClient.items<Movie>().type(type).limitParameter(5).skipParameter(1).toPromise()
+            await context.deliveryClient.items<IMovieElements>().type(type).limitParameter(5).skipParameter(1).toPromise()
         ).data;
     });
 

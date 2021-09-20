@@ -5,7 +5,7 @@ describe('Live items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse>;
+    let response: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<any>>;
 
     beforeAll(async () => {
         response = await context.deliveryClient.itemsFeed().toPromise();

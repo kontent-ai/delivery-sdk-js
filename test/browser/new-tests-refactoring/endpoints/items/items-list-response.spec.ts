@@ -9,7 +9,7 @@ describe('Items list response', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListContentItemsResponse;
+    let response: ItemResponses.ListContentItemsResponse<any>;
     const parameters: IQueryParameter[] = [];
 
     beforeAll(async () => {
@@ -47,7 +47,7 @@ describe('Items list response', () => {
 
         const rawElementsArray = Object.values(rawItem.elements);
 
-        const elements = item.getAllElements();
+        const elements = item.getElements();
 
         expect(elements.length).toEqual(rawElementsArray.length);
 
@@ -65,8 +65,8 @@ describe('Items list response', () => {
         expect(item).toEqual(jasmine.any(ContentItem));
         expect(item.system).toEqual(jasmine.any(ContentItemSystemAttributes));
 
-        expect(item.title.value).toEqual(rawItem.elements.title.value);
-        expect(item.summary.value).toEqual(rawItem.elements.summary.value);
-        expect(item.post_date.value).toEqual(new Date(rawItem.elements.post_date.value));
+        expect(item.elements.title.value).toEqual(rawItem.elements.title.value);
+        expect(item.elements.summary.value).toEqual(rawItem.elements.summary.value);
+        expect(item.elements.post_date.value).toEqual(new Date(rawItem.elements.post_date.value));
     });
 });

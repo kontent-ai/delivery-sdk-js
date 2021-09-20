@@ -10,8 +10,8 @@ import {
 import { ElementModels } from '../../elements/element-models';
 import { Elements } from '../../elements/elements';
 
-export interface IMapElementsResult<TItem extends IContentItem = IContentItem> {
-    item: TItem;
+export interface IMapElementsResult<TElements extends IContentItemElements> {
+    item: IContentItem<TElements>;
     processedItems: IContentItemsContainer;
     preparedItems: IContentItemsContainer;
     processingStartedForCodenames: string[];
@@ -65,20 +65,28 @@ export interface IContentItemSystemAttributes {
 }
 
 /**
- * Indexer is defined as 'any' because models can contain custom methods, different field types, linked items ...
+ * Indexer for elements within content item
  */
-export type ContentItemIndexer = any;
+export type ContentItemElementsIndexer = ElementModels.IElement<any>;
 
 export type ContentItemType = 'component' | 'linkedItem';
 
-export interface IContentItem {
+export interface IContentItemElements {
     /**
      * Indexer
      */
-    [key: string]: ContentItemIndexer;
+    [key: string]: ContentItemElementsIndexer;
+}
+
+export interface IContentItem<TElements extends IContentItemElements> {
 
     /**
-     * Content item system elements
+     * Elements of the content item
+     */
+    elements: TElements;
+
+    /**
+     * System data of the content item
      */
     system: IContentItemSystemAttributes;
 
@@ -96,14 +104,14 @@ export interface IContentItem {
      * Gets array of all elements assigned to content item.
      * This is an alternative to accessing elements via properties.
      */
-    getAllElements(): ElementModels.IElement<any>[];
+    getElements(): ElementModels.IElement<any>[];
 }
 
-export class ContentItem implements IContentItem {
+export class ContentItem<TElements extends IContentItemElements> implements IContentItem<TElements> {
     /**
-     * Indexer
+     * Elements of the content item
      */
-    [key: string]: ContentItemIndexer;
+    public elements!: TElements;
 
     /**
      * Content item system elements
@@ -132,12 +140,12 @@ export class ContentItem implements IContentItem {
      * Gets array of all elements assigned to content item.
      * This is an alternative to accessing elements via properties.
      */
-    getAllElements(): ElementModels.IElement<any>[] {
+    getElements(): ElementModels.IElement<any>[] {
         const elements: ElementModels.IElement<any>[] = [];
 
         // get all props
-        for (const key of Object.keys(this)) {
-            const prop = this[key];
+        for (const key of Object.keys(this.elements)) {
+            const prop = this.elements[key];
 
             if (prop instanceof Elements.BaseElement) {
                 elements.push(prop);
@@ -243,8 +251,8 @@ export class Link {
     }
 }
 
-export interface IContentItemsContainer<TItem extends IContentItem = IContentItem> {
-    [key: string]: TItem;
+export interface IContentItemsContainer {
+    [key: string]: IContentItem<any>;
 }
 
 export class RichTextImage {
@@ -266,7 +274,7 @@ export interface ITypeResolverData {
 export interface IItemQueryConfig extends IQueryConfig {
     throwErrorForMissingLinkedItems?: boolean;
     urlSlugResolver?: ItemUrlSlugResolver;
-    richTextResolver?: ItemRichTextResolver<IContentItem>;
+    richTextResolver?: ItemRichTextResolver;
     itemResolver?: ItemResolver;
     richTextImageResolver?: RichTextImageResolver;
 }
@@ -280,7 +288,7 @@ export interface IUrlSlugResolverContext {
     /**
      * Content item if available
      */
-    item?: IContentItem;
+    item?: IContentItem<any>;
 
     /**
      * Link id (equal to `contentItem` id). Available only for links inside `richTextElement`
@@ -320,5 +328,5 @@ export interface IContentItemConfig {
     /**
      * Function used to resolve linked items in rich text elements to HTML
      */
-    richTextResolver?: ItemRichTextResolver<any>;
+    richTextResolver?: ItemRichTextResolver;
 }

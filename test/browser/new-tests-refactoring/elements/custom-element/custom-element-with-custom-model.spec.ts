@@ -26,7 +26,7 @@ class MarkdownElement extends Elements.CustomElement {
 }
 
 describe('Custom element with custom model', () => {
-    let item: ContentItem;
+    let item: ContentItem<any>;
 
     beforeAll(async () => {
         const response = await getDeliveryClientWithJson(responseJson, {
@@ -59,7 +59,7 @@ describe('Custom element with custom model', () => {
     });
 
     it(`Color element should be mapped to ColorElement`, () => {
-        const element = item.color as ColorElement;
+        const element = item.elements.color as ColorElement;
         const rawElement = responseJson.items[0].elements.color;
 
         expect(element).toEqual(jasmine.any(ColorElement));
@@ -74,7 +74,7 @@ describe('Custom element with custom model', () => {
     });
 
     it(`Markdown element should be mapped to MarkdownElement`, () => {
-        const element = item.markdown as MarkdownElement;
+        const element = item.elements.markdown as MarkdownElement;
         const rawElement = responseJson.items[0].elements.markdown;
 
         expect(element).toEqual(jasmine.any(MarkdownElement));

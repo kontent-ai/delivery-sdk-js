@@ -1,11 +1,11 @@
 import { enumHelper } from '@kentico/kontent-core';
 
-import { defaultCollissionResolver, IDeliveryClientConfig } from '../config';
+import { IDeliveryClientConfig } from '../config';
 import { ElementContracts, ItemContracts } from '../data-contracts';
-import { ElementDecorators, ElementModels, Elements, ElementType } from '../elements';
+import { ElementModels, Elements, ElementType } from '../elements';
 import {
-    ElementCollisionResolver,
     IContentItem,
+    IContentItemElements,
     IContentItemsContainer,
     IItemQueryConfig,
     IMapElementsResult,
@@ -29,19 +29,19 @@ export class ElementMapper {
      * Maps all element in given content item and returns strongly typed content item based on the resolver specified
      * in DeliveryClientConfig
      */
-    mapElements<TItem extends IContentItem>(data: {
+    mapElements<TElements extends IContentItemElements>(data: {
         item: ItemContracts.IContentItemContract;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemsContainer;
-    }): IMapElementsResult<TItem> | undefined {
+    }): IMapElementsResult<TElements> | undefined {
         // return processed item if possible (to avoid infinite recursion)
         const processedItem = data.processedItems[data.item.system.codename];
         if (processedItem) {
             // item was already resolved, return it
             return {
-                item: processedItem as TItem,
+                item: processedItem,
                 processedItems: data.processedItems,
                 preparedItems: data.preparedItems,
                 processingStartedForCodenames: data.processingStartedForCodenames
@@ -49,7 +49,7 @@ export class ElementMapper {
         }
 
         const elementCodenames = Object.getOwnPropertyNames(data.item.elements);
-        const itemInstance = data.preparedItems[data.item.system.codename] as TItem | undefined;
+        const itemInstance = data.preparedItems[data.item.system.codename];
 
         if (!itemInstance) {
             // item is not present in response, no need to do any mapping
@@ -72,8 +72,9 @@ export class ElementMapper {
                     processedItems: data.processedItems,
                     queryConfig: data.queryConfig
                 });
-                // set mapped element to item instance
-                (itemInstance as IContentItem)[elementMap.resolvedName] = mappedElement;
+
+                // set mapped elements
+                itemInstance.elements[elementMap.resolvedName] = mappedElement;
             }
         });
 
@@ -87,7 +88,7 @@ export class ElementMapper {
 
     private mapElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
-        item: IContentItem;
+        item: IContentItem<any>;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
@@ -153,7 +154,7 @@ export class ElementMapper {
     }
 
     private mapRichTextElement(
-        item: IContentItem,
+        item: IContentItem<any>,
         elementWrapper: ElementModels.IElementWrapper,
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
@@ -161,7 +162,7 @@ export class ElementMapper {
         preparedItems: IContentItemsContainer
     ): Elements.RichTextElement {
         // get all linked items nested in rich text
-        const richTextLinkedItems: IContentItem[] = [];
+        const richTextLinkedItems: IContentItem<any>[] = [];
 
         const rawElement = elementWrapper.rawElement as ElementContracts.IRichTextElementContract;
 
@@ -305,7 +306,7 @@ export class ElementMapper {
 
     private mapUrlSlugElement(
         elementWrapper: ElementModels.IElementWrapper,
-        item: IContentItem,
+        item: IContentItem<any>,
         queryConfig: IItemQueryConfig
     ): Elements.UrlSlugElement {
         const resolver = this.getUrlSlugResolverForElement(item, elementWrapper, queryConfig);
@@ -326,9 +327,9 @@ export class ElementMapper {
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemsContainer;
-    }): Elements.LinkedItemsElement<IContentItem> {
+    }): Elements.LinkedItemsElement<any> {
         // prepare linked items
-        const linkedItems: IContentItem[] = [];
+        const linkedItems: IContentItem<any>[] = [];
 
         // value = array of item codenames
         const linkedItemCodenames = data.elementWrapper.rawElement.value as string[];
@@ -356,7 +357,7 @@ export class ElementMapper {
     }
 
     private getUrlSlugResolverForElement(
-        item: IContentItem,
+        item: IContentItem<any>,
         elementWrapper: ElementModels.IElementWrapper,
         queryConfig: IItemQueryConfig
     ): ItemUrlSlugResolver {
@@ -380,7 +381,7 @@ export class ElementMapper {
         processedItems: IContentItemsContainer,
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemsContainer
-    ): IContentItem | undefined {
+    ): IContentItem<any> | undefined {
         // first check if item was already resolved and return it if it was
         const processedItem = processedItems[codename];
 
@@ -413,7 +414,7 @@ export class ElementMapper {
             return undefined;
         }
 
-        let mappedLinkedItem: IContentItem | undefined;
+        let mappedLinkedItem: IContentItem<any> | undefined;
 
         // original resolving if item is still undefined
         const mappedLinkedItemResult = this.mapElements({
@@ -472,7 +473,7 @@ export class ElementMapper {
     }
 
     private resolveElementMap(
-        item: IContentItem,
+        item: IContentItem<any>,
         originalElementCodename: string
     ): {
         shouldMapElement: boolean;
@@ -485,32 +486,9 @@ export class ElementMapper {
             resolvedElementPropertyName = item._config.propertyResolver(originalElementCodename);
         }
 
-        // if property hasn't been resolved, try getting name using decorator
-        if (resolvedElementPropertyName === originalElementCodename || !resolvedElementPropertyName) {
-            resolvedElementPropertyName = ElementDecorators.getPropertyName(item, originalElementCodename);
-        }
-
         if (!resolvedElementPropertyName) {
             // use original element codename
             resolvedElementPropertyName = originalElementCodename;
-        }
-
-        // check for collissions
-        if (this.collidesWithAnotherProperty(resolvedElementPropertyName, item)) {
-            // try to resolve collission using dedicated resolver
-            const collisionResolver = this.getCollisionResolver();
-            resolvedElementPropertyName = collisionResolver(resolvedElementPropertyName);
-
-            // verify again if the new element collides
-            if (this.collidesWithAnotherProperty(resolvedElementPropertyName, item)) {
-                console.warn(
-                    `Element '${resolvedElementPropertyName}' collides with another element in same type. Element mapping is skipped. Source item: '${item.system.codename}'`
-                );
-                return {
-                    shouldMapElement: false,
-                    resolvedName: ''
-                };
-            }
         }
 
         return {
@@ -525,13 +503,5 @@ export class ElementMapper {
             return item._config.urlSlugResolver;
         }
         return undefined;
-    }
-
-    private getCollisionResolver(): ElementCollisionResolver {
-        return this.config.collisionResolver ? this.config.collisionResolver : defaultCollissionResolver;
-    }
-
-    private collidesWithAnotherProperty(elementName: string, item: IContentItem): boolean {
-        return item[elementName] ? true : false;
     }
 }

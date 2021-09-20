@@ -1,29 +1,40 @@
-import { ContentItem, Elements, Parse5RichTextParser, TypeResolver, BrowserRichTextParser } from '../../../../../lib';
+import {
+    ContentItem,
+    Elements,
+    Parse5RichTextParser,
+    TypeResolver,
+    BrowserRichTextParser,
+    IContentItemElements
+} from '../../../../../lib';
 import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './rich-text-in-nested-component.spec.json';
 
-class Main extends ContentItem {
-    public maintext!: Elements.RichTextElement;
+interface IMainElements extends IContentItemElements {
+    maintext: Elements.RichTextElement;
+}
 
+class Main extends ContentItem<IMainElements> {
     constructor() {
         super();
     }
 }
 
-class Item extends ContentItem {
-    public text!: Elements.RichTextElement;
+interface IItemElements extends IContentItemElements {
+    text: Elements.RichTextElement;
+}
 
+class Item extends ContentItem<IItemElements> {
     constructor() {
         super({
             richTextResolver: (item: Item) => {
-                return `<div>${item.text.resolveHtml()}</div>`;
+                return `<div>${item.elements.text.resolveHtml()}</div>`;
             }
         });
     }
 }
 
 describe('Rich text resolving in nested component (Browser)', () => {
-    let item: Main;
+    let item: ContentItem<any>;
 
     beforeAll(async () => {
         const response = (
@@ -35,7 +46,7 @@ describe('Rich text resolving in nested component (Browser)', () => {
                 ],
                 richTextParserAdapter: new BrowserRichTextParser()
             })
-                .item<Main>('x')
+                .item<any>('x')
                 .toPromise()
         ).data;
 
@@ -44,13 +55,13 @@ describe('Rich text resolving in nested component (Browser)', () => {
 
     it(`Rich text resolving succeeds`, () => {
         expect(item).toBeDefined();
-        const resolvedHtml = item.maintext.resolveHtml();
+        const resolvedHtml = item.elements.maintext.resolveHtml();
         expect(resolvedHtml).toBeDefined();
     });
 });
 
 describe('Rich text resolving in nested component (Parse5)', () => {
-    let item: Main;
+    let item: ContentItem<any>;
 
     beforeAll(async () => {
         const response = (
@@ -62,7 +73,7 @@ describe('Rich text resolving in nested component (Parse5)', () => {
                 ],
                 richTextParserAdapter: new Parse5RichTextParser()
             })
-                .item<Main>('x')
+                .item<any>('x')
                 .toPromise()
         ).data;
 
@@ -72,7 +83,7 @@ describe('Rich text resolving in nested component (Parse5)', () => {
     it(`Rich text resolving succeeds`, () => {
         expect(item).toBeDefined();
 
-        const resolvedHtml = item.maintext.resolveHtml();
+        const resolvedHtml = item.elements.maintext.resolveHtml();
         expect(resolvedHtml).toBeDefined();
     });
 });

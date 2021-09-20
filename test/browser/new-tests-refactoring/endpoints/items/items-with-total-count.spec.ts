@@ -9,7 +9,7 @@ describe('Items with total count', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListContentItemsResponse;
+    let response: ItemResponses.ListContentItemsResponse<any>;
     const parameters: IQueryParameter[] = [];
 
     beforeAll(async () => {

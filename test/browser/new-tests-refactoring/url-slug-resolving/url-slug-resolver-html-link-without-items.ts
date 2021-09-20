@@ -1,10 +1,19 @@
-import { ContentItem, Elements, TypeResolver, Parse5RichTextParser, BrowserRichTextParser } from '../../../../lib';
+import {
+    ContentItem,
+    Elements,
+    TypeResolver,
+    Parse5RichTextParser,
+    BrowserRichTextParser,
+    IContentItemElements
+} from '../../../../lib';
 import { getDeliveryClientWithJson } from '../setup';
 import * as responseJson from './url-slug-resolver-html-link-without-items.json';
 
-class File extends ContentItem {
-    public text!: Elements.RichTextElement;
+interface IFileElement extends IContentItemElements {
+    text: Elements.RichTextElement;
+}
 
+class File extends ContentItem<IFileElement> {
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -25,7 +34,7 @@ describe('Url slug resolver with html & without content items (browser)', () => 
             typeResolvers: [new TypeResolver('file', (data) => new File())],
             richTextParserAdapter: new BrowserRichTextParser()
         })
-            .item<File>('x')
+            .item<IFileElement>('x')
             .toPromise();
 
         item = response.data.item;
@@ -37,7 +46,7 @@ describe('Url slug resolver with html & without content items (browser)', () => 
         let resolvedHtml: string = '';
 
         if (item) {
-            resolvedHtml = item.text.resolveHtml();
+            resolvedHtml = item.elements.text.resolveHtml();
         }
 
         expect(resolvedHtml).toContain('<a href="file" download="">kentico_cloud_logotype</a>');
@@ -55,7 +64,7 @@ describe('Url slug resolver with html & without content items (parse5)', () => {
             typeResolvers: [new TypeResolver('file', (data) => new File())],
             richTextParserAdapter: new Parse5RichTextParser()
         })
-            .item<File>('x')
+            .item<IFileElement>('x')
             .toPromise();
 
         item = response.data.item;
@@ -67,7 +76,7 @@ describe('Url slug resolver with html & without content items (parse5)', () => {
         let resolvedHtml: string = '';
 
         if (item) {
-            resolvedHtml = item.text.resolveHtml();
+            resolvedHtml = item.elements.text.resolveHtml();
         }
 
         expect(resolvedHtml).toContain('<a href="file" download="">kentico_cloud_logotype</a>');

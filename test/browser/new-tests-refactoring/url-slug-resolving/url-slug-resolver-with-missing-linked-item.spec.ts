@@ -1,10 +1,13 @@
-import { ContentItem, Elements, TypeResolver } from '../../../../lib';
+import { ContentItem, Elements, IContentItem, IContentItemElements, TypeResolver } from '../../../../lib';
 import { getDeliveryClientWithJson } from '../setup';
 import * as responseJson from './url-slug-resolver-with-missing-linked-item.spec.json';
 
-export class Page extends ContentItem {
-    public body!: Elements.RichTextElement;
+interface IPageElements extends IContentItemElements {
+    text: Elements.RichTextElement;
+    body: Elements.RichTextElement;
+}
 
+export class Page extends ContentItem<IPageElements> {
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -17,14 +20,14 @@ export class Page extends ContentItem {
 }
 
 describe('Url slug resolver with missing linked item', () => {
-    let page: Page | undefined;
+    let page: IContentItem<IPageElements>;
 
     beforeAll(async () => {
         const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
             typeResolvers: [new TypeResolver('page', (data) => new Page())]
         })
-            .item<Page>('x')
+            .item<IPageElements>('x')
             .toPromise();
 
         page = response.data.item;
@@ -36,7 +39,7 @@ describe('Url slug resolver with missing linked item', () => {
         let resolvedHtml: string = '';
 
         if (page) {
-            resolvedHtml = page.body.resolveHtml();
+            resolvedHtml = page.elements.body.resolveHtml();
         }
 
         expect(resolvedHtml).toContain('myLink/spiral_evaluation_form_imperial');

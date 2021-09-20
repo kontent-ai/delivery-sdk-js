@@ -2,9 +2,9 @@ import { ContentItem, ITypeResolverData, TypeResolver } from '../../../../lib';
 import { getDeliveryClientWithJson } from '../setup';
 import * as responseJson from './type-resolver.spec.json';
 
-class Article extends ContentItem {
-    public articleId: string;
-    public typeResolverData?: ITypeResolverData;
+class Article extends ContentItem<any> {
+    articleId: string;
+    typeResolverData?: ITypeResolverData;
 
     constructor(data?: ITypeResolverData) {
         super();
@@ -15,14 +15,14 @@ class Article extends ContentItem {
 }
 
 describe('Type resolver', () => {
-    const articles: Article[] = [];
+    const articles: ContentItem<any>[] = [];
 
     beforeAll(async () => {
         const response = await getDeliveryClientWithJson(responseJson, {
             projectId: '',
             typeResolvers: [new TypeResolver('article', (data) => new Article(data))]
         })
-            .items<Article>()
+            .items<any>()
             .toPromise();
 
         articles.push(...response.data.items);
@@ -40,7 +40,7 @@ describe('Type resolver', () => {
 
             expect(mappedArticle).toEqual(jasmine.any(Article));
 
-            expect(mappedArticle.typeResolverData?.item).toEqual(rawArticle);
+            expect((mappedArticle as Article).typeResolverData?.item).toEqual(rawArticle);
         }
     });
 });

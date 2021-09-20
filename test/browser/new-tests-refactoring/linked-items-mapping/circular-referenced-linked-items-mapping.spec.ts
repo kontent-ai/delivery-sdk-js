@@ -1,9 +1,9 @@
-import { ContentItem, ItemResponses, Elements } from '../../../../lib';
+import { ItemResponses, Elements } from '../../../../lib';
 import { getDeliveryClientWithJson } from '../setup';
 import * as responseJson from './circular-referenced-linked-items-mapping.spec.json';
 
 describe('Circular references in linked items', () => {
-    let response: ItemResponses.ViewContentItemResponse<ContentItem>;
+    let response: ItemResponses.ViewContentItemResponse<any>;
 
     const modularItemElement = 'related_articles';
 
@@ -19,12 +19,12 @@ describe('Circular references in linked items', () => {
         const linkedItem = response.item;
         expect(linkedItem).toBeDefined();
         expect(
-            (linkedItem[modularItemElement] as Elements.LinkedItemsElement).value.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).value.find(
                 (m) => m.system.codename === 'on_roasts'
             )
         ).toBeDefined();
         expect(
-            (linkedItem[modularItemElement] as Elements.LinkedItemsElement).value.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).value.find(
                 (m) => m.system.codename === 'which_brewing_fits_you_'
             )
         ).toBeDefined();
@@ -41,12 +41,12 @@ describe('Circular references in linked items', () => {
         }
 
         expect(
-            (linkedItem[modularItemElement] as Elements.LinkedItemsElement).value.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).value.find(
                 (m) => m.system.codename === 'on_roasts'
             )
         ).toBeDefined();
         expect(
-            (linkedItem[modularItemElement] as Elements.LinkedItemsElement).value.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).value.find(
                 (m) => m.system.codename === 'which_brewing_fits_you_'
             )
         ).toBeDefined();
@@ -63,12 +63,12 @@ describe('Circular references in linked items', () => {
         }
 
         expect(
-            (linkedItem[modularItemElement] as Elements.LinkedItemsElement).value.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).value.find(
                 (m) => m.system.codename === 'on_roasts'
             )
         ).toBeDefined();
         expect(
-            (linkedItem[modularItemElement] as Elements.LinkedItemsElement).value.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).value.find(
                 (m) => m.system.codename === 'coffee_processing_techniques'
             )
         ).toBeDefined();

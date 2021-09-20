@@ -1,5 +1,5 @@
 import { ItemResponses } from '../../../../lib';
-import { Context, Movie, setup } from '../../setup';
+import { Context, setup } from '../../setup';
 
 describe('Custom URL', () => {
     const itemsUrl: string = 'https://deliver.kontent.ai/da5abe9f-fdad-4168-97cd-b3464be2ccb9/items?system.type=movie';
@@ -7,10 +7,10 @@ describe('Custom URL', () => {
     const context = new Context();
     setup(context);
 
-    let responseItems: ItemResponses.ListContentItemsResponse<Movie>;
+    let responseItems: ItemResponses.ListContentItemsResponse<any>;
 
     beforeAll(async () => {
-        responseItems = (await context.deliveryClient.items<Movie>().withCustomUrl(itemsUrl).toPromise()).data;
+        responseItems = (await context.deliveryClient.items<any>().withCustomUrl(itemsUrl).toPromise()).data;
     });
 
     it(`items should be defined`, () => {

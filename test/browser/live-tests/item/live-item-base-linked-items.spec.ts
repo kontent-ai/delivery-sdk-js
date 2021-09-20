@@ -1,5 +1,5 @@
 import { ContentItem, ItemResponses } from '../../../../lib';
-import { Context, Movie, setup } from '../../setup';
+import { Context, IMovieElements, setup } from '../../setup';
 
 describe('Live item - base linked items', () => {
     const context = new Context();
@@ -7,10 +7,10 @@ describe('Live item - base linked items', () => {
     setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.ViewContentItemResponse<Movie>;
+    let response: ItemResponses.ViewContentItemResponse<IMovieElements>;
 
     beforeAll(async () => {
-        response = (await context.deliveryClient.item<Movie>(movieCodename).toPromise()).data;
+        response = (await context.deliveryClient.item<IMovieElements>(movieCodename).toPromise()).data;
     });
 
     it(`verify linked items included in response and are of 'ContentItem' type`, () => {

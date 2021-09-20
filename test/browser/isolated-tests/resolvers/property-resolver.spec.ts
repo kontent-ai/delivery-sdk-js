@@ -1,22 +1,26 @@
-import { ContentItem, ElementDecorators, Elements, ItemResponses, sdkInfo, TypeResolver } from '../../../../lib';
+import { ContentItem, Elements, IContentItemElements, ItemResponses, sdkInfo, TypeResolver } from '../../../../lib';
 import { Actor, Context, MockQueryService, setup } from '../../setup';
 import { HttpService } from '@kentico/kontent-core';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
-class MockMovie extends ContentItem {
-    public titleTest!: Elements.TextElement;
+interface IMockMovieElements extends IContentItemElements {
+    titleTest: Elements.TextElement;
+    test_released: Elements.DateTimeElement;
+    justNumber: Elements.NumberElement;
+}
 
-    @ElementDecorators.codename('released')
-    public test_released!: Elements.DateTimeElement;
-
-    @ElementDecorators.codename('length')
-    public justNumber!: Elements.NumberElement;
-
+class MockMovie extends ContentItem<IMockMovieElements> {
     constructor() {
         super({
             propertyResolver: (elementName: string) => {
                 if (elementName === 'title') {
                     return 'titleTest';
+                }
+                if (elementName === 'released') {
+                    return 'test_released';
+                }
+                if (elementName === 'length') {
+                    return 'justNumber';
                 }
                 return elementName;
             }
@@ -25,7 +29,6 @@ class MockMovie extends ContentItem {
 }
 
 describe('Property resolver', () => {
-
     const context = new Context();
     const typeResolvers: TypeResolver[] = [];
     typeResolvers.push(new TypeResolver('movie', () => new MockMovie()));
@@ -41,22 +44,22 @@ describe('Property resolver', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.ViewContentItemResponse<MockMovie>;
+    let response: ItemResponses.ViewContentItemResponse<IMockMovieElements>;
 
     beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {});
+        response = mockQueryService.mockGetSingleItem<IMockMovieElements>(warriorJson, {});
         done();
     });
 
     it(`checks element is assigned #1`, () => {
-        expect(response.item.titleTest.value).toEqual('Warrior');
+        expect(response.item.elements.titleTest.value).toEqual('Warrior');
     });
 
     it(`checks element is assigned #2`, () => {
-        expect(response.item.test_released.value).toEqual(new Date('2011-09-09T00:00:00Z'));
+        expect(response.item.elements.test_released.value).toEqual(new Date('2011-09-09T00:00:00Z'));
     });
 
     it(`checks element is assigned #3`, () => {
-        expect(response.item.justNumber.value).toEqual(151);
+        expect(response.item.elements.justNumber.value).toEqual(151);
     });
 });

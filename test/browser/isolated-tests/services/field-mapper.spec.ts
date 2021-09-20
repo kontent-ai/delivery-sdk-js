@@ -54,7 +54,8 @@ describe('ElementMapper', () => {
                 'cd': {
                     _raw: null as any,
                     system: systemData as any,
-                    getAllElements: () => []
+                    elements: {},
+                    getElements: () => []
                 }
             },
             processedItems: {},

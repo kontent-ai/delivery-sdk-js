@@ -2,8 +2,8 @@ import { ContentItem, Elements, IUrlSlugResolverResult, richTextResolver, ItemUr
 import { Parse5RichTextParser } from '../../../../../lib/parser/adapters/parse5-rich-text.parser';
 
 describe('Rich text with regular link', () => {
-    const linkedItems: ContentItem[] = [];
-    const getLinkedItem: (codename: string) => ContentItem | undefined = codename =>
+    const linkedItems: ContentItem<any>[] = [];
+    const getLinkedItem: (codename: string) => ContentItem<any> | undefined = codename =>
         linkedItems.find(m => m.system.codename === codename);
     const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => undefined;
 

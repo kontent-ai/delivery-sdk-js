@@ -1,25 +1,27 @@
 import { IKontentNetworkResponse, ItemResponses } from '../../../../lib';
-import { Context, Movie, setup } from '../../setup';
+import { Context, IMovieElements, Movie, setup } from '../../setup';
 
 describe('Live items all', () => {
     const context = new Context();
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.ListContentItemsAllResponse<Movie>;
-    const responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<Movie>>[] = [];
+    let response: ItemResponses.ListContentItemsAllResponse<IMovieElements>;
+    const responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<IMovieElements>>[] = [];
 
     beforeAll(async () => {
-        response = (await context.deliveryClient
-            .items<Movie>()
-            .listQueryConfig({
-                responseFetched: (innerResponse, nextPage, continuationToken) => {
-                    responses.push(innerResponse);
-                }
-            })
-            .limitParameter(2)
-            .type(type)
-            .toAllPromise()).data;
+        response = (
+            await context.deliveryClient
+                .items<IMovieElements>()
+                .listQueryConfig({
+                    responseFetched: (innerResponse, nextPage, continuationToken) => {
+                        responses.push(innerResponse);
+                    }
+                })
+                .limitParameter(2)
+                .type(type)
+                .toAllPromise()
+        ).data;
     });
 
     it(`items should be defined`, () => {

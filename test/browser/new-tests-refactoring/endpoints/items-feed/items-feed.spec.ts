@@ -1,5 +1,5 @@
 import { ContentItem, IKontentNetworkResponse, ItemResponses } from '../../../../../lib';
-import { Actor, Context, defaultTypeResolvers, Movie, setup } from '../../../setup';
+import { Actor, Context, defaultTypeResolvers, IMovieElements, setup } from '../../../setup';
 import { getDeliveryClientWithJsonAndHeaders } from '../../setup';
 import * as responseJson from './items-feed.spec.json';
 
@@ -7,7 +7,7 @@ describe('Items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<Movie>>;
+    let response: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<IMovieElements>>;
 
     beforeAll(async () => {
         response = await getDeliveryClientWithJsonAndHeaders(
@@ -23,12 +23,12 @@ describe('Items feed', () => {
                 }
             ]
         )
-            .itemsFeed<Movie>()
+            .itemsFeed<IMovieElements>()
             .queryConfig({
                 richTextResolver: (item) => {
                     if (item.system.type === 'actor') {
                         const actor = item as Actor;
-                        return `actor-${actor.firstName.value}`;
+                        return `actor-${actor.elements.firstName.value}`;
                     }
                     return '';
                 }
@@ -60,7 +60,7 @@ describe('Items feed', () => {
     });
 
     it(`Rich text should be resolved`, () => {
-        const html = response.data.items[0].plot.resolveHtml();
+        const html = response.data.items[0].elements.plot.resolveHtml();
         expect(html).toContain(`actor-Joel`);
         expect(html).toContain(`actor-Tom`);
     });

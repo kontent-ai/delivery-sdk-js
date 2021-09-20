@@ -1,4 +1,4 @@
-import { ContentItem } from '../models';
+import { IContentItemElements } from '../models';
 import {
     ElementQuery,
     ItemsFeedQuery,
@@ -37,18 +37,18 @@ export interface IDeliveryClient {
     /**
      * Gets query for multiple items
      */
-    items<TItem extends ContentItem>(): MultipleItemsQuery<TItem>;
+    items<TElements extends IContentItemElements>(): MultipleItemsQuery<TElements>;
 
     /**
      * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent project.
      */
-    itemsFeed<TItem extends ContentItem>(): ItemsFeedQuery<TItem>;
+    itemsFeed<TElements extends IContentItemElements>(): ItemsFeedQuery<TElements>;
 
     /**
      * Gets query for single item
      * @param {string} codename - Codename of item to retrieve
      */
-    item<TItem extends ContentItem>(codename: string): SingleItemQuery<TItem>;
+    item<TElements extends IContentItemElements>(codename: string): SingleItemQuery<TElements>;
 
     /**
      * Gets query for multiple taxonomies

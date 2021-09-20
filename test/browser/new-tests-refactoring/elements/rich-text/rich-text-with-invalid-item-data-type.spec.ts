@@ -8,8 +8,8 @@ import {
 } from '../../../../../lib';
 
 describe('Rich text with invalid item data type', () => {
-    const linkedItems: ContentItem[] = [];
-    const getLinkedItem: (codename: string) => ContentItem | undefined = codename =>
+    const linkedItems: ContentItem<any>[] = [];
+    const getLinkedItem: (codename: string) => ContentItem<any> | undefined = codename =>
         linkedItems.find(m => m.system.codename === codename);
     const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => undefined;
 

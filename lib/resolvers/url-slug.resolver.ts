@@ -4,7 +4,7 @@ export class UrlSlugResolver {
     resolveUrl(data: {
         elementValue: string;
         elementName: string;
-        item: IContentItem;
+        item: IContentItem<any>;
         resolver: ItemUrlSlugResolver;
     }): IUrlSlugResolverResult {
         const url = data.resolver(

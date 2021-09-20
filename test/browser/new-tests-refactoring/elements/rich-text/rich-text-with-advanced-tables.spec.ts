@@ -3,7 +3,7 @@ import { getDeliveryClientWithJson } from '../../setup';
 import { BrowserRichTextParser, ContentItem, Elements, TypeResolver, Parse5RichTextParser } from '../../../../../lib';
 import * as responseJson from './rich-text-with-advanced-tables.spec.json';
 
-class AdvancedTable extends ContentItem {
+class AdvancedTable extends ContentItem<any> {
     public rich_text!: Elements.RichTextElement;
 
     constructor() {
@@ -17,7 +17,7 @@ class AdvancedTable extends ContentItem {
     }
 }
 
-class LinkType1 extends ContentItem {
+class LinkType1 extends ContentItem<any> {
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -29,7 +29,7 @@ class LinkType1 extends ContentItem {
     }
 }
 
-class LinkType2 extends ContentItem {
+class LinkType2 extends ContentItem<any> {
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -41,7 +41,7 @@ class LinkType2 extends ContentItem {
     }
 }
 
-class LinkType3 extends ContentItem {
+class LinkType3 extends ContentItem<any> {
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -60,7 +60,7 @@ const expectedResolvedContent: string[] = [
 ];
 
 describe('Rich text with advanced tables (parse5)', () => {
-    let item: AdvancedTable;
+    let item: ContentItem<any>;
 
     beforeAll(async () => {
         const response = (
@@ -74,7 +74,7 @@ describe('Rich text with advanced tables (parse5)', () => {
                 ],
                 richTextParserAdapter: new Parse5RichTextParser()
             })
-                .item<AdvancedTable>('x')
+                .item<any>('x')
                 .toPromise()
         ).data;
 
@@ -83,7 +83,7 @@ describe('Rich text with advanced tables (parse5)', () => {
 
     it(`Links should be resolved in rich text`, () => {
         expect(item).toBeDefined();
-        const resolvedHtml = item.rich_text.resolveHtml();
+        const resolvedHtml = item.elements.rich_text.resolveHtml();
 
         for (const expectedContent of expectedResolvedContent) {
             expect(resolvedHtml).toContain(expectedContent);
@@ -92,7 +92,7 @@ describe('Rich text with advanced tables (parse5)', () => {
 });
 
 describe('Rich text with advanced tables (browser)', () => {
-    let item: AdvancedTable;
+    let item: ContentItem<any>;
 
     beforeAll(async () => {
         const response = (
@@ -106,7 +106,7 @@ describe('Rich text with advanced tables (browser)', () => {
                 ],
                 richTextParserAdapter: new BrowserRichTextParser()
             })
-                .item<AdvancedTable>('x')
+                .item<any>('x')
                 .toPromise()
         ).data;
 
@@ -115,7 +115,7 @@ describe('Rich text with advanced tables (browser)', () => {
 
     it(`Links should be resolved in rich text`, () => {
         expect(item).toBeDefined();
-        const resolvedHtml = item.rich_text.resolveHtml();
+        const resolvedHtml = item.elements.rich_text.resolveHtml();
 
         for (const expectedContent of expectedResolvedContent) {
             expect(resolvedHtml).toContain(expectedContent);

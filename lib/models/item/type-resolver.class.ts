@@ -13,6 +13,6 @@ export class TypeResolver {
     */
     constructor(
         public type: string,
-        public resolve: (data?: ITypeResolverData) => IContentItem
+        public resolve: (data?: ITypeResolverData) => IContentItem<any>
     ) { }
 }

@@ -1,11 +1,21 @@
-import { ContentItem, Elements, ItemResponses, Link, sdkInfo, TypeResolver } from '../../../../lib';
+import {
+    ContentItem,
+    Elements,
+    IContentItemElements,
+    ItemResponses,
+    Link,
+    sdkInfo,
+    TypeResolver
+} from '../../../../lib';
 import { Actor, Context, MockQueryService, setup } from '../../setup';
 import { HttpService } from '@kentico/kontent-core';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
-class MockMovie extends ContentItem {
-    public seoname!: Elements.UrlSlugElement;
+interface IMockMovieElements extends IContentItemElements {
+    seoname: Elements.UrlSlugElement;
+}
 
+class MockMovie extends ContentItem<IMockMovieElements> {
     constructor() {
         super({
             urlSlugResolver: (link: Link) => {
@@ -32,15 +42,15 @@ describe('URL slug resolver', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.ViewContentItemResponse<MockMovie>;
-    let responseWithQueryConfig: ItemResponses.ViewContentItemResponse<MockMovie>;
+    let response: ItemResponses.ViewContentItemResponse<IMockMovieElements>;
+    let responseWithQueryConfig: ItemResponses.ViewContentItemResponse<IMockMovieElements>;
 
     const links: Link[] = [];
 
     beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {});
+        response = mockQueryService.mockGetSingleItem<IMockMovieElements>(warriorJson, {});
 
-        responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {
+        responseWithQueryConfig = mockQueryService.mockGetSingleItem<IMockMovieElements>(warriorJson, {
             urlSlugResolver: (link: Link) => {
                 // store links
                 links.push(link);
@@ -54,11 +64,12 @@ describe('URL slug resolver', () => {
     });
 
     it(`verifies globally defined url slug resolver`, () => {
-        expect(response.item.seoname.resolveUrl()).toEqual('globalSlug/warrior');
+        expect(response.item.elements.seoname.resolveUrl()).toEqual('globalSlug/warrior');
     });
 
     it(`verifies locally defined url slug resolver (should have priority over global one)`, () => {
-        expect(responseWithQueryConfig.item.seoname.resolveUrl()).toEqual('querySlug/warrior');
+        expect((responseWithQueryConfig.item.elements.seoname as Elements.UrlSlugElement).resolveUrl()).toEqual(
+            'querySlug/warrior'
+        );
     });
 });
-

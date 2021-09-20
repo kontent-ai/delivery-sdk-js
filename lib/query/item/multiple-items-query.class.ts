@@ -1,7 +1,7 @@
 import { IDeliveryClientConfig } from '../../config';
 import {
-    ContentItem,
     Filters,
+    IContentItemElements,
     IItemQueryConfig,
     IKontentNetworkResponse,
     ItemResponses,
@@ -10,9 +10,9 @@ import {
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class MultipleItemsQuery<TItem extends ContentItem> extends BaseListingQuery<
-    ItemResponses.ListContentItemsResponse<TItem>,
-    ItemResponses.ListContentItemsAllResponse<TItem>,
+export class MultipleItemsQuery<TElements extends IContentItemElements> extends BaseListingQuery<
+    ItemResponses.ListContentItemsResponse<TElements>,
+    ItemResponses.ListContentItemsAllResponse<TElements>,
     IItemQueryConfig
 > {
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
@@ -97,7 +97,7 @@ export class MultipleItemsQuery<TItem extends ContentItem> extends BaseListingQu
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TItem>>> {
+    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TElements>>> {
         return this.queryService.getMultipleItems(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -115,8 +115,8 @@ export class MultipleItemsQuery<TItem extends ContentItem> extends BaseListingQu
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TItem>>[]
-    ): ItemResponses.ListContentItemsAllResponse<TItem> {
-        return new ItemResponses.ListContentItemsAllResponse<TItem>(items, responses);
+        responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TElements>>[]
+    ): ItemResponses.ListContentItemsAllResponse<TElements> {
+        return new ItemResponses.ListContentItemsAllResponse<TElements>(items, responses);
     }
 }

@@ -3,7 +3,7 @@ import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './unknown-element.spec.json';
 
 describe('Unknown element', () => {
-    let item: ContentItem;
+    let item: ContentItem<any>;
 
     beforeAll(async () => {
         const response = (await getDeliveryClientWithJson(responseJson).items().toPromise()).data;
@@ -12,7 +12,7 @@ describe('Unknown element', () => {
     });
 
     it(`Ufo element should be mapped to UnknownElement`, () => {
-        const element = item.ufo as Elements.UnknownElement;
+        const element = item.elements.ufo as Elements.UnknownElement;
         const rawElement = responseJson.items[0].elements.ufo;
 
         expect(element).toEqual(jasmine.any(Elements.UnknownElement));

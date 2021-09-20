@@ -10,20 +10,23 @@ import {
     richTextResolver,
     urlSlugResolver,
     BrowserRichTextParser,
-    Parse5RichTextParser
+    Parse5RichTextParser,
+    IContentItemElements
 } from '../../../../lib';
 
-class ActorMock extends ContentItem {
-    firstName!: Elements.TextElement;
-    system!: ContentItemSystemAttributes;
-    url!: Elements.UrlSlugElement;
+interface ActorMockElements extends IContentItemElements {
+    firstName: Elements.TextElement;
+    url: Elements.UrlSlugElement;
+}
 
+class ActorMock extends ContentItem<ActorMockElements> {
     constructor() {
         super();
+        this.elements = {} as any;
     }
 
     setProperties(id: string, codename: string, firstName: string) {
-        this.firstName = new Elements.TextElement({
+        this.elements.firstName = new Elements.TextElement({
             contentItemSystem: {} as any,
             propertyName: 'firstName',
             rawElement: {
@@ -44,7 +47,7 @@ class ActorMock extends ContentItem {
             workflowStep: 'published'
         });
 
-        this.url = new Elements.UrlSlugElement(
+        this.elements.url = new Elements.UrlSlugElement(
             {
                 contentItemSystem: {} as any,
                 propertyName: 'urlSlugName',
@@ -103,10 +106,10 @@ describe('RichTextElement', () => {
     linkedItems.push(tomHardy);
     linkedItems.push(joelEdgerton);
 
-    const getLinkedItem: (codename: string) => ContentItem | undefined = codename =>
-        linkedItems.find(m => m.system.codename === codename);
+    const getLinkedItem: (codename: string) => ContentItem<any> | undefined = (codename) =>
+        linkedItems.find((m) => m.system.codename === codename);
 
-    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => {
+    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = (type) => {
         const mockActor = new ActorMock();
         if (mockActor._config && mockActor._config.urlSlugResolver) {
             return mockActor._config.urlSlugResolver;
@@ -136,7 +139,7 @@ describe('RichTextElement', () => {
                 type: ''
             }
         },
-        linkedItems.map(m => m.system.codename),
+        linkedItems.map((m) => m.system.codename),
         {
             links: links,
             resolveRichTextFunc: () =>
@@ -150,7 +153,7 @@ describe('RichTextElement', () => {
                     linkedItemWrapperTag: 'kcelem',
                     queryConfig: {
                         richTextResolver: (item, context) => {
-                            return `<p class="testing_richtext">${(<ActorMock>item).firstName.value}</p>`;
+                            return `<p class="testing_richtext">${(<ActorMock>item).elements.firstName.value}</p>`;
                         },
                         urlSlugResolver: (link, context) => {
                             return {
@@ -220,7 +223,7 @@ describe('RichTextElement', () => {
                     type: ''
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -264,7 +267,7 @@ describe('RichTextElement', () => {
                     type: ''
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -291,7 +294,7 @@ describe('RichTextElement', () => {
 
         expect(contexts).toBeDefined();
         expect(contexts.length).toEqual(2);
-        expect(contexts.filter(m => m.contentType === RichTextItemDataType.Item).length).toEqual(2);
+        expect(contexts.filter((m) => m.contentType === RichTextItemDataType.Item).length).toEqual(2);
     });
 
     it(`error should be preserved when it originates from richTextResolver (browser)`, () => {
@@ -305,7 +308,7 @@ describe('RichTextElement', () => {
                     type: ''
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -341,7 +344,7 @@ describe('RichTextElement', () => {
                     type: ''
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -385,7 +388,7 @@ describe('RichTextElement', () => {
                     type: ''
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -412,10 +415,7 @@ describe('RichTextElement', () => {
 
         const resolvedHtml = elementWithoutRichTextResolver.resolveHtml();
 
-        const expectedLinkedItemIndexAttributes: string[] = [
-            'data-sdk-item-index="0"',
-            'data-sdk-item-index="1"'
-        ];
+        const expectedLinkedItemIndexAttributes: string[] = ['data-sdk-item-index="0"', 'data-sdk-item-index="1"'];
 
         for (const attr of expectedLinkedItemIndexAttributes) {
             expect(resolvedHtml).toContain(attr);
@@ -433,7 +433,7 @@ describe('RichTextElement', () => {
                     type: ''
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -460,11 +460,7 @@ describe('RichTextElement', () => {
 
         const resolvedHtml = elementWithoutRichTextResolver.resolveHtml();
 
-        const expectedLinkedItemIndexAttributes: string[] = [
-            'data-sdk-item-index="0"',
-            'data-sdk-item-index="1"'
-        ];
-
+        const expectedLinkedItemIndexAttributes: string[] = ['data-sdk-item-index="0"', 'data-sdk-item-index="1"'];
 
         for (const attr of expectedLinkedItemIndexAttributes) {
             expect(resolvedHtml).toContain(attr);
@@ -484,7 +480,7 @@ describe('RichTextElement', () => {
                     type: ''
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -511,7 +507,7 @@ describe('RichTextElement', () => {
 
         expect(contexts).toBeDefined();
         expect(contexts.length).toEqual(2);
-        expect(contexts.filter(m => m.contentType === RichTextItemDataType.Item).length).toEqual(2);
+        expect(contexts.filter((m) => m.contentType === RichTextItemDataType.Item).length).toEqual(2);
     });
 
     it(`error should be preserved when it originates from richTextResolver (parse5)`, () => {
@@ -525,7 +521,7 @@ describe('RichTextElement', () => {
                     type: ''
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>

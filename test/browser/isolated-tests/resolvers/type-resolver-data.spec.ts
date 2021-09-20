@@ -1,7 +1,7 @@
 import { HttpService } from '@kentico/kontent-core';
 
 import { ITypeResolverData, sdkInfo, TypeResolver } from '../../../../lib';
-import { Actor, Context, MockQueryService, Movie, setup } from '../../setup';
+import { Actor, Context, IMovieElements, MockQueryService, Movie, setup } from '../../setup';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 let movieTypeResolverData: ITypeResolverData | undefined;
@@ -11,13 +11,13 @@ function getQueryService(advancedLogging: boolean = false): MockQueryService {
     const context = new Context();
     const typeResolvers: TypeResolver[] = [];
     typeResolvers.push(
-        new TypeResolver('movie', data => {
+        new TypeResolver('movie', (data) => {
             movieTypeResolverData = data;
             return new Movie();
         })
     );
     typeResolvers.push(
-        new TypeResolver('actor', data => {
+        new TypeResolver('actor', (data) => {
             actorTypeResolverData = data;
             return new Actor();
         })
@@ -36,13 +36,13 @@ function getQueryService(advancedLogging: boolean = false): MockQueryService {
 }
 
 describe('Type resolver data', () => {
-    beforeAll(done => {
+    beforeAll((done) => {
         done();
     });
 
     it('Type resolver should receive item contract and modular content as data parameter', () => {
         // response has to be called so that typ resolvers are triggered
-        getQueryService().mockGetSingleItem<Movie>(warriorJson, {});
+        getQueryService().mockGetSingleItem<IMovieElements>(warriorJson, {});
 
         expect(movieTypeResolverData).toBeDefined();
         expect(actorTypeResolverData).toBeDefined();

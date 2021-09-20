@@ -1,25 +1,36 @@
 import { HttpService } from '@kentico/kontent-core';
 
-import { ContentItem, Elements, IUrlSlugResolverContext, ItemResponses, sdkInfo, TypeResolver } from '../../../../lib';
+import {
+    ContentItem,
+    Elements,
+    IUrlSlugResolverContext,
+    ItemResponses,
+    sdkInfo,
+    TypeResolver,
+    IContentItemElements
+} from '../../../../lib';
 import { Context, MockQueryService, setup } from '../../setup';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 describe('Rich text resolver', () => {
-
     const localLinkContexts: { [s: string]: IUrlSlugResolverContext } = {};
     const globalLinkContexts: { [s: string]: IUrlSlugResolverContext } = {};
 
-    class MockMovie extends ContentItem {
-        public plot!: Elements.RichTextElement;
+    interface IMockMovieElements extends IContentItemElements {
+        plot: Elements.RichTextElement;
     }
 
-    class MockActor extends ContentItem {
-        public first_name!: Elements.TextElement;
+    class MockMovie extends ContentItem<IMockMovieElements> {}
 
+    interface IMockActorElements extends IContentItemElements {
+        first_name: Elements.TextElement;
+    }
+
+    class MockActor extends ContentItem<IMockActorElements> {
         constructor() {
             super({
                 richTextResolver: (item, richTextContext) => {
-                    return `<h1>${(<MockActor>item).first_name.value}</h1>`;
+                    return `<h1>${(<MockActor>item).elements.first_name.value}</h1>`;
                 },
                 urlSlugResolver: (link, linkContext) => {
                     globalLinkContexts[link.codename] = linkContext;
@@ -45,18 +56,18 @@ describe('Rich text resolver', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.ViewContentItemResponse<MockMovie>;
-    let responseWithQueryConfig: ItemResponses.ViewContentItemResponse<MockMovie>;
+    let response: ItemResponses.ViewContentItemResponse<IMockMovieElements>;
+    let responseWithQueryConfig: ItemResponses.ViewContentItemResponse<IMockMovieElements>;
 
     let globalPlot: string = '';
     let localPlot: string = '';
 
     beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {});
+        response = mockQueryService.mockGetSingleItem<IMockMovieElements>(warriorJson, {});
 
-        responseWithQueryConfig = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {
+        responseWithQueryConfig = mockQueryService.mockGetSingleItem<IMockMovieElements>(warriorJson, {
             richTextResolver: (item, richTextContext) => {
-                return `<h2>${(<MockActor>item).first_name.value}</h2>`;
+                return `<h2>${(<MockActor>item).elements.first_name.value}</h2>`;
             },
             urlSlugResolver: (link, linkContext) => {
                 localLinkContexts[link.codename] = linkContext;
@@ -66,8 +77,8 @@ describe('Rich text resolver', () => {
             }
         });
 
-        globalPlot = response.item.plot.resolveHtml();
-        localPlot = responseWithQueryConfig.item.plot.resolveHtml();
+        globalPlot = response.item.elements.plot.resolveHtml();
+        localPlot = responseWithQueryConfig.item.elements.plot.resolveHtml();
         done();
     });
 
@@ -110,7 +121,6 @@ describe('Rich text resolver', () => {
         if (tomLink) {
             expect(tomLink.linkText).toEqual('Tom Hardy');
         }
-
     });
 
     it(`verifies that local links contains original texts of links`, () => {
@@ -126,7 +136,5 @@ describe('Rich text resolver', () => {
         if (tomLink) {
             expect(tomLink.linkText).toEqual('Tom Hardy');
         }
-
     });
 });
-

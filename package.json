@@ -70,8 +70,7 @@
     },
     "dependencies": {
         "@kentico/kontent-core": "9.1.0",
-        "parse5": "6.0.1",
-        "reflect-metadata": "0.1.13"
+        "parse5": "6.0.1"
     },
     "devDependencies": {
         "standard-version": "9.3.1",

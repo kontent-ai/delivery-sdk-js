@@ -7,7 +7,7 @@ describe('Mapping service', () => {
         projectId: 'x'
     });
 
-    const listingResponse: ItemResponses.ListContentItemsResponse = client.mappingService.listContentItemsResponse(
+    const listingResponse: ItemResponses.ListContentItemsResponse<any> = client.mappingService.listContentItemsResponse(
         responseJson,
         {}
     );

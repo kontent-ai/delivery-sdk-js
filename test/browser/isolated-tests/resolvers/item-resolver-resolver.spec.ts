@@ -1,11 +1,11 @@
 import { HttpService } from '@kentico/kontent-core';
 
 import { ContentItem, ContentItemSystemAttributes, sdkInfo, TypeResolver } from '../../../../lib';
-import { Actor, Context, MockQueryService, Movie, setup } from '../../setup';
+import { Actor, Context, IMovieElements, MockQueryService, Movie, setup } from '../../setup';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 import * as warriorWithoutModularDataJson from '../fake-data/fake-warrior-without-modular-data-response.json';
 
-class CustomActor extends ContentItem {
+class CustomActor extends ContentItem<any> {
     constructor(public customName: string) {
         super();
     }
@@ -36,13 +36,13 @@ describe('Item resolver', () => {
 
     it(`Resolving linked items should NOT throw exception because modular content item is missing (default behavior)`, () => {
         expect(() => {
-            getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {});
+            getQueryService().mockGetSingleItem<IMovieElements>(warriorWithoutModularDataJson, {});
         }).not.toThrowError();
     });
 
     it(`Resolving linked items should throw exception when linked item is missing and 'throwErrorForMissingLinkedItems' is enabled`, () => {
         expect(() => {
-            getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+            getQueryService().mockGetSingleItem<IMovieElements>(warriorWithoutModularDataJson, {
                 throwErrorForMissingLinkedItems: true
             });
         }).toThrowError();
@@ -50,37 +50,37 @@ describe('Item resolver', () => {
 
     it(`Resolving linked items in rich text element should throw exception when items are not present in response`, () => {
         expect(() => {
-            const result = getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+            const result = getQueryService().mockGetSingleItem<IMovieElements>(warriorWithoutModularDataJson, {
                 throwErrorForMissingLinkedItems: true
             });
 
-            result.item.plot.resolveHtml();
+            result.item.elements.plot.resolveHtml();
         }).toThrowError();
     });
 
     it(`Resolving linked items in rich text element should not throw exception when items are not present in response`, () => {
         expect(() => {
-            const result = getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+            const result = getQueryService().mockGetSingleItem<IMovieElements>(warriorWithoutModularDataJson, {
                 throwErrorForMissingLinkedItems: false
             });
 
-            result.item.plot.resolveHtml();
+            result.item.elements.plot.resolveHtml();
         }).not.toThrowError();
     });
 
     it(`Resolving linked items should NOT throw exception when linked content item is missing and 'throwErrorForMissingLinkedItems' is disabled`, () => {
-        getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+        getQueryService().mockGetSingleItem<IMovieElements>(warriorWithoutModularDataJson, {
             throwErrorForMissingLinkedItems: false
         });
         expect(() => {
-            getQueryService().mockGetSingleItem<Movie>(warriorWithoutModularDataJson, {
+            getQueryService().mockGetSingleItem<IMovieElements>(warriorWithoutModularDataJson, {
                 throwErrorForMissingLinkedItems: false
             });
         }).not.toThrowError();
     });
 
     it(`Custom item resolver should be used to resolve items`, () => {
-        const response = getQueryService().mockGetSingleItem<Movie>(warriorJson, {
+        const response = getQueryService().mockGetSingleItem<IMovieElements>(warriorJson, {
             itemResolver: (rawItem) => {
                 if (rawItem.system.codename === 'tom_hardy' || rawItem.system.codename === 'joel_edgerton') {
                     return new CustomActor('testName');
@@ -90,9 +90,9 @@ describe('Item resolver', () => {
         });
 
         // there should be some items mapped
-        expect(response.item.stars.value.length).toEqual(2);
+        expect(response.item.elements.stars.value.length).toEqual(2);
 
-        for (const star of response.item.stars.value) {
+        for (const star of response.item.elements.stars.value) {
             expect(star._raw.elements).toBeDefined();
             expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));
 
@@ -102,16 +102,16 @@ describe('Item resolver', () => {
     });
 
     it(`Default resolver should be used when content item resolver resolves to undefined`, () => {
-        const response = getQueryService().mockGetSingleItem<Movie>(warriorJson, {
+        const response = getQueryService().mockGetSingleItem<IMovieElements>(warriorJson, {
             itemResolver: (rawItem) => {
                 return undefined;
             }
         });
 
         // there should be some items mapped
-        expect(response.item.stars.value.length).toEqual(2);
+        expect(response.item.elements.stars.value.length).toEqual(2);
 
-        for (const star of response.item.stars.value) {
+        for (const star of response.item.elements.stars.value) {
             expect(star._raw.elements).toBeDefined();
             expect(star.system).toEqual(jasmine.any(ContentItemSystemAttributes));
 

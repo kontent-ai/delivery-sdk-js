@@ -8,20 +8,23 @@ import {
     richTextResolver,
     urlSlugResolver,
     BrowserRichTextParser,
-    Parse5RichTextParser
+    Parse5RichTextParser,
+    IContentItemElements
 } from '../../../../lib';
 
-class ActorMock extends ContentItem {
-    firstName!: Elements.TextElement;
-    system!: ContentItemSystemAttributes;
-    url!: Elements.UrlSlugElement;
+interface ActorMockElements extends IContentItemElements {
+    firstName: Elements.TextElement;
+    url: Elements.UrlSlugElement;
+}
 
+class ActorMock extends ContentItem<ActorMockElements> {
     constructor() {
         super();
+        this.elements = {} as any;
     }
 
     setProperties(id: string, codename: string, firstName: string) {
-        this.firstName = new Elements.TextElement({
+        this.elements.firstName = new Elements.TextElement({
             contentItemSystem: {} as any,
             propertyName: 'firstName',
             rawElement: {
@@ -43,7 +46,7 @@ class ActorMock extends ContentItem {
             workflowStep: 'published'
         });
 
-        this.url = new Elements.UrlSlugElement(
+        this.elements.url = new Elements.UrlSlugElement(
             {
                 contentItemSystem: {} as any,
                 propertyName: 'urlSlugName',
@@ -105,10 +108,10 @@ describe('RichTextElement with Html links parse5 basic', () => {
     const beforeLinkText = 'BEFORELINK';
     const afterLinkText = 'AFTERLINK';
 
-    const getLinkedItem: (codename: string) => ContentItem | undefined = codename =>
-        linkedItems.find(m => m.system.codename === codename);
+    const getLinkedItem: (codename: string) => ContentItem<any> | undefined = (codename) =>
+        linkedItems.find((m) => m.system.codename === codename);
 
-    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => {
+    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = (type) => {
         const mockActor = new ActorMock();
         if (mockActor._config && mockActor._config.urlSlugResolver) {
             return mockActor._config.urlSlugResolver;
@@ -133,7 +136,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                     value: html
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -147,7 +150,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {
                             richTextResolver: undefined as any,
-                            urlSlugResolver: link =>
+                            urlSlugResolver: (link) =>
                                 <IUrlSlugResolverResult>{
                                     html: `<test href="${link.type}" download>${link.urlSlug}</test>`
                                 }
@@ -174,7 +177,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                     value: html
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -188,7 +191,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {
                             richTextResolver: undefined as any,
-                            urlSlugResolver: link =>
+                            urlSlugResolver: (link) =>
                                 <IUrlSlugResolverResult>{
                                     url: `${link.urlSlug}`
                                 }
@@ -215,7 +218,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                     value: html
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -229,7 +232,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {
                             richTextResolver: undefined as any,
-                            urlSlugResolver: link =>
+                            urlSlugResolver: (link) =>
                                 <IUrlSlugResolverResult>{
                                     html: `<span>${link.urlSlug}<span><span>data</span>`
                                 }
@@ -253,7 +256,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                     value: html
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -267,7 +270,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {
                             richTextResolver: undefined as any,
-                            urlSlugResolver: link =>
+                            urlSlugResolver: (link) =>
                                 <IUrlSlugResolverResult>{
                                     html: `<test href="${link.type}" download>${link.urlSlug}</test>`
                                 }
@@ -294,7 +297,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                     value: html
                 }
             },
-            linkedItems.map(m => m.system.codename),
+            linkedItems.map((m) => m.system.codename),
             {
                 links: links,
                 resolveRichTextFunc: () =>
@@ -308,7 +311,7 @@ describe('RichTextElement with Html links parse5 basic', () => {
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {
                             richTextResolver: undefined as any,
-                            urlSlugResolver: link =>
+                            urlSlugResolver: (link) =>
                                 <IUrlSlugResolverResult>{
                                     url: `${link.urlSlug}`
                                 }

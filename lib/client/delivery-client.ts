@@ -1,7 +1,7 @@
 import { HttpService } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
-import { ContentItem } from '../models';
+import { IContentItemElements } from '../models';
 import { getParserAdapter } from '../parser/parser-adapter';
 import {
     ElementQuery,
@@ -73,23 +73,23 @@ export class DeliveryClient implements IDeliveryClient {
     /**
      * Gets query for multiple items
      */
-    items<TItem extends ContentItem>(): MultipleItemsQuery<TItem> {
-        return new MultipleItemsQuery<TItem>(this.config, this.queryService);
+    items<TElements extends IContentItemElements>(): MultipleItemsQuery<TElements> {
+        return new MultipleItemsQuery<TElements>(this.config, this.queryService);
     }
 
     /**
      * Gets query for single item
      * @param {string} codename - Codename of item to fetch
      */
-    item<TItem extends ContentItem>(codename: string): SingleItemQuery<TItem> {
-        return new SingleItemQuery<TItem>(this.config, this.queryService, codename);
+    item<TElements extends IContentItemElements>(codename: string): SingleItemQuery<TElements> {
+        return new SingleItemQuery<TElements>(this.config, this.queryService, codename);
     }
 
     /**
      * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent project.
      */
-    itemsFeed<TItem extends ContentItem>(): ItemsFeedQuery<TItem> {
-        return new ItemsFeedQuery<TItem>(this.config, this.queryService);
+    itemsFeed<TElements extends IContentItemElements>(): ItemsFeedQuery<TElements> {
+        return new ItemsFeedQuery<TElements>(this.config, this.queryService);
     }
 
     /**

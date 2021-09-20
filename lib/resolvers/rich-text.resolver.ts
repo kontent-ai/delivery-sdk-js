@@ -24,7 +24,7 @@ export class RichTextResolver {
         elementName: string,
         data: {
             richTextHtmlParser: IRichTextHtmlParser;
-            getLinkedItem: (codename: string) => IContentItem | undefined;
+            getLinkedItem: (codename: string) => IContentItem<any> | undefined;
             getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined;
             links: Link[];
             images: RichTextImage[];
@@ -90,7 +90,7 @@ export class RichTextResolver {
 
     private getImageResult(data: {
         itemCodename: string;
-        getLinkedItem: (codename: string) => IContentItem | undefined;
+        getLinkedItem: (codename: string) => IContentItem<any> | undefined;
         config: IHtmlResolverConfig;
         imageId: string;
         images: RichTextImage[];
@@ -120,7 +120,7 @@ export class RichTextResolver {
         let image: RichTextImage | undefined;
 
         // try getting image from direct element richtext
-        const richTextElement = linkedItem[data.elementName] as Elements.RichTextElement | undefined;
+        const richTextElement = linkedItem.elements[data.elementName] as Elements.RichTextElement | undefined;
         if (richTextElement) {
             if (!(richTextElement instanceof Elements.RichTextElement)) {
                 throw Error(
@@ -154,11 +154,11 @@ export class RichTextResolver {
 
     private tryGetImageFromLinkedItem(
         imageId: string,
-        contentItem: IContentItem,
-        getLinkedItem: (codename: string) => IContentItem | undefined
+        contentItem: IContentItem<any>,
+        getLinkedItem: (codename: string) => IContentItem<any> | undefined
     ): RichTextImage | undefined {
-        for (const propName of Object.keys(contentItem)) {
-            const richTextElementProperty = contentItem[propName];
+        for (const propName of Object.keys(contentItem.elements)) {
+            const richTextElementProperty = contentItem.elements[propName];
             if (richTextElementProperty instanceof Elements.RichTextElement) {
                 const image = richTextElementProperty.images.find((m) => m.imageId === imageId);
 
@@ -187,7 +187,7 @@ export class RichTextResolver {
     private getLinkedItemHtml(data: {
         itemCodename: string;
         config: IHtmlResolverConfig;
-        getLinkedItem: (codename: string) => IContentItem | undefined;
+        getLinkedItem: (codename: string) => IContentItem<any> | undefined;
         itemType: RichTextItemDataType;
     }): string {
         // get linked item
@@ -206,7 +206,7 @@ export class RichTextResolver {
             return '';
         }
         // get html to replace object using Rich text resolver function
-        let resolver: ItemRichTextResolver<IContentItem> | undefined = undefined;
+        let resolver: ItemRichTextResolver | undefined = undefined;
         if (data.config.queryConfig.richTextResolver) {
             // use resolved defined by query if available
             resolver = data.config.queryConfig.richTextResolver;
@@ -233,7 +233,7 @@ export class RichTextResolver {
         itemId: string;
         config: IHtmlResolverConfig;
         links: Link[];
-        getLinkedItem: (codename: string) => IContentItem | undefined;
+        getLinkedItem: (codename: string) => IContentItem<any> | undefined;
         getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined;
         linkText: string;
     }): IUrlSlugResolverResult {

@@ -1,4 +1,4 @@
-import { Context, Movie, setup } from '../../setup';
+import { Context, setup } from '../../setup';
 import { DeliveryError } from '../../../../lib';
 
 describe('Delivery errors', () => {
@@ -11,7 +11,7 @@ describe('Delivery errors', () => {
 
     beforeAll(async () => {
         try {
-            await context.deliveryClient.item<Movie>(invalidCodename).toPromise();
+            await context.deliveryClient.item<any>(invalidCodename).toPromise();
             succeeded = true;
         } catch (err) {
             error = err;

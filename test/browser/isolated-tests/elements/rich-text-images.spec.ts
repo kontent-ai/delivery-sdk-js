@@ -1,5 +1,3 @@
-
-
 import {
     ContentItem,
     ContentItemSystemAttributes,
@@ -16,6 +14,7 @@ describe('RichTextElement with Images', () => {
     const linkedItemCodename = 'xLinkedItemCodename';
 
     const linkedItem = new ContentItem();
+    linkedItem.elements = {};
     linkedItem.system = new ContentItemSystemAttributes({
         codename: linkedItemCodename,
         id: 'x',
@@ -47,7 +46,7 @@ describe('RichTextElement with Images', () => {
     ];
 
     // set images to rich text
-    linkedItem['name'] = new Elements.RichTextElement(
+    linkedItem.elements['name'] = new Elements.RichTextElement(
         {
             contentItemSystem: {} as any,
             propertyName: 'name',
@@ -75,7 +74,7 @@ describe('RichTextElement with Images', () => {
     const image1Html = getImageHtml('assetId1', image1.imageId, image1.url, image1.description);
     const image2Html = getImageHtml('assetId2', image2.imageId, image2.url, image2.description);
 
-    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = type => {
+    const getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined = (type) => {
         return undefined;
     };
 
@@ -100,7 +99,7 @@ describe('RichTextElement with Images', () => {
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
-                        getLinkedItem: codename => linkedItem,
+                        getLinkedItem: (codename) => linkedItem,
                         images: images,
                         richTextHtmlParser: new BrowserRichTextParser(),
                         linkedItemWrapperClasses: [],
@@ -140,16 +139,14 @@ describe('RichTextElement with Images', () => {
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
-                        getLinkedItem: codename => linkedItem,
+                        getLinkedItem: (codename) => linkedItem,
                         images: images,
                         richTextHtmlParser: new BrowserRichTextParser(),
                         linkedItemWrapperClasses: [],
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {
                             richTextImageResolver: (image, elementName) => {
-                                const newImageUrl = new ImageUrlBuilder(image.url)
-                                    .withCustomParam('x=y')
-                                    .getUrl();
+                                const newImageUrl = new ImageUrlBuilder(image.url).withCustomParam('x=y').getUrl();
                                 return {
                                     url: newImageUrl
                                 };
@@ -187,7 +184,7 @@ describe('RichTextElement with Images', () => {
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
-                        getLinkedItem: codename => linkedItem,
+                        getLinkedItem: (codename) => linkedItem,
                         images: images,
                         richTextHtmlParser: new Parse5RichTextParser(),
                         linkedItemWrapperClasses: [],
@@ -227,16 +224,14 @@ describe('RichTextElement with Images', () => {
                     richTextResolver.resolveData(linkedItemCodename, html, 'name', {
                         getGlobalUrlSlugResolver: getGlobalUrlSlugResolver,
                         links: [],
-                        getLinkedItem: codename => linkedItem,
+                        getLinkedItem: (codename) => linkedItem,
                         images: images,
                         richTextHtmlParser: new Parse5RichTextParser(),
                         linkedItemWrapperClasses: [],
                         linkedItemWrapperTag: 'kc-item-wrapper',
                         queryConfig: {
                             richTextImageResolver: (image, elementName) => {
-                                const newImageUrl = new ImageUrlBuilder(image.url)
-                                    .withCustomParam('x=y')
-                                    .getUrl();
+                                const newImageUrl = new ImageUrlBuilder(image.url).withCustomParam('x=y').getUrl();
                                 return {
                                     url: newImageUrl
                                 };

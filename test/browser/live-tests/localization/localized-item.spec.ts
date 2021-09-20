@@ -1,5 +1,5 @@
 import { ItemResponses } from '../../../../lib';
-import { Context, Movie, setup } from '../../setup';
+import { Context, IMovieElements, setup } from '../../setup';
 
 describe('Localized item', () => {
     const context = new Context();
@@ -7,10 +7,10 @@ describe('Localized item', () => {
 
     const language: string = 'cz';
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.ViewContentItemResponse<Movie>;
+    let response: ItemResponses.ViewContentItemResponse<IMovieElements>;
 
     beforeAll(async () => {
-        response = (await context.deliveryClient.item<Movie>(movieCodename).languageParameter(language).toPromise())
+        response = (await context.deliveryClient.item<IMovieElements>(movieCodename).languageParameter(language).toPromise())
             .data;
     });
 
@@ -19,6 +19,6 @@ describe('Localized item', () => {
     });
 
     it(`title should be localized`, () => {
-        expect(response.item.title.value).toEqual('Warrior-cz');
+        expect(response.item.elements.title.value).toEqual('Warrior-cz');
     });
 });

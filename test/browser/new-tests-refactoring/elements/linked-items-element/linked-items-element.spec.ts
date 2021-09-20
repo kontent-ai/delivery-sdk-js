@@ -2,18 +2,18 @@ import { ContentItem, Elements, ElementType, ItemResponses, TypeResolver } from 
 import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './linked-items-element.spec.json';
 
-class Actor extends ContentItem {
+class Actor extends ContentItem<any> {
     constructor() {
         super();
     }
 }
 
-class Movie extends ContentItem {
-    public stars!: Elements.LinkedItemsElement<Actor>;
+class Movie extends ContentItem<any> {
+    public stars!: Elements.LinkedItemsElement<any>;
 }
 
 describe('Linked items element', () => {
-    let response: ItemResponses.ViewContentItemResponse<Movie>;
+    let response: ItemResponses.ViewContentItemResponse<any>;
 
     beforeAll(async () => {
         response = (
@@ -24,13 +24,13 @@ describe('Linked items element', () => {
                     new TypeResolver('actor', (data) => new Actor())
                 ]
             })
-                .item<Movie>('x')
+                .item<any>('x')
                 .toPromise()
         ).data;
     });
 
     it(`Stars element should be mapped to LinkedItemsElement along with properties`, () => {
-        const element = response.item.stars;
+        const element = response.item.elements.stars;
         const rawElement = responseJson.item.elements.stars;
 
         expect(element).toEqual(jasmine.any(Elements.LinkedItemsElement));

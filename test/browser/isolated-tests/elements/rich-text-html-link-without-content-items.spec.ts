@@ -8,7 +8,7 @@ import {
     richTextResolver,
 } from '../../../../lib';
 
-class ActorMockWithUrl extends ContentItem {
+class ActorMockWithUrl extends ContentItem<any> {
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -20,7 +20,7 @@ class ActorMockWithUrl extends ContentItem {
     }
 }
 
-class ActorMockWithHtml extends ContentItem {
+class ActorMockWithHtml extends ContentItem<any> {
     constructor() {
         super({
             urlSlugResolver: (link, context) => {
@@ -52,7 +52,7 @@ describe('RichTextElement with Html links only (without content items in respons
     const beforeLinkText = 'BEFORELINK';
     const afterLinkText = 'AFTERLINK';
 
-    const getLinkedItem: (codename: string) => ContentItem | undefined = codename => undefined;
+    const getLinkedItem: (codename: string) => ContentItem<any> | undefined = codename => undefined;
 
     const getGlobalUrlSlugResolverWithUrl: (type: string) => ItemUrlSlugResolver | undefined = type => {
         const mockActor = new ActorMockWithUrl();
