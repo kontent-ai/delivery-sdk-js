@@ -14,7 +14,7 @@ describe('#Rich text element with images', () => {
   let item;
 
   before(async () => {
-    const response = await deliveryClient.item(movieCodename)
+    const response = (await deliveryClient.item(movieCodename)
       .queryConfig({
         richTextImageResolver: (image, elementName) => {
           var newUrl = new KontentDelivery.ImageUrlBuilder(image.url)
@@ -26,13 +26,14 @@ describe('#Rich text element with images', () => {
           };
         }
       })
-      .toPromise();
+      .toPromise()
+    ).data;
     item = response.item;
-    plot = response.item.plot.resolveHtml();
+    plot = response.item.elements.plot.resolveHtml();
   });
 
   it('Rich text should contain expected image markup', () => {
-    item.plot.images.forEach(image => {
+    item.elements.plot.images.forEach(image => {
       const newImageUrl = image.url + '?x=y';
       const imageHtml = getImageSrcHtml(newImageUrl);
       assert.ok(plot.includes(imageHtml));

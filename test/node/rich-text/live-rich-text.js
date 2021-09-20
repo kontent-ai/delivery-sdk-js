@@ -6,7 +6,7 @@ class Actor extends KontentDelivery.ContentItem {
     constructor() {
         super({
             richTextResolver: (item, context) => {
-                return `<p>${item.first_name.value}</p>`;
+                return `<p>${item.elements.first_name.value}</p>`;
             },
             urlSlugResolver: (link) => {
                 return { url: '/actor/' + link.urlSlug };
@@ -25,7 +25,7 @@ class Movie extends KontentDelivery.ContentItem {
                 }
             },
             richTextResolver: (item, context) => {
-                return `<p>${item.title.value}</p>`;
+                return `<p>${item.elements.title.value}</p>`;
             },
             urlSlugResolver: (link, context) => {
                 return { url: 'testSlugUrl/' + link.urlSlug };
@@ -63,11 +63,11 @@ describe('#Rich text element', () => {
     const expectedLinkB = '/actor/tom-hardy';
 
     before(async () => {
-        const response = await deliveryClient.item(movieCodename)
-            .toPromise();
+        const response = (await deliveryClient.item(movieCodename)
+            .toPromise()).data;
 
         result = response;
-        plot = response.item.plot.resolveHtml();
+        plot = response.item.elements.plot.resolveHtml();
     });
 
     it('Rich text should contain expected HTML A', () => {

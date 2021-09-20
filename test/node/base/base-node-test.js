@@ -32,13 +32,10 @@ describe('Base node.js test', () => {
   });
 
   it('Response should be successful and should contain an item of defined type', () => {
-
-    var item = response.items[0];
+    var item = response.data.items[0];
 
     assert.ok(item);
-
     assert.ok(item.system.codename);
-
     assert.ok((item instanceof Movie));
   });
 });
