@@ -1,4 +1,4 @@
-# Kentico Kontent Delivery SDK
+# Kontent Delivery SDK
 
 [![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-delivery.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-delivery)
 [![Build](https://github.com/Kentico/kontent-delivery-sdk-js/actions/workflows/test.yml/badge.svg)](https://github.com/Kentico/kontent-delivery-sdk-js/actions/workflows/test.yml)
@@ -11,7 +11,7 @@
 
 [![Discord](https://img.shields.io/discord/821885171984891914?label=Discord&logo=Discord&logoColor=white)](https://discord.gg/SKCxwPtevJ)
 
-A client library for retrieving content from [Kentico Kontent](https://kontent.ai/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
+A client library for retrieving content from [Kontent by Kentico](https://kontent.ai/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
 
 |  Resources 
 |---|
@@ -92,7 +92,7 @@ const deliveryClient = new DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Kontent as Promise */
+/** Getting items from Kontent as Promise */
 const response = await deliveryClient.items<Movie>()
     .type('movie')
     .toPromise();
@@ -129,7 +129,7 @@ Bundles are distributed in `dist/bundles` folder and there are several options t
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kentico Kontent SDK - Html sample</title>
+    <title>Kontent SDK - Html sample</title>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/dist/bundles/kontent-delivery.umd.min.js"></script>
 </head>
 <body>

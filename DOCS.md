@@ -1,6 +1,6 @@
 # JavaScript Delivery SDK Documentation
 
-JavaScript Delivery SDK is a client library for retrieving content from [Kentico Kontent](https://kontent.ai/) using Delivery API. The client library is written in TypeScript and published in formats `UMD`, `ES2015`, and `CommonJs`. It works both in browser & node.
+JavaScript Delivery SDK is a client library for retrieving content from [Kontent by Kentico](https://kontent.ai/) using Delivery API. The client library is written in TypeScript and published in formats `UMD`, `ES2015`, and `CommonJs`. It works both in browser & node.
 
 - [JavaScript Delivery SDK Documentation](#javascript-delivery-sdk-documentation)
   - [Installation](#installation)
@@ -150,7 +150,7 @@ const movieText = response.items[0].title.value;
 ## JavaScript & CommonJS
 
 ```javascript
-const KenticoContent = require('@kentico/kontent-delivery');
+const KontentDelivery = require('@kentico/kontent-delivery');
 
 class Movie extends KenticoContent.ContentItem {
     constructor() {
@@ -158,10 +158,10 @@ class Movie extends KenticoContent.ContentItem {
     }
 }
 
-const deliveryClient = new KenticoContent.DeliveryClient({
+const deliveryClient = new KontentDelivery.DeliveryClient({
     projectId: 'xxx',
     typeResolvers: [
-        new KenticoContent.TypeResolver('movie', () => new Movie()),
+        new KontentDelivery.TypeResolver('movie', () => new Movie()),
     ]
 });
 
@@ -176,7 +176,7 @@ const response = await deliveryClient.items()
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kentico Kontent SDK - Html sample</title>
+    <title>Kontent SDK - Html sample</title>
    	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/dist/bundles/kontent-delivery.umd.min.js"></script>
 </head>
 <body>
@@ -294,7 +294,7 @@ Custom elements are only supported in the latest version of the JavaScript SDK.
 
 :heavy_check_mark: **Save time by auto-generating models**
 
-Use the [Kontent Model Generator](https://www.npmjs.com/package/@kentico/kontent-model-generator) to automatically generate TypeScript or JavaScript models based on the content types in your Kentico Kontent project.
+Use the [Kontent Model Generator](https://www.npmjs.com/package/@kentico/kontent-model-generator) to automatically generate TypeScript or JavaScript models based on the content types in your Kontent project.
 
 ### How to use DeliveryClient
 
@@ -451,7 +451,7 @@ deliveryClient.item<Movie>('warrior')
 
 ### Property binding in models
 
-Kentico Kontent returns all element names in **lowercase** or with **underscores**. You can bind original element names to your own javascript properties with `ElementDecorators`. The following example binds `first_name` element name to `firstName` javascript property.
+Kontent by Kentico returns all element names in **lowercase** or with **underscores**. You can bind original element names to your own javascript properties with `ElementDecorators`. The following example binds `first_name` element name to `firstName` javascript property.
 
 ```typescript
 import { ContentItem, Elements, ElementDecorators  } from '@kentico/kontent-delivery';
@@ -637,7 +637,7 @@ const resolvedUrl = response.item.slug.resolveUrl();
 
 ### Resolve content items and components in Rich text elements
 
-[Rich text elements](https://developer.kenticocloud.com/v1/reference#section-rich-text-element) in Kentico Kontent can contain other content items and [components](https://help.kenticocloud.com/composing-and-linking-content/components/structuring-editorial-articles-with-components). For example, if you write a blog post, you might want to insert a video or testimonial to a specific place in your article.
+[Rich text elements](https://developer.kenticocloud.com/v1/reference#section-rich-text-element) in Kontent by Kentico can contain other content items and [components](https://help.kenticocloud.com/composing-and-linking-content/components/structuring-editorial-articles-with-components). For example, if you write a blog post, you might want to insert a video or testimonial to a specific place in your article.
 
 You need to define how these objects resolve to the HTML that will be rendered. This can be done globally for each content type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` content items or components used in all your rich text elements.
 
@@ -826,7 +826,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 
 | Property        | type| description|
 | ------------- |:-------------:| -----:|
-| projectId      | string | ProjectId of your Kentico Kontent project|
+| projectId      | string | ProjectId of your Kontent project|
 | typeResolvers?| TypeResolver[] | Array of resolvers that are used to create instances of registered classes automatically. If not set, items will be instances of 'ContentItem' class|
 | elementResolver?| ElementResolver | Element resolver used to map custom elements to models |
 | previewApiKey?| string| Preview API key used to get unpublished content items |
@@ -884,7 +884,7 @@ const client = new DeliveryClient({
 
 ## Error handling
 
-If the error originates in Kentico Kontent (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `DeliveryError` object instance with more specific information. Otherwise, you will get original error.
+If the error originates in Kontent by Kentico (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `DeliveryError` object instance with more specific information. Otherwise, you will get original error.
 
 ```typescript
 import { DeliveryError } from '@kentico/kontent-delivery';
