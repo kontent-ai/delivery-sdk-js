@@ -1,18 +1,18 @@
-# Kentico Kontent SDK Examples
+# Kontent SDK Examples
 
 ## [React](https://github.com/Kentico/kontent-sample-app-react)
 
-An official single-page sample application built on React. Pulls content from the Kentico Kontent Sample project.
+An official single-page sample application built on React. Pulls content from the Kontent Sample project.
 
 * [Running the React sample app tutorial](https://developer.kenticokontent.com/v1/docs/running-react-sample-app)
 
 ## [Vue.js](https://github.com/Kentico/kontent-sample-app-vue)
 
-An official single-page sample application built on Vue.js. Pulls content from the Kentico Kontent sample project.
+An official single-page sample application built on Vue.js. Pulls content from the Kontent sample project.
 
 ## [Angular 6](https://github.com/Enngage/KenticoKontentSampleAngularApp)
 
-A community-made sample Angular application. Pulls and displays strongly-typed content from Kentico Kontent.
+A community-made sample Angular application. Pulls and displays strongly-typed content from Kontent.
 
 ## [Angular Universal](https://github.com/Enngage/kentico-kontent-js-angular-universal-starter)
 
