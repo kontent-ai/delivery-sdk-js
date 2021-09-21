@@ -8,21 +8,12 @@ import {
     IContentItemsContainer,
     IItemQueryConfig,
     IMapElementsResult,
-    ItemUrlSlugResolver,
     Link,
     RichTextImage
 } from '../models';
-import { IRichTextHtmlParser } from '../parser/parse-models';
-import { richTextResolver, urlSlugResolver } from '../resolvers';
 
 export class ElementMapper {
-    private readonly defaultLinkedItemWrapperTag: string = 'p';
-    private readonly defaultLinkedItemWrapperClasses: string[] = ['kc-linked-item-wrapper'];
-
-    constructor(
-        private readonly config: IDeliveryClientConfig,
-        private readonly richTextHtmlParser: IRichTextHtmlParser
-    ) {}
+    constructor(private readonly config: IDeliveryClientConfig) {}
 
     mapElements<TContentItem extends IContentItem<any> = IContentItem<any>>(data: {
         item: ItemContracts.IContentItemContract;
@@ -54,9 +45,9 @@ export class ElementMapper {
         elementCodenames.forEach((elementCodename) => {
             const elementMap = this.resolveElementMap(itemInstance, elementCodename);
             const elementWrapper: ElementModels.IElementWrapper = {
-                contentItemSystem: data.item.system,
+                system: data.item.system,
                 rawElement: data.item.elements[elementCodename],
-                propertyName: elementMap.resolvedName
+                element: elementMap.resolvedName
             };
             if (elementMap.shouldMapElement) {
                 const mappedElement = this.mapElement({
@@ -226,76 +217,70 @@ export class ElementMapper {
         const links: Link[] = this.mapRichTextLinks(rawElement.links);
         const images: RichTextImage[] = this.mapRichTextImages(rawElement.images);
 
-        return new Elements.RichTextElement(elementWrapper, rawElement.modular_content, {
+        return {
+            images: images,
+            linkedItemCodenames: rawElement.modular_content,
             links: links,
-            resolveRichTextFunc: () =>
-                richTextResolver.resolveData(item.system.codename, rawElement.value, elementWrapper.propertyName, {
-                    images: images,
-                    richTextHtmlParser: this.richTextHtmlParser,
-                    getLinkedItem: (codename) =>
-                        this.getOrSaveLinkedItemForElement(
-                            codename,
-                            rawElement,
-                            queryConfig,
-                            processedItems,
-                            processingStartedForCodenames,
-                            preparedItems
-                        ),
-                    links: links,
-                    queryConfig: queryConfig,
-                    linkedItemWrapperTag:
-                        this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperTag
-                            ? this.config.linkedItemResolver.linkedItemWrapperTag
-                            : this.defaultLinkedItemWrapperTag,
-                    linkedItemWrapperClasses:
-                        this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperClasses
-                            ? this.config.linkedItemResolver.linkedItemWrapperClasses
-                            : this.defaultLinkedItemWrapperClasses
-                }),
-            images: images
-        });
+            name: rawElement.name,
+            rawData: rawElement,
+            type: ElementType.RichText,
+            value: rawElement.value
+        };
     }
 
     private mapDateTimeElement(elementWrapper: ElementModels.IElementWrapper): Elements.DateTimeElement {
-        return new Elements.DateTimeElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.DateTime, () =>
+            elementWrapper.rawElement.value ? new Date(elementWrapper.rawElement.value) : null
+        );
     }
 
     private mapMultipleChoiceElement(elementWrapper: ElementModels.IElementWrapper): Elements.MultipleChoiceElement {
-        return new Elements.MultipleChoiceElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.MultipleChoice, () => elementWrapper.rawElement.value);
     }
 
     private mapNumberElement(elementWrapper: ElementModels.IElementWrapper): Elements.NumberElement {
-        return new Elements.NumberElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.Number, () => {
+            if (elementWrapper.rawElement.value === 0) {
+                return 0;
+            } else if (elementWrapper.rawElement.value) {
+                return +elementWrapper.rawElement.value;
+            }
+            return null;
+        });
     }
 
     private mapTextElement(elementWrapper: ElementModels.IElementWrapper): Elements.TextElement {
-        return new Elements.TextElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.Text, () => elementWrapper.rawElement.value);
     }
 
     private mapAssetsElement(elementWrapper: ElementModels.IElementWrapper): Elements.AssetsElement {
-        return new Elements.AssetsElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.Asset, () => elementWrapper.rawElement.value);
     }
 
     private mapTaxonomyElement(elementWrapper: ElementModels.IElementWrapper): Elements.TaxonomyElement {
-        return new Elements.TaxonomyElement(elementWrapper);
+        return {
+            ...this.buildElement(elementWrapper, ElementType.Taxonomy, () => elementWrapper.rawElement.value),
+            taxonomyGroup: elementWrapper.rawElement.taxonomy_group
+        };
     }
 
     private mapUnknowElement(elementWrapper: ElementModels.IElementWrapper): Elements.UnknownElement {
-        return new Elements.UnknownElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.Unknown, () => elementWrapper.rawElement.value);
     }
 
     private mapCustomElement(
         elementWrapper: ElementModels.IElementWrapper
-    ): Elements.DefaultCustomElement | ElementModels.IElement<string> {
+    ): Elements.CustomElement | ElementModels.IElement<string> {
         // try to find element resolver
         if (this.config.elementResolver) {
-            const customElementClass = this.config.elementResolver(elementWrapper);
+            const elementResolverValue = this.config.elementResolver(elementWrapper);
 
-            if (customElementClass) {
-                return customElementClass;
+            if (elementResolverValue) {
+                return this.buildElement(elementWrapper, ElementType.Custom, () => elementResolverValue);
             }
         }
-        return new Elements.DefaultCustomElement(elementWrapper);
+
+        return this.buildElement(elementWrapper, ElementType.Custom, () => elementWrapper.rawElement.value);
     }
 
     private mapUrlSlugElement(
@@ -303,16 +288,7 @@ export class ElementMapper {
         item: IContentItem<any>,
         queryConfig: IItemQueryConfig
     ): Elements.UrlSlugElement {
-        const resolver = this.getUrlSlugResolverForElement(item, elementWrapper, queryConfig);
-        return new Elements.UrlSlugElement(elementWrapper, {
-            resolveLinkFunc: () =>
-                urlSlugResolver.resolveUrl({
-                    elementName: elementWrapper.propertyName,
-                    elementValue: elementWrapper.rawElement.value,
-                    item: item,
-                    resolver: resolver
-                }).url || ''
-        });
+        return this.buildElement(elementWrapper, ElementType.UrlSlug, () => elementWrapper.rawElement.value);
     }
 
     private mapLinkedItemsElement(data: {
@@ -347,21 +323,15 @@ export class ElementMapper {
             }
         });
 
-        return new Elements.LinkedItemsElement(data.elementWrapper, linkedItems);
-    }
-
-    private getUrlSlugResolverForElement(
-        item: IContentItem<any>,
-        elementWrapper: ElementModels.IElementWrapper,
-        queryConfig: IItemQueryConfig
-    ): ItemUrlSlugResolver {
-        // query `urlSlugResolver` has priority over global resolver
-        if (queryConfig.urlSlugResolver) {
-            return queryConfig.urlSlugResolver;
-        }
-
-        // resolve default link value
-        return () => elementWrapper.rawElement.value;
+        return {
+            ...this.buildElement(
+                data.elementWrapper,
+                ElementType.ModularContent,
+                () => data.elementWrapper.rawElement.value
+            ),
+            linkedItems: linkedItems,
+            itemCodenames: linkedItemCodenames
+        };
     }
 
     private getOrSaveLinkedItemForElement(
@@ -483,6 +453,19 @@ export class ElementMapper {
         return {
             resolvedName: resolvedElementPropertyName,
             shouldMapElement: true
+        };
+    }
+
+    private buildElement<TValue>(
+        elementWrapper: ElementModels.IElementWrapper,
+        type: ElementType,
+        valueFactory: () => TValue
+    ): ElementModels.IElement<TValue> {
+        return {
+            name: elementWrapper.rawElement.name,
+            rawData: elementWrapper.rawElement,
+            type: type,
+            value: valueFactory()
         };
     }
 }

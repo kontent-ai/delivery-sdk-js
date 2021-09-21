@@ -11,10 +11,8 @@ describe('Custom element', () => {
     });
 
     it(`Color element should be mapped to DefaultCustomElement`, () => {
-        const element = item.elements.color as Elements.DefaultCustomElement;
+        const element = item.elements.color as Elements.CustomElement;
         const rawElement = responseJson.items[0].elements.color;
-
-        expect(element).toEqual(jasmine.any(Elements.DefaultCustomElement));
 
         expect(element.name).toEqual(rawElement.name);
         expect(element.type).toEqual(ElementType.Custom);
@@ -22,27 +20,11 @@ describe('Custom element', () => {
     });
 
     it(`Markdown element should be mapped to DefaultCustomElement`, () => {
-        const element = item.elements.markdown as Elements.DefaultCustomElement;
+        const element = item.elements.markdown as Elements.CustomElement;
         const rawElement = responseJson.items[0].elements.markdown;
-
-        expect(element).toEqual(jasmine.any(Elements.DefaultCustomElement));
 
         expect(element.name).toEqual(rawElement.name);
         expect(element.type).toEqual(ElementType.Custom);
         expect(element.value).toEqual(rawElement.value);
-    });
-
-    it(`Custom element should preserve null value`, () => {
-        const element = new Elements.DefaultCustomElement({
-            contentItemSystem: null as any,
-            propertyName: 'x',
-            rawElement: {
-                name: 'y',
-                type: ElementType.Custom,
-                value: null
-            }
-        });
-
-        expect(element.value).toBeNull();
     });
 });

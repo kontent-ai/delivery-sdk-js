@@ -19,7 +19,7 @@ describe('ElementMapper', () => {
     const context = new Context();
     setup(context);
 
-    const elementMapper = new ElementMapper(context.getConfig(), context.richTextHtmlParser as any);
+    const elementMapper = new ElementMapper(context.getConfig());
 
     it(`should log warning to console an Error when unsupported element type is used`, () => {
         console.warn = jasmine.createSpy('warn');

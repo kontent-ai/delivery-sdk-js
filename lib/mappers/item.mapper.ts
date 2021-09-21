@@ -25,7 +25,7 @@ export class ItemMapper {
     private readonly elementMapper: ElementMapper;
 
     constructor(readonly config: IDeliveryClientConfig, readonly richTextHtmlParser: IRichTextHtmlParser) {
-        this.elementMapper = new ElementMapper(config, richTextHtmlParser);
+        this.elementMapper = new ElementMapper(config);
     }
 
     /**

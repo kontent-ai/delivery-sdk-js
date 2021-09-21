@@ -1,28 +1,15 @@
-import { IContentItem, ElementModels, Elements, ElementType } from '../../../../../lib';
+import { IContentItem, ElementType, Elements } from '../../../../../lib';
 import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './custom-element.spec.json';
 
-class ColorElement extends Elements.CustomElement {
-    public red: number;
-    public green: number;
-    public blue: number;
-
-    constructor(public element: ElementModels.IElementWrapper) {
-        super(element);
-
-        const parsed = JSON.parse(element.rawElement.value);
-        this.red = parsed.red;
-        this.green = parsed.green;
-        this.blue = parsed.blue;
-    }
+interface ColorElementValue {
+    red: number;
+    green: number;
+    blue: number;
 }
 
-class MarkdownElement extends Elements.CustomElement {
-    public isMarkdown = true;
-
-    constructor(public element: ElementModels.IElementWrapper) {
-        super(element);
-    }
+interface MarkdownElementValue {
+    isMarkdown: boolean;
 }
 
 describe('Custom element with custom model', () => {
@@ -37,17 +24,25 @@ describe('Custom element with custom model', () => {
                 const markdownElement = responseJson.items[0].elements.markdown;
 
                 if (
-                    elementWrapper.contentItemSystem.type === responseItem.system.type &&
+                    elementWrapper.system.type === responseItem.system.type &&
                     elementWrapper.rawElement.name === colorElement.name
                 ) {
-                    return new ColorElement(elementWrapper);
+                    const parsed = JSON.parse(elementWrapper.rawElement.value);
+
+                    return <ColorElementValue>{
+                        red: parsed.red,
+                        green: parsed.green,
+                        blue: parsed.blue
+                    };
                 }
 
                 if (
-                    elementWrapper.contentItemSystem.type === responseItem.system.type &&
+                    elementWrapper.system.type === responseItem.system.type &&
                     elementWrapper.rawElement.name === markdownElement.name
                 ) {
-                    return new MarkdownElement(elementWrapper);
+                    return <MarkdownElementValue>{
+                        isMarkdown: true
+                    };
                 }
                 return undefined;
             }
@@ -59,28 +54,24 @@ describe('Custom element with custom model', () => {
     });
 
     it(`Color element should be mapped to ColorElement`, () => {
-        const element = item.elements.color as ColorElement;
+        const element = item.elements.color as Elements.CustomElement<ColorElementValue>;
         const rawElement = responseJson.items[0].elements.color;
 
-        expect(element).toEqual(jasmine.any(ColorElement));
 
-        expect(element.red).toEqual(167);
-        expect(element.green).toEqual(96);
-        expect(element.blue).toEqual(197);
+        expect(element.value.red).toEqual(167);
+        expect(element.value.green).toEqual(96);
+        expect(element.value.blue).toEqual(197);
 
         expect(element.name).toEqual(rawElement.name);
         expect(element.type).toEqual(ElementType.Custom);
-        expect(element.value).toEqual(rawElement.value);
     });
 
     it(`Markdown element should be mapped to MarkdownElement`, () => {
-        const element = item.elements.markdown as MarkdownElement;
+        const element = item.elements.markdown as Elements.CustomElement<MarkdownElementValue>;
         const rawElement = responseJson.items[0].elements.markdown;
 
-        expect(element).toEqual(jasmine.any(MarkdownElement));
-
+        expect(element.value.isMarkdown).toEqual(true);
         expect(element.name).toEqual(rawElement.name);
         expect(element.type).toEqual(ElementType.Custom);
-        expect(element.value).toEqual(rawElement.value);
     });
 });

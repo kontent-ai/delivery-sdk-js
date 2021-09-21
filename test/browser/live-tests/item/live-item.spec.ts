@@ -1,4 +1,4 @@
-import { ElementModels, ImageUrlBuilder, ItemResponses, RichTextImage } from '../../../../lib';
+import { ImageUrlBuilder, ItemResponses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live item', () => {
@@ -68,7 +68,7 @@ describe('Live item', () => {
     });
 
     it(`checks that category options are of proper type`, () => {
-        expect(response.item.elements.category.value[1]).toEqual(jasmine.any(ElementModels.MultipleChoiceOption));
+        expect(response.item.elements.category.value[1]).toBeDefined();
     });
 
     it(`stars linked items should be defined`, () => {
@@ -86,7 +86,7 @@ describe('Live item', () => {
     });
 
     it(`check that linked item (Actor) has 'firstName' text properly assigned`, () => {
-        expect(response.item.elements.stars.value[0].elements.firstName.value).toEqual('Tom');
+        expect(response.item.elements.stars.linkedItems[0].elements.firstName.value).toEqual('Tom');
     });
 
     it(`debug property should be defiend and filled with debug data`, () => {
@@ -101,18 +101,6 @@ describe('Live item', () => {
 
         expect(images).toBeDefined();
         expect(images.length).toEqual(2);
-
-        images.forEach((image) => {
-            expect(image).toEqual(jasmine.any(RichTextImage));
-
-            // get original image
-            const newImageUrl = image.url + '?x=y';
-            const plotHtml = response.item.elements.plot.resolveHtml();
-
-            expect(plotHtml).toContain(`src="${newImageUrl}"`);
-            expect(image.width).toBeGreaterThan(0);
-            expect(image.height).toBeGreaterThan(0);
-        });
     });
 
     it(`verify linked items included in response`, () => {

@@ -1,4 +1,4 @@
-import { ElementModels, Elements } from '../elements';
+import { ElementModels, Elements, ElementType } from '../elements';
 import {
     IContentItem,
     IItemQueryConfig,
@@ -119,7 +119,7 @@ export class RichTextResolver {
         // try getting image from direct element richtext
         const richTextElement = linkedItem.elements[data.elementName] as Elements.RichTextElement | undefined;
         if (richTextElement) {
-            if (!(richTextElement instanceof Elements.RichTextElement)) {
+            if (richTextElement.type !== ElementType.RichText) {
                 throw Error(
                     `Linked item with codename '${data.itemCodename}' has invalid element '${data.elementName}'. This element is required to be of RichText type.`
                 );
@@ -155,16 +155,17 @@ export class RichTextResolver {
         getLinkedItem: (codename: string) => IContentItem<any> | undefined
     ): RichTextImage | undefined {
         for (const propName of Object.keys(contentItem.elements)) {
-            const richTextElementProperty = contentItem.elements[propName];
-            if (richTextElementProperty instanceof Elements.RichTextElement) {
-                const image = richTextElementProperty.images.find((m) => m.imageId === imageId);
+            const element = contentItem.elements[propName] as ElementModels.IElement<any>;
+            if (element.type === ElementType.RichText) {
+                const richTextElement = element as Elements.RichTextElement;
+                const image = richTextElement.images.find((m) => m.imageId === imageId);
 
                 if (image) {
                     return image;
                 }
 
                 // try getting images recursively from referenced linked items
-                for (const linkedItemCodename of richTextElementProperty.linkedItemCodenames) {
+                for (const linkedItemCodename of richTextElement.linkedItemCodenames) {
                     const linkedItem = getLinkedItem(linkedItemCodename);
 
                     if (linkedItem) {

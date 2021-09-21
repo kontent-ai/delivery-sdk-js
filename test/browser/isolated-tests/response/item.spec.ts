@@ -83,13 +83,13 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks that correct number of linked items are created`, () => {
-        expect(response.item.elements.stars.value.length).toEqual(warriorJson.item.elements.stars.value.length);
+        expect(response.item.elements.stars.linkedItems.length).toEqual(warriorJson.item.elements.stars.value.length);
     });
 
 
     it(`checks that text element in first linked item is set`, () => {
         expect(
-            response.item.elements.stars.value.find(
+            response.item.elements.stars.linkedItems.find(
                 (m) =>
                     m.elements.firstName.value === warriorJson.modular_content.joel_edgerton.elements.first_name.value
             )
@@ -98,7 +98,7 @@ describe('Verifies mapping of delivery content item', () => {
 
     it(`checks that text element in second linked item is set`, () => {
         expect(
-            response.item.elements.stars.value.find(
+            response.item.elements.stars.linkedItems.find(
                 (m) => m.elements.firstName.value === warriorJson.modular_content.tom_hardy.elements.first_name.value
             )
         ).toBeDefined();

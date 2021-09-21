@@ -15,8 +15,6 @@ describe('Unknown element', () => {
         const element = item.elements.ufo as Elements.UnknownElement;
         const rawElement = responseJson.items[0].elements.ufo;
 
-        expect(element).toEqual(jasmine.any(Elements.UnknownElement));
-
         expect(element.name).toEqual(rawElement.name);
         expect(element.type).toEqual(ElementType.Unknown);
         expect(element.value).toEqual(rawElement.value);
