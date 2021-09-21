@@ -1,6 +1,6 @@
 # JavaScript Delivery SDK Documentation
 
-JavaScript Delivery SDK is a client library for retrieving content from [Kentico Kontent](https://kontent.ai/) using Delivery API. The client library is written in TypeScript and published in formats `UMD`, `ES2015`, and `CommonJs`. It works both in browser & node.
+JavaScript Delivery SDK is a client library for retrieving content from [Kontent by Kentico](https://kontent.ai/) using Delivery API. The client library is written in TypeScript and published in formats `UMD`, `ES2015`, and `CommonJs`. It works both in browser & node.
 
 - [JavaScript Delivery SDK Documentation](#javascript-delivery-sdk-documentation)
   - [Installation](#installation)
@@ -133,7 +133,7 @@ const deliveryClient = new DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Kontent as Promise */
+/** Getting items from Kontent as Promise */
 deliveryClient.items<Movie>()
     .type('movie')
     .toPromise()
@@ -142,7 +142,7 @@ deliveryClient.items<Movie>()
     )
 });
 
-/** Getting items from Kentico Kontent as Observable */
+/** Getting items from Kontent as Observable */
 deliveryClient.items<Movie>()
     .type('movie')
     .toObservable()
@@ -184,7 +184,7 @@ const deliveryClient = new KenticoContent.DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Kontent as Promise */
+/** Getting items from Kontent as Promise */
 deliveryClient.items()
     .type('movie')
     .toPromise()
@@ -193,7 +193,7 @@ deliveryClient.items()
     )
 });
 
-/** Getting items from Kentico Kontent as Observable */
+/** Getting items from Kontent as Observable */
 const subscription = deliveryClient.items()
     .type('movie')
     .toObservable()
@@ -207,7 +207,7 @@ Don't forget to unsubscribe from your Observables. You can use 'takeUntil' or 'u
 subscription.unsubscribe();
 
 /**
- * Fetch all items of 'movie' type and given parameters from Kentico Kontent.
+ * Fetch all items of 'movie' type and given parameters from Kontent.
  * Important note: SDK will convert items to your type if you registered it. For example,
  * in this case the objects will be of 'Movie' type we defined above.
  * If you don't use custom models, 'ContentItem' object instances will be returned.
@@ -224,7 +224,7 @@ deliveryClient.items()
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kentico Kontent SDK - Html sample</title>
+    <title>Kontent Delivery SDK - Html sample</title>
     <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
 </head>
@@ -368,7 +368,7 @@ Custom elements are only supported in the latest version of the JavaScript SDK.
 
 :heavy_check_mark: **Save time by auto-generating models**
 
-Use the [Kontent Model Generator](https://www.npmjs.com/package/@kentico/kontent-model-generator) to automatically generate TypeScript or JavaScript models based on the content types in your Kentico Kontent project.
+Use the [Kontent Model Generator](https://www.npmjs.com/package/@kentico/kontent-model-generator) to automatically generate TypeScript or JavaScript models based on the content types in your Kontent project.
 
 ### How to use DeliveryClient
 
@@ -541,7 +541,7 @@ deliveryClient.item<Movie>('warrior')
 
 ### Property binding in models
 
-Kentico Kontent returns all element names in **lowercase** or with **underscores**. You can bind original element names to your own javascript properties with `ElementDecorators`. The following example binds `first_name` element name to `firstName` javascript property.
+Kontent returns all element names in **lowercase** or with **underscores**. You can bind original element names to your own javascript properties with `ElementDecorators`. The following example binds `first_name` element name to `firstName` javascript property.
 
 ```typescript
 import { ContentItem, Elements, ElementDecorators  } from '@kentico/kontent-delivery';
@@ -726,7 +726,7 @@ deliveryClient.item<Actor>('tom_hardy')
 
 ### Resolve content items and components in Rich text elements
 
-[Rich text elements](https://developer.kenticocloud.com/v1/reference#section-rich-text-element) in Kentico Kontent can contain other content items and [components](https://help.kenticocloud.com/composing-and-linking-content/components/structuring-editorial-articles-with-components). For example, if you write a blog post, you might want to insert a video or testimonial to a specific place in your article.
+[Rich text elements](https://developer.kenticocloud.com/v1/reference#section-rich-text-element) in Kontent can contain other content items and [components](https://help.kenticocloud.com/composing-and-linking-content/components/structuring-editorial-articles-with-components). For example, if you write a blog post, you might want to insert a video or testimonial to a specific place in your article.
 
 You need to define how these objects resolve to the HTML that will be rendered. This can be done globally for each content type using the `richTextResolver` option, or per query. The following example shows how to resolve the `Actor` content items or components used in all your rich text elements.
 
@@ -930,7 +930,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 
 | Property        | type| description|
 | ------------- |:-------------:| -----:|
-| projectId      | string | ProjectId of your Kentico Kontent project|
+| projectId      | string | ProjectId of your Kontent project|
 | typeResolvers?| TypeResolver[] | Array of resolvers that are used to create instances of registered classes automatically. If not set, items will be instances of 'ContentItem' class|
 | elementResolver?| ElementResolver | Element resolver used to map custom elements to models |
 | isDeveloperMode?| boolean | Indicates if advanced debug information are logged to console |
@@ -990,7 +990,7 @@ const client = new DeliveryClient({
 
 ## Error handling
 
-If the error originates in Kentico Kontent (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `DeliveryError` object instance with more specific information. Otherwise, you will get original error.
+If the error originates in Kontent (see [error responses](https://developer.kenticocloud.com/v1/reference#error-responses)), you will get a `DeliveryError` object instance with more specific information. Otherwise, you will get original error.
 
 ```typescript
 import { DeliveryError } from '@kentico/kontent-delivery';
