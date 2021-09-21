@@ -1,4 +1,4 @@
-# Kentico Kontent Delivery SDK
+# Kontent Delivery SDK
 
 [![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-delivery.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-delivery)
 [![Build](https://github.com/Kentico/kontent-delivery-sdk-js/actions/workflows/test.yml/badge.svg)](https://github.com/Kentico/kontent-delivery-sdk-js/actions/workflows/test.yml)
@@ -11,7 +11,7 @@
 
 [![Discord](https://img.shields.io/discord/821885171984891914?label=Discord&logo=Discord&logoColor=white)](https://discord.gg/SKCxwPtevJ)
 
-A client library for retrieving content from [Kentico Kontent](https://kontent.ai/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
+A client library for retrieving content from [Kontent by Kentico](https://kontent.ai/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
 
 |  Resources 
 |---|
@@ -93,7 +93,7 @@ const deliveryClient = new DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Kontent as Promise */
+/** Getting items from Kontent as Promise */
 deliveryClient.items<Movie>()
     .type('movie')
     .toPromise()
@@ -101,7 +101,7 @@ deliveryClient.items<Movie>()
         const movieText = response.items[0].title.value;
     });
 
-/** Getting items from Kentico Kontent as Observable */
+/** Getting items from Kontent as Observable */
 deliveryClient.items<Movie>()
     .type('movie')
     .toObservable()
@@ -142,7 +142,7 @@ const deliveryClient = new KontentDelivery.DeliveryClient({
     ]
 });
 
-/** Getting items from Kentico Kontent as Promise */
+/** Getting items from Kontent as Promise */
 deliveryClient.items()
     .type('movie')
     .toPromise()
@@ -150,7 +150,7 @@ deliveryClient.items()
         const movieText = response.items[0].title.value;
     });
 
-/** Getting items from Kentico Kontent as Observable */
+/** Getting items from Kontent as Observable */
 const subscription = deliveryClient.items()
     .type('movie')
     .toObservable()
@@ -164,7 +164,7 @@ Don't forget to unsubscribe from your Observables. You can use 'takeUntil' or 'u
 subscription.unsubscribe();
 
 /**
- * Fetch all items of 'movie' type and given parameters from Kentico Kontent.
+ * Fetch all items of 'movie' type and given parameters from Kontent.
  * Important note: SDK will convert items to your type if you registered it. For example,
  * in this case the objects will be of 'Movie' type we defined above. 
  * If you don't use custom models, 'ContentItem' object instances will be returned.
@@ -187,7 +187,7 @@ Bundles are distributed in `_bundles` folder and there are several options that 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Kentico Kontent SDK - Html sample</title>
+    <title>Kontent Delivery SDK - Html sample</title>
     <script type="text/javascript" src="https://unpkg.com/rxjs@6.4.0/bundles/rxjs.umd.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js"></script>
 </head>
