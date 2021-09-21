@@ -1,5 +1,5 @@
 import { ItemResponses } from '../../../../lib';
-import { Context, IMovieElements, setup } from '../../setup';
+import { Context, Movie, setup } from '../../setup';
 
 describe('Localized item', () => {
     const context = new Context();
@@ -7,10 +7,10 @@ describe('Localized item', () => {
 
     const language: string = 'cz';
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.ViewContentItemResponse<IMovieElements>;
+    let response: ItemResponses.ViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
-        response = (await context.deliveryClient.item<IMovieElements>(movieCodename).languageParameter(language).toPromise())
+        response = (await context.deliveryClient.item<Movie>(movieCodename).languageParameter(language).toPromise())
             .data;
     });
 

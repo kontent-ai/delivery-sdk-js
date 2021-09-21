@@ -1,6 +1,6 @@
 import { IHttpService } from '@kentico/kontent-core';
 
-import { IContentItemElements, IDeliveryClientConfig, IItemQueryConfig, ISDKInfo, MappingService } from '../../../lib';
+import { IContentItem, IDeliveryClientConfig, IItemQueryConfig, ISDKInfo, MappingService } from '../../../lib';
 import { ItemResponses } from '../../../lib/models/item/responses';
 import { getParserAdapter } from '../../../lib/parser/parser-adapter';
 import { QueryService } from '../../../lib/services/delivery-query.service';
@@ -15,29 +15,29 @@ export class MockQueryService extends QueryService {
         super(config, httpService, sdkInfo, new MappingService(config, getParserAdapter()));
     }
 
-    mockGetSingleItem<TElements extends IContentItemElements>(
+    mockGetSingleItem<TContentItem extends IContentItem<any> = IContentItem<any>>(
         json: any,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ViewContentItemResponse<TElements> {
+    ): ItemResponses.ViewContentItemResponse<TContentItem> {
         if (!queryConfig) {
             queryConfig = {};
         }
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.mappingService.viewContentItemResponse<TElements>(fakeResponse.data, queryConfig);
+        return this.mappingService.viewContentItemResponse<TContentItem>(fakeResponse.data, queryConfig);
     }
 
-    mockGetMultipleItems<TElements extends IContentItemElements>(
+    mockGetMultipleItems<TContentItem extends IContentItem<any> = IContentItem<any>>(
         json: any,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListContentItemsResponse<TElements> {
+    ): ItemResponses.ListContentItemsResponse<TContentItem> {
         if (!queryConfig) {
             queryConfig = {};
         }
 
         const fakeResponse = fakeResponseFactory.getFakeSuccessResponse(json);
 
-        return this.mappingService.listContentItemsResponse<TElements>(fakeResponse.data, queryConfig);
+        return this.mappingService.listContentItemsResponse<TContentItem>(fakeResponse.data, queryConfig);
     }
 }

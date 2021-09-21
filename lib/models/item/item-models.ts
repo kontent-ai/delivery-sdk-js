@@ -2,16 +2,13 @@ import { ItemContracts } from '../../data-contracts/item-contracts';
 import { IQueryConfig } from '../common/common-models';
 import {
     ItemUrlSlugResolver,
-    ItemPropertyResolver,
-    ItemResolver,
     ItemRichTextResolver,
     RichTextImageResolver
 } from './item-resolvers';
 import { ElementModels } from '../../elements/element-models';
-import { Elements } from '../../elements/elements';
 
-export interface IMapElementsResult<TElements extends IContentItemElements> {
-    item: IContentItem<TElements>;
+export interface IMapElementsResult<TContentItem extends IContentItem<any> = IContentItem<any>> {
+    item: TContentItem;
     processedItems: IContentItemsContainer;
     preparedItems: IContentItemsContainer;
     processingStartedForCodenames: string[];
@@ -61,7 +58,7 @@ export interface IContentItemSystemAttributes {
     /**
      * Workflow step of the item
      */
-    workflowStep: string | 'published';
+    workflowStep: string;
 }
 
 /**
@@ -94,66 +91,6 @@ export interface IContentItem<TElements extends IContentItemElements> {
      * Debug data of the item
      */
     _raw: ItemContracts.IContentItemContract;
-
-    /**
-     * Content item configuration
-     */
-    _config?: IContentItemConfig;
-
-    /**
-     * Gets array of all elements assigned to content item.
-     * This is an alternative to accessing elements via properties.
-     */
-    getElements(): ElementModels.IElement<any>[];
-}
-
-export class ContentItem<TElements extends IContentItemElements> implements IContentItem<TElements> {
-    /**
-     * Elements of the content item
-     */
-    public elements!: TElements;
-
-    /**
-     * Content item system elements
-     */
-    public system!: ContentItemSystemAttributes;
-
-    /**
-     * Raw data
-     */
-    public _raw!: ItemContracts.IContentItemContract;
-
-    /**
-     * configuration
-     */
-    public _config?: IContentItemConfig;
-
-    /**
-     * Base class representing content item type. All content type models need to extend this class.
-     * @constructor
-     */
-    constructor(config?: IContentItemConfig) {
-        this._config = config;
-    }
-
-    /**
-     * Gets array of all elements assigned to content item.
-     * This is an alternative to accessing elements via properties.
-     */
-    getElements(): ElementModels.IElement<any>[] {
-        const elements: ElementModels.IElement<any>[] = [];
-
-        // get all props
-        for (const key of Object.keys(this.elements)) {
-            const prop = this.elements[key];
-
-            if (prop instanceof Elements.BaseElement) {
-                elements.push(prop);
-            }
-        }
-
-        return elements;
-    }
 }
 
 export class ContentItemSystemAttributes implements IContentItemSystemAttributes {
@@ -275,7 +212,6 @@ export interface IItemQueryConfig extends IQueryConfig {
     throwErrorForMissingLinkedItems?: boolean;
     urlSlugResolver?: ItemUrlSlugResolver;
     richTextResolver?: ItemRichTextResolver;
-    itemResolver?: ItemResolver;
     richTextImageResolver?: RichTextImageResolver;
 }
 
@@ -313,20 +249,3 @@ export enum RichTextItemDataType {
     Item = 'item'
 }
 
-export interface IContentItemConfig {
-    /**
-     * Function used to bind elements returned from Kentico Kontent to a model property.
-     * Common use is to bind e.g. 'FirstName' element from Kentico Kontent response to 'firstName' element in model
-     */
-    propertyResolver?: ItemPropertyResolver;
-
-    /**
-     *  Function used to resolve url slug elements
-     */
-    urlSlugResolver?: ItemUrlSlugResolver;
-
-    /**
-     * Function used to resolve linked items in rich text elements to HTML
-     */
-    richTextResolver?: ItemRichTextResolver;
-}

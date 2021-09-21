@@ -1,4 +1,4 @@
-import { Context, IMovieElements, setup } from '../../setup';
+import { Context, Movie, setup } from '../../setup';
 
 describe('Language #1', () => {
     const language = 'en';
@@ -8,7 +8,7 @@ describe('Language #1', () => {
 
     const movieCodename: string = 'warrior';
 
-    const query = context.deliveryClient.item<IMovieElements>(movieCodename).languageParameter(language);
+    const query = context.deliveryClient.item<Movie>(movieCodename).languageParameter(language);
     const queryLanguageParam = query.getParameters().find((m) => m.getParam() === `language=${language}`);
 
     it(`Language should be '${language}'`, () => {
@@ -24,7 +24,7 @@ describe('Language #2', () => {
 
     const newMovieCodename: string = 'warrior';
 
-    const query = context.deliveryClient.item<IMovieElements>(newMovieCodename).languageParameter(language);
+    const query = context.deliveryClient.item<Movie>(newMovieCodename).languageParameter(language);
     const queryLanguageParam = query.getParameters().find((m) => m.getParam() === `language=${language}`);
 
     it(`language should be '${language}'`, () => {

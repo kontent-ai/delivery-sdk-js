@@ -1,17 +1,17 @@
 import { ElementModels, ImageUrlBuilder, ItemResponses, RichTextImage } from '../../../../lib';
-import { Actor, Context, IMovieElements, Movie, setup } from '../../setup';
+import { Context, Movie, setup } from '../../setup';
 
 describe('Live item', () => {
     const context = new Context();
     setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.ViewContentItemResponse<IMovieElements>;
+    let response: ItemResponses.ViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
         response = (
             await context.deliveryClient
-                .item<IMovieElements>(movieCodename)
+                .item<Movie>(movieCodename)
                 .queryConfig({
                     richTextImageResolver: (image, elementName) => {
                         const newImageUrl = new ImageUrlBuilder(image.url).withCustomParam('x=y').getUrl();
@@ -33,21 +33,8 @@ describe('Live item', () => {
         expect(response.item).toBeDefined();
     });
 
-    it(`item should be instance of 'Movie' class`, () => {
-        expect(response.item).toEqual(jasmine.any(Movie));
-    });
-
-    it(`item should be instance of 'Movie' class`, () => {
-        expect(response.item).toEqual(jasmine.any(Movie));
-    });
-
     it(`title should be 'Warrior'`, () => {
         expect(response.item.elements.title.value).toEqual('Warrior');
-    });
-
-    it(`verify 'plot' rich text element with linked items contains expected html`, () => {
-        const html = response.item.elements.plot.resolveHtml();
-        expect(html).toContain('<p>Tom</p>');
     });
 
     it(`released date should be '2011-09-09T00:00:00Z'`, () => {
@@ -98,40 +85,8 @@ describe('Live item', () => {
         expect(response.item.elements.plot.linkedItemCodenames).toContain('joel_edgerton');
     });
 
-    it(`check that type of stars property is correct`, () => {
-        expect(response.item.elements.stars.value[0]).toEqual(jasmine.any(Actor));
-    });
-
     it(`check that linked item (Actor) has 'firstName' text properly assigned`, () => {
         expect(response.item.elements.stars.value[0].elements.firstName.value).toEqual('Tom');
-    });
-
-    it(`url slug element should be defined`, () => {
-        expect(response.item.elements.seoname).toBeDefined();
-    });
-
-    it(`url of url slug element should be resolved`, () => {
-        expect(response.item.elements.seoname.resolveUrl()).toEqual('testSlugUrl/warrior');
-    });
-
-    it(`checks that html contains resolved linked item content #1`, () => {
-        const expectedHtml = `<p>Tom</p>`;
-        expect(response.item.elements.plot.resolveHtml()).toContain(expectedHtml);
-    });
-
-    it(`checks that html contains resolved linked item content #2`, () => {
-        const expectedHtml = `<p>Joel</p>`;
-        expect(response.item.elements.plot.resolveHtml()).toContain(expectedHtml);
-    });
-
-    it(`checks that html contains resolved url #1`, () => {
-        const expectedHtml = `/actor/tom`;
-        expect(response.item.elements.plot.resolveHtml()).toContain(expectedHtml);
-    });
-
-    it(`checks that html contains resolved url #2`, () => {
-        const expectedHtml = `/actor/joel`;
-        expect(response.item.elements.plot.resolveHtml()).toContain(expectedHtml);
     });
 
     it(`debug property should be defiend and filled with debug data`, () => {
@@ -164,7 +119,7 @@ describe('Live item', () => {
         expect(Object.keys(response.linkedItems).length).toEqual(3);
         for (const key of Object.keys(response.linkedItems)) {
             const linkedItem = response.linkedItems[key];
-            expect(linkedItem).toEqual(jasmine.any(Actor));
+            expect(linkedItem).toBeDefined();
         }
     });
 });

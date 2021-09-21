@@ -1,17 +1,17 @@
 import { IKontentNetworkResponse, ItemResponses } from '../../../../lib';
-import { Context, IMovieElements, setup } from '../../setup';
+import { Context, Movie, setup } from '../../setup';
 
 describe('Live items feed all', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListItemsFeedAllResponse<IMovieElements>;
-    const responses: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<IMovieElements>>[] = [];
+    let response: ItemResponses.ListItemsFeedAllResponse<Movie>;
+    const responses: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<Movie>>[] = [];
 
     beforeAll(async () => {
         response = (
             await context.deliveryClient
-                .itemsFeed<IMovieElements>()
+                .itemsFeed<Movie>()
                 .listQueryConfig({
                     responseFetched: (innerResponse, nextPage, continuationToken) => {
                         responses.push(innerResponse);

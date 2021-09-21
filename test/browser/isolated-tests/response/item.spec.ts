@@ -1,7 +1,7 @@
 import { HttpService } from '@kentico/kontent-core';
 
 import { ItemResponses, sdkInfo } from '../../../../lib';
-import { Actor, Context, IMovieElements, MockQueryService, setup } from '../../setup';
+import { Context, MockQueryService, Movie, setup } from '../../setup';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 describe('Verifies mapping of delivery content item', () => {
@@ -14,10 +14,10 @@ describe('Verifies mapping of delivery content item', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.ViewContentItemResponse<IMovieElements>;
+    let response: ItemResponses.ViewContentItemResponse<Movie>;
 
     beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<IMovieElements>(warriorJson, {});
+        response = mockQueryService.mockGetSingleItem<Movie>(warriorJson, {});
         done();
     });
 
@@ -73,12 +73,6 @@ describe('Verifies mapping of delivery content item', () => {
         expect(response.item.elements.length.value).toEqual(warriorJson.item.elements.length.value);
     });
 
-    it(`checks url slug element`, () => {
-        expect(response.item.elements.seoname.resolveUrl()).toEqual(
-            `testSlugUrl/${warriorJson.item.elements.seoname.value}`
-        );
-    });
-
     it(`checks assets element`, () => {
         expect(response.item.elements.poster.value.length).toEqual(warriorJson.item.elements.poster.value.length);
         expect(response.item.elements.poster.value[0].url).toEqual(warriorJson.item.elements.poster.value[0].url);
@@ -92,9 +86,6 @@ describe('Verifies mapping of delivery content item', () => {
         expect(response.item.elements.stars.value.length).toEqual(warriorJson.item.elements.stars.value.length);
     });
 
-    it(`checks that linked items are of proper type`, () => {
-        expect(response.item.elements.stars.value[0]).toEqual(jasmine.any(Actor));
-    });
 
     it(`checks that text element in first linked item is set`, () => {
         expect(

@@ -10,7 +10,7 @@ import {
 } from '../data-contracts';
 import {
     ElementResponses,
-    IContentItemElements,
+    IContentItem,
     IContentTypeQueryConfig,
     IGroupedKontentNetworkResponse,
     IItemQueryConfig,
@@ -46,14 +46,14 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get single item
      * @param queryConfig Query configuration
      */
-    async getSingleItemAsync<TElements extends IContentItemElements>(
+    async getSingleItemAsync<TContentItem extends IContentItem<any> = IContentItem<any>>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IKontentNetworkResponse<ItemResponses.ViewContentItemResponse<TElements>>> {
+    ): Promise<IKontentNetworkResponse<ItemResponses.ViewContentItemResponse<TContentItem>>> {
         const response = await this.getResponseAsync<ItemContracts.IViewContentItemContract>(url, queryConfig);
 
-        return this.mapNetworkResponse<ItemResponses.ViewContentItemResponse<TElements>>(
-            this.mappingService.viewContentItemResponse<TElements>(response.data, queryConfig),
+        return this.mapNetworkResponse<ItemResponses.ViewContentItemResponse<TContentItem>>(
+            this.mappingService.viewContentItemResponse<TContentItem>(response.data, queryConfig),
             response
         );
     }
@@ -63,14 +63,14 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url
      * @param queryConfig Query configuration
      */
-    async getItemsFeed<TElements extends IContentItemElements>(
+    async getItemsFeed<TContentItem extends IContentItem<any> = IContentItem<any>>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<TElements>>> {
+    ): Promise<IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<TContentItem>>> {
         const response = await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url);
 
         return this.mapNetworkResponse(
-            this.mappingService.itemsFeedResponse<TElements>(response.data, queryConfig),
+            this.mappingService.itemsFeedResponse<TContentItem>(response.data, queryConfig),
             response
         );
     }
@@ -80,10 +80,10 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get multiple items
      * @param queryConfig Query configuration
      */
-    async getMultipleItems<TElements extends IContentItemElements>(
+    async getMultipleItems<TContentItem extends IContentItem<any> = IContentItem<any>>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TElements>>> {
+    ): Promise<IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TContentItem>>> {
         const response = await this.getResponseAsync<ItemContracts.IListContentItemsContract>(url, queryConfig);
 
         return this.mapNetworkResponse(

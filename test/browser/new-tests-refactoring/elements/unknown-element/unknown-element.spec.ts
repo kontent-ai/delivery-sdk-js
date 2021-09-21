@@ -1,9 +1,9 @@
-import { ContentItem, Elements, ElementType } from '../../../../../lib';
+import { Elements, ElementType, IContentItem } from '../../../../../lib';
 import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './unknown-element.spec.json';
 
 describe('Unknown element', () => {
-    let item: ContentItem<any>;
+    let item: IContentItem<any>;
 
     beforeAll(async () => {
         const response = (await getDeliveryClientWithJson(responseJson).items().toPromise()).data;

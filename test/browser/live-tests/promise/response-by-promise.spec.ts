@@ -1,15 +1,15 @@
 import { ItemResponses } from '../../../../lib';
-import { Context, IMovieElements, setup } from '../../setup';
+import { Context, Movie, setup } from '../../setup';
 
 describe('Response with Promises', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListContentItemsResponse<IMovieElements>;
+    let response: ItemResponses.ListContentItemsResponse<Movie>;
 
     beforeAll((done) => {
         context.deliveryClient
-            .items<IMovieElements>()
+            .items<Movie>()
             .toPromise()
             .then((xResponse) => {
                 response = xResponse.data;

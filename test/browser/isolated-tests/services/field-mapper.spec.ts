@@ -4,16 +4,11 @@ import { ElementMapper } from '../../../../lib/mappers';
 import { Context, setup } from '../../setup';
 
 describe('ElementMapper', () => {
-
     const elementType = 'invalid';
 
     class FakeElement implements ElementContracts.IElementContract {
         public type: ElementType = elementType as any;
-        constructor(
-            public name: string,
-            public value: any
-        ) {
-        }
+        constructor(public name: string, public value: any) {}
     }
 
     interface FakeContentItem extends ItemContracts.IContentItemContract {
@@ -33,38 +28,35 @@ describe('ElementMapper', () => {
 
         const systemData = {
             type: 'movie',
-                codename: 'cd',
-                id: '',
-                last_modified: '2019-04-11T12:26:37.6196731Z',
-                name: 'name',
-                sitemap_locations: [],
-                collection: 'default',
-                language: 'en',
-                workflow_step: 'published'
+            codename: 'cd',
+            id: '',
+            last_modified: '2019-04-11T12:26:37.6196731Z',
+            name: 'name',
+            sitemap_locations: [],
+            collection: 'default',
+            language: 'en',
+            workflow_step: 'published'
         };
 
         const item: FakeContentItem = {
-            elements: { 'testElement': fakeElement },
+            elements: { testElement: fakeElement },
             system: systemData
         };
 
         elementMapper.mapElements({
             item: item,
             preparedItems: {
-                'cd': {
+                cd: {
                     _raw: null as any,
                     system: systemData as any,
-                    elements: {},
-                    getElements: () => []
+                    elements: {}
                 }
             },
             processedItems: {},
             processingStartedForCodenames: [],
-            queryConfig: {},
+            queryConfig: {}
         });
 
         expect(console.warn).toHaveBeenCalledTimes(1);
-
     });
 });
-

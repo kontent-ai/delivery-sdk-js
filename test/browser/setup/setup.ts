@@ -1,12 +1,5 @@
-import { DeliveryClient, IDeliveryClientConfig, TypeResolver } from '../../../lib';
-import { Actor, Movie } from '.';
+import { DeliveryClient, IDeliveryClientConfig, PropertyNameResolver } from '../../../lib';
 import { Context } from './context';
-
-// ---------- default setup ------------- //
-export const defaultTypeResolvers: TypeResolver[] = [
-    new TypeResolver('movie', (data) => new Movie()),
-    new TypeResolver('actor', (data) => new Actor())
-];
 
 const defaultProjectId = 'da5abe9f-fdad-4168-97cd-b3464be2ccb9';
 
@@ -15,6 +8,25 @@ const defaultPreviewApiKey = 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQ
 
 const defaultSecuredApiKey = 'securedApiKey';
 
+const defaultPropertyNameResolver: PropertyNameResolver = (type, element) => {
+    if (type === 'actor') {
+        if (element === 'first_name') {
+            return 'firstName';
+        }
+        if (element === 'last_name') {
+            return 'lastName';
+        }
+    }
+
+    if (type === 'movie') {
+        if (element === 'releasecategory') {
+            return 'releaseCategory';
+        }
+    }
+
+    return element;
+};
+
 // ----------- setup function o------------ //
 export function setup(context: Context) {
 
@@ -22,7 +34,7 @@ export function setup(context: Context) {
     let projectId: string = defaultProjectId;
     let previewApiKey: string = defaultPreviewApiKey;
     let securedApiKey: string = defaultSecuredApiKey;
-    let typeResolvers: TypeResolver[] = defaultTypeResolvers;
+    let propertyNameResolver: PropertyNameResolver = defaultPropertyNameResolver;
 
     // context settings override default setup
     if (context.projectId) {
@@ -37,13 +49,13 @@ export function setup(context: Context) {
         securedApiKey = context.securedApiKey;
     }
 
-    if (context.typeResolvers) {
-        typeResolvers = context.typeResolvers;
+    if (context.propertyNameResolver) {
+        propertyNameResolver = context.propertyNameResolver;
     }
 
     const deliveryClientConfig: IDeliveryClientConfig = {
         projectId: projectId,
-        typeResolvers: typeResolvers,
+        propertyNameResolver: propertyNameResolver,
         secureApiKey: securedApiKey,
         previewApiKey: previewApiKey,
         globalQueryConfig: context.globalQueryConfig,
@@ -59,7 +71,7 @@ export function setup(context: Context) {
     // set context
     context.projectId = projectId;
     context.previewApiKey = previewApiKey;
-    context.typeResolvers = typeResolvers;
+    context.propertyNameResolver = propertyNameResolver;
     context.securedApiKey = securedApiKey;
 
     // set delivery client

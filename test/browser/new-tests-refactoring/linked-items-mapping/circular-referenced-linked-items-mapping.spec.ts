@@ -3,7 +3,7 @@ import { getDeliveryClientWithJson } from '../setup';
 import * as responseJson from './circular-referenced-linked-items-mapping.spec.json';
 
 describe('Circular references in linked items', () => {
-    let response: ItemResponses.ViewContentItemResponse<any>;
+    let response: ItemResponses.ViewContentItemResponse;
 
     const modularItemElement = 'related_articles';
 

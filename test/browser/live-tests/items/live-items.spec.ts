@@ -1,15 +1,15 @@
 import { ItemResponses } from '../../../../lib';
-import { Context, IMovieElements, Movie, setup } from '../../setup';
+import { Context, Movie, setup } from '../../setup';
 
 describe('Live items', () => {
     const context = new Context();
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.ListContentItemsResponse<IMovieElements>;
+    let response: ItemResponses.ListContentItemsResponse<Movie>;
 
     beforeAll(async () => {
-        response = (await context.deliveryClient.items<IMovieElements>().type(type).toPromise()).data;
+        response = (await context.deliveryClient.items<Movie>().type(type).toPromise()).data;
     });
 
     it(`items should be defined`, () => {
@@ -26,7 +26,7 @@ describe('Live items', () => {
 
     it(`debug property should be set for all items`, () => {
         response.items.forEach((item) => {
-            expect(item).toEqual(jasmine.any(Movie));
+            expect(item.elements).toBeDefined();
             expect(item._raw).toBeDefined();
             expect(item._raw.elements).toBeDefined();
         });

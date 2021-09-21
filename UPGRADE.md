@@ -15,6 +15,7 @@
 - `collisionResolver` was removed as its no longer needed thanks to all elements being placed under `elements` content item property with no risk of identical field names
 - Elements for all content items were moved into `elements` property within the content item. Previously the elements were added directly to the content item. 
 - Property mapping with decorators metadata was removed to further reduce size of the library and reduce number of dependencies
+- `ItemResolver` was removed
 
 ## Upgrading from `5.x.y` to `6.0.0`
 

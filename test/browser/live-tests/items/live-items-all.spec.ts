@@ -1,18 +1,18 @@
 import { IKontentNetworkResponse, ItemResponses } from '../../../../lib';
-import { Context, IMovieElements, Movie, setup } from '../../setup';
+import { Context, Movie, setup } from '../../setup';
 
 describe('Live items all', () => {
     const context = new Context();
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.ListContentItemsAllResponse<IMovieElements>;
-    const responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<IMovieElements>>[] = [];
+    let response: ItemResponses.ListContentItemsAllResponse<Movie>;
+    const responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<Movie>>[] = [];
 
     beforeAll(async () => {
         response = (
             await context.deliveryClient
-                .items<IMovieElements>()
+                .items<Movie>()
                 .listQueryConfig({
                     responseFetched: (innerResponse, nextPage, continuationToken) => {
                         responses.push(innerResponse);
@@ -44,7 +44,6 @@ describe('Live items all', () => {
 
     it(`debug property should be set for all items`, () => {
         response.items.forEach((item) => {
-            expect(item).toEqual(jasmine.any(Movie));
             expect(item._raw).toBeDefined();
             expect(item._raw.elements).toBeDefined();
         });

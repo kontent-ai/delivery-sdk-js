@@ -1,4 +1,4 @@
-import { ContentItem, ItemResponses } from '../../../../lib';
+import { ItemResponses } from '../../../../lib';
 import { getTestDeliveryClient } from '../setup';
 import * as responseJson from './mapping-service.spec.json';
 
@@ -7,7 +7,7 @@ describe('Mapping service', () => {
         projectId: 'x'
     });
 
-    const listingResponse: ItemResponses.ListContentItemsResponse<any> = client.mappingService.listContentItemsResponse(
+    const listingResponse: ItemResponses.ListContentItemsResponse = client.mappingService.listContentItemsResponse(
         responseJson,
         {}
     );
@@ -23,7 +23,8 @@ describe('Mapping service', () => {
                 throw Error(`Raw item with id '${item.system.id}' could not be found`);
             }
 
-            expect(item).toEqual(jasmine.any(ContentItem));
+            expect(item.system.id).toEqual(rawItem.system.id);
+            expect(item.system.codename).toEqual(rawItem.system.codename);
         }
     });
 });

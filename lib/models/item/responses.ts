@@ -5,21 +5,21 @@ import {
     IKontentResponse,
     IKontentNetworkResponse
 } from '../common';
-import { IContentItem, IContentItemElements, IContentItemsContainer } from './item-models';
+import { IContentItem, IContentItemsContainer } from './item-models';
 
 export namespace ItemResponses {
-    export class ListItemsFeedResponse<TElements extends IContentItemElements> implements IKontentListResponse {
-        constructor(public items: IContentItem<TElements>[], public linkedItems: IContentItemsContainer) {}
+    export class ListItemsFeedResponse<TContentItem extends IContentItem<any> = IContentItem<any>> implements IKontentListResponse {
+        constructor(public items: TContentItem[], public linkedItems: IContentItemsContainer) {}
     }
 
-    export class ListItemsFeedAllResponse<TElements extends IContentItemElements> implements IKontentListAllResponse {
+    export class ListItemsFeedAllResponse<TContentItem extends IContentItem<any> = IContentItem<any>> implements IKontentListAllResponse {
         constructor(
-            public items: IContentItem<TElements>[],
-            public responses: IKontentNetworkResponse<ListItemsFeedResponse<TElements>>[]
+            public items: TContentItem[],
+            public responses: IKontentNetworkResponse<ListItemsFeedResponse<TContentItem>>[]
         ) {}
     }
 
-    export class ListContentItemsResponse<TElements extends IContentItemElements> implements IKontentListResponse {
+    export class ListContentItemsResponse<TContentItem extends IContentItem<any> = IContentItem<any>> implements IKontentListResponse {
         /**
          * Response containing multiple item
          * @constructor
@@ -28,7 +28,7 @@ export namespace ItemResponses {
          * @param {IContentItemsContainer} linkedItems - Content items that were processed during request
          */
         constructor(
-            public items: IContentItem<TElements>[],
+            public items: TContentItem[],
             public pagination: Pagination,
             public linkedItems: IContentItemsContainer
         ) {}
@@ -41,22 +41,22 @@ export namespace ItemResponses {
         }
     }
 
-    export class ListContentItemsAllResponse<TElements extends IContentItemElements>
+    export class ListContentItemsAllResponse<TContentItem extends IContentItem<any> = IContentItem<any>>
         implements IKontentListAllResponse
     {
         constructor(
-            public items: IContentItem<TElements>[],
-            public responses: IKontentNetworkResponse<ListContentItemsResponse<TElements>>[]
+            public items: TContentItem[],
+            public responses: IKontentNetworkResponse<ListContentItemsResponse<TContentItem>>[]
         ) {}
     }
 
-    export class ViewContentItemResponse<TElements extends IContentItemElements> implements IKontentResponse {
+    export class ViewContentItemResponse<TContentItem extends IContentItem<any> = IContentItem<any>> implements IKontentResponse {
         /**
          * Response containing single item
          * @constructor
          * @param {TItem} item - Returned item
          * @param {IContentItemsContainer} linkedItems - Content items that were processed during request
          */
-        constructor(public item: IContentItem<TElements>, public linkedItems: IContentItemsContainer) {}
+        constructor(public item: TContentItem, public linkedItems: IContentItemsContainer) {}
     }
 }

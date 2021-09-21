@@ -1,5 +1,5 @@
 import { Elements, ItemResponses, sdkInfo } from '../../../../lib';
-import { Actor, Context, IMovieElements, MockQueryService, setup } from '../../setup';
+import { Context, Movie, MockQueryService, setup } from '../../setup';
 import { HttpService } from '@kentico/kontent-core';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
@@ -14,10 +14,10 @@ describe('Element types', () => {
     version: sdkInfo.version
   });
 
-  let response: ItemResponses.ViewContentItemResponse<IMovieElements>;
+  let response: ItemResponses.ViewContentItemResponse<Movie>;
 
   beforeAll((done) => {
-    response = mockQueryService.mockGetSingleItem<IMovieElements>(warriorJson, {});
+    response = mockQueryService.mockGetSingleItem<Movie>(warriorJson, {});
     done();
   });
 
@@ -39,10 +39,6 @@ describe('Element types', () => {
 
   it(`check 'MultipleChoiceElement' type`, () => {
     expect(response.item.elements.category).toEqual(jasmine.any(Elements.MultipleChoiceElement));
-  });
-
-  it(`check that 'stars' property contains objects of 'Actor' type`, () => {
-    expect(response.item.elements.stars.value[0]).toEqual(jasmine.any(Actor));
   });
 
   it(`check 'UrlSlugElement' type`, () => {

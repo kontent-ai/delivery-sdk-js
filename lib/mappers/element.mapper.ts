@@ -5,7 +5,6 @@ import { ElementContracts, ItemContracts } from '../data-contracts';
 import { ElementModels, Elements, ElementType } from '../elements';
 import {
     IContentItem,
-    IContentItemElements,
     IContentItemsContainer,
     IItemQueryConfig,
     IMapElementsResult,
@@ -14,7 +13,7 @@ import {
     RichTextImage
 } from '../models';
 import { IRichTextHtmlParser } from '../parser/parse-models';
-import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
+import { richTextResolver, urlSlugResolver } from '../resolvers';
 
 export class ElementMapper {
     private readonly defaultLinkedItemWrapperTag: string = 'p';
@@ -25,19 +24,15 @@ export class ElementMapper {
         private readonly richTextHtmlParser: IRichTextHtmlParser
     ) {}
 
-    /**
-     * Maps all element in given content item and returns strongly typed content item based on the resolver specified
-     * in DeliveryClientConfig
-     */
-    mapElements<TElements extends IContentItemElements>(data: {
+    mapElements<TContentItem extends IContentItem<any> = IContentItem<any>>(data: {
         item: ItemContracts.IContentItemContract;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemsContainer;
-    }): IMapElementsResult<TElements> | undefined {
+    }): IMapElementsResult<TContentItem> | undefined {
         // return processed item if possible (to avoid infinite recursion)
-        const processedItem = data.processedItems[data.item.system.codename];
+        const processedItem = data.processedItems[data.item.system.codename] as TContentItem;
         if (processedItem) {
             // item was already resolved, return it
             return {
@@ -49,7 +44,7 @@ export class ElementMapper {
         }
 
         const elementCodenames = Object.getOwnPropertyNames(data.item.elements);
-        const itemInstance = data.preparedItems[data.item.system.codename];
+        const itemInstance = data.preparedItems[data.item.system.codename] as TContentItem;
 
         if (!itemInstance) {
             // item is not present in response, no need to do any mapping
@@ -235,7 +230,6 @@ export class ElementMapper {
             links: links,
             resolveRichTextFunc: () =>
                 richTextResolver.resolveData(item.system.codename, rawElement.value, elementWrapper.propertyName, {
-                    getGlobalUrlSlugResolver: (type) => this.getGlobalUrlSlugResolverForType(type),
                     images: images,
                     richTextHtmlParser: this.richTextHtmlParser,
                     getLinkedItem: (codename) =>
@@ -366,10 +360,6 @@ export class ElementMapper {
             return queryConfig.urlSlugResolver;
         }
 
-        if (item._config && item._config.urlSlugResolver) {
-            return item._config.urlSlugResolver;
-        }
-
         // resolve default link value
         return () => elementWrapper.rawElement.value;
     }
@@ -481,9 +471,8 @@ export class ElementMapper {
     } {
         let resolvedElementPropertyName: string | undefined = undefined;
 
-        // resolve using property resolver
-        if (item._config && item._config.propertyResolver) {
-            resolvedElementPropertyName = item._config.propertyResolver(originalElementCodename);
+        if (this.config.propertyNameResolver) {
+            resolvedElementPropertyName = this.config.propertyNameResolver(item.system.type, originalElementCodename);
         }
 
         if (!resolvedElementPropertyName) {
@@ -495,13 +484,5 @@ export class ElementMapper {
             resolvedName: resolvedElementPropertyName,
             shouldMapElement: true
         };
-    }
-
-    private getGlobalUrlSlugResolverForType(type: string): ItemUrlSlugResolver | undefined {
-        const item = stronglyTypedResolver.createEmptyItemInstanceOfType(type, this.config.typeResolvers || []);
-        if (item && item._config && item._config.urlSlugResolver) {
-            return item._config.urlSlugResolver;
-        }
-        return undefined;
     }
 }

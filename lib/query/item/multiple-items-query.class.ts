@@ -1,7 +1,7 @@
 import { IDeliveryClientConfig } from '../../config';
 import {
     Filters,
-    IContentItemElements,
+    IContentItem,
     IItemQueryConfig,
     IKontentNetworkResponse,
     ItemResponses,
@@ -10,9 +10,9 @@ import {
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class MultipleItemsQuery<TElements extends IContentItemElements> extends BaseListingQuery<
-    ItemResponses.ListContentItemsResponse<TElements>,
-    ItemResponses.ListContentItemsAllResponse<TElements>,
+export class MultipleItemsQuery<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseListingQuery<
+    ItemResponses.ListContentItemsResponse<TContentItem>,
+    ItemResponses.ListContentItemsAllResponse<TContentItem>,
     IItemQueryConfig
 > {
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
@@ -97,7 +97,7 @@ export class MultipleItemsQuery<TElements extends IContentItemElements> extends 
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TElements>>> {
+    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TContentItem>>> {
         return this.queryService.getMultipleItems(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -115,8 +115,8 @@ export class MultipleItemsQuery<TElements extends IContentItemElements> extends 
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TElements>>[]
-    ): ItemResponses.ListContentItemsAllResponse<TElements> {
-        return new ItemResponses.ListContentItemsAllResponse<TElements>(items, responses);
+        responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TContentItem>>[]
+    ): ItemResponses.ListContentItemsAllResponse<TContentItem> {
+        return new ItemResponses.ListContentItemsAllResponse<TContentItem>(items, responses);
     }
 }

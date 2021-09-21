@@ -1,11 +1,11 @@
 import { IDeliveryClientConfig } from '../../config';
-import { Filters, IContentItemElements, IItemQueryConfig, IKontentNetworkResponse, ItemResponses, Parameters } from '../../models';
+import { Filters, IContentItem, IItemQueryConfig, IKontentNetworkResponse, ItemResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class ItemsFeedQuery<TElements extends IContentItemElements> extends BaseListingQuery<
-    ItemResponses.ListItemsFeedResponse<TElements>,
-    ItemResponses.ListItemsFeedAllResponse<TElements>,
+export class ItemsFeedQuery<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseListingQuery<
+    ItemResponses.ListItemsFeedResponse<TContentItem>,
+    ItemResponses.ListItemsFeedAllResponse<TContentItem>,
     IItemQueryConfig
 > {
 
@@ -72,7 +72,7 @@ export class ItemsFeedQuery<TElements extends IContentItemElements> extends Base
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<TElements>>> {
+    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<TContentItem>>> {
         return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -99,8 +99,8 @@ export class ItemsFeedQuery<TElements extends IContentItemElements> extends Base
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<TElements>>[]
-    ): ItemResponses.ListItemsFeedAllResponse<TElements> {
-        return new ItemResponses.ListItemsFeedAllResponse<TElements>(items, responses);
+        responses: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<TContentItem>>[]
+    ): ItemResponses.ListItemsFeedAllResponse<TContentItem> {
+        return new ItemResponses.ListItemsFeedAllResponse<TContentItem>(items, responses);
     }
 }

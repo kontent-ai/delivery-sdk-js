@@ -4,7 +4,6 @@ import {
     IItemQueryConfig,
     IRichTextImageResolverResult,
     ItemRichTextResolver,
-    ItemUrlSlugResolver,
     IUrlSlugResolverContext,
     IUrlSlugResolverResult,
     Link,
@@ -25,7 +24,6 @@ export class RichTextResolver {
         data: {
             richTextHtmlParser: IRichTextHtmlParser;
             getLinkedItem: (codename: string) => IContentItem<any> | undefined;
-            getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined;
             links: Link[];
             images: RichTextImage[];
             queryConfig: IItemQueryConfig;
@@ -51,8 +49,7 @@ export class RichTextResolver {
                         links: data.links,
                         itemId: itemId,
                         getLinkedItem: data.getLinkedItem,
-                        linkText: linkText,
-                        getGlobalUrlSlugResolver: data.getGlobalUrlSlugResolver
+                        linkText: linkText
                     }),
                 getLinkedItemHtml: (itemCodename: string, itemType: RichTextItemDataType) =>
                     this.getLinkedItemHtml({
@@ -210,11 +207,6 @@ export class RichTextResolver {
         if (data.config.queryConfig.richTextResolver) {
             // use resolved defined by query if available
             resolver = data.config.queryConfig.richTextResolver;
-        } else {
-            // use default resolver defined in models
-            if (linkedItem._config && linkedItem._config.richTextResolver) {
-                resolver = linkedItem._config.richTextResolver;
-            }
         }
 
         // check resolver
@@ -234,7 +226,6 @@ export class RichTextResolver {
         config: IHtmlResolverConfig;
         links: Link[];
         getLinkedItem: (codename: string) => IContentItem<any> | undefined;
-        getGlobalUrlSlugResolver: (type: string) => ItemUrlSlugResolver | undefined;
         linkText: string;
     }): IUrlSlugResolverResult {
         // find link with the id of content item
@@ -265,15 +256,6 @@ export class RichTextResolver {
             const queryUrlSlugResult = queryUrlSlugResolver(existingLink, linkContext);
             if (queryUrlSlugResult) {
                 return queryUrlSlugResult;
-            }
-        }
-
-        // url was not resolved, try using global link resolver for item
-        const globalUrlSlugResolver = data.getGlobalUrlSlugResolver(existingLink.type);
-        if (globalUrlSlugResolver) {
-            const globalUrlSlugResolverResult = globalUrlSlugResolver(existingLink, linkContext);
-            if (globalUrlSlugResolverResult) {
-                return globalUrlSlugResolverResult;
             }
         }
 

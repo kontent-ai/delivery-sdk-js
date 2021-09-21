@@ -1,6 +1,6 @@
 import { Link, RichTextImage } from '..';
 import { ElementContracts } from '../data-contracts';
-import { IContentItem, IContentItemElements } from '../models';
+import { IContentItem } from '../models';
 import { ElementModels } from './element-models';
 import { ElementType } from './element-type';
 
@@ -54,14 +54,13 @@ export namespace Elements {
         }
     }
 
-    export class LinkedItemsElement<TElements extends IContentItemElements> extends BaseElement<IContentItem<TElements>[]> {
+    export class LinkedItemsElement<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseElement<TContentItem[]> {
         /**
          * Mapped linked items - contains only those items which are present in 'modular_content' section
          * of the response which depends on the 'depth' of the query request.
          * Codenames of all linked items are stored in 'itemCodenames' property.
          */
-        public value: IContentItem<TElements>[];
-
+        public value: TContentItem[];
         public itemCodenames: string[];
 
         /**
@@ -69,7 +68,7 @@ export namespace Elements {
          * @param {ElementModels.IElementWrapper} elementWrapper - Element data
          * @param {IContentItem} mappedLinkedItems - Array of mapped linked items
          */
-        constructor(elementWrapper: ElementModels.IElementWrapper, mappedLinkedItems: IContentItem<any>[]) {
+        constructor(elementWrapper: ElementModels.IElementWrapper, mappedLinkedItems: TContentItem[]) {
             super({
                 elementType: ElementType.ModularContent,
                 elementWrapper: elementWrapper

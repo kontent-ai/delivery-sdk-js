@@ -9,7 +9,7 @@ import {
 import { GenericElementMapper, ItemMapper, LanguageMapper, TaxonomyMapper, TypeMapper } from '../mappers';
 import {
     ElementResponses,
-    IContentItemElements,
+    IContentItem,
     IItemQueryConfig,
     ItemResponses,
     LanguageResponses,
@@ -22,22 +22,22 @@ import { IRichTextHtmlParser } from '../parser';
 export interface IMappingService {
     listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.ListContentTypesResponse;
 
-    itemsFeedResponse<TElements extends IContentItemElements>(
+    itemsFeedResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IItemsFeedContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListItemsFeedResponse<TElements>;
+    ): ItemResponses.ListItemsFeedResponse<TContentItem>;
 
     viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.ViewContentTypeResponse;
 
-    viewContentItemResponse<TElements extends IContentItemElements>(
+    viewContentItemResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ViewContentItemResponse<TElements>;
+    ): ItemResponses.ViewContentItemResponse<TContentItem>;
 
-    listContentItemsResponse<TElements extends IContentItemElements>(
+    listContentItemsResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IListContentItemsContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListContentItemsResponse<TElements>;
+    ): ItemResponses.ListContentItemsResponse<TContentItem>;
 
     viewTaxonomyGroupResponse(
         data: TaxonomyContracts.IViewTaxonomyGroupContract
@@ -114,11 +114,11 @@ export class MappingService implements IMappingService {
         return new TypeResponses.ViewContentTypeResponse(type);
     }
 
-    itemsFeedResponse<TElements extends IContentItemElements>(
+    itemsFeedResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IItemsFeedContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListItemsFeedResponse<TElements> {
-        const itemsResult = this.itemMapper.mapItems<TElements>({
+    ): ItemResponses.ListItemsFeedResponse<TContentItem> {
+        const itemsResult = this.itemMapper.mapItems<TContentItem>({
             linkedItems: Object.values(data.modular_content),
             mainItems: data.items,
             queryConfig: queryConfig
@@ -132,13 +132,13 @@ export class MappingService implements IMappingService {
      * @param data Response data
      * @param queryConfig Query configuration
      */
-    viewContentItemResponse<TElements extends IContentItemElements>(
+    viewContentItemResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ViewContentItemResponse<TElements> {
-        const itemResult = this.itemMapper.mapSingleItemFromResponse<TElements>(data, queryConfig);
+    ): ItemResponses.ViewContentItemResponse<TContentItem> {
+        const itemResult = this.itemMapper.mapSingleItemFromResponse<TContentItem>(data, queryConfig);
 
-        return new ItemResponses.ViewContentItemResponse<TElements>(itemResult.item, itemResult.linkedItems);
+        return new ItemResponses.ViewContentItemResponse<TContentItem>(itemResult.item, itemResult.linkedItems);
     }
 
     /**
@@ -146,11 +146,11 @@ export class MappingService implements IMappingService {
      * @param data Response data
      * @param queryConfig Query configuration
      */
-    listContentItemsResponse<TElements extends IContentItemElements>(
+    listContentItemsResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IListContentItemsContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListContentItemsResponse<TElements> {
-        const itemsResult = this.itemMapper.mapMultipleItemsFromResponse<TElements>(data, queryConfig);
+    ): ItemResponses.ListContentItemsResponse<TContentItem> {
+        const itemsResult = this.itemMapper.mapMultipleItemsFromResponse<TContentItem>(data, queryConfig);
         const pagination: Pagination = new Pagination({
             skip: data.pagination.skip,
             count: data.pagination.count,
@@ -159,7 +159,7 @@ export class MappingService implements IMappingService {
             totalCount: data.pagination.total_count
         });
 
-        return new ItemResponses.ListContentItemsResponse<TElements>(
+        return new ItemResponses.ListContentItemsResponse<TContentItem>(
             itemsResult.items,
             pagination,
             itemsResult.linkedItems

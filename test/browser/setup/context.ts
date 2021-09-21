@@ -1,4 +1,4 @@
-import { DeliveryClient, IDeliveryClientConfig, TypeResolver, IQueryConfig } from '../../../lib';
+import { DeliveryClient, IDeliveryClientConfig, IQueryConfig, PropertyNameResolver } from '../../../lib';
 import { IRichTextHtmlParser } from '../../../lib/parser/parse-models';
 import { getParserAdapter } from '../../../lib/parser/parser-adapter';
 import { IHeader, IRetryStrategyOptions } from '@kentico/kontent-core';
@@ -13,7 +13,7 @@ export class Context {
   public richTextHtmlParser?: IRichTextHtmlParser = getParserAdapter();
 
   public globalQueryConfig?: IQueryConfig;
-  public typeResolvers!: TypeResolver[];
+  public propertyNameResolver?: PropertyNameResolver;
   public projectId!: string;
   public previewApiKey?: string;
   public securedApiKey?: string;
@@ -27,8 +27,8 @@ export class Context {
 
   constructor(
     options?: {
+      propertyNameResolver?: PropertyNameResolver;
       globalQueryConfig?: IQueryConfig;
-      typeResolvers?: TypeResolver[],
       projectId?: string,
       previewApiKey?: string,
       deliveryClient?: DeliveryClient,
@@ -47,8 +47,8 @@ export class Context {
 
   getConfig(): IDeliveryClientConfig {
     return {
+      propertyNameResolver: this.propertyNameResolver,
       projectId: this.projectId,
-      typeResolvers: this.typeResolvers,
       previewApiKey: this.previewApiKey,
       secureApiKey: this.securedApiKey,
       globalQueryConfig: this.globalQueryConfig,

@@ -1,40 +1,29 @@
-import { ContentItem, Elements, IContentItemElements, ItemResponses, sdkInfo, TypeResolver } from '../../../../lib';
-import { Actor, Context, MockQueryService, setup } from '../../setup';
+import {  Elements, IContentItem, ItemResponses, sdkInfo } from '../../../../lib';
+import { Context, MockQueryService, setup } from '../../setup';
 import { HttpService } from '@kentico/kontent-core';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
-interface IMockMovieElements extends IContentItemElements {
+type MockMovie = IContentItem<{
     titleTest: Elements.TextElement;
     test_released: Elements.DateTimeElement;
     justNumber: Elements.NumberElement;
-}
-
-class MockMovie extends ContentItem<IMockMovieElements> {
-    constructor() {
-        super({
-            propertyResolver: (elementName: string) => {
-                if (elementName === 'title') {
-                    return 'titleTest';
-                }
-                if (elementName === 'released') {
-                    return 'test_released';
-                }
-                if (elementName === 'length') {
-                    return 'justNumber';
-                }
-                return elementName;
-            }
-        });
-    }
-}
+}>;
 
 describe('Property resolver', () => {
     const context = new Context();
-    const typeResolvers: TypeResolver[] = [];
-    typeResolvers.push(new TypeResolver('movie', () => new MockMovie()));
-    typeResolvers.push(new TypeResolver('actor', () => new Actor()));
 
-    context.typeResolvers = typeResolvers;
+    context.propertyNameResolver = (contentType, element) => {
+        if (element === 'title') {
+            return 'titleTest';
+        }
+        if (element === 'released') {
+            return 'test_released';
+        }
+        if (element === 'length') {
+            return 'justNumber';
+        }
+        return element;
+    };
     setup(context);
 
     // mock query service
@@ -44,10 +33,11 @@ describe('Property resolver', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.ViewContentItemResponse<IMockMovieElements>;
+    let response: ItemResponses.ViewContentItemResponse<MockMovie>;
 
     beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<IMockMovieElements>(warriorJson, {});
+        response = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {});
+        console.log('TEST', response);
         done();
     });
 

@@ -1,6 +1,6 @@
 import { IQueryParameter } from '@kentico/kontent-core';
 
-import { ItemResponses, Pagination, ContentItem, ContentItemSystemAttributes, Elements } from '../../../../../lib';
+import { ItemResponses, Pagination } from '../../../../../lib';
 import { Context, setup } from '../../../setup';
 import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './items-list-response.spec.json';
@@ -9,13 +9,11 @@ describe('Items list response', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListContentItemsResponse<any>;
+    let response: ItemResponses.ListContentItemsResponse;
     const parameters: IQueryParameter[] = [];
 
     beforeAll(async () => {
-        const query = getDeliveryClientWithJson(responseJson)
-            .items()
-            .includeTotalCountParameter();
+        const query = getDeliveryClientWithJson(responseJson).items().includeTotalCountParameter();
 
         parameters.push(...query.getParameters());
 
@@ -24,7 +22,7 @@ describe('Items list response', () => {
 
     it(`Total count parameter should be set to true`, () => {
         const totalCountParameter = parameters.find(
-            m => m.getParam().toLowerCase() === 'includeTotalCount=true'.toLowerCase()
+            (m) => m.getParam().toLowerCase() === 'includeTotalCount=true'.toLowerCase()
         );
 
         expect(totalCountParameter).toBeDefined();
@@ -38,32 +36,13 @@ describe('Items list response', () => {
         expect(response.pagination).toEqual(jasmine.any(Pagination));
     });
 
-    it(`getAllElements should return proper array of elements`, () => {
-        const item = response.items[0];
-        const rawItem = responseJson.items[0];
-
-        expect(item).toBeDefined();
-        expect(rawItem).toBeDefined();
-
-        const rawElementsArray = Object.values(rawItem.elements);
-
-        const elements = item.getElements();
-
-        expect(elements.length).toEqual(rawElementsArray.length);
-
-        for (const element of elements) {
-            expect(element).toEqual(jasmine.any(Elements.BaseElement));
-        }
-    });
-
     it(`Response item should be mapped properly`, () => {
         const item = response.items[0];
         const rawItem = responseJson.items[0];
 
         expect(item).toBeDefined();
         expect(rawItem).toBeDefined();
-        expect(item).toEqual(jasmine.any(ContentItem));
-        expect(item.system).toEqual(jasmine.any(ContentItemSystemAttributes));
+        expect(item.system).toBeDefined();
 
         expect(item.elements.title.value).toEqual(rawItem.elements.title.value);
         expect(item.elements.summary.value).toEqual(rawItem.elements.summary.value);

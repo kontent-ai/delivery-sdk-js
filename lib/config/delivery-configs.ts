@@ -1,7 +1,7 @@
 import { IHeader, IHttpService, IRetryStrategyOptions } from '@kentico/kontent-core';
 
 import { ElementResolver } from '../elements';
-import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, TypeResolver } from '../models';
+import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, PropertyNameResolver } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 
 export interface IDeliveryClientProxyConfig {
@@ -31,12 +31,9 @@ export interface IDeliveryClientConfig {
     projectId: string;
 
     /**
-     * Type resolver is used to create an instance of class based on content item's type. For example,
-     * if content item has 'article' content type (system.type), you can map it to 'Article' class with
-     * properties, methods and global content item configuration.
-     * If not set, content item will use default 'ContentItem' class
+     * Resolver used to rename content item elements. Can be used to e.g. transform underscored element codenames to camelCase format
      */
-    typeResolvers?: TypeResolver[];
+    propertyNameResolver?: PropertyNameResolver;
 
     /**
     * Preview API key

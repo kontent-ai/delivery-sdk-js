@@ -1,11 +1,11 @@
-import { ContentItem, IKontentNetworkResponse, ItemResponses } from '../../../../lib';
-import { Actor, Context, Movie, setup } from '../../setup';
+import { IKontentNetworkResponse, ItemResponses } from '../../../../lib';
+import { Context, setup } from '../../setup';
 
 describe('Live items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<any>>;
+    let response: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse>;
 
     beforeAll(async () => {
         response = await context.deliveryClient.itemsFeed().toPromise();
@@ -22,15 +22,8 @@ describe('Live items feed', () => {
         expect(Object.keys(response.data.linkedItems).length).toBeGreaterThan(0);
 
         for (const item of response.data.items) {
-            if (item.system.type === 'movie') {
-                expect(item).toEqual(jasmine.any(Movie));
-            } else if (item.system.type === 'actor') {
-                expect(item).toEqual(jasmine.any(Actor));
-            } else {
-                expect(item).toEqual(jasmine.any(ContentItem));
-            }
-
             expect(item.system).toBeDefined();
+            expect(item.elements).toBeDefined();
             expect(item._raw).toBeDefined();
         }
     });

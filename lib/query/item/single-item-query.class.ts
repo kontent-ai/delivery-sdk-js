@@ -1,10 +1,10 @@
 import { IDeliveryClientConfig } from '../../config';
-import { IContentItemElements, IItemQueryConfig, IKontentNetworkResponse, ItemResponses, Parameters } from '../../models';
+import { IContentItem, IItemQueryConfig, IKontentNetworkResponse, ItemResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export class SingleItemQuery<TElements extends IContentItemElements> extends BaseQuery<
-    ItemResponses.ViewContentItemResponse<TElements>,
+export class SingleItemQuery<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseQuery<
+    ItemResponses.ViewContentItemResponse<TContentItem>,
     IItemQueryConfig
 > {
     constructor(
@@ -58,7 +58,7 @@ export class SingleItemQuery<TElements extends IContentItemElements> extends Bas
     /**
      * Gets Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ViewContentItemResponse<TElements>>> {
+    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ViewContentItemResponse<TContentItem>>> {
         return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
     }
 
