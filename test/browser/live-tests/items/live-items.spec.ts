@@ -6,7 +6,7 @@ describe('Live items', () => {
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.ListContentItemsResponse<Movie>;
+    let response: ItemResponses.IListContentItemsResponse<Movie>;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.items<Movie>().type(type).toPromise()).data;
@@ -34,11 +34,5 @@ describe('Live items', () => {
 
     it(`Linked items should be set`, () => {
         expect(Object.keys(response.linkedItems).length).toBeGreaterThan(0);
-    });
-
-    it(`Linked items should be mapped to array`, () => {
-        const linkedItemsArray = response.getLinkedItemsAsArray();
-        expect(linkedItemsArray).toEqual(jasmine.any(Array));
-        expect(linkedItemsArray.length).toBeGreaterThan(0);
     });
 });

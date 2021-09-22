@@ -1,31 +1,24 @@
-import { IKontentListAllResponse, IKontentListResponse, IKontentNetworkResponse, IKontentResponse, Pagination } from '../common';
+import {
+    IKontentListAllResponse,
+    IKontentListResponse,
+    IKontentNetworkResponse,
+    IKontentResponse,
+    IPagination
+} from '../common';
 import { TaxonomyGroup } from './taxonomy-models';
 
 export namespace TaxonomyResponses {
-    export class ViewTaxonomyResponse implements IKontentResponse {
-        constructor(
-            /**
-             * Taxonomy group
-             */
-            public taxonomy: TaxonomyGroup
-        ) {}
+    export interface IViewTaxonomyResponse extends IKontentResponse {
+        taxonomy: TaxonomyGroup;
     }
 
-    export class ListTaxonomiesResponse implements IKontentListResponse {
-        constructor(
-            /**
-             * Taxonomies
-             */
-            public items: TaxonomyGroup[],
-
-            /**
-             * Pagination
-             */
-            public pagination: Pagination
-        ) {}
+    export interface IListTaxonomiesResponse extends IKontentListResponse {
+        items: TaxonomyGroup[];
+        pagination: IPagination;
     }
 
-    export class ListTaxonomiesAllResponse implements IKontentListAllResponse {
-        constructor(public items: TaxonomyGroup[], public responses: IKontentNetworkResponse<ListTaxonomiesResponse>[]) {}
+    export interface IListTaxonomiesAllResponse extends IKontentListAllResponse {
+        items: TaxonomyGroup[];
+        responses: IKontentNetworkResponse<IListTaxonomiesResponse>[];
     }
 }

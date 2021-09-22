@@ -4,8 +4,8 @@ import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class TaxonomiesQuery extends BaseListingQuery<
-    TaxonomyResponses.ListTaxonomiesResponse,
-    TaxonomyResponses.ListTaxonomiesAllResponse,
+    TaxonomyResponses.IListTaxonomiesResponse,
+    TaxonomyResponses.IListTaxonomiesAllResponse,
     ITaxonomyQueryConfig
 > {
     /**
@@ -38,7 +38,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<TaxonomyResponses.ListTaxonomiesResponse>> {
+    toPromise(): Promise<IKontentNetworkResponse<TaxonomyResponses.IListTaxonomiesResponse>> {
         return this.queryService.getTaxonomies(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -67,8 +67,11 @@ export class TaxonomiesQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<TaxonomyResponses.ListTaxonomiesResponse>[]
-    ): TaxonomyResponses.ListTaxonomiesAllResponse {
-        return new TaxonomyResponses.ListTaxonomiesAllResponse(items, responses);
+        responses: IKontentNetworkResponse<TaxonomyResponses.IListTaxonomiesResponse>[]
+    ): TaxonomyResponses.IListTaxonomiesAllResponse {
+        return {
+            items: items,
+            responses: responses
+        };
     }
 }

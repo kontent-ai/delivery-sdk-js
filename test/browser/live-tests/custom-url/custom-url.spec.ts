@@ -7,7 +7,7 @@ describe('Custom URL', () => {
     const context = new Context();
     setup(context);
 
-    let responseItems: ItemResponses.ListContentItemsResponse<any>;
+    let responseItems: ItemResponses.IListContentItemsResponse<any>;
 
     beforeAll(async () => {
         responseItems = (await context.deliveryClient.items<any>().withCustomUrl(itemsUrl).toPromise()).data;
@@ -15,9 +15,5 @@ describe('Custom URL', () => {
 
     it(`items should be defined`, () => {
         expect(responseItems).toBeDefined();
-    });
-
-    it(`items response should be of proper type`, () => {
-        expect(responseItems).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
     });
 });

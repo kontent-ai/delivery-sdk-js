@@ -1,6 +1,6 @@
 import { IQueryParameter } from '@kentico/kontent-core';
 
-import { ItemResponses, Pagination } from '../../../../../lib';
+import { ItemResponses } from '../../../../../lib';
 import { Context, setup } from '../../../setup';
 import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './items-list-response.spec.json';
@@ -9,7 +9,7 @@ describe('Items list response', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListContentItemsResponse;
+    let response: ItemResponses.IListContentItemsResponse;
     const parameters: IQueryParameter[] = [];
 
     beforeAll(async () => {
@@ -28,12 +28,8 @@ describe('Items list response', () => {
         expect(totalCountParameter).toBeDefined();
     });
 
-    it(`Response should be of proper type`, () => {
-        expect(response).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
-    });
-
     it(`Response should have pagination`, () => {
-        expect(response.pagination).toEqual(jasmine.any(Pagination));
+        expect(response.pagination).toBeDefined();
     });
 
     it(`Response item should be mapped properly`, () => {

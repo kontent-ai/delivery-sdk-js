@@ -9,7 +9,7 @@ describe('Live taxonomy', () => {
     const termsWithNestedTermsCodename: string = 'film'; // codename of the taxonomy term that has nested terms
     const numberOfNestedTerms: number = 3; // this is the number of nested terms defined by 'termsWithNestedTermsCodename'
 
-    let response: TaxonomyResponses.ViewTaxonomyResponse;
+    let response: TaxonomyResponses.IViewTaxonomyResponse;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.taxonomy(taxonomyCodename).toPromise()).data;

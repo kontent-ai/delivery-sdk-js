@@ -7,15 +7,12 @@ describe('List languages', () => {
     const context = new Context();
     setup(context);
 
-    let response: LanguageResponses.ListLanguagesResponse;
+    let response: LanguageResponses.IListLanguagesResponse;
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(responseJson).languages().toPromise()).data;
     });
 
-    it(`Response should be of proper type`, () => {
-        expect(response).toEqual(jasmine.any(LanguageResponses.ListLanguagesResponse));
-    });
 
     it(`Response should have all properties assigned`, () => {
         expect(response.items.length).toEqual(responseJson.languages.length);

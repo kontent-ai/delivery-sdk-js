@@ -7,7 +7,7 @@ describe('Localized item', () => {
 
     const language: string = 'cz';
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.ViewContentItemResponse<Movie>;
+    let response: ItemResponses.IViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.item<Movie>(movieCodename).languageParameter(language).toPromise())

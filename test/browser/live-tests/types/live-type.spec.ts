@@ -6,7 +6,7 @@ describe('Live type', () => {
     setup(context);
 
     const codename: string = 'movie';
-    let response: TypeResponses.ViewContentTypeResponse;
+    let response: TypeResponses.IViewContentTypeResponse;
 
     const multipleChoiceElement: string = 'category';
     const taxonomyElement: string = 'releasecategory';

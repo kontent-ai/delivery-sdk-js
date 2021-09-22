@@ -6,8 +6,8 @@ describe('Live items all', () => {
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.ListContentItemsAllResponse<Movie>;
-    const responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<Movie>>[] = [];
+    let response: ItemResponses.IListContentItemsAllResponse<Movie>;
+    const responses: IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<Movie>>[] = [];
 
     beforeAll(async () => {
         response = (
@@ -26,7 +26,6 @@ describe('Live items all', () => {
 
     it(`items should be defined`, () => {
         expect(response).toBeDefined();
-        expect(response).toEqual(jasmine.any(ItemResponses.ListContentItemsAllResponse));
     });
 
     it(`check correct number of items`, () => {
@@ -38,7 +37,7 @@ describe('Live items all', () => {
         expect(response.responses.length).toEqual(responses.length);
 
         for (const innerResponse of response.responses) {
-            expect(innerResponse.data).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
+            expect(innerResponse.data).toBeDefined();
         }
     });
 

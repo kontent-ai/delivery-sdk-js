@@ -1,6 +1,6 @@
 import { IHeader, IHttpCancelRequestToken, IQueryParameter } from '@kentico/kontent-core';
 import { IKontentNetworkResponse } from './base-responses';
-import { Pagination } from './pagination.class';
+import { IPagination } from './pagination.class';
 
 export interface IProxyUrlData {
     action: string;
@@ -34,8 +34,7 @@ export interface IKontentListWithHeaderResponse extends IKontentResponse {
 }
 
 export interface IKontentListResponse extends IKontentResponse {
-    pagination?: Pagination;
-    continuationToken?: string;
+    pagination?: IPagination;
     items: any[];
 }
 

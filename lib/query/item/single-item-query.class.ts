@@ -4,7 +4,7 @@ import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
 export class SingleItemQuery<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseQuery<
-    ItemResponses.ViewContentItemResponse<TContentItem>,
+    ItemResponses.IViewContentItemResponse<TContentItem>,
     IItemQueryConfig
 > {
     constructor(
@@ -58,7 +58,7 @@ export class SingleItemQuery<TContentItem extends IContentItem<any> = IContentIt
     /**
      * Gets Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ViewContentItemResponse<TContentItem>>> {
+    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>>> {
         return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
     }
 

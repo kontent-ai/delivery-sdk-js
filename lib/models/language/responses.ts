@@ -1,22 +1,14 @@
-import { IKontentListAllResponse, IKontentListResponse, IKontentNetworkResponse, Pagination } from '../common';
+import { IKontentListAllResponse, IKontentListResponse, IKontentNetworkResponse, IPagination } from '../common';
 import { Language } from './language-models';
 
 export namespace LanguageResponses {
-    export class ListLanguagesResponse implements IKontentListResponse {
-        constructor(
-            /**
-             * List of languages
-             */
-            public items: Language[],
-
-            /**
-             * Pagination
-             */
-            public pagination: Pagination
-        ) {}
+    export interface IListLanguagesResponse extends IKontentListResponse {
+        items: Language[];
+        pagination: IPagination;
     }
 
-    export class ListLanguagesAllResponse implements IKontentListAllResponse {
-        constructor(public items: Language[], public responses: IKontentNetworkResponse<ListLanguagesResponse>[]) {}
+    export interface IListLanguagesAllResponse extends IKontentListAllResponse {
+        items: Language[];
+        responses: IKontentNetworkResponse<IListLanguagesResponse>[];
     }
 }

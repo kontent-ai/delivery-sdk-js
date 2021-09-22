@@ -9,7 +9,7 @@ describe('Items without total count', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListContentItemsResponse<any>;
+    let response: ItemResponses.IListContentItemsResponse<any>;
     const parameters: IQueryParameter[] = [];
 
     beforeAll(async () => {
@@ -26,10 +26,6 @@ describe('Items without total count', () => {
         );
 
         expect(totalCountParameter).toBeUndefined();
-    });
-
-    it(`Response should be of proper type`, () => {
-        expect(response).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
     });
 
     it(`Response should not have total count parameter set`, () => {

@@ -7,14 +7,12 @@ describe('Mapping service', () => {
         projectId: 'x'
     });
 
-    const listingResponse: ItemResponses.ListContentItemsResponse = client.mappingService.listContentItemsResponse(
+    const listingResponse: ItemResponses.IListContentItemsResponse = client.mappingService.listContentItemsResponse(
         responseJson,
         {}
     );
 
     it(`Listing response should be mapped correctly`, () => {
-        expect(listingResponse).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
-
         expect(listingResponse.items.length).toEqual(responseJson.items.length);
 
         for (const item of listingResponse.items) {

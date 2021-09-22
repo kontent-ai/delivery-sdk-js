@@ -4,8 +4,8 @@ import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class MultipleTypeQuery extends BaseListingQuery<
-    TypeResponses.ListContentTypesResponse,
-    TypeResponses.ListContentTypesAllResponse,
+    TypeResponses.IListContentTypesResponse,
+    TypeResponses.IListContentTypesAllResponse,
     IContentTypeQueryConfig
 > {
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
@@ -15,7 +15,7 @@ export class MultipleTypeQuery extends BaseListingQuery<
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<TypeResponses.ListContentTypesResponse>> {
+    toPromise(): Promise<IKontentNetworkResponse<TypeResponses.IListContentTypesResponse>> {
         return this.queryService.getMultipleTypes(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -30,8 +30,11 @@ export class MultipleTypeQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<TypeResponses.ListContentTypesResponse>[]
-    ): TypeResponses.ListContentTypesAllResponse {
-        return new TypeResponses.ListContentTypesAllResponse(items, responses);
+        responses: IKontentNetworkResponse<TypeResponses.IListContentTypesResponse>[]
+    ): TypeResponses.IListContentTypesAllResponse {
+        return {
+            items: items,
+            responses: responses
+        };
     }
 }

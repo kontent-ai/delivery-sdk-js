@@ -54,7 +54,7 @@ describe('Custom element with custom model', () => {
     });
 
     it(`Color element should be mapped to ColorElement`, () => {
-        const element = item.elements.color as Elements.CustomElement<ColorElementValue>;
+        const element = item.elements.color as Elements.ICustomElement<ColorElementValue>;
         const rawElement = responseJson.items[0].elements.color;
 
 
@@ -67,7 +67,7 @@ describe('Custom element with custom model', () => {
     });
 
     it(`Markdown element should be mapped to MarkdownElement`, () => {
-        const element = item.elements.markdown as Elements.CustomElement<MarkdownElementValue>;
+        const element = item.elements.markdown as Elements.ICustomElement<MarkdownElementValue>;
         const rawElement = responseJson.items[0].elements.markdown;
 
         expect(element.value.isMarkdown).toEqual(true);

@@ -5,7 +5,7 @@ describe('Response with Promises', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.ListContentItemsResponse<Movie>;
+    let response: ItemResponses.IListContentItemsResponse<Movie>;
 
     beforeAll((done) => {
         context.deliveryClient
@@ -18,6 +18,6 @@ describe('Response with Promises', () => {
     });
 
     it(`Response items should be retrieved and mapped just like with Promise`, () => {
-        expect(response).toEqual(jasmine.any(ItemResponses.ListContentItemsResponse));
+        expect(response).toBeDefined();
     });
 });

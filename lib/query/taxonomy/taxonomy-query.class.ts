@@ -3,7 +3,7 @@ import { IKontentNetworkResponse, ITaxonomyQueryConfig, TaxonomyResponses } from
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export class TaxonomyQuery extends BaseQuery<TaxonomyResponses.ViewTaxonomyResponse, ITaxonomyQueryConfig> {
+export class TaxonomyQuery extends BaseQuery<TaxonomyResponses.IViewTaxonomyResponse, ITaxonomyQueryConfig> {
     /**
      * Taxonomies endpoint URL action
      */
@@ -24,7 +24,7 @@ export class TaxonomyQuery extends BaseQuery<TaxonomyResponses.ViewTaxonomyRespo
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<TaxonomyResponses.ViewTaxonomyResponse>> {
+    toPromise(): Promise<IKontentNetworkResponse<TaxonomyResponses.IViewTaxonomyResponse>> {
         return this.queryService.getTaxonomy(this.getUrl(), this._queryConfig ?? {});
     }
 

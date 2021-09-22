@@ -2,9 +2,9 @@ import { IContentItem, Link, RichTextImage } from '../models';
 import { ElementModels } from './element-models';
 
 export namespace Elements {
-    export interface TextElement extends ElementModels.IElement<string> {}
+    export interface ITextElement extends ElementModels.IElement<string> {}
 
-    export interface LinkedItemsElement<TContentItem extends IContentItem<any> = IContentItem<any>> extends ElementModels.IElement<TContentItem[]> {
+    export interface ILinkedItemsElement<TContentItem extends IContentItem<any> = IContentItem<any>> extends ElementModels.IElement<TContentItem[]> {
         /**
          * Array of linked item codenames
          */
@@ -16,11 +16,11 @@ export namespace Elements {
         linkedItems: TContentItem[];
     }
 
-    export interface MultipleChoiceElement extends ElementModels.IElement<ElementModels.MultipleChoiceOption[]> {}
+    export interface IMultipleChoiceElement extends ElementModels.IElement<ElementModels.MultipleChoiceOption[]> {}
 
-    export interface DateTimeElement extends ElementModels.IElement<Date | null> {}
+    export interface IDateTimeElement extends ElementModels.IElement<Date | null> {}
 
-    export interface RichTextElement extends ElementModels.IElement<string> {
+    export interface IRichTextElement extends ElementModels.IElement<string> {
         /**
          * Links
          */
@@ -37,20 +37,20 @@ export namespace Elements {
         linkedItemCodenames: string[];
     }
 
-    export interface NumberElement extends ElementModels.IElement<number | null> {}
+    export interface INumberElement extends ElementModels.IElement<number | null> {}
 
-    export interface AssetsElement extends ElementModels.IElement<ElementModels.AssetModel[]> {}
+    export interface IAssetsElement extends ElementModels.IElement<ElementModels.AssetModel[]> {}
 
-    export interface UrlSlugElement extends ElementModels.IElement<string> {}
+    export interface IUrlSlugElement extends ElementModels.IElement<string> {}
 
-    export interface TaxonomyElement extends ElementModels.IElement<ElementModels.TaxonomyTerm[]> {
+    export interface ITaxonomyElement extends ElementModels.IElement<ElementModels.TaxonomyTerm[]> {
         /**
          * Taxonomy group
          */
         taxonomyGroup?: string;
     }
 
-    export interface UnknownElement extends ElementModels.IElement<any> {}
+    export interface IUnknownElement extends ElementModels.IElement<any> {}
 
-    export interface CustomElement<TValue = string> extends ElementModels.IElement<TValue> {}
+    export interface ICustomElement<TValue = string> extends ElementModels.IElement<TValue> {}
 }

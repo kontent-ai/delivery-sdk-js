@@ -18,7 +18,7 @@ export class MockQueryService extends QueryService {
     mockGetSingleItem<TContentItem extends IContentItem<any> = IContentItem<any>>(
         json: any,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ViewContentItemResponse<TContentItem> {
+    ): ItemResponses.IViewContentItemResponse<TContentItem> {
         if (!queryConfig) {
             queryConfig = {};
         }
@@ -31,7 +31,7 @@ export class MockQueryService extends QueryService {
     mockGetMultipleItems<TContentItem extends IContentItem<any> = IContentItem<any>>(
         json: any,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListContentItemsResponse<TContentItem> {
+    ): ItemResponses.IListContentItemsResponse<TContentItem> {
         if (!queryConfig) {
             queryConfig = {};
         }

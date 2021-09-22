@@ -11,8 +11,8 @@ import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class MultipleItemsQuery<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseListingQuery<
-    ItemResponses.ListContentItemsResponse<TContentItem>,
-    ItemResponses.ListContentItemsAllResponse<TContentItem>,
+    ItemResponses.IListContentItemsResponse<TContentItem>,
+    ItemResponses.IListContentItemsAllResponse<TContentItem>,
     IItemQueryConfig
 > {
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
@@ -97,7 +97,7 @@ export class MultipleItemsQuery<TContentItem extends IContentItem<any> = IConten
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TContentItem>>> {
+    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>>> {
         return this.queryService.getMultipleItems(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -115,8 +115,11 @@ export class MultipleItemsQuery<TContentItem extends IContentItem<any> = IConten
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<ItemResponses.ListContentItemsResponse<TContentItem>>[]
-    ): ItemResponses.ListContentItemsAllResponse<TContentItem> {
-        return new ItemResponses.ListContentItemsAllResponse<TContentItem>(items, responses);
+        responses: IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>>[]
+    ): ItemResponses.IListContentItemsAllResponse<TContentItem> {
+        return {
+            items: items,
+            responses: responses
+        };
     }
 }

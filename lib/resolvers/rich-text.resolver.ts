@@ -117,7 +117,7 @@ export class RichTextResolver {
         let image: RichTextImage | undefined;
 
         // try getting image from direct element richtext
-        const richTextElement = linkedItem.elements[data.elementName] as Elements.RichTextElement | undefined;
+        const richTextElement = linkedItem.elements[data.elementName] as Elements.IRichTextElement | undefined;
         if (richTextElement) {
             if (richTextElement.type !== ElementType.RichText) {
                 throw Error(
@@ -157,7 +157,7 @@ export class RichTextResolver {
         for (const propName of Object.keys(contentItem.elements)) {
             const element = contentItem.elements[propName] as ElementModels.IElement<any>;
             if (element.type === ElementType.RichText) {
-                const richTextElement = element as Elements.RichTextElement;
+                const richTextElement = element as Elements.IRichTextElement;
                 const image = richTextElement.images.find((m) => m.imageId === imageId);
 
                 if (image) {

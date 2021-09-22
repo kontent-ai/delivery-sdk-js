@@ -10,7 +10,7 @@ describe('Live taxonomies', () => {
     const existingTaxonomyCodename: string = 'movietype'; // codename of some of the defined taxonomies
     const numberOfTaxonomies: number = 2; // number of defined taxonomies
 
-    let response: TaxonomyResponses.ListTaxonomiesResponse;
+    let response: TaxonomyResponses.IListTaxonomiesResponse;
     let taxonomy: TaxonomyGroup;
 
     beforeAll(async () => {

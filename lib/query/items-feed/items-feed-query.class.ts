@@ -4,8 +4,8 @@ import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class ItemsFeedQuery<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseListingQuery<
-    ItemResponses.ListItemsFeedResponse<TContentItem>,
-    ItemResponses.ListItemsFeedAllResponse<TContentItem>,
+    ItemResponses.IListItemsFeedResponse<TContentItem>,
+    ItemResponses.IListItemsFeedAllResponse<TContentItem>,
     IItemQueryConfig
 > {
 
@@ -72,7 +72,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem<any> = IContentIte
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<TContentItem>>> {
+    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>>> {
         return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -99,8 +99,11 @@ export class ItemsFeedQuery<TContentItem extends IContentItem<any> = IContentIte
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<TContentItem>>[]
-    ): ItemResponses.ListItemsFeedAllResponse<TContentItem> {
-        return new ItemResponses.ListItemsFeedAllResponse<TContentItem>(items, responses);
+        responses: IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>>[]
+    ): ItemResponses.IListItemsFeedAllResponse<TContentItem> {
+        return {
+            items: items,
+            responses: responses
+        };
     }
 }

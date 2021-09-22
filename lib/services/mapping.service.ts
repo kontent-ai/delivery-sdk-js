@@ -1,6 +1,7 @@
 import { IDeliveryClientConfig } from '../config';
 import {
     ElementContracts,
+    IPaginationContract,
     ItemContracts,
     LanguageContracts,
     TaxonomyContracts,
@@ -13,45 +14,45 @@ import {
     IItemQueryConfig,
     ItemResponses,
     LanguageResponses,
-    Pagination,
+    IPagination,
     TaxonomyResponses,
     TypeResponses
 } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 
 export interface IMappingService {
-    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.ListContentTypesResponse;
+    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.IListContentTypesResponse;
 
     itemsFeedResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IItemsFeedContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListItemsFeedResponse<TContentItem>;
+    ): ItemResponses.IListItemsFeedResponse<TContentItem>;
 
-    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.ViewContentTypeResponse;
+    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.IViewContentTypeResponse;
 
     viewContentItemResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ViewContentItemResponse<TContentItem>;
+    ): ItemResponses.IViewContentItemResponse<TContentItem>;
 
     listContentItemsResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IListContentItemsContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListContentItemsResponse<TContentItem>;
+    ): ItemResponses.IListContentItemsResponse<TContentItem>;
 
     viewTaxonomyGroupResponse(
         data: TaxonomyContracts.IViewTaxonomyGroupContract
-    ): TaxonomyResponses.ViewTaxonomyResponse;
+    ): TaxonomyResponses.IViewTaxonomyResponse;
 
     listTaxonomyGroupsResponse(
         data: TaxonomyContracts.IListTaxonomyGroupsContract
-    ): TaxonomyResponses.ListTaxonomiesResponse;
+    ): TaxonomyResponses.IListTaxonomiesResponse;
 
     viewContentTypeElementResponse(
         data: ElementContracts.IViewContentTypeElementContract
     ): ElementResponses.ViewContentTypeElementResponse;
 
-    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): LanguageResponses.ListLanguagesResponse;
+    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): LanguageResponses.IListLanguagesResponse;
 }
 
 export class MappingService implements IMappingService {
@@ -73,34 +74,22 @@ export class MappingService implements IMappingService {
      * Gets response for list of languages
      * @param data Response data
      */
-    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): LanguageResponses.ListLanguagesResponse {
-        const languages = this.languageMapper.mapMultipleLanguages(data);
-
-        const pagination: Pagination = new Pagination({
-            skip: data.pagination.skip,
-            count: data.pagination.count,
-            limit: data.pagination.limit,
-            nextPage: data.pagination.next_page
-        });
-
-        return new LanguageResponses.ListLanguagesResponse(languages, pagination);
+    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): LanguageResponses.IListLanguagesResponse {
+        return {
+            items: this.languageMapper.mapMultipleLanguages(data),
+            pagination: this.mapPagination(data.pagination)
+        };
     }
 
     /**
      * Gets response for getting a multiple type
      * @param data Response data
      */
-    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.ListContentTypesResponse {
-        const types = this.typeMapper.mapMultipleTypes(data);
-
-        const pagination: Pagination = new Pagination({
-            skip: data.pagination.skip,
-            count: data.pagination.count,
-            limit: data.pagination.limit,
-            nextPage: data.pagination.next_page
-        });
-
-        return new TypeResponses.ListContentTypesResponse(types, pagination);
+    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.IListContentTypesResponse {
+        return {
+            items: this.typeMapper.mapMultipleTypes(data),
+            pagination: this.mapPagination(data.pagination)
+        };
     }
 
     /**
@@ -108,23 +97,26 @@ export class MappingService implements IMappingService {
      * @param data Response data
      * @param options Options
      */
-    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.ViewContentTypeResponse {
-        const type = this.typeMapper.mapSingleType(data);
-
-        return new TypeResponses.ViewContentTypeResponse(type);
+    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.IViewContentTypeResponse {
+        return {
+            type: this.typeMapper.mapSingleType(data)
+        };
     }
 
     itemsFeedResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IItemsFeedContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListItemsFeedResponse<TContentItem> {
+    ): ItemResponses.IListItemsFeedResponse<TContentItem> {
         const itemsResult = this.itemMapper.mapItems<TContentItem>({
             linkedItems: Object.values(data.modular_content),
             mainItems: data.items,
             queryConfig: queryConfig
         });
 
-        return new ItemResponses.ListItemsFeedResponse(itemsResult.items, itemsResult.linkedItems);
+        return {
+            items: itemsResult.items,
+            linkedItems: itemsResult.linkedItems
+        };
     }
 
     /**
@@ -135,10 +127,13 @@ export class MappingService implements IMappingService {
     viewContentItemResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ViewContentItemResponse<TContentItem> {
+    ): ItemResponses.IViewContentItemResponse<TContentItem> {
         const itemResult = this.itemMapper.mapSingleItemFromResponse<TContentItem>(data, queryConfig);
 
-        return new ItemResponses.ViewContentItemResponse<TContentItem>(itemResult.item, itemResult.linkedItems);
+        return {
+            item: itemResult.item,
+            linkedItems: itemResult.linkedItems
+        };
     }
 
     /**
@@ -149,21 +144,14 @@ export class MappingService implements IMappingService {
     listContentItemsResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
         data: ItemContracts.IListContentItemsContract,
         queryConfig: IItemQueryConfig
-    ): ItemResponses.ListContentItemsResponse<TContentItem> {
+    ): ItemResponses.IListContentItemsResponse<TContentItem> {
         const itemsResult = this.itemMapper.mapMultipleItemsFromResponse<TContentItem>(data, queryConfig);
-        const pagination: Pagination = new Pagination({
-            skip: data.pagination.skip,
-            count: data.pagination.count,
-            limit: data.pagination.limit,
-            nextPage: data.pagination.next_page,
-            totalCount: data.pagination.total_count
-        });
 
-        return new ItemResponses.ListContentItemsResponse<TContentItem>(
-            itemsResult.items,
-            pagination,
-            itemsResult.linkedItems
-        );
+        return {
+            items: itemsResult.items,
+            pagination: this.mapPagination(data.pagination),
+            linkedItems: itemsResult.linkedItems
+        };
     }
 
     /**
@@ -172,10 +160,10 @@ export class MappingService implements IMappingService {
      */
     viewTaxonomyGroupResponse(
         data: TaxonomyContracts.IViewTaxonomyGroupContract
-    ): TaxonomyResponses.ViewTaxonomyResponse {
-        const taxonomy = this.taxonomyMapper.mapTaxonomy(data.system, data.terms);
-
-        return new TaxonomyResponses.ViewTaxonomyResponse(taxonomy);
+    ): TaxonomyResponses.IViewTaxonomyResponse {
+        return {
+            taxonomy: this.taxonomyMapper.mapTaxonomy(data.system, data.terms)
+        };
     }
 
     /**
@@ -184,17 +172,11 @@ export class MappingService implements IMappingService {
      */
     listTaxonomyGroupsResponse(
         data: TaxonomyContracts.IListTaxonomyGroupsContract
-    ): TaxonomyResponses.ListTaxonomiesResponse {
-        const taxonomies = this.taxonomyMapper.mapTaxonomies(data.taxonomies);
-
-        const pagination: Pagination = new Pagination({
-            skip: data.pagination.skip,
-            count: data.pagination.count,
-            limit: data.pagination.limit,
-            nextPage: data.pagination.next_page
-        });
-
-        return new TaxonomyResponses.ListTaxonomiesResponse(taxonomies, pagination);
+    ): TaxonomyResponses.IListTaxonomiesResponse {
+        return {
+            items: this.taxonomyMapper.mapTaxonomies(data.taxonomies),
+            pagination: this.mapPagination(data.pagination)
+        };
     }
 
     /**
@@ -207,5 +189,15 @@ export class MappingService implements IMappingService {
         const element = this.genericElementMapper.mapElement(data);
 
         return new ElementResponses.ViewContentTypeElementResponse(element);
+    }
+
+    private mapPagination(paginationContract: IPaginationContract): IPagination {
+        return {
+            skip: paginationContract.skip,
+            count: paginationContract.count,
+            limit: paginationContract.limit,
+            nextPage: paginationContract.next_page,
+            totalCount: paginationContract.total_count
+        };
     }
 }

@@ -7,7 +7,7 @@ describe('Items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: IKontentNetworkResponse<ItemResponses.ListItemsFeedResponse<Movie>>;
+    let response: IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<Movie>>;
 
     beforeAll(async () => {
         response = await getDeliveryClientWithJsonAndHeaders(
@@ -37,10 +37,6 @@ describe('Items feed', () => {
 
     it(`Continuation token should be set`, () => {
         expect(response.xContinuationToken).toEqual('TokenX');
-    });
-
-    it(`Response should be of proper type`, () => {
-        expect(response.data).toEqual(jasmine.any(ItemResponses.ListItemsFeedResponse));
     });
 
 

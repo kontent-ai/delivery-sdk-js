@@ -6,7 +6,7 @@ describe('Live item - base linked items', () => {
     setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.ViewContentItemResponse<Movie>;
+    let response: ItemResponses.IViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.item<Movie>(movieCodename).toPromise()).data;

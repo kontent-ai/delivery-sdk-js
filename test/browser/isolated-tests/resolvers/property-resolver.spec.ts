@@ -4,9 +4,9 @@ import { HttpService } from '@kentico/kontent-core';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 type MockMovie = IContentItem<{
-    titleTest: Elements.TextElement;
-    test_released: Elements.DateTimeElement;
-    justNumber: Elements.NumberElement;
+    titleTest: Elements.ITextElement;
+    test_released: Elements.IDateTimeElement;
+    justNumber: Elements.INumberElement;
 }>;
 
 describe('Property resolver', () => {
@@ -33,7 +33,7 @@ describe('Property resolver', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.ViewContentItemResponse<MockMovie>;
+    let response: ItemResponses.IViewContentItemResponse<MockMovie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {});

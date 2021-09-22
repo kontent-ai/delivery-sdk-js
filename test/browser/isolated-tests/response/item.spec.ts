@@ -14,7 +14,7 @@ describe('Verifies mapping of delivery content item', () => {
         version: sdkInfo.version
     });
 
-    let response: ItemResponses.ViewContentItemResponse<Movie>;
+    let response: ItemResponses.IViewContentItemResponse<Movie>;
 
     beforeAll((done) => {
         response = mockQueryService.mockGetSingleItem<Movie>(warriorJson, {});

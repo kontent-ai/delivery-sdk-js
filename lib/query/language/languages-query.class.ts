@@ -1,11 +1,17 @@
 import { IDeliveryClientConfig } from '../../config';
-import { continuationTokenHeaderName, IKontentNetworkResponse, ILanguagesQueryConfig, LanguageResponses, Parameters } from '../../models';
+import {
+    continuationTokenHeaderName,
+    IKontentNetworkResponse,
+    ILanguagesQueryConfig,
+    LanguageResponses,
+    Parameters
+} from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class LanguagesQuery extends BaseListingQuery<
-    LanguageResponses.ListLanguagesResponse,
-    LanguageResponses.ListLanguagesAllResponse,
+    LanguageResponses.IListLanguagesResponse,
+    LanguageResponses.IListLanguagesAllResponse,
     ILanguagesQueryConfig
 > {
     /**
@@ -52,7 +58,7 @@ export class LanguagesQuery extends BaseListingQuery<
     /**
      * Gets Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<LanguageResponses.ListLanguagesResponse>> {
+    toPromise(): Promise<IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse>> {
         return this.queryService.getLanguages(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -76,8 +82,11 @@ export class LanguagesQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<LanguageResponses.ListLanguagesResponse>[]
-    ): LanguageResponses.ListLanguagesAllResponse {
-        return new LanguageResponses.ListLanguagesAllResponse(items, responses);
+        responses: IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse>[]
+    ): LanguageResponses.IListLanguagesAllResponse {
+        return {
+            items: items,
+            responses: responses
+        };
     }
 }

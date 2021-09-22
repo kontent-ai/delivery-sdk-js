@@ -6,7 +6,7 @@ describe('Pagination', () => {
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.ListContentItemsResponse<Movie>;
+    let response: ItemResponses.IListContentItemsResponse<Movie>;
 
     beforeAll(async () => {
         response = (

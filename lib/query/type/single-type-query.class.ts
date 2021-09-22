@@ -3,7 +3,7 @@ import { IContentTypeQueryConfig, IKontentNetworkResponse, TypeResponses } from 
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export class SingleTypeQuery extends BaseQuery<TypeResponses.ViewContentTypeResponse, IContentTypeQueryConfig> {
+export class SingleTypeQuery extends BaseQuery<TypeResponses.IViewContentTypeResponse, IContentTypeQueryConfig> {
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
@@ -19,7 +19,7 @@ export class SingleTypeQuery extends BaseQuery<TypeResponses.ViewContentTypeResp
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<TypeResponses.ViewContentTypeResponse>> {
+    toPromise(): Promise<IKontentNetworkResponse<TypeResponses.IViewContentTypeResponse>> {
         return this.queryService.getSingleType(this.getUrl(), this._queryConfig ?? {});
     }
 

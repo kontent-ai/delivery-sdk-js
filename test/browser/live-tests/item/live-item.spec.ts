@@ -6,7 +6,7 @@ describe('Live item', () => {
     setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.ViewContentItemResponse<Movie>;
+    let response: ItemResponses.IViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
         response = (
