@@ -1,20 +1,18 @@
 import { ElementContracts } from '../data-contracts';
-import { GenericElement } from '../models';
+import { IGenericElement } from '../models';
 
 export class GenericElementMapper {
-
-    mapElement(response: ElementContracts.IViewContentTypeElementContract): GenericElement {
+    mapElement(response: ElementContracts.IViewContentTypeElementContract): IGenericElement {
         if (!response) {
             throw Error(`Invalid response for mapping element`);
         }
 
-        return new GenericElement({
+        return {
             codename: response.codename,
             name: response.name,
             type: response.type,
             options: response.options ? response.options : [],
             taxonomyGroup: response.taxonomy_group
-        });
+        };
     }
 }
-

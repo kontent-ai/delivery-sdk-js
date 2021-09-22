@@ -11,9 +11,9 @@ describe('Live element', () => {
     const multipleChoiceElementCodename: string = 'category';
     const taxonomyElementCodename: string = 'releasecategory';
 
-    let textElementResponse: ElementResponses.ViewContentTypeElementResponse;
-    let multipleChoiceElementResponse: ElementResponses.ViewContentTypeElementResponse;
-    let taxonomyElementResponse: ElementResponses.ViewContentTypeElementResponse;
+    let textElementResponse: ElementResponses.IViewContentTypeElementResponse;
+    let multipleChoiceElementResponse: ElementResponses.IViewContentTypeElementResponse;
+    let taxonomyElementResponse: ElementResponses.IViewContentTypeElementResponse;
 
     beforeAll(async () => {
         textElementResponse = (await context.deliveryClient.element(typeCodename, textElementCodename).toPromise())

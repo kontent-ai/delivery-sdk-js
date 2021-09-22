@@ -5,20 +5,20 @@ import {
     IKontentResponse,
     IPagination
 } from '../common';
-import { TaxonomyGroup } from './taxonomy-models';
+import { ITaxonomyGroup } from './taxonomy-models';
 
 export namespace TaxonomyResponses {
     export interface IViewTaxonomyResponse extends IKontentResponse {
-        taxonomy: TaxonomyGroup;
+        taxonomy: ITaxonomyGroup;
     }
 
     export interface IListTaxonomiesResponse extends IKontentListResponse {
-        items: TaxonomyGroup[];
+        items: ITaxonomyGroup[];
         pagination: IPagination;
     }
 
     export interface IListTaxonomiesAllResponse extends IKontentListAllResponse {
-        items: TaxonomyGroup[];
+        items: ITaxonomyGroup[];
         responses: IKontentNetworkResponse<IListTaxonomiesResponse>[];
     }
 }

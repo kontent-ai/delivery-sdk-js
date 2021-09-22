@@ -1,14 +1,14 @@
 import { IKontentResponse } from '../common/common-models';
-import { GenericElement } from './element-models';
+import { IGenericElement } from './element-models';
 
 export namespace ElementResponses {
-    export class ViewContentTypeElementResponse implements IKontentResponse {
+    export interface IViewContentTypeElementResponse extends IKontentResponse {
         /**
          * Response containing content type element
          *
          * @constructor
-         * @param {GenericElement} element - Content type element
+         * @param {IGenericElement} element - Content type element
          */
-        constructor(public element: GenericElement) {}
+        element: IGenericElement;
     }
 }

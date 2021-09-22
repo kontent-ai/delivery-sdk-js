@@ -6,23 +6,19 @@ export interface IElementQueryConfig extends IQueryConfig {
      */
 }
 
-export class GenericElementOption {
-    constructor(
-        /**
-         * Name of the option
-         */
-        public name: string,
+export interface IGenericElementOption {
+    /**
+     * Name of the option
+     */
+    name: string;
 
-        /**
-         * Value of the option
-         */
-        public codename: string
-    ) { }
+    /**
+     * Value of the option
+     */
+    codename: string;
 }
 
-
-export class GenericElement {
-
+export interface IGenericElement {
     /**
      * Indexer
      */
@@ -31,38 +27,25 @@ export class GenericElement {
     /**
      * Codename of the element
      */
-    public codename!: string;
+    codename: string;
 
     /**
      * Type of the element
      */
-    public type!: string;
+    type: string;
 
     /**
      * Name of the element
      */
-    public name!: string;
+    name: string;
 
     /**
      * Taxonomy group in case the element is a taxonomy
      */
-    public taxonomyGroup?: string;
+    taxonomyGroup?: string;
 
     /**
      * Array of options if the element has some
      */
-    public options: GenericElementOption[] = [];
-
-    constructor(
-        data: {
-            codename: string,
-            type: string,
-            name: string,
-            taxonomyGroup?: string,
-            options: GenericElementOption[]
-        }
-    ) {
-        Object.assign(this, data);
-    }
+    options: IGenericElementOption[];
 }
-

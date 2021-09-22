@@ -3,7 +3,7 @@ import { ElementResponses, IElementQueryConfig, IKontentNetworkResponse } from '
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export class ElementQuery extends BaseQuery<ElementResponses.ViewContentTypeElementResponse, IElementQueryConfig> {
+export class ElementQuery extends BaseQuery<ElementResponses.IViewContentTypeElementResponse, IElementQueryConfig> {
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
@@ -24,7 +24,7 @@ export class ElementQuery extends BaseQuery<ElementResponses.ViewContentTypeElem
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ElementResponses.ViewContentTypeElementResponse>> {
+    toPromise(): Promise<IKontentNetworkResponse<ElementResponses.IViewContentTypeElementResponse>> {
         return this.queryService.getElementAsync(this.getUrl(), this._queryConfig ?? {});
     }
 

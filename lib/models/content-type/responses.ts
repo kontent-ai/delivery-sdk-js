@@ -5,20 +5,20 @@ import {
     IKontentResponse,
     IPagination
 } from '../common';
-import { ContentType } from './content-type-models';
+import { IContentType } from './content-type-models';
 
 export namespace TypeResponses {
     export interface IListContentTypesResponse extends IKontentListResponse {
-        items: ContentType[];
+        items: IContentType[];
         pagination: IPagination;
     }
 
     export interface IListContentTypesAllResponse extends IKontentListAllResponse {
-        items: ContentType[];
+        items: IContentType[];
         responses: IKontentNetworkResponse<IListContentTypesResponse>[];
     }
 
     export interface IViewContentTypeResponse extends IKontentResponse {
-        type: ContentType;
+        type: IContentType;
     }
 }

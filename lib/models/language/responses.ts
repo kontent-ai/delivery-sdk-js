@@ -1,14 +1,14 @@
 import { IKontentListAllResponse, IKontentListResponse, IKontentNetworkResponse, IPagination } from '../common';
-import { Language } from './language-models';
+import { ILanguage } from './language-models';
 
 export namespace LanguageResponses {
     export interface IListLanguagesResponse extends IKontentListResponse {
-        items: Language[];
+        items: ILanguage[];
         pagination: IPagination;
     }
 
     export interface IListLanguagesAllResponse extends IKontentListAllResponse {
-        items: Language[];
+        items: ILanguage[];
         responses: IKontentNetworkResponse<IListLanguagesResponse>[];
     }
 }

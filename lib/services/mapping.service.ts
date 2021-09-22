@@ -50,7 +50,7 @@ export interface IMappingService {
 
     viewContentTypeElementResponse(
         data: ElementContracts.IViewContentTypeElementContract
-    ): ElementResponses.ViewContentTypeElementResponse;
+    ): ElementResponses.IViewContentTypeElementResponse;
 
     listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): LanguageResponses.IListLanguagesResponse;
 }
@@ -185,10 +185,11 @@ export class MappingService implements IMappingService {
      */
     viewContentTypeElementResponse(
         data: ElementContracts.IViewContentTypeElementContract
-    ): ElementResponses.ViewContentTypeElementResponse {
-        const element = this.genericElementMapper.mapElement(data);
+    ): ElementResponses.IViewContentTypeElementResponse {
 
-        return new ElementResponses.ViewContentTypeElementResponse(element);
+        return {
+            element: this.genericElementMapper.mapElement(data)
+        };
     }
 
     private mapPagination(paginationContract: IPaginationContract): IPagination {

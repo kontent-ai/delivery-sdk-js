@@ -1,4 +1,4 @@
-import { TaxonomyGroup, TaxonomyResponses, TaxonomyTerms } from '../../../../lib';
+import { ITaxonomyGroup, TaxonomyResponses, ITaxonomyTerms } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Live taxonomies', () => {
@@ -11,12 +11,12 @@ describe('Live taxonomies', () => {
     const numberOfTaxonomies: number = 2; // number of defined taxonomies
 
     let response: TaxonomyResponses.IListTaxonomiesResponse;
-    let taxonomy: TaxonomyGroup;
+    let taxonomy: ITaxonomyGroup;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.taxonomies().toPromise()).data;
 
-        taxonomy = response.items.find((m) => m.system.codename === existingTaxonomyCodename) as TaxonomyGroup;
+        taxonomy = response.items.find((m) => m.system.codename === existingTaxonomyCodename) as ITaxonomyGroup;
     });
 
     it(`taxonomies should have pagination`, () => {
@@ -70,7 +70,7 @@ describe('Live taxonomies', () => {
     it(`taxonomy group should contain nested taxonomies`, () => {
         const termsWithNestedTerms = taxonomy.terms.find(
             (m) => m.codename === termsWithNestedTermsCodename
-        ) as TaxonomyTerms;
+        ) as ITaxonomyTerms;
         expect(termsWithNestedTerms).toBeDefined();
 
         expect(termsWithNestedTerms.terms).toBeDefined();

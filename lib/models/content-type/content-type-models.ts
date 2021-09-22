@@ -1,60 +1,38 @@
 import { IQueryConfig } from '../common/common-models';
-import { GenericElement } from '../element/element-models';
+import { IGenericElement } from '../element/element-models';
 
-export class ContentTypeSystemAttributes {
-
+export interface IContentTypeSystemAttributes {
     /**
-    * Id of the type
-    */
-    public id!: string;
+     * Id of the type
+     */
+    id: string;
 
     /**
      * Name of the type
      */
-    public name!: string;
+    name: string;
 
     /**
      * Codename of the type
      */
-    public codename!: string;
+    codename: string;
 
     /**
      * Date of last modification
      */
-    public lastModified!: Date;
-
-    constructor(
-        data: {
-            id: string,
-            name: string,
-            codename: string,
-            lastModified: Date
-        }
-    ) {
-        Object.assign(this, data);
-    }
+    lastModified: Date;
 }
 
-export class ContentType {
+export interface IContentType {
+    /**
+     * Content type system attributes
+     */
+    system: IContentTypeSystemAttributes;
 
     /**
-    * Content type system attributes
-    */
-    public system!: ContentTypeSystemAttributes;
-
-    /**
-    * Elements (elements) assigned to content type
-    */
-    public elements!: GenericElement[];
-
-    constructor(
-        data: {
-            system: ContentTypeSystemAttributes,
-            elements: GenericElement[]
-        }
-    ) {
-        Object.assign(this, data);
-    }
+     * Elements (elements) assigned to content type
+     */
+    elements: IGenericElement[];
 }
 
 export interface IContentTypeQueryConfig extends IQueryConfig {
@@ -62,4 +40,3 @@ export interface IContentTypeQueryConfig extends IQueryConfig {
      * No dedicated properties required at this moment
      */
 }
-

@@ -1,20 +1,19 @@
 import { ElementContracts, IElementOptionContract, TypeContracts } from '../data-contracts';
-import { ContentType, ContentTypeSystemAttributes, GenericElement, GenericElementOption } from '../models';
+import { IContentType, IContentTypeSystemAttributes, IGenericElement } from '../models';
 
 export class TypeMapper {
-
-    mapSingleType(response: TypeContracts.IViewContentTypeContract): ContentType {
+    mapSingleType(response: TypeContracts.IViewContentTypeContract): IContentType {
         return this.mapType(response);
     }
 
-    mapMultipleTypes(response: TypeContracts.IListContentTypeContract): ContentType[] {
+    mapMultipleTypes(response: TypeContracts.IListContentTypeContract): IContentType[] {
         const that = this;
         return response.types.map(function (type) {
             return that.mapType(type);
         });
     }
 
-    private mapType(type: TypeContracts.IContentTypeContract): ContentType {
+    private mapType(type: TypeContracts.IContentTypeContract): IContentType {
         if (!type) {
             throw Error(`Cannot map type`);
         }
@@ -23,14 +22,14 @@ export class TypeMapper {
             throw Error(`Cannot map type elements`);
         }
 
-        const typeSystem = new ContentTypeSystemAttributes({
+        const system: IContentTypeSystemAttributes = {
             codename: type.system.codename,
             id: type.system.id,
             name: type.system.name,
             lastModified: type.system.last_modified
-        });
+        };
 
-        const elements: GenericElement[] = [];
+        const elements: IGenericElement[] = [];
 
         const elementNames = Object.getOwnPropertyNames(type.elements);
         elementNames.forEach((elementName: string) => {
@@ -54,23 +53,26 @@ export class TypeMapper {
                     throw Error(`Content type 'options' property has to be an array`);
                 }
 
-                rawOptions.forEach(rawOption => {
-                    options.push(new GenericElementOption(rawOption.name, rawOption.codename));
+                rawOptions.forEach((rawOption) => {
+                    options.push({
+                        codename: rawOption.codename,
+                        name: rawOption.name
+                    });
                 });
             }
 
-            elements.push(new GenericElement({
+            elements.push({
                 codename: elementCodename,
                 taxonomyGroup: taxonomyGroup,
                 options: options,
                 name: typeElement.name,
                 type: typeElement.type
-            }));
+            });
         });
-        return new ContentType({
-            system: typeSystem,
-            elements: elements
-        });
-    }
 
+        return {
+            elements: elements,
+            system: system
+        };
+    }
 }

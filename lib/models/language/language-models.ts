@@ -6,17 +6,8 @@ export interface ILanguageSystem {
     codename: string;
 }
 
-export class Language {
+export interface ILanguage {
     system: ILanguageSystem;
-
-
-    constructor(
-        data: {
-            system: ILanguageSystem
-        }
-    ) {
-        this.system = data.system;
-    }
 }
 
 export interface ILanguagesQueryConfig extends IQueryConfig {

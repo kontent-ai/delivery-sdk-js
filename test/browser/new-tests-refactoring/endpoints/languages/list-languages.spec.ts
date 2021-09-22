@@ -1,4 +1,4 @@
-import { Language, LanguageResponses } from '../../../../../lib';
+import { LanguageResponses } from '../../../../../lib';
 import { Context, setup } from '../../../setup';
 import { getDeliveryClientWithJson } from '../../setup';
 import * as responseJson from './list-languages.spec.json';
@@ -24,7 +24,6 @@ describe('List languages', () => {
                 throw Error(`Invalid language '${item.system.id}'`);
             }
 
-            expect(item).toEqual(jasmine.any(Language));
             expect(item.system.id).toEqual(originalItem.system.id);
             expect(item.system.name).toEqual(originalItem.system.name);
             expect(item.system.codename).toEqual(originalItem.system.codename);

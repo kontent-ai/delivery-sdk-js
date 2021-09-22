@@ -1,4 +1,4 @@
-import { IContentItem, ItemUrlSlugResolver, IUrlSlugResolverResult, Link } from '../models';
+import { IContentItem, ItemUrlSlugResolver, IUrlSlugResolverResult } from '../models';
 
 export class UrlSlugResolver {
     resolveUrl(data: {
@@ -8,12 +8,12 @@ export class UrlSlugResolver {
         resolver: ItemUrlSlugResolver;
     }): IUrlSlugResolverResult {
         const url = data.resolver(
-            new Link({
+            {
                 urlSlug: data.elementValue,
                 type: data.item.system.type,
                 codename: data.item.system.codename,
                 linkId: data.item.system.id
-            }),
+            },
             {
                 item: data.item,
                 linkId: undefined, // available only for links in rich text elements,

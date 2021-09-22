@@ -1,4 +1,4 @@
-import { TaxonomyResponses, TaxonomyTerms } from '../../../../lib';
+import { TaxonomyResponses, ITaxonomyTerms } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Live taxonomy', () => {
@@ -42,7 +42,7 @@ describe('Live taxonomy', () => {
     it(`taxonomy group should contain nested taxonomies`, () => {
         const termsWithNestedTerms = response.taxonomy.terms.find(
             (m) => m.codename === termsWithNestedTermsCodename
-        ) as TaxonomyTerms;
+        ) as ITaxonomyTerms;
         expect(termsWithNestedTerms).toBeDefined();
         expect(termsWithNestedTerms.terms).toBeDefined();
         expect(termsWithNestedTerms.terms.length).toEqual(numberOfNestedTerms);

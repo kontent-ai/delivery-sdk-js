@@ -8,8 +8,8 @@ import {
     IContentItemsContainer,
     IItemQueryConfig,
     IMapElementsResult,
-    Link,
-    RichTextImage
+    ILink,
+    IRichTextImage
 } from '../models';
 
 export class ElementMapper {
@@ -214,8 +214,8 @@ export class ElementMapper {
         }
 
         // extract and map links & images
-        const links: Link[] = this.mapRichTextLinks(rawElement.links);
-        const images: RichTextImage[] = this.mapRichTextImages(rawElement.images);
+        const links: ILink[] = this.mapRichTextLinks(rawElement.links);
+        const images: IRichTextImage[] = this.mapRichTextImages(rawElement.images);
 
         return {
             images: images,
@@ -395,38 +395,34 @@ export class ElementMapper {
         return mappedLinkedItem;
     }
 
-    private mapRichTextLinks(linksJson: ElementContracts.IRichTextElementLinkWrapperContract): Link[] {
-        const links: Link[] = [];
+    private mapRichTextLinks(linksJson: ElementContracts.IRichTextElementLinkWrapperContract): ILink[] {
+        const links: ILink[] = [];
 
         for (const linkId of Object.keys(linksJson)) {
             const linkRaw = linksJson[linkId];
-            links.push(
-                new Link({
-                    codename: linkRaw.codename,
-                    linkId: linkId,
-                    urlSlug: linkRaw.url_slug,
-                    type: linkRaw.type
-                })
-            );
+            links.push({
+                codename: linkRaw.codename,
+                linkId: linkId,
+                urlSlug: linkRaw.url_slug,
+                type: linkRaw.type
+            });
         }
 
         return links;
     }
 
-    private mapRichTextImages(imagesJson: ElementContracts.IRichTextElementImageWrapperContract): RichTextImage[] {
-        const images: RichTextImage[] = [];
+    private mapRichTextImages(imagesJson: ElementContracts.IRichTextElementImageWrapperContract): IRichTextImage[] {
+        const images: IRichTextImage[] = [];
 
         for (const imageId of Object.keys(imagesJson)) {
             const imageRaw = imagesJson[imageId];
-            images.push(
-                new RichTextImage({
-                    description: imageRaw.description,
-                    imageId: imageRaw.image_id,
-                    url: imageRaw.url,
-                    height: imageRaw.height,
-                    width: imageRaw.width
-                })
-            );
+            images.push({
+                description: imageRaw.description,
+                imageId: imageRaw.image_id,
+                url: imageRaw.url,
+                height: imageRaw.height,
+                width: imageRaw.width
+            });
         }
 
         return images;

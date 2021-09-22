@@ -1,4 +1,4 @@
-import { IContentItem, Link, RichTextImage } from '../models';
+import { IContentItem, ILink, IRichTextImage } from '../models';
 import { ElementModels } from './element-models';
 
 export namespace Elements {
@@ -24,12 +24,12 @@ export namespace Elements {
         /**
          * Links
          */
-        links: Link[];
+        links: ILink[];
 
         /**
          * Images included within rich text element
          */
-        images: RichTextImage[];
+        images: IRichTextImage[];
 
         /**
          * Array of linked item codenames

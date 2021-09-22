@@ -170,7 +170,7 @@ export class QueryService extends BaseDeliveryQueryService {
     async getElementAsync(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Promise<IKontentNetworkResponse<ElementResponses.ViewContentTypeElementResponse>> {
+    ): Promise<IKontentNetworkResponse<ElementResponses.IViewContentTypeElementResponse>> {
         const response = await this.getResponseAsync<ElementContracts.IViewContentTypeElementContract>(
             url,
             queryConfig

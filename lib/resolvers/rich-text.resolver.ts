@@ -6,8 +6,8 @@ import {
     ItemRichTextResolver,
     IUrlSlugResolverContext,
     IUrlSlugResolverResult,
-    Link,
-    RichTextImage,
+    ILink,
+    IRichTextImage,
     RichTextItemDataType
 } from '../models';
 import { IHtmlResolverConfig, IRichTextHtmlParser } from '../parser';
@@ -24,8 +24,8 @@ export class RichTextResolver {
         data: {
             richTextHtmlParser: IRichTextHtmlParser;
             getLinkedItem: (codename: string) => IContentItem<any> | undefined;
-            links: Link[];
-            images: RichTextImage[];
+            links: ILink[];
+            images: IRichTextImage[];
             queryConfig: IItemQueryConfig;
             linkedItemWrapperTag: string;
             linkedItemWrapperClasses: string[];
@@ -90,7 +90,7 @@ export class RichTextResolver {
         getLinkedItem: (codename: string) => IContentItem<any> | undefined;
         config: IHtmlResolverConfig;
         imageId: string;
-        images: RichTextImage[];
+        images: IRichTextImage[];
         html: string;
         elementName: string;
     }): IRichTextImageResolverResult {
@@ -114,7 +114,7 @@ export class RichTextResolver {
         // if image is resolved within nested linked item (e.g. rich text element resolves html of linked item which contains images)
         // the element name is equal to the 'root' element on which the html is resolved. For this reason we have to go through all
         // elements in linked item and find the image there.
-        let image: RichTextImage | undefined;
+        let image: IRichTextImage | undefined;
 
         // try getting image from direct element richtext
         const richTextElement = linkedItem.elements[data.elementName] as Elements.IRichTextElement | undefined;
@@ -153,7 +153,7 @@ export class RichTextResolver {
         imageId: string,
         contentItem: IContentItem<any>,
         getLinkedItem: (codename: string) => IContentItem<any> | undefined
-    ): RichTextImage | undefined {
+    ): IRichTextImage | undefined {
         for (const propName of Object.keys(contentItem.elements)) {
             const element = contentItem.elements[propName] as ElementModels.IElement<any>;
             if (element.type === ElementType.RichText) {
@@ -225,7 +225,7 @@ export class RichTextResolver {
     private getUrlSlugResult(data: {
         itemId: string;
         config: IHtmlResolverConfig;
-        links: Link[];
+        links: ILink[];
         getLinkedItem: (codename: string) => IContentItem<any> | undefined;
         linkText: string;
     }): IUrlSlugResolverResult {
