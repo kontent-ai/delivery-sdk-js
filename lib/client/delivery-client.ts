@@ -2,7 +2,6 @@ import { HttpService } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
 import { IContentItem } from '../models';
-import { getParserAdapter } from '../parser/parser-adapter';
 import {
     ElementQuery,
     ItemsFeedQuery,
@@ -32,10 +31,7 @@ export class DeliveryClient implements IDeliveryClient {
             throw Error(`Delivery client configuration is not set`);
         }
 
-        this.mappingService = new MappingService(
-            config,
-            config.richTextParserAdapter ? config.richTextParserAdapter : getParserAdapter()
-        );
+        this.mappingService = new MappingService(config);
         this.queryService = new QueryService(
             config,
             config.httpService ? config.httpService : new HttpService(),
@@ -73,7 +69,7 @@ export class DeliveryClient implements IDeliveryClient {
     /**
      * Gets query for multiple items
      */
-    items<TContentItem extends IContentItem<any> = IContentItem<any>>(): MultipleItemsQuery<TContentItem> {
+    items<TContentItem extends IContentItem = IContentItem>(): MultipleItemsQuery<TContentItem> {
         return new MultipleItemsQuery<TContentItem>(this.config, this.queryService);
     }
 
@@ -81,14 +77,14 @@ export class DeliveryClient implements IDeliveryClient {
      * Gets query for single item
      * @param {string} codename - Codename of item to fetch
      */
-    item<TContentItem extends IContentItem<any> = IContentItem<any>>(codename: string): SingleItemQuery<TContentItem> {
+    item<TContentItem extends IContentItem = IContentItem>(codename: string): SingleItemQuery<TContentItem> {
         return new SingleItemQuery<TContentItem>(this.config, this.queryService, codename);
     }
 
     /**
      * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent project.
      */
-    itemsFeed<TContentItem extends IContentItem<any> = IContentItem<any>>(): ItemsFeedQuery<TContentItem> {
+    itemsFeed<TContentItem extends IContentItem = IContentItem>(): ItemsFeedQuery<TContentItem> {
         return new ItemsFeedQuery<TContentItem>(this.config, this.queryService);
     }
 

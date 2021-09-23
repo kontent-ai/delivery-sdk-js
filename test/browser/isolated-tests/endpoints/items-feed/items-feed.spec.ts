@@ -1,5 +1,5 @@
 import { IKontentNetworkResponse, ItemResponses } from '../../../../../lib';
-import { Actor, Context, Movie, setup } from '../../../setup';
+import { Context, Movie, setup } from '../../../setup';
 import { getDeliveryClientWithJsonAndHeaders } from '../../../setup';
 import * as responseJson from './items-feed.spec.json';
 
@@ -23,15 +23,6 @@ describe('Items feed', () => {
             ]
         )
             .itemsFeed<Movie>()
-            .queryConfig({
-                richTextResolver: (item) => {
-                    if (item.system.type === 'actor') {
-                        const actor = item as Actor;
-                        return `actor-${actor.elements.firstName.value}`;
-                    }
-                    return '';
-                }
-            })
             .toPromise();
     });
 

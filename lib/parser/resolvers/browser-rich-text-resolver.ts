@@ -1,35 +1,36 @@
-import { ContentItemType, IUrlSlugResolverResult, RichTextItemDataType } from '../../models';
+import {
+    IResolvedRichTextElement,
+    IRichTextResolver,
+    IRichTextResolverInput
+} from '../../resolvers/rich-text.resolver';
+import { ContentItemType, IContentItem, ILink, IRichTextImage } from '../../models';
 import {
     IFeaturedObjects,
-    IHtmlResolverConfig,
     IImageObject,
     ILinkedItemContentObject,
     ILinkObject,
-    IRichTextHtmlParser,
-    IRichTextReplacements,
-    IRichTextResolverResult,
     RichTextItemIndexReferenceWrapper
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
+import { ElementType } from '../../elements/element-type';
+import { Elements } from '../../elements/elements';
 
-export class BrowserRichTextParser implements IRichTextHtmlParser {
-    resolveRichTextElement(
-        contentItemCodename: string,
+export class BrowserRichTextResolver implements IRichTextResolver {
+    resolveRichText(input: IRichTextResolverInput): IResolvedRichTextElement {
+        return this.resolveRichTextInternal(input, input.element.value);
+    }
+
+    private resolveRichTextInternal(
+        input: IRichTextResolverInput,
         html: string,
-        elementName: string,
-        replacement: IRichTextReplacements,
-        config: IHtmlResolverConfig,
         linkedItemIndex: RichTextItemIndexReferenceWrapper = new RichTextItemIndexReferenceWrapper(0)
-    ): IRichTextResolverResult {
-        const doc = this.createWrapperElement(html);
+    ): IResolvedRichTextElement {
+        const rootElement = this.createWrapperElement(html);
 
         // get all linked items
         const result = this.processRichTextElement(
-            contentItemCodename,
-            elementName,
-            doc.children,
-            replacement,
-            config,
+            input,
+            rootElement.children,
             {
                 links: [],
                 linkedItems: [],
@@ -39,10 +40,11 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         );
 
         return {
-            links: result.links,
-            linkedItems: result.linkedItems,
-            images: result.images,
-            resolvedHtml: doc.innerHTML
+            componentCodenames: result.linkedItems.filter((m) => m.itemType === 'component').map((m) => m.dataCodename),
+            linkedItemCodenames: result.linkedItems
+                .filter((m) => m.itemType === 'linkedItem')
+                .map((m) => m.dataCodename),
+            html: rootElement.innerHTML
         };
     }
 
@@ -53,12 +55,16 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
         return element;
     }
 
+    private getLinkedItem(input: IRichTextResolverInput, itemCodename: string): IContentItem | undefined {
+        if (!input.linkedItems) {
+            return undefined;
+        }
+        return input.linkedItems.find((m) => m.system.codename === itemCodename);
+    }
+
     private processRichTextElement(
-        contentItemCodename: string,
-        elementName: string,
+        input: IRichTextResolverInput,
         htmlCollection: HTMLCollection,
-        replacement: IRichTextReplacements,
-        config: IHtmlResolverConfig,
         result: IFeaturedObjects,
         linkedItemIndex: RichTextItemIndexReferenceWrapper
     ): IFeaturedObjects {
@@ -122,16 +128,14 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                             result.linkedItems.push(linkItemContentObject);
 
                             // create new element
-                            const newElem = document.createElement(config.linkedItemWrapperTag);
+                            const newElem = document.createElement(parserConfiguration.linkedItemWrapperElem);
 
                             // get type of resolving item
-                            let type: RichTextItemDataType | undefined;
-                            type = RichTextItemDataType.Item;
-
-                            const linkedItemHtml = replacement.getLinkedItemHtml(
-                                linkItemContentObject.dataCodename,
-                                type
-                            );
+                            const linkedItemHtml = input.contentItemResolver
+                                ? input.contentItemResolver(
+                                      this.getLinkedItem(input, linkItemContentObject.dataCodename)
+                                  ).contentItemHtml
+                                : undefined;
 
                             // add sdk resolved flag
                             newElem.setAttribute(parserConfiguration.resolvedLinkedItemAttribute, '1');
@@ -146,16 +150,7 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                             linkedItemIndex.increment();
 
                             // recursively run resolver on the HTML obtained by resolver
-                            newElem.innerHTML = this.resolveRichTextElement(
-                                linkItemContentObject.dataCodename,
-                                linkedItemHtml,
-                                elementName,
-                                replacement,
-                                config
-                            ).resolvedHtml;
-
-                            // add classes
-                            newElem.className = config.linkedItemWrapperClasses.map((m) => m).join(' ');
+                            newElem.innerHTML = this.resolveRichTextInternal(input, linkedItemHtml ?? '', linkedItemIndex).html;
 
                             // replace original node with new one
                             parentElement.replaceChild(newElem, element);
@@ -184,29 +179,24 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         // get original link text (the one inside <a> tag)
                         const linkText = element.innerHTML;
 
-                        const urlSlugResult = replacement.getUrlSlugResult(linkObject.dataItemId, linkText);
+                        const urlSlugResult = input.urlResolver
+                            ? input.urlResolver({
+                                  link: this.tryGetLink(input, linkObject.dataItemId),
+                                  linkText: linkText
+                              })
+                            : undefined;
 
                         // html has priority over url resolver
-                        if (urlSlugResult.html) {
+                        if (urlSlugResult?.linkHtml) {
                             // replace link html
-                            const linkHtml = (<IUrlSlugResolverResult>urlSlugResult).html;
-                            element.outerHTML = linkHtml ?? '';
-                        } else if (urlSlugResult.url) {
+                            element.outerHTML = urlSlugResult.linkHtml;
+                        } else if (urlSlugResult?.linkUrl) {
                             // set link url only
                             const hrefAttribute = element.attributes.getNamedItem('href');
-                            if (!hrefAttribute) {
-                                // href attribute is missing
-                                console.warn(
-                                    `Cannot set url '${urlSlugResult}' because 'href' attribute is not present in the <a> tag.
-                                        Please report this issue if you are seeing this.
-                                        This warning can be turned off by disabling 'enableAdvancedLogging' option.`
-                                );
-                            } else {
-                                // get link url
+
+                            if (hrefAttribute) {
                                 const linkUrlResult: string | undefined =
-                                    typeof urlSlugResult === 'string'
-                                        ? <string>urlSlugResult
-                                        : (<IUrlSlugResolverResult>urlSlugResult).url;
+                                    typeof urlSlugResult === 'string' ? urlSlugResult : urlSlugResult.linkUrl;
                                 hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
                             }
                         }
@@ -228,11 +218,9 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         result.images.push(imageObj);
 
                         // get image result
-                        const imageResult = replacement.getImageResult(
-                            contentItemCodename,
-                            imageObj.imageId,
-                            elementName
-                        );
+                        const imageResult = input.imageResolver
+                            ? input.imageResolver(this.tryGetImage(input, imageObj.imageId))
+                            : undefined;
 
                         // get src attribute of img tag
                         const srcAttribute = element.attributes.getNamedItem(
@@ -240,31 +228,79 @@ export class BrowserRichTextParser implements IRichTextHtmlParser {
                         );
 
                         if (!srcAttribute) {
-                            throw Error(
-                                `Attribute '${parserConfiguration.imageElementData.srcAttribute}' is missing. Source element: ${elementName}`
-                            );
+                            throw Error(`Attribute '${parserConfiguration.imageElementData.srcAttribute}' is invalid`);
                         }
 
-                        // set new image url
-                        srcAttribute.value = imageResult.url;
+                        // html has priority over url resolver
+                        if (imageResult?.imageHtml) {
+                            // replace link html
+                            element.outerHTML = imageResult.imageHtml;
+                        } else if (imageResult?.imageUrl) {
+                            // set link url only
+                            srcAttribute.value = imageResult?.imageUrl ?? '';
+                        }
                     }
                 }
 
                 // recursively process child nodes
                 if (element.children && element.children.length > 0) {
-                    this.processRichTextElement(
-                        contentItemCodename,
-                        elementName,
-                        element.children,
-                        replacement,
-                        config,
-                        result,
-                        linkedItemIndex
-                    );
+                    this.processRichTextElement(input, element.children, result, linkedItemIndex);
                 }
             }
         }
 
         return result;
     }
+
+    private tryGetImage(input: IRichTextResolverInput, imageId: string): IRichTextImage | undefined {
+        const elementImage = input.element.images.find((m) => m.imageId === imageId);
+        if (elementImage) {
+            return elementImage;
+        }
+
+        // try to find image in all linked items
+        if (input.linkedItems) {
+            for (const linkedItem of input.linkedItems) {
+                for (const elementKey of Object.keys(linkedItem.elements)) {
+                    const element = linkedItem.elements[elementKey];
+                    if (element.type === ElementType.RichText) {
+                        const richTextElement = element as Elements.IRichTextElement;
+                        const richTextElementImage = richTextElement.images.find((m) => m.imageId === imageId);
+                        if (richTextElementImage) {
+                            return richTextElementImage;
+                        }
+                    }
+                }
+            }
+        }
+
+        return undefined;
+    }
+
+    private tryGetLink(input: IRichTextResolverInput, linkId: string): ILink | undefined {
+        const elementLink = input.element.links.find((m) => m.linkId === linkId);
+        if (elementLink) {
+            return elementLink;
+        }
+
+        // try to find image in all linked items
+        if (input.linkedItems) {
+            for (const linkedItem of input.linkedItems) {
+                for (const elementKey of Object.keys(linkedItem.elements)) {
+                    const element = linkedItem.elements[elementKey];
+                    if (element.type === ElementType.RichText) {
+                        const richTextElement = element as Elements.IRichTextElement;
+                        const richTextElementLink = richTextElement.links.find((m) => m.linkId === linkId);
+                        if (richTextElementLink) {
+                            return richTextElementLink;
+                        }
+                    }
+                }
+            }
+        }
+
+        return undefined;
+    }
 }
+
+export const browserRichTextResolver = new BrowserRichTextResolver();

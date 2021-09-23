@@ -77,22 +77,6 @@ Bundles are distributed in the `_bundles` folder. You can choose from several bu
 
 #### CDN
 
-##### kontent-delivery.browser.legacy.umd.min
-
-![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.browser.legacy.umd.min.js?compression=gzip)
-
-```http
-https://cdn.jsdelivr.net/npm/kentico-kontent-delivery/_bundles/@kentico/kontent-delivery.browser.legacy.umd.min.js
-```
-
-##### kontent-delivery.browser.umd.min
-
-![Gzip browser bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.browser.umd.min.js?compression=gzip)
-
-```http
-https://cdn.jsdelivr.net/npm/kentico-kontent-delivery/_bundles/@kentico/kontent-delivery.browser.umd.min.js
-```
-
 ##### kontent-delivery.umd.min
 
 ![Gzip full bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.umd.min.js?compression=gzip)
@@ -103,7 +87,7 @@ https://cdn.jsdelivr.net/npm/kentico-kontent-delivery/_bundles/@kentico/kontent-
 
 ## Upgrade
 
-If you are upgrading from SDK versions 5.x.y or older, see [upgrade guide](https://github.com/Kentico/kontent-delivery-sdk-js/blob/master/UPGRADE.md).
+If you are upgrading from older versions see [upgrade guide](https://github.com/Kentico/kontent-delivery-sdk-js/blob/master/UPGRADE.md).
 
 ## TypeScript & ES6
 

@@ -46,7 +46,7 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get single item
      * @param queryConfig Query configuration
      */
-    async getSingleItemAsync<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    async getSingleItemAsync<TContentItem extends IContentItem = IContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
     ): Promise<IKontentNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>>> {
@@ -63,7 +63,7 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url
      * @param queryConfig Query configuration
      */
-    async getItemsFeed<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    async getItemsFeed<TContentItem extends IContentItem = IContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
     ): Promise<IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>>> {
@@ -80,7 +80,7 @@ export class QueryService extends BaseDeliveryQueryService {
      * @param url Url used to get multiple items
      * @param queryConfig Query configuration
      */
-    async getMultipleItems<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    async getMultipleItems<TContentItem extends IContentItem = IContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
     ): Promise<IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>>> {

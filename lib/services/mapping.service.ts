@@ -18,24 +18,23 @@ import {
     TaxonomyResponses,
     TypeResponses
 } from '../models';
-import { IRichTextHtmlParser } from '../parser';
 
 export interface IMappingService {
     listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.IListContentTypesResponse;
 
-    itemsFeedResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    itemsFeedResponse<TContentItem extends IContentItem = IContentItem>(
         data: ItemContracts.IItemsFeedContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.IListItemsFeedResponse<TContentItem>;
 
     viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.IViewContentTypeResponse;
 
-    viewContentItemResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    viewContentItemResponse<TContentItem extends IContentItem = IContentItem>(
         data: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.IViewContentItemResponse<TContentItem>;
 
-    listContentItemsResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    listContentItemsResponse<TContentItem extends IContentItem = IContentItem>(
         data: ItemContracts.IListContentItemsContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.IListContentItemsResponse<TContentItem>;
@@ -62,10 +61,10 @@ export class MappingService implements IMappingService {
     private readonly taxonomyMapper: TaxonomyMapper;
     private readonly genericElementMapper: GenericElementMapper;
 
-    constructor(readonly config: IDeliveryClientConfig, readonly richTextHtmlParser: IRichTextHtmlParser) {
+    constructor(readonly config: IDeliveryClientConfig) {
         this.typeMapper = new TypeMapper();
         this.languageMapper = new LanguageMapper();
-        this.itemMapper = new ItemMapper(config, richTextHtmlParser);
+        this.itemMapper = new ItemMapper(config);
         this.taxonomyMapper = new TaxonomyMapper();
         this.genericElementMapper = new GenericElementMapper();
     }
@@ -103,7 +102,7 @@ export class MappingService implements IMappingService {
         };
     }
 
-    itemsFeedResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    itemsFeedResponse<TContentItem extends IContentItem = IContentItem>(
         data: ItemContracts.IItemsFeedContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.IListItemsFeedResponse<TContentItem> {
@@ -124,7 +123,7 @@ export class MappingService implements IMappingService {
      * @param data Response data
      * @param queryConfig Query configuration
      */
-    viewContentItemResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    viewContentItemResponse<TContentItem extends IContentItem = IContentItem>(
         data: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.IViewContentItemResponse<TContentItem> {
@@ -141,7 +140,7 @@ export class MappingService implements IMappingService {
      * @param data Response data
      * @param queryConfig Query configuration
      */
-    listContentItemsResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    listContentItemsResponse<TContentItem extends IContentItem = IContentItem>(
         data: ItemContracts.IListContentItemsContract,
         queryConfig: IItemQueryConfig
     ): ItemResponses.IListContentItemsResponse<TContentItem> {

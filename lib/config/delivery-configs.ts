@@ -1,8 +1,7 @@
 import { IHeader, IHttpService, IRetryStrategyOptions } from '@kentico/kontent-core';
 
 import { ElementResolver } from '../elements';
-import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, PropertyNameResolver } from '../models';
-import { IRichTextHtmlParser } from '../parser';
+import { IProxyUrlData, IQueryConfig, PropertyNameResolver } from '../models';
 
 export interface IDeliveryClientProxyConfig {
     /**
@@ -18,13 +17,12 @@ export interface IDeliveryClientProxyConfig {
     advancedProxyUrlResolver?: (data: IProxyUrlData) => string;
 
     /**
-    * Base url used for all requests. Defaults to 'deliver.kontent.ai'
-    */
+     * Base url used for all requests. Defaults to 'deliver.kontent.ai'
+     */
     baseUrl?: string;
 }
 
 export interface IDeliveryClientConfig {
-
     /**
      * ProjectId of your Kentico Kontent project
      */
@@ -36,15 +34,15 @@ export interface IDeliveryClientConfig {
     propertyNameResolver?: PropertyNameResolver;
 
     /**
-    * Preview API key
-    */
+     * Preview API key
+     */
     previewApiKey?: string;
 
     /**
-    * Secure API key
-    * Important: Use secured API only when running on Node.JS server, otherwise
-    * your key will be visible in browsers when making requests.
-    */
+     * Secure API key
+     * Important: Use secured API only when running on Node.JS server, otherwise
+     * your key will be visible in browsers when making requests.
+     */
     secureApiKey?: string;
 
     /**
@@ -79,22 +77,17 @@ export interface IDeliveryClientConfig {
         /**
          * Element used for wrapping resolved linked item
          */
-        linkedItemWrapperTag?: string,
+        linkedItemWrapperTag?: string;
         /**
          * CSS classes applied to wrapper
          */
-        linkedItemWrapperClasses?: string[]
+        linkedItemWrapperClasses?: string[];
     };
 
     /**
      * Extra headers added to each http request
      */
     globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
-
-    /**
-     * Resolver used when content item properties would overlap. Collision resolver can be used to change property name to avoid conflicts.
-     */
-    collisionResolver?: ElementCollisionResolver;
 
     /**
      * Array of status codes that should be retried when request fails. Defaults [500].
@@ -105,11 +98,4 @@ export interface IDeliveryClientConfig {
      * Default query configuration. Can be overriden by individual queries.
      */
     defaultQueryConfig?: IQueryConfig;
-
-    /**
-     * Rich text parser adapter. When not set, default afapter for either browse or node.js is used
-     */
-    richTextParserAdapter?: IRichTextHtmlParser;
-
 }
-

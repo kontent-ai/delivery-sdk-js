@@ -17,7 +17,7 @@ import {
 export class ElementMapper {
     constructor(private readonly config: IDeliveryClientConfig) {}
 
-    mapElements<TContentItem extends IContentItem<any> = IContentItem<any>>(data: {
+    mapElements<TContentItem extends IContentItem = IContentItem>(data: {
         dataToMap: IContentItemWithRawElements;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
@@ -77,7 +77,7 @@ export class ElementMapper {
 
     private mapElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
-        item: IContentItem<any>;
+        item: IContentItem;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
@@ -115,7 +115,6 @@ export class ElementMapper {
 
             if (elementType === ElementType.RichText) {
                 return this.mapRichTextElement(
-                    data.item,
                     data.elementWrapper,
                     data.queryConfig,
                     data.processedItems,
@@ -143,7 +142,6 @@ export class ElementMapper {
     }
 
     private mapRichTextElement(
-        item: IContentItem<any>,
         elementWrapper: ElementModels.IElementWrapper,
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
@@ -151,7 +149,7 @@ export class ElementMapper {
         preparedItems: IContentItemWithRawDataContainer
     ): Elements.IRichTextElement {
         // get all linked items nested in rich text
-        const richTextLinkedItems: IContentItem<any>[] = [];
+        const richTextLinkedItems: IContentItem[] = [];
 
         const rawElement = elementWrapper.rawElement as ElementContracts.IRichTextElementContract;
 
@@ -175,27 +173,6 @@ export class ElementMapper {
                         // item was found, add it to linked items
                         richTextLinkedItems.push(existingLinkedItem);
                     } else {
-                        let throwErrorForMissingLinkedItems = false;
-
-                        // check if errors should be thrown for missing linked items
-                        if (
-                            queryConfig.throwErrorForMissingLinkedItems === false ||
-                            queryConfig.throwErrorForMissingLinkedItems === true
-                        ) {
-                            // variable is a boolean
-                            throwErrorForMissingLinkedItems = queryConfig.throwErrorForMissingLinkedItems;
-                        }
-
-                        // throw error if raw item is not available and errors are not skipped
-                        if (!preparedData) {
-                            const msg = `Mapping RichTextElement element '${rawElement.name}' failed because referenced linked item with codename '${codename}' could not be found in Delivery response.
-                            Increasing 'depth' parameter may solve this issue as it will include nested items. Alternatively you may disable 'throwErrorForMissingLinkedItems' in your query`;
-
-                            if (throwErrorForMissingLinkedItems) {
-                                throw Error(msg);
-                            }
-                        }
-
                         // item was not found or not yet resolved
                         if (preparedData) {
                             const mappedLinkedItemResult = this.mapElements({
@@ -287,7 +264,7 @@ export class ElementMapper {
 
     private mapUrlSlugElement(
         elementWrapper: ElementModels.IElementWrapper,
-        item: IContentItem<any>,
+        item: IContentItem,
         queryConfig: IItemQueryConfig
     ): Elements.IUrlSlugElement {
         return this.buildElement(elementWrapper, ElementType.UrlSlug, () => elementWrapper.rawElement.value);
@@ -301,7 +278,7 @@ export class ElementMapper {
         preparedItems: IContentItemWithRawDataContainer;
     }): Elements.ILinkedItemsElement<any> {
         // prepare linked items
-        const linkedItems: IContentItem<any>[] = [];
+        const linkedItems: IContentItem[] = [];
 
         // value = array of item codenames
         const linkedItemCodenames = data.elementWrapper.rawElement.value as string[];
@@ -338,7 +315,7 @@ export class ElementMapper {
         processedItems: IContentItemsContainer,
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
-    ): IContentItem<any> | undefined {
+    ): IContentItem | undefined {
         // first check if item was already resolved and return it if it was
         const processedItem = processedItems[codename];
 
@@ -355,23 +332,12 @@ export class ElementMapper {
 
         mappingStartedForCodenames.push(codename);
 
-        // by default errors are not thrown
-        const throwErrorForMissingLinkedItems: boolean =
-            queryConfig.throwErrorForMissingLinkedItems === true ? true : false;
-
         // throw error if item is not in response and errors are not skipped
         if (!preparedItem) {
-            if (throwErrorForMissingLinkedItems) {
-                throw Error(`Linked item with codename '${codename}' could not be found in Delivery response.
-                This linked item was requested by '${element.name}' element of '${element.type}'.
-                Error can usually be solved by increasing 'Depth' parameter of your query.
-                Alternatively, you may prevent this error by disabling 'throwErrorForMissingLinkedItems' in query configuration.`);
-            }
-
             return undefined;
         }
 
-        let mappedLinkedItem: IContentItem<any> | undefined;
+        let mappedLinkedItem: IContentItem | undefined;
 
         // original resolving if item is still undefined
         const mappedLinkedItemResult = this.mapElements({
@@ -426,7 +392,7 @@ export class ElementMapper {
     }
 
     private resolveElementMap(
-        item: IContentItem<any>,
+        item: IContentItem,
         originalElementCodename: string
     ): {
         shouldMapElement: boolean;

@@ -19,6 +19,8 @@
 - Raw data properties were removed from content items & elements to reduce size of mapped response and to avoid data duplication
 - All models now use interface instead of class and are prefixed with `I`. This is again to reduce the footprint of the SDK and simplify working with the data. 
 - `globalQueryConfig` configuration option was renamed to `defaultQueryConfig`
+- Resolving of rich text was moved outside of `RichTextElement` into dedicated resolvers. Main motivation for this change is the ability to easily resuse / change behavior of certain rich text elements and to make definition of resolver local instead of them being scattered in either global / query or model level as before.
+- The `parse5` dependency was removed and with it the `node parse` was removed. It will be available as a dedicated package on NPM. The main reason for removing this package was its size (300KB) which made this SDK rather bulky. With all the changes in this version, the Size went down from `318KB` to `89KB`. Gzipped size of this release is around `17KB`. 
 
 ## Upgrading from `5.x.y` to `6.0.0`
 

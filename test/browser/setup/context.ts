@@ -1,16 +1,9 @@
 import { DeliveryClient, IDeliveryClientConfig, IQueryConfig, PropertyNameResolver } from '../../../lib';
-import { IRichTextHtmlParser } from '../../../lib/parser/parse-models';
-import { getParserAdapter } from '../../../lib/parser/parser-adapter';
 import { IHeader, IRetryStrategyOptions } from '@kentico/kontent-core';
 
 export class Context {
 
   public deliveryClient!: DeliveryClient;
-
-  /**
-   * Use browser version of html parser when running tests in browser
-   */
-  public richTextHtmlParser?: IRichTextHtmlParser = getParserAdapter();
 
   public defaultQueryConfig?: IQueryConfig;
   public propertyNameResolver?: PropertyNameResolver;

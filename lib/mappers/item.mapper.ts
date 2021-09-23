@@ -1,22 +1,21 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
 import { IContentItem, IContentItemsContainer, IContentItemWithRawDataContainer, IContentItemWithRawElements, IItemQueryConfig } from '../models';
-import { IRichTextHtmlParser } from '../parser';
 import { ElementMapper } from './element.mapper';
 
-export interface IMapItemResult<TContentItem extends IContentItem<any> = IContentItem<any>> {
+export interface IMapItemResult<TContentItem extends IContentItem = IContentItem> {
     item: TContentItem;
     processedItems: IContentItemsContainer;
     preparedItems: IContentItemWithRawDataContainer;
     processingStartedForCodenames: string[];
 }
 
-export interface IMultipleItemsMapResult<TContentItem extends IContentItem<any> = IContentItem<any>> {
+export interface IMultipleItemsMapResult<TContentItem extends IContentItem = IContentItem> {
     items: TContentItem[];
     linkedItems: IContentItemsContainer;
 }
 
-export interface ISingleItemMapResult<TContentItem extends IContentItem<any> = IContentItem<any>> {
+export interface ISingleItemMapResult<TContentItem extends IContentItem = IContentItem> {
     item: TContentItem;
     linkedItems: IContentItemsContainer;
 }
@@ -24,7 +23,7 @@ export interface ISingleItemMapResult<TContentItem extends IContentItem<any> = I
 export class ItemMapper {
     private readonly elementMapper: ElementMapper;
 
-    constructor(readonly config: IDeliveryClientConfig, readonly richTextHtmlParser: IRichTextHtmlParser) {
+    constructor(readonly config: IDeliveryClientConfig) {
         this.elementMapper = new ElementMapper(config);
     }
 
@@ -33,7 +32,7 @@ export class ItemMapper {
      * @param response Kontent response used to map the item
      * @param queryConfig Query configuration
      */
-    mapSingleItemFromResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    mapSingleItemFromResponse<TContentItem extends IContentItem = IContentItem>(
         response: ItemContracts.IViewContentItemContract,
         queryConfig: IItemQueryConfig
     ): ISingleItemMapResult<TContentItem> {
@@ -54,7 +53,7 @@ export class ItemMapper {
      * @param response Kontent response used to map the item
      * @param queryConfig Query configuration
      */
-    mapMultipleItemsFromResponse<TContentItem extends IContentItem<any> = IContentItem<any>>(
+    mapMultipleItemsFromResponse<TContentItem extends IContentItem = IContentItem>(
         response: ItemContracts.IItemsWithModularContentContract,
         queryConfig: IItemQueryConfig
     ): IMultipleItemsMapResult<TContentItem> {
@@ -70,7 +69,7 @@ export class ItemMapper {
     /**
      * Maps item contracts to full models
      */
-    mapItems<TContentItem extends IContentItem<any> = IContentItem<any>>(data: {
+    mapItems<TContentItem extends IContentItem = IContentItem>(data: {
         mainItems: ItemContracts.IContentItemContract[];
         linkedItems: ItemContracts.IContentItemContract[];
         queryConfig: IItemQueryConfig;
@@ -125,7 +124,7 @@ export class ItemMapper {
     /**
      * Maps item contract to full model
      */
-    private mapItem<TContentItem extends IContentItem<any> = IContentItem<any>>(data: {
+    private mapItem<TContentItem extends IContentItem = IContentItem>(data: {
         item: IContentItemWithRawElements;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
@@ -155,8 +154,8 @@ export class ItemMapper {
         };
     }
 
-    private createContentItem(item: ItemContracts.IContentItemContract): IContentItem<any> {
-        const contentItem: IContentItem<any> = {
+    private createContentItem(item: ItemContracts.IContentItemContract): IContentItem {
+        const contentItem: IContentItem = {
             elements: {},
             system: {
                 codename: item.system.codename,

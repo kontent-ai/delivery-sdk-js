@@ -37,18 +37,18 @@ export interface IDeliveryClient {
     /**
      * Gets query for multiple items
      */
-    items<TContentItem extends IContentItem<any> = IContentItem<any>>(): MultipleItemsQuery<TContentItem>;
+    items<TContentItem extends IContentItem = IContentItem>(): MultipleItemsQuery<TContentItem>;
 
     /**
      * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent project.
      */
-    itemsFeed<TContentItem extends IContentItem<any> = IContentItem<any>>(): ItemsFeedQuery<TContentItem>;
+    itemsFeed<TContentItem extends IContentItem = IContentItem>(): ItemsFeedQuery<TContentItem>;
 
     /**
      * Gets query for single item
      * @param {string} codename - Codename of item to retrieve
      */
-    item<TContentItem extends IContentItem<any> = IContentItem<any>>(codename: string): SingleItemQuery<TContentItem>;
+    item<TContentItem extends IContentItem = IContentItem>(codename: string): SingleItemQuery<TContentItem>;
 
     /**
      * Gets query for multiple taxonomies

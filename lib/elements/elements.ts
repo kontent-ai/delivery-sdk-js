@@ -4,7 +4,7 @@ import { ElementModels } from './element-models';
 export namespace Elements {
     export interface ITextElement extends ElementModels.IElement<string> {}
 
-    export interface ILinkedItemsElement<TContentItem extends IContentItem<any> = IContentItem<any>> extends ElementModels.IElement<TContentItem[]> {
+    export interface ILinkedItemsElement<TContentItem extends IContentItem = IContentItem> extends ElementModels.IElement<TContentItem[]> {
         /**
          * Linked items
          */

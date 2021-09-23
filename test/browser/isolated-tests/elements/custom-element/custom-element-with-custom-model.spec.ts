@@ -13,7 +13,7 @@ interface MarkdownElementValue {
 }
 
 describe('Custom element with custom model', () => {
-    let item: IContentItem<any>;
+    let item: IContentItem;
 
     beforeAll(async () => {
         const response = await getDeliveryClientWithJson(responseJson, {

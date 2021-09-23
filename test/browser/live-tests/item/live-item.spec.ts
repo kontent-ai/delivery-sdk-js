@@ -1,4 +1,4 @@
-import { ImageUrlBuilder, ItemResponses } from '../../../../lib';
+import { ItemResponses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live item', () => {
@@ -9,20 +9,7 @@ describe('Live item', () => {
     let response: ItemResponses.IViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
-        response = (
-            await context.deliveryClient
-                .item<Movie>(movieCodename)
-                .queryConfig({
-                    richTextImageResolver: (image, elementName) => {
-                        const newImageUrl = new ImageUrlBuilder(image.url).withCustomParam('x=y').getUrl();
-
-                        return {
-                            url: newImageUrl
-                        };
-                    }
-                })
-                .toPromise()
-        ).data;
+        response = (await context.deliveryClient.item<Movie>(movieCodename).queryConfig({}).toPromise()).data;
     });
 
     it(`item response should be defined`, () => {

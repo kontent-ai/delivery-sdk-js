@@ -30,7 +30,7 @@ describe('Property resolver', () => {
                 propertyNameResolver: propertyResolver,
                 projectId: 'X'
             })
-                .item('x')
+                .item<MockMovie>('x')
                 .toPromise()
         ).data;
     });

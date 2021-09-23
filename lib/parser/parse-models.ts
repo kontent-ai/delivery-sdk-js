@@ -1,4 +1,4 @@
-import { IItemQueryConfig, IUrlSlugResolverResult, IRichTextImageResolverResult, RichTextItemDataType, ContentItemType } from '../models';
+import { ContentItemType } from '../models';
 
 /**
  * This class as a wrapper is required so we can pass
@@ -12,31 +12,12 @@ import { IItemQueryConfig, IUrlSlugResolverResult, IRichTextImageResolverResult,
     }
 }
 
-export interface IRichTextHtmlParser {
-    resolveRichTextElement(contentItemCodename: string, html: string, elementName: string, replacement: IRichTextReplacements, config: IHtmlResolverConfig): IRichTextResolverResult;
-}
-
 export interface IFeaturedObjects {
     links: ILinkObject[];
     linkedItems: ILinkedItemContentObject[];
     images: IImageObject[];
 }
 
-export interface IRichTextResolverResult extends IFeaturedObjects {
-    resolvedHtml: string;
-}
-
-export interface IRichTextReplacements {
-    getLinkedItemHtml: (itemCodename: string, itemType: RichTextItemDataType) => string;
-    getUrlSlugResult: (itemId: string, linkText: string) => IUrlSlugResolverResult;
-    getImageResult: (linkedItemCodename: string, imageId: string, elementName: string) => IRichTextImageResolverResult;
-}
-
-export interface IHtmlResolverConfig {
-    queryConfig: IItemQueryConfig;
-    linkedItemWrapperTag: string;
-    linkedItemWrapperClasses: string[];
-}
 
 export interface ILinkedItemContentObject {
     dataType: string;

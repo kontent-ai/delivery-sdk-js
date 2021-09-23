@@ -3,7 +3,7 @@ import { getDeliveryClientWithJson } from '../../../setup';
 import * as responseJson from './unknown-element.spec.json';
 
 describe('Unknown element', () => {
-    let item: IContentItem<any>;
+    let item: IContentItem;
 
     beforeAll(async () => {
         const response = (await getDeliveryClientWithJson(responseJson).items().toPromise()).data;

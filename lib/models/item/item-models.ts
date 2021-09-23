@@ -1,9 +1,8 @@
 import { ItemContracts } from '../../data-contracts/item-contracts';
 import { IQueryConfig } from '../common/common-models';
-import { ItemUrlSlugResolver, ItemRichTextResolver, RichTextImageResolver } from './item-resolvers';
 import { ElementModels } from '../../elements/element-models';
 
-export interface IMapElementsResult<TContentItem extends IContentItem<any> = IContentItem<any>> {
+export interface IMapElementsResult<TContentItem extends IContentItem = IContentItem> {
     item: TContentItem;
     processedItems: IContentItemsContainer;
     preparedItems: IContentItemWithRawDataContainer;
@@ -71,7 +70,7 @@ export interface IContentItemElements {
     [key: string]: ContentItemElementsIndexer;
 }
 
-export interface IContentItem<TElements extends IContentItemElements> {
+export interface IContentItem<TElements extends IContentItemElements = IContentItemElements> {
     /**
      * Elements of the content item
      */
@@ -106,7 +105,7 @@ export interface ILink {
 }
 
 export interface IContentItemWithRawElements {
-    item: IContentItem<any>;
+    item: IContentItem;
     rawItem: ItemContracts.IContentItemContract;
 }
 
@@ -115,7 +114,7 @@ export interface IContentItemWithRawDataContainer {
 }
 
 export interface IContentItemsContainer {
-    [key: string]: IContentItem<any>;
+    [key: string]: IContentItem;
 }
 
 export interface IRichTextImage {
@@ -126,47 +125,6 @@ export interface IRichTextImage {
     height?: number;
 }
 
-export interface ITypeResolverData {
-    item: ItemContracts.IContentItemContract;
-}
+export interface IItemQueryConfig extends IQueryConfig {}
 
-export interface IItemQueryConfig extends IQueryConfig {
-    throwErrorForMissingLinkedItems?: boolean;
-    urlSlugResolver?: ItemUrlSlugResolver;
-    richTextResolver?: ItemRichTextResolver;
-    richTextImageResolver?: RichTextImageResolver;
-}
-
-export interface IUrlSlugResolverContext {
-    /**
-     * Original link text (available only for links in rich text element)
-     */
-    linkText?: string;
-
-    /**
-     * Content item if available
-     */
-    item?: IContentItem<any>;
-
-    /**
-     * Link id (equal to `contentItem` id). Available only for links inside `richTextElement`
-     */
-    linkId?: string;
-}
-
-export interface IUrlSlugResolverResult {
-    html?: string;
-    url?: string;
-}
-
-export interface IRichTextResolverContext {
-    contentType: RichTextItemDataType;
-}
-
-export interface IRichTextImageResolverResult {
-    url: string;
-}
-
-export enum RichTextItemDataType {
-    Item = 'item'
-}
+export type PropertyNameResolver = (contentTypeCodename: string, elementCodename: string) => string;

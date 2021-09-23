@@ -10,7 +10,7 @@ import {
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class MultipleItemsQuery<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseListingQuery<
+export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem> extends BaseListingQuery<
     ItemResponses.IListContentItemsResponse<TContentItem>,
     ItemResponses.IListContentItemsAllResponse<TContentItem>,
     IItemQueryConfig

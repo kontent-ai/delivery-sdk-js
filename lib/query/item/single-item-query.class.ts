@@ -3,7 +3,7 @@ import { IContentItem, IItemQueryConfig, IKontentNetworkResponse, ItemResponses,
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export class SingleItemQuery<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseQuery<
+export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> extends BaseQuery<
     ItemResponses.IViewContentItemResponse<TContentItem>,
     IItemQueryConfig
 > {

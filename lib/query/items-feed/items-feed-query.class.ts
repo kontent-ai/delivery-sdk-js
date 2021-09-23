@@ -3,7 +3,7 @@ import { Filters, IContentItem, IItemQueryConfig, IKontentNetworkResponse, ItemR
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class ItemsFeedQuery<TContentItem extends IContentItem<any> = IContentItem<any>> extends BaseListingQuery<
+export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> extends BaseListingQuery<
     ItemResponses.IListItemsFeedResponse<TContentItem>,
     ItemResponses.IListItemsFeedAllResponse<TContentItem>,
     IItemQueryConfig
