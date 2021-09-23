@@ -1,5 +1,5 @@
 import { IContentItem, ElementType, Elements } from '../../../../../lib';
-import { getDeliveryClientWithJson } from '../../setup';
+import { getDeliveryClientWithJson } from '../../../setup';
 import * as responseJson from './custom-element.spec.json';
 
 interface ColorElementValue {

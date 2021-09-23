@@ -1,6 +1,6 @@
 import { LanguageResponses } from '../../../../../lib';
 import { Context, setup } from '../../../setup';
-import { getDeliveryClientWithJson } from '../../setup';
+import { getDeliveryClientWithJson } from '../../../setup';
 import * as responseJson from './list-languages.spec.json';
 
 describe('List languages', () => {

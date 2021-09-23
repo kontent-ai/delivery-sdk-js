@@ -1,5 +1,5 @@
-import { ItemResponses, Elements } from '../../../../lib';
-import { getDeliveryClientWithJson } from '../setup';
+import { getDeliveryClientWithJson } from '../../../setup';
+import { ItemResponses, Elements } from '../../../../../lib';
 import * as responseJson from './circular-referenced-linked-items-mapping.spec.json';
 
 describe('Circular references in linked items', () => {

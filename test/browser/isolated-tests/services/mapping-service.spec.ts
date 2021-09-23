@@ -1,5 +1,5 @@
 import { ItemResponses } from '../../../../lib';
-import { getTestDeliveryClient } from '../setup';
+import { getTestDeliveryClient } from '../../setup';
 import * as responseJson from './mapping-service.spec.json';
 
 describe('Mapping service', () => {

@@ -1,6 +1,7 @@
 import { IHeader, IResponse, TestHttpService } from '@kentico/kontent-core';
+import { defaultPropertyNameResolver } from '.';
 
-import { DeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../../../lib';
+import { DeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../../lib';
 
 const testProjectId: string = 'delivery-project-id';
 
@@ -9,6 +10,7 @@ export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDelivery
         config
             ? config
             : {
+                  propertyNameResolver: defaultPropertyNameResolver,
                   projectId: testProjectId
               }
     );
@@ -17,6 +19,7 @@ export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDelivery
 export function getDeliveryClientWithError(errorJson: any): DeliveryClient {
     return new DeliveryClient({
         projectId: testProjectId,
+        propertyNameResolver: defaultPropertyNameResolver,
         httpService: new TestHttpService({
             response: undefined,
             error: errorJson
@@ -24,17 +27,26 @@ export function getDeliveryClientWithError(errorJson: any): DeliveryClient {
     });
 }
 
-export function getDeliveryClientWithJson(json: any, config?: IDeliveryClientConfig, responseHeaders: IHeader[] = []): DeliveryClient {
+export function getDeliveryClientWithJson(
+    json: any,
+    config?: IDeliveryClientConfig,
+    responseHeaders: IHeader[] = []
+): DeliveryClient {
     return getDeliveryClientWithJsonAndHeaders(json, config, responseHeaders);
 }
 
-export function getDeliveryClientWithJsonAndHeaders(json: any, config?: IDeliveryClientConfig, responseHeaders: IHeader[] = []): DeliveryClient {
+export function getDeliveryClientWithJsonAndHeaders(
+    json: any,
+    config?: IDeliveryClientConfig,
+    responseHeaders: IHeader[] = []
+): DeliveryClient {
     if (!config) {
         return new DeliveryClient({
             projectId: testProjectId,
+            propertyNameResolver: defaultPropertyNameResolver,
             httpService: new TestHttpService({
                 response: getResponseFromJson(json, responseHeaders),
-                error: undefined,
+                error: undefined
             })
         });
     }

@@ -1,24 +1,15 @@
-import { HttpService } from '@kentico/kontent-core';
 
-import { ItemResponses, sdkInfo } from '../../../../lib';
-import { Context, MockQueryService, Movie, setup } from '../../setup';
+import { ItemResponses } from '../../../../lib';
+import { getDeliveryClientWithJson, Movie } from '../../setup';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 describe('Verifies mapping of delivery content item', () => {
-    const context = new Context();
-    setup(context);
-
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
-        host: sdkInfo.host,
-        name: sdkInfo.name,
-        version: sdkInfo.version
-    });
 
     let response: ItemResponses.IViewContentItemResponse<Movie>;
 
-    beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<Movie>(warriorJson, {});
-        done();
+    beforeAll(async () => {
+
+        response = await (await getDeliveryClientWithJson(warriorJson).item('x').toPromise()).data;
     });
 
     it(`checks system codename`, () => {
@@ -97,6 +88,7 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks that text element in second linked item is set`, () => {
+        console.log(response);
         expect(
             response.item.elements.stars.linkedItems.find(
                 (m) => m.elements.firstName.value === warriorJson.modular_content.tom_hardy.elements.first_name.value

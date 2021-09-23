@@ -8,7 +8,7 @@ const defaultPreviewApiKey = 'ew0KICAiYWxnIjogIkhTMjU2IiwNCiAgInR5cCI6ICJKV1QiDQ
 
 const defaultSecuredApiKey = 'securedApiKey';
 
-const defaultPropertyNameResolver: PropertyNameResolver = (type, element) => {
+export const defaultPropertyNameResolver: PropertyNameResolver = (type, element) => {
     if (type === 'actor') {
         if (element === 'first_name') {
             return 'firstName';

@@ -1,6 +1,5 @@
-import {  Elements, IContentItem, ItemResponses, sdkInfo } from '../../../../lib';
-import { Context, MockQueryService, setup } from '../../setup';
-import { HttpService } from '@kentico/kontent-core';
+import { getDeliveryClientWithJson } from '../../setup';
+import { Elements, IContentItem, ItemResponses, PropertyNameResolver } from '../../../../lib';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 type MockMovie = IContentItem<{
@@ -10,9 +9,7 @@ type MockMovie = IContentItem<{
 }>;
 
 describe('Property resolver', () => {
-    const context = new Context();
-
-    context.propertyNameResolver = (contentType, element) => {
+    const propertyResolver: PropertyNameResolver = (contentType, element) => {
         if (element === 'title') {
             return 'titleTest';
         }
@@ -24,20 +21,18 @@ describe('Property resolver', () => {
         }
         return element;
     };
-    setup(context);
-
-    // mock query service
-    const mockQueryService = new MockQueryService(context.getConfig(), new HttpService(), {
-        host: sdkInfo.host,
-        name: sdkInfo.name,
-        version: sdkInfo.version
-    });
 
     let response: ItemResponses.IViewContentItemResponse<MockMovie>;
 
-    beforeAll((done) => {
-        response = mockQueryService.mockGetSingleItem<MockMovie>(warriorJson, {});
-        done();
+    beforeAll(async () => {
+        response = await (
+            await getDeliveryClientWithJson(warriorJson, {
+                propertyNameResolver: propertyResolver,
+                projectId: 'X'
+            })
+                .item('x')
+                .toPromise()
+        ).data;
     });
 
     it(`checks element is assigned #1`, () => {

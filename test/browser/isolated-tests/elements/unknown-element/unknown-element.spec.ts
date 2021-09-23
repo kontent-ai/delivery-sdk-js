@@ -1,5 +1,5 @@
 import { Elements, ElementType, IContentItem } from '../../../../../lib';
-import { getDeliveryClientWithJson } from '../../setup';
+import { getDeliveryClientWithJson } from '../../../setup';
 import * as responseJson from './unknown-element.spec.json';
 
 describe('Unknown element', () => {

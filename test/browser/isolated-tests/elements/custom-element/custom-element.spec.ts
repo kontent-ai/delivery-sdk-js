@@ -1,5 +1,5 @@
 import { IContentItem, Elements, ElementType } from '../../../../../lib';
-import { getDeliveryClientWithJson } from '../../setup';
+import { getDeliveryClientWithJson } from '../../../setup';
 import * as responseJson from './custom-element.spec.json';
 
 describe('Custom element', () => {

@@ -2,7 +2,7 @@ import { IQueryParameter } from '@kentico/kontent-core';
 
 import { ItemResponses } from '../../../../../lib';
 import { Context, setup } from '../../../setup';
-import { getDeliveryClientWithJson } from '../../setup';
+import { getDeliveryClientWithJson } from '../../../setup';
 import * as responseJson from './items-list-response.spec.json';
 
 describe('Items list response', () => {

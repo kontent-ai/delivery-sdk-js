@@ -1,6 +1,6 @@
 import { IKontentNetworkResponse, ItemResponses } from '../../../../../lib';
 import { Actor, Context, Movie, setup } from '../../../setup';
-import { getDeliveryClientWithJsonAndHeaders } from '../../setup';
+import { getDeliveryClientWithJsonAndHeaders } from '../../../setup';
 import * as responseJson from './items-feed.spec.json';
 
 describe('Items feed', () => {
