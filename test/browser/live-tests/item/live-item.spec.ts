@@ -89,13 +89,6 @@ describe('Live item', () => {
         expect(response.item.elements.stars.linkedItems[0].elements.firstName.value).toEqual('Tom');
     });
 
-    it(`debug property should be defiend and filled with debug data`, () => {
-        expect(response.item._raw).toBeDefined();
-        expect(response.item._raw.elements).toBeDefined();
-
-        expect(response.item._raw.elements.title.value).toEqual(response.item.elements.title.value);
-    });
-
     it(`images should be mapped in plot rich text element`, () => {
         const images = response.item.elements.plot.images;
 

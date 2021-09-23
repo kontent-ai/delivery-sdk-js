@@ -20,14 +20,6 @@ describe('Live items feed', () => {
         for (const item of response.data.items) {
             expect(item.system).toBeDefined();
             expect(item.elements).toBeDefined();
-            expect(item._raw).toBeDefined();
         }
-    });
-
-    it(`debug property should be set for all items`, () => {
-        response.data.items.forEach((item) => {
-            expect(item._raw).toBeDefined();
-            expect(item._raw.elements).toBeDefined();
-        });
     });
 });

@@ -1,13 +1,13 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { IContentItem, IContentItemsContainer, IItemQueryConfig } from '../models';
+import { IContentItem, IContentItemsContainer, IContentItemWithRawDataContainer, IContentItemWithRawElements, IItemQueryConfig } from '../models';
 import { IRichTextHtmlParser } from '../parser';
 import { ElementMapper } from './element.mapper';
 
 export interface IMapItemResult<TContentItem extends IContentItem<any> = IContentItem<any>> {
     item: TContentItem;
     processedItems: IContentItemsContainer;
-    preparedItems: IContentItemsContainer;
+    preparedItems: IContentItemWithRawDataContainer;
     processingStartedForCodenames: string[];
 }
 
@@ -77,7 +77,7 @@ export class ItemMapper {
     }): IMultipleItemsMapResult<TContentItem> {
         const that = this;
         const processedItems: IContentItemsContainer = {};
-        const preparedItems: IContentItemsContainer = {};
+        const preparedItems: IContentItemWithRawDataContainer = {};
         const processingStartedForCodenames: string[] = [];
         const mappedMainItems: TContentItem[] = [];
         const mappedLinkedItems: IContentItemsContainer = {};
@@ -85,13 +85,16 @@ export class ItemMapper {
 
         // first prepare reference for all items
         for (const item of itemsToResolve) {
-            preparedItems[item.system.codename] = this.createContentItem(item);
+            preparedItems[item.system.codename] = {
+                item: this.createContentItem(item),
+                rawItem: item
+            };
         }
 
         // then resolve items
         for (const item of data.mainItems) {
             const itemResult = that.mapItem<TContentItem>({
-                item: item,
+                item: preparedItems[item.system.codename],
                 processedItems: processedItems,
                 queryConfig: data.queryConfig,
                 preparedItems: preparedItems,
@@ -103,7 +106,7 @@ export class ItemMapper {
 
         for (const item of data.linkedItems) {
             const itemResult = that.mapItem<TContentItem>({
-                item: item,
+                item: preparedItems[item.system.codename],
                 processedItems: processedItems,
                 queryConfig: data.queryConfig,
                 preparedItems: preparedItems,
@@ -123,18 +126,18 @@ export class ItemMapper {
      * Maps item contract to full model
      */
     private mapItem<TContentItem extends IContentItem<any> = IContentItem<any>>(data: {
-        item: ItemContracts.IContentItemContract;
+        item: IContentItemWithRawElements;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
-        preparedItems: IContentItemsContainer;
+        preparedItems: IContentItemWithRawDataContainer;
     }): IMapItemResult<TContentItem> {
         if (!data.item) {
             throw Error(`Could not map item because its undefined`);
         }
 
         const result = this.elementMapper.mapElements<TContentItem>({
-            item: data.item,
+            dataToMap: data.item,
             preparedItems: data.preparedItems,
             processingStartedForCodenames: [],
             processedItems: data.processedItems,
@@ -142,7 +145,7 @@ export class ItemMapper {
         });
 
         if (!result) {
-            throw Error(`Mapping of content item '${data.item.system.codename}' failed`);
+            throw Error(`Mapping of content item '${data.item.item.system.codename}' failed`);
         }
         return {
             item: result.item,
@@ -154,7 +157,6 @@ export class ItemMapper {
 
     private createContentItem(item: ItemContracts.IContentItemContract): IContentItem<any> {
         const contentItem: IContentItem<any> = {
-            _raw: item,
             elements: {},
             system: {
                 codename: item.system.codename,

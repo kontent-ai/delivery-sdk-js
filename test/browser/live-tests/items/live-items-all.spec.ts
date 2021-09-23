@@ -40,11 +40,4 @@ describe('Live items all', () => {
             expect(innerResponse.data).toBeDefined();
         }
     });
-
-    it(`debug property should be set for all items`, () => {
-        response.items.forEach((item) => {
-            expect(item._raw).toBeDefined();
-            expect(item._raw.elements).toBeDefined();
-        });
-    });
 });

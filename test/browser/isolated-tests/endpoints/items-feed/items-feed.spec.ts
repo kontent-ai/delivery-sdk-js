@@ -39,12 +39,4 @@ describe('Items feed', () => {
         expect(response.xContinuationToken).toEqual('TokenX');
     });
 
-
-    it(`Debug property should be set for all items`, () => {
-        response.data.items.forEach((item) => {
-            expect(item._raw).toBeDefined();
-            expect(item._raw.elements).toBeDefined();
-        });
-    });
-
 });

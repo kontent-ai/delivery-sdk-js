@@ -1,7 +1,7 @@
 import { enumHelper } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
-import { ElementContracts, ItemContracts } from '../data-contracts';
+import { ElementContracts } from '../data-contracts';
 import { ElementModels, Elements, ElementType } from '../elements';
 import {
     IContentItem,
@@ -9,21 +9,23 @@ import {
     IItemQueryConfig,
     IMapElementsResult,
     ILink,
-    IRichTextImage
+    IRichTextImage,
+    IContentItemWithRawDataContainer,
+    IContentItemWithRawElements
 } from '../models';
 
 export class ElementMapper {
     constructor(private readonly config: IDeliveryClientConfig) {}
 
     mapElements<TContentItem extends IContentItem<any> = IContentItem<any>>(data: {
-        item: ItemContracts.IContentItemContract;
+        dataToMap: IContentItemWithRawElements;
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
-        preparedItems: IContentItemsContainer;
+        preparedItems: IContentItemWithRawDataContainer;
     }): IMapElementsResult<TContentItem> | undefined {
         // return processed item if possible (to avoid infinite recursion)
-        const processedItem = data.processedItems[data.item.system.codename] as TContentItem;
+        const processedItem = data.processedItems[data.dataToMap.item.system.codename] as TContentItem;
         if (processedItem) {
             // item was already resolved, return it
             return {
@@ -34,8 +36,9 @@ export class ElementMapper {
             };
         }
 
-        const elementCodenames = Object.getOwnPropertyNames(data.item.elements);
-        const itemInstance = data.preparedItems[data.item.system.codename] as TContentItem;
+        const elementCodenames = Object.getOwnPropertyNames(data.dataToMap.rawItem.elements);
+        const preparedItem = data.preparedItems[data.dataToMap.item.system.codename];
+        const itemInstance = preparedItem?.item as TContentItem;
 
         if (!itemInstance) {
             // item is not present in response, no need to do any mapping
@@ -45,8 +48,8 @@ export class ElementMapper {
         elementCodenames.forEach((elementCodename) => {
             const elementMap = this.resolveElementMap(itemInstance, elementCodename);
             const elementWrapper: ElementModels.IElementWrapper = {
-                system: data.item.system,
-                rawElement: data.item.elements[elementCodename],
+                system: data.dataToMap.item.system,
+                rawElement: data.dataToMap.rawItem.elements[elementCodename],
                 element: elementMap.resolvedName
             };
             if (elementMap.shouldMapElement) {
@@ -78,7 +81,7 @@ export class ElementMapper {
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
-        preparedItems: IContentItemsContainer;
+        preparedItems: IContentItemWithRawDataContainer;
     }): ElementModels.IElement<any> {
         const elementType = enumHelper.getEnumFromValue<ElementType>(ElementType, data.elementWrapper.rawElement.type);
         if (elementType) {
@@ -145,7 +148,7 @@ export class ElementMapper {
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         processingStartedForCodenames: string[],
-        preparedItems: IContentItemsContainer
+        preparedItems: IContentItemWithRawDataContainer
     ): Elements.IRichTextElement {
         // get all linked items nested in rich text
         const richTextLinkedItems: IContentItem<any>[] = [];
@@ -156,7 +159,7 @@ export class ElementMapper {
             if (Array.isArray(rawElement.modular_content)) {
                 rawElement.modular_content.forEach((codename) => {
                     // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
-                    const preparedItem = preparedItems[codename];
+                    const preparedData = preparedItems[codename];
 
                     // first try to get existing item
                     const existingLinkedItem = this.getOrSaveLinkedItemForElement(
@@ -184,7 +187,7 @@ export class ElementMapper {
                         }
 
                         // throw error if raw item is not available and errors are not skipped
-                        if (!preparedItem) {
+                        if (!preparedData) {
                             const msg = `Mapping RichTextElement element '${rawElement.name}' failed because referenced linked item with codename '${codename}' could not be found in Delivery response.
                             Increasing 'depth' parameter may solve this issue as it will include nested items. Alternatively you may disable 'throwErrorForMissingLinkedItems' in your query`;
 
@@ -194,9 +197,9 @@ export class ElementMapper {
                         }
 
                         // item was not found or not yet resolved
-                        if (preparedItem) {
+                        if (preparedData) {
                             const mappedLinkedItemResult = this.mapElements({
-                                item: preparedItem._raw,
+                                dataToMap: preparedData,
                                 preparedItems: preparedItems,
                                 processingStartedForCodenames: processingStartedForCodenames,
                                 processedItems: processedItems,
@@ -222,7 +225,6 @@ export class ElementMapper {
             linkedItemCodenames: rawElement.modular_content,
             links: links,
             name: rawElement.name,
-            rawData: rawElement,
             type: ElementType.RichText,
             value: rawElement.value
         };
@@ -296,7 +298,7 @@ export class ElementMapper {
         queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
-        preparedItems: IContentItemsContainer;
+        preparedItems: IContentItemWithRawDataContainer;
     }): Elements.ILinkedItemsElement<any> {
         // prepare linked items
         const linkedItems: IContentItem<any>[] = [];
@@ -340,7 +342,7 @@ export class ElementMapper {
         queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         mappingStartedForCodenames: string[],
-        preparedItems: IContentItemsContainer
+        preparedItems: IContentItemWithRawDataContainer
     ): IContentItem<any> | undefined {
         // first check if item was already resolved and return it if it was
         const processedItem = processedItems[codename];
@@ -353,7 +355,7 @@ export class ElementMapper {
         const preparedItem = preparedItems[codename];
 
         if (mappingStartedForCodenames.includes(codename)) {
-            return preparedItem;
+            return preparedItem?.item;
         }
 
         mappingStartedForCodenames.push(codename);
@@ -378,7 +380,7 @@ export class ElementMapper {
 
         // original resolving if item is still undefined
         const mappedLinkedItemResult = this.mapElements({
-            item: preparedItem._raw,
+            dataToMap: preparedItem,
             preparedItems: preparedItems,
             processingStartedForCodenames: mappingStartedForCodenames,
             processedItems: processedItems,
@@ -459,7 +461,6 @@ export class ElementMapper {
     ): ElementModels.IElement<TValue> {
         return {
             name: elementWrapper.rawElement.name,
-            rawData: elementWrapper.rawElement,
             type: type,
             value: valueFactory()
         };

@@ -1,4 +1,5 @@
-import { ElementContracts, ItemContracts } from '../data-contracts';
+import { IContentItemSystemAttributes } from '../models/item/item-models';
+import { ElementContracts } from '../data-contracts';
 import { ElementType } from './element-type';
 
 export namespace ElementModels {
@@ -10,7 +11,7 @@ export namespace ElementModels {
 
     export interface IElementWrapper {
         element: string;
-        system: ItemContracts.IContentItemSystemAttributesContract;
+        system: IContentItemSystemAttributes;
         rawElement: ElementContracts.IElementContract;
     }
 
@@ -29,11 +30,6 @@ export namespace ElementModels {
          * Element value
          */
         value: TValue;
-
-        /**
-         * Raw data
-         */
-        rawData: ElementContracts.IElementContract;
     }
 
     export interface AssetModel {

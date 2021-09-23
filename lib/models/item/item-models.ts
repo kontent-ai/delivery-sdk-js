@@ -6,7 +6,7 @@ import { ElementModels } from '../../elements/element-models';
 export interface IMapElementsResult<TContentItem extends IContentItem<any> = IContentItem<any>> {
     item: TContentItem;
     processedItems: IContentItemsContainer;
-    preparedItems: IContentItemsContainer;
+    preparedItems: IContentItemWithRawDataContainer;
     processingStartedForCodenames: string[];
 }
 
@@ -81,11 +81,6 @@ export interface IContentItem<TElements extends IContentItemElements> {
      * System data of the content item
      */
     system: IContentItemSystemAttributes;
-
-    /**
-     * Debug data of the item
-     */
-    _raw: ItemContracts.IContentItemContract;
 }
 
 export interface ILink {
@@ -108,6 +103,15 @@ export interface ILink {
      * Url slug defined for the content item
      */
     urlSlug: string;
+}
+
+export interface IContentItemWithRawElements {
+    item: IContentItem<any>;
+    rawItem: ItemContracts.IContentItemContract;
+}
+
+export interface IContentItemWithRawDataContainer {
+    [key: string]: IContentItemWithRawElements;
 }
 
 export interface IContentItemsContainer {
