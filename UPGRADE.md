@@ -16,6 +16,8 @@
 - Elements for all content items were moved into `elements` property within the content item. Previously the elements were added directly to the content item. 
 - Property mapping with decorators metadata was removed to further reduce size of the library and reduce number of dependencies
 - `ItemResolver` was removed
+- Raw data properties were removed from content items & elements to reduce size of mapped response and to avoid data duplication
+- All models now use interface instead of class and are prefixed with `I`. This is again to reduce the footprint of the SDK and simplify working with the data. 
 
 ## Upgrading from `5.x.y` to `6.0.0`
 
