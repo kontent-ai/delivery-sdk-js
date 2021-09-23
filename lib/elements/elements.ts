@@ -6,11 +6,6 @@ export namespace Elements {
 
     export interface ILinkedItemsElement<TContentItem extends IContentItem<any> = IContentItem<any>> extends ElementModels.IElement<TContentItem[]> {
         /**
-         * Array of linked item codenames
-         */
-        itemCodenames: string[];
-
-        /**
          * Linked items
          */
         linkedItems: TContentItem[];

@@ -326,13 +326,8 @@ export class ElementMapper {
         });
 
         return {
-            ...this.buildElement(
-                data.elementWrapper,
-                ElementType.ModularContent,
-                () => data.elementWrapper.rawElement.value
-            ),
-            linkedItems: linkedItems,
-            itemCodenames: linkedItemCodenames
+            ...this.buildElement(data.elementWrapper, ElementType.ModularContent, () => linkedItemCodenames),
+            linkedItems: linkedItems
         };
     }
 
