@@ -488,7 +488,7 @@ import { DeliveryClient } from '@kentico/kontent-delivery';
 const deliveryClient = new DeliveryClient({
   projectId = '<YOUR_PROJECT_ID>';
   previewApiKey: '<YOUR_PREVIEW_API_KEY>',
-  globalQueryConfig: {
+  defaultQueryConfig: {
     // Ensures that Preview API is used
     usePreviewMode: true
   }
@@ -517,7 +517,7 @@ import { DeliveryClient } from '@kentico/kontent-delivery';
 const deliveryClient = new DeliveryClient({
   projectId = '<YOUR_PROJECT_ID>';
   secureApiKey: '<YOUR_SECURE_ACCESS_KEY>',
-    globalQueryConfig: {
+    defaultQueryConfig: {
       // Enabled secure access for all queries
       useSecuredMode: true
   }
@@ -833,7 +833,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | defaultLanguage?| string| Sets default language that will be used for all queries unless overriden with query parameters|
 | proxy?| IDeliveryClientProxyConfig | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'projectId' |
 | secureApiKey?| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
-| globalQueryConfig? | IQueryConfig | Default configuration for all queries. Can be overriden by indidividual queries
+| defaultQueryConfig? | IQueryConfig | Default configuration for all queries. Can be overriden by indidividual queries
 | retryAttempts?| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
 | linkedItemResolver.linkedItemWrapperTag? | string | HTML tag used to wrap resolved linked items in Rich text elements (defaults to 'div') |
 | linkedItemResolver.linkedItemWrapperClasses? | string[] | Array of classes added to linked item wrapper. Defaults to a single class 'kc-linked-item-wrapper' |

@@ -2,9 +2,9 @@ import { Context, setup } from '../../setup';
 
 describe('Wait for loading new content header', () => {
 
-    it(`globalQueryConfig header should be present in headers`, () => {
+    it(`defaultQueryConfig header should be present in headers`, () => {
         const context = new Context({
-            globalQueryConfig: {
+            defaultQueryConfig: {
                 waitForLoadingNewContent: true
             }
         });
@@ -15,9 +15,9 @@ describe('Wait for loading new content header', () => {
         expect(waitForLoadingNewContentHeader).toBeDefined();
     });
 
-    it(`globalQueryConfig header should not be present in headers`, () => {
+    it(`defaultQueryConfig header should not be present in headers`, () => {
         const context = new Context({
-            globalQueryConfig: {
+            defaultQueryConfig: {
                 waitForLoadingNewContent: false
             }
         });
@@ -28,9 +28,9 @@ describe('Wait for loading new content header', () => {
         expect(waitForLoadingNewContentHeader).toBeUndefined();
     });
 
-    it(`globalQueryConfig header should be present in headers`, () => {
+    it(`defaultQueryConfig header should be present in headers`, () => {
         const context = new Context({
-            globalQueryConfig: {
+            defaultQueryConfig: {
                 waitForLoadingNewContent: false
             }
         });
@@ -41,9 +41,9 @@ describe('Wait for loading new content header', () => {
         expect(waitForLoadingNewContentHeader).toBeDefined();
     });
 
-    it(`globalQueryConfig header should not be present in headers`, () => {
+    it(`defaultQueryConfig header should not be present in headers`, () => {
         const context = new Context({
-            globalQueryConfig: {
+            defaultQueryConfig: {
                 waitForLoadingNewContent: true
             }
         });

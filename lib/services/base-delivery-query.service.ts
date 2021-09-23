@@ -176,11 +176,11 @@ export abstract class BaseDeliveryQueryService {
             return queryConfig.usePreviewMode;
         }
 
-        if (!this.config.globalQueryConfig) {
+        if (!this.config.defaultQueryConfig) {
             return false;
         }
 
-        if (this.config.globalQueryConfig.usePreviewMode === true) {
+        if (this.config.defaultQueryConfig.usePreviewMode === true) {
             return true;
         }
 
@@ -192,10 +192,10 @@ export abstract class BaseDeliveryQueryService {
             return queryConfig.customHeaders;
         }
 
-        if (!this.config.globalQueryConfig || !this.config.globalQueryConfig.customHeaders) {
+        if (!this.config.defaultQueryConfig || !this.config.defaultQueryConfig.customHeaders) {
             return [];
         }
-        return this.config.globalQueryConfig.customHeaders;
+        return this.config.defaultQueryConfig.customHeaders;
     }
 
     private shouldAddWaitForLoadingNewContentHeader(queryConfig: IQueryConfig): boolean {
@@ -203,11 +203,11 @@ export abstract class BaseDeliveryQueryService {
             return queryConfig.waitForLoadingNewContent;
         }
 
-        if (!this.config.globalQueryConfig) {
+        if (!this.config.defaultQueryConfig) {
             return false;
         }
 
-        if (this.config.globalQueryConfig.waitForLoadingNewContent === true) {
+        if (this.config.defaultQueryConfig.waitForLoadingNewContent === true) {
             return true;
         }
 
@@ -223,11 +223,11 @@ export abstract class BaseDeliveryQueryService {
             return queryConfig.useSecuredMode;
         }
 
-        if (!this.config.globalQueryConfig) {
+        if (!this.config.defaultQueryConfig) {
             return false;
         }
 
-        if (this.config.globalQueryConfig.useSecuredMode === true) {
+        if (this.config.defaultQueryConfig.useSecuredMode === true) {
             return true;
         }
 

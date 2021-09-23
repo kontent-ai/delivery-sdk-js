@@ -3,7 +3,7 @@ import { Context, setup } from '../../setup';
 describe('Preview URL', () => {
 
     const context = new Context({
-        globalQueryConfig: {
+        defaultQueryConfig: {
             usePreviewMode: true
         }
     });

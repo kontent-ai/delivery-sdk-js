@@ -33,7 +33,7 @@ describe('Base URL', () => {
 
   it(`custom preview URL should be used'`, () => {
     const previewUrl = 'http://custompreview.com';
-    const contextCustom = new Context({basePreviewUrl: previewUrl, globalQueryConfig: { usePreviewMode: true}});
+    const contextCustom = new Context({basePreviewUrl: previewUrl, defaultQueryConfig: { usePreviewMode: true}});
     setup(contextCustom);
     expect(contextCustom.deliveryClient.items().getUrl()).toContain(previewUrl);
   });

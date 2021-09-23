@@ -104,7 +104,7 @@ export interface IDeliveryClientConfig {
     /**
      * Default query configuration. Can be overriden by individual queries.
      */
-    globalQueryConfig?: IQueryConfig;
+    defaultQueryConfig?: IQueryConfig;
 
     /**
      * Rich text parser adapter. When not set, default afapter for either browse or node.js is used

@@ -18,16 +18,17 @@
 - `ItemResolver` was removed
 - Raw data properties were removed from content items & elements to reduce size of mapped response and to avoid data duplication
 - All models now use interface instead of class and are prefixed with `I`. This is again to reduce the footprint of the SDK and simplify working with the data. 
+- `globalQueryConfig` configuration option was renamed to `defaultQueryConfig`
 
 ## Upgrading from `5.x.y` to `6.0.0`
 
 ### IDeliveryClientConfig
 
-There have been few changes to `IDeliveryClientConfig` interface, most notably the `usePreviewMode` and `useSecuredMode` were moved into `globalQueryConfig` which is used to set default query configuration for all queries. This configuration can be overriden by each query.
+There have been few changes to `IDeliveryClientConfig` interface, most notably the `usePreviewMode` and `useSecuredMode` were moved into `defaultQueryConfig` which is used to set default query configuration for all queries. This configuration can be overriden by each query.
 
 All proxy related configuration has been added to `proxy` property and there is a new ability to fully customize URLs (e.g. to hide projectId).
 
-`GlobalHeaders` is now a function instead of a simple array - this is so that you can potentially call your own function to get global headers dynamically. Global headers are added to each request regardless of the headers specified in `globalQueryConfig`
+`GlobalHeaders` is now a function instead of a simple array - this is so that you can potentially call your own function to get global headers dynamically. Global headers are added to each request regardless of the headers specified in `defaultQueryConfig`
 
 Updated syntax looks like:
 
@@ -55,9 +56,9 @@ const client = new DeliveryClient({
         new TypeResolver('type', (rawData) => new MyClass(rawData))
     ],
     retryAttempts: 3,
-    // globalQueryConfig sets default values for each config
+    // defaultQueryConfig sets default values for each config
     // which can be overriden by individual queries
-    globalQueryConfig:  {
+    defaultQueryConfig:  {
         customHeaders: [], // adds array of default headers
         usePreviewMode: true, // uses preview mode by default
         useSecuredMode: false, // disabled secured mode by default

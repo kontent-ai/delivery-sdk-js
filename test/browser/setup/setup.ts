@@ -58,7 +58,7 @@ export function setup(context: Context) {
         propertyNameResolver: propertyNameResolver,
         secureApiKey: securedApiKey,
         previewApiKey: previewApiKey,
-        globalQueryConfig: context.globalQueryConfig,
+        defaultQueryConfig: context.defaultQueryConfig,
         defaultLanguage: context.defaultLanguage,
         proxy: {
             baseUrl: context.baseUrl,

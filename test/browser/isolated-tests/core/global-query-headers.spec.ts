@@ -10,7 +10,7 @@ describe('Global query headers', () => {
                     value: 'x'
                 }
             ],
-            globalQueryConfig: {
+            defaultQueryConfig: {
                 customHeaders: []
             }
         });
@@ -29,7 +29,7 @@ describe('Global query headers', () => {
                     value: 'x'
                 }
             ],
-            globalQueryConfig: {
+            defaultQueryConfig: {
                 customHeaders: [{
                     header: 'yHeader',
                     value: 'y'

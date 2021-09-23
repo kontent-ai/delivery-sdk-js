@@ -12,7 +12,7 @@ export class Context {
    */
   public richTextHtmlParser?: IRichTextHtmlParser = getParserAdapter();
 
-  public globalQueryConfig?: IQueryConfig;
+  public defaultQueryConfig?: IQueryConfig;
   public propertyNameResolver?: PropertyNameResolver;
   public projectId!: string;
   public previewApiKey?: string;
@@ -28,7 +28,7 @@ export class Context {
   constructor(
     options?: {
       propertyNameResolver?: PropertyNameResolver;
-      globalQueryConfig?: IQueryConfig;
+      defaultQueryConfig?: IQueryConfig;
       projectId?: string,
       previewApiKey?: string,
       deliveryClient?: DeliveryClient,
@@ -51,7 +51,7 @@ export class Context {
       projectId: this.projectId,
       previewApiKey: this.previewApiKey,
       secureApiKey: this.securedApiKey,
-      globalQueryConfig: this.globalQueryConfig,
+      defaultQueryConfig: this.defaultQueryConfig,
       proxy: {
         baseUrl: this.baseUrl,
         basePreviewUrl: this.basePreviewUrl
