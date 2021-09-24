@@ -1036,7 +1036,7 @@ Note: You need to have `Chrome` installed in order to run tests via Karma.
 - `npm run test:node` Runs tests in node.js
 - `npm run test:all` Runs all test
 
-> If you want to mock http responses, it is possible to use [custom Http Service](https://github.com/Kentico/kontent-core-js#testing) as a part of the [delivery client configuration](DOCS.md#client-configuration).
+> If you want to mock http responses, it is possible to use [custom Http Service](https://github.com/Kentico/kontent-core-js#testing) as a part of the [delivery client configuration](README.md#client-configuration).
 
 ## Feedback & Contribution
 
