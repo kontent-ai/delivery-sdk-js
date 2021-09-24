@@ -41,7 +41,7 @@ export interface IDeliveryClientConfig {
     /**
      * Secure API key
      * Important: Use secured API only when running on Node.JS server, otherwise
-     * your key will be visible in browsers when making requests.
+     * your key would be exposed in browsers
      */
     secureApiKey?: string;
 
@@ -71,28 +71,9 @@ export interface IDeliveryClientConfig {
     httpService?: IHttpService<any>;
 
     /**
-     * Global settings for linked item resolver
-     */
-    linkedItemResolver?: {
-        /**
-         * Element used for wrapping resolved linked item
-         */
-        linkedItemWrapperTag?: string;
-        /**
-         * CSS classes applied to wrapper
-         */
-        linkedItemWrapperClasses?: string[];
-    };
-
-    /**
      * Extra headers added to each http request
      */
     globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
-
-    /**
-     * Array of status codes that should be retried when request fails. Defaults [500].
-     */
-    retryStatusCodes?: number[];
 
     /**
      * Default query configuration. Can be overriden by individual queries.

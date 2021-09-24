@@ -57,12 +57,12 @@ export interface IListQueryConfig<TResponse extends IKontentListResponse> {
 
 export interface IQueryConfig {
     /**
-     * Indicates if query should use preview mode. Overrides global settings of Delivery Client
+     * Indicates if query should use preview mode. Overrides default configuration
      */
     usePreviewMode?: boolean;
 
     /**
-     * Indicates if query should use secured delivery API mode. Overrides global settings of Delivery Client
+     * Indicates if query should use secured delivery API mode.  Overrides default configuration
      */
     useSecuredMode?: boolean;
 
@@ -75,9 +75,15 @@ export interface IQueryConfig {
      */
     waitForLoadingNewContent?: boolean;
 
+    /**
+     * Extra headers added to request
+     */
     customHeaders?: IHeader[];
 
-    cancelTokenRequest?: IHttpCancelRequestToken<any>;
+    /**
+     * Cancel token
+     */
+    cancelToken?: IHttpCancelRequestToken<any>;
 }
 
 export interface IDeliveryErrorRaw {

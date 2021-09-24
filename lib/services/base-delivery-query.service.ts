@@ -139,7 +139,7 @@ export abstract class BaseDeliveryQueryService {
                     url: url
                 },
                 {
-                    cancelToken: queryConfig?.cancelTokenRequest,
+                    cancelToken: queryConfig?.cancelToken,
                     responseType: 'json',
                     retryStrategy: this.config.retryStrategy,
                     headers: this.getHeaders(queryConfig, serviceConfig.headers ? serviceConfig.headers : [])
@@ -192,10 +192,11 @@ export abstract class BaseDeliveryQueryService {
             return queryConfig.customHeaders;
         }
 
-        if (!this.config.defaultQueryConfig || !this.config.defaultQueryConfig.customHeaders) {
-            return [];
+        if (this.config.defaultQueryConfig?.customHeaders) {
+            return this.config.defaultQueryConfig.customHeaders;
         }
-        return this.config.defaultQueryConfig.customHeaders;
+
+        return [];
     }
 
     private shouldAddWaitForLoadingNewContentHeader(queryConfig: IQueryConfig): boolean {

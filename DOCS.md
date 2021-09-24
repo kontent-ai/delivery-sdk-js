@@ -811,20 +811,15 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | Property        | type| description|
 | ------------- |:-------------:| -----:|
 | projectId      | string | ProjectId of your Kontent project|
-| typeResolvers?| TypeResolver[] | Array of resolvers that are used to create instances of registered classes automatically. If not set, items will be instances of 'ContentItem' class|
-| elementResolver?| ElementResolver | Element resolver used to map custom elements to models |
+| elementResolver?| ElementResolver | Element resolver used to map custom elements |
 | previewApiKey?| string| Preview API key used to get unpublished content items |
 | defaultLanguage?| string| Sets default language that will be used for all queries unless overriden with query parameters|
 | proxy?| IDeliveryClientProxyConfig | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'projectId' |
 | secureApiKey?| string| Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key|
 | defaultQueryConfig? | IQueryConfig | Default configuration for all queries. Can be overriden by indidividual queries
-| retryAttempts?| number | Number of retry attempts when error occures. Defaults to '3'. Set to '0' to disable. |
-| linkedItemResolver.linkedItemWrapperTag? | string | HTML tag used to wrap resolved linked items in Rich text elements (defaults to 'div') |
-| linkedItemResolver.linkedItemWrapperClasses? | string[] | Array of classes added to linked item wrapper. Defaults to a single class 'kc-linked-item-wrapper' |
 | httpService ?| IHttpService | Can be useud to inject custom http service for performing requests |
 | globalHeaders? | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request |
-| retryStatusCodes? | number[] | Array of status codes that should be retried when request fails. Defaults to requests with '500' status code. |
-| richTextParserAdapter? | IRichTextHtmlParser | Custom implementation of rich text parser. Default parser for browser / node.js is used if none is specified |
+| retryStrategy? | IRetryStrategyOptions | Retry strategy configuration |
 
 ## Proxy configuration
 
