@@ -1034,10 +1034,9 @@ Note: You need to have `Chrome` installed in order to run tests via Karma.
 
 - `npm run test:browser` Runs tests in Chrome 
 - `npm run test:node` Runs tests in node.js
-- `npm run test:dev` Runs developer tests (useful for testing functionality)
-- `npm run test:travis` Runs browser tests that are executed by travis
+- `npm run test:all` Runs all test
 
-> If you want to mock http responses, it is possible to use [external implementation of configurable Http Service](../core/README.md#testing) as a part of the [delivery client configuration](DOCS.md#client-configuration).
+> If you want to mock http responses, it is possible to use [custom Http Service](https://github.com/Kentico/kontent-core-js#testing) as a part of the [delivery client configuration](DOCS.md#client-configuration).
 
 ## Feedback & Contribution
 
