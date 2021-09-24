@@ -17,15 +17,16 @@ import { BaseQuery } from './base-query.class';
 export abstract class BaseListingQuery<
     TResponse extends IKontentListResponse,
     TAllResponse extends IKontentListAllResponse,
-    TQueryConfig extends IQueryConfig
-> extends BaseQuery<TResponse, TQueryConfig> {
-    protected _listQueryConfig?: IListQueryConfig<TResponse>;
+    TQueryConfig extends IQueryConfig,
+    TContract
+> extends BaseQuery<TResponse, TQueryConfig, TContract> {
+    protected _listQueryConfig?: IListQueryConfig<TResponse, TContract>;
 
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
 
-    listQueryConfig(config?: IListQueryConfig<TResponse>): this {
+    listQueryConfig(config?: IListQueryConfig<TResponse, TContract>): this {
         this._listQueryConfig = config;
         return this;
     }
@@ -231,7 +232,7 @@ export abstract class BaseListingQuery<
      * Query to get all items. Uses paging data and may execute multiple HTTP requests depending on number of items
      */
     toAllPromise(): Promise<IGroupedKontentNetworkResponse<TAllResponse>> {
-        return this.queryService.getListAllResponse<TResponse, TAllResponse>({
+        return this.queryService.getListAllResponse<TResponse, TAllResponse, TContract>({
             listQueryConfig: this._listQueryConfig,
             allResponseFactory: (items, responses) => {
                 const response = this.allResponseFactory(items, responses);
@@ -253,5 +254,5 @@ export abstract class BaseListingQuery<
         });
     }
 
-    protected abstract allResponseFactory(items: any[], responses: IKontentNetworkResponse<TResponse>[]): TAllResponse;
+    protected abstract allResponseFactory(items: any[], responses: IKontentNetworkResponse<TResponse, TContract>[]): TAllResponse;
 }

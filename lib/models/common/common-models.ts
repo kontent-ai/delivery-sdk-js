@@ -43,7 +43,7 @@ export interface IKontentListAllResponse extends IKontentResponse {
     items: any[];
 }
 
-export interface IListQueryConfig<TResponse extends IKontentListResponse> {
+export interface IListQueryConfig<TResponse extends IKontentListResponse, TContract> {
     /**
      * Delay between each HTTP requests
      */
@@ -52,7 +52,7 @@ export interface IListQueryConfig<TResponse extends IKontentListResponse> {
     /**
      * Executed when a list response is loaded
      */
-    responseFetched?: (response: IKontentNetworkResponse<TResponse>, nextPageUrl?: string, continuationToken?: string) => void;
+    responseFetched?: (response: IKontentNetworkResponse<TResponse, TContract>, nextPageUrl?: string, continuationToken?: string) => void;
 }
 
 export interface IQueryConfig {

@@ -1,14 +1,22 @@
+import { ItemContracts } from '../../data-contracts/item-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { Filters, IContentItem, IItemQueryConfig, IKontentNetworkResponse, ItemResponses, Parameters } from '../../models';
+import {
+    Filters,
+    IContentItem,
+    IItemQueryConfig,
+    IKontentNetworkResponse,
+    ItemResponses,
+    Parameters
+} from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> extends BaseListingQuery<
     ItemResponses.IListItemsFeedResponse<TContentItem>,
     ItemResponses.IListItemsFeedAllResponse<TContentItem>,
-    IItemQueryConfig
+    IItemQueryConfig,
+    ItemContracts.IItemsFeedContract
 > {
-
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
@@ -72,7 +80,9 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>>> {
+    toPromise(): Promise<
+        IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
+    > {
         return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -99,7 +109,10 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>>[]
+        responses: IKontentNetworkResponse<
+            ItemResponses.IListItemsFeedResponse<TContentItem>,
+            ItemContracts.IItemsFeedContract
+        >[]
     ): ItemResponses.IListItemsFeedAllResponse<TContentItem> {
         return {
             items: items,

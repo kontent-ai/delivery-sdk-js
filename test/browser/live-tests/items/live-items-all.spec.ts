@@ -7,7 +7,7 @@ describe('Live items all', () => {
 
     const type: string = 'movie';
     let response: ItemResponses.IListContentItemsAllResponse<Movie>;
-    const responses: IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<Movie>>[] = [];
+    const responses: IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<Movie>, any>[] = [];
 
     beforeAll(async () => {
         response = (

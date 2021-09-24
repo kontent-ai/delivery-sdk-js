@@ -1,3 +1,4 @@
+import { ItemContracts } from '../../data-contracts/item-contracts';
 import { IDeliveryClientConfig } from '../../config';
 import { IContentItem, IItemQueryConfig, IKontentNetworkResponse, ItemResponses, Parameters } from '../../models';
 import { QueryService } from '../../services';
@@ -5,7 +6,8 @@ import { BaseQuery } from '../common/base-query.class';
 
 export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> extends BaseQuery<
     ItemResponses.IViewContentItemResponse<TContentItem>,
-    IItemQueryConfig
+    IItemQueryConfig,
+    ItemContracts.IViewContentItemContract
 > {
     constructor(
         protected config: IDeliveryClientConfig,
@@ -58,7 +60,12 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
     /**
      * Gets Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>>> {
+    toPromise(): Promise<
+        IKontentNetworkResponse<
+            ItemResponses.IViewContentItemResponse<TContentItem>,
+            ItemContracts.IViewContentItemContract
+        >
+    > {
         return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
     }
 

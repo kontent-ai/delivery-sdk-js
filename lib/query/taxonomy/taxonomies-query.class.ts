@@ -1,12 +1,20 @@
+import { TaxonomyContracts } from '../../data-contracts/taxonomy-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { continuationTokenHeaderName, IKontentNetworkResponse, ITaxonomyQueryConfig, Parameters, TaxonomyResponses } from '../../models';
+import {
+    continuationTokenHeaderName,
+    IKontentNetworkResponse,
+    ITaxonomyQueryConfig,
+    Parameters,
+    TaxonomyResponses
+} from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class TaxonomiesQuery extends BaseListingQuery<
     TaxonomyResponses.IListTaxonomiesResponse,
     TaxonomyResponses.IListTaxonomiesAllResponse,
-    ITaxonomyQueryConfig
+    ITaxonomyQueryConfig,
+    TaxonomyContracts.IListTaxonomyGroupsContract
 > {
     /**
      * Taxonomies endpoint URL action
@@ -38,7 +46,12 @@ export class TaxonomiesQuery extends BaseListingQuery<
     /**
      * Gets the runnable Promise
      */
-    toPromise(): Promise<IKontentNetworkResponse<TaxonomyResponses.IListTaxonomiesResponse>> {
+    toPromise(): Promise<
+        IKontentNetworkResponse<
+            TaxonomyResponses.IListTaxonomiesResponse,
+            TaxonomyContracts.IListTaxonomyGroupsContract
+        >
+    > {
         return this.queryService.getTaxonomies(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -67,7 +80,10 @@ export class TaxonomiesQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<TaxonomyResponses.IListTaxonomiesResponse>[]
+        responses: IKontentNetworkResponse<
+            TaxonomyResponses.IListTaxonomiesResponse,
+            TaxonomyContracts.IListTaxonomyGroupsContract
+        >[]
     ): TaxonomyResponses.IListTaxonomiesAllResponse {
         return {
             items: items,

@@ -1,3 +1,4 @@
+import { ItemContracts } from '../../data-contracts';
 import {
     IPagination,
     IKontentListAllResponse,
@@ -17,7 +18,7 @@ export namespace ItemResponses {
     export interface IListItemsFeedAllResponse<TContentItem extends IContentItem = IContentItem>
         extends IKontentListAllResponse {
         items: TContentItem[];
-        responses: IKontentNetworkResponse<IListItemsFeedResponse<TContentItem>>[];
+        responses: IKontentNetworkResponse<IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>[];
     }
 
     export interface IListContentItemsResponse<TContentItem extends IContentItem = IContentItem>
@@ -30,7 +31,10 @@ export namespace ItemResponses {
     export interface IListContentItemsAllResponse<TContentItem extends IContentItem = IContentItem>
         extends IKontentListAllResponse {
         items: TContentItem[];
-        responses: IKontentNetworkResponse<IListContentItemsResponse<TContentItem>>[];
+        responses: IKontentNetworkResponse<
+            IListContentItemsResponse<TContentItem>,
+            ItemContracts.IListContentItemsContract
+        >[];
     }
 
     export interface IViewContentItemResponse<TContentItem extends IContentItem = IContentItem>

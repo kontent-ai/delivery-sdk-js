@@ -5,7 +5,7 @@ describe('Network response', () => {
     const context = new Context();
     setup(context);
 
-    let response: IKontentNetworkResponse<any>;
+    let response: IKontentNetworkResponse<any, any>;
 
     beforeAll(async () => {
         response = await context.deliveryClient

@@ -7,7 +7,7 @@ describe('Items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<Movie>>;
+    let response: IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<Movie>, any>;
 
     beforeAll(async () => {
         response = await getDeliveryClientWithJsonAndHeaders(

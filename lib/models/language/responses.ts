@@ -1,3 +1,4 @@
+import { LanguageContracts } from '../../data-contracts';
 import { IKontentListAllResponse, IKontentListResponse, IKontentNetworkResponse, IPagination } from '../common';
 import { ILanguage } from './language-models';
 
@@ -9,6 +10,6 @@ export namespace LanguageResponses {
 
     export interface IListLanguagesAllResponse extends IKontentListAllResponse {
         items: ILanguage[];
-        responses: IKontentNetworkResponse<IListLanguagesResponse>[];
+        responses: IKontentNetworkResponse<IListLanguagesResponse, LanguageContracts.IListLanguagesContract>[];
     }
 }

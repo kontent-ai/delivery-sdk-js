@@ -49,10 +49,10 @@ export class QueryService extends BaseDeliveryQueryService {
     async getSingleItemAsync<TContentItem extends IContentItem = IContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IKontentNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>>> {
+    ): Promise<IKontentNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>, ItemContracts.IViewContentItemContract>> {
         const response = await this.getResponseAsync<ItemContracts.IViewContentItemContract>(url, queryConfig);
 
-        return this.mapNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>>(
+        return this.mapNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>, ItemContracts.IViewContentItemContract>(
             this.mappingService.viewContentItemResponse<TContentItem>(response.data),
             response
         );
@@ -66,8 +66,8 @@ export class QueryService extends BaseDeliveryQueryService {
     async getItemsFeed<TContentItem extends IContentItem = IContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>>> {
-        const response = await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url);
+    ): Promise<IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>> {
+        const response = await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url, queryConfig);
 
         return this.mapNetworkResponse(
             this.mappingService.itemsFeedResponse<TContentItem>(response.data),
@@ -83,7 +83,7 @@ export class QueryService extends BaseDeliveryQueryService {
     async getMultipleItems<TContentItem extends IContentItem = IContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>>> {
+    ): Promise<IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>> {
         const response = await this.getResponseAsync<ItemContracts.IListContentItemsContract>(url, queryConfig);
 
         return this.mapNetworkResponse(
@@ -100,7 +100,7 @@ export class QueryService extends BaseDeliveryQueryService {
     async getSingleType(
         url: string,
         queryConfig: IContentTypeQueryConfig
-    ): Promise<IKontentNetworkResponse<TypeResponses.IViewContentTypeResponse>> {
+    ): Promise<IKontentNetworkResponse<TypeResponses.IViewContentTypeResponse, TypeContracts.IViewContentTypeContract>> {
         const response = await this.getResponseAsync<TypeContracts.IViewContentTypeContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.viewContentTypeResponse(response.data), response);
@@ -114,7 +114,7 @@ export class QueryService extends BaseDeliveryQueryService {
     async getMultipleTypes(
         url: string,
         queryConfig: IContentTypeQueryConfig
-    ): Promise<IKontentNetworkResponse<TypeResponses.IListContentTypesResponse>> {
+    ): Promise<IKontentNetworkResponse<TypeResponses.IListContentTypesResponse, TypeContracts.IListContentTypeContract>> {
         const response = await this.getResponseAsync<TypeContracts.IListContentTypeContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.listContentTypesResponse(response.data), response);
@@ -128,7 +128,7 @@ export class QueryService extends BaseDeliveryQueryService {
     async getLanguages(
         url: string,
         queryConfig: ILanguagesQueryConfig
-    ): Promise<IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse>> {
+    ): Promise<IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>> {
         const response = await this.getResponseAsync<LanguageContracts.IListLanguagesContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.listLanguagesResponse(response.data), response);
@@ -142,7 +142,7 @@ export class QueryService extends BaseDeliveryQueryService {
     async getTaxonomy(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Promise<IKontentNetworkResponse<TaxonomyResponses.IViewTaxonomyResponse>> {
+    ): Promise<IKontentNetworkResponse<TaxonomyResponses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>> {
         const response = await this.getResponseAsync<TaxonomyContracts.IViewTaxonomyGroupContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.viewTaxonomyGroupResponse(response.data), response);
@@ -156,7 +156,7 @@ export class QueryService extends BaseDeliveryQueryService {
     async getTaxonomies(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Promise<IKontentNetworkResponse<TaxonomyResponses.IListTaxonomiesResponse>> {
+    ): Promise<IKontentNetworkResponse<TaxonomyResponses.IListTaxonomiesResponse, TaxonomyContracts.IListTaxonomyGroupsContract>> {
         const response = await this.getResponseAsync<TaxonomyContracts.IListTaxonomyGroupsContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.listTaxonomyGroupsResponse(response.data), response);
@@ -170,7 +170,7 @@ export class QueryService extends BaseDeliveryQueryService {
     async getElementAsync(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Promise<IKontentNetworkResponse<ElementResponses.IViewContentTypeElementResponse>> {
+    ): Promise<IKontentNetworkResponse<ElementResponses.IViewContentTypeElementResponse, ElementContracts.IViewContentTypeElementContract>> {
         const response = await this.getResponseAsync<ElementContracts.IViewContentTypeElementContract>(
             url,
             queryConfig
@@ -181,11 +181,12 @@ export class QueryService extends BaseDeliveryQueryService {
 
     async getListAllResponse<
         TResponse extends IKontentListResponse,
-        TAllResponse extends IKontentListAllResponse
+        TAllResponse extends IKontentListAllResponse,
+        TContract
     >(data: {
-        getResponse: (nextPageUrl?: string, continuationToken?: string) => Promise<IKontentNetworkResponse<TResponse>>;
-        allResponseFactory: (items: any[], responses: IKontentNetworkResponse<TResponse>[]) => IGroupedKontentNetworkResponse<TAllResponse>;
-        listQueryConfig?: IListQueryConfig<TResponse>;
+        getResponse: (nextPageUrl?: string, continuationToken?: string) => Promise<IKontentNetworkResponse<TResponse, TContract>>;
+        allResponseFactory: (items: any[], responses: IKontentNetworkResponse<TResponse, TContract>[]) => IGroupedKontentNetworkResponse<TAllResponse>;
+        listQueryConfig?: IListQueryConfig<TResponse, TContract>;
     }): Promise<IGroupedKontentNetworkResponse<TAllResponse>> {
         const responses = await this.getListAllResponseInternalAsync({
             resolvedResponses: [],
@@ -204,13 +205,13 @@ export class QueryService extends BaseDeliveryQueryService {
         );
     }
 
-    private async getListAllResponseInternalAsync<TResponse extends IKontentListResponse>(data: {
+    private async getListAllResponseInternalAsync<TResponse extends IKontentListResponse, TContract>(data: {
         nextPageUrl?: string;
         continuationToken?: string;
-        getResponse: (nextPageUrl?: string, continuationToken?: string) => Promise<IKontentNetworkResponse<TResponse>>;
-        resolvedResponses: IKontentNetworkResponse<TResponse>[];
-        listQueryConfig?: IListQueryConfig<TResponse>;
-    }): Promise<IKontentNetworkResponse<TResponse>[]> {
+        getResponse: (nextPageUrl?: string, continuationToken?: string) => Promise<IKontentNetworkResponse<TResponse, TContract>>;
+        resolvedResponses: IKontentNetworkResponse<TResponse, TContract>[];
+        listQueryConfig?: IListQueryConfig<TResponse, TContract>;
+    }): Promise<IKontentNetworkResponse<TResponse, TContract>[]> {
         const response = await data.getResponse(data.nextPageUrl, data.continuationToken);
 
         if (data.listQueryConfig?.delayBetweenRequests) {

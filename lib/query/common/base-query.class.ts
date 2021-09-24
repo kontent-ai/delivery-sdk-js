@@ -4,7 +4,7 @@ import { IDeliveryClientConfig } from '../../config';
 import { IKontentNetworkResponse, IKontentResponse, IQueryConfig, Parameters } from '../../models';
 import { QueryService } from '../../services';
 
-export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig extends IQueryConfig> {
+export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig extends IQueryConfig, TContract> {
     protected parameters: IQueryParameter[] = [];
     protected headers: IHeader[] = [];
     protected customUrl?: string;
@@ -13,7 +13,7 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {}
 
     abstract getUrl(): string;
-    abstract toPromise(): Promise<IKontentNetworkResponse<TResponse>>;
+    abstract toPromise(): Promise<IKontentNetworkResponse<TResponse, TContract>>;
 
     /**
      * Adds custom parameter to query

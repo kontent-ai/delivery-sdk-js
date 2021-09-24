@@ -158,7 +158,7 @@ export abstract class BaseDeliveryQueryService {
         return this.getDomain(queryConfig) + '/' + this.config.projectId;
     }
 
-    protected mapNetworkResponse<TData>(data: TData, response: IResponse<any>): IKontentNetworkResponse<TData> {
+    protected mapNetworkResponse<TData, TContract>(data: TData, response: IResponse<any>): IKontentNetworkResponse<TData, TContract> {
         return {
             data: data,
             response: response,
