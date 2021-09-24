@@ -57,9 +57,6 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
         return this;
     }
 
-    /**
-     * Gets Promise
-     */
     toPromise(): Promise<
         IKontentNetworkResponse<
             ItemResponses.IViewContentItemResponse<TContentItem>,
@@ -69,9 +66,6 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
         return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-     * Gets 'Url' representation of query
-     */
     getUrl(): string {
         const action = '/items/' + this.codename;
 
@@ -80,4 +74,8 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
 
         return super.resolveUrlInternal(action);
     }
-}
+
+    map(json: any): ItemResponses.IViewContentItemResponse<TContentItem> {
+        return this.queryService.mappingService.viewContentItemResponse(json);
+    }
+ }

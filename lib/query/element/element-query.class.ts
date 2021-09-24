@@ -26,9 +26,6 @@ export class ElementQuery extends BaseQuery<
         }
     }
 
-    /**
-     * Gets the runnable Promise
-     */
     toPromise(): Promise<
         IKontentNetworkResponse<
             ElementResponses.IViewContentTypeElementResponse,
@@ -38,12 +35,13 @@ export class ElementQuery extends BaseQuery<
         return this.queryService.getElementAsync(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-     * Gets 'Url' representation of query
-     */
     getUrl(): string {
         const action = '/types/' + this.typeCodename + '/elements/' + this.elementCodename;
 
         return super.resolveUrlInternal(action);
+    }
+
+    map(json: any): ElementResponses.IViewContentTypeElementResponse {
+        return this.queryService.mappingService.viewContentTypeElementResponse(json);
     }
 }

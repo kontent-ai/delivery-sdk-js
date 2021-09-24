@@ -77,18 +77,12 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
         return this;
     }
 
-    /**
-     * Gets the runnable Promise
-     */
     toPromise(): Promise<
         IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
     > {
         return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-     * Gets 'Url' representation of query
-     */
     getUrl(): string {
         const action = '/items-feed';
 
@@ -105,6 +99,10 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     queryConfig(queryConfig: IItemQueryConfig): this {
         this._queryConfig = queryConfig;
         return this;
+    }
+
+    map(json: any): ItemResponses.IListItemsFeedResponse<TContentItem> {
+        return this.queryService.mappingService.itemsFeedResponse(json);
     }
 
     protected allResponseFactory(

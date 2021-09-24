@@ -30,19 +30,19 @@ export abstract class BaseDeliveryQueryService {
         /**
          * Delivery client configuration
          */
-        protected readonly config: IDeliveryClientConfig,
+        public readonly config: IDeliveryClientConfig,
         /**
          * Http service for fetching data
          */
-        protected readonly httpService: IHttpService<any>,
+        public readonly httpService: IHttpService<any>,
         /**
          * Information about the SDK
          */
-        protected readonly sdkInfo: ISDKInfo,
+         public readonly sdkInfo: ISDKInfo,
         /**
          * Mapping service
          */
-        protected readonly mappingService: IMappingService
+        public readonly mappingService: IMappingService
     ) {}
 
     /**
@@ -158,7 +158,10 @@ export abstract class BaseDeliveryQueryService {
         return this.getDomain(queryConfig) + '/' + this.config.projectId;
     }
 
-    protected mapNetworkResponse<TData, TContract>(data: TData, response: IResponse<any>): IKontentNetworkResponse<TData, TContract> {
+    protected mapNetworkResponse<TData, TContract>(
+        data: TData,
+        response: IResponse<any>
+    ): IKontentNetworkResponse<TData, TContract> {
         return {
             data: data,
             response: response,

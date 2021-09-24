@@ -35,11 +35,11 @@ export interface IMappingService {
         data: ItemContracts.IListContentItemsContract,
     ): ItemResponses.IListContentItemsResponse<TContentItem>;
 
-    viewTaxonomyGroupResponse(
+    viewTaxonomyResponse(
         data: TaxonomyContracts.IViewTaxonomyGroupContract
     ): TaxonomyResponses.IViewTaxonomyResponse;
 
-    listTaxonomyGroupsResponse(
+    listTaxonomiesResponse(
         data: TaxonomyContracts.IListTaxonomyGroupsContract
     ): TaxonomyResponses.IListTaxonomiesResponse;
 
@@ -149,7 +149,7 @@ export class MappingService implements IMappingService {
      * Gets response for getting single taxonomy item
      * @param data Response data
      */
-    viewTaxonomyGroupResponse(
+    viewTaxonomyResponse(
         data: TaxonomyContracts.IViewTaxonomyGroupContract
     ): TaxonomyResponses.IViewTaxonomyResponse {
         return {
@@ -161,7 +161,7 @@ export class MappingService implements IMappingService {
      * Gets response for getting multiples taxonomies
      * @param data Response data
      */
-    listTaxonomyGroupsResponse(
+    listTaxonomiesResponse(
         data: TaxonomyContracts.IListTaxonomyGroupsContract
     ): TaxonomyResponses.IListTaxonomiesResponse {
         return {

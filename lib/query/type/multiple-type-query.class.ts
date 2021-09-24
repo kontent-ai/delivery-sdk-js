@@ -14,22 +14,20 @@ export class MultipleTypeQuery extends BaseListingQuery<
         super(config, queryService);
     }
 
-    /**
-     * Gets the runnable Promise
-     */
     toPromise(): Promise<
         IKontentNetworkResponse<TypeResponses.IListContentTypesResponse, TypeContracts.IListContentTypeContract>
     > {
         return this.queryService.getMultipleTypes(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-     * Gets 'Url' representation of query
-     */
     getUrl(): string {
         const action = '/types';
 
         return super.resolveUrlInternal(action);
+    }
+
+    map(json: any): TypeResponses.IListContentTypesResponse {
+        return this.queryService.mappingService.listContentTypesResponse(json);
     }
 
     protected allResponseFactory(

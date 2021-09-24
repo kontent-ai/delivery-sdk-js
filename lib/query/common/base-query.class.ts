@@ -12,8 +12,20 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
 
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {}
 
+    /**
+     * Gets URL of the query
+     */
     abstract getUrl(): string;
+
+    /**
+     * Gets promise for query execution
+     */
     abstract toPromise(): Promise<IKontentNetworkResponse<TResponse, TContract>>;
+
+    /**
+     * Maps json data to response
+     */
+    abstract map(json: any): TResponse;
 
     /**
      * Adds custom parameter to query

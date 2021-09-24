@@ -21,21 +21,19 @@ export class SingleTypeQuery extends BaseQuery<
         }
     }
 
-    /**
-     * Gets the runnable Promise
-     */
     toPromise(): Promise<
         IKontentNetworkResponse<TypeResponses.IViewContentTypeResponse, TypeContracts.IViewContentTypeContract>
     > {
         return this.queryService.getSingleType(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-     * Gets 'Url' representation of query
-     */
     getUrl(): string {
         const action = '/types/' + this.typeCodename;
 
         return super.resolveUrlInternal(action);
+    }
+
+    map(json: any): TypeResponses.IViewContentTypeResponse {
+        return this.queryService.mappingService.viewContentTypeResponse(json);
     }
 }

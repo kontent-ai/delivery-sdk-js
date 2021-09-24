@@ -96,16 +96,10 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
         return this;
     }
 
-    /**
-     * Gets the runnable Promise
-     */
     toPromise(): Promise<IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>> {
         return this.queryService.getMultipleItems(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-     * Gets 'Url' representation of query
-     */
     getUrl(): string {
         const action = '/items';
 
@@ -113,6 +107,10 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
         this.processDefaultLanguageParameter();
 
         return super.resolveUrlInternal(action);
+    }
+
+    map(json: any): ItemResponses.IListContentItemsResponse<TContentItem> {
+        return this.queryService.mappingService.listContentItemsResponse(json);
     }
 
     protected allResponseFactory(

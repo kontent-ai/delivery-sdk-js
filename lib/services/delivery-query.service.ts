@@ -145,7 +145,7 @@ export class QueryService extends BaseDeliveryQueryService {
     ): Promise<IKontentNetworkResponse<TaxonomyResponses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>> {
         const response = await this.getResponseAsync<TaxonomyContracts.IViewTaxonomyGroupContract>(url, queryConfig);
 
-        return this.mapNetworkResponse(this.mappingService.viewTaxonomyGroupResponse(response.data), response);
+        return this.mapNetworkResponse(this.mappingService.viewTaxonomyResponse(response.data), response);
     }
 
     /**
@@ -159,7 +159,7 @@ export class QueryService extends BaseDeliveryQueryService {
     ): Promise<IKontentNetworkResponse<TaxonomyResponses.IListTaxonomiesResponse, TaxonomyContracts.IListTaxonomyGroupsContract>> {
         const response = await this.getResponseAsync<TaxonomyContracts.IListTaxonomyGroupsContract>(url, queryConfig);
 
-        return this.mapNetworkResponse(this.mappingService.listTaxonomyGroupsResponse(response.data), response);
+        return this.mapNetworkResponse(this.mappingService.listTaxonomiesResponse(response.data), response);
     }
 
     /**

@@ -43,9 +43,6 @@ export class TaxonomiesQuery extends BaseListingQuery<
         return this;
     }
 
-    /**
-     * Gets the runnable Promise
-     */
     toPromise(): Promise<
         IKontentNetworkResponse<
             TaxonomyResponses.IListTaxonomiesResponse,
@@ -69,13 +66,14 @@ export class TaxonomiesQuery extends BaseListingQuery<
         return this;
     }
 
-    /**
-     * Gets 'Url' representation of query
-     */
     getUrl(): string {
         const action = '/' + this.taxonomiesEndpoint;
 
         return super.resolveUrlInternal(action);
+    }
+
+    map(json: any): TaxonomyResponses.IListTaxonomiesResponse {
+        return this.queryService.mappingService.listTaxonomiesResponse(json);
     }
 
     protected allResponseFactory(

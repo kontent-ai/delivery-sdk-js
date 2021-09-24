@@ -57,16 +57,10 @@ export class LanguagesQuery extends BaseListingQuery<
         return this;
     }
 
-    /**
-     * Gets Promise
-     */
     toPromise(): Promise<IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>> {
         return this.queryService.getLanguages(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-     * Gets url representation of query
-     */
     getUrl(): string {
         const action = '/' + this.endpoint;
 
@@ -80,6 +74,10 @@ export class LanguagesQuery extends BaseListingQuery<
     queryConfig(queryConfig: ILanguagesQueryConfig): this {
         this._queryConfig = queryConfig;
         return this;
+    }
+
+    map(json: any): LanguageResponses.IListLanguagesResponse {
+        return this.queryService.mappingService.listLanguagesResponse(json);
     }
 
     protected allResponseFactory(

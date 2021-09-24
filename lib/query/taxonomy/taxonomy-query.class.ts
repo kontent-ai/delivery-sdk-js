@@ -26,21 +26,19 @@ export class TaxonomyQuery extends BaseQuery<
         }
     }
 
-    /**
-     * Gets the runnable Promise
-     */
     toPromise(): Promise<
         IKontentNetworkResponse<TaxonomyResponses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>
     > {
         return this.queryService.getTaxonomy(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-     * Gets 'Url' representation of query
-     */
     getUrl(): string {
         const action = '/' + this.taxonomiesEndpoint + '/' + this.taxonomyCodename;
 
         return super.resolveUrlInternal(action);
+    }
+
+    map(json: any): TaxonomyResponses.IViewTaxonomyResponse {
+        return this.queryService.mappingService.viewTaxonomyResponse(json);
     }
 }
