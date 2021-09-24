@@ -5,6 +5,12 @@ import { DeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../..
 
 const testProjectId: string = 'delivery-project-id';
 
+export function toPromise<T>(data: T): Promise<T> {
+    return new Promise((resolve, reject) => {
+        resolve(data);
+      });
+}
+
 export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDeliveryClient {
     return new DeliveryClient(
         config
