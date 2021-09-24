@@ -1,6 +1,6 @@
 import { IDeliveryClientConfig } from '../config';
 import { ItemContracts } from '../data-contracts';
-import { IContentItem, IContentItemsContainer, IContentItemWithRawDataContainer, IContentItemWithRawElements, IItemQueryConfig } from '../models';
+import { IContentItem, IContentItemsContainer, IContentItemWithRawDataContainer, IContentItemWithRawElements } from '../models';
 import { ElementMapper } from './element.mapper';
 
 export interface IMapItemResult<TContentItem extends IContentItem = IContentItem> {
@@ -33,13 +33,11 @@ export class ItemMapper {
      * @param queryConfig Query configuration
      */
     mapSingleItemFromResponse<TContentItem extends IContentItem = IContentItem>(
-        response: ItemContracts.IViewContentItemContract,
-        queryConfig: IItemQueryConfig
+        response: ItemContracts.IViewContentItemContract
     ): ISingleItemMapResult<TContentItem> {
         const mapResult = this.mapItems<TContentItem>({
             mainItems: [response.item],
             linkedItems: Object.values(response.modular_content),
-            queryConfig: queryConfig
         });
 
         return {
@@ -55,12 +53,10 @@ export class ItemMapper {
      */
     mapMultipleItemsFromResponse<TContentItem extends IContentItem = IContentItem>(
         response: ItemContracts.IItemsWithModularContentContract,
-        queryConfig: IItemQueryConfig
     ): IMultipleItemsMapResult<TContentItem> {
         const mapResult = this.mapItems<TContentItem>({
             mainItems: response.items,
-            linkedItems: Object.values(response.modular_content),
-            queryConfig: queryConfig
+            linkedItems: Object.values(response.modular_content)
         });
 
         return mapResult;
@@ -72,7 +68,6 @@ export class ItemMapper {
     mapItems<TContentItem extends IContentItem = IContentItem>(data: {
         mainItems: ItemContracts.IContentItemContract[];
         linkedItems: ItemContracts.IContentItemContract[];
-        queryConfig: IItemQueryConfig;
     }): IMultipleItemsMapResult<TContentItem> {
         const that = this;
         const processedItems: IContentItemsContainer = {};
@@ -95,7 +90,6 @@ export class ItemMapper {
             const itemResult = that.mapItem<TContentItem>({
                 item: preparedItems[item.system.codename],
                 processedItems: processedItems,
-                queryConfig: data.queryConfig,
                 preparedItems: preparedItems,
                 processingStartedForCodenames: processingStartedForCodenames
             });
@@ -107,7 +101,6 @@ export class ItemMapper {
             const itemResult = that.mapItem<TContentItem>({
                 item: preparedItems[item.system.codename],
                 processedItems: processedItems,
-                queryConfig: data.queryConfig,
                 preparedItems: preparedItems,
                 processingStartedForCodenames: processingStartedForCodenames
             });
@@ -126,7 +119,6 @@ export class ItemMapper {
      */
     private mapItem<TContentItem extends IContentItem = IContentItem>(data: {
         item: IContentItemWithRawElements;
-        queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
@@ -140,7 +132,6 @@ export class ItemMapper {
             preparedItems: data.preparedItems,
             processingStartedForCodenames: [],
             processedItems: data.processedItems,
-            queryConfig: data.queryConfig
         });
 
         if (!result) {

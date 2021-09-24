@@ -7,10 +7,8 @@ describe('Mapping service', () => {
         projectId: 'x'
     });
 
-    const listingResponse: ItemResponses.IListContentItemsResponse = client.mappingService.listContentItemsResponse(
-        responseJson,
-        {}
-    );
+    const listingResponse: ItemResponses.IListContentItemsResponse =
+        client.mappingService.listContentItemsResponse(responseJson);
 
     it(`Listing response should be mapped correctly`, () => {
         expect(listingResponse.items.length).toEqual(responseJson.items.length);

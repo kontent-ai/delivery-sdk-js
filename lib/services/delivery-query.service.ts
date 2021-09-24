@@ -53,7 +53,7 @@ export class QueryService extends BaseDeliveryQueryService {
         const response = await this.getResponseAsync<ItemContracts.IViewContentItemContract>(url, queryConfig);
 
         return this.mapNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>>(
-            this.mappingService.viewContentItemResponse<TContentItem>(response.data, queryConfig),
+            this.mappingService.viewContentItemResponse<TContentItem>(response.data),
             response
         );
     }
@@ -70,7 +70,7 @@ export class QueryService extends BaseDeliveryQueryService {
         const response = await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url);
 
         return this.mapNetworkResponse(
-            this.mappingService.itemsFeedResponse<TContentItem>(response.data, queryConfig),
+            this.mappingService.itemsFeedResponse<TContentItem>(response.data),
             response
         );
     }
@@ -87,7 +87,7 @@ export class QueryService extends BaseDeliveryQueryService {
         const response = await this.getResponseAsync<ItemContracts.IListContentItemsContract>(url, queryConfig);
 
         return this.mapNetworkResponse(
-            this.mappingService.listContentItemsResponse(response.data, queryConfig),
+            this.mappingService.listContentItemsResponse(response.data),
             response
         );
     }

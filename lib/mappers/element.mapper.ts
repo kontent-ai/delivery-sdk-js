@@ -6,7 +6,6 @@ import { ElementModels, Elements, ElementType } from '../elements';
 import {
     IContentItem,
     IContentItemsContainer,
-    IItemQueryConfig,
     IMapElementsResult,
     ILink,
     IRichTextImage,
@@ -19,7 +18,6 @@ export class ElementMapper {
 
     mapElements<TContentItem extends IContentItem = IContentItem>(data: {
         dataToMap: IContentItemWithRawElements;
-        queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
@@ -59,7 +57,6 @@ export class ElementMapper {
                     preparedItems: data.preparedItems,
                     processingStartedForCodenames: data.processingStartedForCodenames,
                     processedItems: data.processedItems,
-                    queryConfig: data.queryConfig
                 });
 
                 // set mapped elements
@@ -78,7 +75,6 @@ export class ElementMapper {
     private mapElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
         item: IContentItem;
-        queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
@@ -91,7 +87,6 @@ export class ElementMapper {
                     preparedItems: data.preparedItems,
                     processingStartedForCodenames: data.processingStartedForCodenames,
                     processedItems: data.processedItems,
-                    queryConfig: data.queryConfig
                 });
             }
 
@@ -116,7 +111,6 @@ export class ElementMapper {
             if (elementType === ElementType.RichText) {
                 return this.mapRichTextElement(
                     data.elementWrapper,
-                    data.queryConfig,
                     data.processedItems,
                     data.processingStartedForCodenames,
                     data.preparedItems
@@ -124,7 +118,7 @@ export class ElementMapper {
             }
 
             if (elementType === ElementType.UrlSlug) {
-                return this.mapUrlSlugElement(data.elementWrapper, data.item, data.queryConfig);
+                return this.mapUrlSlugElement(data.elementWrapper);
             }
 
             if (elementType === ElementType.Taxonomy) {
@@ -143,7 +137,6 @@ export class ElementMapper {
 
     private mapRichTextElement(
         elementWrapper: ElementModels.IElementWrapper,
-        queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         processingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
@@ -163,7 +156,6 @@ export class ElementMapper {
                     const existingLinkedItem = this.getOrSaveLinkedItemForElement(
                         codename,
                         rawElement,
-                        queryConfig,
                         processedItems,
                         processingStartedForCodenames,
                         preparedItems
@@ -180,7 +172,6 @@ export class ElementMapper {
                                 preparedItems: preparedItems,
                                 processingStartedForCodenames: processingStartedForCodenames,
                                 processedItems: processedItems,
-                                queryConfig: queryConfig
                             });
 
                             // add mapped linked item to result
@@ -264,15 +255,12 @@ export class ElementMapper {
 
     private mapUrlSlugElement(
         elementWrapper: ElementModels.IElementWrapper,
-        item: IContentItem,
-        queryConfig: IItemQueryConfig
     ): Elements.IUrlSlugElement {
         return this.buildElement(elementWrapper, ElementType.UrlSlug, () => elementWrapper.rawElement.value);
     }
 
     private mapLinkedItemsElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
-        queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
@@ -286,7 +274,6 @@ export class ElementMapper {
             const linkedItem = this.getOrSaveLinkedItemForElement(
                 codename,
                 data.elementWrapper.rawElement,
-                data.queryConfig,
                 data.processedItems,
                 data.processingStartedForCodenames,
                 data.preparedItems
@@ -311,7 +298,6 @@ export class ElementMapper {
     private getOrSaveLinkedItemForElement(
         codename: string,
         element: ElementContracts.IElementContract,
-        queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
@@ -345,7 +331,6 @@ export class ElementMapper {
             preparedItems: preparedItems,
             processingStartedForCodenames: mappingStartedForCodenames,
             processedItems: processedItems,
-            queryConfig: queryConfig
         });
 
         if (mappedLinkedItemResult) {
