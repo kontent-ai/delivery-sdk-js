@@ -1,12 +1,12 @@
 import {
-    ImageUrlBuilder,
     ImageFormatEnum,
     ImageCompressionEnum,
-    ImageFitModeEnum
+    ImageFitModeEnum,
+    createUrlBuilder
 } from '../../../../lib';
 
 describe('Image URL builder', () => {
-    const getImageBuilder = () => new ImageUrlBuilder('myimage.jpg');
+    const getImageBuilder = () => createUrlBuilder('myimage.jpg');
 
     it(`Checks complex query`, () => {
         const ib = getImageBuilder();
