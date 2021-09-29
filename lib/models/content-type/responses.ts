@@ -2,7 +2,7 @@ import { TypeContracts } from '../../data-contracts';
 import {
     IKontentListAllResponse,
     IKontentListResponse,
-    IKontentNetworkResponse,
+    INetworkResponse,
     IKontentResponse,
     IPagination
 } from '../common';
@@ -16,7 +16,7 @@ export namespace TypeResponses {
 
     export interface IListContentTypesAllResponse extends IKontentListAllResponse {
         items: IContentType[];
-        responses: IKontentNetworkResponse<IListContentTypesResponse, TypeContracts.IListContentTypeContract>[];
+        responses: INetworkResponse<IListContentTypesResponse, TypeContracts.IListContentTypeContract>[];
     }
 
     export interface IViewContentTypeResponse extends IKontentResponse {

@@ -1,11 +1,11 @@
-import { IKontentNetworkResponse } from '../../../../lib';
+import { INetworkResponse } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Network response', () => {
     const context = new Context();
     setup(context);
 
-    let response: IKontentNetworkResponse<any, any>;
+    let response: INetworkResponse<any, any>;
 
     beforeAll(async () => {
         response = await context.deliveryClient

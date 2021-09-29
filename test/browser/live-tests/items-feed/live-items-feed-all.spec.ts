@@ -1,4 +1,4 @@
-import { IKontentNetworkResponse, ItemContracts, ItemResponses } from '../../../../lib';
+import { INetworkResponse, ItemContracts, ItemResponses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live items feed all', () => {
@@ -6,7 +6,7 @@ describe('Live items feed all', () => {
     setup(context);
 
     let response: ItemResponses.IListItemsFeedAllResponse<Movie>;
-    const responses: IKontentNetworkResponse<
+    const responses: INetworkResponse<
         ItemResponses.IListItemsFeedResponse<Movie>,
         ItemContracts.IItemsFeedContract
     >[] = [];

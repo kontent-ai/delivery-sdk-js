@@ -4,7 +4,7 @@ import {
     Filters,
     IContentItem,
     IItemQueryConfig,
-    IKontentNetworkResponse,
+    INetworkResponse,
     ItemResponses,
     Parameters
 } from '../../models';
@@ -78,7 +78,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     }
 
     toPromise(): Promise<
-        IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
+        INetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
     > {
         return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
     }
@@ -107,7 +107,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<
+        responses: INetworkResponse<
             ItemResponses.IListItemsFeedResponse<TContentItem>,
             ItemContracts.IItemsFeedContract
         >[]

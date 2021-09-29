@@ -2,7 +2,7 @@ import { LanguageContracts } from '../../data-contracts/language-contracts';
 import { IDeliveryClientConfig } from '../../config';
 import {
     continuationTokenHeaderName,
-    IKontentNetworkResponse,
+    INetworkResponse,
     ILanguagesQueryConfig,
     LanguageResponses,
     Parameters
@@ -57,7 +57,7 @@ export class LanguagesQuery extends BaseListingQuery<
         return this;
     }
 
-    toPromise(): Promise<IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>> {
+    toPromise(): Promise<INetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>> {
         return this.queryService.getLanguages(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -82,7 +82,7 @@ export class LanguagesQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>[]
+        responses: INetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>[]
     ): LanguageResponses.IListLanguagesAllResponse {
         return {
             items: items,

@@ -1,7 +1,7 @@
 import { IHeader, IQueryParameter } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../../config';
-import { IKontentNetworkResponse, IKontentResponse, IQueryConfig, Parameters } from '../../models';
+import { INetworkResponse, IKontentResponse, IQueryConfig, Parameters } from '../../models';
 import { QueryService } from '../../services';
 
 export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig extends IQueryConfig, TContract> {
@@ -20,7 +20,7 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
     /**
      * Gets promise for query execution
      */
-    abstract toPromise(): Promise<IKontentNetworkResponse<TResponse, TContract>>;
+    abstract toPromise(): Promise<INetworkResponse<TResponse, TContract>>;
 
     /**
      * Maps json data to response

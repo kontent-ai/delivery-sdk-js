@@ -1,6 +1,6 @@
 import { TypeContracts } from '../../data-contracts/type-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { IContentTypeQueryConfig, IKontentNetworkResponse, TypeResponses } from '../../models';
+import { IContentTypeQueryConfig, INetworkResponse, TypeResponses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
@@ -15,7 +15,7 @@ export class MultipleTypeQuery extends BaseListingQuery<
     }
 
     toPromise(): Promise<
-        IKontentNetworkResponse<TypeResponses.IListContentTypesResponse, TypeContracts.IListContentTypeContract>
+        INetworkResponse<TypeResponses.IListContentTypesResponse, TypeContracts.IListContentTypeContract>
     > {
         return this.queryService.getMultipleTypes(this.getUrl(), this._queryConfig ?? {});
     }
@@ -32,7 +32,7 @@ export class MultipleTypeQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<
+        responses: INetworkResponse<
             TypeResponses.IListContentTypesResponse,
             TypeContracts.IListContentTypeContract
         >[]

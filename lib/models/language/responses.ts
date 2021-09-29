@@ -1,5 +1,5 @@
 import { LanguageContracts } from '../../data-contracts';
-import { IKontentListAllResponse, IKontentListResponse, IKontentNetworkResponse, IPagination } from '../common';
+import { IKontentListAllResponse, IKontentListResponse, INetworkResponse, IPagination } from '../common';
 import { ILanguage } from './language-models';
 
 export namespace LanguageResponses {
@@ -10,6 +10,6 @@ export namespace LanguageResponses {
 
     export interface IListLanguagesAllResponse extends IKontentListAllResponse {
         items: ILanguage[];
-        responses: IKontentNetworkResponse<IListLanguagesResponse, LanguageContracts.IListLanguagesContract>[];
+        responses: INetworkResponse<IListLanguagesResponse, LanguageContracts.IListLanguagesContract>[];
     }
 }

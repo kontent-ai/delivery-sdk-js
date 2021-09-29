@@ -12,9 +12,9 @@ import {
     ElementResponses,
     IContentItem,
     IContentTypeQueryConfig,
-    IGroupedKontentNetworkResponse,
+    IGroupedNetworkResponse,
     IItemQueryConfig,
-    IKontentNetworkResponse,
+    INetworkResponse,
     ILanguagesQueryConfig,
     ITaxonomyQueryConfig,
     ItemResponses,
@@ -50,7 +50,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: IItemQueryConfig
     ): Promise<
-        IKontentNetworkResponse<
+        INetworkResponse<
             ItemResponses.IViewContentItemResponse<TContentItem>,
             ItemContracts.IViewContentItemContract
         >
@@ -72,7 +72,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: IItemQueryConfig
     ): Promise<
-        IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
+        INetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
     > {
         const response = await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url, queryConfig);
 
@@ -88,7 +88,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: IItemQueryConfig
     ): Promise<
-        IKontentNetworkResponse<
+        INetworkResponse<
             ItemResponses.IListContentItemsResponse<TContentItem>,
             ItemContracts.IListContentItemsContract
         >
@@ -107,7 +107,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: IContentTypeQueryConfig
     ): Promise<
-        IKontentNetworkResponse<TypeResponses.IViewContentTypeResponse, TypeContracts.IViewContentTypeContract>
+        INetworkResponse<TypeResponses.IViewContentTypeResponse, TypeContracts.IViewContentTypeContract>
     > {
         const response = await this.getResponseAsync<TypeContracts.IViewContentTypeContract>(url, queryConfig);
 
@@ -123,7 +123,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: IContentTypeQueryConfig
     ): Promise<
-        IKontentNetworkResponse<TypeResponses.IListContentTypesResponse, TypeContracts.IListContentTypeContract>
+        INetworkResponse<TypeResponses.IListContentTypesResponse, TypeContracts.IListContentTypeContract>
     > {
         const response = await this.getResponseAsync<TypeContracts.IListContentTypeContract>(url, queryConfig);
 
@@ -139,7 +139,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: ILanguagesQueryConfig
     ): Promise<
-        IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>
+        INetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>
     > {
         const response = await this.getResponseAsync<LanguageContracts.IListLanguagesContract>(url, queryConfig);
 
@@ -155,7 +155,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: ITaxonomyQueryConfig
     ): Promise<
-        IKontentNetworkResponse<TaxonomyResponses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>
+        INetworkResponse<TaxonomyResponses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>
     > {
         const response = await this.getResponseAsync<TaxonomyContracts.IViewTaxonomyGroupContract>(url, queryConfig);
 
@@ -171,7 +171,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: ITaxonomyQueryConfig
     ): Promise<
-        IKontentNetworkResponse<
+        INetworkResponse<
             TaxonomyResponses.IListTaxonomiesResponse,
             TaxonomyContracts.IListTaxonomyGroupsContract
         >
@@ -190,7 +190,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: ITaxonomyQueryConfig
     ): Promise<
-        IKontentNetworkResponse<
+        INetworkResponse<
             ElementResponses.IViewContentTypeElementResponse,
             ElementContracts.IViewContentTypeElementContract
         >
@@ -212,13 +212,13 @@ export class QueryService extends BaseDeliveryQueryService {
         getResponse: (
             nextPageUrl?: string,
             continuationToken?: string
-        ) => Promise<IKontentNetworkResponse<TResponse, TContract>>;
+        ) => Promise<INetworkResponse<TResponse, TContract>>;
         allResponseFactory: (
             items: any[],
-            responses: IKontentNetworkResponse<TResponse, TContract>[]
-        ) => IGroupedKontentNetworkResponse<TAllResponse>;
+            responses: INetworkResponse<TResponse, TContract>[]
+        ) => IGroupedNetworkResponse<TAllResponse>;
         listQueryConfig?: IListAllQueryConfig<TResponse, TContract>;
-    }): Promise<IGroupedKontentNetworkResponse<TAllResponse>> {
+    }): Promise<IGroupedNetworkResponse<TAllResponse>> {
         const responses = await this.getListAllResponseInternalAsync({
             page: data.page,
             resolvedResponses: [],
@@ -244,10 +244,10 @@ export class QueryService extends BaseDeliveryQueryService {
         getResponse: (
             nextPageUrl?: string,
             continuationToken?: string
-        ) => Promise<IKontentNetworkResponse<TResponse, TContract>>;
-        resolvedResponses: IKontentNetworkResponse<TResponse, TContract>[];
+        ) => Promise<INetworkResponse<TResponse, TContract>>;
+        resolvedResponses: INetworkResponse<TResponse, TContract>[];
         listQueryConfig?: IListAllQueryConfig<TResponse, TContract>;
-    }): Promise<IKontentNetworkResponse<TResponse, TContract>[]> {
+    }): Promise<INetworkResponse<TResponse, TContract>[]> {
         if (data.listQueryConfig?.pages) {
             if (data.page > data.listQueryConfig.pages) {
                 // page limit reached, return result

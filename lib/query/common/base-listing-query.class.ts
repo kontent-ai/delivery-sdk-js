@@ -2,10 +2,10 @@ import { IDeliveryClientConfig } from '../../config';
 import {
     continuationTokenHeaderName,
     Filters,
-    IGroupedKontentNetworkResponse,
+    IGroupedNetworkResponse,
     IKontentListAllResponse,
     IKontentListResponse,
-    IKontentNetworkResponse,
+    INetworkResponse,
     IListAllQueryConfig,
     IListQueryConfig,
     IQueryConfig,
@@ -232,7 +232,7 @@ export abstract class BaseListingQuery<
     /**
      * Query to get all items. Uses paging data and may execute multiple HTTP requests depending on number of items
      */
-    toAllPromise(queryAllConfig?: IListAllQueryConfig<TResponse, TContract>): Promise<IGroupedKontentNetworkResponse<TAllResponse>> {
+    toAllPromise(queryAllConfig?: IListAllQueryConfig<TResponse, TContract>): Promise<IGroupedNetworkResponse<TAllResponse>> {
         return this.queryService.getListAllResponse<TResponse, TAllResponse, TContract>({
             page: 1,
             listQueryConfig: queryAllConfig,
@@ -256,5 +256,5 @@ export abstract class BaseListingQuery<
         });
     }
 
-    protected abstract allResponseFactory(items: any[], responses: IKontentNetworkResponse<TResponse, TContract>[]): TAllResponse;
+    protected abstract allResponseFactory(items: any[], responses: INetworkResponse<TResponse, TContract>[]): TAllResponse;
 }

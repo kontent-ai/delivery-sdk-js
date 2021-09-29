@@ -9,7 +9,7 @@ import {
     sdkVersionHeader,
     staleContentHeaderName,
     continuationTokenHeaderName,
-    IKontentNetworkResponse
+    INetworkResponse
 } from '../models';
 
 import { IDeliveryClientConfig } from '../config';
@@ -161,7 +161,7 @@ export abstract class BaseDeliveryQueryService {
     protected mapNetworkResponse<TData, TContract>(
         data: TData,
         response: IResponse<any>
-    ): IKontentNetworkResponse<TData, TContract> {
+    ): INetworkResponse<TData, TContract> {
         return {
             data: data,
             response: response,

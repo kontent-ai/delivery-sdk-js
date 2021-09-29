@@ -1,5 +1,5 @@
 import { IHeader, IHttpCancelRequestToken, IQueryParameter } from '@kentico/kontent-core';
-import { IKontentNetworkResponse } from './base-responses';
+import { INetworkResponse } from './base-responses';
 import { IPagination } from './pagination.class';
 
 export interface IProxyUrlData {
@@ -59,7 +59,7 @@ export interface IListAllQueryConfig<TResponse extends IKontentListResponse, TCo
      * Executed when a list response is loaded
      */
     responseFetched?: (
-        response: IKontentNetworkResponse<TResponse, TContract>,
+        response: INetworkResponse<TResponse, TContract>,
         nextPageUrl?: string,
         continuationToken?: string
     ) => void;

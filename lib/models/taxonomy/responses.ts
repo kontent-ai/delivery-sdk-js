@@ -2,7 +2,7 @@ import { TaxonomyContracts } from '../../data-contracts';
 import {
     IKontentListAllResponse,
     IKontentListResponse,
-    IKontentNetworkResponse,
+    INetworkResponse,
     IKontentResponse,
     IPagination
 } from '../common';
@@ -20,6 +20,6 @@ export namespace TaxonomyResponses {
 
     export interface IListTaxonomiesAllResponse extends IKontentListAllResponse {
         items: ITaxonomyGroup[];
-        responses: IKontentNetworkResponse<IListTaxonomiesResponse, TaxonomyContracts.IListTaxonomyGroupsContract>[];
+        responses: INetworkResponse<IListTaxonomiesResponse, TaxonomyContracts.IListTaxonomyGroupsContract>[];
     }
 }

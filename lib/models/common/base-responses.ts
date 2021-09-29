@@ -1,13 +1,13 @@
 import { IResponse } from '@kentico/kontent-core';
 
-export interface IKontentNetworkResponse<TData, TContract> {
+export interface INetworkResponse<TData, TContract> {
     data: TData;
     response: IResponse<TContract>;
     xContinuationToken?: string;
     hasStaleContent: boolean;
 }
 
-export interface IGroupedKontentNetworkResponse<TData> {
+export interface IGroupedNetworkResponse<TData> {
     data: TData;
-    responses: IKontentNetworkResponse<any, any>[];
+    responses: INetworkResponse<any, any>[];
 }

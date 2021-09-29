@@ -4,7 +4,7 @@ import {
     Filters,
     IContentItem,
     IItemQueryConfig,
-    IKontentNetworkResponse,
+    INetworkResponse,
     ItemResponses,
     Parameters
 } from '../../models';
@@ -96,7 +96,7 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
         return this;
     }
 
-    toPromise(): Promise<IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>> {
+    toPromise(): Promise<INetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>> {
         return this.queryService.getMultipleItems(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -115,7 +115,7 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
 
     protected allResponseFactory(
         items: any[],
-        responses: IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>[]
+        responses: INetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>[]
     ): ItemResponses.IListContentItemsAllResponse<TContentItem> {
         return {
             items: items,

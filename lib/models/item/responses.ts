@@ -4,7 +4,7 @@ import {
     IKontentListAllResponse,
     IKontentListResponse,
     IKontentResponse,
-    IKontentNetworkResponse
+    INetworkResponse
 } from '../common';
 import { IContentItem, IContentItemsContainer } from './item-models';
 
@@ -18,7 +18,7 @@ export namespace ItemResponses {
     export interface IListItemsFeedAllResponse<TContentItem extends IContentItem = IContentItem>
         extends IKontentListAllResponse {
         items: TContentItem[];
-        responses: IKontentNetworkResponse<IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>[];
+        responses: INetworkResponse<IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>[];
     }
 
     export interface IListContentItemsResponse<TContentItem extends IContentItem = IContentItem>
@@ -31,7 +31,7 @@ export namespace ItemResponses {
     export interface IListContentItemsAllResponse<TContentItem extends IContentItem = IContentItem>
         extends IKontentListAllResponse {
         items: TContentItem[];
-        responses: IKontentNetworkResponse<
+        responses: INetworkResponse<
             IListContentItemsResponse<TContentItem>,
             ItemContracts.IListContentItemsContract
         >[];

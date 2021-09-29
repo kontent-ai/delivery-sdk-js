@@ -1,6 +1,6 @@
 import { ElementContracts } from '../../data-contracts/element-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { ElementResponses, IElementQueryConfig, IKontentNetworkResponse } from '../../models';
+import { ElementResponses, IElementQueryConfig, INetworkResponse } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
@@ -27,7 +27,7 @@ export class ElementQuery extends BaseQuery<
     }
 
     toPromise(): Promise<
-        IKontentNetworkResponse<
+        INetworkResponse<
             ElementResponses.IViewContentTypeElementResponse,
             ElementContracts.IViewContentTypeElementContract
         >

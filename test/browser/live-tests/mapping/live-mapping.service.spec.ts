@@ -1,4 +1,4 @@
-import { IKontentNetworkResponse, ItemContracts, ItemResponses } from '../../../../lib';
+import { INetworkResponse, ItemContracts, ItemResponses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live mapping service', () => {
@@ -6,7 +6,7 @@ describe('Live mapping service', () => {
     setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: IKontentNetworkResponse<
+    let response: INetworkResponse<
         ItemResponses.IViewContentItemResponse<Movie>,
         ItemContracts.IViewContentItemContract
     >;
