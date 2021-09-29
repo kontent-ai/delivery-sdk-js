@@ -1,7 +1,7 @@
 import { IQueryParameter } from '@kentico/kontent-core';
 
 import { Parameters } from '../models';
-import { ImageCompressionEnum, ImageFitModeEnum, ImageFormatEnum } from './image.models';
+import { ImageCompression, ImageFitMode, ImageFormat } from './image.models';
 
 export class ImageUrlTransformationBuilder {
   private queryParams: IQueryParameter[] = [];
@@ -56,7 +56,7 @@ export class ImageUrlTransformationBuilder {
    * @param z Zoom of the transformation.
    */
   withFocalPointCrop(x: number, y: number, z: number): this {
-    this.withFitMode(ImageFitModeEnum.Crop);
+    this.withFitMode('crop');
 
     this.queryParams.push(new Parameters.QueryParameter('crop', 'focalpoint'));
     this.queryParams.push(new Parameters.QueryParameter('fp-x', x.toString()));
@@ -70,7 +70,7 @@ export class ImageUrlTransformationBuilder {
    * Enables WebP image support.
    * @param compression Specifies the lossy or lossless compression.
    */
-  withAutomaticFormat(backupFormat?: ImageFormatEnum): this {
+  withAutomaticFormat(backupFormat?: ImageFormat): this {
     this.queryParams.push(
       new Parameters.QueryParameter('auto', this.automaticFormatValue)
     );
@@ -86,7 +86,7 @@ export class ImageUrlTransformationBuilder {
    * The fit transformation controls how the output image is fit to its target dimensions after resizing.
    * @param fitMode Specifies the mode for the transformation.
    */
-  withFitMode(fitMode: ImageFitModeEnum): this {
+  withFitMode(fitMode: ImageFitMode): this {
     this.queryParams.push(new Parameters.QueryParameter('fit', fitMode));
     return this;
   }
@@ -95,11 +95,11 @@ export class ImageUrlTransformationBuilder {
    * Specifies the compression mode for the WebP image transformations.
    * @param compression Specifies the lossy or lossless compression.
    */
-  withCompression(compression: ImageCompressionEnum): this {
+  withCompression(compression: ImageCompression): this {
     this.queryParams.push(
       new Parameters.QueryParameter(
         'lossless',
-        compression === ImageCompressionEnum.Lossless ? 'true' : 'false'
+        compression === 'lossless' ? 'true' : 'false'
       )
     );
     return this;
@@ -122,7 +122,7 @@ export class ImageUrlTransformationBuilder {
    * file format that hinders performance.
    * @param format Target image file type.
    */
-  withFormat(format: ImageFormatEnum): this {
+  withFormat(format: ImageFormat): this {
     this.queryParams.push(
       new Parameters.QueryParameter('fm', format)
     );

@@ -1,5 +1,5 @@
 import { ImageUrlTransformationBuilder } from './image-url-transformation-builder';
 
-export function createImageTransformationUrlBuilder(url: string): ImageUrlTransformationBuilder {
+export function transformImageUrl(url: string): ImageUrlTransformationBuilder {
     return new ImageUrlTransformationBuilder(url);
 }

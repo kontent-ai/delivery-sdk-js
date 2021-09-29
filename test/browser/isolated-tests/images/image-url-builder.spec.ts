@@ -1,21 +1,11 @@
-import {
-    ImageFormatEnum,
-    ImageCompressionEnum,
-    ImageFitModeEnum,
-    createImageTransformationUrlBuilder
-} from '../../../../lib';
+import { transformImageUrl } from '../../../../lib';
 
 describe('Image URL builder', () => {
-    const getImageBuilder = () => createImageTransformationUrlBuilder('myimage.jpg');
+    const getImageBuilder = () => transformImageUrl('myimage.jpg');
 
     it(`Checks complex query`, () => {
         const ib = getImageBuilder();
-        ib
-            .withDpr(2)
-            .withCompression(ImageCompressionEnum.Lossless)
-            .withQuality(4)
-            .withHeight(200)
-            .withWidth(100);
+        ib.withDpr(2).withCompression('lossless').withQuality(4).withHeight(200).withWidth(100);
 
         expect(ib.getUrl()).toContain('myimage.jpg');
         expect(ib.getUrl()).toContain('q=4');
@@ -33,7 +23,7 @@ describe('Image URL builder', () => {
 
     it(`Checks automatic format with backup`, () => {
         const ib = getImageBuilder();
-        ib.withAutomaticFormat(ImageFormatEnum.Jpg);
+        ib.withAutomaticFormat('jpg');
         expect(ib.getUrl()).toContain('fm=jpg');
         expect(ib.getUrl()).toContain('auto=format');
     });
@@ -70,19 +60,19 @@ describe('Image URL builder', () => {
 
     it(`Checks format`, () => {
         const ib = getImageBuilder();
-        ib.withFormat(ImageFormatEnum.Png);
+        ib.withFormat('png');
         expect(ib.getUrl()).toContain('fm=png');
 
-        ib.withFormat(ImageFormatEnum.Png8);
+        ib.withFormat('png8');
         expect(ib.getUrl()).toContain('fm=png8');
     });
 
     it(`Checks compression`, () => {
         const ib = getImageBuilder();
-        ib.withCompression(ImageCompressionEnum.Lossless);
+        ib.withCompression('lossless');
         expect(ib.getUrl()).toContain('lossless=true');
 
-        ib.withCompression(ImageCompressionEnum.Lossy);
+        ib.withCompression('lossy');
         expect(ib.getUrl()).toContain('lossless=false');
     });
 
@@ -103,13 +93,13 @@ describe('Image URL builder', () => {
 
     it(`Checks fit mode`, () => {
         const ib = getImageBuilder();
-        ib.withFitMode(ImageFitModeEnum.Crop);
+        ib.withFitMode('crop');
         expect(ib.getUrl()).toContain('fit=crop');
 
-        ib.withFitMode(ImageFitModeEnum.Clip);
+        ib.withFitMode('clip');
         expect(ib.getUrl()).toContain('fit=clip');
 
-        ib.withFitMode(ImageFitModeEnum.Scale);
+        ib.withFitMode('scale');
         expect(ib.getUrl()).toContain('fit=scale');
     });
 
