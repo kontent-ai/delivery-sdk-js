@@ -3,7 +3,7 @@ import { IQueryParameter } from '@kentico/kontent-core';
 import { Parameters } from '../models';
 import { ImageCompressionEnum, ImageFitModeEnum, ImageFormatEnum } from './image.models';
 
-export class ImageUrlBuilder {
+export class ImageUrlTransformationBuilder {
   private queryParams: IQueryParameter[] = [];
   private readonly automaticFormatValue: string = 'format';
 
