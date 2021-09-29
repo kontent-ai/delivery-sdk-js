@@ -9,7 +9,7 @@ describe('Verifies mapping of delivery content item', () => {
 
     beforeAll(async () => {
 
-        response = await (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
+        response = (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
     });
 
     it(`checks system codename`, () => {
