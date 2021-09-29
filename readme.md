@@ -11,7 +11,8 @@
 
 # JavaScript Delivery SDK Documentation
 
-JavaScript Delivery SDK is a client library for retrieving data from [Kontent by Kentico](https://kontent.ai/). Works both in browser & node.js environments.
+JavaScript Delivery SDK is a client library for retrieving data from [Kontent by Kentico](https://kontent.ai/). Works
+both in browser & node.js environments.
 
 # Kontent Delivery SDK
 
@@ -52,23 +53,6 @@ https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery
 ```
 https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.umd.min.js
 ```
-
-## Upgrade
-
-The major version `11.0.0` is pretty much a complete overhaul of this SDK with many changes including the removal of `rxjs`, removing most models (in favor of interfaces that are removed in runtime), separation of rich text resolver and so much more. The major benefits you can with `11.0.0` are:
-
-- Greatly reduced package size (from `~318KB` to `~99KB`). When Gzipped, this library is now only `27KB`
-- Reduced complexity by removing `rxjs` as not everyone needs to use it
-- Automatic paging support for all listing queries
-- Improved resolving of rich text elements along with the `async` support
-- Simplified custom models without the need of `typeResolvers`
-- Better retry strategy options
-- More extension methods added for all queries that support it (feed listing, content type listing etc..)
-- Removal of duplicate `raw` data to reduce the size of mapped responses while still being able to easily access debug data with typed network response
-- Simplified mapping of `json` data to SDK response (when you for example store `json` in cache and need to re-map it later on)
-- Updated all dependencies
-
-If you are upgrading from older version, please see this documentation first. If you are unsure how to upgrade or have some other questions, feel free to submit an issue on this GitHub and we'll get back to you.
 
 ## TypeScript & ES6
 
@@ -159,19 +143,18 @@ const movieText = response.data.items[0].title.value;
 
 Following is a list of configuration options for DeliveryClient (`IDeliveryClientConfig`):
 
-| Property            |                   type                   |    description |                                                              
-| ------------------- | :--------------------------------------: | ---------------------------------------------------------------------------
-| projectId           |                  string                  |                                                                                                    ProjectId of your Kontent project |
-| elementResolver?    |             ElementResolver              |                                                                                         Element resolver used to map custom elements |
-| previewApiKey?      |                  string                  |                                                                                Preview API key used to get unpublished content items |
-| defaultLanguage?    |                  string                  |                                       Sets default language that will be used for all queries unless overriden with query parameters |
+| Property            |                   type                   | description                                                                                                                          |
+| ------------------- | :--------------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------ |
+| projectId           |                  string                  | ProjectId of your Kontent project                                                                                                    |
+| elementResolver?    |             ElementResolver              | Element resolver used to map custom elements                                                                                         |
+| previewApiKey?      |                  string                  | Preview API key used to get unpublished content items                                                                                |
+| defaultLanguage?    |                  string                  | Sets default language that will be used for all queries unless overriden with query parameters                                       |
 | proxy?              |        IDeliveryClientProxyConfig        | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'projectId' |
-| secureApiKey?       |                  string                  |                              Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key |
-| defaultQueryConfig? |               IQueryConfig               |                                                      Default configuration for all queries. Can be overriden by indidividual queries |
-| httpService ?       |               IHttpService               |                                                                   Can be useud to inject custom http service for performing requests |
-| globalHeaders?      | (queryConfig: IQueryConfig) => IHeader[] |                                                                               Adds ability to add extra headers to each http request |
-| retryStrategy?      |          IRetryStrategyOptions           |                                                                                                         Retry strategy configuration |
-
+| secureApiKey?       |                  string                  | Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key                              |
+| defaultQueryConfig? |               IQueryConfig               | Default configuration for all queries. Can be overriden by indidividual queries                                                      |
+| httpService ?       |               IHttpService               | Can be useud to inject custom http service for performing requests                                                                   |
+| globalHeaders?      | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request                                                                               |
+| retryStrategy?      |          IRetryStrategyOptions           | Retry strategy configuration                                                                                                         |
 
 ### Create typed models
 
@@ -302,7 +285,7 @@ deliveryClient.items<Movie>().type('movie').equalsFilter('elements.title', 'Warr
 ##### Filtering methods
 
 | Filter                   | Description                                                                           |
-| ------------------------ | ------------------------------------------------------------------------------------- | 
+| ------------------------ | ------------------------------------------------------------------------------------- |
 | type                     | Retrieve only content items based on the given type.                                  |
 | types                    | Retrieve only content items based on the given types.                                 |
 | allFilte                 | Element with an array of values contains the specified list of values.                |
@@ -310,7 +293,7 @@ deliveryClient.items<Movie>().type('movie').equalsFilter('elements.title', 'Warr
 | containsFilter           | Element with an array of values contains the specified value.                         |
 | equalsFilter             | Element value is the same as the specified value                                      |
 | greaterThanFilter        | Element value is greater than the specified value.                                    |
-| greaterThanOrEqualFilter | Element value is greater than or equals the specified value.                          |                         
+| greaterThanOrEqualFilter | Element value is greater than or equals the specified value.                          |
 | infilter                 | Element value is in the specified list of values.                                     |
 | lessThanFilter           | Element value is less than the specified value.                                       |
 | lessThanOrEqualFilter    | Element value is less than or equals the specified value                              |
@@ -739,6 +722,28 @@ const deliveryClient = createDeliveryClient({
     httpService: YourHttpServiceImplementation
 });
 ```
+
+## Upgrade
+
+The major version `11.0.0` is pretty much a complete overhaul of this SDK with many breaking changes. The major benefits
+you can with `11.0.0` are:
+
+-   Greatly reduced package size (from `~318KB` to `~99KB`). When Gzipped, this library is now only `27KB`
+-   Reduced complexity by removing `rxjs` as not everyone needs to use it
+-   Removed classes in favor of interfaces (again to reduce size of library)
+-   Automatic paging support for all listing queries
+-   Improved resolving of rich text elements along with the `async` support
+-   Simplified custom models without the need of `typeResolvers`
+-   Better retry strategy options
+-   More extension methods added for all queries that support it (feed listing, content type listing etc..)
+-   Removal of duplicate `raw` data to reduce the size of mapped responses while still being able to easily access debug
+    data with typed network response
+-   Simplified mapping of `json` data to SDK response (when you for example store `json` in cache and need to re-map it
+    later on)
+-   Updated all dependencies
+
+If you are upgrading from older version, please see this documentation first. If you are still unsure how to upgrade or
+have some other questions, feel free to submit an issue on this GitHub and we'll get back to you.
 
 ## Testing
 
