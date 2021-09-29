@@ -11,59 +11,9 @@
 
 # JavaScript Delivery SDK Documentation
 
-JavaScript Delivery SDK is a client library for retrieving content from [Kontent by Kentico](https://kontent.ai/) using
-Delivery API. The client library is written in TypeScript and published in formats `UMD`, `ES2015`, and `CommonJs`. It
-works both in browser & node.
-
--   [JavaScript Delivery SDK Documentation](#javascript-delivery-sdk-documentation)
-    -   [Installation](#installation)
-        -   [npm](#npm)
-        -   [UMD Bundles](#umd-bundles)
-            -   [CDN](#cdn)
-                -   [kontent-delivery.umd.js](#kontent-deliveryumdjs)
-                -   [kontent-delivery.umd.min.js](#kontent-deliveryumdminjs)
-    -   [Upgrade](#upgrade)
-    -   [TypeScript & ES6](#typescript--es6)
-    -   [JavaScript & CommonJS](#javascript--commonjs)
-    -   [HTML & UMD & CDN](#html--umd--cdn)
-    -   [SDK Documentation](#sdk-documentation)
-        -   [Client configuration](#client-configuration)
-        -   [Fetch data)](#fetch-data)
-        -   [Create typed models](#create-typed-models)
-            -   [Use custom models for Custom elements](#use-custom-models-for-custom-elements)
-        -   [Query parameters](#query-parameters)
-            -   [Filter content](#filter-content)
-                -   [Filtering methods](#filtering-methods)
-            -   [Sort content](#sort-content)
-        -   [Execute queries with custom URL](#execute-queries-with-custom-url)
-        -   [Custom parameters](#custom-parameters)
-        -   [Get localized items](#get-localized-items)
-        -   [Property name resolvers](#property-name-resolvers)
-        -   [Preview mode](#preview-mode)
-            -   [Enable preview mode globally](#enable-preview-mode-globally)
-            -   [Enable preview mode per query](#enable-preview-mode-per-query)
-        -   [Secure Delivery API](#secure-delivery-api)
-        -   [Image transformation](#image-transformation)
-        -   [Paging](#paging)
-        -   [Resolving rich text elements](#resolving-rich-text-elements)
-            -   [Browser rich text resolver](#browser-rich-text-resolver)
-            -   [Node.js rich text resolver](#nodejs-rich-text-resolver)
-    -   [Get content types](#get-content-types)
-    -   [Get taxonomies](#get-taxonomies)
-    -   [Proxy configuration](#proxy-configuration)
-    -   [Error handling](#error-handling)
-    -   [Debugging](#debugging)
-        -   [Accessing request data](#accessing-request-data)
-        -   [Getting URL of a query](#getting-url-of-a-query)
-        -   [Using custom HTTP service](#using-custom-http-service)
-    -   [Feedback & Contribution](#feedback--contribution)
+JavaScript Delivery SDK is a client library for retrieving data from [Kontent by Kentico](https://kontent.ai/). Works both in browser & node.js environments.
 
 # Kontent Delivery SDK
-
-A client library for retrieving content from [Kontent by Kentico](https://kontent.ai/) written in TypeScript and
-published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
-
-| Resources |---| | [Upgrade guide](https://github.com/Kentico/kontent-delivery-sdk-js/blob/master/UPGRADE.md) |
 
 ## Installation
 
@@ -105,8 +55,20 @@ https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery
 
 ## Upgrade
 
-If you are upgrading from older versions see
-[upgrade guide](https://github.com/Kentico/kontent-delivery-sdk-js/blob/master/UPGRADE.md).
+The major version `11.0.0` is pretty much a complete overhaul of this SDK with many changes including the removal of `rxjs`, removing most models (in favor of interfaces that are removed in runtime), separation of rich text resolver and so much more. The major benefits you can with `11.0.0` are:
+
+- Greatly reduced package size (from `~318KB` to `~99KB`). When Gzipped, this library is now only `27KB`
+- Reduced complexity by removing `rxjs` as not everyone needs to use it
+- Automatic paging support for all listing queries
+- Improved resolving of rich text elements along with the `async` support
+- Simplified custom models without the need of `typeResolvers`
+- Better retry strategy options
+- More extension methods added for all queries that support it (feed listing, content type listing etc..)
+- Removal of duplicate `raw` data to reduce the size of mapped responses while still being able to easily access debug data with typed network response
+- Simplified mapping of `json` data to SDK response (when you for example store `json` in cache and need to re-map it later on)
+- Updated all dependencies
+
+If you are upgrading from older version, please see this documentation first. If you are unsure how to upgrade or have some other questions, feel free to submit an issue on this GitHub and we'll get back to you.
 
 ## TypeScript & ES6
 
