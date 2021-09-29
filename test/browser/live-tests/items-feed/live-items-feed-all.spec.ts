@@ -6,18 +6,21 @@ describe('Live items feed all', () => {
     setup(context);
 
     let response: ItemResponses.IListItemsFeedAllResponse<Movie>;
-    const responses: IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<Movie>, ItemContracts.IItemsFeedContract>[] = [];
+    const responses: IKontentNetworkResponse<
+        ItemResponses.IListItemsFeedResponse<Movie>,
+        ItemContracts.IItemsFeedContract
+    >[] = [];
 
     beforeAll(async () => {
         response = (
             await context.deliveryClient
                 .itemsFeed<Movie>()
-                .listQueryConfig({
+                .listQueryConfig({})
+                .toAllPromise({
                     responseFetched: (innerResponse, nextPage, continuationToken) => {
                         responses.push(innerResponse);
                     }
                 })
-                .toAllPromise()
         ).data;
     });
 

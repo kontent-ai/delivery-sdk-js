@@ -6,6 +6,7 @@ import {
     IKontentListAllResponse,
     IKontentListResponse,
     IKontentNetworkResponse,
+    IListAllQueryConfig,
     IListQueryConfig,
     IQueryConfig,
     Parameters,
@@ -231,9 +232,10 @@ export abstract class BaseListingQuery<
     /**
      * Query to get all items. Uses paging data and may execute multiple HTTP requests depending on number of items
      */
-    toAllPromise(): Promise<IGroupedKontentNetworkResponse<TAllResponse>> {
+    toAllPromise(queryAllConfig?: IListAllQueryConfig<TResponse, TContract>): Promise<IGroupedKontentNetworkResponse<TAllResponse>> {
         return this.queryService.getListAllResponse<TResponse, TAllResponse, TContract>({
-            listQueryConfig: this._listQueryConfig,
+            page: 1,
+            listQueryConfig: queryAllConfig,
             allResponseFactory: (items, responses) => {
                 const response = this.allResponseFactory(items, responses);
                 return {

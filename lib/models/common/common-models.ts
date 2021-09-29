@@ -26,8 +26,7 @@ export interface ISDKInfo {
     host: string;
 }
 
-export interface IKontentResponse {
-}
+export interface IKontentResponse {}
 
 export interface IKontentListWithHeaderResponse extends IKontentResponse {
     items: any[];
@@ -43,7 +42,14 @@ export interface IKontentListAllResponse extends IKontentResponse {
     items: any[];
 }
 
-export interface IListQueryConfig<TResponse extends IKontentListResponse, TContract> {
+export interface IListQueryConfig<TResponse extends IKontentListResponse, TContract> {}
+
+export interface IListAllQueryConfig<TResponse extends IKontentListResponse, TContract> extends IListQueryConfig<TResponse, TContract> {
+    /**
+     * Number of pages to get. If not set, all available pages are fetched.
+     */
+    pages?: number;
+
     /**
      * Delay between each HTTP requests
      */
@@ -52,7 +58,11 @@ export interface IListQueryConfig<TResponse extends IKontentListResponse, TContr
     /**
      * Executed when a list response is loaded
      */
-    responseFetched?: (response: IKontentNetworkResponse<TResponse, TContract>, nextPageUrl?: string, continuationToken?: string) => void;
+    responseFetched?: (
+        response: IKontentNetworkResponse<TResponse, TContract>,
+        nextPageUrl?: string,
+        continuationToken?: string
+    ) => void;
 }
 
 export interface IQueryConfig {

@@ -25,7 +25,7 @@ import {
 import {
     IKontentListAllResponse,
     IKontentListResponse,
-    IListQueryConfig,
+    IListAllQueryConfig,
     ISDKInfo
 } from '../models/common/common-models';
 import { BaseDeliveryQueryService } from './base-delivery-query.service';
@@ -49,13 +49,18 @@ export class QueryService extends BaseDeliveryQueryService {
     async getSingleItemAsync<TContentItem extends IContentItem = IContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IKontentNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>, ItemContracts.IViewContentItemContract>> {
+    ): Promise<
+        IKontentNetworkResponse<
+            ItemResponses.IViewContentItemResponse<TContentItem>,
+            ItemContracts.IViewContentItemContract
+        >
+    > {
         const response = await this.getResponseAsync<ItemContracts.IViewContentItemContract>(url, queryConfig);
 
-        return this.mapNetworkResponse<ItemResponses.IViewContentItemResponse<TContentItem>, ItemContracts.IViewContentItemContract>(
-            this.mappingService.viewContentItemResponse<TContentItem>(response.data),
-            response
-        );
+        return this.mapNetworkResponse<
+            ItemResponses.IViewContentItemResponse<TContentItem>,
+            ItemContracts.IViewContentItemContract
+        >(this.mappingService.viewContentItemResponse<TContentItem>(response.data), response);
     }
 
     /**
@@ -66,13 +71,12 @@ export class QueryService extends BaseDeliveryQueryService {
     async getItemsFeed<TContentItem extends IContentItem = IContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>> {
+    ): Promise<
+        IKontentNetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
+    > {
         const response = await this.getResponseAsync<ItemContracts.IItemsFeedContract>(url, queryConfig);
 
-        return this.mapNetworkResponse(
-            this.mappingService.itemsFeedResponse<TContentItem>(response.data),
-            response
-        );
+        return this.mapNetworkResponse(this.mappingService.itemsFeedResponse<TContentItem>(response.data), response);
     }
 
     /**
@@ -83,13 +87,15 @@ export class QueryService extends BaseDeliveryQueryService {
     async getMultipleItems<TContentItem extends IContentItem = IContentItem>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>> {
+    ): Promise<
+        IKontentNetworkResponse<
+            ItemResponses.IListContentItemsResponse<TContentItem>,
+            ItemContracts.IListContentItemsContract
+        >
+    > {
         const response = await this.getResponseAsync<ItemContracts.IListContentItemsContract>(url, queryConfig);
 
-        return this.mapNetworkResponse(
-            this.mappingService.listContentItemsResponse(response.data),
-            response
-        );
+        return this.mapNetworkResponse(this.mappingService.listContentItemsResponse(response.data), response);
     }
 
     /**
@@ -100,7 +106,9 @@ export class QueryService extends BaseDeliveryQueryService {
     async getSingleType(
         url: string,
         queryConfig: IContentTypeQueryConfig
-    ): Promise<IKontentNetworkResponse<TypeResponses.IViewContentTypeResponse, TypeContracts.IViewContentTypeContract>> {
+    ): Promise<
+        IKontentNetworkResponse<TypeResponses.IViewContentTypeResponse, TypeContracts.IViewContentTypeContract>
+    > {
         const response = await this.getResponseAsync<TypeContracts.IViewContentTypeContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.viewContentTypeResponse(response.data), response);
@@ -114,7 +122,9 @@ export class QueryService extends BaseDeliveryQueryService {
     async getMultipleTypes(
         url: string,
         queryConfig: IContentTypeQueryConfig
-    ): Promise<IKontentNetworkResponse<TypeResponses.IListContentTypesResponse, TypeContracts.IListContentTypeContract>> {
+    ): Promise<
+        IKontentNetworkResponse<TypeResponses.IListContentTypesResponse, TypeContracts.IListContentTypeContract>
+    > {
         const response = await this.getResponseAsync<TypeContracts.IListContentTypeContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.listContentTypesResponse(response.data), response);
@@ -128,7 +138,9 @@ export class QueryService extends BaseDeliveryQueryService {
     async getLanguages(
         url: string,
         queryConfig: ILanguagesQueryConfig
-    ): Promise<IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>> {
+    ): Promise<
+        IKontentNetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>
+    > {
         const response = await this.getResponseAsync<LanguageContracts.IListLanguagesContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.listLanguagesResponse(response.data), response);
@@ -142,7 +154,9 @@ export class QueryService extends BaseDeliveryQueryService {
     async getTaxonomy(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Promise<IKontentNetworkResponse<TaxonomyResponses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>> {
+    ): Promise<
+        IKontentNetworkResponse<TaxonomyResponses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>
+    > {
         const response = await this.getResponseAsync<TaxonomyContracts.IViewTaxonomyGroupContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.viewTaxonomyResponse(response.data), response);
@@ -156,7 +170,12 @@ export class QueryService extends BaseDeliveryQueryService {
     async getTaxonomies(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Promise<IKontentNetworkResponse<TaxonomyResponses.IListTaxonomiesResponse, TaxonomyContracts.IListTaxonomyGroupsContract>> {
+    ): Promise<
+        IKontentNetworkResponse<
+            TaxonomyResponses.IListTaxonomiesResponse,
+            TaxonomyContracts.IListTaxonomyGroupsContract
+        >
+    > {
         const response = await this.getResponseAsync<TaxonomyContracts.IListTaxonomyGroupsContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.listTaxonomiesResponse(response.data), response);
@@ -170,7 +189,12 @@ export class QueryService extends BaseDeliveryQueryService {
     async getElementAsync(
         url: string,
         queryConfig: ITaxonomyQueryConfig
-    ): Promise<IKontentNetworkResponse<ElementResponses.IViewContentTypeElementResponse, ElementContracts.IViewContentTypeElementContract>> {
+    ): Promise<
+        IKontentNetworkResponse<
+            ElementResponses.IViewContentTypeElementResponse,
+            ElementContracts.IViewContentTypeElementContract
+        >
+    > {
         const response = await this.getResponseAsync<ElementContracts.IViewContentTypeElementContract>(
             url,
             queryConfig
@@ -184,11 +208,19 @@ export class QueryService extends BaseDeliveryQueryService {
         TAllResponse extends IKontentListAllResponse,
         TContract
     >(data: {
-        getResponse: (nextPageUrl?: string, continuationToken?: string) => Promise<IKontentNetworkResponse<TResponse, TContract>>;
-        allResponseFactory: (items: any[], responses: IKontentNetworkResponse<TResponse, TContract>[]) => IGroupedKontentNetworkResponse<TAllResponse>;
-        listQueryConfig?: IListQueryConfig<TResponse, TContract>;
+        page: number;
+        getResponse: (
+            nextPageUrl?: string,
+            continuationToken?: string
+        ) => Promise<IKontentNetworkResponse<TResponse, TContract>>;
+        allResponseFactory: (
+            items: any[],
+            responses: IKontentNetworkResponse<TResponse, TContract>[]
+        ) => IGroupedKontentNetworkResponse<TAllResponse>;
+        listQueryConfig?: IListAllQueryConfig<TResponse, TContract>;
     }): Promise<IGroupedKontentNetworkResponse<TAllResponse>> {
         const responses = await this.getListAllResponseInternalAsync({
+            page: data.page,
             resolvedResponses: [],
             getResponse: data.getResponse,
             nextPageUrl: undefined,
@@ -206,12 +238,23 @@ export class QueryService extends BaseDeliveryQueryService {
     }
 
     private async getListAllResponseInternalAsync<TResponse extends IKontentListResponse, TContract>(data: {
+        page: number;
         nextPageUrl?: string;
         continuationToken?: string;
-        getResponse: (nextPageUrl?: string, continuationToken?: string) => Promise<IKontentNetworkResponse<TResponse, TContract>>;
+        getResponse: (
+            nextPageUrl?: string,
+            continuationToken?: string
+        ) => Promise<IKontentNetworkResponse<TResponse, TContract>>;
         resolvedResponses: IKontentNetworkResponse<TResponse, TContract>[];
-        listQueryConfig?: IListQueryConfig<TResponse, TContract>;
+        listQueryConfig?: IListAllQueryConfig<TResponse, TContract>;
     }): Promise<IKontentNetworkResponse<TResponse, TContract>[]> {
+        if (data.listQueryConfig?.pages) {
+            if (data.page > data.listQueryConfig.pages) {
+                // page limit reached, return result
+                return data.resolvedResponses;
+            }
+        }
+
         const response = await data.getResponse(data.nextPageUrl, data.continuationToken);
 
         if (data.listQueryConfig?.delayBetweenRequests) {
@@ -227,6 +270,7 @@ export class QueryService extends BaseDeliveryQueryService {
         if (response.data.pagination?.nextPage || response.xContinuationToken) {
             // recursively fetch next page data
             return await this.getListAllResponseInternalAsync({
+                page: data.page + 1,
                 nextPageUrl: response.data.pagination?.nextPage,
                 continuationToken: response.xContinuationToken,
                 listQueryConfig: data.listQueryConfig,

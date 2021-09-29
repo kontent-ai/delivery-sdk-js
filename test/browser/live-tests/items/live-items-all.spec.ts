@@ -9,18 +9,22 @@ describe('Live items all', () => {
     let response: ItemResponses.IListContentItemsAllResponse<Movie>;
     const responses: IKontentNetworkResponse<ItemResponses.IListContentItemsResponse<Movie>, any>[] = [];
 
+    const pages: number = 2;
+    const limit: number = 2;
+
     beforeAll(async () => {
         response = (
             await context.deliveryClient
                 .items<Movie>()
-                .listQueryConfig({
+                .listQueryConfig({})
+                .limitParameter(limit)
+                .type(type)
+                .toAllPromise({
                     responseFetched: (innerResponse, nextPage, continuationToken) => {
                         responses.push(innerResponse);
-                    }
+                    },
+                    pages: pages
                 })
-                .limitParameter(2)
-                .type(type)
-                .toAllPromise()
         ).data;
     });
 
@@ -29,11 +33,11 @@ describe('Live items all', () => {
     });
 
     it(`check correct number of items`, () => {
-        expect(response.items.length).toEqual(6);
+        expect(response.items.length).toEqual(pages * limit);
     });
 
     it(`items should have multiple responses`, () => {
-        expect(response.responses.length).toBeGreaterThan(2);
+        expect(response.responses.length).toEqual(pages);
         expect(response.responses.length).toEqual(responses.length);
 
         for (const innerResponse of response.responses) {
