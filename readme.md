@@ -197,8 +197,8 @@ const movieText = response.data.items[0].title.value;
 
 Following is a list of configuration options for DeliveryClient (`IDeliveryClientConfig`):
 
-| Property            |                   type                   |                                                                                                                          description |
-| ------------------- | :--------------------------------------: | -----------------------------------------------------------------------------------------------------------------------------------: |
+| Property            |                   type                   |    description |                                                              
+| ------------------- | :--------------------------------------: | ---------------------------------------------------------------------------
 | projectId           |                  string                  |                                                                                                    ProjectId of your Kontent project |
 | elementResolver?    |             ElementResolver              |                                                                                         Element resolver used to map custom elements |
 | previewApiKey?      |                  string                  |                                                                                Preview API key used to get unpublished content items |
@@ -209,6 +209,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | httpService ?       |               IHttpService               |                                                                   Can be useud to inject custom http service for performing requests |
 | globalHeaders?      | (queryConfig: IQueryConfig) => IHeader[] |                                                                               Adds ability to add extra headers to each http request |
 | retryStrategy?      |          IRetryStrategyOptions           |                                                                                                         Retry strategy configuration |
+
 
 ### Create typed models
 
@@ -339,7 +340,7 @@ deliveryClient.items<Movie>().type('movie').equalsFilter('elements.title', 'Warr
 ##### Filtering methods
 
 | Filter                   | Description                                                                           |
-| ------------------------ | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| ------------------------ | ------------------------------------------------------------------------------------- | 
 | type                     | Retrieve only content items based on the given type.                                  |
 | types                    | Retrieve only content items based on the given types.                                 |
 | allFilte                 | Element with an array of values contains the specified list of values.                |
@@ -347,7 +348,7 @@ deliveryClient.items<Movie>().type('movie').equalsFilter('elements.title', 'Warr
 | containsFilter           | Element with an array of values contains the specified value.                         |
 | equalsFilter             | Element value is the same as the specified value                                      |
 | greaterThanFilter        | Element value is greater than the specified value.                                    |
-| greaterThanOrEqualFilter |                                                                                       | Element value is greater than or equals the specified value. |
+| greaterThanOrEqualFilter | Element value is greater than or equals the specified value.                          |                         
 | infilter                 | Element value is in the specified list of values.                                     |
 | lessThanFilter           | Element value is less than the specified value.                                       |
 | lessThanOrEqualFilter    | Element value is less than or equals the specified value                              |
