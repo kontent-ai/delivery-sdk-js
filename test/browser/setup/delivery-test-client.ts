@@ -1,18 +1,18 @@
 import { IHeader, IResponse, TestHttpService } from '@kentico/kontent-core';
 import { defaultPropertyNameResolver } from '.';
 
-import { DeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../../lib';
+import { createDeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../../lib';
 
 const testProjectId: string = 'delivery-project-id';
 
 export function toPromise<T>(data: T): Promise<T> {
     return new Promise((resolve, reject) => {
         resolve(data);
-      });
+    });
 }
 
 export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDeliveryClient {
-    return new DeliveryClient(
+    return createDeliveryClient(
         config
             ? config
             : {
@@ -22,8 +22,8 @@ export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDelivery
     );
 }
 
-export function getDeliveryClientWithError(errorJson: any): DeliveryClient {
-    return new DeliveryClient({
+export function getDeliveryClientWithError(errorJson: any): IDeliveryClient {
+    return createDeliveryClient({
         projectId: testProjectId,
         propertyNameResolver: defaultPropertyNameResolver,
         httpService: new TestHttpService({
@@ -37,7 +37,7 @@ export function getDeliveryClientWithJson(
     json: any,
     config?: IDeliveryClientConfig,
     responseHeaders: IHeader[] = []
-): DeliveryClient {
+): IDeliveryClient {
     return getDeliveryClientWithJsonAndHeaders(json, config, responseHeaders);
 }
 
@@ -45,9 +45,9 @@ export function getDeliveryClientWithJsonAndHeaders(
     json: any,
     config?: IDeliveryClientConfig,
     responseHeaders: IHeader[] = []
-): DeliveryClient {
+): IDeliveryClient {
     if (!config) {
-        return new DeliveryClient({
+        return createDeliveryClient({
             projectId: testProjectId,
             propertyNameResolver: defaultPropertyNameResolver,
             httpService: new TestHttpService({
@@ -63,7 +63,7 @@ export function getDeliveryClientWithJsonAndHeaders(
         error: undefined
     });
 
-    return new DeliveryClient(config);
+    return createDeliveryClient(config);
 }
 
 function getResponseFromJson(json: any, responseHeaders: IHeader[] = []): IResponse<any> {

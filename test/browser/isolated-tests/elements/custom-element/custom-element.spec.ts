@@ -11,7 +11,7 @@ describe('Custom element', () => {
     });
 
     it(`Color element should be mapped to DefaultCustomElement`, () => {
-        const element = item.elements.color as Elements.ICustomElement;
+        const element = item.elements.color as Elements.CustomElement;
         const rawElement = responseJson.items[0].elements.color;
 
         expect(element.name).toEqual(rawElement.name);
@@ -20,7 +20,7 @@ describe('Custom element', () => {
     });
 
     it(`Markdown element should be mapped to DefaultCustomElement`, () => {
-        const element = item.elements.markdown as Elements.ICustomElement;
+        const element = item.elements.markdown as Elements.CustomElement;
         const rawElement = responseJson.items[0].elements.markdown;
 
         expect(element.name).toEqual(rawElement.name);

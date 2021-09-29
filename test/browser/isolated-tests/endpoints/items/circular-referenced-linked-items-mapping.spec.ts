@@ -19,12 +19,12 @@ describe('Circular references in linked items', () => {
         const linkedItem = response.item;
         expect(linkedItem).toBeDefined();
         expect(
-            (linkedItem.elements[modularItemElement] as Elements.ILinkedItemsElement<any>).linkedItems.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).linkedItems.find(
                 (m) => m.system.codename === 'on_roasts'
             )
         ).toBeDefined();
         expect(
-            (linkedItem.elements[modularItemElement] as Elements.ILinkedItemsElement<any>).linkedItems.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).linkedItems.find(
                 (m) => m.system.codename === 'which_brewing_fits_you_'
             )
         ).toBeDefined();
@@ -41,12 +41,12 @@ describe('Circular references in linked items', () => {
         }
 
         expect(
-            (linkedItem.elements[modularItemElement] as Elements.ILinkedItemsElement<any>).linkedItems.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).linkedItems.find(
                 (m) => m.system.codename === 'on_roasts'
             )
         ).toBeDefined();
         expect(
-            (linkedItem.elements[modularItemElement] as Elements.ILinkedItemsElement<any>).linkedItems.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).linkedItems.find(
                 (m) => m.system.codename === 'which_brewing_fits_you_'
             )
         ).toBeDefined();
@@ -63,12 +63,12 @@ describe('Circular references in linked items', () => {
         }
 
         expect(
-            (linkedItem.elements[modularItemElement] as Elements.ILinkedItemsElement<any>).linkedItems.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).linkedItems.find(
                 (m) => m.system.codename === 'on_roasts'
             )
         ).toBeDefined();
         expect(
-            (linkedItem.elements[modularItemElement] as Elements.ILinkedItemsElement<any>).linkedItems.find(
+            (linkedItem.elements[modularItemElement] as Elements.LinkedItemsElement<any>).linkedItems.find(
                 (m) => m.system.codename === 'coffee_processing_techniques'
             )
         ).toBeDefined();

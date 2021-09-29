@@ -12,7 +12,7 @@ describe('Unknown element', () => {
     });
 
     it(`Ufo element should be mapped to UnknownElement`, () => {
-        const element = item.elements.ufo as Elements.IUnknownElement;
+        const element = item.elements.ufo as Elements.UnknownElement;
         const rawElement = responseJson.items[0].elements.ufo;
 
         expect(element.name).toEqual(rawElement.name);

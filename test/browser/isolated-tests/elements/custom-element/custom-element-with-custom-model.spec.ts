@@ -2,18 +2,25 @@ import { IContentItem, ElementType, Elements } from '../../../../../lib';
 import { getDeliveryClientWithJson } from '../../../setup';
 import * as responseJson from './custom-element.spec.json';
 
-interface ColorElementValue {
+
+type ColorElement = Elements.CustomElement<{
     red: number;
     green: number;
     blue: number;
-}
+}>;
 
-interface MarkdownElementValue {
+type MarkdownElement = Elements.CustomElement<{
     isMarkdown: boolean;
-}
+
+}>;
+
+type ItemWithCustomElements = IContentItem<{
+    color: ColorElement;
+    markdown: MarkdownElement;
+}>;
 
 describe('Custom element with custom model', () => {
-    let item: IContentItem;
+    let item: ItemWithCustomElements;
 
     beforeAll(async () => {
         const response = await getDeliveryClientWithJson(responseJson, {
@@ -29,7 +36,7 @@ describe('Custom element with custom model', () => {
                 ) {
                     const parsed = JSON.parse(elementWrapper.rawElement.value);
 
-                    return <ColorElementValue>{
+                    return {
                         red: parsed.red,
                         green: parsed.green,
                         blue: parsed.blue
@@ -40,23 +47,22 @@ describe('Custom element with custom model', () => {
                     elementWrapper.system.type === responseItem.system.type &&
                     elementWrapper.rawElement.name === markdownElement.name
                 ) {
-                    return <MarkdownElementValue>{
+                    return {
                         isMarkdown: true
                     };
                 }
                 return undefined;
             }
         })
-            .items()
+            .items<ItemWithCustomElements>()
             .toPromise();
 
         item = response.data.items[0];
     });
 
     it(`Color element should be mapped to ColorElement`, () => {
-        const element = item.elements.color as Elements.ICustomElement<ColorElementValue>;
+        const element = item.elements.color;
         const rawElement = responseJson.items[0].elements.color;
-
 
         expect(element.value.red).toEqual(167);
         expect(element.value.green).toEqual(96);
@@ -67,7 +73,7 @@ describe('Custom element with custom model', () => {
     });
 
     it(`Markdown element should be mapped to MarkdownElement`, () => {
-        const element = item.elements.markdown as Elements.ICustomElement<MarkdownElementValue>;
+        const element = item.elements.markdown;
         const rawElement = responseJson.items[0].elements.markdown;
 
         expect(element.value.isMarkdown).toEqual(true);

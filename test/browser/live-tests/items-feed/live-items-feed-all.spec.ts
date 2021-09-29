@@ -15,7 +15,6 @@ describe('Live items feed all', () => {
         response = (
             await context.deliveryClient
                 .itemsFeed<Movie>()
-                .listQueryConfig({})
                 .toAllPromise({
                     responseFetched: (innerResponse, nextPage, continuationToken) => {
                         responses.push(innerResponse);

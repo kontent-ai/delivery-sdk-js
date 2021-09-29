@@ -492,7 +492,7 @@ export class BrowserRichTextResolver implements IRichTextResolver, IRichTextAsyn
     }
 
     private tryGetImage(
-        inputElement: Elements.IRichTextElement,
+        inputElement: Elements.RichTextElement,
         linkedItems: IContentItem[],
         imageId: string
     ): IRichTextImage | undefined {
@@ -507,7 +507,7 @@ export class BrowserRichTextResolver implements IRichTextResolver, IRichTextAsyn
                 for (const elementKey of Object.keys(linkedItem.elements)) {
                     const element = linkedItem.elements[elementKey];
                     if (element.type === ElementType.RichText) {
-                        const richTextElement = element as Elements.IRichTextElement;
+                        const richTextElement = element as Elements.RichTextElement;
                         const richTextElementImage = richTextElement.images.find((m) => m.imageId === imageId);
                         if (richTextElementImage) {
                             return richTextElementImage;
@@ -521,7 +521,7 @@ export class BrowserRichTextResolver implements IRichTextResolver, IRichTextAsyn
     }
 
     private tryGetLink(
-        inputElement: Elements.IRichTextElement,
+        inputElement: Elements.RichTextElement,
         linkedItems: IContentItem[],
         linkId: string
     ): ILink | undefined {
@@ -536,7 +536,7 @@ export class BrowserRichTextResolver implements IRichTextResolver, IRichTextAsyn
                 for (const elementKey of Object.keys(linkedItem.elements)) {
                     const element = linkedItem.elements[elementKey];
                     if (element.type === ElementType.RichText) {
-                        const richTextElement = element as Elements.IRichTextElement;
+                        const richTextElement = element as Elements.RichTextElement;
                         const richTextElementLink = richTextElement.links.find((m) => m.linkId === linkId);
                         if (richTextElementLink) {
                             return richTextElementLink;

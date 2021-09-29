@@ -42,9 +42,7 @@ export interface IKontentListAllResponse extends IKontentResponse {
     items: any[];
 }
 
-export interface IListQueryConfig<TResponse extends IKontentListResponse, TContract> {}
-
-export interface IListAllQueryConfig<TResponse extends IKontentListResponse, TContract> extends IListQueryConfig<TResponse, TContract> {
+export interface IListAllQueryConfig<TResponse extends IKontentListResponse, TContract> {
     /**
      * Number of pages to get. If not set, all available pages are fetched.
      */

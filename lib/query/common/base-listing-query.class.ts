@@ -7,7 +7,6 @@ import {
     IKontentListResponse,
     INetworkResponse,
     IListAllQueryConfig,
-    IListQueryConfig,
     IQueryConfig,
     Parameters,
     SortOrder
@@ -21,15 +20,9 @@ export abstract class BaseListingQuery<
     TQueryConfig extends IQueryConfig,
     TContract
 > extends BaseQuery<TResponse, TQueryConfig, TContract> {
-    protected _listQueryConfig?: IListQueryConfig<TResponse, TContract>;
 
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
-    }
-
-    listQueryConfig(config?: IListQueryConfig<TResponse, TContract>): this {
-        this._listQueryConfig = config;
-        return this;
     }
 
     /**

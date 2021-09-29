@@ -1,19 +1,19 @@
 import { IContentItem, Elements } from '../../../lib';
 
 export type Actor = IContentItem<{
-    firstName: Elements.ITextElement;
-    lastName: Elements.ITextElement;
-    photo: Elements.IAssetsElement;
+    firstName: Elements.TextElement;
+    lastName: Elements.TextElement;
+    photo: Elements.AssetsElement;
 }>;
 
 export type Movie = IContentItem<{
-    title: Elements.ITextElement;
-    plot: Elements.IRichTextElement;
-    released: Elements.IDateTimeElement;
-    length: Elements.INumberElement;
-    poster: Elements.IAssetsElement;
-    category: Elements.IMultipleChoiceElement;
-    stars: Elements.ILinkedItemsElement<Actor>;
-    seoname: Elements.IUrlSlugElement;
-    releaseCategory: Elements.ITaxonomyElement;
+    title: Elements.TextElement;
+    plot: Elements.RichTextElement;
+    released: Elements.DateTimeElement;
+    length: Elements.NumberElement;
+    poster: Elements.AssetsElement;
+    category: Elements.MultipleChoiceElement;
+    stars: Elements.LinkedItemsElement<Actor>;
+    seoname: Elements.UrlSlugElement;
+    releaseCategory: Elements.TaxonomyElement;
 }>;

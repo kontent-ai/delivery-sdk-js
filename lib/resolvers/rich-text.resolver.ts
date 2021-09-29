@@ -30,7 +30,7 @@ export type IRichTextImageAsyncResolver = (image?: IRichTextImage) => Promise<IR
 export type IRichTextContentItemAsyncResolver = (contentItem?: IContentItem) => Promise<IRichTextContentItemResult>;
 
 export interface IRichTextResolverInput {
-    element: Elements.IRichTextElement;
+    element: Elements.RichTextElement;
     urlResolver?: IRichTextUrlResolver;
     imageResolver?: IRichTextImageResolver;
     contentItemResolver?: IRichTextContentItemResolver;
@@ -38,7 +38,7 @@ export interface IRichTextResolverInput {
 }
 
 export interface IRichTextResolverAsyncInput {
-    element: Elements.IRichTextElement;
+    element: Elements.RichTextElement;
     urlResolver?: IRichTextUrlAsyncResolver;
     imageResolver?: IRichTextImageAsyncResolver;
     contentItemResolver?: IRichTextContentItemAsyncResolver;

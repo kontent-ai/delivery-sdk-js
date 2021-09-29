@@ -140,7 +140,7 @@ export class ElementMapper {
         processedItems: IContentItemsContainer,
         processingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
-    ): Elements.IRichTextElement {
+    ): Elements.RichTextElement {
         // get all linked items nested in rich text
         const richTextLinkedItems: IContentItem[] = [];
 
@@ -198,17 +198,17 @@ export class ElementMapper {
         };
     }
 
-    private mapDateTimeElement(elementWrapper: ElementModels.IElementWrapper): Elements.IDateTimeElement {
+    private mapDateTimeElement(elementWrapper: ElementModels.IElementWrapper): Elements.DateTimeElement {
         return this.buildElement(elementWrapper, ElementType.DateTime, () =>
             elementWrapper.rawElement.value ? new Date(elementWrapper.rawElement.value) : null
         );
     }
 
-    private mapMultipleChoiceElement(elementWrapper: ElementModels.IElementWrapper): Elements.IMultipleChoiceElement {
+    private mapMultipleChoiceElement(elementWrapper: ElementModels.IElementWrapper): Elements.MultipleChoiceElement {
         return this.buildElement(elementWrapper, ElementType.MultipleChoice, () => elementWrapper.rawElement.value);
     }
 
-    private mapNumberElement(elementWrapper: ElementModels.IElementWrapper): Elements.INumberElement {
+    private mapNumberElement(elementWrapper: ElementModels.IElementWrapper): Elements.NumberElement {
         return this.buildElement(elementWrapper, ElementType.Number, () => {
             if (elementWrapper.rawElement.value === 0) {
                 return 0;
@@ -219,28 +219,28 @@ export class ElementMapper {
         });
     }
 
-    private mapTextElement(elementWrapper: ElementModels.IElementWrapper): Elements.ITextElement {
+    private mapTextElement(elementWrapper: ElementModels.IElementWrapper): Elements.TextElement {
         return this.buildElement(elementWrapper, ElementType.Text, () => elementWrapper.rawElement.value);
     }
 
-    private mapAssetsElement(elementWrapper: ElementModels.IElementWrapper): Elements.IAssetsElement {
+    private mapAssetsElement(elementWrapper: ElementModels.IElementWrapper): Elements.AssetsElement {
         return this.buildElement(elementWrapper, ElementType.Asset, () => elementWrapper.rawElement.value);
     }
 
-    private mapTaxonomyElement(elementWrapper: ElementModels.IElementWrapper): Elements.ITaxonomyElement {
+    private mapTaxonomyElement(elementWrapper: ElementModels.IElementWrapper): Elements.TaxonomyElement {
         return {
             ...this.buildElement(elementWrapper, ElementType.Taxonomy, () => elementWrapper.rawElement.value),
             taxonomyGroup: elementWrapper.rawElement.taxonomy_group
         };
     }
 
-    private mapUnknowElement(elementWrapper: ElementModels.IElementWrapper): Elements.IUnknownElement {
+    private mapUnknowElement(elementWrapper: ElementModels.IElementWrapper): Elements.UnknownElement {
         return this.buildElement(elementWrapper, ElementType.Unknown, () => elementWrapper.rawElement.value);
     }
 
     private mapCustomElement(
         elementWrapper: ElementModels.IElementWrapper
-    ): Elements.ICustomElement | ElementModels.IElement<string> {
+    ): Elements.CustomElement | ElementModels.IElement<string> {
         // try to find element resolver
         if (this.config.elementResolver) {
             const elementResolverValue = this.config.elementResolver(elementWrapper);
@@ -255,7 +255,7 @@ export class ElementMapper {
 
     private mapUrlSlugElement(
         elementWrapper: ElementModels.IElementWrapper,
-    ): Elements.IUrlSlugElement {
+    ): Elements.UrlSlugElement {
         return this.buildElement(elementWrapper, ElementType.UrlSlug, () => elementWrapper.rawElement.value);
     }
 
@@ -264,7 +264,7 @@ export class ElementMapper {
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
-    }): Elements.ILinkedItemsElement<any> {
+    }): Elements.LinkedItemsElement<any> {
         // prepare linked items
         const linkedItems: IContentItem[] = [];
 

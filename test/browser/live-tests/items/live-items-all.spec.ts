@@ -16,7 +16,6 @@ describe('Live items all', () => {
         response = (
             await context.deliveryClient
                 .items<Movie>()
-                .listQueryConfig({})
                 .limitParameter(limit)
                 .type(type)
                 .toAllPromise({

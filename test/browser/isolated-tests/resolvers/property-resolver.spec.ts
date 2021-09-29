@@ -3,9 +3,9 @@ import { Elements, IContentItem, ItemResponses, PropertyNameResolver } from '../
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 type MockMovie = IContentItem<{
-    titleTest: Elements.ITextElement;
-    test_released: Elements.IDateTimeElement;
-    justNumber: Elements.INumberElement;
+    titleTest: Elements.TextElement;
+    test_released: Elements.DateTimeElement;
+    justNumber: Elements.NumberElement;
 }>;
 
 describe('Property resolver', () => {
