@@ -728,7 +728,7 @@ const deliveryClient = createDeliveryClient({
 The major version `11.0.0` is pretty much a complete overhaul of this SDK with many breaking changes. The major benefits
 you can with `11.0.0` are:
 
--   Greatly reduced package size (from `~318KB` to `~99KB`). When Gzipped, this library is now only `20KB`
+-   Greatly reduced package size (from `~318KB` to `~95KB`). When Gzipped, this library is now only `~19KB`
 -   Reduced complexity by removing `rxjs` as not everyone needs to use it
 -   Removed classes in favor of interfaces (again to reduce size of library)
 -   Automatic paging support for all listing queries
