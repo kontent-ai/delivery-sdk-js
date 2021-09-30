@@ -1,5 +1,5 @@
 import { IDeliveryClientConfig } from '../config';
-import { Contracts } from '../data-contracts';
+import { Contracts } from '../contracts';
 import { GenericElementMapper, ItemMapper, LanguageMapper, TaxonomyMapper, TypeMapper } from '../mappers';
 import { Responses, IContentItem, IPagination } from '../models';
 

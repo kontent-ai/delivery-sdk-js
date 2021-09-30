@@ -3,7 +3,7 @@ import { IHttpService } from '@kentico/kontent-core';
 import { IDeliveryClientConfig } from '../config';
 import {
     Contracts
-} from '../data-contracts';
+} from '../contracts';
 import {
     Responses,
     IContentItem,

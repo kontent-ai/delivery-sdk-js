@@ -1,4 +1,4 @@
-import { Contracts } from '../data-contracts';
+import { Contracts } from '../contracts';
 import { ILanguage } from '../models';
 
 export class LanguageMapper {

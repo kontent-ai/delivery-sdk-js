@@ -1,4 +1,4 @@
-import { Contracts } from '../data-contracts';
+import { Contracts } from '../contracts';
 import { IQueryConfig } from './common/common-models';
 import { ElementModels } from '../elements/element-models';
 

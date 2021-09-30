@@ -1,4 +1,4 @@
-import { Contracts } from '../data-contracts';
+import { Contracts } from '../contracts';
 import { IGenericElement } from '../models';
 
 export class GenericElementMapper {

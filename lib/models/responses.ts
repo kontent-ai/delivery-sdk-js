@@ -1,5 +1,5 @@
 
-import {Contracts } from '../data-contracts';
+import {Contracts } from '../contracts';
 import { INetworkResponse } from './common/base-responses';
 import { IKontentListAllResponse, IKontentListResponse, IKontentResponse } from './common/common-models';
 import { IPagination } from './common/pagination.class';

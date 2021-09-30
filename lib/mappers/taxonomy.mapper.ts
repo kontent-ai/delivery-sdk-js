@@ -1,4 +1,4 @@
-import { Contracts } from '../data-contracts';
+import { Contracts } from '../contracts';
 import { ITaxonomyGroup, ITaxonomySystemAttributes, ITaxonomyTerms } from '../models';
 
 export class TaxonomyMapper {

@@ -1,5 +1,5 @@
 import { IDeliveryClientConfig } from '../config';
-import { Contracts } from '../data-contracts';
+import { Contracts } from '../contracts';
 import { IContentItem, IContentItemsContainer, IContentItemWithRawDataContainer, IContentItemWithRawElements } from '../models';
 import { ElementMapper } from './element.mapper';
 

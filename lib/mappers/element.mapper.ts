@@ -1,7 +1,7 @@
 import { enumHelper } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
-import { Contracts } from '../data-contracts';
+import { Contracts } from '../contracts';
 import { ElementModels, Elements, ElementType } from '../elements';
 import {
     IContentItem,

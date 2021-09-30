@@ -1,5 +1,5 @@
 import { IContentItemSystemAttributes } from '../models/item-models';
-import { Contracts } from '../data-contracts';
+import { Contracts } from '../contracts';
 import { ElementType } from './element-type';
 
 export namespace ElementModels {

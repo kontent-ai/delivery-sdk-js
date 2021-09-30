@@ -1,4 +1,4 @@
-import { Contracts } from '../../data-contracts';
+import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
 import { Filters, IContentItem, IItemQueryConfig, INetworkResponse, Responses, Parameters } from '../../models';
 import { QueryService } from '../../services';
