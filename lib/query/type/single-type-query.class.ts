@@ -1,4 +1,4 @@
-import { TypeContracts } from '../../data-contracts/type-contracts';
+import { Contracts } from '../../data-contracts';
 import { IDeliveryClientConfig } from '../../config';
 import { IContentTypeQueryConfig, INetworkResponse, Responses } from '../../models';
 import { QueryService } from '../../services';
@@ -7,7 +7,7 @@ import { BaseQuery } from '../common/base-query.class';
 export class SingleTypeQuery extends BaseQuery<
     Responses.IViewContentTypeResponse,
     IContentTypeQueryConfig,
-    TypeContracts.IViewContentTypeContract
+    Contracts.IViewContentTypeContract
 > {
     constructor(
         protected config: IDeliveryClientConfig,
@@ -22,7 +22,7 @@ export class SingleTypeQuery extends BaseQuery<
     }
 
     toPromise(): Promise<
-        INetworkResponse<Responses.IViewContentTypeResponse, TypeContracts.IViewContentTypeContract>
+        INetworkResponse<Responses.IViewContentTypeResponse, Contracts.IViewContentTypeContract>
     > {
         return this.queryService.getSingleType(this.getUrl(), this._queryConfig ?? {});
     }

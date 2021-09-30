@@ -1,5 +1,5 @@
 import { IContentItemSystemAttributes } from '../models/item-models';
-import { ElementContracts } from '../data-contracts';
+import { Contracts } from '../data-contracts';
 import { ElementType } from './element-type';
 
 export namespace ElementModels {
@@ -12,7 +12,7 @@ export namespace ElementModels {
     export interface IElementWrapper {
         element: string;
         system: IContentItemSystemAttributes;
-        rawElement: ElementContracts.IElementContract;
+        rawElement: Contracts.IElementContract;
     }
 
     export interface IElement<TValue> {

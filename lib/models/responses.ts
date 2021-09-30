@@ -1,5 +1,5 @@
 
-import { ItemContracts, LanguageContracts, TaxonomyContracts, TypeContracts } from '../data-contracts';
+import {Contracts } from '../data-contracts';
 import { INetworkResponse } from './common/base-responses';
 import { IKontentListAllResponse, IKontentListResponse, IKontentResponse } from './common/common-models';
 import { IPagination } from './common/pagination.class';
@@ -17,7 +17,7 @@ export namespace Responses {
 
     export interface IListContentTypesAllResponse extends IKontentListAllResponse {
         items: IContentType[];
-        responses: INetworkResponse<IListContentTypesResponse, TypeContracts.IListContentTypeContract>[];
+        responses: INetworkResponse<IListContentTypesResponse, Contracts.IListContentTypeContract>[];
     }
 
     export interface IViewContentTypeResponse extends IKontentResponse {
@@ -43,7 +43,7 @@ export namespace Responses {
     export interface IListItemsFeedAllResponse<TContentItem extends IContentItem = IContentItem>
         extends IKontentListAllResponse {
         items: TContentItem[];
-        responses: INetworkResponse<IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>[];
+        responses: INetworkResponse<IListItemsFeedResponse<TContentItem>, Contracts.IItemsFeedContract>[];
     }
 
     export interface IListContentItemsResponse<TContentItem extends IContentItem = IContentItem>
@@ -56,7 +56,7 @@ export namespace Responses {
     export interface IListContentItemsAllResponse<TContentItem extends IContentItem = IContentItem>
         extends IKontentListAllResponse {
         items: TContentItem[];
-        responses: INetworkResponse<IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>[];
+        responses: INetworkResponse<IListContentItemsResponse<TContentItem>, Contracts.IListContentItemsContract>[];
     }
 
     export interface IViewContentItemResponse<TContentItem extends IContentItem = IContentItem>
@@ -72,7 +72,7 @@ export namespace Responses {
 
     export interface IListLanguagesAllResponse extends IKontentListAllResponse {
         items: ILanguage[];
-        responses: INetworkResponse<IListLanguagesResponse, LanguageContracts.IListLanguagesContract>[];
+        responses: INetworkResponse<IListLanguagesResponse, Contracts.IListLanguagesContract>[];
     }
 
     export interface IViewTaxonomyResponse extends IKontentResponse {
@@ -86,6 +86,6 @@ export namespace Responses {
 
     export interface IListTaxonomiesAllResponse extends IKontentListAllResponse {
         items: ITaxonomyGroup[];
-        responses: INetworkResponse<IListTaxonomiesResponse, TaxonomyContracts.IListTaxonomyGroupsContract>[];
+        responses: INetworkResponse<IListTaxonomiesResponse, Contracts.IListTaxonomyGroupsContract>[];
     }
 }

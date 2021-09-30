@@ -1,19 +1,19 @@
-import { ElementContracts, IElementOptionContract, TypeContracts } from '../data-contracts';
+import { Contracts } from '../data-contracts';
 import { IContentType, IContentTypeSystemAttributes, IGenericElement } from '../models';
 
 export class TypeMapper {
-    mapSingleType(response: TypeContracts.IViewContentTypeContract): IContentType {
+    mapSingleType(response: Contracts.IViewContentTypeContract): IContentType {
         return this.mapType(response);
     }
 
-    mapMultipleTypes(response: TypeContracts.IListContentTypeContract): IContentType[] {
+    mapMultipleTypes(response: Contracts.IListContentTypeContract): IContentType[] {
         const that = this;
         return response.types.map(function (type) {
             return that.mapType(type);
         });
     }
 
-    private mapType(type: TypeContracts.IContentTypeContract): IContentType {
+    private mapType(type: Contracts.IContentTypeContract): IContentType {
         if (!type) {
             throw Error(`Cannot map type`);
         }
@@ -33,7 +33,7 @@ export class TypeMapper {
 
         const elementNames = Object.getOwnPropertyNames(type.elements);
         elementNames.forEach((elementName: string) => {
-            const typeElement = type.elements[elementName] as ElementContracts.IViewContentTypeElementContract;
+            const typeElement = type.elements[elementName] as Contracts.IViewContentTypeElementContract;
 
             if (!typeElement) {
                 throw Error(`Cannot find element '${elementName}' on type '${type}'`);
@@ -44,7 +44,7 @@ export class TypeMapper {
 
             // extra properties for certain element types
             const taxonomyGroup: string | undefined = typeElement.taxonomy_group;
-            const options: IElementOptionContract[] = [];
+            const options: Contracts.IElementOptionContract[] = [];
 
             // some elements can contain options
             const rawOptions = typeElement.options;

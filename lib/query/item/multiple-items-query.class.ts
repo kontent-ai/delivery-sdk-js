@@ -1,13 +1,6 @@
-import { ItemContracts } from '../../data-contracts/item-contracts';
+import { Contracts } from '../../data-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import {
-    Filters,
-    IContentItem,
-    IItemQueryConfig,
-    INetworkResponse,
-    Responses,
-    Parameters
-} from '../../models';
+import { Filters, IContentItem, IItemQueryConfig, INetworkResponse, Responses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
@@ -15,7 +8,7 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
     Responses.IListContentItemsResponse<TContentItem>,
     Responses.IListContentItemsAllResponse<TContentItem>,
     IItemQueryConfig,
-    ItemContracts.IListContentItemsContract
+    Contracts.IListContentItemsContract
 > {
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
@@ -96,7 +89,9 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
         return this;
     }
 
-    toPromise(): Promise<INetworkResponse<Responses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>> {
+    toPromise(): Promise<
+        INetworkResponse<Responses.IListContentItemsResponse<TContentItem>, Contracts.IListContentItemsContract>
+    > {
         return this.queryService.getMultipleItems(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -115,7 +110,10 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
 
     protected allResponseFactory(
         items: any[],
-        responses: INetworkResponse<Responses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>[]
+        responses: INetworkResponse<
+            Responses.IListContentItemsResponse<TContentItem>,
+            Contracts.IListContentItemsContract
+        >[]
     ): Responses.IListContentItemsAllResponse<TContentItem> {
         return {
             items: items,

@@ -1,8 +1,8 @@
-import { ElementContracts } from '../data-contracts';
+import { Contracts } from '../data-contracts';
 import { IGenericElement } from '../models';
 
 export class GenericElementMapper {
-    mapElement(response: ElementContracts.IViewContentTypeElementContract): IGenericElement {
+    mapElement(response: Contracts.IViewContentTypeElementContract): IGenericElement {
         if (!response) {
             throw Error(`Invalid response for mapping element`);
         }

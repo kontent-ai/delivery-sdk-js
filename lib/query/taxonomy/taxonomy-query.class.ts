@@ -1,4 +1,4 @@
-import { TaxonomyContracts } from '../../data-contracts/taxonomy-contracts';
+import { Contracts } from '../../data-contracts';
 import { IDeliveryClientConfig } from '../../config';
 import { INetworkResponse, ITaxonomyQueryConfig, Responses } from '../../models';
 import { QueryService } from '../../services';
@@ -7,7 +7,7 @@ import { BaseQuery } from '../common/base-query.class';
 export class TaxonomyQuery extends BaseQuery<
     Responses.IViewTaxonomyResponse,
     ITaxonomyQueryConfig,
-    TaxonomyContracts.IViewTaxonomyGroupContract
+    Contracts.IViewTaxonomyGroupContract
 > {
     /**
      * Taxonomies endpoint URL action
@@ -27,7 +27,7 @@ export class TaxonomyQuery extends BaseQuery<
     }
 
     toPromise(): Promise<
-        INetworkResponse<Responses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>
+        INetworkResponse<Responses.IViewTaxonomyResponse, Contracts.IViewTaxonomyGroupContract>
     > {
         return this.queryService.getTaxonomy(this.getUrl(), this._queryConfig ?? {});
     }

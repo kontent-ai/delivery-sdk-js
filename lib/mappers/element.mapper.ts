@@ -1,7 +1,7 @@
 import { enumHelper } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
-import { ElementContracts } from '../data-contracts';
+import { Contracts } from '../data-contracts';
 import { ElementModels, Elements, ElementType } from '../elements';
 import {
     IContentItem,
@@ -144,7 +144,7 @@ export class ElementMapper {
         // get all linked items nested in rich text
         const richTextLinkedItems: IContentItem[] = [];
 
-        const rawElement = elementWrapper.rawElement as ElementContracts.IRichTextElementContract;
+        const rawElement = elementWrapper.rawElement as Contracts.IRichTextElementContract;
 
         if (rawElement.modular_content) {
             if (Array.isArray(rawElement.modular_content)) {
@@ -297,7 +297,7 @@ export class ElementMapper {
 
     private getOrSaveLinkedItemForElement(
         codename: string,
-        element: ElementContracts.IElementContract,
+        element: Contracts.IElementContract,
         processedItems: IContentItemsContainer,
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
@@ -343,7 +343,7 @@ export class ElementMapper {
         return mappedLinkedItem;
     }
 
-    private mapRichTextLinks(linksJson: ElementContracts.IRichTextElementLinkWrapperContract): ILink[] {
+    private mapRichTextLinks(linksJson: Contracts.IRichTextElementLinkWrapperContract): ILink[] {
         const links: ILink[] = [];
 
         for (const linkId of Object.keys(linksJson)) {
@@ -359,7 +359,7 @@ export class ElementMapper {
         return links;
     }
 
-    private mapRichTextImages(imagesJson: ElementContracts.IRichTextElementImageWrapperContract): IRichTextImage[] {
+    private mapRichTextImages(imagesJson: Contracts.IRichTextElementImageWrapperContract): IRichTextImage[] {
         const images: IRichTextImage[] = [];
 
         for (const imageId of Object.keys(imagesJson)) {

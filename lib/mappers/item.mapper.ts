@@ -1,5 +1,5 @@
 import { IDeliveryClientConfig } from '../config';
-import { ItemContracts } from '../data-contracts';
+import { Contracts } from '../data-contracts';
 import { IContentItem, IContentItemsContainer, IContentItemWithRawDataContainer, IContentItemWithRawElements } from '../models';
 import { ElementMapper } from './element.mapper';
 
@@ -33,7 +33,7 @@ export class ItemMapper {
      * @param queryConfig Query configuration
      */
     mapSingleItemFromResponse<TContentItem extends IContentItem = IContentItem>(
-        response: ItemContracts.IViewContentItemContract
+        response: Contracts.IViewContentItemContract
     ): ISingleItemMapResult<TContentItem> {
         const mapResult = this.mapItems<TContentItem>({
             mainItems: [response.item],
@@ -52,7 +52,7 @@ export class ItemMapper {
      * @param queryConfig Query configuration
      */
     mapMultipleItemsFromResponse<TContentItem extends IContentItem = IContentItem>(
-        response: ItemContracts.IItemsWithModularContentContract,
+        response: Contracts.IItemsWithModularContentContract,
     ): IMultipleItemsMapResult<TContentItem> {
         const mapResult = this.mapItems<TContentItem>({
             mainItems: response.items,
@@ -66,8 +66,8 @@ export class ItemMapper {
      * Maps item contracts to full models
      */
     mapItems<TContentItem extends IContentItem = IContentItem>(data: {
-        mainItems: ItemContracts.IContentItemContract[];
-        linkedItems: ItemContracts.IContentItemContract[];
+        mainItems: Contracts.IContentItemContract[];
+        linkedItems: Contracts.IContentItemContract[];
     }): IMultipleItemsMapResult<TContentItem> {
         const that = this;
         const processedItems: IContentItemsContainer = {};
@@ -75,7 +75,7 @@ export class ItemMapper {
         const processingStartedForCodenames: string[] = [];
         const mappedMainItems: TContentItem[] = [];
         const mappedLinkedItems: IContentItemsContainer = {};
-        const itemsToResolve: ItemContracts.IContentItemContract[] = [...data.mainItems, ...data.linkedItems];
+        const itemsToResolve: Contracts.IContentItemContract[] = [...data.mainItems, ...data.linkedItems];
 
         // first prepare reference for all items
         for (const item of itemsToResolve) {
@@ -145,7 +145,7 @@ export class ItemMapper {
         };
     }
 
-    private createContentItem(item: ItemContracts.IContentItemContract): IContentItem {
+    private createContentItem(item: Contracts.IContentItemContract): IContentItem {
         const contentItem: IContentItem = {
             elements: {},
             system: {

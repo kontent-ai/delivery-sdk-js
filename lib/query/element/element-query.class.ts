@@ -1,4 +1,4 @@
-import { ElementContracts } from '../../data-contracts/element-contracts';
+import { Contracts } from '../../data-contracts';
 import { IDeliveryClientConfig } from '../../config';
 import { Responses, IElementQueryConfig, INetworkResponse } from '../../models';
 import { QueryService } from '../../services';
@@ -7,7 +7,7 @@ import { BaseQuery } from '../common/base-query.class';
 export class ElementQuery extends BaseQuery<
     Responses.IViewContentTypeElementResponse,
     IElementQueryConfig,
-    ElementContracts.IViewContentTypeElementContract
+    Contracts.IViewContentTypeElementContract
 > {
     constructor(
         protected config: IDeliveryClientConfig,
@@ -29,7 +29,7 @@ export class ElementQuery extends BaseQuery<
     toPromise(): Promise<
         INetworkResponse<
             Responses.IViewContentTypeElementResponse,
-            ElementContracts.IViewContentTypeElementContract
+            Contracts.IViewContentTypeElementContract
         >
     > {
         return this.queryService.getElementAsync(this.getUrl(), this._queryConfig ?? {});

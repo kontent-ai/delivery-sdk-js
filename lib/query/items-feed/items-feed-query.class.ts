@@ -1,4 +1,4 @@
-import { ItemContracts } from '../../data-contracts/item-contracts';
+import { Contracts } from '../../data-contracts';
 import { IDeliveryClientConfig } from '../../config';
 import { Filters, IContentItem, IItemQueryConfig, INetworkResponse, Parameters, Responses } from '../../models';
 import { QueryService } from '../../services';
@@ -8,7 +8,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     Responses.IListItemsFeedResponse<TContentItem>,
     Responses.IListItemsFeedAllResponse<TContentItem>,
     IItemQueryConfig,
-    ItemContracts.IItemsFeedContract
+    Contracts.IItemsFeedContract
 > {
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
@@ -71,7 +71,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     }
 
     toPromise(): Promise<
-        INetworkResponse<Responses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
+        INetworkResponse<Responses.IListItemsFeedResponse<TContentItem>, Contracts.IItemsFeedContract>
     > {
         return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
     }
@@ -100,7 +100,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
 
     protected allResponseFactory(
         items: any[],
-        responses: INetworkResponse<Responses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>[]
+        responses: INetworkResponse<Responses.IListItemsFeedResponse<TContentItem>, Contracts.IItemsFeedContract>[]
     ): Responses.IListItemsFeedAllResponse<TContentItem> {
         return {
             items: items,

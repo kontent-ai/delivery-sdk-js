@@ -1,4 +1,4 @@
-import { LanguageContracts } from '../../data-contracts/language-contracts';
+import { Contracts } from '../../data-contracts';
 import { IDeliveryClientConfig } from '../../config';
 import {
     continuationTokenHeaderName,
@@ -14,7 +14,7 @@ export class LanguagesQuery extends BaseListingQuery<
     Responses.IListLanguagesResponse,
     Responses.IListLanguagesAllResponse,
     ILanguagesQueryConfig,
-    LanguageContracts.IListLanguagesContract
+    Contracts.IListLanguagesContract
 > {
     /**
      * Endpoint
@@ -58,7 +58,7 @@ export class LanguagesQuery extends BaseListingQuery<
     }
 
     toPromise(): Promise<
-        INetworkResponse<Responses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>
+        INetworkResponse<Responses.IListLanguagesResponse, Contracts.IListLanguagesContract>
     > {
         return this.queryService.getLanguages(this.getUrl(), this._queryConfig ?? {});
     }
@@ -84,7 +84,7 @@ export class LanguagesQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: INetworkResponse<Responses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>[]
+        responses: INetworkResponse<Responses.IListLanguagesResponse, Contracts.IListLanguagesContract>[]
     ): Responses.IListLanguagesAllResponse {
         return {
             items: items,

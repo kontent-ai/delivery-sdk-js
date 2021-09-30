@@ -1,4 +1,4 @@
-import { ItemContracts } from '../data-contracts/item-contracts';
+import { Contracts } from '../data-contracts';
 import { IQueryConfig } from './common/common-models';
 import { ElementModels } from '../elements/element-models';
 
@@ -106,7 +106,7 @@ export interface ILink {
 
 export interface IContentItemWithRawElements {
     item: IContentItem;
-    rawItem: ItemContracts.IContentItemContract;
+    rawItem: Contracts.IContentItemContract;
 }
 
 export interface IContentItemWithRawDataContainer {

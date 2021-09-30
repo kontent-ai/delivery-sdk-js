@@ -1,4 +1,4 @@
-import { TaxonomyContracts } from '../../data-contracts/taxonomy-contracts';
+import { Contracts } from '../../data-contracts';
 import { IDeliveryClientConfig } from '../../config';
 import {
     continuationTokenHeaderName,
@@ -14,7 +14,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
     Responses.IListTaxonomiesResponse,
     Responses.IListTaxonomiesAllResponse,
     ITaxonomyQueryConfig,
-    TaxonomyContracts.IListTaxonomyGroupsContract
+    Contracts.IListTaxonomyGroupsContract
 > {
     /**
      * Taxonomies endpoint URL action
@@ -46,7 +46,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
     toPromise(): Promise<
         INetworkResponse<
             Responses.IListTaxonomiesResponse,
-            TaxonomyContracts.IListTaxonomyGroupsContract
+            Contracts.IListTaxonomyGroupsContract
         >
     > {
         return this.queryService.getTaxonomies(this.getUrl(), this._queryConfig ?? {});
@@ -80,7 +80,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
         items: any[],
         responses: INetworkResponse<
             Responses.IListTaxonomiesResponse,
-            TaxonomyContracts.IListTaxonomyGroupsContract
+            Contracts.IListTaxonomyGroupsContract
         >[]
     ): Responses.IListTaxonomiesAllResponse {
         return {

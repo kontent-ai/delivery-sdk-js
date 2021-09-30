@@ -1,10 +1,10 @@
-import { TaxonomyContracts } from '../data-contracts';
+import { Contracts } from '../data-contracts';
 import { ITaxonomyGroup, ITaxonomySystemAttributes, ITaxonomyTerms } from '../models';
 
 export class TaxonomyMapper {
     mapTaxonomy(
-        taxonomySystem: TaxonomyContracts.ITaxonomySystemAttributesContract,
-        taxonomyTerms: TaxonomyContracts.ITaxonomyTermsContract[]
+        taxonomySystem: Contracts.ITaxonomySystemAttributesContract,
+        taxonomyTerms: Contracts.ITaxonomyTermsContract[]
     ): ITaxonomyGroup {
         if (!taxonomySystem) {
             throw Error(`Cannot map taxonomy due to missing 'system' property`);
@@ -33,7 +33,7 @@ export class TaxonomyMapper {
         };
     }
 
-    mapTaxonomies(taxonomies: TaxonomyContracts.ITaxonomyGroupContract[]): ITaxonomyGroup[] {
+    mapTaxonomies(taxonomies: Contracts.ITaxonomyGroupContract[]): ITaxonomyGroup[] {
         if (!taxonomies) {
             throw Error(`Cannot map taxonomy due to missing 'taxonomies' property`);
         }
@@ -55,7 +55,7 @@ export class TaxonomyMapper {
      * Recursively map array of taxonomy terms
      * @param termsArray Terms array to map
      */
-    private mapTaxonomyTerms(termsArray: TaxonomyContracts.ITaxonomyTermsContract[]): ITaxonomyTerms[] {
+    private mapTaxonomyTerms(termsArray: Contracts.ITaxonomyTermsContract[]): ITaxonomyTerms[] {
         if (termsArray.length === 0) {
             return [];
         }
