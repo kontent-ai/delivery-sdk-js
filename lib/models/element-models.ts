@@ -1,4 +1,4 @@
-import { IQueryConfig } from '../common/common-models';
+import { IQueryConfig } from './common/common-models';
 
 export interface IElementQueryConfig extends IQueryConfig {
     /**

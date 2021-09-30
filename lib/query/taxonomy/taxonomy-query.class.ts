@@ -1,11 +1,11 @@
 import { TaxonomyContracts } from '../../data-contracts/taxonomy-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { INetworkResponse, ITaxonomyQueryConfig, TaxonomyResponses } from '../../models';
+import { INetworkResponse, ITaxonomyQueryConfig, Responses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
 export class TaxonomyQuery extends BaseQuery<
-    TaxonomyResponses.IViewTaxonomyResponse,
+    Responses.IViewTaxonomyResponse,
     ITaxonomyQueryConfig,
     TaxonomyContracts.IViewTaxonomyGroupContract
 > {
@@ -27,7 +27,7 @@ export class TaxonomyQuery extends BaseQuery<
     }
 
     toPromise(): Promise<
-        INetworkResponse<TaxonomyResponses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>
+        INetworkResponse<Responses.IViewTaxonomyResponse, TaxonomyContracts.IViewTaxonomyGroupContract>
     > {
         return this.queryService.getTaxonomy(this.getUrl(), this._queryConfig ?? {});
     }
@@ -38,7 +38,7 @@ export class TaxonomyQuery extends BaseQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): TaxonomyResponses.IViewTaxonomyResponse {
+    map(json: any): Responses.IViewTaxonomyResponse {
         return this.queryService.mappingService.viewTaxonomyResponse(json);
     }
 }

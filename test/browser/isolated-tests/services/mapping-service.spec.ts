@@ -1,4 +1,4 @@
-import { ItemResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { getTestDeliveryClient } from '../../setup';
 import * as responseJson from './mapping-service.spec.json';
 
@@ -7,7 +7,7 @@ describe('Mapping service', () => {
         projectId: 'x'
     });
 
-    const listingResponse: ItemResponses.IListContentItemsResponse =
+    const listingResponse: Responses.IListContentItemsResponse =
         client.mappingService.listContentItemsResponse(responseJson);
 
     it(`Listing response should be mapped correctly`, () => {

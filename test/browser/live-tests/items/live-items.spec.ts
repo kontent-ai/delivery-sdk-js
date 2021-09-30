@@ -1,4 +1,4 @@
-import { ItemResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live items', () => {
@@ -6,7 +6,7 @@ describe('Live items', () => {
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.IListContentItemsResponse<Movie>;
+    let response: Responses.IListContentItemsResponse<Movie>;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.items<Movie>().type(type).toPromise()).data;

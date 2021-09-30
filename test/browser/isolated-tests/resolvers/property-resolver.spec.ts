@@ -1,5 +1,5 @@
 import { getDeliveryClientWithJson } from '../../setup';
-import { Elements, IContentItem, ItemResponses, PropertyNameResolver } from '../../../../lib';
+import { Elements, IContentItem, Responses, PropertyNameResolver } from '../../../../lib';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 type MockMovie = IContentItem<{
@@ -22,7 +22,7 @@ describe('Property resolver', () => {
         return element;
     };
 
-    let response: ItemResponses.IViewContentItemResponse<MockMovie>;
+    let response: Responses.IViewContentItemResponse<MockMovie>;
 
     beforeAll(async () => {
         response = await (

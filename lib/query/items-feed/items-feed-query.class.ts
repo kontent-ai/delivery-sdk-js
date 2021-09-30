@@ -1,19 +1,12 @@
 import { ItemContracts } from '../../data-contracts/item-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import {
-    Filters,
-    IContentItem,
-    IItemQueryConfig,
-    INetworkResponse,
-    ItemResponses,
-    Parameters
-} from '../../models';
+import { Filters, IContentItem, IItemQueryConfig, INetworkResponse, Parameters, Responses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> extends BaseListingQuery<
-    ItemResponses.IListItemsFeedResponse<TContentItem>,
-    ItemResponses.IListItemsFeedAllResponse<TContentItem>,
+    Responses.IListItemsFeedResponse<TContentItem>,
+    Responses.IListItemsFeedAllResponse<TContentItem>,
     IItemQueryConfig,
     ItemContracts.IItemsFeedContract
 > {
@@ -78,7 +71,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     }
 
     toPromise(): Promise<
-        INetworkResponse<ItemResponses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
+        INetworkResponse<Responses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>
     > {
         return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
     }
@@ -101,17 +94,14 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
         return this;
     }
 
-    map(json: any): ItemResponses.IListItemsFeedResponse<TContentItem> {
+    map(json: any): Responses.IListItemsFeedResponse<TContentItem> {
         return this.queryService.mappingService.itemsFeedResponse(json);
     }
 
     protected allResponseFactory(
         items: any[],
-        responses: INetworkResponse<
-            ItemResponses.IListItemsFeedResponse<TContentItem>,
-            ItemContracts.IItemsFeedContract
-        >[]
-    ): ItemResponses.IListItemsFeedAllResponse<TContentItem> {
+        responses: INetworkResponse<Responses.IListItemsFeedResponse<TContentItem>, ItemContracts.IItemsFeedContract>[]
+    ): Responses.IListItemsFeedAllResponse<TContentItem> {
         return {
             items: items,
             responses: responses

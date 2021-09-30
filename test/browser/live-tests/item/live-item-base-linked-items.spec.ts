@@ -1,4 +1,4 @@
-import { ItemResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live item - base linked items', () => {
@@ -6,7 +6,7 @@ describe('Live item - base linked items', () => {
     setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.IViewContentItemResponse<Movie>;
+    let response: Responses.IViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.item<Movie>(movieCodename).toPromise()).data;

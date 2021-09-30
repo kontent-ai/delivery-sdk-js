@@ -1,4 +1,4 @@
-import { ItemResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Localized item', () => {
@@ -7,7 +7,7 @@ describe('Localized item', () => {
 
     const language: string = 'cz';
     const movieCodename: string = 'warrior';
-    let response: ItemResponses.IViewContentItemResponse<Movie>;
+    let response: Responses.IViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.item<Movie>(movieCodename).languageParameter(language).toPromise())

@@ -5,15 +5,15 @@ import {
     IContentItem,
     IItemQueryConfig,
     INetworkResponse,
-    ItemResponses,
+    Responses,
     Parameters
 } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem> extends BaseListingQuery<
-    ItemResponses.IListContentItemsResponse<TContentItem>,
-    ItemResponses.IListContentItemsAllResponse<TContentItem>,
+    Responses.IListContentItemsResponse<TContentItem>,
+    Responses.IListContentItemsAllResponse<TContentItem>,
     IItemQueryConfig,
     ItemContracts.IListContentItemsContract
 > {
@@ -96,7 +96,7 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
         return this;
     }
 
-    toPromise(): Promise<INetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>> {
+    toPromise(): Promise<INetworkResponse<Responses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>> {
         return this.queryService.getMultipleItems(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -109,14 +109,14 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): ItemResponses.IListContentItemsResponse<TContentItem> {
+    map(json: any): Responses.IListContentItemsResponse<TContentItem> {
         return this.queryService.mappingService.listContentItemsResponse(json);
     }
 
     protected allResponseFactory(
         items: any[],
-        responses: INetworkResponse<ItemResponses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>[]
-    ): ItemResponses.IListContentItemsAllResponse<TContentItem> {
+        responses: INetworkResponse<Responses.IListContentItemsResponse<TContentItem>, ItemContracts.IListContentItemsContract>[]
+    ): Responses.IListContentItemsAllResponse<TContentItem> {
         return {
             items: items,
             responses: responses

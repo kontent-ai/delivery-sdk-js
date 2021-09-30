@@ -1,4 +1,4 @@
-import { ItemResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Pagination', () => {
@@ -6,7 +6,7 @@ describe('Pagination', () => {
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.IListContentItemsResponse<Movie>;
+    let response: Responses.IListContentItemsResponse<Movie>;
 
     beforeAll(async () => {
         response = (

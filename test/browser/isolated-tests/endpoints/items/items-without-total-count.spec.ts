@@ -1,6 +1,6 @@
 import { IQueryParameter } from '@kentico/kontent-core';
 
-import { ItemResponses } from '../../../../../lib';
+import { Responses } from '../../../../../lib';
 import { Context, setup } from '../../../setup';
 import { getDeliveryClientWithJson } from '../../../setup';
 import * as responseJson from './items-without-total-count.spec.json';
@@ -9,7 +9,7 @@ describe('Items without total count', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.IListContentItemsResponse<any>;
+    let response: Responses.IListContentItemsResponse<any>;
     const parameters: IQueryParameter[] = [];
 
     beforeAll(async () => {

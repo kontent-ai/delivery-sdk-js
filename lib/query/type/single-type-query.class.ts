@@ -1,11 +1,11 @@
 import { TypeContracts } from '../../data-contracts/type-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { IContentTypeQueryConfig, INetworkResponse, TypeResponses } from '../../models';
+import { IContentTypeQueryConfig, INetworkResponse, Responses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
 export class SingleTypeQuery extends BaseQuery<
-    TypeResponses.IViewContentTypeResponse,
+    Responses.IViewContentTypeResponse,
     IContentTypeQueryConfig,
     TypeContracts.IViewContentTypeContract
 > {
@@ -22,7 +22,7 @@ export class SingleTypeQuery extends BaseQuery<
     }
 
     toPromise(): Promise<
-        INetworkResponse<TypeResponses.IViewContentTypeResponse, TypeContracts.IViewContentTypeContract>
+        INetworkResponse<Responses.IViewContentTypeResponse, TypeContracts.IViewContentTypeContract>
     > {
         return this.queryService.getSingleType(this.getUrl(), this._queryConfig ?? {});
     }
@@ -33,7 +33,7 @@ export class SingleTypeQuery extends BaseQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): TypeResponses.IViewContentTypeResponse {
+    map(json: any): Responses.IViewContentTypeResponse {
         return this.queryService.mappingService.viewContentTypeResponse(json);
     }
 }

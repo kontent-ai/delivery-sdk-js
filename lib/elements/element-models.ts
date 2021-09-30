@@ -1,4 +1,4 @@
-import { IContentItemSystemAttributes } from '../models/item/item-models';
+import { IContentItemSystemAttributes } from '../models/item-models';
 import { ElementContracts } from '../data-contracts';
 import { ElementType } from './element-type';
 

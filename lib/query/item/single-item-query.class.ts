@@ -1,11 +1,11 @@
 import { ItemContracts } from '../../data-contracts/item-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { IContentItem, IItemQueryConfig, INetworkResponse, ItemResponses, Parameters } from '../../models';
+import { IContentItem, IItemQueryConfig, INetworkResponse, Responses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
 export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> extends BaseQuery<
-    ItemResponses.IViewContentItemResponse<TContentItem>,
+    Responses.IViewContentItemResponse<TContentItem>,
     IItemQueryConfig,
     ItemContracts.IViewContentItemContract
 > {
@@ -59,7 +59,7 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
 
     toPromise(): Promise<
         INetworkResponse<
-            ItemResponses.IViewContentItemResponse<TContentItem>,
+            Responses.IViewContentItemResponse<TContentItem>,
             ItemContracts.IViewContentItemContract
         >
     > {
@@ -75,7 +75,7 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): ItemResponses.IViewContentItemResponse<TContentItem> {
+    map(json: any): Responses.IViewContentItemResponse<TContentItem> {
         return this.queryService.mappingService.viewContentItemResponse(json);
     }
  }

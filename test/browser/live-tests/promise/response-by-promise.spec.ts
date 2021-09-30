@@ -1,11 +1,11 @@
-import { ItemResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Response with Promises', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.IListContentItemsResponse<Movie>;
+    let response: Responses.IListContentItemsResponse<Movie>;
 
     beforeAll((done) => {
         context.deliveryClient

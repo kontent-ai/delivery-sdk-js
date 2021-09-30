@@ -1,11 +1,11 @@
 import { ElementContracts } from '../../data-contracts/element-contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { ElementResponses, IElementQueryConfig, INetworkResponse } from '../../models';
+import { Responses, IElementQueryConfig, INetworkResponse } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
 export class ElementQuery extends BaseQuery<
-    ElementResponses.IViewContentTypeElementResponse,
+    Responses.IViewContentTypeElementResponse,
     IElementQueryConfig,
     ElementContracts.IViewContentTypeElementContract
 > {
@@ -28,7 +28,7 @@ export class ElementQuery extends BaseQuery<
 
     toPromise(): Promise<
         INetworkResponse<
-            ElementResponses.IViewContentTypeElementResponse,
+            Responses.IViewContentTypeElementResponse,
             ElementContracts.IViewContentTypeElementContract
         >
     > {
@@ -41,7 +41,7 @@ export class ElementQuery extends BaseQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): ElementResponses.IViewContentTypeElementResponse {
+    map(json: any): Responses.IViewContentTypeElementResponse {
         return this.queryService.mappingService.viewContentTypeElementResponse(json);
     }
 }

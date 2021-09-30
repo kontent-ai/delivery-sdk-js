@@ -4,15 +4,15 @@ import {
     continuationTokenHeaderName,
     INetworkResponse,
     ILanguagesQueryConfig,
-    LanguageResponses,
-    Parameters
+    Parameters,
+    Responses
 } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class LanguagesQuery extends BaseListingQuery<
-    LanguageResponses.IListLanguagesResponse,
-    LanguageResponses.IListLanguagesAllResponse,
+    Responses.IListLanguagesResponse,
+    Responses.IListLanguagesAllResponse,
     ILanguagesQueryConfig,
     LanguageContracts.IListLanguagesContract
 > {
@@ -57,7 +57,9 @@ export class LanguagesQuery extends BaseListingQuery<
         return this;
     }
 
-    toPromise(): Promise<INetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>> {
+    toPromise(): Promise<
+        INetworkResponse<Responses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>
+    > {
         return this.queryService.getLanguages(this.getUrl(), this._queryConfig ?? {});
     }
 
@@ -76,14 +78,14 @@ export class LanguagesQuery extends BaseListingQuery<
         return this;
     }
 
-    map(json: any): LanguageResponses.IListLanguagesResponse {
+    map(json: any): Responses.IListLanguagesResponse {
         return this.queryService.mappingService.listLanguagesResponse(json);
     }
 
     protected allResponseFactory(
         items: any[],
-        responses: INetworkResponse<LanguageResponses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>[]
-    ): LanguageResponses.IListLanguagesAllResponse {
+        responses: INetworkResponse<Responses.IListLanguagesResponse, LanguageContracts.IListLanguagesContract>[]
+    ): Responses.IListLanguagesAllResponse {
         return {
             items: items,
             responses: responses

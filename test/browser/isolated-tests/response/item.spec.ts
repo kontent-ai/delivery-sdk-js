@@ -1,14 +1,11 @@
-
-import { ItemResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { getDeliveryClientWithJson, Movie } from '../../setup';
 import * as warriorJson from '../fake-data/fake-warrior-response.json';
 
 describe('Verifies mapping of delivery content item', () => {
-
-    let response: ItemResponses.IViewContentItemResponse<Movie>;
+    let response: Responses.IViewContentItemResponse<Movie>;
 
     beforeAll(async () => {
-
         response = (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
     });
 
@@ -76,7 +73,6 @@ describe('Verifies mapping of delivery content item', () => {
     it(`checks that correct number of linked items are created`, () => {
         expect(response.item.elements.stars.linkedItems.length).toEqual(warriorJson.item.elements.stars.value.length);
     });
-
 
     it(`checks that text element in first linked item is set`, () => {
         expect(

@@ -1,6 +1,6 @@
-import { ItemContracts } from '../../data-contracts/item-contracts';
-import { IQueryConfig } from '../common/common-models';
-import { ElementModels } from '../../elements/element-models';
+import { ItemContracts } from '../data-contracts/item-contracts';
+import { IQueryConfig } from './common/common-models';
+import { ElementModels } from '../elements/element-models';
 
 export interface IMapElementsResult<TContentItem extends IContentItem = IContentItem> {
     item: TContentItem;

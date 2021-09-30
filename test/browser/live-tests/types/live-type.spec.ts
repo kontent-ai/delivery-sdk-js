@@ -1,4 +1,4 @@
-import { TypeResponses, IGenericElement } from '../../../../lib';
+import { Responses, IGenericElement } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Live type', () => {
@@ -6,7 +6,7 @@ describe('Live type', () => {
     setup(context);
 
     const codename: string = 'movie';
-    let response: TypeResponses.IViewContentTypeResponse;
+    let response: Responses.IViewContentTypeResponse;
 
     const multipleChoiceElement: string = 'category';
     const taxonomyElement: string = 'releasecategory';

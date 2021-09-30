@@ -1,4 +1,4 @@
-import { INetworkResponse, ItemResponses } from '../../../../lib';
+import { INetworkResponse, Responses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live items all', () => {
@@ -6,8 +6,8 @@ describe('Live items all', () => {
     setup(context);
 
     const type: string = 'movie';
-    let response: ItemResponses.IListContentItemsAllResponse<Movie>;
-    const responses: INetworkResponse<ItemResponses.IListContentItemsResponse<Movie>, any>[] = [];
+    let response: Responses.IListContentItemsAllResponse<Movie>;
+    const responses: INetworkResponse<Responses.IListContentItemsResponse<Movie>, any>[] = [];
 
     const pages: number = 2;
     const limit: number = 2;

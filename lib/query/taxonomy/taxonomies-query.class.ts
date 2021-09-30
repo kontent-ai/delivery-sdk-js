@@ -5,14 +5,14 @@ import {
     INetworkResponse,
     ITaxonomyQueryConfig,
     Parameters,
-    TaxonomyResponses
+    Responses
 } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class TaxonomiesQuery extends BaseListingQuery<
-    TaxonomyResponses.IListTaxonomiesResponse,
-    TaxonomyResponses.IListTaxonomiesAllResponse,
+    Responses.IListTaxonomiesResponse,
+    Responses.IListTaxonomiesAllResponse,
     ITaxonomyQueryConfig,
     TaxonomyContracts.IListTaxonomyGroupsContract
 > {
@@ -45,7 +45,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
 
     toPromise(): Promise<
         INetworkResponse<
-            TaxonomyResponses.IListTaxonomiesResponse,
+            Responses.IListTaxonomiesResponse,
             TaxonomyContracts.IListTaxonomyGroupsContract
         >
     > {
@@ -72,17 +72,17 @@ export class TaxonomiesQuery extends BaseListingQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): TaxonomyResponses.IListTaxonomiesResponse {
+    map(json: any): Responses.IListTaxonomiesResponse {
         return this.queryService.mappingService.listTaxonomiesResponse(json);
     }
 
     protected allResponseFactory(
         items: any[],
         responses: INetworkResponse<
-            TaxonomyResponses.IListTaxonomiesResponse,
+            Responses.IListTaxonomiesResponse,
             TaxonomyContracts.IListTaxonomyGroupsContract
         >[]
-    ): TaxonomyResponses.IListTaxonomiesAllResponse {
+    ): Responses.IListTaxonomiesAllResponse {
         return {
             items: items,
             responses: responses

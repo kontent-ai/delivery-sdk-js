@@ -1,4 +1,4 @@
-import { ITaxonomyGroup, TaxonomyResponses, ITaxonomyTerms } from '../../../../lib';
+import { ITaxonomyGroup, Responses, ITaxonomyTerms } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Live taxonomies', () => {
@@ -10,7 +10,7 @@ describe('Live taxonomies', () => {
     const existingTaxonomyCodename: string = 'movietype'; // codename of some of the defined taxonomies
     const numberOfTaxonomies: number = 2; // number of defined taxonomies
 
-    let response: TaxonomyResponses.IListTaxonomiesResponse;
+    let response: Responses.IListTaxonomiesResponse;
     let taxonomy: ITaxonomyGroup;
 
     beforeAll(async () => {

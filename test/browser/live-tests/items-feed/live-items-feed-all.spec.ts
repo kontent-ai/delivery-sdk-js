@@ -1,25 +1,20 @@
-import { INetworkResponse, ItemContracts, ItemResponses } from '../../../../lib';
+import { INetworkResponse, ItemContracts, Responses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live items feed all', () => {
     const context = new Context();
     setup(context);
 
-    let response: ItemResponses.IListItemsFeedAllResponse<Movie>;
-    const responses: INetworkResponse<
-        ItemResponses.IListItemsFeedResponse<Movie>,
-        ItemContracts.IItemsFeedContract
-    >[] = [];
+    let response: Responses.IListItemsFeedAllResponse<Movie>;
+    const responses: INetworkResponse<Responses.IListItemsFeedResponse<Movie>, ItemContracts.IItemsFeedContract>[] = [];
 
     beforeAll(async () => {
         response = (
-            await context.deliveryClient
-                .itemsFeed<Movie>()
-                .toAllPromise({
-                    responseFetched: (innerResponse, nextPage, continuationToken) => {
-                        responses.push(innerResponse);
-                    }
-                })
+            await context.deliveryClient.itemsFeed<Movie>().toAllPromise({
+                responseFetched: (innerResponse, nextPage, continuationToken) => {
+                    responses.push(innerResponse);
+                }
+            })
         ).data;
     });
 

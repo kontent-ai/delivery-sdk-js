@@ -1,4 +1,4 @@
-import { IContentItem, IContentItemsContainer } from '../models/item/item-models';
+import { IContentItem, IContentItemsContainer } from '../models/item-models';
 
 export class LinkedItemsHelper {
 

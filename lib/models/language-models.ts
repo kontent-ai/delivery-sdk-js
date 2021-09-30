@@ -1,4 +1,4 @@
-import { IQueryConfig } from '../common';
+import { IQueryConfig } from './common';
 
 export interface ILanguageSystem {
     id: string;

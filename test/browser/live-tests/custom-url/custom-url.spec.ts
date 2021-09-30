@@ -1,4 +1,4 @@
-import { ItemResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Custom URL', () => {
@@ -7,7 +7,7 @@ describe('Custom URL', () => {
     const context = new Context();
     setup(context);
 
-    let responseItems: ItemResponses.IListContentItemsResponse<any>;
+    let responseItems: Responses.IListContentItemsResponse<any>;
 
     beforeAll(async () => {
         responseItems = (await context.deliveryClient.items<any>().withCustomUrl(itemsUrl).toPromise()).data;

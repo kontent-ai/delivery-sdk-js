@@ -1,4 +1,4 @@
-import { ElementResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Live element', () => {
@@ -11,9 +11,9 @@ describe('Live element', () => {
     const multipleChoiceElementCodename: string = 'category';
     const taxonomyElementCodename: string = 'releasecategory';
 
-    let textElementResponse: ElementResponses.IViewContentTypeElementResponse;
-    let multipleChoiceElementResponse: ElementResponses.IViewContentTypeElementResponse;
-    let taxonomyElementResponse: ElementResponses.IViewContentTypeElementResponse;
+    let textElementResponse: Responses.IViewContentTypeElementResponse;
+    let multipleChoiceElementResponse: Responses.IViewContentTypeElementResponse;
+    let taxonomyElementResponse: Responses.IViewContentTypeElementResponse;
 
     beforeAll(async () => {
         textElementResponse = (await context.deliveryClient.element(typeCodename, textElementCodename).toPromise())

@@ -8,46 +8,34 @@ import {
     TypeContracts
 } from '../data-contracts';
 import { GenericElementMapper, ItemMapper, LanguageMapper, TaxonomyMapper, TypeMapper } from '../mappers';
-import {
-    ElementResponses,
-    IContentItem,
-    ItemResponses,
-    LanguageResponses,
-    IPagination,
-    TaxonomyResponses,
-    TypeResponses
-} from '../models';
+import { Responses, IContentItem, IPagination } from '../models';
 
 export interface IMappingService {
-    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.IListContentTypesResponse;
+    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): Responses.IListContentTypesResponse;
 
     itemsFeedResponse<TContentItem extends IContentItem = IContentItem>(
         data: ItemContracts.IItemsFeedContract
-    ): ItemResponses.IListItemsFeedResponse<TContentItem>;
+    ): Responses.IListItemsFeedResponse<TContentItem>;
 
-    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.IViewContentTypeResponse;
+    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): Responses.IViewContentTypeResponse;
 
     viewContentItemResponse<TContentItem extends IContentItem = IContentItem>(
-        data: ItemContracts.IViewContentItemContract,
-    ): ItemResponses.IViewContentItemResponse<TContentItem>;
+        data: ItemContracts.IViewContentItemContract
+    ): Responses.IViewContentItemResponse<TContentItem>;
 
     listContentItemsResponse<TContentItem extends IContentItem = IContentItem>(
-        data: ItemContracts.IListContentItemsContract,
-    ): ItemResponses.IListContentItemsResponse<TContentItem>;
+        data: ItemContracts.IListContentItemsContract
+    ): Responses.IListContentItemsResponse<TContentItem>;
 
-    viewTaxonomyResponse(
-        data: TaxonomyContracts.IViewTaxonomyGroupContract
-    ): TaxonomyResponses.IViewTaxonomyResponse;
+    viewTaxonomyResponse(data: TaxonomyContracts.IViewTaxonomyGroupContract): Responses.IViewTaxonomyResponse;
 
-    listTaxonomiesResponse(
-        data: TaxonomyContracts.IListTaxonomyGroupsContract
-    ): TaxonomyResponses.IListTaxonomiesResponse;
+    listTaxonomiesResponse(data: TaxonomyContracts.IListTaxonomyGroupsContract): Responses.IListTaxonomiesResponse;
 
     viewContentTypeElementResponse(
         data: ElementContracts.IViewContentTypeElementContract
-    ): ElementResponses.IViewContentTypeElementResponse;
+    ): Responses.IViewContentTypeElementResponse;
 
-    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): LanguageResponses.IListLanguagesResponse;
+    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): Responses.IListLanguagesResponse;
 }
 
 export class MappingService implements IMappingService {
@@ -69,7 +57,7 @@ export class MappingService implements IMappingService {
      * Gets response for list of languages
      * @param data Response data
      */
-    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): LanguageResponses.IListLanguagesResponse {
+    listLanguagesResponse(data: LanguageContracts.IListLanguagesContract): Responses.IListLanguagesResponse {
         return {
             items: this.languageMapper.mapMultipleLanguages(data),
             pagination: this.mapPagination(data.pagination)
@@ -80,7 +68,7 @@ export class MappingService implements IMappingService {
      * Gets response for getting a multiple type
      * @param data Response data
      */
-    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): TypeResponses.IListContentTypesResponse {
+    listContentTypesResponse(data: TypeContracts.IListContentTypeContract): Responses.IListContentTypesResponse {
         return {
             items: this.typeMapper.mapMultipleTypes(data),
             pagination: this.mapPagination(data.pagination)
@@ -92,15 +80,15 @@ export class MappingService implements IMappingService {
      * @param data Response data
      * @param options Options
      */
-    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): TypeResponses.IViewContentTypeResponse {
+    viewContentTypeResponse(data: TypeContracts.IViewContentTypeContract): Responses.IViewContentTypeResponse {
         return {
             type: this.typeMapper.mapSingleType(data)
         };
     }
 
     itemsFeedResponse<TContentItem extends IContentItem = IContentItem>(
-        data: ItemContracts.IItemsFeedContract,
-    ): ItemResponses.IListItemsFeedResponse<TContentItem> {
+        data: ItemContracts.IItemsFeedContract
+    ): Responses.IListItemsFeedResponse<TContentItem> {
         const itemsResult = this.itemMapper.mapItems<TContentItem>({
             linkedItems: Object.values(data.modular_content),
             mainItems: data.items
@@ -119,7 +107,7 @@ export class MappingService implements IMappingService {
      */
     viewContentItemResponse<TContentItem extends IContentItem = IContentItem>(
         data: ItemContracts.IViewContentItemContract
-    ): ItemResponses.IViewContentItemResponse<TContentItem> {
+    ): Responses.IViewContentItemResponse<TContentItem> {
         const itemResult = this.itemMapper.mapSingleItemFromResponse<TContentItem>(data);
 
         return {
@@ -135,7 +123,7 @@ export class MappingService implements IMappingService {
      */
     listContentItemsResponse<TContentItem extends IContentItem = IContentItem>(
         data: ItemContracts.IListContentItemsContract
-    ): ItemResponses.IListContentItemsResponse<TContentItem> {
+    ): Responses.IListContentItemsResponse<TContentItem> {
         const itemsResult = this.itemMapper.mapMultipleItemsFromResponse<TContentItem>(data);
 
         return {
@@ -149,9 +137,7 @@ export class MappingService implements IMappingService {
      * Gets response for getting single taxonomy item
      * @param data Response data
      */
-    viewTaxonomyResponse(
-        data: TaxonomyContracts.IViewTaxonomyGroupContract
-    ): TaxonomyResponses.IViewTaxonomyResponse {
+    viewTaxonomyResponse(data: TaxonomyContracts.IViewTaxonomyGroupContract): Responses.IViewTaxonomyResponse {
         return {
             taxonomy: this.taxonomyMapper.mapTaxonomy(data.system, data.terms)
         };
@@ -161,9 +147,7 @@ export class MappingService implements IMappingService {
      * Gets response for getting multiples taxonomies
      * @param data Response data
      */
-    listTaxonomiesResponse(
-        data: TaxonomyContracts.IListTaxonomyGroupsContract
-    ): TaxonomyResponses.IListTaxonomiesResponse {
+    listTaxonomiesResponse(data: TaxonomyContracts.IListTaxonomyGroupsContract): Responses.IListTaxonomiesResponse {
         return {
             items: this.taxonomyMapper.mapTaxonomies(data.taxonomies),
             pagination: this.mapPagination(data.pagination)
@@ -176,8 +160,7 @@ export class MappingService implements IMappingService {
      */
     viewContentTypeElementResponse(
         data: ElementContracts.IViewContentTypeElementContract
-    ): ElementResponses.IViewContentTypeElementResponse {
-
+    ): Responses.IViewContentTypeElementResponse {
         return {
             element: this.genericElementMapper.mapElement(data)
         };

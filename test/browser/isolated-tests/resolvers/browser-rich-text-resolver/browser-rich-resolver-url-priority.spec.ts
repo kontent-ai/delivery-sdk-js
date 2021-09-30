@@ -1,5 +1,5 @@
 import { Actor, getDeliveryClientWithJson, Movie } from '../../../setup';
-import { browserRichTextResolver, IResolvedRichTextElement, ItemResponses, linkedItemsHelper } from '../../../../../lib';
+import { browserRichTextResolver, IResolvedRichTextElement, Responses, linkedItemsHelper } from '../../../../../lib';
 import * as warriorJson from '../../fake-data/fake-warrior-response.json';
 
 const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>
@@ -16,7 +16,7 @@ const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns h
 <div data-sdk-resolved="1" data-sdk-item-index="2"><div class="xClass">Jennifer </div></div>`;
 
 describe('Browser rich text resolver (URL priority)', () => {
-    let response: ItemResponses.IViewContentItemResponse<Movie>;
+    let response: Responses.IViewContentItemResponse<Movie>;
     let resolvedRichText: IResolvedRichTextElement;
 
     beforeAll(async () => {

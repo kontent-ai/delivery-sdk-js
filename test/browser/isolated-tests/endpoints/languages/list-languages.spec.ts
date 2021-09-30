@@ -1,4 +1,4 @@
-import { LanguageResponses } from '../../../../../lib';
+import { Responses } from '../../../../../lib';
 import { Context, setup } from '../../../setup';
 import { getDeliveryClientWithJson } from '../../../setup';
 import * as responseJson from './list-languages.spec.json';
@@ -7,7 +7,7 @@ describe('List languages', () => {
     const context = new Context();
     setup(context);
 
-    let response: LanguageResponses.IListLanguagesResponse;
+    let response: Responses.IListLanguagesResponse;
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(responseJson).languages().toPromise()).data;

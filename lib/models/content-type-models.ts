@@ -1,5 +1,5 @@
-import { IQueryConfig } from '../common/common-models';
-import { IGenericElement } from '../element/element-models';
+import { IQueryConfig } from './common/common-models';
+import { IGenericElement } from './element-models';
 
 export interface IContentTypeSystemAttributes {
     /**

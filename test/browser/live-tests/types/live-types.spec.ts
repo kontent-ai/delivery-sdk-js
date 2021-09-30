@@ -1,11 +1,11 @@
-import { TypeResponses } from '../../../../lib';
+import { Responses } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Live types', () => {
     const context = new Context();
     setup(context);
 
-    let response: TypeResponses.IListContentTypesResponse;
+    let response: Responses.IListContentTypesResponse;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.types().toPromise()).data;
