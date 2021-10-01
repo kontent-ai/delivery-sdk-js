@@ -581,7 +581,13 @@ const resolvedRichText = await browserRichTextResolver.resolveRichTextAsync({
 
 #### Node.js rich text resolver
 
-TODO
+The `node.js` parser is published as a standalone npm package:
+
+```
+npm i @kentico/kontent-delivery-html-parser-node-js --save
+```
+
+Once you install it, you can use it same way as the `browserRichTextResolver`. See [node.js parser documentation](https://github.com/Kentico/kontent-delivery-html-parser-node-js) for a code sample. 
 
 ## Get content types
 
