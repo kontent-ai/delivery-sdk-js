@@ -98,7 +98,7 @@ const deliveryClient = new KontentDelivery.createDeliveryClient({
 });
 
 // fetch items
-const response = await deliveryClient.items<Movie>()
+const response = await deliveryClient.items()
   .type('<CONTENT_TYPE_CODENAME>')
   .toPromise();
 

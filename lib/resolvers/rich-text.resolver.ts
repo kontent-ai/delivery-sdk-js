@@ -1,7 +1,7 @@
 import { Elements } from '../elements';
 import { IContentItem, ILink, IRichTextImage } from '../models';
 
-export interface IResolvedRichTextElement {
+export interface IResolvedRichTextHtmlResult {
     html: string;
     linkedItemCodenames: string[];
     componentCodenames: string[];
@@ -29,7 +29,7 @@ export type IRichTextUrlAsyncResolver = (link: IRichTextLinkInput) => Promise<IR
 export type IRichTextImageAsyncResolver = (image?: IRichTextImage) => Promise<IRichTextImageResult>;
 export type IRichTextContentItemAsyncResolver = (contentItem?: IContentItem) => Promise<IRichTextContentItemResult>;
 
-export interface IRichTextResolverInput {
+export interface IRichTextHtmlResolverInput {
     element: Elements.RichTextElement;
     urlResolver?: IRichTextUrlResolver;
     imageResolver?: IRichTextImageResolver;
@@ -37,7 +37,7 @@ export interface IRichTextResolverInput {
     linkedItems?: IContentItem[];
 }
 
-export interface IRichTextResolverAsyncInput {
+export interface IRichTextHtmlResolverAsyncInput {
     element: Elements.RichTextElement;
     urlResolver?: IRichTextUrlAsyncResolver;
     imageResolver?: IRichTextImageAsyncResolver;
@@ -50,10 +50,10 @@ export interface IRichTextLinkInput {
     link?: ILink;
 }
 
-export interface IRichTextResolver {
-    resolveRichText(input: IRichTextResolverInput): IResolvedRichTextElement;
+export interface IRichTextResolver<TInput, TResult> {
+    resolveRichText(input: TInput): TResult;
 }
 
-export interface IRichTextAsyncResolver {
-    resolveRichTextAsync(input: IRichTextResolverAsyncInput): Promise<IResolvedRichTextElement>;
+export interface IRichTextAsyncResolver<TInput, TResult>  {
+    resolveRichTextAsync(input: TInput): Promise<TResult>;
 }

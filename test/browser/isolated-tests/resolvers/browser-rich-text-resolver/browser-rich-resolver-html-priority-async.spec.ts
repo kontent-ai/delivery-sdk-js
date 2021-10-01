@@ -1,5 +1,5 @@
 import { Actor, getDeliveryClientWithJson, Movie, toPromise } from '../../../setup';
-import { browserRichTextResolver, IResolvedRichTextElement, Responses, linkedItemsHelper } from '../../../../../lib';
+import { browserRichTextResolver, IResolvedRichTextHtmlResult, Responses, linkedItemsHelper } from '../../../../../lib';
 import * as warriorJson from '../../fake-data/fake-warrior-response.json';
 
 const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>
@@ -17,7 +17,7 @@ const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns h
 
 describe('Browser rich text resolver (HTML priority) async', () => {
     let response: Responses.IViewContentItemResponse<Movie>;
-    let resolvedRichText: IResolvedRichTextElement;
+    let resolvedRichText: IResolvedRichTextHtmlResult;
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
