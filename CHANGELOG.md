@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-0...v11.0.0-1) (2021-10-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* makes rich text resolver generic, uninstalls unused packages, better organizes browser rich text parser code
+
+### Features
+
+* makes rich text resolver generic, uninstalls unused packages, better organizes browser rich text parser code ([29042b8](https://github.com/Kentico/kontent-delivery-sdk-js/commit/29042b8459c4ad5dedd357cc7a2f43c81da3bf3c))
+
 ## [11.0.0-0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v10.4.1...v11.0.0-0) (2021-09-30)
 
 
