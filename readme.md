@@ -93,7 +93,7 @@ const movieText = response.data.items[0].title.value;
 const KontentDelivery = require('@kentico/kontent-delivery');
 
 // initialize delivery client
-const deliveryClient = new KontentDelivery.createDeliveryClient({
+const deliveryClient = KontentDelivery.createDeliveryClient({
   projectId: '<YOUR_PROJECT_ID>',
 });
 
@@ -122,7 +122,7 @@ const movieText = response.data.items[0].title.value;
         <script type="text/javascript">
             var KontentDelivery = window['kontentDelivery'];
 
-            var deliveryClient = new KontentDelivery.createDeliveryClient({
+            var deliveryClient = KontentDelivery.createDeliveryClient({
                 projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
             });
 
