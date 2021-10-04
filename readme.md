@@ -369,7 +369,7 @@ what you can do by registering a `propertyNameResolver`. The following example c
 `firstName`.
 
 ```typescript
-import { ContentItem, Elements, ElementDecorators, createDeliveryClient  } from '@kentico/kontent-delivery';
+import { ContentItem, Elements, createDeliveryClient  } from '@kentico/kontent-delivery';
 
 type Actor = IContentItem<{
     firstName: Elements.TextElement;
@@ -378,11 +378,24 @@ type Actor = IContentItem<{
 const deliveryClient = createDeliveryClient({
   projectId: '<YOUR_PROJECT_ID>';
   propertyNameResolver: (contentType, element) => {
-        if (element === 'first_name') {
-            return 'firstName';
-        }
-        return element;
+    if (element === 'first_name') {
+        return 'firstName';
     }
+    return element;
+    }
+});
+```
+
+Rather then registering all elements manually, you can also use one of the built-in property name resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver`
+
+```typescript
+import { createDeliveryClient, snakeCasePropertyNameResolver, pascalCasePropertyNameResolver, camelCasePropertyNameResolver  } from '@kentico/kontent-delivery';
+
+const deliveryClient = createDeliveryClient({
+  projectId: '<YOUR_PROJECT_ID>';
+  propertyNameResolver: camelCasePropertyNameResolver,
+  // propertyNameResolver: snakeCasePropertyNameResolver,
+  // propertyNameResolver: pascalCasePropertyNameResolver,
 });
 ```
 
