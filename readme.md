@@ -695,36 +695,6 @@ try {
 }
 ```
 
-## Debugging
-
-### Accessing request data
-
-Every response from this SDK contains additional debug data you can use to inspect when something is not right or if you
-need to access response headers or other network related properties.
-
-```typescript
-const deliveryResponse = await createDeliveryClient({ projectId: 'projectId' }).item('itemCodename').toPromise();
-const rawResponseData = deliveryResponse.response; // contains raw response data, headers, status etc..
-const responseHeaders = deliveryResponse.response.headers;
-```
-
-### Getting URL of a query
-
-In case you need to get the raw URL of a request before calling it, use the `getUrl()` method on any query.
-
-```typescript
-const queryText = deliveryClient
-    .items()
-    .type('movie')
-    .limitParameter(10)
-    .orderParameter('system.codename', 'desc')
-    .getUrl();
-
-console.log(queryText);
-// outputs:
-// https://deliver.kontent.ai/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
-```
-
 ### Remapping json responses
 
 In some scenarios you might want to store `json` response for later use and use SDK to map the response for you. There are 2 ways you can map previously stored `json`:
@@ -758,6 +728,36 @@ const deliveryClient = createDeliveryClient({
 });
 ```
 
+
+## Debugging
+
+### Accessing request data
+
+Every response from this SDK contains additional debug data you can use to inspect when something is not right or if you
+need to access response headers or other network related properties.
+
+```typescript
+const deliveryResponse = await createDeliveryClient({ projectId: 'projectId' }).item('itemCodename').toPromise();
+const rawResponseData = deliveryResponse.response; // contains raw response data, headers, status etc..
+const responseHeaders = deliveryResponse.response.headers;
+```
+
+### Getting URL of a query
+
+In case you need to get the raw URL of a request before calling it, use the `getUrl()` method on any query.
+
+```typescript
+const queryText = deliveryClient
+    .items()
+    .type('movie')
+    .limitParameter(10)
+    .orderParameter('system.codename', 'desc')
+    .getUrl();
+
+console.log(queryText);
+// outputs:
+// https://deliver.kontent.ai/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
+```
 ## Upgrade
 
 The major version `11.0.0` is pretty much a complete overhaul of this SDK with many breaking changes. The major benefits
