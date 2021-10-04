@@ -721,7 +721,7 @@ For this reason, you may disable mapping of linked items with `linkedItemsRefere
 ```typescript
  const client = getTestDeliveryClient({
     projectId: '<YOUR_PROJECT_ID>',
-    linkedItemsReferenceHandler: 'ignore'
+    linkedItemsReferenceHandler: 'ignore' // or 'map'
 });
 ```
 
