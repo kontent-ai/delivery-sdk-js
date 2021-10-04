@@ -93,7 +93,6 @@ export class ItemMapper {
                 preparedItems: preparedItems,
                 processingStartedForCodenames: processingStartedForCodenames
             });
-
             mappedMainItems.push(itemResult.item);
         }
 

@@ -22,10 +22,10 @@ export class ElementMapper {
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
     }): IMapElementsResult<TContentItem> | undefined {
-        // return processed item if possible (to avoid infinite recursion)
-        const processedItem = data.processedItems[data.dataToMap.item.system.codename] as TContentItem;
+        // return processed item to avoid infinite recursion
+        const processedItem = data.processedItems[data.dataToMap.item.system.codename] as TContentItem | undefined;
         if (processedItem) {
-            // item was already resolved, return it
+            // item was already resolved
             return {
                 item: processedItem,
                 processedItems: data.processedItems,
@@ -34,16 +34,18 @@ export class ElementMapper {
             };
         }
 
-        const elementCodenames = Object.getOwnPropertyNames(data.dataToMap.rawItem.elements);
         const preparedItem = data.preparedItems[data.dataToMap.item.system.codename];
         const itemInstance = preparedItem?.item as TContentItem;
 
         if (!itemInstance) {
-            // item is not present in response, no need to do any mapping
+            // item is not present in response
             return undefined;
         }
 
-        elementCodenames.forEach((elementCodename) => {
+        // mapp elements
+        const elementCodenames = Object.getOwnPropertyNames(data.dataToMap.rawItem.elements);
+
+        for (const elementCodename of elementCodenames) {
             const elementMap = this.resolveElementMap(itemInstance, elementCodename);
             const elementWrapper: ElementModels.IElementWrapper = {
                 system: data.dataToMap.item.system,
@@ -56,13 +58,13 @@ export class ElementMapper {
                     item: itemInstance,
                     preparedItems: data.preparedItems,
                     processingStartedForCodenames: data.processingStartedForCodenames,
-                    processedItems: data.processedItems,
+                    processedItems: data.processedItems
                 });
 
                 // set mapped elements
                 itemInstance.elements[elementMap.resolvedName] = mappedElement;
             }
-        });
+        }
 
         return {
             item: itemInstance,
@@ -86,7 +88,7 @@ export class ElementMapper {
                     elementWrapper: data.elementWrapper,
                     preparedItems: data.preparedItems,
                     processingStartedForCodenames: data.processingStartedForCodenames,
-                    processedItems: data.processedItems,
+                    processedItems: data.processedItems
                 });
             }
 
@@ -109,6 +111,7 @@ export class ElementMapper {
             }
 
             if (elementType === ElementType.RichText) {
+                // add to parent items
                 return this.mapRichTextElement(
                     data.elementWrapper,
                     data.processedItems,
@@ -146,41 +149,39 @@ export class ElementMapper {
 
         const rawElement = elementWrapper.rawElement as Contracts.IRichTextElementContract;
 
-        if (rawElement.modular_content) {
-            if (Array.isArray(rawElement.modular_content)) {
-                rawElement.modular_content.forEach((codename) => {
-                    // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
-                    const preparedData = preparedItems[codename];
+        for (const codename of rawElement.modular_content) {
+            // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
+            const preparedData = preparedItems[codename];
 
-                    // first try to get existing item
-                    const existingLinkedItem = this.getOrSaveLinkedItemForElement(
-                        codename,
-                        rawElement,
-                        processedItems,
-                        processingStartedForCodenames,
-                        preparedItems
-                    );
+            // first try to get existing item
+            if (this.canMapLinkedItems()) {
+                const existingLinkedItem = this.getOrSaveLinkedItemForElement(
+                    codename,
+                    rawElement,
+                    processedItems,
+                    processingStartedForCodenames,
+                    preparedItems
+                );
 
-                    if (existingLinkedItem) {
-                        // item was found, add it to linked items
-                        richTextLinkedItems.push(existingLinkedItem);
-                    } else {
-                        // item was not found or not yet resolved
-                        if (preparedData) {
-                            const mappedLinkedItemResult = this.mapElements({
-                                dataToMap: preparedData,
-                                preparedItems: preparedItems,
-                                processingStartedForCodenames: processingStartedForCodenames,
-                                processedItems: processedItems,
-                            });
+                if (existingLinkedItem) {
+                    // item was found, add it to linked items
+                    richTextLinkedItems.push(existingLinkedItem);
+                } else {
+                    // item was not found or not yet resolved
+                    if (preparedData) {
+                        const mappedLinkedItemResult = this.mapElements({
+                            dataToMap: preparedData,
+                            preparedItems: preparedItems,
+                            processingStartedForCodenames: processingStartedForCodenames,
+                            processedItems: processedItems
+                        });
 
-                            // add mapped linked item to result
-                            if (mappedLinkedItemResult) {
-                                richTextLinkedItems.push(mappedLinkedItemResult.item);
-                            }
+                        // add mapped linked item to result
+                        if (mappedLinkedItemResult) {
+                            richTextLinkedItems.push(mappedLinkedItemResult.item);
                         }
                     }
-                });
+                }
             }
         }
 
@@ -253,9 +254,7 @@ export class ElementMapper {
         return this.buildElement(elementWrapper, ElementType.Custom, () => elementWrapper.rawElement.value);
     }
 
-    private mapUrlSlugElement(
-        elementWrapper: ElementModels.IElementWrapper,
-    ): Elements.UrlSlugElement {
+    private mapUrlSlugElement(elementWrapper: ElementModels.IElementWrapper): Elements.UrlSlugElement {
         return this.buildElement(elementWrapper, ElementType.UrlSlug, () => elementWrapper.rawElement.value);
     }
 
@@ -270,24 +269,27 @@ export class ElementMapper {
 
         // value = array of item codenames
         const linkedItemCodenames = data.elementWrapper.rawElement.value as string[];
-        linkedItemCodenames.forEach((codename) => {
-            const linkedItem = this.getOrSaveLinkedItemForElement(
-                codename,
-                data.elementWrapper.rawElement,
-                data.processedItems,
-                data.processingStartedForCodenames,
-                data.preparedItems
-            );
-            if (linkedItem) {
-                // add item to result
-                linkedItems.push(linkedItem);
-            } else {
-                // item was not found
-                console.warn(
-                    `Linked item with codename '${codename}' in linked items element '${data.elementWrapper.rawElement.name}' of '${data.elementWrapper.rawElement.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
+
+        for (const codename of linkedItemCodenames) {
+            if (this.canMapLinkedItems()) {
+                const linkedItem = this.getOrSaveLinkedItemForElement(
+                    codename,
+                    data.elementWrapper.rawElement,
+                    data.processedItems,
+                    data.processingStartedForCodenames,
+                    data.preparedItems
                 );
+                if (linkedItem) {
+                    // add item to result
+                    linkedItems.push(linkedItem);
+                } else {
+                    // item was not found
+                    console.warn(
+                        `Linked item with codename '${codename}' in linked items element '${data.elementWrapper.rawElement.name}' of '${data.elementWrapper.rawElement.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
+                    );
+                }
             }
-        });
+        }
 
         return {
             ...this.buildElement(data.elementWrapper, ElementType.ModularContent, () => linkedItemCodenames),
@@ -330,7 +332,7 @@ export class ElementMapper {
             dataToMap: preparedItem,
             preparedItems: preparedItems,
             processingStartedForCodenames: mappingStartedForCodenames,
-            processedItems: processedItems,
+            processedItems: processedItems
         });
 
         if (mappedLinkedItemResult) {
@@ -410,5 +412,12 @@ export class ElementMapper {
             type: type,
             value: valueFactory()
         };
+    }
+
+    private canMapLinkedItems(): boolean {
+        if (!this.config.linkedItemsReferenceHandler) {
+            return true;
+        }
+        return this.config.linkedItemsReferenceHandler === 'map';
     }
 }

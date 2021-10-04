@@ -1,7 +1,7 @@
 import { IHeader, IHttpService, IRetryStrategyOptions } from '@kentico/kontent-core';
 
 import { ElementResolver } from '../elements';
-import { IProxyUrlData, IQueryConfig, PropertyNameResolver } from '../models';
+import { LinkedItemsReferenceHandler, IProxyUrlData, IQueryConfig, PropertyNameResolver } from '../models';
 
 export interface IDeliveryClientProxyConfig {
     /**
@@ -79,4 +79,10 @@ export interface IDeliveryClientConfig {
      * Default query configuration. Can be overriden by individual queries.
      */
     defaultQueryConfig?: IQueryConfig;
+
+    /**
+     * Indicates how linked item references are handled (can be used to disable refence mapping when you encounter an issue
+     * with circular refences)
+     */
+    linkedItemsReferenceHandler?: LinkedItemsReferenceHandler;
 }

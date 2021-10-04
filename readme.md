@@ -155,6 +155,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | httpService ?       |               IHttpService               | Can be useud to inject custom http service for performing requests                                                                   |
 | globalHeaders?      | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request                                                                               |
 | retryStrategy?      |          IRetryStrategyOptions           | Retry strategy configuration                                                                                                         |
+| linkedItemsReferenceHandler?      |          LinkedItemsReferenceHandler           | Indicates if content items are automatically mapped. Available valus: 'map' or 'ignore'                                                                                                         |
 
 ### Create typed models
 
@@ -223,7 +224,7 @@ To resolve your custom element into `ColorElement`, use the `ElementResolver` in
 
 ```typescript
 const client = createDeliveryClient({
-    projectId: '',
+    projectId: '<YOUR_PROJECT_ID>',
     elementResolver: (elementWrapper) => {
         if (elementWrapper.rawElement.type === 'color') {
             const parsed = JSON.parse(elementWrapper.rawElement.value);
@@ -525,7 +526,7 @@ export type Actor = IContentItem<{
 }>;
 
 // get content item with rich text element
-const response = (await createDeliveryClient({ projectId: 'projectId' }).item<Movie>('itemCodename').toPromise()).data;
+const response = (await createDeliveryClient({ projectId: '<YOUR_PROJECT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
 
 // get rich text element
 const richtElement = response.item.plot;
@@ -647,7 +648,7 @@ Examples:
 
 ```typescript
 const client = createDeliveryClient({
-    projectId: 'xxx',
+    projectId: '<YOUR_PROJECT_ID>',
     // Will be used instead of 'https://deliver.kontent.ai' for all requests.
     // Parameters, filters, project Id and other parts of URL will use default values.
     proxy: {
@@ -658,7 +659,7 @@ const client = createDeliveryClient({
 
 ```typescript
 const client = createDeliveryClient({
-    projectId: 'xxx',
+    projectId: '<YOUR_PROJECT_ID>',
     proxy: {
         advancedProxyUrlResolver: (data) => {
             const action = data.action; // /items
@@ -711,6 +712,19 @@ const remappedData = deliveryClient.mappingService.viewContentItemResponse<Movie
 const remappedData = deliveryClient.item<Movie>(movieCodename).map(json);
 ```
 
+### Handling circular references
+
+By default the SDK automatically maps content items present in `linked items` & `rich text` elements. Linked items can reference other linked items in their tree (e.g. child item referencing parent) which may cause infinite nesting (circular reference). This behavior is not an issue for most scenarios, in fact it is beneficial as you can easily access all linked items. However, you cannot easily serialize such model. Using e.g. `JSON.stringify` would fail if there are circular references. 
+
+For this reason, you may disable mapping of linked items with `linkedItemsReferenceHandler` configuration option.
+
+```typescript
+ const client = getTestDeliveryClient({
+    projectId: '<YOUR_PROJECT_ID>',
+    linkedItemsReferenceHandler: 'ignore'
+});
+```
+
 ### Using custom HTTP service
 
 The SDK allows you to inject your own instance of a class implementing the `IHttpService` interface. This way you can
@@ -737,7 +751,7 @@ Every response from this SDK contains additional debug data you can use to inspe
 need to access response headers or other network related properties.
 
 ```typescript
-const deliveryResponse = await createDeliveryClient({ projectId: 'projectId' }).item('itemCodename').toPromise();
+const deliveryResponse = await createDeliveryClient({ projectId: '<YOUR_PROJECT_ID' }).item('itemCodename').toPromise();
 const rawResponseData = deliveryResponse.response; // contains raw response data, headers, status etc..
 const responseHeaders = deliveryResponse.response.headers;
 ```

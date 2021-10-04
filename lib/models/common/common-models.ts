@@ -2,6 +2,8 @@ import { IHeader, IHttpCancelRequestToken, IQueryParameter } from '@kentico/kont
 import { INetworkResponse } from './base-responses';
 import { IPagination } from './pagination.class';
 
+export type LinkedItemsReferenceHandler = 'map' | 'ignore';
+
 export interface IProxyUrlData {
     action: string;
     domain: string;
