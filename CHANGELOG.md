@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-2](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-1...v11.0.0-2) (2021-10-04)
+
+
+### Features
+
+* adds ability to disable mapping of content items in linked items & rich text elements ([f67661c](https://github.com/Kentico/kontent-delivery-sdk-js/commit/f67661c2cc36a1d19d42a4036ac8ee67c7fd365a))
+* adds came case, pascal case & snake case property name resolvers ([b422697](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b42269721a930a83442d5842b2c31076e8ef6a92))
+
 ## [11.0.0-1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-0...v11.0.0-1) (2021-10-01)
 
 
