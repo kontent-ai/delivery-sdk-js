@@ -1,5 +1,5 @@
-import { Elements } from '../elements';
-import { IContentItem, ILink, IRichTextImage } from '../models';
+import { Elements } from '../../elements';
+import { IContentItem, ILink, IRichTextImage } from '../../models';
 
 export interface IResolvedRichTextHtmlResult {
     html: string;

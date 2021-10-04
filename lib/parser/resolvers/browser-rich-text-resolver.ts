@@ -4,7 +4,7 @@ import {
     IRichTextAsyncResolver,
     IRichTextHtmlResolverAsyncInput,
     IRichTextHtmlResolverInput
-} from '../../resolvers/rich-text.resolver';
+} from '../../resolvers/rich-text/rich-text.resolver';
 import { resolveBrowserRichTextInternal } from './implementation/sync-browser-resolver.class';
 import { resolveBrowserRichTextInternalAsync } from './implementation/async-browser-resolver.class';
 

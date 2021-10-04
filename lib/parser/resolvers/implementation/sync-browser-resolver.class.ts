@@ -5,7 +5,7 @@ import {
     ILinkObject,
     RichTextItemIndexReferenceWrapper
 } from '../../parse-models';
-import { IResolvedRichTextHtmlResult, IRichTextHtmlResolverInput } from '../../../resolvers/rich-text.resolver';
+import { IResolvedRichTextHtmlResult, IRichTextHtmlResolverInput } from '../../../resolvers/rich-text/rich-text.resolver';
 import { parserConfiguration } from '../../parser-configuration';
 import { ContentItemType } from '../../../models';
 import { richTextResolverHelper } from '../shared/rich-text-resolver.helper';

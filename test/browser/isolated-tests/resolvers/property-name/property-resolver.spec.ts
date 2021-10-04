@@ -1,6 +1,6 @@
-import { getDeliveryClientWithJson } from '../../setup';
-import { Elements, IContentItem, Responses, PropertyNameResolver } from '../../../../lib';
-import * as warriorJson from '../fake-data/fake-warrior-response.json';
+import { getDeliveryClientWithJson } from '../../../setup';
+import { Elements, IContentItem, Responses, PropertyNameResolver } from '../../../../../lib';
+import * as warriorJson from '../../fake-data/fake-warrior-response.json';
 
 type MockMovie = IContentItem<{
     titleTest: Elements.TextElement;
