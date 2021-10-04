@@ -9,7 +9,7 @@ describe('Live mapping service', () => {
     let response: INetworkResponse<Responses.IViewContentItemResponse<Movie>, Contracts.IViewContentItemContract>;
 
     beforeAll(async () => {
-        response = await context.deliveryClient.item<Movie>(movieCodename).queryConfig({}).toPromise();
+        response = await context.deliveryClient.item<Movie>(movieCodename).toPromise();
     });
 
     it(`raw response should be available for mapping from stored json (with mapping service)`, () => {

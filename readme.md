@@ -725,6 +725,22 @@ console.log(queryText);
 // https://deliver.kontent.ai/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
 ```
 
+### Remapping json responses
+
+In some scenarios you might want to store `json` response for later use and use SDK to map the response for you. There are 2 ways you can map previously stored `json`:
+
+```typescript
+const result = await deliveryClient.item<Movie>('codename').toPromise();
+
+const json = result.response.data;
+
+// approach #1
+const remappedData = deliveryClient.mappingService.viewContentItemResponse<Movie>(json);
+
+// approach #2
+const remappedData = deliveryClient.item<Movie>(movieCodename).map(json);
+```
+
 ### Using custom HTTP service
 
 The SDK allows you to inject your own instance of a class implementing the `IHttpService` interface. This way you can
