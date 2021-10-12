@@ -155,7 +155,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | httpService ?       |               IHttpService               | Can be useud to inject custom http service for performing requests                                                                   |
 | globalHeaders?      | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request                                                                               |
 | retryStrategy?      |          IRetryStrategyOptions           | Retry strategy configuration                                                                                                         |
-| linkedItemsReferenceHandler?      |          LinkedItemsReferenceHandler           | Indicates if content items are automatically mapped. Available valus: 'map' or 'ignore'                                                                                                         |
+| linkedItemsReferenceHandler?      |          LinkedItemsReferenceHandler           | Indicates if content items are automatically mapped. Available values: 'map' or 'ignore'                                                                                                         |
 
 ### Create typed models
 
