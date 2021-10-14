@@ -53,7 +53,7 @@ export interface IContentItemSystemAttributes {
     /**
      * Workflow step of the item
      */
-    workflowStep: string;
+    workflowStep: string | null;
 }
 
 /**
@@ -120,9 +120,9 @@ export interface IContentItemsContainer {
 export interface IRichTextImage {
     imageId: string;
     url: string;
-    description?: string;
-    width?: number;
-    height?: number;
+    description: string | null;
+    width: number | null;
+    height: number | null;
 }
 
 export interface IItemQueryConfig extends IQueryConfig {}

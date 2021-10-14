@@ -4,7 +4,7 @@ export namespace Contracts {
         limit: number;
         count: number;
         next_page: string;
-        total_count?: number;
+        total_count: number | null;
     }
 
     export interface IContentTypeElementContract {
@@ -145,7 +145,7 @@ export namespace Contracts {
         language: string;
         sitemap_locations: string[];
         collection: string;
-        workflow_step: string;
+        workflow_step: string | null;
     }
 
     export interface IItemsWithModularContentContract {

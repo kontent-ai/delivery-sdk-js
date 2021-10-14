@@ -3,5 +3,5 @@ export interface IPagination {
     limit: number;
     count: number;
     nextPage: string;
-    totalCount?: number;
+    totalCount: number | null;
 }

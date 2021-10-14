@@ -165,7 +165,7 @@ export class MappingService implements IMappingService {
             count: paginationContract.count,
             limit: paginationContract.limit,
             nextPage: paginationContract.next_page,
-            totalCount: paginationContract.total_count
+            totalCount: paginationContract.total_count ?? null
         };
     }
 }
