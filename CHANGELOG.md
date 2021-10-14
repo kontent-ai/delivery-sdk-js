@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-4](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-3...v11.0.0-4) (2021-10-14)
+
+
+### Features
+
+* removes log message when content item is not in response ([b60f36b](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b60f36b9b50cefbb2e7e5f8340c58143740698ee))
+* use null for instead of undefined for some response models ([ff27a93](https://github.com/Kentico/kontent-delivery-sdk-js/commit/ff27a9346b9d1dcd587c337d37f629eddf933855))
+
+
+### Bug Fixes
+
+* use null for response models ([53792f1](https://github.com/Kentico/kontent-delivery-sdk-js/commit/53792f1cf2edc205f7270bdd6c9d361681fd8676))
+
 ## [11.0.0-3](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-2...v11.0.0-3) (2021-10-14)
 
 
