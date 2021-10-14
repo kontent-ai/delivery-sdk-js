@@ -25,7 +25,7 @@ describe('Live item', () => {
     });
 
     it(`released date should be '2011-09-09T00:00:00Z'`, () => {
-        expect(response.item.elements.released.value).toEqual(new Date('2011-09-09T00:00:00Z'));
+        expect(response.item.elements.released.value).toEqual('2011-09-09T00:00:00Z');
     });
 
     it(`poster asset should be defined`, () => {

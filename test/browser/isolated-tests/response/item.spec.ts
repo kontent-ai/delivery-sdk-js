@@ -26,8 +26,7 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks last modified`, () => {
-        expect(response.item.system.lastModified).toEqual(jasmine.any(Date));
-        expect(response.item.system.lastModified).toEqual(new Date(warriorJson.item.system.last_modified));
+        expect(response.item.system.lastModified).toEqual(warriorJson.item.system.last_modified);
     });
 
     it(`checks workflow step`, () => {
@@ -54,7 +53,7 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks datetime element`, () => {
-        expect(response.item.elements.released.value).toEqual(new Date(warriorJson.item.elements.released.value));
+        expect(response.item.elements.released.value).toEqual(warriorJson.item.elements.released.value);
     });
 
     it(`checks number element`, () => {

@@ -152,7 +152,7 @@ export class ItemMapper {
                 collection: item.system.collection,
                 id: item.system.id,
                 language: item.system.language,
-                lastModified: new Date(item.system.last_modified),
+                lastModified: item.system.last_modified,
                 name: item.system.name,
                 sitemapLocations: item.system.sitemap_locations,
                 type: item.system.type,

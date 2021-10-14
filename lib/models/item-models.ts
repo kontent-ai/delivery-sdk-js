@@ -33,7 +33,7 @@ export interface IContentItemSystemAttributes {
     /**
      * Date when the item was last modified
      */
-    lastModified: Date;
+    lastModified: string;
 
     /**
      * Codename of the language

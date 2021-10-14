@@ -200,9 +200,7 @@ export class ElementMapper {
     }
 
     private mapDateTimeElement(elementWrapper: ElementModels.IElementWrapper): Elements.DateTimeElement {
-        return this.buildElement(elementWrapper, ElementType.DateTime, () =>
-            elementWrapper.rawElement.value ? new Date(elementWrapper.rawElement.value) : null
-        );
+        return this.buildElement(elementWrapper, ElementType.DateTime, () => elementWrapper.rawElement.value);
     }
 
     private mapMultipleChoiceElement(elementWrapper: ElementModels.IElementWrapper): Elements.MultipleChoiceElement {

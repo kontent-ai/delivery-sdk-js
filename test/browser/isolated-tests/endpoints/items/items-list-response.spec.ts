@@ -42,6 +42,6 @@ describe('Items list response', () => {
 
         expect(item.elements.title.value).toEqual(rawItem.elements.title.value);
         expect(item.elements.summary.value).toEqual(rawItem.elements.summary.value);
-        expect(item.elements.post_date.value).toEqual(new Date(rawItem.elements.post_date.value));
+        expect(item.elements.post_date.value).toEqual(rawItem.elements.post_date.value);
     });
 });

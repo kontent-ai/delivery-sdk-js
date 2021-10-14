@@ -40,7 +40,7 @@ describe('Property resolver', () => {
     });
 
     it(`checks element is assigned #2`, () => {
-        expect(response.item.elements.test_released.value).toEqual(new Date('2011-09-09T00:00:00Z'));
+        expect(response.item.elements.test_released.value).toEqual('2011-09-09T00:00:00Z');
     });
 
     it(`checks element is assigned #3`, () => {

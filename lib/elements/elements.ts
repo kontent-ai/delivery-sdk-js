@@ -15,7 +15,7 @@ export namespace Elements {
 
     export type MultipleChoiceElement = ElementModels.IElement<ElementModels.MultipleChoiceOption[]>;
 
-    export type DateTimeElement = ElementModels.IElement<Date | null>;
+    export type DateTimeElement = ElementModels.IElement<string | null>;
 
     export type RichTextElement = ElementModels.IElement<string> & {
         /**
