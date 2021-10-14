@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-3](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-2...v11.0.0-3) (2021-10-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* use "string" type for all "Date" properties to support more serialization scenarios
+
+### Features
+
+* updates deps, removes duplicate license ([035335f](https://github.com/Kentico/kontent-delivery-sdk-js/commit/035335f050782091932a70cab6a8ba4ceb76e990))
+* use "string" type for all "Date" properties to support more serialization scenarios ([909102f](https://github.com/Kentico/kontent-delivery-sdk-js/commit/909102fa8dc804a44d3480e166112232b98f2c39))
+
 ## [11.0.0-2](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-1...v11.0.0-2) (2021-10-04)
 
 
