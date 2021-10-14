@@ -529,11 +529,11 @@ export type Actor = IContentItem<{
 const response = (await createDeliveryClient({ projectId: '<YOUR_PROJECT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
 
 // get rich text element
-const richtElement = response.item.plot;
+const richTextElement = response.item.plot;
 
 // resolve HTML
 const resolvedRichText = browserRichTextResolver.resolveRichText({
-    element: richtElement,
+    element: richTextElement,
     linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
     imageResolver: (image) => {
         return {
