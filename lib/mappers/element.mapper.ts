@@ -280,11 +280,6 @@ export class ElementMapper {
                 if (linkedItem) {
                     // add item to result
                     linkedItems.push(linkedItem);
-                } else {
-                    // item was not found
-                    console.warn(
-                        `Linked item with codename '${codename}' in linked items element '${data.elementWrapper.rawElement.name}' of '${data.elementWrapper.rawElement.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
-                    );
                 }
             }
         }
