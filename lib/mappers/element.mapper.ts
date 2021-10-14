@@ -365,11 +365,11 @@ export class ElementMapper {
         for (const imageId of Object.keys(imagesJson)) {
             const imageRaw = imagesJson[imageId];
             images.push({
-                description: imageRaw.description,
+                description: imageRaw.description ?? null,
                 imageId: imageRaw.image_id,
                 url: imageRaw.url,
-                height: imageRaw.height,
-                width: imageRaw.width
+                height: imageRaw.height ?? null,
+                width: imageRaw.width ?? null
             });
         }
 

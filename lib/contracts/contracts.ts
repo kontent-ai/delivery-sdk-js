@@ -4,7 +4,7 @@ export namespace Contracts {
         limit: number;
         count: number;
         next_page: string;
-        total_count: number | null;
+        total_count?: number;
     }
 
     export interface IContentTypeElementContract {

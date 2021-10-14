@@ -29,6 +29,6 @@ describe('Items without total count', () => {
     });
 
     it(`Response should not have total count parameter set`, () => {
-        expect(response.pagination.totalCount).toEqual(undefined);
+        expect(response.pagination.totalCount).toEqual(null);
     });
 });
