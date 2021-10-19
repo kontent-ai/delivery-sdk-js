@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-5](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-4...v11.0.0-5) (2021-10-19)
+
+
+### Bug Fixes
+
+* fixes value type for LinkedItemsElement ([b6cfc8e](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b6cfc8e765ec90c475e87ba25ddc3c69c284f4b1))
+
 ## [11.0.0-4](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-3...v11.0.0-4) (2021-10-14)
 
 
