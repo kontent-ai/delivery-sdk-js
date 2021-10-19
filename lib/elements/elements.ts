@@ -5,7 +5,7 @@ export namespace Elements {
     export type TextElement = ElementModels.IElement<string>;
 
     export type LinkedItemsElement<TContentItem extends IContentItem = IContentItem> = ElementModels.IElement<
-        TContentItem[]
+        string[]
     > & {
         /**
          * Linked items
