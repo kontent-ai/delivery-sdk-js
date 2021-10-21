@@ -1,7 +1,7 @@
-import { Elements, ElementType } from '../../../elements';
-import { IContentItem, ILink, IRichTextImage } from '../../../models';
+import { Elements, ElementType } from '../elements';
+import { IContentItem, ILink, IRichTextImage } from '../models';
 
-export class RichTextResolverHelper {
+export class ParserHelper {
     getLinkedItem(linkedItems: IContentItem[], itemCodename: string): IContentItem | undefined {
         if (!linkedItems) {
             return undefined;
@@ -44,7 +44,7 @@ export class RichTextResolverHelper {
             return elementLink;
         }
 
-        // try to find image in all linked items
+        // try to find link in all linked items
         if (linkedItems) {
             for (const linkedItem of linkedItems) {
                 for (const elementKey of Object.keys(linkedItem.elements)) {
@@ -64,4 +64,4 @@ export class RichTextResolverHelper {
     }
 }
 
-export const richTextResolverHelper = new RichTextResolverHelper();
+export const parserHelper = new ParserHelper();

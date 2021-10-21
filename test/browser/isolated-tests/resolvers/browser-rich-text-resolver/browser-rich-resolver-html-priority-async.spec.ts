@@ -1,5 +1,10 @@
 import { Actor, getDeliveryClientWithJson, Movie, toPromise } from '../../../setup';
-import { browserRichTextResolver, IResolvedRichTextHtmlResult, Responses, linkedItemsHelper } from '../../../../../lib';
+import {
+    browserRichTextHtmlResolver,
+    IResolvedRichTextHtmlResult,
+    Responses,
+    linkedItemsHelper
+} from '../../../../../lib';
 import * as warriorJson from '../../fake-data/fake-warrior-response.json';
 
 const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>
@@ -21,20 +26,20 @@ describe('Browser rich text resolver (HTML priority) async', () => {
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
-        resolvedRichText = await browserRichTextResolver.resolveRichTextAsync({
+        resolvedRichText = await browserRichTextHtmlResolver.resolveRichTextAsync({
             element: response.item.elements.plot,
             linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
-            imageResolver: async (image) => {
+            imageResolverAsync: async (imageId, image) => {
                 return await toPromise({
                     imageHtml: `<img class="xImage" src="${image?.imageId}">`
                 });
             },
-            urlResolver: async (link) => {
+            urlResolverAsync: async (linkId, linkText, link) => {
                 return await toPromise({
-                    linkHtml: `<a class="xLink">${link?.link?.urlSlug}</a>`
+                    linkHtml: `<a class="xLink">${link?.urlSlug}</a>`
                 });
             },
-            contentItemResolver: async (contentItem) => {
+            contentItemResolverAsync: async (itemId, contentItem) => {
                 if (contentItem && contentItem.system.type === 'actor') {
                     const actor = contentItem as Actor;
                     return await toPromise({

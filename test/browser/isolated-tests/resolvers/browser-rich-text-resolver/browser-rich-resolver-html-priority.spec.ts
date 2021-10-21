@@ -1,5 +1,10 @@
 import { Actor, getDeliveryClientWithJson, Movie } from '../../../setup';
-import { browserRichTextResolver, IResolvedRichTextHtmlResult, Responses, linkedItemsHelper } from '../../../../../lib';
+import {
+    browserRichTextHtmlResolver,
+    IResolvedRichTextHtmlResult,
+    Responses,
+    linkedItemsHelper
+} from '../../../../../lib';
 import * as warriorJson from '../../fake-data/fake-warrior-response.json';
 
 const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>
@@ -21,20 +26,20 @@ describe('Browser rich text resolver (HTML priority)', () => {
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
-        resolvedRichText = browserRichTextResolver.resolveRichText({
+        resolvedRichText = browserRichTextHtmlResolver.resolveRichText({
             element: response.item.elements.plot,
             linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
-            imageResolver: (image) => {
+            imageResolver: (imageId, image) => {
                 return {
                     imageHtml: `<img class="xImage" src="${image?.imageId}">`
                 };
             },
-            urlResolver: (link) => {
+            urlResolver: (linkId, linkText, link) => {
                 return {
-                    linkHtml: `<a class="xLink">${link?.link?.urlSlug}</a>`
+                    linkHtml: `<a class="xLink">${link?.urlSlug}</a>`
                 };
             },
-            contentItemResolver: (contentItem) => {
+            contentItemResolver: (itemId, contentItem) => {
                 if (contentItem && contentItem.system.type === 'actor') {
                     const actor = contentItem as Actor;
                     return {

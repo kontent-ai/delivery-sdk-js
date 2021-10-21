@@ -21,13 +21,19 @@ export interface IRichTextContentItemResult {
     contentItemHtml?: string;
 }
 
-export type IRichTextUrlResolver = (link: IRichTextLinkInput) => IRichTextUrlResult;
-export type IRichTextImageResolver = (image?: IRichTextImage) => IRichTextImageResult;
-export type IRichTextContentItemResolver = (contentItem?: IContentItem) => IRichTextContentItemResult;
+export type IRichTextUrlResolver = (linkId: string, linkText: string, link?: ILink) => IRichTextUrlResult;
+export type IRichTextImageResolver = (imageId: string, image?: IRichTextImage) => IRichTextImageResult;
+export type IRichTextContentItemResolver = (
+    itemCodename: string,
+    contentItem?: IContentItem
+) => IRichTextContentItemResult;
 
-export type IRichTextUrlAsyncResolver = (link: IRichTextLinkInput) => Promise<IRichTextUrlResult>;
-export type IRichTextImageAsyncResolver = (image?: IRichTextImage) => Promise<IRichTextImageResult>;
-export type IRichTextContentItemAsyncResolver = (contentItem?: IContentItem) => Promise<IRichTextContentItemResult>;
+export type IRichTextUrlResolverAsync = (linkId: string, linkText: string, link?: ILink) => Promise<IRichTextUrlResult>;
+export type IRichTextImageResolverAsync = (imageId: string, image?: IRichTextImage) => Promise<IRichTextImageResult>;
+export type IRichTextContentItemResolverAsync = (
+    itemCodename: string,
+    contentItem?: IContentItem
+) => Promise<IRichTextContentItemResult>;
 
 export interface IRichTextHtmlResolverInput {
     element: Elements.RichTextElement;
@@ -37,23 +43,18 @@ export interface IRichTextHtmlResolverInput {
     linkedItems?: IContentItem[];
 }
 
-export interface IRichTextHtmlResolverAsyncInput {
+export interface IRichTextHtmlResolverInputAsync {
     element: Elements.RichTextElement;
-    urlResolver?: IRichTextUrlAsyncResolver;
-    imageResolver?: IRichTextImageAsyncResolver;
-    contentItemResolver?: IRichTextContentItemAsyncResolver;
+    urlResolverAsync?: IRichTextUrlResolverAsync;
+    imageResolverAsync?: IRichTextImageResolverAsync;
+    contentItemResolverAsync?: IRichTextContentItemResolverAsync;
     linkedItems?: IContentItem[];
-}
-
-export interface IRichTextLinkInput {
-    linkText?: string;
-    link?: ILink;
 }
 
 export interface IRichTextResolver<TInput, TResult> {
     resolveRichText(input: TInput): TResult;
 }
 
-export interface IRichTextAsyncResolver<TInput, TResult>  {
+export interface IRichTextResolverAsync<TInput, TResult> {
     resolveRichTextAsync(input: TInput): Promise<TResult>;
 }
