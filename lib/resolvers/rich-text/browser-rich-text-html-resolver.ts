@@ -172,8 +172,6 @@ export class BrowserRichTextHtmlResolver
                     if (input.urlResolverAsync) {
                         const urlResult = await input.urlResolverAsync(linkId, linkText, link);
 
-                        console.log('TEST', urlResult);
-
                         // html has priority over url resolver
                         if (urlResult?.linkHtml) {
                             // replace link html
