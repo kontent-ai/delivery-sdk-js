@@ -79,6 +79,9 @@ export class BrowserParser implements IParser<string> {
             // extract objects
             for (let i = 0; i < htmlCollection.length; i++) {
                 const element = htmlCollection[i];
+
+                resolvers.elementResolver(element);
+
                 const typeAttribute = element.attributes ? element.attributes.getNamedItem('type') : undefined;
 
                 // process linked items (modular items)
@@ -201,7 +204,7 @@ export class BrowserParser implements IParser<string> {
                     }
                 } else {
                     // process generic elements
-                    resolvers.htmlElementResolver(element);
+                    resolvers.genericElementResolver(element);
                 }
 
                 // recursively process child nodes

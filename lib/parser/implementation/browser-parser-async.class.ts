@@ -79,6 +79,9 @@ export class BrowserParserAsync implements IParserAsync<string> {
             // extract objects
             for (let i = 0; i < htmlCollection.length; i++) {
                 const element = htmlCollection[i];
+
+                resolvers.elementResolver(element);
+
                 const typeAttribute = element.attributes ? element.attributes.getNamedItem('type') : undefined;
 
                 // process linked items (modular items)
@@ -201,7 +204,7 @@ export class BrowserParserAsync implements IParserAsync<string> {
                     }
                 } else {
                     // process generic elements
-                    await resolvers.htmlElementResolverAsync(element);
+                    await resolvers.genericElementResolverAsync(element);
                 }
 
                 // recursively process child nodes

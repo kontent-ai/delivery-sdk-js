@@ -1,16 +1,11 @@
 import { Context, setup } from '../../setup';
 
 describe('Item url filters', () => {
-
     const context = new Context();
     setup(context);
 
     it(`empty filter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .emptyFilter('x')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().emptyFilter('x').getUrl());
 
         const param = url.searchParams.get('x[empty]');
 
@@ -18,11 +13,7 @@ describe('Item url filters', () => {
     });
 
     it(`notEmpty filter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .notEmptyFilter('x')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().notEmptyFilter('x').getUrl());
 
         const param = url.searchParams.get('x[nempty]');
 
@@ -31,11 +22,7 @@ describe('Item url filters', () => {
 
     it(`type filter with single string should be set`, () => {
         const type = 'TypeA';
-        const url = new URL(
-            context.deliveryClient.items()
-                .type(type)
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().type(type).getUrl());
 
         const param = url.searchParams.get('system.type');
 
@@ -47,11 +34,7 @@ describe('Item url filters', () => {
         const typeB = 'TypeB';
 
         const types = [typeA, typeB];
-        const url = new URL(
-            context.deliveryClient.items()
-                .types(types)
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().types(types).getUrl());
 
         const param = url.searchParams.get('system.type[in]');
 
@@ -60,11 +43,7 @@ describe('Item url filters', () => {
 
     it(`collection filter with single string should be set`, () => {
         const collection = 'CollectionA';
-        const url = new URL(
-            context.deliveryClient.items()
-                .collection(collection)
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().collection(collection).getUrl());
 
         const param = url.searchParams.get('system.collection');
 
@@ -76,11 +55,7 @@ describe('Item url filters', () => {
         const collectionB = 'CollectionB';
 
         const collections = [collectionA, collectionB];
-        const url = new URL(
-            context.deliveryClient.items()
-                .collections(collections)
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().collections(collections).getUrl());
 
         const param = url.searchParams.get('system.collection[in]');
 
@@ -88,11 +63,7 @@ describe('Item url filters', () => {
     });
 
     it(`inFilter with single value should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .inFilter('elem1', ['val1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().inFilter('elem1', ['val1']).getUrl());
 
         const param = url.searchParams.get('elem1[in]');
 
@@ -100,11 +71,7 @@ describe('Item url filters', () => {
     });
 
     it(`inFilter with multiple values should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .notInFilter('elem1', ['val1', 'val2'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().notInFilter('elem1', ['val1', 'val2']).getUrl());
 
         const param = url.searchParams.get('elem1[nin]');
 
@@ -112,11 +79,7 @@ describe('Item url filters', () => {
     });
 
     it(`notInFilter with single value should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .notInFilter('elem1', ['val1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().notInFilter('elem1', ['val1']).getUrl());
 
         const param = url.searchParams.get('elem1[nin]');
 
@@ -124,11 +87,7 @@ describe('Item url filters', () => {
     });
 
     it(`notInFilter with multiple values should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .inFilter('elem1', ['val1', 'val2'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().inFilter('elem1', ['val1', 'val2']).getUrl());
 
         const param = url.searchParams.get('elem1[in]');
 
@@ -136,11 +95,7 @@ describe('Item url filters', () => {
     });
 
     it(`anyFilter with single value should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .anyFilter('elem1', ['val1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().anyFilter('elem1', ['val1']).getUrl());
 
         const param = url.searchParams.get('elem1[any]');
 
@@ -148,11 +103,7 @@ describe('Item url filters', () => {
     });
 
     it(`anyFilter with multiple values should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .anyFilter('elem1', ['val1', 'val2'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().anyFilter('elem1', ['val1', 'val2']).getUrl());
 
         const param = url.searchParams.get('elem1[any]');
 
@@ -160,11 +111,7 @@ describe('Item url filters', () => {
     });
 
     it(`containsFilter with single value should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .containsFilter('elem1', ['val1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().containsFilter('elem1', ['val1']).getUrl());
 
         const param = url.searchParams.get('elem1[contains]');
 
@@ -172,11 +119,7 @@ describe('Item url filters', () => {
     });
 
     it(`containsFilter with multiple value should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .containsFilter('elem1', ['val1', 'val2'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().containsFilter('elem1', ['val1', 'val2']).getUrl());
 
         const param = url.searchParams.get('elem1[contains]');
 
@@ -184,11 +127,7 @@ describe('Item url filters', () => {
     });
 
     it(`equalsFilter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .equalsFilter('elem1', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().equalsFilter('elem1', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[eq]');
 
@@ -196,11 +135,7 @@ describe('Item url filters', () => {
     });
 
     it(`notEqualsFilter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .notEqualsFilter('elem1', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().notEqualsFilter('elem1', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[neq]');
 
@@ -208,11 +143,7 @@ describe('Item url filters', () => {
     });
 
     it(`greaterThanFilter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .greaterThanFilter('elem1', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().greaterThanFilter('elem1', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[gt]');
 
@@ -220,11 +151,7 @@ describe('Item url filters', () => {
     });
 
     it(`greaterThanOrEqualFilter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .greaterThanOrEqualFilter('elem1', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().greaterThanOrEqualFilter('elem1', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[gte]');
 
@@ -232,11 +159,7 @@ describe('Item url filters', () => {
     });
 
     it(`lessThanFilter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .lessThanFilter('elem1', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().lessThanFilter('elem1', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[lt]');
 
@@ -244,11 +167,7 @@ describe('Item url filters', () => {
     });
 
     it(`lessThanOrEqualFilter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .lessThanOrEqualFilter('elem1', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().lessThanOrEqualFilter('elem1', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[lte]');
 
@@ -256,11 +175,7 @@ describe('Item url filters', () => {
     });
 
     it(`allFilter with single value should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .allFilter('elem1', ['val1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().allFilter('elem1', ['val1']).getUrl());
 
         const param = url.searchParams.get('elem1[all]');
 
@@ -268,11 +183,7 @@ describe('Item url filters', () => {
     });
 
     it(`allFilter with multiple values should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .allFilter('elem1', ['val1', 'val2'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().allFilter('elem1', ['val1', 'val2']).getUrl());
 
         const param = url.searchParams.get('elem1[all]');
 
@@ -280,70 +191,17 @@ describe('Item url filters', () => {
     });
 
     it(`rangeFilter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .rangeFilter('elem1', 1, 10)
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().rangeFilter('elem1', 1, 10).getUrl());
 
         const param = url.searchParams.get('elem1[range]');
 
         expect(param).toEqual('1,10');
     });
 
-    it(`rangeFilter should throw error when higher value is lower then lower value`, () => {
-        expect(() => context.deliveryClient.items().rangeFilter('elem1', 10, 1)).toThrowError();
-    });
-
-
-    it(`inFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().inFilter(null as any, ['val1'])).toThrowError();
-    });
-
-    it(`anyFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().anyFilter(null as any, ['val1'])).toThrowError();
-    });
-
-    it(`containsFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().containsFilter(null as any, ['val1'])).toThrowError();
-    });
-
-    it(`greaterThanFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().greaterThanFilter(null as any, 'val1')).toThrowError();
-    });
-
-    it(`greaterThanOrEqualFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().greaterThanOrEqualFilter(null as any, 'val1')).toThrowError();
-    });
-
-    it(`lessThanFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().lessThanFilter(null as any, 'val1')).toThrowError();
-    });
-
-    it(`lessThanOrEqualFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().lessThanOrEqualFilter(null as any, 'val1')).toThrowError();
-    });
-
-    it(`allFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().allFilter(null as any, [])).toThrowError();
-    });
-
-    it(`rangeFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().rangeFilter(null as any, 1, 4)).toThrowError();
-    });
-
-    it(`equalsFilter without element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().equalsFilter(null as any, 'val1')).toThrowError();
-    });
-
     // trim checks
 
     it(`inFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .inFilter(' elem1 ', ['val1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().inFilter(' elem1 ', ['val1']).getUrl());
 
         const param = url.searchParams.get('elem1[in]');
 
@@ -351,11 +209,7 @@ describe('Item url filters', () => {
     });
 
     it(`allFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .allFilter(' elem1 ', ['val1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().allFilter(' elem1 ', ['val1']).getUrl());
 
         const param = url.searchParams.get('elem1[all]');
 
@@ -363,11 +217,7 @@ describe('Item url filters', () => {
     });
 
     it(`anyFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .anyFilter(' elem1 ', ['val1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().anyFilter(' elem1 ', ['val1']).getUrl());
 
         const param = url.searchParams.get('elem1[any]');
 
@@ -375,11 +225,7 @@ describe('Item url filters', () => {
     });
 
     it(`containsFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .containsFilter(' elem1 ', ['val1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().containsFilter(' elem1 ', ['val1']).getUrl());
 
         const param = url.searchParams.get('elem1[contains]');
 
@@ -387,11 +233,7 @@ describe('Item url filters', () => {
     });
 
     it(`greaterThanFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .greaterThanFilter(' elem1 ', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().greaterThanFilter(' elem1 ', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[gt]');
 
@@ -399,11 +241,7 @@ describe('Item url filters', () => {
     });
 
     it(`greaterThanOrEqualFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .greaterThanOrEqualFilter(' elem1 ', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().greaterThanOrEqualFilter(' elem1 ', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[gte]');
 
@@ -411,11 +249,7 @@ describe('Item url filters', () => {
     });
 
     it(`lessThanFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .lessThanFilter(' elem1 ', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().lessThanFilter(' elem1 ', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[lt]');
 
@@ -423,11 +257,7 @@ describe('Item url filters', () => {
     });
 
     it(`lessThanOrEqualFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .lessThanOrEqualFilter(' elem1 ', 'val1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().lessThanOrEqualFilter(' elem1 ', 'val1').getUrl());
 
         const param = url.searchParams.get('elem1[lte]');
 
@@ -435,16 +265,10 @@ describe('Item url filters', () => {
     });
 
     it(`rangeFilter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .rangeFilter(' elem1 ', 1, 10)
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().rangeFilter(' elem1 ', 1, 10).getUrl());
 
         const param = url.searchParams.get('elem1[range]');
 
         expect(param).toEqual('1,10');
     });
-
 });
-

@@ -25,6 +25,7 @@ export class BrowserRichTextHtmlResolver
             html,
             input.element,
             {
+                elementResolver: (element) => {},
                 contentItemResolver: (element, itemCodename, linkedItemIndex, linkedItem) => {
                     const parentElement = element.parentElement;
 
@@ -52,7 +53,7 @@ export class BrowserRichTextHtmlResolver
                         parentElement.replaceChild(newElem, element);
                     }
                 },
-                htmlElementResolver: (element) => {
+                genericElementResolver: (element) => {
                     // do nothing to generic elements
                 },
                 imageResolver: (element, imageId, image) => {
@@ -116,6 +117,7 @@ export class BrowserRichTextHtmlResolver
             html,
             input.element,
             {
+                elementResolver: (element) => {},
                 contentItemResolverAsync: async (element, itemCodename, linkedItemIndex, linkedItem) => {
                     const parentElement = element.parentElement;
 
@@ -143,7 +145,7 @@ export class BrowserRichTextHtmlResolver
                         parentElement.replaceChild(newElem, element);
                     }
                 },
-                htmlElementResolverAsync: async (element) => {
+                genericElementResolverAsync: async (element) => {
                     // do nothing to generic elements
                 },
                 imageResolverAsync: async (element, imageId, image) => {

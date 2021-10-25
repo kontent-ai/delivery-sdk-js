@@ -149,20 +149,6 @@ describe('Item url parameters', () => {
         expect(param).toEqual('en');
     });
 
-    // Null parameter checks
-
-    it(`order parameter with null or empty element should throw an error`, () => {
-        expect(() => context.deliveryClient.items().orderParameter(null as any, 'asc')).toThrowError();
-    });
-
-    it(`elements parameter with empty or not set elements should throw error`, () => {
-        expect(() => context.deliveryClient.items().elementsParameter([null as any]).getUrl()).toThrowError();
-    });
-
-       it(`language parameter with empty or not set elements should throw error`, () => {
-        expect(() => context.deliveryClient.items().languageParameter(null as any).getUrl()).toThrowError();
-    });
-
     // trim checks
 
     it(`elementsParameter should trim its element codenames`, () => {

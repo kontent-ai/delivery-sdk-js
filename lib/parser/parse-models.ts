@@ -35,14 +35,16 @@ export interface IImageObject {
 }
 
 export interface IParseResolvers {
-    htmlElementResolver: (element: Element) => void;
+    elementResolver: (element: Element) => void;
+    genericElementResolver: (element: Element) => void;
     urlResolver: (element: Element, linkId: string, linkText: string, link?: ILink) => void;
     imageResolver: (element: Element, imageId: string, image?: IRichTextImage) => void;
     contentItemResolver: (element: Element, linkedItemCodename: string, linkedItemIndex: number, linkedItem?: IContentItem) => void;
 }
 
 export interface IParseResolversAsync {
-    htmlElementResolverAsync: (element: Element) => Promise<void>;
+    elementResolver: (element: Element) => void;
+    genericElementResolverAsync: (element: Element) => Promise<void>;
     urlResolverAsync: (element: Element, linkId: string, linkText: string, link?: ILink) => Promise<void>;
     imageResolverAsync: (element: Element, imageId: string, image?: IRichTextImage) => Promise<void>;
     contentItemResolverAsync: (element: Element, linkedItemCodename: string, linkedItemIndex: number, linkedItem?: IContentItem) => Promise<void>;
