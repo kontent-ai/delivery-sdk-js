@@ -9,8 +9,8 @@ import * as warriorJson from '../../fake-data/fake-warrior-response.json';
 
 const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>
 <p>Stars:&nbsp;</p>
-<div data-sdk-resolved="1" data-sdk-item-index="0"><div class="xClass">Tom</div></div>
-<div data-sdk-resolved="1" data-sdk-item-index="1"><div class="xClass">Joel</div></div>
+<object type="application/kenticocloud" data-type="item" data-rel="link" data-codename="tom_hardy"><div class="xClass">Tom</div></object>
+<object type="application/kenticocloud" data-type="item" data-rel="link" data-codename="joel_edgerton"><div class="xClass">Joel</div></object>
 <p><br></p>
 <p>See more in profile of <a data-item-id="3294e4b0-e58b-49d7-85fa-5bc9a86556ec" href="xLinkUrl-joel-edgerton">Joel Edgerton</a> and <a data-item-id="d1557cb1-d7ec-4d04-9742-f86b52bc34fc" href="xLinkUrl-tom-hardy">Tom Hardy</a></p>
 <p>And here are some images:&nbsp;</p>
@@ -18,7 +18,7 @@ const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns h
 <figure data-asset-id="bb0899cf-2c3a-4e3f-8962-60e5a54fcca5" data-image-id="bb0899cf-2c3a-4e3f-8962-60e5a54fcca5"><img src="xImageUrl-bb0899cf-2c3a-4e3f-8962-60e5a54fcca5" data-asset-id="bb0899cf-2c3a-4e3f-8962-60e5a54fcca5" data-image-id="bb0899cf-2c3a-4e3f-8962-60e5a54fcca5" alt=""></figure>
 <p><br></p>
 <p>Also, why not include content component in the mix?</p>
-<div data-sdk-resolved="1" data-sdk-item-index="2"><div class="xClass">Jennifer </div></div>`;
+<object type="application/kenticocloud" data-type="item" data-rel="component" data-codename="ec9813f6_194d_018f_e20c_36855fb6e600"><div class="xClass">Jennifer </div></object>`;
 
 describe('Rich text resolver (URL priority)', () => {
     let response: Responses.IViewContentItemResponse<Movie>;

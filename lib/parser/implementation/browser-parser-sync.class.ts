@@ -6,7 +6,7 @@ import {
     ParsedItemIndexReferenceWrapper,
     IParser,
     IParseResolvers,
-    IParserResult,
+    IParserResult
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
 import { ContentItemType, IContentItem } from '../../models';
@@ -123,7 +123,6 @@ export class BrowserParser implements IParser<string> {
                         itemType: itemType
                     };
 
-                    // replace html
                     const elementParent = element.parentElement;
 
                     if (!elementParent) {

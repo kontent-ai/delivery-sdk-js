@@ -34,23 +34,11 @@ export class RichTextHtmlResolver
                             ? input.contentItemResolver(itemCodename, linkedItem).contentItemHtml ?? ''
                             : '';
 
-                        // create new element
-                        const newElem = document.createElement(parserConfiguration.linkedItemWrapperElem);
-
                         // resursively resolve HTML
-                        newElem.innerHTML = this.resolveRichTextInternal(resolvedItemHtml, input).html;
-
-                        // add sdk resolved flag
-                        newElem.setAttribute(parserConfiguration.resolvedLinkedItemAttribute, '1');
-
-                        // add index to resolved item (can be useful for identifying linked item and may be used in WebSpotlight)
-                        newElem.setAttribute(
-                            parserConfiguration.resolvedLinkedItemIndexAttribute,
-                            linkedItemIndex.toString()
-                        );
+                        const innerHtml = this.resolveRichTextInternal(resolvedItemHtml, input).html;
 
                         // set resolved html
-                        element.setOuterHtml(newElem.outerHTML);
+                        element.setInnerHtml(innerHtml);
                     }
                 },
                 genericElementResolver: (element) => {
@@ -111,23 +99,11 @@ export class RichTextHtmlResolver
                             ? (await input.contentItemResolverAsync(itemCodename, linkedItem)).contentItemHtml ?? ''
                             : '';
 
-                        // create new element
-                        const newElem = document.createElement(parserConfiguration.linkedItemWrapperElem);
-
                         // resursively resolve HTML
-                        newElem.innerHTML = (await this.resolveRichTextInternalAsync(resolvedItemHtml, input)).html;
-
-                        // add sdk resolved flag
-                        newElem.setAttribute(parserConfiguration.resolvedLinkedItemAttribute, '1');
-
-                        // add index to resolved item (can be useful for identifying linked item and may be used in WebSpotlight)
-                        newElem.setAttribute(
-                            parserConfiguration.resolvedLinkedItemIndexAttribute,
-                            linkedItemIndex.toString()
-                        );
+                        const innerHtml = (await this.resolveRichTextInternalAsync(resolvedItemHtml, input)).html;
 
                         // set resolved html
-                        element.setOuterHtml(newElem.outerHTML);
+                        element.setInnerHtml(innerHtml);
                     }
                 },
                 genericElementResolverAsync: async (element) => {

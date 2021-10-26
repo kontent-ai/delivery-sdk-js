@@ -39,6 +39,7 @@ export interface IParserElementAttribute {
     value: string;
 }
 
+
 export interface IParserElement {
     attributes: IParserElementAttribute[];
     html?: string;
