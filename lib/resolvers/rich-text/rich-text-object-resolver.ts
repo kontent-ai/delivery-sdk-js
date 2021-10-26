@@ -30,17 +30,19 @@ export class RichTextObjectResolverExperimental
         });
 
         if (input.cleanSdkIds === true) {
-            this.cleanSdkIds(result.data);
+            this.cleanSdkIds(result);
         }
 
-        return result;
+        return {
+            data: result
+        };
     }
 
     private resolveRichTextInternal(
         html: string,
         input: IRichTextObjectResolverInput,
         result: IRichTextObjectItem
-    ): IRichTextObjectResult {
+    ): IRichTextObjectItem {
         browserParser.parse(
             html,
             input.element,

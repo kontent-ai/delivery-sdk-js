@@ -5,7 +5,7 @@ export class RichTextJsonResolverExperimental
     implements IRichTextResolver<IRichTextObjectResolverInput, IRichTextJsonResult>
 {
     resolveRichText(input: IRichTextObjectResolverInput): IRichTextJsonResult {
-        const objectResult = richTextObjectResolverExperimental.resolveRichText(input);
+        const objectResult = richTextObjectResolverExperimental.resolveRichText(input).data;
 
         return {
             json: JSON.stringify(objectResult)
