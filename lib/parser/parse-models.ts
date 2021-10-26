@@ -34,20 +34,37 @@ export interface IImageObject {
     imageId: string;
 }
 
+export interface IParserElementAttribute {
+    name: string;
+    value: string;
+}
+
+export interface IParserElement {
+    attributes: IParserElementAttribute[];
+    html?: string;
+    text?: string;
+    parentElement?: IParserElement;
+    tag: string;
+    setOuterHtml: (newHtml: string) => void;
+    setInnerHtml: (newHtml: string) => void;
+    setAttribute: (attributeName: string, attributeValue?: string) => void;
+    sourceElement: any;
+}
+
 export interface IParseResolvers {
-    elementResolver: (element: Element) => void;
-    genericElementResolver: (element: Element) => void;
-    urlResolver: (element: Element, linkId: string, linkText: string, link?: ILink) => void;
-    imageResolver: (element: Element, imageId: string, image?: IRichTextImage) => void;
-    contentItemResolver: (element: Element, linkedItemCodename: string, linkedItemIndex: number, linkedItem?: IContentItem) => void;
+    elementResolver: (element: IParserElement) => void;
+    genericElementResolver: (element: IParserElement) => void;
+    urlResolver: (element: IParserElement, linkId: string, linkText: string, link?: ILink) => void;
+    imageResolver: (element: IParserElement, imageId: string, image?: IRichTextImage) => void;
+    contentItemResolver: (element: IParserElement, linkedItemCodename: string, linkedItemIndex: number, linkedItem?: IContentItem) => void;
 }
 
 export interface IParseResolversAsync {
-    elementResolver: (element: Element) => void;
-    genericElementResolverAsync: (element: Element) => Promise<void>;
-    urlResolverAsync: (element: Element, linkId: string, linkText: string, link?: ILink) => Promise<void>;
-    imageResolverAsync: (element: Element, imageId: string, image?: IRichTextImage) => Promise<void>;
-    contentItemResolverAsync: (element: Element, linkedItemCodename: string, linkedItemIndex: number, linkedItem?: IContentItem) => Promise<void>;
+    elementResolverAsync: (element: IParserElement) => Promise<void>;
+    genericElementResolverAsync: (element: IParserElement) => Promise<void>;
+    urlResolverAsync: (element: IParserElement, linkId: string, linkText: string, link?: ILink) => Promise<void>;
+    imageResolverAsync: (element: IParserElement, imageId: string, image?: IRichTextImage) => Promise<void>;
+    contentItemResolverAsync: (element: IParserElement, linkedItemCodename: string, linkedItemIndex: number, linkedItem?: IContentItem) => Promise<void>;
 }
 
 export interface IParserResult<TParserOutput> {

@@ -1,6 +1,6 @@
 import { Actor, getDeliveryClientWithJson, Movie, toPromise } from '../../../setup';
 import {
-    browserRichTextHtmlResolver,
+    richTextHtmlResolver,
     IResolvedRichTextHtmlResult,
     Responses,
     linkedItemsHelper
@@ -20,13 +20,13 @@ const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns h
 <p>Also, why not include content component in the mix?</p>
 <div data-sdk-resolved="1" data-sdk-item-index="2"><div class="xClass">Jennifer </div></div>`;
 
-describe('Browser rich text resolver (HTML priority) async', () => {
+describe('Rich text resolver (HTML priority) async', () => {
     let response: Responses.IViewContentItemResponse<Movie>;
     let resolvedRichText: IResolvedRichTextHtmlResult;
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
-        resolvedRichText = await browserRichTextHtmlResolver.resolveRichTextAsync({
+        resolvedRichText = await richTextHtmlResolver.resolveRichTextAsync({
             element: response.item.elements.plot,
             linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
             imageResolverAsync: async (imageId, image) => {

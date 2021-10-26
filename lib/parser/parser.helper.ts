@@ -1,5 +1,6 @@
 import { Elements, ElementType } from '../elements';
 import { IContentItem, ILink, IRichTextImage } from '../models';
+import { IParserElement, IParserElementAttribute } from './parse-models';
 
 export class ParserHelper {
     getLinkedItem(linkedItems: IContentItem[], itemCodename: string): IContentItem | undefined {
@@ -61,6 +62,38 @@ export class ParserHelper {
         }
 
         return undefined;
+    }
+
+    convertToParserElement(element: Element): IParserElement {
+        const attributes: IParserElementAttribute[] = [];
+
+        for (let i = 0; i < element.attributes.length; i++) {
+            const attribute = element.attributes[i];
+
+            attributes.push({
+                name: attribute.name,
+                value: attribute.value
+            });
+        }
+
+        return {
+            tag: element.tagName,
+            setAttribute: (attributeName, attributeValue) => {
+                const attribute = element.attributes.getNamedItem(attributeName);
+                if (attribute) {
+                    attribute.value = attributeValue ?? '';
+                } else {
+                    element.setAttribute(attributeName, attributeValue ?? '');
+                }
+            },
+            setInnerHtml: (newHtml) => (element.innerHTML = newHtml),
+            setOuterHtml: (newHtml) => (element.outerHTML = newHtml),
+            html: element.innerHTML,
+            text: element.textContent ? element.textContent : undefined,
+            attributes: attributes,
+            parentElement: element.parentElement ? this.convertToParserElement(element.parentElement) : undefined,
+            sourceElement: element
+        };
     }
 }
 

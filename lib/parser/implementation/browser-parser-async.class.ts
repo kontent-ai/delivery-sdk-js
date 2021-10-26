@@ -80,7 +80,7 @@ export class BrowserParserAsync implements IParserAsync<string> {
             for (let i = 0; i < htmlCollection.length; i++) {
                 const element = htmlCollection[i];
 
-                resolvers.elementResolver(element);
+                resolvers.elementResolverAsync(parserHelper.convertToParserElement(element));
 
                 const typeAttribute = element.attributes ? element.attributes.getNamedItem('type') : undefined;
 
@@ -137,7 +137,7 @@ export class BrowserParserAsync implements IParserAsync<string> {
 
                             // resolve linked item
                             await resolvers.contentItemResolverAsync(
-                                element,
+                                parserHelper.convertToParserElement(element),
                                 linkItemContentObject.dataCodename,
                                 linkedItemIndex.index,
                                 parserHelper.getLinkedItem(linkedItems, linkItemContentObject.dataCodename)
@@ -172,7 +172,7 @@ export class BrowserParserAsync implements IParserAsync<string> {
                         const linkText = element.innerHTML;
 
                         await resolvers.urlResolverAsync(
-                            element,
+                            parserHelper.convertToParserElement(element),
                             linkObject.dataItemId,
                             linkText,
                             parserHelper.tryGetLink(mainRichTextElement, linkedItems, linkObject.dataItemId)
@@ -197,14 +197,14 @@ export class BrowserParserAsync implements IParserAsync<string> {
 
                         // resolve image
                         await resolvers.imageResolverAsync(
-                            element,
+                            parserHelper.convertToParserElement(element),
                             imageObj.imageId,
                             parserHelper.tryGetImage(mainRichTextElement, linkedItems, imageObj.imageId)
                         );
                     }
                 } else {
                     // process generic elements
-                    await resolvers.genericElementResolverAsync(element);
+                    await resolvers.genericElementResolverAsync(parserHelper.convertToParserElement(element));
                 }
 
                 // recursively process child nodes

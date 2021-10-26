@@ -4,10 +4,10 @@ import {
     IRichTextResolverAsync,
     IRichTextHtmlResolverInputAsync,
     IRichTextHtmlResolverInput
-} from './rich-text.resolver';
-import { browserParser, browserParserAsync, parserConfiguration } from '../../parser';
+} from './rich-text-resolver.models';
+import { browserParser, browserParserAsync, IParser, IParserAsync, parserConfiguration } from '../../parser';
 
-export class BrowserRichTextHtmlResolver
+export class RichTextHtmlResolver
     implements
         IRichTextResolver<IRichTextHtmlResolverInput, IResolvedRichTextHtmlResult>,
         IRichTextResolverAsync<IRichTextHtmlResolverInputAsync, IResolvedRichTextHtmlResult>
@@ -21,7 +21,7 @@ export class BrowserRichTextHtmlResolver
     }
 
     private resolveRichTextInternal(html: string, input: IRichTextHtmlResolverInput): IResolvedRichTextHtmlResult {
-        const parsedResult = browserParser.parse(
+        const parsedResult = this.getParser(input.parser).parse(
             html,
             input.element,
             {
@@ -49,8 +49,8 @@ export class BrowserRichTextHtmlResolver
                             linkedItemIndex.toString()
                         );
 
-                        // replace original node with new one
-                        parentElement.replaceChild(newElem, element);
+                        // set resolved html
+                        element.setOuterHtml(newElem.outerHTML);
                     }
                 },
                 genericElementResolver: (element) => {
@@ -60,22 +60,13 @@ export class BrowserRichTextHtmlResolver
                     // get image result
                     const imageResult = input.imageResolver ? input.imageResolver(imageId, image) : undefined;
 
-                    // get src attribute of img tag
-                    const srcAttribute = element.attributes.getNamedItem(
-                        parserConfiguration.imageElementData.srcAttribute
-                    );
-
-                    if (!srcAttribute) {
-                        throw Error(`Attribute '${parserConfiguration.imageElementData.srcAttribute}' is invalid`);
-                    }
-
                     // html has priority over url resolver
                     if (imageResult?.imageHtml) {
                         // replace link html
-                        element.outerHTML = imageResult.imageHtml;
+                        element.setOuterHtml(imageResult.imageHtml);
                     } else if (imageResult?.imageUrl) {
                         // set link url only
-                        srcAttribute.value = imageResult?.imageUrl ?? '';
+                        element.setAttribute(parserConfiguration.imageElementData.srcAttribute, imageResult.imageUrl);
                     }
                 },
                 urlResolver: (element, linkId, linkText, link) => {
@@ -85,16 +76,10 @@ export class BrowserRichTextHtmlResolver
                         // html has priority over url resolver
                         if (urlResult?.linkHtml) {
                             // replace link html
-                            element.outerHTML = urlResult.linkHtml;
+                            element.setOuterHtml(urlResult.linkHtml);
                         } else if (urlResult?.linkUrl) {
                             // set link url only
-                            const hrefAttribute = element.attributes.getNamedItem('href');
-
-                            if (hrefAttribute) {
-                                const linkUrlResult: string | undefined =
-                                    typeof urlResult === 'string' ? urlResult : urlResult.linkUrl;
-                                hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
-                            }
+                            element.setAttribute('href', urlResult.linkUrl);
                         }
                     }
                 }
@@ -113,11 +98,11 @@ export class BrowserRichTextHtmlResolver
         html: string,
         input: IRichTextHtmlResolverInputAsync
     ): Promise<IResolvedRichTextHtmlResult> {
-        const parsedResult = await browserParserAsync.parseAsync(
+        const parsedResult = await this.getAsyncParser(input.parser).parseAsync(
             html,
             input.element,
             {
-                elementResolver: (element) => {},
+                elementResolverAsync: async (element) => {},
                 contentItemResolverAsync: async (element, itemCodename, linkedItemIndex, linkedItem) => {
                     const parentElement = element.parentElement;
 
@@ -141,8 +126,8 @@ export class BrowserRichTextHtmlResolver
                             linkedItemIndex.toString()
                         );
 
-                        // replace original node with new one
-                        parentElement.replaceChild(newElem, element);
+                        // set resolved html
+                        element.setOuterHtml(newElem.outerHTML);
                     }
                 },
                 genericElementResolverAsync: async (element) => {
@@ -150,24 +135,17 @@ export class BrowserRichTextHtmlResolver
                 },
                 imageResolverAsync: async (element, imageId, image) => {
                     // get image result
-                    const imageResult = input.imageResolverAsync ? await input.imageResolverAsync(imageId, image) : undefined;
-
-                    // get src attribute of img tag
-                    const srcAttribute = element.attributes.getNamedItem(
-                        parserConfiguration.imageElementData.srcAttribute
-                    );
-
-                    if (!srcAttribute) {
-                        throw Error(`Attribute '${parserConfiguration.imageElementData.srcAttribute}' is invalid`);
-                    }
+                    const imageResult = input.imageResolverAsync
+                        ? await input.imageResolverAsync(imageId, image)
+                        : undefined;
 
                     // html has priority over url resolver
                     if (imageResult?.imageHtml) {
                         // replace link html
-                        element.outerHTML = imageResult.imageHtml;
+                        element.setOuterHtml(imageResult.imageHtml);
                     } else if (imageResult?.imageUrl) {
                         // set link url only
-                        srcAttribute.value = imageResult?.imageUrl ?? '';
+                        element.setAttribute(parserConfiguration.imageElementData.srcAttribute, imageResult.imageUrl);
                     }
                 },
                 urlResolverAsync: async (element, linkId, linkText, link) => {
@@ -177,16 +155,10 @@ export class BrowserRichTextHtmlResolver
                         // html has priority over url resolver
                         if (urlResult?.linkHtml) {
                             // replace link html
-                            element.outerHTML = urlResult.linkHtml;
+                            element.setOuterHtml(urlResult.linkHtml);
                         } else if (urlResult?.linkUrl) {
                             // set link url only
-                            const hrefAttribute = element.attributes.getNamedItem('href');
-
-                            if (hrefAttribute) {
-                                const linkUrlResult: string | undefined =
-                                    typeof urlResult === 'string' ? urlResult : urlResult.linkUrl;
-                                hrefAttribute.value = linkUrlResult ? linkUrlResult : '';
-                            }
+                            element.setAttribute('href', urlResult.linkUrl);
                         }
                     }
                 }
@@ -200,6 +172,24 @@ export class BrowserRichTextHtmlResolver
             html: parsedResult.result
         };
     }
+
+    private getParser(parser?: IParser<string>): IParser<string> {
+        if (parser) {
+            return parser;
+        }
+
+        // return browser parser by default
+        return browserParser;
+    }
+
+    private getAsyncParser(parser?: IParserAsync<string>): IParserAsync<string> {
+        if (parser) {
+            return parser;
+        }
+
+        // return browser parser by default
+        return browserParserAsync;
+    }
 }
 
-export const browserRichTextHtmlResolver = new BrowserRichTextHtmlResolver();
+export const richTextHtmlResolver = new RichTextHtmlResolver();

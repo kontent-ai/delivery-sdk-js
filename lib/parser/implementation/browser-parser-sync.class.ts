@@ -6,7 +6,7 @@ import {
     ParsedItemIndexReferenceWrapper,
     IParser,
     IParseResolvers,
-    IParserResult
+    IParserResult,
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
 import { ContentItemType, IContentItem } from '../../models';
@@ -80,7 +80,7 @@ export class BrowserParser implements IParser<string> {
             for (let i = 0; i < htmlCollection.length; i++) {
                 const element = htmlCollection[i];
 
-                resolvers.elementResolver(element);
+                resolvers.elementResolver(parserHelper.convertToParserElement(element));
 
                 const typeAttribute = element.attributes ? element.attributes.getNamedItem('type') : undefined;
 
@@ -137,7 +137,7 @@ export class BrowserParser implements IParser<string> {
 
                             // resolve linked item
                             resolvers.contentItemResolver(
-                                element,
+                                parserHelper.convertToParserElement(element),
                                 linkItemContentObject.dataCodename,
                                 linkedItemIndex.index,
                                 parserHelper.getLinkedItem(linkedItems, linkItemContentObject.dataCodename)
@@ -172,7 +172,7 @@ export class BrowserParser implements IParser<string> {
                         const linkText = element.innerHTML;
 
                         resolvers.urlResolver(
-                            element,
+                            parserHelper.convertToParserElement(element),
                             linkObject.dataItemId,
                             linkText,
                             parserHelper.tryGetLink(mainRichTextElement, linkedItems, linkObject.dataItemId)
@@ -197,14 +197,14 @@ export class BrowserParser implements IParser<string> {
 
                         // resolve image
                         resolvers.imageResolver(
-                            element,
+                            parserHelper.convertToParserElement(element),
                             imageObj.imageId,
                             parserHelper.tryGetImage(mainRichTextElement, linkedItems, imageObj.imageId)
                         );
                     }
                 } else {
                     // process generic elements
-                    resolvers.genericElementResolver(element);
+                    resolvers.genericElementResolver(parserHelper.convertToParserElement(element));
                 }
 
                 // recursively process child nodes

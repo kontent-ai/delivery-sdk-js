@@ -1,6 +1,6 @@
-import { Actor, getDeliveryClientWithJson, Movie } from '../../../setup';
+import { Actor, getDeliveryClientWithJson, Movie, toPromise } from '../../../setup';
 import {
-    browserRichTextHtmlResolver,
+    richTextHtmlResolver,
     IResolvedRichTextHtmlResult,
     Responses,
     linkedItemsHelper
@@ -20,26 +20,26 @@ const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns h
 <p>Also, why not include content component in the mix?</p>
 <div data-sdk-resolved="1" data-sdk-item-index="2"><div class="xClass">Jennifer </div></div>`;
 
-describe('Browser rich text resolver (URL priority)', () => {
+describe('Rich text resolver (URL priority) async', () => {
     let response: Responses.IViewContentItemResponse<Movie>;
     let resolvedRichText: IResolvedRichTextHtmlResult;
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
-        resolvedRichText = browserRichTextHtmlResolver.resolveRichText({
+        resolvedRichText = await richTextHtmlResolver.resolveRichTextAsync({
             element: response.item.elements.plot,
             linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
-            imageResolver: (imageId, image) => {
-                return {
+            imageResolverAsync: async (imageId, image) => {
+                return await toPromise({
                     imageUrl: `xImageUrl-${image?.imageId}`
-                };
+                });
             },
-            urlResolver: (linkId, linkText, link) => {
-                return {
+            urlResolverAsync: async (linkId, linkText, link) => {
+                return await toPromise({
                     linkUrl: `xLinkUrl-${link?.urlSlug}`
-                };
+                });
             },
-            contentItemResolver: (contentItemId, contentItem) => {
+            contentItemResolverAsync: async (itemId, contentItem) => {
                 if (contentItem && contentItem.system.type === 'actor') {
                     const actor = contentItem as Actor;
                     return {

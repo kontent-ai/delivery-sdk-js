@@ -1,3 +1,4 @@
+import { IParser, IParserAsync } from '../../parser';
 import { Elements } from '../../elements';
 import { IContentItem, ILink, IRichTextImage } from '../../models';
 
@@ -41,6 +42,7 @@ export interface IRichTextHtmlResolverInput {
     imageResolver?: IRichTextImageResolver;
     contentItemResolver?: IRichTextContentItemResolver;
     linkedItems?: IContentItem[];
+    parser?: IParser<string>;
 }
 
 export interface IRichTextHtmlResolverInputAsync {
@@ -49,6 +51,7 @@ export interface IRichTextHtmlResolverInputAsync {
     imageResolverAsync?: IRichTextImageResolverAsync;
     contentItemResolverAsync?: IRichTextContentItemResolverAsync;
     linkedItems?: IContentItem[];
+    parser?: IParserAsync<string>;
 }
 
 export interface IRichTextResolver<TInput, TResult> {
@@ -62,7 +65,7 @@ export interface IRichTextResolverAsync<TInput, TResult> {
 export interface IRichTextObjectResolverInput {
     element: Elements.RichTextElement;
     linkedItems?: IContentItem[];
-    removeSdkIds?: boolean;
+    cleanSdkIds?: boolean;
 }
 
 export type RichTextObjectDataType = 'linkedItem' | 'link' | 'image' | 'htmlElement' | 'root';
@@ -105,5 +108,6 @@ export interface IRichTextObjectItem {
 export interface IRichTextJsonResult {
     json: string;
 }
-
-
+export interface IRichTextObjectResult {
+    data: IRichTextObjectItem;
+}

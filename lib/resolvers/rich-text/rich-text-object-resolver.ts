@@ -6,19 +6,20 @@ import {
     IRichTextObjectImageData,
     IRichTextObjectHtmlElementData,
     IRichTextObjectItem,
-    IRichTextObjectAtribute
-} from './rich-text.resolver';
-import { browserParser } from '../../parser';
+    IRichTextObjectAtribute,
+    IRichTextObjectResult
+} from './rich-text-resolver.models';
+import { browserParser, IParserElement } from '../../parser';
 import { guidHelper } from '../../utilities';
 
-export class BrowserRichTextObjectResolverExperimental
-    implements IRichTextResolver<IRichTextObjectResolverInput, IRichTextObjectItem>
+export class RichTextObjectResolverExperimental
+    implements IRichTextResolver<IRichTextObjectResolverInput, IRichTextObjectResult>
 {
     private readonly sdkIdAttributeName: string = 'sdk-id';
     private readonly rootId: string = 'root';
     private readonly rootTag: string = 'p';
 
-    resolveRichText(input: IRichTextObjectResolverInput): IRichTextObjectItem {
+    resolveRichText(input: IRichTextObjectResolverInput): IRichTextObjectResult {
         const result = this.resolveRichTextInternal(input.element.value, input, {
             type: 'root',
             attributes: [],
@@ -28,8 +29,8 @@ export class BrowserRichTextObjectResolverExperimental
             sdkId: this.rootId
         });
 
-        if (input.removeSdkIds === true) {
-            this.cleanSdkIds(result);
+        if (input.cleanSdkIds === true) {
+            this.cleanSdkIds(result.data);
         }
 
         return result;
@@ -39,13 +40,13 @@ export class BrowserRichTextObjectResolverExperimental
         html: string,
         input: IRichTextObjectResolverInput,
         result: IRichTextObjectItem
-    ): IRichTextObjectItem {
+    ): IRichTextObjectResult {
         browserParser.parse(
             html,
             input.element,
             {
                 elementResolver: (element) => {
-                    // generate guid for each element
+                    // generate guid for each element´
                     element.setAttribute(this.sdkIdAttributeName, guidHelper.genereateGuid());
                 },
                 contentItemResolver: (element, itemCodename, linkedItemIndex, linkedItem) => {
@@ -61,7 +62,7 @@ export class BrowserRichTextObjectResolverExperimental
                         parentItem.children.push({
                             type: 'linkedItem',
                             attributes: this.getAttributes(element),
-                            tag: element.tagName.toLowerCase(),
+                            tag: element.tag.toLowerCase(),
                             data: data,
                             children: [],
                             sdkId: this.getSdkIdFromElement(element)
@@ -70,8 +71,8 @@ export class BrowserRichTextObjectResolverExperimental
                 },
                 genericElementResolver: (element) => {
                     const data: IRichTextObjectHtmlElementData = {
-                        text: element.textContent,
-                        html: element.innerHTML
+                        text: element.text ?? '',
+                        html: element.html ?? ''
                     };
 
                     const parentSdkId = this.getSdkIdFromElement(element.parentElement);
@@ -81,7 +82,7 @@ export class BrowserRichTextObjectResolverExperimental
                         parentItem.children.push({
                             type: 'htmlElement',
                             attributes: this.getAttributes(element),
-                            tag: element.tagName.toLowerCase(),
+                            tag: element.tag.toLowerCase(),
                             data: data,
                             children: [],
                             sdkId: this.getSdkIdFromElement(element)
@@ -101,7 +102,7 @@ export class BrowserRichTextObjectResolverExperimental
                         parentItem.children.push({
                             type: 'image',
                             attributes: this.getAttributes(element),
-                            tag: element.tagName.toLowerCase(),
+                            tag: element.tag.toLowerCase(),
                             data: data,
                             children: [],
                             sdkId: this.getSdkIdFromElement(element)
@@ -122,7 +123,7 @@ export class BrowserRichTextObjectResolverExperimental
                         parentItem.children.push({
                             type: 'link',
                             attributes: this.getAttributes(element),
-                            tag: element.tagName.toLowerCase(),
+                            tag: element.tag.toLowerCase(),
                             data: data,
                             children: [],
                             sdkId: this.getSdkIdFromElement(element)
@@ -151,25 +152,16 @@ export class BrowserRichTextObjectResolverExperimental
         return undefined;
     }
 
-    private getAttributes(element: Element): IRichTextObjectAtribute[] {
-        const attributes: IRichTextObjectAtribute[] = [];
-
-        for (let i = 0; i < element.attributes.length; i++) {
-            const attribute = element.attributes[i];
-            attributes.push({
-                name: attribute.name,
-                value: attribute.value
-            });
-        }
-
-        return attributes;
+    private getAttributes(element: IParserElement | undefined): IRichTextObjectAtribute[] {
+        return element?.attributes ?? [];
     }
 
-    private getSdkIdFromElement(element: Element | null): string {
+    private getSdkIdFromElement(element: IParserElement | undefined): string {
         if (!element) {
             return this.rootId;
         }
-        return element.getAttribute(this.sdkIdAttributeName) ?? this.rootId;
+        const value = element.attributes.find((m) => m.name === this.sdkIdAttributeName)?.value ?? this.rootId;
+        return value;
     }
 
     private cleanSdkIds(item: IRichTextObjectItem): void {
@@ -182,4 +174,4 @@ export class BrowserRichTextObjectResolverExperimental
     }
 }
 
-export const browserRichTextObjectResolverExperimental = new BrowserRichTextObjectResolverExperimental();
+export const richTextObjectResolverExperimental = new RichTextObjectResolverExperimental();
