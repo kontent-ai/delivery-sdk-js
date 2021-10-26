@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-6](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-5...v11.0.0-6) (2021-10-26)
+
+
+### Features
+
+* adds experimental json / object rich text resolvers, simplifies filter classes ([326dff6](https://github.com/Kentico/kontent-delivery-sdk-js/commit/326dff69ebf6e2ab8932f60048118527377f1d17))
+* refactors rich text processing by separating parser & rich text resolvers ([48b49da](https://github.com/Kentico/kontent-delivery-sdk-js/commit/48b49dac077ff91f89f5e959bb29b37f33909e5d))
+* separates parser from resolvers and makes resolvers independent on parser implementation, adds experimental json / object rich text element resolvers ([24082ec](https://github.com/Kentico/kontent-delivery-sdk-js/commit/24082ec9c1d8d1ff0a4ea6212c52f23ee015cd1b))
+* updates deps ([f3ccfb9](https://github.com/Kentico/kontent-delivery-sdk-js/commit/f3ccfb9f6af5f659c20f9d0825e404aa5b4bf0e3))
+
 ## [11.0.0-5](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-4...v11.0.0-5) (2021-10-19)
 
 
