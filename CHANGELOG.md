@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-7](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-6...v11.0.0-7) (2021-10-26)
+
+
+### Bug Fixes
+
+* fixes object / json resolver result ([dc03d75](https://github.com/Kentico/kontent-delivery-sdk-js/commit/dc03d757b08c74187a17104f9ab5ee1451903ea0))
+
 ## [11.0.0-6](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-5...v11.0.0-6) (2021-10-26)
 
 
