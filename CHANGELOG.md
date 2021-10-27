@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-9](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-8...v11.0.0-9) (2021-10-27)
+
+
+### Features
+
+* updates names rich text related async models ([231f4f6](https://github.com/Kentico/kontent-delivery-sdk-js/commit/231f4f684fe81982b1f5c8c5956dc55aae4fdbc5))
+
 ## [11.0.0-8](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-7...v11.0.0-8) (2021-10-26)
 
 
