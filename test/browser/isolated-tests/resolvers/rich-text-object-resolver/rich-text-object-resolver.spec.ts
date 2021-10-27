@@ -2,7 +2,7 @@ import { getDeliveryClientWithJson, Movie } from '../../../setup';
 import {
     Responses,
     linkedItemsHelper,
-    richTextObjectResolverExperimental,
+    createRichTextObjectResolver,
     IRichTextObjectResult
 } from '../../../../../lib';
 import * as warriorJson from '../../fake-data/fake-warrior-response.json';
@@ -14,7 +14,7 @@ describe('Rich text object resolver', () => {
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
-        resolvedRichText = richTextObjectResolverExperimental.resolveRichText({
+        resolvedRichText = createRichTextObjectResolver().resolveRichText({
             element: response.item.elements.plot,
             linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
             cleanSdkIds: true

@@ -1,4 +1,3 @@
-import { IParser, IAsyncParser } from '../../parser';
 import { Elements } from '../../elements';
 import { IContentItem, ILink, IRichTextImage } from '../../models';
 
@@ -42,7 +41,6 @@ export interface IRichTextHtmlResolverInput {
     imageResolver?: IRichTextImageResolver;
     contentItemResolver?: IRichTextContentItemResolver;
     linkedItems?: IContentItem[];
-    parser?: IParser<string>;
 }
 
 export interface IAsyncRichTextHtmlResolverInput {
@@ -51,7 +49,6 @@ export interface IAsyncRichTextHtmlResolverInput {
     imageResolverAsync?: IAsyncRichTextImageResolver;
     contentItemResolverAsync?: IAsyncRichTextContentItemResolver;
     linkedItems?: IContentItem[];
-    parser?: IAsyncParser<string>;
 }
 
 export interface IRichTextResolver<TInput, TResult> {

@@ -1,6 +1,6 @@
 import { Actor, getDeliveryClientWithJson, Movie, toPromise } from '../../../setup';
 import {
-    richTextHtmlResolver,
+    createAsyncRichTextHtmlResolver,
     IResolvedRichTextHtmlResult,
     Responses,
     linkedItemsHelper
@@ -26,7 +26,7 @@ describe('Rich text resolver (URL priority) async', () => {
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(warriorJson).item<Movie>('x').toPromise()).data;
-        resolvedRichText = await richTextHtmlResolver.resolveRichTextAsync({
+        resolvedRichText = await createAsyncRichTextHtmlResolver().resolveRichTextAsync({
             element: response.item.elements.plot,
             linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
             imageResolverAsync: async (imageId, image) => {

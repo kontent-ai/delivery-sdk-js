@@ -13,7 +13,7 @@ import { ContentItemType, IContentItem } from '../../models';
 import { parserHelper } from '../parser.helper';
 import { Elements } from '../../elements';
 
-export class BrowserParserAsync implements IAsyncParser<string> {
+export class AsyncBrowserParser implements IAsyncParser<string> {
     async parseAsync(
         html: string,
         mainRichTextElement: Elements.RichTextElement,
@@ -233,4 +233,4 @@ export class BrowserParserAsync implements IAsyncParser<string> {
     }
 }
 
-export const browserParserAsync = new BrowserParserAsync();
+export const asyncBrowserParser = new AsyncBrowserParser();

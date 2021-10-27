@@ -1,5 +1,4 @@
 import {
-    IRichTextResolver,
     IRichTextObjectResolverInput,
     IRichTextObjectContentItemData,
     IRichTextObjectLinkData,
@@ -8,16 +7,19 @@ import {
     IRichTextObjectItem,
     IRichTextObjectAtribute,
     IRichTextObjectResult
-} from './rich-text-resolver.models';
-import { browserParser, IParserElement } from '../../parser';
-import { guidHelper } from '../../utilities';
+} from '../rich-text-resolver.models';
+import { browserParser, IParser, IParserElement } from '../../../parser';
+import { guidHelper } from '../../../utilities';
+import { BaseRichTextResolver } from '../base/base-rich-text-resolver';
 
-export class RichTextObjectResolverExperimental
-    implements IRichTextResolver<IRichTextObjectResolverInput, IRichTextObjectResult>
-{
+export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObjectResolverInput, IRichTextObjectResult> {
     private readonly sdkIdAttributeName: string = 'sdk-id';
     private readonly rootId: string = 'root';
     private readonly rootTag: string = 'p';
+
+    constructor(parser?: IParser<string>) {
+        super(browserParser, parser);
+    }
 
     resolveRichText(input: IRichTextObjectResolverInput): IRichTextObjectResult {
         const result = this.resolveRichTextInternal(input.element.value, input, {
@@ -43,7 +45,7 @@ export class RichTextObjectResolverExperimental
         input: IRichTextObjectResolverInput,
         result: IRichTextObjectItem
     ): IRichTextObjectItem {
-        browserParser.parse(
+        super.getParser().parse(
             html,
             input.element,
             {
@@ -176,4 +178,4 @@ export class RichTextObjectResolverExperimental
     }
 }
 
-export const richTextObjectResolverExperimental = new RichTextObjectResolverExperimental();
+export const createRichTextObjectResolver = (parser?: IParser<any>) => new RichTextObjectResolver(parser);

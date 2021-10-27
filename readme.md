@@ -507,16 +507,22 @@ const response = await deliveryClient.items().limitParameter(5).toAllPromise({
 Kontent by Kentico may contain linked items and components. For example, if you write a blog post, you might want to
 insert a video or testimonial to a specific place in your article.
 
-You need to define how these objects resolve to the HTML that will be rendered. This SDK provides you with helper
-functions to transform the input HTML to your desired output HTML. Built-in rich text resolver allows you to resolve
-`linked items`, `components`, `images` and `links`.
+You need to define how these objects resolve to the HTML that will be rendered. This SDK provides you with few resolvers
+that help you to transform the input HTML to your desired HTML, JSON or object. 
 
-#### Browser rich text resolver
+Built-in resolvers provided by SDK:
 
-Use `browserRichTextResolver` when you need to resolve rich text elements within browsers.
+Resolver | Description | Usage
+--- | --- | --- |
+`RichTextHtmlResolver` | Tranforms rich text HTML by replacing linked items, links or images with custom HTML | `createRichTextHtmlResolver().resolveRichText(data)`
+`RichTextJsonResolver` | Tranforms rich text HTML into JSON | `createRichTextJsonResolver().resolveRichText(data)`
+`RichTextObjectResolver` | Tranforms rich text HTML into javascript Object | `createRichTextObjectResolver().resolveRichText(data)`
+`AsyncRichTextHtmlResolver` | Async version of `RichTextHtmlResolver` | `await createAsyncRichTextHtmlResolver().resolveRichTextAsync(data)`
+
+#### Example use of RichTextHtmlResolver
 
 ```typescript
-import { browserRichTextResolver, createDeliveryClient, linkedItemsHelper } from '@kentico/kontent-delivery';
+import { createRichTextHtmlResolver, createDeliveryClient, linkedItemsHelper } from '@kentico/kontent-delivery';
 
 export type Movie = IContentItem<{
     plot: Elements.RichTextElement;
@@ -533,7 +539,7 @@ const response = (await createDeliveryClient({ projectId: '<YOUR_PROJECT_ID>' })
 const richTextElement = response.item.plot;
 
 // resolve HTML
-const resolvedRichText = browserRichTextResolver.resolveRichText({
+const resolvedRichText = createRichTextHtmlResolver().resolveRichText({
     element: richTextElement,
     linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
     imageResolver: (image) => {
@@ -567,42 +573,44 @@ const resolvedRichText = browserRichTextResolver.resolveRichText({
 const resolvedHtml = resolvedRichText.html;
 ```
 
-If you need to use `async functions` within resolvers, use the `resolveRichTextAsync`:
+#### Example use of RichTextJsonResolver
 
 ```typescript
-const resolvedRichText = await browserRichTextResolver.resolveRichTextAsync({
+import { createRichTextHtmlResolver, createDeliveryClient, linkedItemsHelper } from '@kentico/kontent-delivery';
+
+// get content item with rich text element
+const response = (await createDeliveryClient({ projectId: '<YOUR_PROJECT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
+
+// get rich text element
+const richTextElement = response.item.plot;
+
+// transform rich text html into json
+const json = createRichTextJsonResolver().resolveRichText({
     element: response.item.elements.plot,
     linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
-    imageResolver: async (image) => {
-        // async function
-        return {
-            imageHtml: await customAsyncfunc()
-        };
-    },
-    urlResolver: async (link) => {
-        // async function
-        return {
-            imageHtml: await customAsyncfunc()
-        };
-    },
-    contentItemResolver: async (contentItem) => {
-        // async function
-        return {
-            contentItemHtml: await customAsyncfunc()
-        };
-    }
 });
 ```
 
-#### Node.js rich text resolver
+#### Resolving rich text in node.js
 
-The `node.js` parser is published as a standalone npm package:
+If you need to resolve rich text in `node.js`, you have to install following parser:
 
 ```
 npm i @kentico/kontent-delivery-html-parser-node-js --save
 ```
 
-Once you install it, you can use it same way as the `browserRichTextResolver`. See [node.js parser documentation](https://github.com/Kentico/kontent-delivery-html-parser-node-js) for a code sample. 
+Once installed, it can be used by passing the parser to rich text resolver:
+
+```typescript
+import { createRichTextHtmlResolver, createAsyncRichTextHtmlResolver } from '@kentico/kontent-delivery';
+import { nodeParser, asyncNodeParser } from '@kentico/kontent-delivery-html-parser-node-js';
+
+// transform rich text html into json
+const json = createRichTextHtmlResolver(nodeParser).resolveRichText(data);
+
+// or
+const html = await createAsyncRichTextHtmlResolver(asyncNodeParser).resolveRichText(data);
+```
 
 ## Get content types
 
