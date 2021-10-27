@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-10](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-9...v11.0.0-10) (2021-10-27)
+
+
+### Features
+
+* updates readme, creates base rich text resolvers and uses function to create each and every available resolver ([1cf140c](https://github.com/Kentico/kontent-delivery-sdk-js/commit/1cf140ce98074d2e590e5eefad5fed7fac3afe39))
+
 ## [11.0.0-9](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-8...v11.0.0-9) (2021-10-27)
 
 
