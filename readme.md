@@ -596,14 +596,14 @@ const json = createRichTextJsonResolver().resolveRichText({
 If you need to resolve rich text in `node.js`, you have to install following parser:
 
 ```
-npm i @kentico/kontent-delivery-html-parser-node-js --save
+npm i @kentico/kontent-delivery-node-parser --save
 ```
 
 Once installed, it can be used by passing the parser to rich text resolver:
 
 ```typescript
 import { createRichTextHtmlResolver, createAsyncRichTextHtmlResolver } from '@kentico/kontent-delivery';
-import { nodeParser, asyncNodeParser } from '@kentico/kontent-delivery-html-parser-node-js';
+import { nodeParser, asyncNodeParser } from '@kentico/kontent-delivery-node-parser';
 
 // transform rich text html into json
 const json = createRichTextHtmlResolver(nodeParser).resolveRichText(data);
