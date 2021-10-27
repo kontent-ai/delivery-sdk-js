@@ -2,21 +2,21 @@ import {
     IResolvedRichTextHtmlResult,
     IRichTextResolver,
     IRichTextResolverAsync,
-    IRichTextHtmlResolverInputAsync,
+    IAsyncRichTextHtmlResolverInput,
     IRichTextHtmlResolverInput
 } from './rich-text-resolver.models';
-import { browserParser, browserParserAsync, IParser, IParserAsync, parserConfiguration } from '../../parser';
+import { browserParser, browserParserAsync, IParser, IAsyncParser, parserConfiguration } from '../../parser';
 
 export class RichTextHtmlResolver
     implements
         IRichTextResolver<IRichTextHtmlResolverInput, IResolvedRichTextHtmlResult>,
-        IRichTextResolverAsync<IRichTextHtmlResolverInputAsync, IResolvedRichTextHtmlResult>
+        IRichTextResolverAsync<IAsyncRichTextHtmlResolverInput, IResolvedRichTextHtmlResult>
 {
     resolveRichText(input: IRichTextHtmlResolverInput): IResolvedRichTextHtmlResult {
         return this.resolveRichTextInternal(input.element.value, input);
     }
 
-    async resolveRichTextAsync(input: IRichTextHtmlResolverInputAsync): Promise<IResolvedRichTextHtmlResult> {
+    async resolveRichTextAsync(input: IAsyncRichTextHtmlResolverInput): Promise<IResolvedRichTextHtmlResult> {
         return await this.resolveRichTextInternalAsync(input.element.value, input);
     }
 
@@ -84,7 +84,7 @@ export class RichTextHtmlResolver
 
     private async resolveRichTextInternalAsync(
         html: string,
-        input: IRichTextHtmlResolverInputAsync
+        input: IAsyncRichTextHtmlResolverInput
     ): Promise<IResolvedRichTextHtmlResult> {
         const parsedResult = await this.getAsyncParser(input.parser).parseAsync(
             html,
@@ -158,7 +158,7 @@ export class RichTextHtmlResolver
         return browserParser;
     }
 
-    private getAsyncParser(parser?: IParserAsync<string>): IParserAsync<string> {
+    private getAsyncParser(parser?: IAsyncParser<string>): IAsyncParser<string> {
         if (parser) {
             return parser;
         }

@@ -60,7 +60,7 @@ export interface IParseResolvers {
     contentItemResolver: (element: IParserElement, linkedItemCodename: string, linkedItemIndex: number, linkedItem?: IContentItem) => void;
 }
 
-export interface IParseResolversAsync {
+export interface IAsyncParseResolvers {
     elementResolverAsync: (element: IParserElement) => Promise<void>;
     genericElementResolverAsync: (element: IParserElement) => Promise<void>;
     urlResolverAsync: (element: IParserElement, linkId: string, linkText: string, link?: ILink) => Promise<void>;
@@ -83,11 +83,11 @@ export interface IParser<TParserOutput> {
     ): IParserResult<TParserOutput>;
 }
 
-export interface IParserAsync<TParserOutput> {
+export interface IAsyncParser<TParserOutput> {
     parseAsync(
         html: string,
         mainRichTextElement: Elements.RichTextElement,
-        resolvers: IParseResolversAsync,
+        resolvers: IAsyncParseResolvers,
         linkedItems: IContentItem[]
     ): Promise<IParserResult<TParserOutput>>;
 }

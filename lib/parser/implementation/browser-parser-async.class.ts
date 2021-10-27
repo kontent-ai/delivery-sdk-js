@@ -5,19 +5,19 @@ import {
     ILinkObject,
     ParsedItemIndexReferenceWrapper,
     IParserResult,
-    IParserAsync,
-    IParseResolversAsync
+    IAsyncParser,
+    IAsyncParseResolvers
 } from '../parse-models';
 import { parserConfiguration } from '../parser-configuration';
 import { ContentItemType, IContentItem } from '../../models';
 import { parserHelper } from '../parser.helper';
 import { Elements } from '../../elements';
 
-export class BrowserParserAsync implements IParserAsync<string> {
+export class BrowserParserAsync implements IAsyncParser<string> {
     async parseAsync(
         html: string,
         mainRichTextElement: Elements.RichTextElement,
-        resolvers: IParseResolversAsync,
+        resolvers: IAsyncParseResolvers,
         linkedItems: IContentItem[]
     ): Promise<IParserResult<string>> {
         return await this.parseInternalAsync(
@@ -32,7 +32,7 @@ export class BrowserParserAsync implements IParserAsync<string> {
 
     private async parseInternalAsync(
         mainRichTextElement: Elements.RichTextElement,
-        resolvers: IParseResolversAsync,
+        resolvers: IAsyncParseResolvers,
         html: string,
         linkedItems: IContentItem[],
         linkedItemIndex: ParsedItemIndexReferenceWrapper,
@@ -66,7 +66,7 @@ export class BrowserParserAsync implements IParserAsync<string> {
 
     private async processRichTextElementAsync(
         mainRichTextElement: Elements.RichTextElement,
-        resolvers: IParseResolversAsync,
+        resolvers: IAsyncParseResolvers,
         htmlCollection: HTMLCollection,
         result: IParsedObjects,
         linkedItems: IContentItem[],

@@ -1,4 +1,4 @@
-import { IParser, IParserAsync } from '../../parser';
+import { IParser, IAsyncParser } from '../../parser';
 import { Elements } from '../../elements';
 import { IContentItem, ILink, IRichTextImage } from '../../models';
 
@@ -29,9 +29,9 @@ export type IRichTextContentItemResolver = (
     contentItem?: IContentItem
 ) => IRichTextContentItemResult;
 
-export type IRichTextUrlResolverAsync = (linkId: string, linkText: string, link?: ILink) => Promise<IRichTextUrlResult>;
-export type IRichTextImageResolverAsync = (imageId: string, image?: IRichTextImage) => Promise<IRichTextImageResult>;
-export type IRichTextContentItemResolverAsync = (
+export type IAsyncRichTextUrlResolver = (linkId: string, linkText: string, link?: ILink) => Promise<IRichTextUrlResult>;
+export type IAsyncRichTextImageResolver = (imageId: string, image?: IRichTextImage) => Promise<IRichTextImageResult>;
+export type IAsyncRichTextContentItemResolver = (
     itemCodename: string,
     contentItem?: IContentItem
 ) => Promise<IRichTextContentItemResult>;
@@ -45,13 +45,13 @@ export interface IRichTextHtmlResolverInput {
     parser?: IParser<string>;
 }
 
-export interface IRichTextHtmlResolverInputAsync {
+export interface IAsyncRichTextHtmlResolverInput {
     element: Elements.RichTextElement;
-    urlResolverAsync?: IRichTextUrlResolverAsync;
-    imageResolverAsync?: IRichTextImageResolverAsync;
-    contentItemResolverAsync?: IRichTextContentItemResolverAsync;
+    urlResolverAsync?: IAsyncRichTextUrlResolver;
+    imageResolverAsync?: IAsyncRichTextImageResolver;
+    contentItemResolverAsync?: IAsyncRichTextContentItemResolver;
     linkedItems?: IContentItem[];
-    parser?: IParserAsync<string>;
+    parser?: IAsyncParser<string>;
 }
 
 export interface IRichTextResolver<TInput, TResult> {
