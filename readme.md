@@ -160,6 +160,9 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 
 ### Create typed models
 
+> Recommended:Use the [Kontent Model Generator](https://www.npmjs.com/package/@kentico/kontent-model-generator) to automatically
+> generate TypeScript models based on the content types in your Kontent project.
+
 You may define optional models in Typescript representing your actual data defined in Kontent projects. You can also
 auto-generate these models (see below).
 
@@ -250,11 +253,6 @@ type Movie = IContentItem<{
     title: Elements.TextElement;
 }>;
 ```
-
-:heavy_check_mark: **Save time by auto-generating models**
-
-Use the [Kontent Model Generator](https://www.npmjs.com/package/@kentico/kontent-model-generator) to automatically
-generate TypeScript models based on the content types in your Kontent project.
 
 ### Query parameters
 
