@@ -13,7 +13,7 @@ import { guidHelper } from '../../../utilities';
 import { BaseRichTextResolver } from '../base/base-rich-text-resolver';
 
 export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObjectResolverInput, IRichTextObjectResult> {
-    private readonly sdkIdAttributeName: string = 'sdk-id';
+    private readonly sdkIdAttributeName: string = 'sdk-elem-id';
     private readonly rootId: string = 'root';
     private readonly rootTag: string = 'p';
 
@@ -28,7 +28,7 @@ export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObject
             children: [],
             data: {},
             tag: this.rootTag,
-            sdkId: this.rootId
+            _sdkElemId: this.rootId
         });
 
         if (input.cleanSdkIds === true) {
@@ -69,7 +69,7 @@ export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObject
                             tag: element.tag.toLowerCase(),
                             data: data,
                             children: [],
-                            sdkId: this.getSdkIdFromElement(element)
+                            _sdkElemId: this.getSdkIdFromElement(element)
                         });
                     }
                 },
@@ -89,7 +89,7 @@ export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObject
                             tag: element.tag.toLowerCase(),
                             data: data,
                             children: [],
-                            sdkId: this.getSdkIdFromElement(element)
+                            _sdkElemId: this.getSdkIdFromElement(element)
                         });
                     }
                 },
@@ -109,7 +109,7 @@ export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObject
                             tag: element.tag.toLowerCase(),
                             data: data,
                             children: [],
-                            sdkId: this.getSdkIdFromElement(element)
+                            _sdkElemId: this.getSdkIdFromElement(element)
                         });
                     }
                 },
@@ -130,7 +130,7 @@ export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObject
                             tag: element.tag.toLowerCase(),
                             data: data,
                             children: [],
-                            sdkId: this.getSdkIdFromElement(element)
+                            _sdkElemId: this.getSdkIdFromElement(element)
                         });
                     }
                 }
@@ -142,7 +142,7 @@ export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObject
     }
 
     private findItemWithSdkId(sdkId: string, item: IRichTextObjectItem): IRichTextObjectItem | undefined {
-        if (item.sdkId === sdkId) {
+        if (item._sdkElemId === sdkId) {
             return item;
         }
 
@@ -170,7 +170,7 @@ export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObject
 
     private cleanSdkIds(item: IRichTextObjectItem): void {
         item.attributes = item.attributes.filter((m) => m.name !== this.sdkIdAttributeName);
-        item.sdkId = '';
+        item._sdkElemId = '';
 
         for (const child of item.children) {
             this.cleanSdkIds(child);

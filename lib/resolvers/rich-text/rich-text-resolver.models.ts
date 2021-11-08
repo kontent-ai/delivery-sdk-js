@@ -96,7 +96,7 @@ export interface IRichTextObjectAtribute {
 export interface IRichTextObjectItem {
     type: RichTextObjectDataType;
     tag: string;
-    sdkId: string;
+    _sdkElemId: string;
     attributes: IRichTextObjectAtribute[];
     data: any;
     children: IRichTextObjectItem[];
