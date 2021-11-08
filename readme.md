@@ -610,6 +610,10 @@ const json = createRichTextHtmlResolver(nodeParser).resolveRichText(data);
 const html = await createAsyncRichTextHtmlResolver(asyncNodeParser).resolveRichText(data);
 ```
 
+### Creating custom rich text resolvers
+
+This SDK provides you with `browserParser` which you can use to implement your own rich text resolver. A common usecase for creating custom resolvers is when you want to convert rich text element into, for example, `react components`, `angular commponents` or components in some other popular framework. The parser will take care of actually parsing html, while you can focus on creating specific logic for creating components dynamically. 
+
 ## Get content types
 
 To retrieve information about your content types, you can use the `type` and `types` methods.
