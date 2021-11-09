@@ -1,5 +1,5 @@
 import { IHeader, IHttpCancelRequestToken, IQueryParameter } from '@kentico/kontent-core';
-import { INetworkResponse } from './base-responses';
+import { IDeliveryNetworkResponse } from './base-responses';
 import { IPagination } from './pagination.class';
 
 export type LinkedItemsReferenceHandler = 'map' | 'ignore';
@@ -59,7 +59,7 @@ export interface IListAllQueryConfig<TResponse extends IKontentListResponse, TCo
      * Executed when a list response is loaded
      */
     responseFetched?: (
-        response: INetworkResponse<TResponse, TContract>,
+        response: IDeliveryNetworkResponse<TResponse, TContract>,
         nextPageUrl?: string,
         continuationToken?: string
     ) => void;

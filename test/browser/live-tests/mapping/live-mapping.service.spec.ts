@@ -1,4 +1,4 @@
-import { INetworkResponse, Contracts, Responses } from '../../../../lib';
+import { IDeliveryNetworkResponse, Contracts, Responses } from '../../../../lib';
 import { Context, Movie, setup } from '../../setup';
 
 describe('Live mapping service', () => {
@@ -6,7 +6,7 @@ describe('Live mapping service', () => {
     setup(context);
 
     const movieCodename: string = 'warrior';
-    let response: INetworkResponse<Responses.IViewContentItemResponse<Movie>, Contracts.IViewContentItemContract>;
+    let response: IDeliveryNetworkResponse<Responses.IViewContentItemResponse<Movie>, Contracts.IViewContentItemContract>;
 
     beforeAll(async () => {
         response = await context.deliveryClient.item<Movie>(movieCodename).toPromise();

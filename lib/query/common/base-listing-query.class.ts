@@ -5,7 +5,7 @@ import {
     IGroupedNetworkResponse,
     IKontentListAllResponse,
     IKontentListResponse,
-    INetworkResponse,
+    IDeliveryNetworkResponse,
     IListAllQueryConfig,
     IQueryConfig,
     Parameters,
@@ -249,5 +249,5 @@ export abstract class BaseListingQuery<
         });
     }
 
-    protected abstract allResponseFactory(items: any[], responses: INetworkResponse<TResponse, TContract>[]): TAllResponse;
+    protected abstract allResponseFactory(items: any[], responses: IDeliveryNetworkResponse<TResponse, TContract>[]): TAllResponse;
 }

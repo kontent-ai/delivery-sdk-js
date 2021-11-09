@@ -1,4 +1,4 @@
-import { INetworkResponse, Responses } from '../../../../../lib';
+import { IDeliveryNetworkResponse, Responses } from '../../../../../lib';
 import { Context, Movie, setup } from '../../../setup';
 import { getDeliveryClientWithJsonAndHeaders } from '../../../setup';
 import * as responseJson from './items-feed.spec.json';
@@ -7,7 +7,7 @@ describe('Items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: INetworkResponse<Responses.IListItemsFeedResponse<Movie>, any>;
+    let response: IDeliveryNetworkResponse<Responses.IListItemsFeedResponse<Movie>, any>;
 
     beforeAll(async () => {
         response = await getDeliveryClientWithJsonAndHeaders(

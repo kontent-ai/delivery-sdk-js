@@ -1,6 +1,6 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { IContentItem, IItemQueryConfig, INetworkResponse, Responses, Parameters } from '../../models';
+import { IContentItem, IItemQueryConfig, IDeliveryNetworkResponse, Responses, Parameters } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
@@ -58,7 +58,7 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
     }
 
     toPromise(): Promise<
-        INetworkResponse<
+        IDeliveryNetworkResponse<
             Responses.IViewContentItemResponse<TContentItem>,
             Contracts.IViewContentItemContract
         >

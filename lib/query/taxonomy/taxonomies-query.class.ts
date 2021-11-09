@@ -2,7 +2,7 @@ import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
 import {
     continuationTokenHeaderName,
-    INetworkResponse,
+    IDeliveryNetworkResponse,
     ITaxonomyQueryConfig,
     Parameters,
     Responses
@@ -44,7 +44,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
     }
 
     toPromise(): Promise<
-        INetworkResponse<
+        IDeliveryNetworkResponse<
             Responses.IListTaxonomiesResponse,
             Contracts.IListTaxonomyGroupsContract
         >
@@ -78,7 +78,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
 
     protected allResponseFactory(
         items: any[],
-        responses: INetworkResponse<
+        responses: IDeliveryNetworkResponse<
             Responses.IListTaxonomiesResponse,
             Contracts.IListTaxonomyGroupsContract
         >[]

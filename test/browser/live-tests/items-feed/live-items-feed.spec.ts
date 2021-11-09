@@ -1,11 +1,11 @@
-import { INetworkResponse, Contracts, Responses } from '../../../../lib';
+import { IDeliveryNetworkResponse, Contracts, Responses } from '../../../../lib';
 import { Context, setup } from '../../setup';
 
 describe('Live items feed', () => {
     const context = new Context();
     setup(context);
 
-    let response: INetworkResponse<Responses.IListItemsFeedResponse, Contracts.IItemsFeedContract>;
+    let response: IDeliveryNetworkResponse<Responses.IListItemsFeedResponse, Contracts.IItemsFeedContract>;
 
     beforeAll(async () => {
         response = await context.deliveryClient.itemsFeed().toPromise();
