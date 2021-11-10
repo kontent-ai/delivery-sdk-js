@@ -13,7 +13,7 @@
 
 A client library for retrieving content from [Kontent by Kentico](https://kontent.ai/) written in TypeScript and published in following formats: `UMD`, `ES2015` and `CommonJs`. Works both in browser & node.
 
-ℹ If you a looking for the next SDK verison, checkout the [vnext branch](https://github.com/Kentico/kontent-delivery-sdk-js/tree/vnext). ℹ
+ℹ If you are looking for the next SDK version, check out the [vnext branch](https://github.com/Kentico/kontent-delivery-sdk-js/tree/vnext). ℹ
 
 |  Resources 
 |---|
