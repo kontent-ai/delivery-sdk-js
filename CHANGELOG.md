@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-11...v11.0.0) (2021-11-16)
+
+
+### Features
+
+* renames INetworkResponse interface to IDeliveryNetworkResponse ([e566537](https://github.com/Kentico/kontent-delivery-sdk-js/commit/e5665372563b485dc050ae1919910612b00c4bf2))
+* updates deps ([42a6ff9](https://github.com/Kentico/kontent-delivery-sdk-js/commit/42a6ff9bbc070133f8f3e52f02c0f3e5d3cd9939))
+
 ## [11.0.0-11](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-10...v11.0.0-11) (2021-10-27)
 
 ## [11.0.0-10](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-9...v11.0.0-10) (2021-10-27)
