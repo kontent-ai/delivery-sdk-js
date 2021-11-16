@@ -1,11 +1,26 @@
-import { Observable } from 'rxjs';
-
+import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { LanguageResponses, Parameters } from '../../models';
+import {
+    continuationTokenHeaderName,
+    IDeliveryNetworkResponse,
+    ILanguagesQueryConfig,
+    Parameters,
+    Responses
+} from '../../models';
 import { QueryService } from '../../services';
-import { BaseLanguageQuery } from './base-language-query.class';
+import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class LanguagesQuery extends BaseLanguageQuery<LanguageResponses.ListLanguagesResponse> {
+export class LanguagesQuery extends BaseListingQuery<
+    Responses.IListLanguagesResponse,
+    Responses.IListLanguagesAllResponse,
+    ILanguagesQueryConfig,
+    Contracts.IListLanguagesContract
+> {
+    /**
+     * Endpoint
+     */
+    protected readonly endpoint: string = 'languages';
+
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
@@ -29,16 +44,51 @@ export class LanguagesQuery extends BaseLanguageQuery<LanguageResponses.ListLang
     }
 
     /**
-     * Gets the Observable
+     * Sets continuation token header
      */
-    toObservable(): Observable<LanguageResponses.ListLanguagesResponse> {
-        return super.runLanguagesQuery();
+    withContinuationToken(token: string): this {
+        this.withHeaders([
+            {
+                header: continuationTokenHeaderName,
+                value: token
+            }
+        ]);
+
+        return this;
+    }
+
+    toPromise(): Promise<
+        IDeliveryNetworkResponse<Responses.IListLanguagesResponse, Contracts.IListLanguagesContract>
+    > {
+        return this.queryService.getLanguages(this.getUrl(), this._queryConfig ?? {});
+    }
+
+    getUrl(): string {
+        const action = '/' + this.endpoint;
+
+        return super.resolveUrlInternal(action);
     }
 
     /**
-     * Gets 'Url' representation of query
+     * Used to configure query
+     * @param queryConfig Query configuration
      */
-    getUrl(): string {
-        return super.getLanguagesQueryUrl();
+    queryConfig(queryConfig: ILanguagesQueryConfig): this {
+        this._queryConfig = queryConfig;
+        return this;
+    }
+
+    map(json: any): Responses.IListLanguagesResponse {
+        return this.queryService.mappingService.listLanguagesResponse(json);
+    }
+
+    protected allResponseFactory(
+        items: any[],
+        responses: IDeliveryNetworkResponse<Responses.IListLanguagesResponse, Contracts.IListLanguagesContract>[]
+    ): Responses.IListLanguagesAllResponse {
+        return {
+            items: items,
+            responses: responses
+        };
     }
 }

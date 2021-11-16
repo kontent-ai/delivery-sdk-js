@@ -4,11 +4,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/definitions
-/_commonjs
-/_esNext
-/_es2015
-/_bundles
+/dist
 /tmp
 /coverage
 /out-tsc

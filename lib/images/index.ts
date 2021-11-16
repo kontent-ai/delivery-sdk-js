@@ -1,2 +1,3 @@
-export * from './image-url-builder';
+export * from './image-url-transformation-builder';
 export * from './image.models';
+export * from './image-url-transformation-builder.factory';

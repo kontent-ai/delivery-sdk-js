@@ -1,13 +1,13 @@
-import { Observable } from 'rxjs';
-
+import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { ContentItem, ItemResponses, Parameters } from '../../models';
+import { IContentItem, IItemQueryConfig, IDeliveryNetworkResponse, Responses, Parameters } from '../../models';
 import { QueryService } from '../../services';
-import { BaseItemQuery } from './base-item-query.class';
+import { BaseQuery } from '../common/base-query.class';
 
-export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
-    TItem,
-    ItemResponses.ViewContentItemResponse<TItem>
+export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> extends BaseQuery<
+    Responses.IViewContentItemResponse<TContentItem>,
+    IItemQueryConfig,
+    Contracts.IViewContentItemContract
 > {
     constructor(
         protected config: IDeliveryClientConfig,
@@ -31,16 +31,51 @@ export class SingleItemQuery<TItem extends ContentItem> extends BaseItemQuery<
     }
 
     /**
-     * Gets the runnable Observable
+     * Used to configure query
+     * @param queryConfig Query configuration
      */
-    toObservable(): Observable<ItemResponses.ViewContentItemResponse<TItem>> {
-        return super.runSingleItemQuery(this.codename);
+    queryConfig(queryConfig: IItemQueryConfig): this {
+        this._queryConfig = queryConfig;
+        return this;
     }
 
     /**
-     * Gets 'Url' representation of query
+     * Language codename
+     * @param languageCodename Codename of the language
      */
-    getUrl(): string {
-        return super.getSingleItemQueryUrl(this.codename);
+    languageParameter(languageCodename: string): this {
+        this.parameters.push(new Parameters.LanguageParameter(languageCodename));
+        return this;
     }
-}
+
+    /**
+     * Used to limit the number of elements returned by query.
+     * @param elementCodenames Array of element codenames to fetch
+     */
+    elementsParameter(elementCodenames: string[]): this {
+        this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
+        return this;
+    }
+
+    toPromise(): Promise<
+        IDeliveryNetworkResponse<
+            Responses.IViewContentItemResponse<TContentItem>,
+            Contracts.IViewContentItemContract
+        >
+    > {
+        return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
+    }
+
+    getUrl(): string {
+        const action = '/items/' + this.codename;
+
+        // add default language is necessry
+        this.processDefaultLanguageParameter();
+
+        return super.resolveUrlInternal(action);
+    }
+
+    map(json: any): Responses.IViewContentItemResponse<TContentItem> {
+        return this.queryService.mappingService.viewContentItemResponse(json);
+    }
+ }

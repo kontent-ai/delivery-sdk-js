@@ -18,6 +18,6 @@ export const parserConfiguration = {
         srcAttribute: 'src'
     },
     resolvedLinkedItemIndexAttribute: 'data-sdk-item-index',
-    resolvedLinkedItemAttribute: 'data-sdk-resolved'
+    resolvedAttribute: 'data-sdk-resolved'
 
 };

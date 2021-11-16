@@ -1,12 +1,14 @@
-import { Observable } from 'rxjs';
-
+import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { ElementResponses } from '../../models';
+import { Responses, IElementQueryConfig, IDeliveryNetworkResponse } from '../../models';
 import { QueryService } from '../../services';
-import { BaseElementQuery } from './base-element-query.class';
+import { BaseQuery } from '../common/base-query.class';
 
-export class ElementQuery extends BaseElementQuery<ElementResponses.ViewContentTypeElementResponse> {
-
+export class ElementQuery extends BaseQuery<
+    Responses.IViewContentTypeElementResponse,
+    IElementQueryConfig,
+    Contracts.IViewContentTypeElementContract
+> {
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
@@ -24,17 +26,22 @@ export class ElementQuery extends BaseElementQuery<ElementResponses.ViewContentT
         }
     }
 
-    /**
-    * Gets the runnable Observable
-    */
-    toObservable(): Observable<ElementResponses.ViewContentTypeElementResponse> {
-        return super.runElementQuery(this.typeCodename, this.elementCodename);
+    toPromise(): Promise<
+        IDeliveryNetworkResponse<
+            Responses.IViewContentTypeElementResponse,
+            Contracts.IViewContentTypeElementContract
+        >
+    > {
+        return this.queryService.getElementAsync(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-    * Gets 'Url' representation of query
-    */
     getUrl(): string {
-        return super.getElementQueryUrl(this.typeCodename, this.elementCodename);
+        const action = '/types/' + this.typeCodename + '/elements/' + this.elementCodename;
+
+        return super.resolveUrlInternal(action);
+    }
+
+    map(json: any): Responses.IViewContentTypeElementResponse {
+        return this.queryService.mappingService.viewContentTypeElementResponse(json);
     }
 }

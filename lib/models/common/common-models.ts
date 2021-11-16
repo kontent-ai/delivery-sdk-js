@@ -1,4 +1,8 @@
-import { IHeader, IQueryParameter } from '@kentico/kontent-core';
+import { IHeader, IHttpCancelRequestToken, IQueryParameter } from '@kentico/kontent-core';
+import { IDeliveryNetworkResponse } from './base-responses';
+import { IPagination } from './pagination.class';
+
+export type LinkedItemsReferenceHandler = 'map' | 'ignore';
 
 export interface IProxyUrlData {
     action: string;
@@ -7,12 +11,6 @@ export interface IProxyUrlData {
     queryString: string;
     queryConfig: IQueryConfig;
     projectId: string;
-}
-
-export interface IKontentResponseDebug {
-    response: any;
-    status: number;
-    headers: IHeader[];
 }
 
 export interface ISDKInfo {
@@ -30,19 +28,51 @@ export interface ISDKInfo {
     host: string;
 }
 
-export interface IKontentResponse<TDebugData> {
-    debug?: TDebugData;
-    hasStaleContent: boolean;
+export interface IKontentResponse {}
+
+export interface IKontentListWithHeaderResponse extends IKontentResponse {
+    items: any[];
+}
+
+export interface IKontentListResponse extends IKontentResponse {
+    pagination?: IPagination;
+    items: any[];
+}
+
+export interface IKontentListAllResponse extends IKontentResponse {
+    responses: any[];
+    items: any[];
+}
+
+export interface IListAllQueryConfig<TResponse extends IKontentListResponse, TContract> {
+    /**
+     * Number of pages to get. If not set, all available pages are fetched.
+     */
+    pages?: number;
+
+    /**
+     * Delay between each HTTP requests
+     */
+    delayBetweenRequests?: number;
+
+    /**
+     * Executed when a list response is loaded
+     */
+    responseFetched?: (
+        response: IDeliveryNetworkResponse<TResponse, TContract>,
+        nextPageUrl?: string,
+        continuationToken?: string
+    ) => void;
 }
 
 export interface IQueryConfig {
     /**
-     * Indicates if query should use preview mode. Overrides global settings of Delivery Client
+     * Indicates if query should use preview mode. Overrides default configuration
      */
     usePreviewMode?: boolean;
 
     /**
-     * Indicates if query should use secured delivery API mode. Overrides global settings of Delivery Client
+     * Indicates if query should use secured delivery API mode.  Overrides default configuration
      */
     useSecuredMode?: boolean;
 
@@ -55,7 +85,15 @@ export interface IQueryConfig {
      */
     waitForLoadingNewContent?: boolean;
 
+    /**
+     * Extra headers added to request
+     */
     customHeaders?: IHeader[];
+
+    /**
+     * Cancel token
+     */
+    cancelToken?: IHttpCancelRequestToken<any>;
 }
 
 export interface IDeliveryErrorRaw {

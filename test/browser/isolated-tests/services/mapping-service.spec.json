@@ -1,0 +1,146 @@
+{
+    "items": [
+      {
+        "system": {
+          "id": "cf106f4e-30a4-42ef-b313-b8ea3fd3e5c5",
+          "name": "Coffee Beverages Explained",
+          "codename": "coffee_beverages_explained",
+          "language": "default",
+          "type": "article",
+          "sitemap_locations": [
+            "articles"
+          ],
+          "collection": "default",
+          "last_modified": "2017-04-04T13:40:00.1102334Z",
+          "workflow_step": "published"
+        },
+        "elements": {
+          "title": {
+            "type": "text",
+            "name": "Title",
+            "value": "Coffee Beverages Explained"
+          },
+          "summary": {
+            "type": "text",
+            "name": "Summary",
+            "value": "Espresso and filtered coffee are the two main categories of coffee, based on the method of preparation. Learn about individual types of coffee that fall under these categories."
+          },
+          "post_date": {
+            "type": "date_time",
+            "name": "Post date",
+            "value": "2014-11-18T00:00:00Z"
+          },
+          "teaser_image": {
+            "type": "asset",
+            "name": "Teaser image",
+            "value": [
+              {
+                "name": "coffee-beverages-explained-1080px.jpg",
+                "type": "image/jpeg",
+                "size": 90895,
+                "description": null,
+                "url": "https://assets-us-01.kc-usercontent.com/975bf280-fd91-488c-994c-2f04416e5ee3/e700596b-03b0-4cee-ac5c-9212762c027a/coffee-beverages-explained-1080px.jpg"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "system": {
+          "id": "23f71096-fa89-4f59-a3f9-970e970944ec",
+          "name": "Donate with us",
+          "codename": "donate_with_us",
+          "language": "default",
+          "type": "article",
+          "sitemap_locations": [
+            "articles"
+          ],
+          "collection": "default",
+          "last_modified": "2017-04-04T13:40:29.970377Z",
+          "workflow_step": "published"
+        },
+        "elements": {
+          "title": {
+            "type": "text",
+            "name": "Title",
+            "value": "Donate with us"
+          },
+          "summary": {
+            "type": "text",
+            "name": "Summary",
+            "value": "Dancing Goat regularly donates money to Children in Africa, a foundation helping children with food, accommodation, education, and other essentials. Donate with us and create a better world."
+          },
+          "post_date": {
+            "type": "date_time",
+            "name": "Post date",
+            "value": "2014-11-12T00:00:00Z"
+          },
+          "teaser_image": {
+            "type": "asset",
+            "name": "Teaser image",
+            "value": [
+              {
+                "name": "donate-with-us-1080px.jpg",
+                "type": "image/jpeg",
+                "size": 133239,
+                "description": null,
+                "url": "https://assets-us-01.kc-usercontent.com/975bf280-fd91-488c-994c-2f04416e5ee3/9b86141d-b667-4c35-82b1-826bc151d72a/donate-with-us-1080px.jpg"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "system": {
+          "id": "b2fea94c-73fd-42ec-a22f-f409878de187",
+          "name": "Origins of Arabica Bourbon",
+          "codename": "origins_of_arabica_bourbon",
+          "language": "default",
+          "type": "article",
+          "sitemap_locations": [
+            "articles"
+          ],
+          "collection": "default",
+          "last_modified": "2017-04-04T13:45:44.1533096Z",
+          "workflow_step": "published"
+        },
+        "elements": {
+          "title": {
+            "type": "text",
+            "name": "Title",
+            "value": "Origins of Arabica Bourbon"
+          },
+          "summary": {
+            "type": "text",
+            "name": "Summary",
+            "value": "This one particular type of coffee, the Arabica Bourbon, is now sold only in Japan. It has been brought back to life by enthusiasts after being almost forgotten for nearly sixty years."
+          },
+          "post_date": {
+            "type": "date_time",
+            "name": "Post date",
+            "value": "2014-11-11T00:00:00Z"
+          },
+          "teaser_image": {
+            "type": "asset",
+            "name": "Teaser image",
+            "value": [
+              {
+                "name": "origins-of-arabica-bourbon-1080px.jpg",
+                "type": "image/jpeg",
+                "size": 132229,
+                "description": null,
+                "url": "https://assets.kenticocloud.com:443/975bf280-fd91-488c-994c-2f04416e5ee3/1cfcb6c9-1fe6-4013-a0bb-b26f8ada2ebf/origins-of-arabica-bourbon-1080px.jpg"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "modular_content": {},
+    "pagination": {
+      "skip": 0,
+      "limit": 3,
+      "count": 3,
+      "next_page": "https://deliver.kontent.ai/975bf280-fd91-488c-994c-2f04416e5ee3/items?system.type=article&elements=title%2csummary%2cpost_date%2cteaser_image&order=elements.post_date%5bdesc%5d&depth=0&limit=3&skip=3"
+    }
+  }

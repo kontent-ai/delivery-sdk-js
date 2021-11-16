@@ -1,7 +1,6 @@
 import { IQueryParameter } from '@kentico/kontent-core';
 
 export namespace Filters {
-
     const valueSeparator: string = ',';
     const defaultValue: string = '';
 
@@ -14,7 +13,6 @@ export namespace Filters {
             let value = '';
             // use [in] filter
             for (let i = 0; i < param.length; i++) {
-
                 value = value + param[i].toString();
 
                 if (i !== param.length - 1) {
@@ -31,10 +29,7 @@ export namespace Filters {
     };
 
     export class TypeFilter implements IQueryParameter {
-        constructor(
-            public type: string | string[]
-        ) {
-        }
+        constructor(public type: string | string[]) {}
 
         getParam(): string {
             if (Array.isArray(this.type)) {
@@ -48,10 +43,7 @@ export namespace Filters {
     }
 
     export class CollectionFilter implements IQueryParameter {
-        constructor(
-            public collection: string | string[]
-        ) {
-        }
+        constructor(public collection: string | string[]) {}
 
         getParam(): string {
             if (Array.isArray(this.collection)) {
@@ -65,13 +57,7 @@ export namespace Filters {
     }
 
     export class EmptyFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'EmptyFilter' is undefined `);
-            }
-        }
+        constructor(public element: string) {}
 
         getParam(): string {
             return `${this.element.trim()}[empty]`;
@@ -79,13 +65,7 @@ export namespace Filters {
     }
 
     export class NotEmptyFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'NotEmptyFilter' is undefined `);
-            }
-        }
+        constructor(public element: string) {}
 
         getParam(): string {
             return `${this.element.trim()}[nempty]`;
@@ -93,14 +73,7 @@ export namespace Filters {
     }
 
     export class EqualsFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public value: string
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'EqualsFilter' is undefined `);
-            }
-        }
+        constructor(public element: string, public value: string) {}
 
         getParam(): string {
             return `${this.element.trim()}[eq]=${this.getParamValue()}`;
@@ -116,14 +89,7 @@ export namespace Filters {
     }
 
     export class NotEqualsFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public value: string
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'NotEqualsFilter' is undefined `);
-            }
-        }
+        constructor(public element: string, public value: string) {}
 
         getParam(): string {
             return `${this.element.trim()}[neq]=${this.getParamValue()}`;
@@ -139,14 +105,7 @@ export namespace Filters {
     }
 
     export class AllFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public values: string[]
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'AllFilter' is undefined `);
-            }
-        }
+        constructor(public element: string, public values: string[]) {}
 
         getParam(): string {
             return `${this.element.trim()}[all]=${this.getParamValue()}`;
@@ -157,19 +116,12 @@ export namespace Filters {
                 return defaultValue;
             }
 
-            return this.values.map(m => m.trim()).join(',');
+            return this.values.map((m) => m.trim()).join(',');
         }
     }
 
     export class AnyFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public values: string[]
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'AnyFilter' is undefined `);
-            }
-        }
+        constructor(public element: string, public values: string[]) {}
 
         getParam(): string {
             return `${this.element.trim()}[any]=${this.getParamValue()}`;
@@ -180,19 +132,12 @@ export namespace Filters {
                 return defaultValue;
             }
 
-            return this.values.map(m => m.trim()).join(',');
+            return this.values.map((m) => m.trim()).join(',');
         }
     }
 
     export class ContainsFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public values: string[]
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'ContainsFilter' is undefined `);
-            }
-        }
+        constructor(public element: string, public values: string[]) {}
 
         getParam(): string {
             return `${this.element.trim()}[contains]=${this.getParamValue()}`;
@@ -203,22 +148,14 @@ export namespace Filters {
                 return defaultValue;
             }
 
-            return this.values.map(m => m.trim()).join(',');
+            return this.values.map((m) => m.trim()).join(',');
         }
     }
 
     export class GreaterThanFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public value: string
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'GreaterThanFilter' is undefined `);
-            }
-        }
+        constructor(public element: string, public value: string) {}
 
         getParam(): string {
-
             return `${this.element.trim()}[gt]=${this.getParamValue()}`;
         }
 
@@ -232,17 +169,9 @@ export namespace Filters {
     }
 
     export class GreaterThanOrEqualFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public value: string
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'GreaterThanOrEqualFilter' is undefined `);
-            }
-        }
+        constructor(public element: string, public value: string) {}
 
         getParam(): string {
-
             return `${this.element.trim()}[gte]=${this.getParamValue()}`;
         }
 
@@ -256,14 +185,7 @@ export namespace Filters {
     }
 
     export class InFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public values: string[]
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'Infilter' is undefined`);
-            }
-        }
+        constructor(public element: string, public values: string[]) {}
 
         getParam(): string {
             return `${this.element.trim()}[in]=${this.getParamValue()}`;
@@ -274,22 +196,16 @@ export namespace Filters {
                 return defaultValue;
             }
 
-            return this.values.map(m => {
-                return m.trim();
-            }
-            ).join(',');
+            return this.values
+                .map((m) => {
+                    return m.trim();
+                })
+                .join(',');
         }
     }
 
     export class NotInFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public values: string[]
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'NotInFilter' is undefined`);
-            }
-        }
+        constructor(public element: string, public values: string[]) {}
 
         getParam(): string {
             return `${this.element.trim()}[nin]=${this.getParamValue()}`;
@@ -300,22 +216,16 @@ export namespace Filters {
                 return defaultValue;
             }
 
-            return this.values.map(m => {
-                return m.trim();
-            }
-            ).join(',');
+            return this.values
+                .map((m) => {
+                    return m.trim();
+                })
+                .join(',');
         }
     }
 
     export class LessThanFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public value: string
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'LessThanFilter' is undefined `);
-            }
-        }
+        constructor(public element: string, public value: string) {}
 
         getParam(): string {
             return `${this.element.trim()}[lt]=${this.getParamValue()}`;
@@ -330,17 +240,9 @@ export namespace Filters {
     }
 
     export class LessThanOrEqualFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public value: string
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'LessThanOrEqualFilter' is undefined `);
-            }
-        }
+        constructor(public element: string, public value: string) {}
 
         getParam(): string {
-
             return `${this.element.trim()}[lte]=${this.getParamValue()}`;
         }
 
@@ -354,19 +256,7 @@ export namespace Filters {
     }
 
     export class RangeFilter implements IQueryParameter {
-        constructor(
-            public element: string,
-            public lowerValue: number,
-            public higherValue: number
-        ) {
-            if (!this.element) {
-                throw Error(`Element specified in 'RangeFilter' is undefined `);
-            }
-
-            if (lowerValue > higherValue) {
-                throw Error(`'lowerValue' cannot be higher then 'higherValue' in 'RangeFilter'`);
-            }
-        }
+        constructor(public element: string, public lowerValue: number, public higherValue: number) {}
 
         getParam(): string {
             return `${this.element.trim()}[range]=${this.getParamValue()}`;

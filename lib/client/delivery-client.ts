@@ -1,18 +1,16 @@
 import { HttpService } from '@kentico/kontent-core';
 
 import { IDeliveryClientConfig } from '../config';
-import { ContentItem } from '../models';
-import { getParserAdapter } from '../parser/parser-adapter';
+import { IContentItem } from '../models';
 import {
     ElementQuery,
     ItemsFeedQuery,
-    MultipleItemQuery,
+    MultipleItemsQuery,
     MultipleTypeQuery,
     SingleItemQuery,
     SingleTypeQuery,
     TaxonomiesQuery,
     TaxonomyQuery,
-    ItemsFeedQueryAll,
     LanguagesQuery
 } from '../query';
 import { sdkInfo } from '../sdk-info.generated';
@@ -33,24 +31,10 @@ export class DeliveryClient implements IDeliveryClient {
             throw Error(`Delivery client configuration is not set`);
         }
 
-        this.mappingService = new MappingService(
-            config,
-            config.richTextParserAdapter ? config.richTextParserAdapter : getParserAdapter()
-        );
+        this.mappingService = new MappingService(config);
         this.queryService = new QueryService(
             config,
-            config.httpService
-                ? config.httpService
-                : new HttpService({
-                      requestInterceptor:
-                          config.httpInterceptors && config.httpInterceptors.requestInterceptor
-                              ? config.httpInterceptors.requestInterceptor
-                              : undefined,
-                      responseInterceptor:
-                          config.httpInterceptors && config.httpInterceptors.responseInterceptor
-                              ? config.httpInterceptors.responseInterceptor
-                              : undefined
-                  }),
+            config.httpService ? config.httpService : new HttpService(),
             {
                 host: sdkInfo.host,
                 name: sdkInfo.name,
@@ -85,30 +69,23 @@ export class DeliveryClient implements IDeliveryClient {
     /**
      * Gets query for multiple items
      */
-    items<TItem extends ContentItem>(): MultipleItemQuery<TItem> {
-        return new MultipleItemQuery<TItem>(this.config, this.queryService);
+    items<TContentItem extends IContentItem = IContentItem>(): MultipleItemsQuery<TContentItem> {
+        return new MultipleItemsQuery<TContentItem>(this.config, this.queryService);
     }
 
     /**
      * Gets query for single item
      * @param {string} codename - Codename of item to fetch
      */
-    item<TItem extends ContentItem>(codename: string): SingleItemQuery<TItem> {
-        return new SingleItemQuery<TItem>(this.config, this.queryService, codename);
+    item<TContentItem extends IContentItem = IContentItem>(codename: string): SingleItemQuery<TContentItem> {
+        return new SingleItemQuery<TContentItem>(this.config, this.queryService, codename);
     }
 
     /**
      * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent project.
      */
-    itemsFeed<TItem extends ContentItem>(): ItemsFeedQuery<TItem> {
-        return new ItemsFeedQuery<TItem>(this.config, this.queryService);
-    }
-
-    /**
-     * Gets query for all items feed. This may execute multiple HTTP calls depending on number of items in your Kontent project.
-     */
-    itemsFeedAll<TItem extends ContentItem>(): ItemsFeedQueryAll<TItem> {
-        return new ItemsFeedQueryAll<TItem>(this.config, this.queryService);
+    itemsFeed<TContentItem extends IContentItem = IContentItem>(): ItemsFeedQuery<TContentItem> {
+        return new ItemsFeedQuery<TContentItem>(this.config, this.queryService);
     }
 
     /**

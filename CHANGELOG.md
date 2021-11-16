@@ -2,6 +2,165 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0-11](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-10...v11.0.0-11) (2021-10-27)
+
+## [11.0.0-10](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-9...v11.0.0-10) (2021-10-27)
+
+
+### Features
+
+* updates readme, creates base rich text resolvers and uses function to create each and every available resolver ([1cf140c](https://github.com/Kentico/kontent-delivery-sdk-js/commit/1cf140ce98074d2e590e5eefad5fed7fac3afe39))
+
+## [11.0.0-9](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-8...v11.0.0-9) (2021-10-27)
+
+
+### Features
+
+* updates names rich text related async models ([231f4f6](https://github.com/Kentico/kontent-delivery-sdk-js/commit/231f4f684fe81982b1f5c8c5956dc55aae4fdbc5))
+
+## [11.0.0-8](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-7...v11.0.0-8) (2021-10-26)
+
+
+### Features
+
+* removes remaning usage of browser API in rich text resolver ([74d1922](https://github.com/Kentico/kontent-delivery-sdk-js/commit/74d1922451d4350778587b9f2a183c34dccfe87d))
+
+## [11.0.0-7](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-6...v11.0.0-7) (2021-10-26)
+
+
+### Bug Fixes
+
+* fixes object / json resolver result ([dc03d75](https://github.com/Kentico/kontent-delivery-sdk-js/commit/dc03d757b08c74187a17104f9ab5ee1451903ea0))
+
+## [11.0.0-6](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-5...v11.0.0-6) (2021-10-26)
+
+
+### Features
+
+* adds experimental json / object rich text resolvers, simplifies filter classes ([326dff6](https://github.com/Kentico/kontent-delivery-sdk-js/commit/326dff69ebf6e2ab8932f60048118527377f1d17))
+* refactors rich text processing by separating parser & rich text resolvers ([48b49da](https://github.com/Kentico/kontent-delivery-sdk-js/commit/48b49dac077ff91f89f5e959bb29b37f33909e5d))
+* separates parser from resolvers and makes resolvers independent on parser implementation, adds experimental json / object rich text element resolvers ([24082ec](https://github.com/Kentico/kontent-delivery-sdk-js/commit/24082ec9c1d8d1ff0a4ea6212c52f23ee015cd1b))
+* updates deps ([f3ccfb9](https://github.com/Kentico/kontent-delivery-sdk-js/commit/f3ccfb9f6af5f659c20f9d0825e404aa5b4bf0e3))
+
+## [11.0.0-5](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-4...v11.0.0-5) (2021-10-19)
+
+
+### Bug Fixes
+
+* fixes value type for LinkedItemsElement ([b6cfc8e](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b6cfc8e765ec90c475e87ba25ddc3c69c284f4b1))
+
+## [11.0.0-4](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-3...v11.0.0-4) (2021-10-14)
+
+
+### Features
+
+* removes log message when content item is not in response ([b60f36b](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b60f36b9b50cefbb2e7e5f8340c58143740698ee))
+* use null for instead of undefined for some response models ([ff27a93](https://github.com/Kentico/kontent-delivery-sdk-js/commit/ff27a9346b9d1dcd587c337d37f629eddf933855))
+
+
+### Bug Fixes
+
+* use null for response models ([53792f1](https://github.com/Kentico/kontent-delivery-sdk-js/commit/53792f1cf2edc205f7270bdd6c9d361681fd8676))
+
+## [11.0.0-3](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-2...v11.0.0-3) (2021-10-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* use "string" type for all "Date" properties to support more serialization scenarios
+
+### Features
+
+* updates deps, removes duplicate license ([035335f](https://github.com/Kentico/kontent-delivery-sdk-js/commit/035335f050782091932a70cab6a8ba4ceb76e990))
+* use "string" type for all "Date" properties to support more serialization scenarios ([909102f](https://github.com/Kentico/kontent-delivery-sdk-js/commit/909102fa8dc804a44d3480e166112232b98f2c39))
+
+## [11.0.0-2](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-1...v11.0.0-2) (2021-10-04)
+
+
+### Features
+
+* adds ability to disable mapping of content items in linked items & rich text elements ([f67661c](https://github.com/Kentico/kontent-delivery-sdk-js/commit/f67661c2cc36a1d19d42a4036ac8ee67c7fd365a))
+* adds came case, pascal case & snake case property name resolvers ([b422697](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b42269721a930a83442d5842b2c31076e8ef6a92))
+
+## [11.0.0-1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0-0...v11.0.0-1) (2021-10-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* makes rich text resolver generic, uninstalls unused packages, better organizes browser rich text parser code
+
+### Features
+
+* makes rich text resolver generic, uninstalls unused packages, better organizes browser rich text parser code ([29042b8](https://github.com/Kentico/kontent-delivery-sdk-js/commit/29042b8459c4ad5dedd357cc7a2f43c81da3bf3c))
+
+## [11.0.0-0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v10.4.1...v11.0.0-0) (2021-09-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* unifies contracts under a shared 'Contracts' namespace
+* unifies all response models under common 'Responses' namespace
+* converts image transformation enums (ImageFitModeEnum, ImageCompressionEnum, ImageFormatEnum) to types and removes the 'enum' suffix.
+* renames 'ImageUrlBuilder' to 'ImageTransformationUrlBuilder'
+* converts elements to types instead of interfaces (also removes the 'I' in the type names), adds 'createDeliveryClient' factory function, improves custom element sample
+* renames 'IKontentNetworkResponse' and 'IGroupedKontentNetworkResponse' interfaces to 'INetworkResponse' and 'IGroupedNetworkResponse'
+* removes query config from mapping service as its no longer necessary due to rich text resolver being separated
+* refactors rich text resolver, removes parse5 and default html resolver for node, creates new html resolver for use in browsers and export it with the library
+* removes 'itemCodenames' property from LinkedItemsElement because this data is already available in the value property
+* `globalQueryConfig` configuration option was renamed to `defaultQueryConfig`
+* removes _raw properties from content item & element to reduce the size of mapped response & to avoid data duplication
+* uses interface for all remaining models & responses
+* uses interfaces instead of classes for all responses
+* refactors element models by using interfaces instead of classes, changes the ElementResolver to resolve only value instead of the whole custom element
+* removes ItemResolver, refactors ContentItem from strongly types class to interface (removes ability to define resolvers on the class level)
+* moves elements to 'elements' property within the content item (they were on the content item previously), removes property mapping with reflect metadata, removes collision resolver
+* introduces new "IKontentNetworkResponse" model that wraps responses with network related data and separates response specific data for improved mapping of stored json data
+* introduces BaseListingQuery for all endpoint with pagination, removes itemsFeedAll method & query, refactors queries to improve their readability, adds missing filter methods, unifies query config and some other minor improvements & changes
+* renames withUrl query extension method to withCustomUrl
+* renames query extension method 'withParameter' to 'withCustomParameter'. Adds new 'withParameter' method which takes IQueryParameter object similarly as 'withParameters' does for array parameters
+* makes SortOrder type instead of enum
+* updates kontent-core, removes rxjs from repository in favor of Promises and async based approach
+* updates build process (puts all output to "dist" folder), consolidates tests, updates tsconfig
+
+### Features
+
+* `globalQueryConfig` configuration option was renamed to `defaultQueryConfig` ([8817105](https://github.com/Kentico/kontent-delivery-sdk-js/commit/881710530e4009defec3e7da9cc7763e18257a84))
+* adds 'createUrlBuilder' factory function ([54b5085](https://github.com/Kentico/kontent-delivery-sdk-js/commit/54b5085a8dc0748f088b0b4ba894e403bb79bf42))
+* adds 'withContinuationToken' extension method to all listing queries ([a28ddb3](https://github.com/Kentico/kontent-delivery-sdk-js/commit/a28ddb3e18162c8b80dabbf8967e64a23b40fbb1))
+* adds 'withHeader' query extension method, improves docs of some extension methods ([20b9334](https://github.com/Kentico/kontent-delivery-sdk-js/commit/20b9334f22c2186a1b7276e5dbffbce05140fb36))
+* adds ability to define number of pages to fetch in 'toAllPromise' method ([d5d8c2c](https://github.com/Kentico/kontent-delivery-sdk-js/commit/d5d8c2c2634d5d9f40718ab323184d6bf9c79ad7))
+* adds ability to map raw json data with 'map' query extension method ([dab3618](https://github.com/Kentico/kontent-delivery-sdk-js/commit/dab3618a542692d67be18d8380b4d917e827d01f))
+* adds network response tests ([0e8b690](https://github.com/Kentico/kontent-delivery-sdk-js/commit/0e8b6904af2b6205f6fb6426dabec9b6bf387539))
+* adds support for 'workflow_step' in content item system attributes (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/309) ([ad2d965](https://github.com/Kentico/kontent-delivery-sdk-js/commit/ad2d965dc55742209b0715efabb0ea96cbc51638))
+* adds support for async browser rich text resolver ([ece99b7](https://github.com/Kentico/kontent-delivery-sdk-js/commit/ece99b764013f6d6fd2663ae23eba68c4ad11c5e))
+* converts elements to types instead of interfaces (also removes the 'I' in the type names), adds 'createDeliveryClient' factory function, improves custom element sample ([2ccb97c](https://github.com/Kentico/kontent-delivery-sdk-js/commit/2ccb97cd2f952bf20509956bf63832c0d39dee35))
+* converts image transformation enums (ImageFitModeEnum, ImageCompressionEnum, ImageFormatEnum) to types and removes the 'enum' suffix. ([d44573a](https://github.com/Kentico/kontent-delivery-sdk-js/commit/d44573a472fce2baeadef25283a881e1b9ae094b))
+* improves typings of raw response data by providing contract types for each query ([be654f1](https://github.com/Kentico/kontent-delivery-sdk-js/commit/be654f186cf1e62e7de8160bcf6adc4e73b85b48))
+* introduces BaseListingQuery for all endpoint with pagination, removes itemsFeedAll method & query, refactors queries to improve their readability, adds missing filter methods, unifies query config and some other minor improvements & changes ([7c68b8f](https://github.com/Kentico/kontent-delivery-sdk-js/commit/7c68b8f910a1bf55c1ec6954c560d6e9f912c3c3))
+* introduces new "IKontentNetworkResponse" model that wraps responses with network related data and separates response specific data for improved mapping of stored json data ([ba4c265](https://github.com/Kentico/kontent-delivery-sdk-js/commit/ba4c2657e70ab205fb776463170f2a1ab8fe7455))
+* makes SortOrder type instead of enum ([1d61369](https://github.com/Kentico/kontent-delivery-sdk-js/commit/1d6136970b92f119c51612397a461603c0656a4c))
+* moves elements to 'elements' property within the content item (they were on the content item previously), removes property mapping with reflect metadata, removes collision resolver ([8f6ed55](https://github.com/Kentico/kontent-delivery-sdk-js/commit/8f6ed55eb6d716d09edefcf30756ffe582d579ea))
+* refactors element models by using interfaces instead of classes, changes the ElementResolver to resolve only value instead of the whole custom element ([c3fbd51](https://github.com/Kentico/kontent-delivery-sdk-js/commit/c3fbd51ccdba1ec15943f4ff31436696ef406d4f))
+* refactors internal use of headers (stores headers in a single location) ([9c0fe73](https://github.com/Kentico/kontent-delivery-sdk-js/commit/9c0fe73cbf09de13593096bfdadf82abbd5effcd))
+* refactors rich text resolver, removes parse5 and default html resolver for node, creates new html resolver for use in browsers and export it with the library ([04633a9](https://github.com/Kentico/kontent-delivery-sdk-js/commit/04633a94cbd1757166fc50450ee9ac0e529887ad))
+* removes _raw properties from content item & element to reduce the size of mapped response & to avoid data duplication ([5c4eb8c](https://github.com/Kentico/kontent-delivery-sdk-js/commit/5c4eb8cf6dd2c1d9f2d6dcb3401c8afdb02af8b7))
+* removes 'itemCodenames' property from LinkedItemsElement because this data is already available in the value property ([acefbe8](https://github.com/Kentico/kontent-delivery-sdk-js/commit/acefbe80bec23b788d659de827250d4fb0ac9a73))
+* removes ItemResolver, refactors ContentItem from strongly types class to interface (removes ability to define resolvers on the class level) ([039ed29](https://github.com/Kentico/kontent-delivery-sdk-js/commit/039ed29b43870f3e7ee949106d85c7c49fe03c53))
+* removes query config from mapping service as its no longer necessary due to rich text resolver being separated ([748b2f7](https://github.com/Kentico/kontent-delivery-sdk-js/commit/748b2f7c374e3e6c99a9d0d54c6dbd7dbcbe537b))
+* renames 'IKontentNetworkResponse' and 'IGroupedKontentNetworkResponse' interfaces to 'INetworkResponse' and 'IGroupedNetworkResponse' ([9000c14](https://github.com/Kentico/kontent-delivery-sdk-js/commit/9000c141c6185ee0adc57cf902f47dc46af7b6ec))
+* renames 'ImageUrlBuilder' to 'ImageTransformationUrlBuilder' ([8124cfe](https://github.com/Kentico/kontent-delivery-sdk-js/commit/8124cfe9ad62153832197883f053132b60a95b47))
+* renames query extension method 'withParameter' to 'withCustomParameter'. Adds new 'withParameter' method which takes IQueryParameter object similarly as 'withParameters' does for array parameters ([a518694](https://github.com/Kentico/kontent-delivery-sdk-js/commit/a51869401f33a471829f648f93bd773006c98814))
+* renames withUrl query extension method to withCustomUrl ([dbe6b77](https://github.com/Kentico/kontent-delivery-sdk-js/commit/dbe6b77efb9cf49f3ef26e57c59fc8fec8d9ce6b))
+* unifies all response models under common 'Responses' namespace ([ad28631](https://github.com/Kentico/kontent-delivery-sdk-js/commit/ad286313d80a2683fd9100c79def21e0269cf0e8))
+* unifies contracts under a shared 'Contracts' namespace ([41ddd98](https://github.com/Kentico/kontent-delivery-sdk-js/commit/41ddd98b31f4d54f90a7de97be8a0c96bd5ffd52))
+* updates build process (puts all output to "dist" folder), consolidates tests, updates tsconfig ([c2946f7](https://github.com/Kentico/kontent-delivery-sdk-js/commit/c2946f7ce0d94d9b6365a42f5c04ea7e5c01126e))
+* updates deps ([a18d770](https://github.com/Kentico/kontent-delivery-sdk-js/commit/a18d770c077620305be5b9b46254baf38a5ab42b))
+* updates deps ([320d2df](https://github.com/Kentico/kontent-delivery-sdk-js/commit/320d2df3c00fcf71a76bb43fa4859cb13ed374af))
+* updates deps ([67da9df](https://github.com/Kentico/kontent-delivery-sdk-js/commit/67da9dfb0184797909e0c78022653cf32a5a0951))
+* updates kontent-core, removes rxjs from repository in favor of Promises and async based approach ([b213a7d](https://github.com/Kentico/kontent-delivery-sdk-js/commit/b213a7d2a520c3c9f395ce909d71f15802fc6581))
+* uses interface for all remaining models & responses ([ad7b18d](https://github.com/Kentico/kontent-delivery-sdk-js/commit/ad7b18dcaa52b5fcdb9d7392da8e246567615796))
+* uses interfaces instead of classes for all responses ([2cd8cb2](https://github.com/Kentico/kontent-delivery-sdk-js/commit/2cd8cb2684e54a7ad14292865b2adf5cf92c40df))
+
 ### [10.4.1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v10.4.0...v10.4.1) (2021-03-31)
 
 ## [10.4.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v10.3.0...v10.4.0) (2021-03-18)

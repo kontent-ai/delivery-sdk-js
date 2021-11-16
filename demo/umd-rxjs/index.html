@@ -20,13 +20,16 @@
 
 		deliveryClient.items()
 			.type('movie')
-			.toObservable()
+			.toPromise()
 			.pipe(
 				Rx.operators.map(response => {
 					console.log(response);
 				})
 			)
-			.subscribe();
+			.toPromise()
+			.then(response => {
+				console.log(response);
+			});
 	</script>
 
 	<h1>See console</h1>

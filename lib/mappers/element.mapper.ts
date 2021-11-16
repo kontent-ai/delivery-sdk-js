@@ -1,67 +1,56 @@
 import { enumHelper } from '@kentico/kontent-core';
 
-import { defaultCollissionResolver, IDeliveryClientConfig } from '../config';
-import { ElementContracts, ItemContracts } from '../data-contracts';
-import { ElementDecorators, ElementModels, Elements, ElementType } from '../elements';
+import { IDeliveryClientConfig } from '../config';
+import { Contracts } from '../contracts';
+import { ElementModels, Elements, ElementType } from '../elements';
 import {
-    ElementCollisionResolver,
     IContentItem,
     IContentItemsContainer,
-    IItemQueryConfig,
     IMapElementsResult,
-    ItemUrlSlugResolver,
-    Link,
-    RichTextImage,
+    ILink,
+    IRichTextImage,
+    IContentItemWithRawDataContainer,
+    IContentItemWithRawElements
 } from '../models';
-import { IRichTextHtmlParser } from '../parser/parse-models';
-import { richTextResolver, stronglyTypedResolver, urlSlugResolver } from '../resolvers';
 
 export class ElementMapper {
-    private readonly defaultLinkedItemWrapperTag: string = 'p';
-    private readonly defaultLinkedItemWrapperClasses: string[] = ['kc-linked-item-wrapper'];
+    constructor(private readonly config: IDeliveryClientConfig) {}
 
-    constructor(
-        private readonly config: IDeliveryClientConfig,
-        private readonly richTextHtmlParser: IRichTextHtmlParser
-    ) {}
-
-    /**
-     * Maps all element in given content item and returns strongly typed content item based on the resolver specified
-     * in DeliveryClientConfig
-     */
-    mapElements<TItem extends IContentItem>(data: {
-        item: ItemContracts.IContentItemContract;
-        queryConfig: IItemQueryConfig;
+    mapElements<TContentItem extends IContentItem = IContentItem>(data: {
+        dataToMap: IContentItemWithRawElements;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
-        preparedItems: IContentItemsContainer;
-    }): IMapElementsResult<TItem> | undefined {
-        // return processed item if possible (to avoid infinite recursion)
-        const processedItem = data.processedItems[data.item.system.codename];
+        preparedItems: IContentItemWithRawDataContainer;
+    }): IMapElementsResult<TContentItem> | undefined {
+        // return processed item to avoid infinite recursion
+        const processedItem = data.processedItems[data.dataToMap.item.system.codename] as TContentItem | undefined;
         if (processedItem) {
-            // item was already resolved, return it
+            // item was already resolved
             return {
-                item: processedItem as TItem,
+                item: processedItem,
                 processedItems: data.processedItems,
                 preparedItems: data.preparedItems,
                 processingStartedForCodenames: data.processingStartedForCodenames
             };
         }
 
-        const elementCodenames = Object.getOwnPropertyNames(data.item.elements);
-        const itemInstance = data.preparedItems[data.item.system.codename] as TItem | undefined;
+        const preparedItem = data.preparedItems[data.dataToMap.item.system.codename];
+        const itemInstance = preparedItem?.item as TContentItem;
 
         if (!itemInstance) {
-            // item is not present in response, no need to do any mapping
+            // item is not present in response
             return undefined;
         }
 
-        elementCodenames.forEach(elementCodename => {
+        // mapp elements
+        const elementCodenames = Object.getOwnPropertyNames(data.dataToMap.rawItem.elements);
+
+        for (const elementCodename of elementCodenames) {
             const elementMap = this.resolveElementMap(itemInstance, elementCodename);
             const elementWrapper: ElementModels.IElementWrapper = {
-                contentItemSystem: data.item.system,
-                rawElement: data.item.elements[elementCodename],
-                propertyName: elementMap.resolvedName
+                system: data.dataToMap.item.system,
+                rawElement: data.dataToMap.rawItem.elements[elementCodename],
+                element: elementMap.resolvedName
             };
             if (elementMap.shouldMapElement) {
                 const mappedElement = this.mapElement({
@@ -69,13 +58,13 @@ export class ElementMapper {
                     item: itemInstance,
                     preparedItems: data.preparedItems,
                     processingStartedForCodenames: data.processingStartedForCodenames,
-                    processedItems: data.processedItems,
-                    queryConfig: data.queryConfig
+                    processedItems: data.processedItems
                 });
-                // set mapped element to item instance
-                (itemInstance as IContentItem)[elementMap.resolvedName] = mappedElement;
+
+                // set mapped elements
+                itemInstance.elements[elementMap.resolvedName] = mappedElement;
             }
-        });
+        }
 
         return {
             item: itemInstance,
@@ -88,10 +77,9 @@ export class ElementMapper {
     private mapElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
         item: IContentItem;
-        queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
-        preparedItems: IContentItemsContainer;
+        preparedItems: IContentItemWithRawDataContainer;
     }): ElementModels.IElement<any> {
         const elementType = enumHelper.getEnumFromValue<ElementType>(ElementType, data.elementWrapper.rawElement.type);
         if (elementType) {
@@ -100,8 +88,7 @@ export class ElementMapper {
                     elementWrapper: data.elementWrapper,
                     preparedItems: data.preparedItems,
                     processingStartedForCodenames: data.processingStartedForCodenames,
-                    processedItems: data.processedItems,
-                    queryConfig: data.queryConfig
+                    processedItems: data.processedItems
                 });
             }
 
@@ -124,10 +111,9 @@ export class ElementMapper {
             }
 
             if (elementType === ElementType.RichText) {
+                // add to parent items
                 return this.mapRichTextElement(
-                    data.item,
                     data.elementWrapper,
-                    data.queryConfig,
                     data.processedItems,
                     data.processingStartedForCodenames,
                     data.preparedItems
@@ -135,7 +121,7 @@ export class ElementMapper {
             }
 
             if (elementType === ElementType.UrlSlug) {
-                return this.mapUrlSlugElement(data.elementWrapper, data.item, data.queryConfig);
+                return this.mapUrlSlugElement(data.elementWrapper);
             }
 
             if (elementType === ElementType.Taxonomy) {
@@ -153,238 +139,163 @@ export class ElementMapper {
     }
 
     private mapRichTextElement(
-        item: IContentItem,
         elementWrapper: ElementModels.IElementWrapper,
-        queryConfig: IItemQueryConfig,
         processedItems: IContentItemsContainer,
         processingStartedForCodenames: string[],
-        preparedItems: IContentItemsContainer
+        preparedItems: IContentItemWithRawDataContainer
     ): Elements.RichTextElement {
         // get all linked items nested in rich text
         const richTextLinkedItems: IContentItem[] = [];
 
-        const rawElement = elementWrapper.rawElement as ElementContracts.IRichTextElementContract;
+        const rawElement = elementWrapper.rawElement as Contracts.IRichTextElementContract;
 
-        if (rawElement.modular_content) {
-            if (Array.isArray(rawElement.modular_content)) {
-                rawElement.modular_content.forEach(codename => {
-                    // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
-                    const preparedItem = preparedItems[codename];
+        for (const codename of rawElement.modular_content) {
+            // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
+            const preparedData = preparedItems[codename];
 
-                    // first try to get existing item
-                    const existingLinkedItem = this.getOrSaveLinkedItemForElement(
-                        codename,
-                        rawElement,
-                        queryConfig,
-                        processedItems,
-                        processingStartedForCodenames,
-                        preparedItems
-                    );
+            // first try to get existing item
+            if (this.canMapLinkedItems()) {
+                const existingLinkedItem = this.getOrSaveLinkedItemForElement(
+                    codename,
+                    rawElement,
+                    processedItems,
+                    processingStartedForCodenames,
+                    preparedItems
+                );
 
-                    if (existingLinkedItem) {
-                        // item was found, add it to linked items
-                        richTextLinkedItems.push(existingLinkedItem);
-                    } else {
-                        let throwErrorForMissingLinkedItems = false;
+                if (existingLinkedItem) {
+                    // item was found, add it to linked items
+                    richTextLinkedItems.push(existingLinkedItem);
+                } else {
+                    // item was not found or not yet resolved
+                    if (preparedData) {
+                        const mappedLinkedItemResult = this.mapElements({
+                            dataToMap: preparedData,
+                            preparedItems: preparedItems,
+                            processingStartedForCodenames: processingStartedForCodenames,
+                            processedItems: processedItems
+                        });
 
-                        // check if errors should be thrown for missing linked items
-                        if (
-                            queryConfig.throwErrorForMissingLinkedItems === false ||
-                            queryConfig.throwErrorForMissingLinkedItems === true
-                        ) {
-                            // variable is a boolean
-                            throwErrorForMissingLinkedItems = queryConfig.throwErrorForMissingLinkedItems;
-                        }
-
-                        // throw error if raw item is not available and errors are not skipped
-                        if (!preparedItem) {
-                            const msg = `Mapping RichTextElement element '${rawElement.name}' failed because referenced linked item with codename '${codename}' could not be found in Delivery response.
-                            Increasing 'depth' parameter may solve this issue as it will include nested items. Alternatively you may disable 'throwErrorForMissingLinkedItems' in your query`;
-
-                            if (throwErrorForMissingLinkedItems) {
-                                throw Error(msg);
-                            }
-                        }
-
-                        // item was not found or not yet resolved
-                        if (preparedItem) {
-                            const mappedLinkedItemResult = this.mapElements({
-                                item: preparedItem._raw,
-                                preparedItems: preparedItems,
-                                processingStartedForCodenames: processingStartedForCodenames,
-                                processedItems: processedItems,
-                                queryConfig: queryConfig
-                            });
-
-                            // add mapped linked item to result
-                            if (mappedLinkedItemResult) {
-                                richTextLinkedItems.push(mappedLinkedItemResult.item);
-                            }
+                        // add mapped linked item to result
+                        if (mappedLinkedItemResult) {
+                            richTextLinkedItems.push(mappedLinkedItemResult.item);
                         }
                     }
-                });
+                }
             }
         }
 
         // extract and map links & images
-        const links: Link[] = this.mapRichTextLinks(rawElement.links);
-        const images: RichTextImage[] = this.mapRichTextImages(rawElement.images);
+        const links: ILink[] = this.mapRichTextLinks(rawElement.links);
+        const images: IRichTextImage[] = this.mapRichTextImages(rawElement.images);
 
-        return new Elements.RichTextElement(elementWrapper, rawElement.modular_content, {
+        return {
+            images: images,
+            linkedItemCodenames: rawElement.modular_content,
             links: links,
-            resolveRichTextFunc: () =>
-                richTextResolver.resolveData(item.system.codename, rawElement.value, elementWrapper.propertyName, {
-                    enableAdvancedLogging: this.config.isDeveloperMode ? this.config.isDeveloperMode : false,
-                    getGlobalUrlSlugResolver: type => this.getGlobalUrlSlugResolverForType(type),
-                    images: images,
-                    richTextHtmlParser: this.richTextHtmlParser,
-                    getLinkedItem: codename =>
-                        this.getOrSaveLinkedItemForElement(
-                            codename,
-                            rawElement,
-                            queryConfig,
-                            processedItems,
-                            processingStartedForCodenames,
-                            preparedItems
-                        ),
-                    links: links,
-                    queryConfig: queryConfig,
-                    linkedItemWrapperTag:
-                        this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperTag
-                            ? this.config.linkedItemResolver.linkedItemWrapperTag
-                            : this.defaultLinkedItemWrapperTag,
-                    linkedItemWrapperClasses:
-                        this.config.linkedItemResolver && this.config.linkedItemResolver.linkedItemWrapperClasses
-                            ? this.config.linkedItemResolver.linkedItemWrapperClasses
-                            : this.defaultLinkedItemWrapperClasses
-                }),
-            images: images
-        });
+            name: rawElement.name,
+            type: ElementType.RichText,
+            value: rawElement.value
+        };
     }
 
     private mapDateTimeElement(elementWrapper: ElementModels.IElementWrapper): Elements.DateTimeElement {
-        return new Elements.DateTimeElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.DateTime, () => elementWrapper.rawElement.value);
     }
 
     private mapMultipleChoiceElement(elementWrapper: ElementModels.IElementWrapper): Elements.MultipleChoiceElement {
-        return new Elements.MultipleChoiceElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.MultipleChoice, () => elementWrapper.rawElement.value);
     }
 
     private mapNumberElement(elementWrapper: ElementModels.IElementWrapper): Elements.NumberElement {
-        return new Elements.NumberElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.Number, () => {
+            if (elementWrapper.rawElement.value === 0) {
+                return 0;
+            } else if (elementWrapper.rawElement.value) {
+                return +elementWrapper.rawElement.value;
+            }
+            return null;
+        });
     }
 
     private mapTextElement(elementWrapper: ElementModels.IElementWrapper): Elements.TextElement {
-        return new Elements.TextElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.Text, () => elementWrapper.rawElement.value);
     }
 
     private mapAssetsElement(elementWrapper: ElementModels.IElementWrapper): Elements.AssetsElement {
-        return new Elements.AssetsElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.Asset, () => elementWrapper.rawElement.value);
     }
 
     private mapTaxonomyElement(elementWrapper: ElementModels.IElementWrapper): Elements.TaxonomyElement {
-        return new Elements.TaxonomyElement(elementWrapper);
+        return {
+            ...this.buildElement(elementWrapper, ElementType.Taxonomy, () => elementWrapper.rawElement.value),
+            taxonomyGroup: elementWrapper.rawElement.taxonomy_group
+        };
     }
 
     private mapUnknowElement(elementWrapper: ElementModels.IElementWrapper): Elements.UnknownElement {
-        return new Elements.UnknownElement(elementWrapper);
+        return this.buildElement(elementWrapper, ElementType.Unknown, () => elementWrapper.rawElement.value);
     }
 
     private mapCustomElement(
         elementWrapper: ElementModels.IElementWrapper
-    ): Elements.DefaultCustomElement | ElementModels.IElement<string> {
+    ): Elements.CustomElement | ElementModels.IElement<string> {
         // try to find element resolver
         if (this.config.elementResolver) {
-            const customElementClass = this.config.elementResolver(elementWrapper);
+            const elementResolverValue = this.config.elementResolver(elementWrapper);
 
-            if (customElementClass) {
-                return customElementClass;
+            if (elementResolverValue) {
+                return this.buildElement(elementWrapper, ElementType.Custom, () => elementResolverValue);
             }
         }
-        return new Elements.DefaultCustomElement(elementWrapper);
+
+        return this.buildElement(elementWrapper, ElementType.Custom, () => elementWrapper.rawElement.value);
     }
 
-    private mapUrlSlugElement(
-        elementWrapper: ElementModels.IElementWrapper,
-        item: IContentItem,
-        queryConfig: IItemQueryConfig
-    ): Elements.UrlSlugElement {
-        const resolver = this.getUrlSlugResolverForElement(item, elementWrapper, queryConfig);
-        return new Elements.UrlSlugElement(elementWrapper, {
-            resolveLinkFunc: () =>
-                urlSlugResolver.resolveUrl({
-                    elementName: elementWrapper.propertyName,
-                    elementValue: elementWrapper.rawElement.value,
-                    item: item,
-                    enableAdvancedLogging: this.config.isDeveloperMode ? this.config.isDeveloperMode : false,
-                    resolver: resolver
-                }).url || ''
-        });
+    private mapUrlSlugElement(elementWrapper: ElementModels.IElementWrapper): Elements.UrlSlugElement {
+        return this.buildElement(elementWrapper, ElementType.UrlSlug, () => elementWrapper.rawElement.value);
     }
 
     private mapLinkedItemsElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
-        queryConfig: IItemQueryConfig;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];
-        preparedItems: IContentItemsContainer;
-    }): Elements.LinkedItemsElement<IContentItem> {
+        preparedItems: IContentItemWithRawDataContainer;
+    }): Elements.LinkedItemsElement<any> {
         // prepare linked items
         const linkedItems: IContentItem[] = [];
 
         // value = array of item codenames
         const linkedItemCodenames = data.elementWrapper.rawElement.value as string[];
-        linkedItemCodenames.forEach(codename => {
-            const linkedItem = this.getOrSaveLinkedItemForElement(
-                codename,
-                data.elementWrapper.rawElement,
-                data.queryConfig,
-                data.processedItems,
-                data.processingStartedForCodenames,
-                data.preparedItems
-            );
-            if (linkedItem) {
-                // add item to result
-                linkedItems.push(linkedItem);
-            } else {
-                // item was not found
-                if (this.config.isDeveloperMode) {
-                    // tslint:disable-next-line:max-line-length
-                    console.warn(
-                        `Linked item with codename '${codename}' in linked items element '${data.elementWrapper.rawElement.name}' of '${data.elementWrapper.rawElement.type}' type could not be found. If you require this item, consider increasing 'depth' of your query. This warning can be turned off by disabling 'enableAdvancedLogging' option.`
-                    );
+
+        for (const codename of linkedItemCodenames) {
+            if (this.canMapLinkedItems()) {
+                const linkedItem = this.getOrSaveLinkedItemForElement(
+                    codename,
+                    data.elementWrapper.rawElement,
+                    data.processedItems,
+                    data.processingStartedForCodenames,
+                    data.preparedItems
+                );
+                if (linkedItem) {
+                    // add item to result
+                    linkedItems.push(linkedItem);
                 }
             }
-        });
-
-        return new Elements.LinkedItemsElement(data.elementWrapper, linkedItems);
-    }
-
-    private getUrlSlugResolverForElement(
-        item: IContentItem,
-        elementWrapper: ElementModels.IElementWrapper,
-        queryConfig: IItemQueryConfig
-    ): ItemUrlSlugResolver {
-        // query `urlSlugResolver` has priority over global resolver
-        if (queryConfig.urlSlugResolver) {
-            return queryConfig.urlSlugResolver;
         }
 
-        if (item._config && item._config.urlSlugResolver) {
-            return item._config.urlSlugResolver;
-        }
-
-        // resolve default link value
-        return () => elementWrapper.rawElement.value;
+        return {
+            ...this.buildElement(data.elementWrapper, ElementType.ModularContent, () => linkedItemCodenames),
+            linkedItems: linkedItems
+        };
     }
 
     private getOrSaveLinkedItemForElement(
         codename: string,
-        element: ElementContracts.IElementContract,
-        queryConfig: IItemQueryConfig,
+        element: Contracts.IElementContract,
         processedItems: IContentItemsContainer,
         mappingStartedForCodenames: string[],
-        preparedItems: IContentItemsContainer
+        preparedItems: IContentItemWithRawDataContainer
     ): IContentItem | undefined {
         // first check if item was already resolved and return it if it was
         const processedItem = processedItems[codename];
@@ -397,24 +308,13 @@ export class ElementMapper {
         const preparedItem = preparedItems[codename];
 
         if (mappingStartedForCodenames.includes(codename)) {
-            return preparedItem;
+            return preparedItem?.item;
         }
 
         mappingStartedForCodenames.push(codename);
 
-        // by default errors are not thrown
-        const throwErrorForMissingLinkedItems: boolean =
-            queryConfig.throwErrorForMissingLinkedItems === true ? true : false;
-
         // throw error if item is not in response and errors are not skipped
         if (!preparedItem) {
-            if (throwErrorForMissingLinkedItems) {
-                throw Error(`Linked item with codename '${codename}' could not be found in Delivery response.
-                This linked item was requested by '${element.name}' element of '${element.type}'.
-                Error can usually be solved by increasing 'Depth' parameter of your query.
-                Alternatively, you may prevent this error by disabling 'throwErrorForMissingLinkedItems' in query configuration.`);
-            }
-
             return undefined;
         }
 
@@ -422,11 +322,10 @@ export class ElementMapper {
 
         // original resolving if item is still undefined
         const mappedLinkedItemResult = this.mapElements({
-            item: preparedItem._raw,
+            dataToMap: preparedItem,
             preparedItems: preparedItems,
             processingStartedForCodenames: mappingStartedForCodenames,
-            processedItems: processedItems,
-            queryConfig: queryConfig
+            processedItems: processedItems
         });
 
         if (mappedLinkedItemResult) {
@@ -439,38 +338,34 @@ export class ElementMapper {
         return mappedLinkedItem;
     }
 
-    private mapRichTextLinks(linksJson: ElementContracts.IRichTextElementLinkWrapperContract): Link[] {
-        const links: Link[] = [];
+    private mapRichTextLinks(linksJson: Contracts.IRichTextElementLinkWrapperContract): ILink[] {
+        const links: ILink[] = [];
 
         for (const linkId of Object.keys(linksJson)) {
             const linkRaw = linksJson[linkId];
-            links.push(
-                new Link({
-                    codename: linkRaw.codename,
-                    linkId: linkId,
-                    urlSlug: linkRaw.url_slug,
-                    type: linkRaw.type
-                })
-            );
+            links.push({
+                codename: linkRaw.codename,
+                linkId: linkId,
+                urlSlug: linkRaw.url_slug,
+                type: linkRaw.type
+            });
         }
 
         return links;
     }
 
-    private mapRichTextImages(imagesJson: ElementContracts.IRichTextElementImageWrapperContract): RichTextImage[] {
-        const images: RichTextImage[] = [];
+    private mapRichTextImages(imagesJson: Contracts.IRichTextElementImageWrapperContract): IRichTextImage[] {
+        const images: IRichTextImage[] = [];
 
         for (const imageId of Object.keys(imagesJson)) {
             const imageRaw = imagesJson[imageId];
-            images.push(
-                new RichTextImage({
-                    description: imageRaw.description,
-                    imageId: imageRaw.image_id,
-                    url: imageRaw.url,
-                    height: imageRaw.height,
-                    width: imageRaw.width
-                })
-            );
+            images.push({
+                description: imageRaw.description ?? null,
+                imageId: imageRaw.image_id,
+                url: imageRaw.url,
+                height: imageRaw.height ?? null,
+                width: imageRaw.width ?? null
+            });
         }
 
         return images;
@@ -485,37 +380,13 @@ export class ElementMapper {
     } {
         let resolvedElementPropertyName: string | undefined = undefined;
 
-        // resolve using property resolver
-        if (item._config && item._config.propertyResolver) {
-            resolvedElementPropertyName = item._config.propertyResolver(originalElementCodename);
-        }
-
-        // if property hasn't been resolved, try getting name using decorator
-        if (resolvedElementPropertyName === originalElementCodename || !resolvedElementPropertyName) {
-            resolvedElementPropertyName = ElementDecorators.getPropertyName(item, originalElementCodename);
+        if (this.config.propertyNameResolver) {
+            resolvedElementPropertyName = this.config.propertyNameResolver(item.system.type, originalElementCodename);
         }
 
         if (!resolvedElementPropertyName) {
             // use original element codename
             resolvedElementPropertyName = originalElementCodename;
-        }
-
-        // check for collissions
-        if (this.collidesWithAnotherProperty(resolvedElementPropertyName, item)) {
-            // try to resolve collission using dedicated resolver
-            const collisionResolver = this.getCollisionResolver();
-            resolvedElementPropertyName = collisionResolver(resolvedElementPropertyName);
-
-            // verify again if the new element collides
-            if (this.collidesWithAnotherProperty(resolvedElementPropertyName, item)) {
-                console.warn(
-                    `Element '${resolvedElementPropertyName}' collides with another element in same type. Element mapping is skipped. Source item: '${item.system.codename}'`
-                );
-                return {
-                    shouldMapElement: false,
-                    resolvedName: ''
-                };
-            }
         }
 
         return {
@@ -524,19 +395,22 @@ export class ElementMapper {
         };
     }
 
-    private getGlobalUrlSlugResolverForType(type: string): ItemUrlSlugResolver | undefined {
-        const item = stronglyTypedResolver.createEmptyItemInstanceOfType(type, this.config.typeResolvers || []);
-        if (item && item._config && item._config.urlSlugResolver) {
-            return item._config.urlSlugResolver;
+    private buildElement<TValue>(
+        elementWrapper: ElementModels.IElementWrapper,
+        type: ElementType,
+        valueFactory: () => TValue
+    ): ElementModels.IElement<TValue> {
+        return {
+            name: elementWrapper.rawElement.name,
+            type: type,
+            value: valueFactory()
+        };
+    }
+
+    private canMapLinkedItems(): boolean {
+        if (!this.config.linkedItemsReferenceHandler) {
+            return true;
         }
-        return undefined;
-    }
-
-    private getCollisionResolver(): ElementCollisionResolver {
-        return this.config.collisionResolver ? this.config.collisionResolver : defaultCollissionResolver;
-    }
-
-    private collidesWithAnotherProperty(elementName: string, item: IContentItem): boolean {
-        return item[elementName] ? true : false;
+        return this.config.linkedItemsReferenceHandler === 'map';
     }
 }

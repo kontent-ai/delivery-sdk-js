@@ -1,9 +1,7 @@
 import { IHeader, IHttpService, IRetryStrategyOptions } from '@kentico/kontent-core';
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { ElementResolver } from '../elements';
-import { ElementCollisionResolver, IProxyUrlData, IQueryConfig, TypeResolver } from '../models';
-import { IRichTextHtmlParser } from '../parser';
+import { LinkedItemsReferenceHandler, IProxyUrlData, IQueryConfig, PropertyNameResolver } from '../models';
 
 export interface IDeliveryClientProxyConfig {
     /**
@@ -19,48 +17,38 @@ export interface IDeliveryClientProxyConfig {
     advancedProxyUrlResolver?: (data: IProxyUrlData) => string;
 
     /**
-    * Base url used for all requests. Defaults to 'deliver.kontent.ai'
-    */
+     * Base url used for all requests. Defaults to 'deliver.kontent.ai'
+     */
     baseUrl?: string;
 }
 
 export interface IDeliveryClientConfig {
-
     /**
      * ProjectId of your Kentico Kontent project
      */
     projectId: string;
 
     /**
-     * Type resolver is used to create an instance of class based on content item's type. For example,
-     * if content item has 'article' content type (system.type), you can map it to 'Article' class with
-     * properties, methods and global content item configuration.
-     * If not set, content item will use default 'ContentItem' class
+     * Resolver used to rename content item elements. Can be used to e.g. transform underscored element codenames to camelCase format
      */
-    typeResolvers?: TypeResolver[];
+    propertyNameResolver?: PropertyNameResolver;
 
     /**
-    * Preview API key
-    */
+     * Preview API key
+     */
     previewApiKey?: string;
 
     /**
-    * Secure API key
-    * Important: Use secured API only when running on Node.JS server, otherwise
-    * your key will be visible in browsers when making requests.
-    */
+     * Secure API key
+     * Important: Use secured API only when running on Node.JS server, otherwise
+     * your key would be exposed in browsers
+     */
     secureApiKey?: string;
 
     /**
      * Resolver used for using custom models for custom elements.
      */
     elementResolver?: ElementResolver;
-
-    /**
-    * When enabled, additional information are logged in console for certain issues.
-    * Disable in production environments.
-    */
-    isDeveloperMode?: boolean;
 
     /**
      * Proxy configuration
@@ -80,29 +68,7 @@ export interface IDeliveryClientConfig {
     /**
      * Can be used to inject custom Http service to perform requests
      */
-    httpService?: IHttpService;
-
-    /**
-     * Global settings for linked item resolver
-     */
-    linkedItemResolver?: {
-        /**
-         * Element used for wrapping resolved linked item
-         */
-        linkedItemWrapperTag?: string,
-        /**
-         * CSS classes applied to wrapper
-         */
-        linkedItemWrapperClasses?: string[]
-    };
-
-    /**
-     * Interceptors of HTTP requests. This may be used to alter request before its sent or response after its received.
-     */
-    httpInterceptors?: {
-        requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig;
-        responseInterceptor?: (config: AxiosResponse) => AxiosResponse;
-    };
+    httpService?: IHttpService<any>;
 
     /**
      * Extra headers added to each http request
@@ -110,24 +76,13 @@ export interface IDeliveryClientConfig {
     globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
 
     /**
-     * Resolver used when content item properties would overlap. Collision resolver can be used to change property name to avoid conflicts.
-     */
-    collisionResolver?: ElementCollisionResolver;
-
-    /**
-     * Array of status codes that should be retried when request fails. Defaults [500].
-     */
-    retryStatusCodes?: number[];
-
-    /**
      * Default query configuration. Can be overriden by individual queries.
      */
-    globalQueryConfig?: IQueryConfig;
+    defaultQueryConfig?: IQueryConfig;
 
     /**
-     * Rich text parser adapter. When not set, default afapter for either browse or node.js is used
+     * Indicates how linked item references are handled (can be used to disable refence mapping when you encounter an issue
+     * with circular refences)
      */
-    richTextParserAdapter?: IRichTextHtmlParser;
-
+    linkedItemsReferenceHandler?: LinkedItemsReferenceHandler;
 }
-

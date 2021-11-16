@@ -1,20 +1,19 @@
-import { ElementContracts, IElementOptionContract, TypeContracts } from '../data-contracts';
-import { ContentType, ContentTypeSystemAttributes, GenericElement, GenericElementOption } from '../models';
+import { Contracts } from '../contracts';
+import { IContentType, IContentTypeSystemAttributes, IGenericElement } from '../models';
 
 export class TypeMapper {
-
-    mapSingleType(response: TypeContracts.IViewContentTypeContract): ContentType {
+    mapSingleType(response: Contracts.IViewContentTypeContract): IContentType {
         return this.mapType(response);
     }
 
-    mapMultipleTypes(response: TypeContracts.IListContentTypeContract): ContentType[] {
+    mapMultipleTypes(response: Contracts.IListContentTypeContract): IContentType[] {
         const that = this;
         return response.types.map(function (type) {
             return that.mapType(type);
         });
     }
 
-    private mapType(type: TypeContracts.IContentTypeContract): ContentType {
+    private mapType(type: Contracts.IContentTypeContract): IContentType {
         if (!type) {
             throw Error(`Cannot map type`);
         }
@@ -23,18 +22,18 @@ export class TypeMapper {
             throw Error(`Cannot map type elements`);
         }
 
-        const typeSystem = new ContentTypeSystemAttributes({
+        const system: IContentTypeSystemAttributes = {
             codename: type.system.codename,
             id: type.system.id,
             name: type.system.name,
             lastModified: type.system.last_modified
-        });
+        };
 
-        const elements: GenericElement[] = [];
+        const elements: IGenericElement[] = [];
 
         const elementNames = Object.getOwnPropertyNames(type.elements);
         elementNames.forEach((elementName: string) => {
-            const typeElement = type.elements[elementName] as ElementContracts.IViewContentTypeElementContract;
+            const typeElement = type.elements[elementName] as Contracts.IViewContentTypeElementContract;
 
             if (!typeElement) {
                 throw Error(`Cannot find element '${elementName}' on type '${type}'`);
@@ -45,7 +44,7 @@ export class TypeMapper {
 
             // extra properties for certain element types
             const taxonomyGroup: string | undefined = typeElement.taxonomy_group;
-            const options: IElementOptionContract[] = [];
+            const options: Contracts.IElementOptionContract[] = [];
 
             // some elements can contain options
             const rawOptions = typeElement.options;
@@ -54,23 +53,26 @@ export class TypeMapper {
                     throw Error(`Content type 'options' property has to be an array`);
                 }
 
-                rawOptions.forEach(rawOption => {
-                    options.push(new GenericElementOption(rawOption.name, rawOption.codename));
+                rawOptions.forEach((rawOption) => {
+                    options.push({
+                        codename: rawOption.codename,
+                        name: rawOption.name
+                    });
                 });
             }
 
-            elements.push(new GenericElement({
+            elements.push({
                 codename: elementCodename,
                 taxonomyGroup: taxonomyGroup,
                 options: options,
                 name: typeElement.name,
                 type: typeElement.type
-            }));
+            });
         });
-        return new ContentType({
-            system: typeSystem,
-            elements: elements
-        });
-    }
 
+        return {
+            elements: elements,
+            system: system
+        };
+    }
 }

@@ -1,11 +1,18 @@
-import { Observable } from 'rxjs';
-
+import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { TaxonomyResponses } from '../../models';
+import { IDeliveryNetworkResponse, ITaxonomyQueryConfig, Responses } from '../../models';
 import { QueryService } from '../../services';
-import { BaseTaxonomyQuery } from './base-taxonomy-query.class';
+import { BaseQuery } from '../common/base-query.class';
 
-export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.ViewTaxonomyGroupResponse> {
+export class TaxonomyQuery extends BaseQuery<
+    Responses.IViewTaxonomyResponse,
+    ITaxonomyQueryConfig,
+    Contracts.IViewTaxonomyGroupContract
+> {
+    /**
+     * Taxonomies endpoint URL action
+     */
+    protected readonly taxonomiesEndpoint: string = 'taxonomies';
 
     constructor(
         protected config: IDeliveryClientConfig,
@@ -19,17 +26,19 @@ export class TaxonomyQuery extends BaseTaxonomyQuery<TaxonomyResponses.ViewTaxon
         }
     }
 
-    /**
-    * Gets the runnable Observable
-    */
-    toObservable(): Observable<TaxonomyResponses.ViewTaxonomyGroupResponse> {
-        return super.runTaxonomyQuery(this.taxonomyCodename);
+    toPromise(): Promise<
+        IDeliveryNetworkResponse<Responses.IViewTaxonomyResponse, Contracts.IViewTaxonomyGroupContract>
+    > {
+        return this.queryService.getTaxonomy(this.getUrl(), this._queryConfig ?? {});
     }
 
-    /**
-    * Gets 'Url' representation of query
-    */
     getUrl(): string {
-        return super.getTaxonomyQueryUrl(this.taxonomyCodename);
+        const action = '/' + this.taxonomiesEndpoint + '/' + this.taxonomyCodename;
+
+        return super.resolveUrlInternal(action);
+    }
+
+    map(json: any): Responses.IViewTaxonomyResponse {
+        return this.queryService.mappingService.viewTaxonomyResponse(json);
     }
 }

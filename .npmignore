@@ -4,14 +4,12 @@
 # But descend into directories
 
 # Recursively allow files under subtree
-!/doc/**
-!/_es2015/**
-!/_commonjs/**
-!/esNext/**
-!/_bundles/**
-!/_esNext/**
+!/lib/**
+!/dist/**
 !package.json
 !.npmignore
 !README.md
+!LICENSE.md
+
 
 
