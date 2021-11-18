@@ -67,6 +67,19 @@ export namespace ElementModels {
          * Height in pixels for image assets
          */
         height?: number;
+
+        /**
+         * Dictionary with rendition codenames as keys and respective renditions as values
+         */
+        renditions: { [renditionCodeName: string]: Rendition };
+    }
+
+    export interface Rendition {
+        rendition_id: string;
+        preset_id: string;
+        width: number;
+        height: number;
+        query: string;
     }
 
     export interface MultipleChoiceOption {
