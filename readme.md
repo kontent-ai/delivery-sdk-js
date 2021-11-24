@@ -40,18 +40,18 @@ Bundles are distributed in `dist/_bundles` folder:
 
 ##### kontent-delivery.umd.js
 
-![Gzip UMD bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.umd.js?compression=gzip)
+![Gzip UMD bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js
+https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.js
 ```
 
 ##### kontent-delivery.umd.min.js
 
-![Gzip UMD Minified bundle](https://img.badgesize.io/https://unpkg.com/@kentico/kontent-delivery@latest/_bundles/kontent-delivery.umd.min.js?compression=gzip)
+![Gzip UMD Minified bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.min.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.umd.min.js
+https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.min.js
 ```
 
 ## TypeScript & ES6
@@ -115,7 +115,7 @@ const movieText = response.data.items[0].title.value;
         <title>Kontent SDK - Html sample</title>
         <script
             type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/dist/bundles/kontent-delivery.umd.min.js"
+            src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.min.js"
         ></script>
     </head>
     <body>
