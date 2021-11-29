@@ -10,6 +10,7 @@ describe('Unknown element', () => {
             .toObservable()
             .subscribe(result => {
                 item = result.items[0];
+
                 done();
             });
     });

@@ -23,7 +23,7 @@ export function getDeliveryClientWithError(errorJson: any): DeliveryClient {
 }
 
 export function getDeliveryClientWithJson(json: any, config?: IDeliveryClientConfig): DeliveryClient {
-   return this.getDeliveryClientWithJsonAndHeaders(json, [], config);
+   return getDeliveryClientWithJsonAndHeaders(json, [], config);
 }
 
 export function getDeliveryClientWithJsonAndHeaders(json: any, headers: IHeader[], config?: IDeliveryClientConfig): DeliveryClient {

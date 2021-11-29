@@ -23,7 +23,7 @@ describe('Items feed all', () => {
                 }
             })
             .toObservable()
-            .subscribe(result => {
+            .subscribe((result) => {
                 response = result;
                 done();
             });

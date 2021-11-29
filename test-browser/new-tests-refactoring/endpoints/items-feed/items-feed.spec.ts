@@ -34,7 +34,7 @@ describe('Items feed', () => {
                 }
             })
             .toObservable()
-            .subscribe(result => {
+            .subscribe((result) => {
                 response = result;
                 done();
             });
