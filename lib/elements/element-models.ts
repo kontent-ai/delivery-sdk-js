@@ -69,9 +69,9 @@ export namespace ElementModels {
         height?: number;
 
         /**
-         * Dictionary with rendition preset codenames as keys and respective renditions as values
+         * Dictionary with rendition preset codenames as keys and respective renditions as values.
          */
-        renditions: { [renditionPresetCodename: string]: Rendition };
+        renditions?: { [renditionPresetCodename: string]: Rendition };
     }
 
     export interface Rendition {
