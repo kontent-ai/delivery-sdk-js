@@ -22,6 +22,7 @@ describe('Asset rendition', () => {
         expect(rendition?.preset_id).toEqual(rawRendition.preset_id);
         expect(rendition?.query).toEqual(rawRendition.query);
         expect(rendition?.width).toEqual(rawRendition.width);
+        expect(rendition?.url).toEqual(`${image.url}?${rawRendition.query}`);
     });
 
     it(`Renditions 2 should be accessible`, () => {
@@ -35,5 +36,6 @@ describe('Asset rendition', () => {
         expect(rendition?.preset_id).toEqual(rawRendition.preset_id);
         expect(rendition?.query).toEqual(rawRendition.query);
         expect(rendition?.width).toEqual(rawRendition.width);
+        expect(rendition?.url).toEqual(`${image.url}?${rawRendition.query}`);
     });
 });

@@ -53,6 +53,14 @@ export namespace Contracts {
         taxonomy_group?: string;
     }
 
+    export interface IAsssetRenditionContract {
+        rendition_id: string;
+        preset_id: string;
+        width: number;
+        height: number;
+        query: string;
+    }
+
     export interface IAssetContract {
         name: string;
         type: string;
@@ -61,6 +69,7 @@ export namespace Contracts {
         url: string;
         width?: number;
         height?: number;
+        renditions?: { [renditionPresetCodename: string]: IAsssetRenditionContract };
     }
 
     export interface IMultipleChoiceOptionContract {

@@ -80,6 +80,7 @@ export namespace ElementModels {
         width: number;
         height: number;
         query: string;
+        url: string;
     }
 
     export interface MultipleChoiceOption {

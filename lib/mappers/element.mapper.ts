@@ -223,7 +223,37 @@ export class ElementMapper {
     }
 
     private mapAssetsElement(elementWrapper: ElementModels.IElementWrapper): Elements.AssetsElement {
-        return this.buildElement(elementWrapper, ElementType.Asset, () => elementWrapper.rawElement.value);
+        return this.buildElement(elementWrapper, ElementType.Asset, () => {
+            const assetContracts = elementWrapper.rawElement.value as Contracts.IAssetContract[];
+
+            const assets: ElementModels.AssetModel[] = [];
+
+            for (const assetContract of assetContracts) {
+                let renditions: { [renditionPresetCodename: string]: ElementModels.Rendition } | undefined = undefined;
+
+                if (assetContract.renditions) {
+                    renditions = {};
+
+                    for (const renditionKey of Object.keys(assetContract.renditions)) {
+                        const rendition = assetContract.renditions[renditionKey];
+
+                        renditions[renditionKey] = {
+                            ...rendition,
+                            url: `${assetContract.url}?${rendition.query}` // enhance rendition with absolute url
+                        };
+                    }
+                }
+
+                const asset: ElementModels.AssetModel = {
+                    ...assetContract,
+                    renditions
+                };
+
+                assets.push(asset);
+            }
+
+            return assets;
+        });
     }
 
     private mapTaxonomyElement(elementWrapper: ElementModels.IElementWrapper): Elements.TaxonomyElement {
