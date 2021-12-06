@@ -540,21 +540,21 @@ const richTextElement = response.item.plot;
 const resolvedRichText = createRichTextHtmlResolver().resolveRichText({
     element: richTextElement,
     linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
-    imageResolver: (image) => {
+    imageResolver: (imageId, image) => {
         return {
             imageHtml: `<img class="xImage" src="${image?.url}">`,
             // alternatively you may return just url
             url: 'customUrl'
         };
     },
-    urlResolver: (link) => {
+    urlResolver: (linkId, linkText, link) => {
         return {
             linkHtml: `<a class="xLink">${link?.link?.urlSlug}</a>`,
             // alternatively you may return just url
             url: 'customUrl'
         };
     },
-    contentItemResolver: (contentItem) => {
+    contentItemResolver: (itemId, contentItem) => {
         if (contentItem && contentItem.system.type === 'actor') {
             const actor = contentItem as Actor;
             return {
