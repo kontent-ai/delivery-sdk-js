@@ -229,7 +229,7 @@ export class ElementMapper {
             const assets: ElementModels.AssetModel[] = [];
 
             for (const assetContract of assetContracts) {
-                let renditions: { [renditionPresetCodename: string]: ElementModels.Rendition } | undefined = undefined;
+                let renditions: { [renditionPresetCodename: string]: ElementModels.Rendition } | null = null;
 
                 if (assetContract.renditions) {
                     renditions = {};
@@ -259,7 +259,7 @@ export class ElementMapper {
     private mapTaxonomyElement(elementWrapper: ElementModels.IElementWrapper): Elements.TaxonomyElement {
         return {
             ...this.buildElement(elementWrapper, ElementType.Taxonomy, () => elementWrapper.rawElement.value),
-            taxonomyGroup: elementWrapper.rawElement.taxonomy_group
+            taxonomyGroup: elementWrapper.rawElement.taxonomy_group ?? null
         };
     }
 

@@ -51,7 +51,7 @@ export namespace ElementModels {
         /**
          * Description of the asset
          */
-        description?: string;
+        description: string | null;
 
         /**
          * Url of the asset
@@ -61,17 +61,17 @@ export namespace ElementModels {
         /**
          * Width in pixels for image assets
          */
-        width?: number;
+        width: number | null;
 
         /**
          * Height in pixels for image assets
          */
-        height?: number;
+        height: number | null;
 
         /**
          * Dictionary with rendition preset codenames as keys and respective renditions as values.
          */
-        renditions?: { [renditionPresetCodename: string]: Rendition };
+        renditions: { [renditionPresetCodename: string]: Rendition } | null;
     }
 
     export interface Rendition {

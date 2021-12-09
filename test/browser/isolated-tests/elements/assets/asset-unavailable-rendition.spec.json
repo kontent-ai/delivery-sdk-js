@@ -1,0 +1,33 @@
+{
+    "item": {
+        "system": {
+            "id": "335d17ac-b6ba-4c6a-ae31-23c1193215cb",
+            "collection": "default",
+            "name": "My article",
+            "codename": "my_article",
+            "language": "en-US",
+            "type": "article",
+            "sitemap_locations": [],
+            "last_modified": "2019-03-27T13:21:11.38Z",
+            "workflow_step": "published"
+        },
+        "elements": {
+            "property1": {
+                "type": "asset",
+                "name": "Teaser image",
+                "value": [
+                    {
+                        "name": "sources.jpg",
+                        "type": "image/jpeg",
+                        "size": 45376,
+                        "description": "Description of what the asset represents.",
+                        "url": "https://assets-us-01.kc-usercontent.com/975bf280-fd91-488c-994c-2f04416e5ee3/3e76909f-599f-4742-b472-77fd4b510e92/sources.jpg",
+                        "width": 640,
+                        "height": 457
+                    }
+                ]
+            }
+        }
+    },
+    "modular_content": {}
+}

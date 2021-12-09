@@ -44,7 +44,7 @@ export namespace Elements {
         /**
          * Taxonomy group
          */
-        taxonomyGroup?: string;
+        taxonomyGroup: string | null;
     };
 
     export type UnknownElement = ElementModels.IElement<any>;

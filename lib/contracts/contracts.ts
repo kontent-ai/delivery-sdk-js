@@ -67,8 +67,8 @@ export namespace Contracts {
         size: number;
         description: string;
         url: string;
-        width?: number;
-        height?: number;
+        width: number | null;
+        height: number | null;
         renditions?: { [renditionPresetCodename: string]: IAsssetRenditionContract };
     }
 
@@ -99,9 +99,9 @@ export namespace Contracts {
     export interface IRichTextElementImageContract {
         image_id: string;
         url: string;
-        description?: string;
-        height?: number;
-        width?: number;
+        description: string | null;
+        height: number | null;
+        width: number | null;
     }
 
     export interface IRichTextElementContract extends IElementContract {
