@@ -1,5 +1,5 @@
 import { enumHelper } from '@kentico/kontent-core';
-import { deliveryUrlHelper } from '../../lib/utilities';
+import { deliveryUrlHelper } from '../utilities';
 
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
