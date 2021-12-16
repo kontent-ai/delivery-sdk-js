@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.3.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.3.0-0...v11.3.0) (2021-12-16)
+
 ## [11.3.0-0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.2.1...v11.3.0-0) (2021-12-16)
 
 
