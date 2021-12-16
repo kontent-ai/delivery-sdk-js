@@ -1,4 +1,5 @@
 import { enumHelper } from '@kentico/kontent-core';
+import { deliveryUrlHelper } from '../utilities';
 
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
@@ -12,6 +13,11 @@ import {
     IContentItemWithRawDataContainer,
     IContentItemWithRawElements
 } from '../models';
+
+interface IRichTextImageUrlRecord {
+    originalUrl: string;
+    newUrl: string;
+}
 
 export class ElementMapper {
     constructor(private readonly config: IDeliveryClientConfig) {}
@@ -185,9 +191,15 @@ export class ElementMapper {
             }
         }
 
+        // get rich text images
+        const richTextImagesResult = this.getRichTextImages(rawElement.images);
+
         // extract and map links & images
         const links: ILink[] = this.mapRichTextLinks(rawElement.links);
-        const images: IRichTextImage[] = this.mapRichTextImages(rawElement.images);
+        const images: IRichTextImage[] = richTextImagesResult.richTextImages;
+
+        // replace asset urls in html
+        const richTextHtml: string = this.getRichTextHtml(rawElement.value, richTextImagesResult.imageUrlRecords);
 
         return {
             images: images,
@@ -195,7 +207,7 @@ export class ElementMapper {
             links: links,
             name: rawElement.name,
             type: ElementType.RichText,
-            value: rawElement.value
+            value: richTextHtml
         };
     }
 
@@ -231,6 +243,11 @@ export class ElementMapper {
             for (const assetContract of assetContracts) {
                 let renditions: { [renditionPresetCodename: string]: ElementModels.Rendition } | null = null;
 
+                // get asset url (custom domain may be configured)
+                const assetUrl: string = this.config.assetsDomain
+                    ? deliveryUrlHelper.replaceAssetDomain(assetContract.url, this.config.assetsDomain)
+                    : assetContract.url;
+
                 if (assetContract.renditions) {
                     renditions = {};
 
@@ -239,13 +256,14 @@ export class ElementMapper {
 
                         renditions[renditionKey] = {
                             ...rendition,
-                            url: `${assetContract.url}?${rendition.query}` // enhance rendition with absolute url
+                            url: `${assetUrl}?${rendition.query}` // enhance rendition with absolute url
                         };
                     }
                 }
 
                 const asset: ElementModels.AssetModel = {
                     ...assetContract,
+                    url: assetUrl, // use custom url of asset which may contain custom domain
                     renditions
                 };
 
@@ -384,21 +402,53 @@ export class ElementMapper {
         return links;
     }
 
-    private mapRichTextImages(imagesJson: Contracts.IRichTextElementImageWrapperContract): IRichTextImage[] {
+    private getRichTextHtml(richTextHtml: string, richTextImageRecords: IRichTextImageUrlRecord[]): string {
+        for (const richTextImageRecord of richTextImageRecords) {
+            // replace rich text image url if it differs
+            if (richTextImageRecord.newUrl !== richTextImageRecord.originalUrl) {
+                richTextHtml = richTextHtml.replace(
+                    new RegExp(richTextImageRecord.originalUrl, 'g'),
+                    richTextImageRecord.newUrl
+                );
+            }
+        }
+
+        return richTextHtml;
+    }
+
+    private getRichTextImages(imagesJson: Contracts.IRichTextElementImageWrapperContract): {
+        richTextImages: IRichTextImage[];
+        imageUrlRecords: IRichTextImageUrlRecord[];
+    } {
         const images: IRichTextImage[] = [];
+        const imageUrlRecords: IRichTextImageUrlRecord[] = [];
 
         for (const imageId of Object.keys(imagesJson)) {
             const imageRaw = imagesJson[imageId];
+
+            // image may contain custom asset domain
+            const imageUrl: string = this.config.assetsDomain
+                ? deliveryUrlHelper.replaceAssetDomain(imageRaw.url, this.config.assetsDomain)
+                : imageRaw.url;
+
             images.push({
                 description: imageRaw.description ?? null,
                 imageId: imageRaw.image_id,
-                url: imageRaw.url,
+                url: imageUrl,
                 height: imageRaw.height ?? null,
                 width: imageRaw.width ?? null
             });
+
+            imageUrlRecords.push({
+                originalUrl: imageRaw.url,
+                newUrl: imageUrl
+            });
         }
 
-        return images;
+        return {
+            imageUrlRecords: imageUrlRecords,
+            richTextImages: images
+        };
     }
 
     private resolveElementMap(

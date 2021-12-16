@@ -156,7 +156,8 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | globalHeaders?      | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request                                                                               |
 | retryStrategy?      |          IRetryStrategyOptions           | Retry strategy configuration                                                                                                         |
 | linkedItemsReferenceHandler?      |          LinkedItemsReferenceHandler           | Indicates if content items are automatically mapped. Available values: 'map' or 'ignore'                                                                                                         |
-| propertyNameResolver?      |          PropertyNameResolver           | Used to map properties. Choose one of following default resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver` or create your own PropertyNameResolver function                                                                                                        |
+| propertyNameResolver?      |          PropertyNameResolver           | Used to map properties. Choose one of following default resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver` or create your own PropertyNameResolver function                                                                                                        | 
+| assetsDomain?      |          string            | Custom domain for assets. Changes url of assets in both asset & rich text elements                                                                                 |
 
 ### Create typed models
 

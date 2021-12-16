@@ -85,4 +85,9 @@ export interface IDeliveryClientConfig {
      * with circular refences)
      */
     linkedItemsReferenceHandler?: LinkedItemsReferenceHandler;
+
+    /**
+     * Sets custom domain for assets
+     */
+    assetsDomain?: string;
 }
