@@ -27,6 +27,14 @@ describe('Custom assets domain', () => {
         );
     });
 
+    it(`Custom asset domain should be set for rendition URL in asset element`, () => {
+        const assetElement = item.elements.poster.value[0];
+
+        expect(assetElement.renditions?.['default'].url).toEqual(
+            `${customDomain}/da5abe9f-fdad-4168-97cd-b3464be2ccb9/22504ba8-2075-48fa-9d4f-8fce3de1754a/warrior.jpg?w=1280&h=1024&fit=clip&rect=2396,169,1280,1024`
+        );
+    });
+
     it(`Custom asset domain should be set in Rich Text element`, () => {
         const richTextElement = item.elements.plot;
 
