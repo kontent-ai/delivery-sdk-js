@@ -545,14 +545,14 @@ const resolvedRichText = createRichTextHtmlResolver().resolveRichText({
         return {
             imageHtml: `<img class="xImage" src="${image?.url}">`,
             // alternatively you may return just url
-            url: 'customUrl'
+            imageUrl: 'customUrl'
         };
     },
     urlResolver: (linkId, linkText, link) => {
         return {
             linkHtml: `<a class="xLink">${link?.link?.urlSlug}</a>`,
             // alternatively you may return just url
-            url: 'customUrl'
+            linkUrl: 'customUrl'
         };
     },
     contentItemResolver: (itemId, contentItem) => {
