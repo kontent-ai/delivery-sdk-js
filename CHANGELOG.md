@@ -4,16 +4,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [11.4.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.4.0-0...v11.4.0) (2022-02-04)
 
-## [11.4.0-0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.3.0...v11.4.0-0) (2022-02-04)
-
 
 ### Features
 
 * updates deps ([dbb0474](https://github.com/Kentico/kontent-delivery-sdk-js/commit/dbb0474c551088257a71c7200d5ce2a28ea05a5a))
+* adds ability to configure default asset rendition
 
 ## [11.3.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.3.0-0...v11.3.0) (2021-12-16)
-
-## [11.3.0-0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.2.1...v11.3.0-0) (2021-12-16)
 
 
 ### Features
@@ -22,8 +19,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [11.2.1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.2.1-0...v11.2.1) (2021-12-09)
 
-### [11.2.1-0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.2.0...v11.2.1-0) (2021-12-09)
-
 
 ### Bug Fixes
 
@@ -31,16 +26,12 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [11.2.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.2.0-0...v11.2.0) (2021-12-02)
 
-## [11.2.0-0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.1.0...v11.2.0-0) (2021-12-02)
-
 
 ### Features
 
 * adds absolute url to rendition record ([a6a0ece](https://github.com/Kentico/kontent-delivery-sdk-js/commit/a6a0ece29e001fc4c892d54ca816bb75d494176a))
 
 ## [11.1.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.1.0-0...v11.1.0) (2021-11-29)
-
-## [11.1.0-0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.0.0...v11.1.0-0) (2021-11-29)
 
 
 ### Features
