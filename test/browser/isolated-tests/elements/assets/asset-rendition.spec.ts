@@ -117,7 +117,6 @@ describe('Asset renditions', () => {
 
             const rawImage = responseJson.item.elements.assetWithRenditionInDefaultPreset.value[0];
             const rawRendition = rawImage.renditions.default;
-            console.log(image.url, rawImage.url, rawRendition.query);
 
             expect(image.url).toEqual(`${rawImage.url}?${rawRendition.query}`);
             expect(rendition?.url).toEqual(`${rawImage.url}?${rawRendition.query}`);
