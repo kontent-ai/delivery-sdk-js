@@ -78,7 +78,16 @@
             "size": 111004,
             "url": "https://assets-us-01.kc-usercontent.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/22504ba8-2075-48fa-9d4f-8fce3de1754a/warrior.jpg",
             "width": 648,
-            "height": 1000
+            "height": 1000,
+            "renditions": {
+              "default": {
+                "rendition_id": "b447ca6c-8020-4e8f-be57-1d110721e535",
+                "preset_id": "a6d98cd5-8b2c-4e50-99c9-15192bce2490",
+                "width": 1280,
+                "height": 1024,
+                "query": "w=1280&h=1024&fit=clip&rect=2396,169,1280,1024"
+              }
+            }
           }
         ]
       },

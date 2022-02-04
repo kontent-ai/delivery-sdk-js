@@ -90,4 +90,9 @@ export interface IDeliveryClientConfig {
      * Sets custom domain for assets
      */
     assetsDomain?: string;
+
+    /**
+     * Codename of rendition preset to be applied by default to the base asset URL path.
+     */
+    defaultRenditionPreset?: string;
 }

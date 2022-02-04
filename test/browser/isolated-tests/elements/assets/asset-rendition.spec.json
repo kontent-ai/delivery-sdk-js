@@ -12,7 +12,7 @@
             "workflow_step": "published"
         },
         "elements": {
-            "property1": {
+            "assetWithRenditionInDefaultPreset": {
                 "type": "asset",
                 "name": "Teaser image",
                 "value": [
@@ -36,7 +36,7 @@
                     }
                 ]
             },
-            "property2": {
+            "assetWithRenditionInMobilePreset": {
                 "type": "asset",
                 "name": "Teaser image",
                 "value": [
@@ -49,7 +49,7 @@
                         "width": 640,
                         "height": 457,
                         "renditions": {
-                            "default": {
+                            "mobile": {
                                 "rendition_id": "b447ca6c-8020-4e8f-be57-1d110721e535",
                                 "preset_id": "a6d98cd5-8b2c-4e50-99c9-15192bce2490",
                                 "width": 1280,
@@ -57,6 +57,21 @@
                                 "query": "w=1280&h=1024&fit=clip&rect=2396,169,1280,1024"
                             }
                         }
+                    }
+                ]
+            },
+            "assetWithoutRendition": {
+                "type": "asset",
+                "name": "Teaser image",
+                "value": [
+                    {
+                        "name": "sources.jpg",
+                        "type": "image/jpeg",
+                        "size": 45376,
+                        "description": "Description of what the asset represents.",
+                        "url": "https://assets-us-01.kc-usercontent.com/975bf280-fd91-488c-994c-2f04416e5ee3/3e76909f-599f-4742-b472-77fd4b510e92/sources.jpg",
+                        "width": 640,
+                        "height": 457
                     }
                 ]
             }

@@ -251,19 +251,24 @@ export class ElementMapper {
                 if (assetContract.renditions) {
                     renditions = {};
 
-                    for (const renditionKey of Object.keys(assetContract.renditions)) {
-                        const rendition = assetContract.renditions[renditionKey];
+                    for (const renditionPresetKey of Object.keys(assetContract.renditions)) {
+                        const rendition = assetContract.renditions[renditionPresetKey];
 
-                        renditions[renditionKey] = {
+                        renditions[renditionPresetKey] = {
                             ...rendition,
                             url: `${assetUrl}?${rendition.query}` // enhance rendition with absolute url
                         };
                     }
                 }
 
+                const renditionToBeApplied: ElementModels.Rendition | null =
+                    (this.config.defaultRenditionPreset && renditions?.[this.config.defaultRenditionPreset]) || null;
+
+                const finalUrl = renditionToBeApplied?.url ?? assetUrl;
+
                 const asset: ElementModels.AssetModel = {
                     ...assetContract,
-                    url: assetUrl, // use custom url of asset which may contain custom domain
+                    url: finalUrl, // use custom url of asset which may contain custom domain and applied rendition
                     renditions
                 };
 
