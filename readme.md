@@ -260,7 +260,7 @@ type Movie = IContentItem<{
 The SDK supports the following query parameters: `depthParameter`, `elementsParameter`, `limitParameter`,
 `orderParameter`, `skipParameter` and `languageParameter`. For more information about the parameters, see the
 [SDK query methods](#filter-content) below. You can also head over to
-[Delivery API reference](https://docs.kontent.ai/reference/delivery-api#tag/Filtering-content).
+[Delivery API reference](https://kontent.ai/learn/reference/delivery-api#tag/Filtering-content).
 
 ```typescript
 // Gets 5 items based on the Movie type
@@ -271,7 +271,7 @@ deliveryClient.items<Movie>().type('movie').limitParameter(5).skipParameter(2).t
 
 This example returns all **Movie** content items whose **title** element is equal to **Warrior**. Filters are also
 considered query parameters and can be combined. See
-[Content filtering in API reference](https://docs.kontent.ai/reference/delivery-api#tag/Filtering-content) for more
+[Content filtering in API reference](https://kontent.ai/learn/reference/delivery-api#tag/Filtering-content) for more
 general examples.
 
 Supported filters: `type`, `types`, `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`,
@@ -343,7 +343,7 @@ deliveryClient.items<Movie>().withParameter('name', 'value').toPromise();
 
 ### Get localized items
 
-You can specify [language of items](https://docs.kontent.ai/tutorials/manage-kontent/projects/set-up-languages) with
+You can specify [language of items](https://kontent.ai/learn/tutorials/manage-kontent/projects/set-up-languages) with
 `languageParameter` of a particular query. You can also define default language that will be used if `languageParameter`
 is not used during the initialization of delivery client.
 
@@ -432,8 +432,7 @@ deliveryClient
 
 ### Secure Delivery API
 
-Using the Delivery API with
-[secure access](https://docs.kontent.ai/tutorials/develop-apps/build-strong-foundation/restrict-public-access) enabled
+Using the Delivery API with [secure access](https://kontent.ai/learn/tutorials/develop-apps/build-strong-foundation/restrict-public-access) enabled
 is recommend only when the request is not being executed on the client (browser) because otherwise you will expose the
 API key publicly.
 
@@ -464,7 +463,7 @@ deliveryClient
 
 ### Image transformation
 
-Use `ImageUrlBuilder` for your [image transformations](https://docs.kontent.ai/reference/image-transformation) on asset
+Use `ImageUrlBuilder` for your [image transformations](https://kontent.ai/learn/reference/image-transformation) on asset
 URLs.
 
 ```typescript
@@ -502,7 +501,7 @@ const response = await deliveryClient.items().limitParameter(5).toAllPromise({
 
 ### Resolving rich text elements
 
-[Rich text elements](https://docs.kontent.ai/reference/kentico-kontent-apis-overview#section-rich-text-element) in
+[Rich text elements](https://kontent.ai/learn/reference/delivery-api#section/Rich-text-element) in
 Kontent by Kentico may contain linked items and components. For example, if you write a blog post, you might want to
 insert a video or testimonial to a specific place in your article.
 
@@ -688,8 +687,7 @@ const client = createDeliveryClient({
 
 ## Error handling
 
-If the error originates in Kontent by Kentico (see
-[error responses](https://docs.kontent.ai/reference/delivery-api#section/Errors)), you will get a `DeliveryError` object
+If the error originates in Kontent by Kentico (see [error responses](https://kontent.ai/learn/reference/delivery-api#section/SDKs)), you will get a `DeliveryError` object
 instance with more specific information. Otherwise, you will get original error.
 
 ```typescript
