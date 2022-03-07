@@ -34,8 +34,8 @@
         "node": ">= 8"
     },
     "main": "./dist/cjs/index.js",
-    "module": "./dist/esm5/index.js",
-    "es2015": "./dist/esm/index.js",
+    "module": "./dist/es6/index.js",
+    "es2015": "./dist/es6/index.js",
     "types": "./dist/cjs/index.d.ts",
     "standard-version": {
         "scripts": {
@@ -63,10 +63,9 @@
         "publish:beta": "npm publish --tag=next",
         "build:umd": "npm run webpack:dev && npm run webpack:prod",
         "build:es6": "tsc -m es6 --outDir dist/es6 --p tsconfig.prod.json",
-        "build:es2020": "tsc -m es2020 --outDir dist/es2020 --p tsconfig.prod.json",
         "build:esnext": "tsc -m esnext --outDir dist/esnext --p tsconfig.prod.json",
         "build:commonjs": "tsc -m commonjs --outDir dist/cjs --p tsconfig.prod.json",
-        "build:all": "npm run build:umd && npm run build:es6 && npm run build:es2020 && npm run build:esnext && npm run build:commonjs",
+        "build:all": "npm run build:umd && npm run build:es6 && npm run build:esnext && npm run build:commonjs",
         "bundle-stats:min": "npm run build:umd && webpack-bundle-analyzer dist/bundles/stats.min.json",
         "bundle-stats": "npm run build:umd && webpack-bundle-analyzer dist/bundles/stats.json"
     },
