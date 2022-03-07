@@ -73,10 +73,16 @@ export class RichTextHtmlResolver extends BaseRichTextResolver<
             input.linkedItems ?? []
         );
 
+        let resultHtml = parsedResult.result;
+
+        if (input.preserveResolvedObjectTags!== true) {
+            resultHtml = parserHelper.replaceObjectTagsInResolvedHtml(resultHtml)
+        }
+
         return {
             componentCodenames: parsedResult.componentCodenames,
             linkedItemCodenames: parsedResult.linkedItemCodenames,
-            html: parserHelper.replaceObjectTagsInResolvedHtml(parsedResult.result)
+            html: resultHtml
         };
     }
 

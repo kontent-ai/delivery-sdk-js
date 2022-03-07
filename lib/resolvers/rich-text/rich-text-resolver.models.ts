@@ -41,6 +41,7 @@ export interface IRichTextHtmlResolverInput {
     imageResolver?: IRichTextImageResolver;
     contentItemResolver?: IRichTextContentItemResolver;
     linkedItems?: IContentItem[];
+    preserveResolvedObjectTags?: boolean
 }
 
 export interface IAsyncRichTextHtmlResolverInput {
@@ -49,6 +50,7 @@ export interface IAsyncRichTextHtmlResolverInput {
     imageResolverAsync?: IAsyncRichTextImageResolver;
     contentItemResolverAsync?: IAsyncRichTextContentItemResolver;
     linkedItems?: IContentItem[];
+    preserveResolvedObjectTags?: boolean
 }
 
 export interface IRichTextResolver<TInput, TResult> {
