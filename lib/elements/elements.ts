@@ -32,6 +32,13 @@ export namespace Elements {
          * Array of linked item codenames
          */
         linkedItemCodenames: string[];
+
+        /**
+         * Array of linked items retrieved from `modular_content` part of the response. Not all items might be here
+         * as it depends on the `depth` parameter of query. 
+         * The `linkedItemsReferenceHandler` configuration can be used to disable mapping of linked items 
+         */
+         linkedItems: IContentItem[];
     };
 
     export type NumberElement = ElementModels.IElement<number | null>;

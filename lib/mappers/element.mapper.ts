@@ -204,6 +204,7 @@ export class ElementMapper {
         return {
             images: images,
             linkedItemCodenames: rawElement.modular_content,
+            linkedItems: richTextLinkedItems,
             links: links,
             name: rawElement.name,
             type: ElementType.RichText,

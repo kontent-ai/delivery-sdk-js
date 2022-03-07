@@ -52,6 +52,18 @@ describe('Verifies mapping of delivery content item', () => {
         expect(response.item.elements.title.value).toEqual(warriorJson.item.elements.title.value);
     });
 
+    it(`checks rich text element`, () => {
+        for (const linkedItemCodename of response.item.elements.plot.linkedItemCodenames) {
+            const linkedItem = response.item.elements.plot.linkedItems.find(
+                (m) => m.system.codename === linkedItemCodename
+            );
+
+            expect(linkedItem).toBeDefined();
+            expect(linkedItem?.system.codename).toEqual(linkedItemCodename);
+            expect(linkedItem?.elements).toBeDefined();
+        }
+    });
+
     it(`checks datetime element`, () => {
         expect(response.item.elements.released.value).toEqual(warriorJson.item.elements.released.value);
     });
@@ -65,9 +77,6 @@ describe('Verifies mapping of delivery content item', () => {
         expect(response.item.elements.poster.value[0].url).toEqual(warriorJson.item.elements.poster.value[0].url);
     });
 
-    it(`checks that linked items are defined`, () => {
-        expect(response.item.elements.stars).toBeDefined();
-    });
 
     it(`checks that correct number of linked items are created`, () => {
         expect(response.item.elements.stars.linkedItems.length).toEqual(warriorJson.item.elements.stars.value.length);
@@ -88,5 +97,27 @@ describe('Verifies mapping of delivery content item', () => {
                 (m) => m.elements.firstName.value === warriorJson.modular_content.tom_hardy.elements.first_name.value
             )
         ).toBeDefined();
+    });
+
+    describe('Checks disabled linked items mapping', () => {
+        beforeAll(async () => {
+            response = (
+                await getDeliveryClientWithJson(warriorJson, {
+                    linkedItemsReferenceHandler: 'ignore',
+                    projectId: 'x'
+                })
+                    .item<Movie>('x')
+                    .toPromise()
+            ).data;
+        });
+
+        it(`linked items should not be mapped`, () => {
+            expect(response.item.elements.stars.linkedItems.length).toEqual(0);
+        });
+
+        it(`linked items should have empty array`, () => {
+           expect(response.item.elements.plot.linkedItemCodenames.length).toEqual(warriorJson.item.elements.plot.modular_content.length);
+           expect(response.item.elements.plot.linkedItems.length).toEqual(0)
+        });
     });
 });
