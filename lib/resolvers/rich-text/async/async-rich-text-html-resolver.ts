@@ -79,8 +79,8 @@ export class AsyncRichTextHtmlResolver extends BaseAsyncRichTextResolver<
 
         let resultHtml = parsedResult.result;
 
-        if (input.preserveResolvedObjectTags!== true) {
-            resultHtml = parserHelper.replaceObjectTagsInResolvedHtml(resultHtml)
+        if (input.preserveResolvedObjectTags !== true) {
+            resultHtml = parserHelper.replaceObjectTagsInResolvedHtml(resultHtml);
         }
 
         return {

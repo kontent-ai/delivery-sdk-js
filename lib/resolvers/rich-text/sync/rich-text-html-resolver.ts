@@ -6,7 +6,6 @@ export class RichTextHtmlResolver extends BaseRichTextResolver<
     IRichTextHtmlResolverInput,
     IResolvedRichTextHtmlResult
 > {
-
     constructor(parser?: IParser<string>) {
         super(browserParser, parser);
     }
@@ -75,8 +74,8 @@ export class RichTextHtmlResolver extends BaseRichTextResolver<
 
         let resultHtml = parsedResult.result;
 
-        if (input.preserveResolvedObjectTags!== true) {
-            resultHtml = parserHelper.replaceObjectTagsInResolvedHtml(resultHtml)
+        if (input.preserveResolvedObjectTags !== true) {
+            resultHtml = parserHelper.replaceObjectTagsInResolvedHtml(resultHtml);
         }
 
         return {
@@ -85,8 +84,6 @@ export class RichTextHtmlResolver extends BaseRichTextResolver<
             html: resultHtml
         };
     }
-
-  
 }
 
 export const createRichTextHtmlResolver = (parser?: IParser<string>) => new RichTextHtmlResolver(parser);
