@@ -1,11 +1,12 @@
 import { IResolvedRichTextHtmlResult, IRichTextHtmlResolverInput } from '../rich-text-resolver.models';
-import { browserParser, IParser, parserConfiguration } from '../../../parser';
+import { browserParser, IParser, parserConfiguration, parserHelper } from '../../../parser';
 import { BaseRichTextResolver } from '../base/base-rich-text-resolver';
 
 export class RichTextHtmlResolver extends BaseRichTextResolver<
     IRichTextHtmlResolverInput,
     IResolvedRichTextHtmlResult
 > {
+
     constructor(parser?: IParser<string>) {
         super(browserParser, parser);
     }
@@ -33,6 +34,9 @@ export class RichTextHtmlResolver extends BaseRichTextResolver<
 
                         // set resolved html
                         element.setInnerHtml(innerHtml);
+
+                        // set resolved attribute
+                        element.setAttribute(parserHelper.sdkResolvedAttributeName, '1');
                     }
                 },
                 genericElementResolver: (element) => {
@@ -72,9 +76,11 @@ export class RichTextHtmlResolver extends BaseRichTextResolver<
         return {
             componentCodenames: parsedResult.componentCodenames,
             linkedItemCodenames: parsedResult.linkedItemCodenames,
-            html: parsedResult.result
+            html: parserHelper.replaceObjectTagsInResolvedHtml(parsedResult.result)
         };
     }
+
+  
 }
 
 export const createRichTextHtmlResolver = (parser?: IParser<string>) => new RichTextHtmlResolver(parser);

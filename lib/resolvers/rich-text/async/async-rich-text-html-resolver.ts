@@ -1,5 +1,5 @@
 import { IResolvedRichTextHtmlResult, IAsyncRichTextHtmlResolverInput } from '../rich-text-resolver.models';
-import { asyncBrowserParser, IAsyncParser, parserConfiguration } from '../../../parser';
+import { asyncBrowserParser, IAsyncParser, parserConfiguration, parserHelper } from '../../../parser';
 import { BaseAsyncRichTextResolver } from '../base/base-async-rich-text-resolver';
 
 export class AsyncRichTextHtmlResolver extends BaseAsyncRichTextResolver<
@@ -36,6 +36,9 @@ export class AsyncRichTextHtmlResolver extends BaseAsyncRichTextResolver<
 
                         // set resolved html
                         element.setInnerHtml(innerHtml);
+
+                        // set resolved attribute
+                        element.setAttribute(parserHelper.sdkResolvedAttributeName, '1');
                     }
                 },
                 genericElementResolverAsync: async (element) => {
@@ -77,7 +80,7 @@ export class AsyncRichTextHtmlResolver extends BaseAsyncRichTextResolver<
         return {
             componentCodenames: parsedResult.componentCodenames,
             linkedItemCodenames: parsedResult.linkedItemCodenames,
-            html: parsedResult.result
+            html: parserHelper.replaceObjectTagsInResolvedHtml(parsedResult.result)
         };
     }
 }

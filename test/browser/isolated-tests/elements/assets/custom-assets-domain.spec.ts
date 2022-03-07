@@ -15,8 +15,6 @@ describe('Custom assets domain', () => {
             .toPromise();
 
         item = response.data.item;
-
-        console.log(item);
     });
 
     it(`Custom asset domain should be set in asset element`, () => {

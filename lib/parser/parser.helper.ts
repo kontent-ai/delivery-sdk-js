@@ -3,6 +3,9 @@ import { IContentItem, ILink, IRichTextImage } from '../models';
 import { IParserElement, IParserElementAttribute } from './parse-models';
 
 export class ParserHelper {
+
+    public readonly sdkResolvedAttributeName: string = 'data-sdk-resolved';
+
     getLinkedItem(linkedItems: IContentItem[], itemCodename: string): IContentItem | undefined {
         if (!linkedItems) {
             return undefined;
@@ -94,6 +97,11 @@ export class ParserHelper {
             parentElement: element.parentElement ? this.convertToParserElement(element.parentElement) : undefined,
             sourceElement: element
         };
+    }
+
+    replaceObjectTagsInResolvedHtml(html: string): string {
+        const result = html.replace(new RegExp(/<object.*?data-sdk-resolved=\"1\".*?>(.*?)<\/object>/ms, 'g'), '$1');
+        return result;
     }
 }
 
