@@ -15,7 +15,7 @@ import { BaseRichTextResolver } from '../base/base-rich-text-resolver';
 export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObjectResolverInput, IRichTextObjectResult> {
     private readonly sdkIdAttributeName: string = 'sdk-elem-id';
     private readonly rootId: string = 'root';
-    private readonly rootTag: string = 'p';
+    private readonly defaultWrapTag: string = 'div';
 
     constructor(parser?: IParser<string>) {
         super(browserParser, parser);
@@ -27,7 +27,7 @@ export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObject
             attributes: [],
             children: [],
             data: {},
-            tag: this.rootTag,
+            tag: input.wrapperTag ?? this.defaultWrapTag,
             _sdkElemId: this.rootId
         });
 

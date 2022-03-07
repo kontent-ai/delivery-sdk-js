@@ -63,6 +63,11 @@ export interface IRichTextObjectResolverInput {
     element: Elements.RichTextElement;
     linkedItems?: IContentItem[];
     cleanSdkIds?: boolean;
+
+    /**
+     * Tag that wraps content. Defaults to 'div'
+     */
+    wrapperTag?: string;
 }
 
 export type RichTextObjectDataType = 'linkedItem' | 'link' | 'image' | 'htmlElement' | 'root';
