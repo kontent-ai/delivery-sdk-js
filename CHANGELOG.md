@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.5.0-0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.4.0...v11.5.0-0) (2022-03-07)
+
+
+### Features
+
+* Adds 'linkedItems' property to Rich text element that contains array or mapped linked items included in the element (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/338) ([9a48ae5](https://github.com/Kentico/kontent-delivery-sdk-js/commit/9a48ae53c1c2075a313207e6d7bba6a57c72d193))
+* adds ability to preserve 'object' tags in RTE Html ([6034f89](https://github.com/Kentico/kontent-delivery-sdk-js/commit/6034f89da4a7df046e5c6d514780c96fa5ed228c))
+* adds ability to set custom wrap tag for object & json Rich text resolvers (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/339) ([a6899ff](https://github.com/Kentico/kontent-delivery-sdk-js/commit/a6899ff06a7edb6256b3c7675d7a4ff635cefe7d))
+* Removes 'object' wrapper tag from resolved Rich text element HTML (fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/332) ([d9f9f74](https://github.com/Kentico/kontent-delivery-sdk-js/commit/d9f9f741f5bc7fbaec44c54c7703627af1b032b4))
+* updates deps ( fixes https://github.com/Kentico/kontent-delivery-sdk-js/issues/342) ([517501e](https://github.com/Kentico/kontent-delivery-sdk-js/commit/517501e3228c59679adfbc22c42c9feb7f4e6904))
+
 ## [11.4.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.4.0-0...v11.4.0) (2022-02-04)
 
 
