@@ -98,11 +98,6 @@ export class ParserHelper {
             sourceElement: element
         };
     }
-
-    replaceObjectTagsInResolvedHtml(html: string): string {
-        const result = html.replace(new RegExp(/<object.*?data-sdk-resolved=\"1\".*?>(.*?)<\/object>/ms, 'g'), '$1');
-        return result;
-    }
 }
 
 export const parserHelper = new ParserHelper();

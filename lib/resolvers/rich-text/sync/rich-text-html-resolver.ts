@@ -32,7 +32,11 @@ export class RichTextHtmlResolver extends BaseRichTextResolver<
                         const innerHtml = this.resolveRichTextInternal(resolvedItemHtml, input).html;
 
                         // set resolved html
-                        element.setInnerHtml(innerHtml);
+                        if (input.preserveResolvedObjectTags === true) {
+                            element.setInnerHtml(innerHtml);
+                        } else {
+                            element.setOuterHtml(innerHtml);
+                        }
 
                         // set resolved attribute
                         element.setAttribute(parserHelper.sdkResolvedAttributeName, '1');
@@ -72,16 +76,10 @@ export class RichTextHtmlResolver extends BaseRichTextResolver<
             input.linkedItems ?? []
         );
 
-        let resultHtml = parsedResult.result;
-
-        if (input.preserveResolvedObjectTags !== true) {
-            resultHtml = parserHelper.replaceObjectTagsInResolvedHtml(resultHtml);
-        }
-
         return {
             componentCodenames: parsedResult.componentCodenames,
             linkedItemCodenames: parsedResult.linkedItemCodenames,
-            html: resultHtml
+            html: parsedResult.result
         };
     }
 }

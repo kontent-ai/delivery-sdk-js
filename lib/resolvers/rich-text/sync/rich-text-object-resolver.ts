@@ -50,7 +50,7 @@ export class RichTextObjectResolver extends BaseRichTextResolver<IRichTextObject
             input.element,
             {
                 elementResolver: (element) => {
-                    // generate guid for each element´
+                    // generate guid for each element
                     element.setAttribute(this.sdkIdAttributeName, guidHelper.genereateGuid());
                 },
                 contentItemResolver: (element, itemCodename, linkedItemIndex, linkedItem) => {
