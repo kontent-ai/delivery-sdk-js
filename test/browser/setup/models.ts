@@ -6,6 +6,8 @@ export type Actor = IContentItem<{
     photo: Elements.AssetsElement;
 }>;
 
+export type ReleaseCategoryTaxonomy = 'global_release' | 'us_only' | 'local_release';
+
 export type Movie = IContentItem<{
     title: Elements.TextElement;
     plot: Elements.RichTextElement;
@@ -15,5 +17,5 @@ export type Movie = IContentItem<{
     category: Elements.MultipleChoiceElement;
     stars: Elements.LinkedItemsElement<Actor>;
     seoname: Elements.UrlSlugElement;
-    releaseCategory: Elements.TaxonomyElement;
+    releaseCategory: Elements.TaxonomyElement<ReleaseCategoryTaxonomy>;
 }>;

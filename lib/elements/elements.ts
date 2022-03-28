@@ -47,7 +47,9 @@ export namespace Elements {
 
     export type UrlSlugElement = ElementModels.IElement<string>;
 
-    export type TaxonomyElement = ElementModels.IElement<ElementModels.TaxonomyTerm[]> & {
+    export type TaxonomyElement<TaxonomyCodename extends string = string> = ElementModels.IElement<
+        ElementModels.TaxonomyTerm<TaxonomyCodename>[]
+    > & {
         /**
          * Taxonomy group
          */

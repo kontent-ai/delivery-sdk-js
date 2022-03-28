@@ -88,8 +88,8 @@ export namespace ElementModels {
         codename: string;
     }
 
-    export interface TaxonomyTerm {
+    export interface TaxonomyTerm<TaxonomyCodename extends string = string> {
         name: string;
-        codename: string;
+        codename: TaxonomyCodename;
     }
 }

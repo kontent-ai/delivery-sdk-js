@@ -51,10 +51,19 @@ describe('Verifies mapping of delivery content item', () => {
         expect(responseWithLinkedItems.item.system.sitemapLocations).toEqual(locations);
     });
 
-    it(`checks taxonomy element`, () => {
+    it(`checks taxonomy element value`, () => {
         expect(responseWithLinkedItems.item.elements.releaseCategory.value[0].codename).toEqual(
             warriorJson.item.elements.releasecategory.value[0].codename
         );
+    });
+
+
+    it(`checks strongly typed taxonomy`, () => {
+        const globalReleaseTaxonomy = responseWithLinkedItems.item.elements.releaseCategory.value.find(m => m.codename === 'global_release');
+        const usReleaseTaxonomy = responseWithLinkedItems.item.elements.releaseCategory.value.find(m => m.codename === 'us_only');
+
+        expect(globalReleaseTaxonomy).toBeDefined();
+        expect(usReleaseTaxonomy).toBeDefined();
     });
 
     it(`checks text element`, () => {
