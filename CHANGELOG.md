@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.10.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.9.0...v11.10.0) (2022-04-20)
+
+
+### Features
+
+* Adds underscore to name resolver when it starts with a number ([5a624e3](https://github.com/Kentico/kontent-delivery-sdk-js/commit/5a624e3f59626f7b6c6bb94b9730f1c3edf2f721))
+
 ## [11.9.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.8.1...v11.9.0) (2022-04-20)
 
 
