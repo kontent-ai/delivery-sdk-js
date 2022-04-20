@@ -99,6 +99,12 @@ describe('Property name resolvers', () => {
         pascalCase: 'ZAPISecurityScheme',
         snakeCase: 'zAPI_security_scheme'
     },
+    {
+        name: 'zAPI ​Category', // zero width character
+        camelCase: 'zAPICategory',
+        pascalCase: 'ZAPICategory',
+        snakeCase: 'zAPI_Category'
+    },
   ];
 
     const context = new Context();

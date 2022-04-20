@@ -2,7 +2,7 @@ import { textHelper } from '../../utilities';
 import { PropertyNameResolver } from '../../models';
 
 export const snakeCasePropertyNameResolver: PropertyNameResolver = (contentType, element) => {
-    return toSnakeCase(element);
+    return textHelper.removeZeroWidthCharacters(toSnakeCase(element));
 };
 
 function toSnakeCase(str: string): string {

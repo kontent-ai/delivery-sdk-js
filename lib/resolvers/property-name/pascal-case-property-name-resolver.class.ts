@@ -2,7 +2,7 @@ import { textHelper } from '../../utilities';
 import { PropertyNameResolver } from '../../models';
 
 export const pascalCasePropertyNameResolver: PropertyNameResolver = (contentType, element) => {
-    return camelize(element);
+    return textHelper.removeZeroWidthCharacters(camelize(element));
 };
 
 function camelize(str: string): string {
