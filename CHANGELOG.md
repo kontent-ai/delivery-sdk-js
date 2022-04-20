@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.11.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.10.0...v11.11.0) (2022-04-20)
+
+
+### Features
+
+* convert snake case name resolver to lowercase only text ([df39537](https://github.com/Kentico/kontent-delivery-sdk-js/commit/df395375f679a893b2d29b5409c4a0a3c2e6576d))
+* Handles brackets in property name resolver ([946db34](https://github.com/Kentico/kontent-delivery-sdk-js/commit/946db349de6a4add3a614e44daaab17720281011))
+
 ## [11.10.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.9.0...v11.10.0) (2022-04-20)
 
 
