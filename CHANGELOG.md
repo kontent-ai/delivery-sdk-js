@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.8.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.6.0...v11.8.0) (2022-04-20)
+
+
+### Features
+
+* Adds support for strongly typed taxonomy element ([c3d85ee](https://github.com/Kentico/kontent-delivery-sdk-js/commit/c3d85eecfd7fa3ced980d741195207596a3e44b8))
+* Improves property name resolvers by handling more special characters and unifies the regex across all name resolvers ([d153e81](https://github.com/Kentico/kontent-delivery-sdk-js/commit/d153e81ff2d3114d31ae016bc9d8c3073571da94))
+* updates dependencies ([a373528](https://github.com/Kentico/kontent-delivery-sdk-js/commit/a373528b6f6167ebcf9b6c2e5395b1ba0d061bd2))
+
 ## [11.7.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.5.0...v11.7.0) (2022-03-28)
 
 
