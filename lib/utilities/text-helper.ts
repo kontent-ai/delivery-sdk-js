@@ -1,6 +1,6 @@
 export class TextHelper {
     getPropertyNameRegex(): RegExp {
-        return /[-='"§!%:-_\s.]+(.)?/g
+        return /[-='"§!%:-_\s.]+(.)?/g;
     }
 }
 
