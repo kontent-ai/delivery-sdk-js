@@ -100,10 +100,16 @@ describe('Property name resolvers', () => {
         snakeCase: 'zAPI_security_scheme'
     },
     {
-        name: 'zAPI ​Category', // zero width character
+        name: 'zAPI ​Category', // text includes zero width character
         camelCase: 'zAPICategory',
         pascalCase: 'ZAPICategory',
         snakeCase: 'zAPI_Category'
+    },
+    {
+        name: '404 Not found', // text starts with number
+        camelCase: '_404NotFound',
+        pascalCase: '_404NotFound',
+        snakeCase: '_404_not_found'
     },
   ];
 

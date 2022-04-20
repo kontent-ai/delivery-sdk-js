@@ -2,7 +2,7 @@ import { textHelper } from '../../utilities';
 import { PropertyNameResolver } from '../../models';
 
 export const snakeCasePropertyNameResolver: PropertyNameResolver = (contentType, element) => {
-    return textHelper.removeZeroWidthCharacters(toSnakeCase(element));
+    return textHelper.addUnderscoreWhenStarsWithNumber(textHelper.removeZeroWidthCharacters(toSnakeCase(element)));
 };
 
 function toSnakeCase(str: string): string {

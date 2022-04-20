@@ -2,7 +2,7 @@ import { textHelper } from '../../utilities';
 import { PropertyNameResolver } from '../../models';
 
 export const pascalCasePropertyNameResolver: PropertyNameResolver = (contentType, element) => {
-    return textHelper.removeZeroWidthCharacters(camelize(element));
+    return textHelper.addUnderscoreWhenStarsWithNumber(textHelper.removeZeroWidthCharacters(camelize(element)));
 };
 
 function camelize(str: string): string {
