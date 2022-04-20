@@ -1,3 +1,4 @@
+import { textHelper } from '../../utilities';
 import { PropertyNameResolver } from '../../models';
 
 export const snakeCasePropertyNameResolver: PropertyNameResolver = (contentType, element) => {
@@ -5,9 +6,22 @@ export const snakeCasePropertyNameResolver: PropertyNameResolver = (contentType,
 };
 
 function toSnakeCase(str: string): string {
-    const matches = str.match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g);
-    if (matches) {
-        return matches.map((x) => x.toLowerCase()).join('_');
+    str = str.replace(textHelper.getPropertyNameRegex(), (_, c) => '_' + (c ? c.toLowerCase() : ''));
+    return removeEndUnderscore(removeStartUnderscore(str));
+}
+
+function removeStartUnderscore(str: string): string {
+    if (!str.startsWith('_')) {
+        return str;
     }
-    return str;
+
+    return str.substring(1);
+}
+
+function removeEndUnderscore(str: string): string {
+    if (!str.endsWith('_')) {
+        return str;
+    }
+
+    return str.slice(0, -1);
 }

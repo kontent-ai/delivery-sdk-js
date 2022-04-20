@@ -1,3 +1,4 @@
+import { textHelper } from '../../utilities';
 import { PropertyNameResolver } from '../../models';
 
 export const camelCasePropertyNameResolver: PropertyNameResolver = (contentType, element) => {
@@ -5,6 +6,6 @@ export const camelCasePropertyNameResolver: PropertyNameResolver = (contentType,
 };
 
 function camelize(str: string): string {
-    str = str.replace(/[-_\s.]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''));
-    return str.substr(0, 1).toLowerCase() + str.substr(1);
+    str = str.replace(textHelper.getPropertyNameRegex(), (_, c) => (c ? c.toUpperCase() : ''));
+    return str.substring(0, 1).toLowerCase() + str.substring(1);
 }

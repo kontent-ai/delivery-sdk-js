@@ -56,7 +56,6 @@ describe('Rich text resolver preserve object tags', () => {
     });
 
     it(`linked items html should match expected result`, () => {
-        console.log(resolvedRichText.html);
         expect(resolvedRichText.html).toEqual(expectedHtml);
     });
 });
