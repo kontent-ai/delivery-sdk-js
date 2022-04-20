@@ -97,13 +97,13 @@ describe('Property name resolvers', () => {
         name: 'zAPI Security scheme',
         camelCase: 'zAPISecurityScheme',
         pascalCase: 'ZAPISecurityScheme',
-        snakeCase: 'zAPI_security_scheme'
+        snakeCase: 'zapi_security_scheme'
     },
     {
         name: 'zAPI ​Category', // text includes zero width character
         camelCase: 'zAPICategory',
         pascalCase: 'ZAPICategory',
-        snakeCase: 'zAPI_Category'
+        snakeCase: 'zapi_category'
     },
     {
         name: '404 Not found', // text starts with number
@@ -115,7 +115,7 @@ describe('Property name resolvers', () => {
         name: 'Home (root)',
         camelCase: 'homeRoot',
         pascalCase: 'HomeRoot',
-        snakeCase: 'Home_root'
+        snakeCase: 'home_root'
     },
   ];
 
