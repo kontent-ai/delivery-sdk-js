@@ -43,8 +43,8 @@
         }
     },
     "scripts": {
-        "release": "standard-version",
-        "release:major": "standard-version --release-as major",
+        "release": "npm run ts-lint:check && standard-version",
+        "release:major": "npm run ts-lint:check && standard-version --release-as major",
         "standard-version:prerelease": "standard-version --prerelease",
         "ts-lint:fix": "npm run ts-lint:check -- --fix",
         "ts-lint:check": "tslint --project ./tsconfig.json",
