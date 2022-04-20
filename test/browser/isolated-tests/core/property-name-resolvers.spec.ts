@@ -111,6 +111,12 @@ describe('Property name resolvers', () => {
         pascalCase: '_404NotFound',
         snakeCase: '_404_not_found'
     },
+    {
+        name: 'Home (root)',
+        camelCase: 'homeRoot',
+        pascalCase: 'HomeRoot',
+        snakeCase: 'Home_root'
+    },
   ];
 
     const context = new Context();
