@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.8.1](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.8.0...v11.8.1) (2022-04-20)
+
+
+### Bug Fixes
+
+* fixes property name resolver to cover cases with mixed upper/lower case strings ([66918c9](https://github.com/Kentico/kontent-delivery-sdk-js/commit/66918c99b6da2d94d7115baa581669ccb7fd048c))
+
 ## [11.8.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.6.0...v11.8.0) (2022-04-20)
 
 
