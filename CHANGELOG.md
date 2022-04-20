@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.12.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.11.0...v11.12.0) (2022-04-20)
+
+
+### Features
+
+* Handles '&' in property name resolver ([e82ae6d](https://github.com/Kentico/kontent-delivery-sdk-js/commit/e82ae6d82662fda9786d26b6cebc6480fb95bc98))
+
 ## [11.11.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.10.0...v11.11.0) (2022-04-20)
 
 
