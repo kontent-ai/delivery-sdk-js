@@ -9,9 +9,8 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
     IItemQueryConfig,
     Contracts.IViewContentItemContract
 > {
-
     protected _queryConfig: IItemQueryConfig = {};
-    
+
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
@@ -61,10 +60,7 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<
-            Responses.IViewContentItemResponse<TContentItem>,
-            Contracts.IViewContentItemContract
-        >
+        IDeliveryNetworkResponse<Responses.IViewContentItemResponse<TContentItem>, Contracts.IViewContentItemContract>
     > {
         return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
     }
@@ -81,4 +77,4 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
     map(json: any): Responses.IViewContentItemResponse<TContentItem> {
         return this.queryService.mappingService.viewContentItemResponse(json);
     }
- }
+}

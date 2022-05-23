@@ -10,9 +10,8 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
     IItemQueryConfig,
     Contracts.IListContentItemsContract
 > {
-
     protected _queryConfig: IItemQueryConfig = {};
-    
+
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }
