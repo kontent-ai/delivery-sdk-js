@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.13.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.7.0...v11.13.0) (2022-05-23)
+
+
+### Features
+
+* Adds underscore to name resolver when it starts with a number ([5a624e3](https://github.com/Kentico/kontent-delivery-sdk-js/commit/5a624e3f59626f7b6c6bb94b9730f1c3edf2f721))
+* Automatically removes zero width characters from name resolvers ([fbf07aa](https://github.com/Kentico/kontent-delivery-sdk-js/commit/fbf07aab776050ba006d1bc8a8d562679ce2dcfe))
+* convert snake case name resolver to lowercase only text ([df39537](https://github.com/Kentico/kontent-delivery-sdk-js/commit/df395375f679a893b2d29b5409c4a0a3c2e6576d))
+* Handles '&' in property name resolver ([e82ae6d](https://github.com/Kentico/kontent-delivery-sdk-js/commit/e82ae6d82662fda9786d26b6cebc6480fb95bc98))
+* Handles brackets in property name resolver ([946db34](https://github.com/Kentico/kontent-delivery-sdk-js/commit/946db349de6a4add3a614e44daaab17720281011))
+* Improves property name resolvers by handling more special characters and unifies the regex across all name resolvers ([d153e81](https://github.com/Kentico/kontent-delivery-sdk-js/commit/d153e81ff2d3114d31ae016bc9d8c3073571da94))
+* updates dependencies ([5830491](https://github.com/Kentico/kontent-delivery-sdk-js/commit/5830491080767f22b49763051fda89c86f500b47))
+* updates dependencies ([a373528](https://github.com/Kentico/kontent-delivery-sdk-js/commit/a373528b6f6167ebcf9b6c2e5395b1ba0d061bd2))
+
+
+### Bug Fixes
+
+* fixes property name resolver to cover cases with mixed upper/lower case strings ([66918c9](https://github.com/Kentico/kontent-delivery-sdk-js/commit/66918c99b6da2d94d7115baa581669ccb7fd048c))
+* Properly sets query headers (some headers were not applied which caused issues especially in combination with paging) ([59af6c4](https://github.com/Kentico/kontent-delivery-sdk-js/commit/59af6c404846d71e52810813d837a8ea4c26c802))
+
 ## [11.12.0](https://github.com/Kentico/kontent-delivery-sdk-js/compare/v11.11.0...v11.12.0) (2022-04-20)
 
 
