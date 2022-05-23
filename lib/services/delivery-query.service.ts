@@ -235,12 +235,15 @@ export class QueryService extends BaseDeliveryQueryService {
             data.listQueryConfig.responseFetched(response, data.nextPageUrl, data.continuationToken);
         }
 
-        if (response.data.pagination?.nextPage || response.xContinuationToken) {
+        const nextPage = response.data.pagination?.nextPage;
+        const continuationToken = response.xContinuationToken;
+
+        if (nextPage || continuationToken) {
             // recursively fetch next page data
             return await this.getListAllResponseInternalAsync({
                 page: data.page + 1,
-                nextPageUrl: response.data.pagination?.nextPage,
-                continuationToken: response.xContinuationToken,
+                nextPageUrl: nextPage,
+                continuationToken: continuationToken,
                 listQueryConfig: data.listQueryConfig,
                 getResponse: data.getResponse,
                 resolvedResponses: data.resolvedResponses

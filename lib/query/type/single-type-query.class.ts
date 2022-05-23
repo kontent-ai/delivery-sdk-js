@@ -9,6 +9,9 @@ export class SingleTypeQuery extends BaseQuery<
     IContentTypeQueryConfig,
     Contracts.IViewContentTypeContract
 > {
+
+    protected _queryConfig: IContentTypeQueryConfig = {};
+    
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,

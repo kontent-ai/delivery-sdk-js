@@ -6,9 +6,8 @@ import { QueryService } from '../../services';
 
 export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig extends IQueryConfig, TContract> {
     protected parameters: IQueryParameter[] = [];
-    protected headers: IHeader[] = [];
     protected customUrl?: string;
-    protected _queryConfig?: TQueryConfig;
+    protected abstract _queryConfig: TQueryConfig;
 
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {}
 
@@ -60,14 +59,16 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
      * Gets headers used by this query
      */
     getHeaders(): IHeader[] {
-        return this.queryService.getHeaders(this._queryConfig ?? {}, this.headers);
+        return this.queryService.getHeaders(this._queryConfig, []);
     }
 
     /**
      * Sets request headers
      */
     withHeaders(headers: IHeader[]): this {
-        this.headers.push(...headers);
+        const queryHeaders = this._queryConfig.customHeaders ?? [];
+        queryHeaders.push(...headers);
+        this._queryConfig.customHeaders = queryHeaders;
         return this;
     }
 
@@ -75,7 +76,9 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
      * Sets request header
      */
     withHeader(header: IHeader): this {
-        this.headers.push(header);
+        const queryHeaders = this._queryConfig.customHeaders ?? [];
+        queryHeaders.push(header);
+        this._queryConfig.customHeaders = queryHeaders;
         return this;
     }
 
@@ -98,7 +101,7 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
      * Used to configure query
      * @param queryConfig Query configuration
      */
-    queryConfig(queryConfig?: TQueryConfig): this {
+    queryConfig(queryConfig: TQueryConfig): this {
         this._queryConfig = queryConfig;
         return this;
     }

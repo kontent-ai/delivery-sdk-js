@@ -10,6 +10,9 @@ export class MultipleTypeQuery extends BaseListingQuery<
     IContentTypeQueryConfig,
     Contracts.IListContentTypeContract
 > {
+
+    protected _queryConfig: IContentTypeQueryConfig = {};
+
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }

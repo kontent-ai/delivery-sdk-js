@@ -9,6 +9,9 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
     IItemQueryConfig,
     Contracts.IViewContentItemContract
 > {
+
+    protected _queryConfig: IItemQueryConfig = {};
+    
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,

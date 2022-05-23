@@ -10,6 +10,9 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     IItemQueryConfig,
     Contracts.IItemsFeedContract
 > {
+
+    protected _queryConfig: IItemQueryConfig = {};
+
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }

@@ -21,6 +21,8 @@ export class TaxonomiesQuery extends BaseListingQuery<
      */
     protected readonly taxonomiesEndpoint: string = 'taxonomies';
 
+    protected _queryConfig: ITaxonomyQueryConfig = {};
+
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }

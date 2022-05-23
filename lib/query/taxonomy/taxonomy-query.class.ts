@@ -14,6 +14,8 @@ export class TaxonomyQuery extends BaseQuery<
      */
     protected readonly taxonomiesEndpoint: string = 'taxonomies';
 
+    protected _queryConfig: ITaxonomyQueryConfig = {};
+
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,

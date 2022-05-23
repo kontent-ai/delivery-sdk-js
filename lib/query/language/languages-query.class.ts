@@ -21,6 +21,8 @@ export class LanguagesQuery extends BaseListingQuery<
      */
     protected readonly endpoint: string = 'languages';
 
+    protected _queryConfig: ILanguagesQueryConfig = {};
+
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);
     }

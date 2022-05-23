@@ -212,6 +212,12 @@ export abstract class BaseListingQuery<
      * Sets continuation token header
      */
     withContinuationToken(token: string): this {
+        // remove previous continuation token if there is any
+        let queryHeaders = this._queryConfig.customHeaders ?? [];
+        queryHeaders = queryHeaders.filter(m => m.header !== continuationTokenHeaderName);
+
+        this._queryConfig.customHeaders = queryHeaders;
+
         this.withHeaders([
             {
                 header: continuationTokenHeaderName,
@@ -237,14 +243,16 @@ export abstract class BaseListingQuery<
                 };
             },
             getResponse: (nextPageUrl, continuationToken) => {
+                let query = this;
+
                 if (nextPageUrl) {
-                    this.withCustomUrl(nextPageUrl).toPromise();
+                    query = this.withCustomUrl(nextPageUrl);
                 }
                 if (continuationToken) {
-                    this.withContinuationToken(continuationToken);
+                    query = this.withContinuationToken(continuationToken);
                 }
 
-                return this.toPromise();
+                return query.toPromise();
             }
         });
     }

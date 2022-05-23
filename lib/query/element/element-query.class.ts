@@ -9,6 +9,9 @@ export class ElementQuery extends BaseQuery<
     IElementQueryConfig,
     Contracts.IViewContentTypeElementContract
 > {
+
+    protected _queryConfig: IElementQueryConfig = {};
+
     constructor(
         protected config: IDeliveryClientConfig,
         protected queryService: QueryService,
