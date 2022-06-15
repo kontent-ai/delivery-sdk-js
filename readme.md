@@ -651,8 +651,8 @@ example hide the `projectId` from URL.
 
 `IDeliveryClientProxyConfig` offers 3 ways of configuring proxy url:
 
-1. `baseUrl` - Base url used for preview reqeusts. Defaults to 'preview-deliver.kontent.ai'
-2. `basePreviewUrl` - Base url used for all requests. Defaults to 'deliver.kontent.ai'
+1. `baseUrl` - Base url used for all requests. Defaults to 'deliver.kontent.ai'
+2. `basePreviewUrl` - Base url used for preview reqeusts. Defaults to 'preview-deliver.kontent.ai'
 3. `advancedProxyUrlResolver` - Resolver function where you get `IProxyUrlData` context data (includes domain, action,
    query parameters..) and can fully customize final URL.
 
