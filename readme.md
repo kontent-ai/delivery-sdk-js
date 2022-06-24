@@ -608,7 +608,7 @@ import { nodeParser, asyncNodeParser } from '@kentico/kontent-delivery-node-pars
 const json = createRichTextHtmlResolver(nodeParser).resolveRichText(data);
 
 // or
-const html = await createAsyncRichTextHtmlResolver(asyncNodeParser).resolveRichText(data);
+const html = await createAsyncRichTextHtmlResolver(asyncNodeParser).resolveRichTextAsync(data);
 ```
 
 ### Creating custom rich text resolvers
