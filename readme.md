@@ -28,27 +28,27 @@ npm i @kontent-ai/delivery-sdk --save
 When using UMD bundle and including this library in `script` tag on your `html` page, you can find it under the
 `kontentDelivery` global variable.
 
-Bundles are distributed in `dist/_bundles` folder:
+Bundles are distributed in `dist/bundles` folder:
 
--   `dist/_bundles/kontent-delivery.umd.js`
--   `dist/_bundles/kontent-delivery.umd.min.js`
+-   `dist/bundles/kontent-delivery.umd.js`
+-   `dist/bundles/kontent-delivery.umd.min.js`
 
 #### CDN
 
 ##### kontent-delivery.umd.js
 
-![Gzip UMD bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.js?compression=gzip)
+![Gzip UMD bundle](https://img.badgesize.io/https:/cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@latest/dist/bundles/kontent-delivery.umd.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.js
+https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@latest/dist/bundles/kontent-delivery.umd.js
 ```
 
 ##### kontent-delivery.umd.min.js
 
-![Gzip UMD Minified bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.min.js?compression=gzip)
+![Gzip UMD Minified bundle](https://img.badgesize.io/https:/cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@latest/dist/bundles/kontent-delivery.umd.min.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.min.js
+https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@latest/dist/bundles/kontent-delivery.umd.min.js
 ```
 
 ## TypeScript & ES6
