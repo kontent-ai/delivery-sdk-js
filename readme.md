@@ -1,10 +1,9 @@
 [![npm version](https://badge.fury.io/js/%40kontent-ai%2Fdelivery-sdk.svg)](https://badge.fury.io/js/%40kontent-ai%2Fdelivery-sdk)
 [![Build](https://github.com/kontent-ai/delivery-sdk-js/actions/workflows/test.yml/badge.svg)](https://github.com/kontent-ai/delivery-sdk-js/actions/workflows/test.yml)
 [![npm](https://img.shields.io/npm/dt/@kontent-ai/delivery-sdk.svg)](https://www.npmjs.com/package/@kontent-ai/delivery-sdk)
-[![Known Vulnerabilities](https://snyk.io/test/github/kontent-ai/delivery-sdk/badge.svg)](https://snyk.io/test/github/kontent-ai/delivery-sdk-js)
+[![Known Vulnerabilities](https://snyk.io/test/github/kontent-ai/delivery-sdk-js/badge.svg)](https://snyk.io/test/github/kontent-ai/delivery-sdk-js)
 [![GitHub license](https://img.shields.io/github/license/kontent-ai/delivery-sdk-js.svg)](https://github.com/kontent-ai/delivery-sdk-js)
-![Gzip browser bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk/bundles/dist/kontent-delivery.browser.umd.min.js?compression=gzip)
-
+![Gzip browser bundle](https://img.badgesize.io/https:/cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk/dist/bundles/kontent-delivery.umd.min.js?compression=gzip)
 [![Discord](https://img.shields.io/discord/821885171984891914?label=Discord&logo=Discord&logoColor=white)](https://discord.gg/SKCxwPtevJ)
 
 # JavaScript Delivery SDK Documentation
