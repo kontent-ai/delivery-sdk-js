@@ -1,4 +1,4 @@
-import { IHeader, IResponse, TestHttpService } from '@kentico/kontent-core';
+import { IHeader, IResponse, TestHttpService } from '@kontent-ai/core-sdk';
 import { defaultPropertyNameResolver } from '.';
 
 import { createDeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../../lib';

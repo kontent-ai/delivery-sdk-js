@@ -1,4 +1,4 @@
-import { enumHelper } from '@kentico/kontent-core';
+import { enumHelper } from '@kontent-ai/core-sdk';
 import { deliveryUrlHelper } from '../utilities';
 
 import { IDeliveryClientConfig } from '../config';

@@ -1,5 +1,5 @@
 import { DeliveryClient, IDeliveryClientConfig, IQueryConfig, PropertyNameResolver } from '../../../lib';
-import { IHeader, IRetryStrategyOptions } from '@kentico/kontent-core';
+import { IHeader, IRetryStrategyOptions } from '@kontent-ai/core-sdk';
 
 export class Context {
 

@@ -1,4 +1,4 @@
-import { IHeader, IHttpService, IRetryStrategyOptions } from '@kentico/kontent-core';
+import { IHeader, IHttpService, IRetryStrategyOptions } from '@kontent-ai/core-sdk';
 
 import { ElementResolver } from '../elements';
 import { LinkedItemsReferenceHandler, IProxyUrlData, IQueryConfig, PropertyNameResolver } from '../models';
@@ -24,7 +24,7 @@ export interface IDeliveryClientProxyConfig {
 
 export interface IDeliveryClientConfig {
     /**
-     * ProjectId of your Kentico Kontent project
+     * ProjectId of your Kontent.ai project
      */
     projectId: string;
 

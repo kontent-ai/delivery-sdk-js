@@ -1,4 +1,4 @@
-import { IResponse } from '@kentico/kontent-core';
+import { IResponse } from '@kontent-ai/core-sdk';
 
 export interface IDeliveryNetworkResponse<TData, TContract> {
     data: TData;

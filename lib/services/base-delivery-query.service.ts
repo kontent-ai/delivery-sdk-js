@@ -1,4 +1,4 @@
-import { IResponse, IHeader, IHttpService, IQueryParameter, urlHelper } from '@kentico/kontent-core';
+import { IResponse, IHeader, IHttpService, IQueryParameter, urlHelper } from '@kontent-ai/core-sdk';
 import { AxiosError } from 'axios';
 import {
     waitForLoadingNewContentHeader,
@@ -17,12 +17,12 @@ import { IMappingService } from './mapping.service';
 
 export abstract class BaseDeliveryQueryService {
     /**
-     * Default base Url to Kentico Delivery API
+     * Default base Url to Kontent.ai Delivery API
      */
     private readonly defaultBaseDeliveryApiUrl: string = 'https://deliver.kontent.ai';
 
     /**
-     * Default preview url to Kentico Delivery API
+     * Default preview url to Kontent.ai Delivery API
      */
     private readonly defaultPreviewDeliveryApiUrl: string = 'https://preview-deliver.kontent.ai';
 
@@ -279,7 +279,7 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-     * Header identifying SDK type & version for internal purposes of Kentico
+     * Header identifying SDK type & version for internal purposes of Kontent.ai
      */
     private getSdkIdHeader(): IHeader {
         return {

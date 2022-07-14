@@ -1,4 +1,4 @@
-import { IHeader } from '@kentico/kontent-core';
+import { IHeader } from '@kontent-ai/core-sdk';
 
 import { IQueryConfig } from '../../../../lib';
 import { Context, setup } from '../../setup';

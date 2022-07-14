@@ -1,5 +1,5 @@
 import { Context, setup } from '../../setup';
-import { IHeader } from '@kentico/kontent-core';
+import { IHeader } from '@kontent-ai/core-sdk';
 
 describe('Preview headers', () => {
 

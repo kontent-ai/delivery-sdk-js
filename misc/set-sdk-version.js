@@ -7,5 +7,5 @@ versionHelper.createSdkVersionFile(
     path.join(__dirname + '/../lib/sdk-info.generated.ts'),
     appVersion,
     packageName,
-    '@kentico/kontent-core'
+    '@kontent-ai/core-sdk'
 );

@@ -1,4 +1,4 @@
-import { IHeader, IHttpCancelRequestToken, IQueryParameter } from '@kentico/kontent-core';
+import { IHeader, IHttpCancelRequestToken, IQueryParameter } from '@kontent-ai/core-sdk';
 import { IDeliveryNetworkResponse } from './base-responses';
 import { IPagination } from './pagination.class';
 

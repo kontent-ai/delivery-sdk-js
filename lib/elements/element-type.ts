@@ -1,5 +1,5 @@
 /**
-* Represents codename of Kentico Kontent element types
+* Represents codename of Kontent.ai element types
 */
 export enum ElementType {
     Text = 'text',

@@ -1,4 +1,4 @@
-import { IQueryParameter } from '@kentico/kontent-core';
+import { IQueryParameter } from '@kontent-ai/core-sdk';
 
 import { SortOrder } from './sort-order';
 

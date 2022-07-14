@@ -1,17 +1,15 @@
-[![npm version](https://badge.fury.io/js/%40kentico%2Fkontent-delivery.svg)](https://badge.fury.io/js/%40kentico%2Fkontent-delivery)
-[![Build](https://github.com/Kentico/kontent-delivery-sdk-js/actions/workflows/test.yml/badge.svg)](https://github.com/Kentico/kontent-delivery-sdk-js/actions/workflows/test.yml)
-[![CircleCI](https://circleci.com/gh/Kentico/kontent-delivery-sdk-js/tree/master.svg?style=svg)](https://circleci.com/gh/Kentico/kontent-delivery-sdk-js/tree/master)
-[![npm](https://img.shields.io/npm/dt/@kentico/kontent-delivery.svg)](https://www.npmjs.com/package/@kentico/kontent-delivery)
-[![Known Vulnerabilities](https://snyk.io/test/github/Kentico/kontent-delivery-sdk-js/badge.svg)](https://snyk.io/test/github/kentico/kontent-delivery-sdk-js)
-[![GitHub license](https://img.shields.io/github/license/Kentico/kontent-delivery-sdk-js.svg)](https://github.com/Kentico/kontent-delivery-sdk-js)
-![Gzip browser bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery/_bundles/kontent-delivery.browser.umd.min.js?compression=gzip)
-[![](https://data.jsdelivr.com/v1/package/npm/@kentico/kontent-delivery/badge)](https://www.jsdelivr.com/package/npm/kentico-kotent-delivery)
+[![npm version](https://badge.fury.io/js/%40kontent-ai%2Fdelivery-sdk.svg)](https://badge.fury.io/js/%40kontent-ai%2Fdelivery-sdk)
+[![Build](https://github.com/kontent-ai/delivery-sdk-js/actions/workflows/test.yml/badge.svg)](https://github.com/kontent-ai/delivery-sdk-js/actions/workflows/test.yml)
+[![npm](https://img.shields.io/npm/dt/@kontent-ai/delivery-sdk.svg)](https://www.npmjs.com/package/@kontent-ai/delivery-sdk)
+[![Known Vulnerabilities](https://snyk.io/test/github/kontent-ai/delivery-sdk/badge.svg)](https://snyk.io/test/github/kontent-ai/delivery-sdk-js)
+[![GitHub license](https://img.shields.io/github/license/kontent-ai/delivery-sdk-js.svg)](https://github.com/kontent-ai/delivery-sdk-js)
+![Gzip browser bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk/bundles/dist/kontent-delivery.browser.umd.min.js?compression=gzip)
 
 [![Discord](https://img.shields.io/discord/821885171984891914?label=Discord&logo=Discord&logoColor=white)](https://discord.gg/SKCxwPtevJ)
 
 # JavaScript Delivery SDK Documentation
 
-JavaScript Delivery SDK is a client library for retrieving data from [Kontent by Kentico](https://kontent.ai/). Works
+JavaScript Delivery SDK is a client library for retrieving data from [Kontent.ai](https://kontent.ai/). Works
 both in browser & node.js environments.
 
 # Kontent Delivery SDK
@@ -23,7 +21,7 @@ You can install this library using `npm` or you can use global CDNs such `jsdeli
 ### npm
 
 ```
-npm i @kentico/kontent-delivery --save
+npm i @kontent-ai/delivery-sdk --save
 ```
 
 ### UMD Bundles
@@ -40,24 +38,24 @@ Bundles are distributed in `dist/_bundles` folder:
 
 ##### kontent-delivery.umd.js
 
-![Gzip UMD bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.js?compression=gzip)
+![Gzip UMD bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.js
+https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.js
 ```
 
 ##### kontent-delivery.umd.min.js
 
-![Gzip UMD Minified bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.min.js?compression=gzip)
+![Gzip UMD Minified bundle](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.min.js?compression=gzip)
 
 ```
-https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.min.js
+https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.min.js
 ```
 
 ## TypeScript & ES6
 
 ```typescript
-import { IContentItem, Elements, createDeliveryClient } from '@kentico/kontent-delivery';
+import { IContentItem, Elements, createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 /**
  * Defining models is optional, but will greatly benefit development
@@ -90,7 +88,7 @@ const movieText = response.data.items[0].title.value;
 ## JavaScript & CommonJS
 
 ```javascript
-const KontentDelivery = require('@kentico/kontent-delivery');
+const KontentDelivery = require('@kontent-ai/delivery-sdk');
 
 // initialize delivery client
 const deliveryClient = KontentDelivery.createDeliveryClient({
@@ -115,7 +113,7 @@ const movieText = response.data.items[0].title.value;
         <title>Kontent SDK - Html sample</title>
         <script
             type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/@kentico/kontent-delivery@11.0.0/dist/bundles/kontent-delivery.umd.min.js"
+            src="https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.min.js"
         ></script>
     </head>
     <body>
@@ -162,14 +160,14 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 
 ### Create typed models
 
-> Recommended:Use the [Kontent Model Generator](https://www.npmjs.com/package/@kentico/kontent-model-generator) to automatically
+> Recommended:Use the [Model Generator](https://www.npmjs.com/package/@kontent-ai/model-generator) to automatically
 > generate TypeScript models based on the content types in your Kontent project.
 
 You may define optional models in Typescript representing your actual data defined in Kontent projects. You can also
 auto-generate these models (see below).
 
 ```typescript
-import { IContentItem, Elements } from '@kentico/kontent-delivery';
+import { IContentItem, Elements } from '@kontent-ai/delivery-sdk';
 
 export type Movie = IContentItem<{
     title: Elements.TextElement;
@@ -217,7 +215,7 @@ You can create a `ColorElement` type with strongly typed properties for `red`, `
 parse from the json.
 
 ```typescript
-import { ElementModels, Elements, createDeliveryClient } from '@kentico/kontent-delivery';
+import { ElementModels, Elements, createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 type ColorElement = Elements.CustomElement<{
     red: number;
@@ -349,7 +347,7 @@ You can specify [language of items](https://kontent.ai/learn/tutorials/manage-ko
 is not used during the initialization of delivery client.
 
 ```typescript
-import { createDeliveryClient } from '@kentico/kontent-delivery';
+import { createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 var deliveryClient = new createDeliveryClient({
     projectId: '<YOUR_PROJECT_ID>',
@@ -371,7 +369,7 @@ what you can do by registering a `propertyNameResolver`. The following example c
 `firstName`.
 
 ```typescript
-import { ContentItem, Elements, createDeliveryClient  } from '@kentico/kontent-delivery';
+import { ContentItem, Elements, createDeliveryClient  } from '@kontent-ai/delivery-sdk';
 
 type Actor = IContentItem<{
     firstName: Elements.TextElement;
@@ -391,7 +389,7 @@ const deliveryClient = createDeliveryClient({
 Rather then registering all elements manually, you can also use one of the built-in property name resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver`
 
 ```typescript
-import { createDeliveryClient, snakeCasePropertyNameResolver, pascalCasePropertyNameResolver, camelCasePropertyNameResolver  } from '@kentico/kontent-delivery';
+import { createDeliveryClient, snakeCasePropertyNameResolver, pascalCasePropertyNameResolver, camelCasePropertyNameResolver  } from '@kontent-ai/delivery-sdk';
 
 const deliveryClient = createDeliveryClient({
   projectId: '<YOUR_PROJECT_ID>';
@@ -409,7 +407,7 @@ per query. In each case, you need to set `previewApiKey` in the delivery client 
 #### Enable preview mode globally
 
 ```typescript
-import { createDeliveryClient } from '@kentico/kontent-delivery';
+import { createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 const deliveryClient = createDeliveryClient({
   projectId: '<YOUR_PROJECT_ID>';
@@ -438,7 +436,7 @@ is recommend only when the request is not being executed on the client (browser)
 API key publicly.
 
 ```typescript
-import { createDeliveryClient } from '@kentico/kontent-delivery';
+import { createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 const deliveryClient = createDeliveryClient({
   projectId: '<YOUR_PROJECT_ID>';
@@ -468,10 +466,10 @@ Use `ImageUrlBuilder` for your [image transformations](https://kontent.ai/learn/
 URLs.
 
 ```typescript
-import { transformImageUrl } from '@kentico/kontent-delivery';
+import { transformImageUrl } from '@kontent-ai/delivery-sdk';
 
 // Sample asset URL; You'll find URLs like these in asset and rich text elements
-const assetUrl = `https://assets.kenticocloud.com:443/da5abe9f-fdad-4168-97cd-b3464be2ccb9/22504ba8-2075-48fa-9d4f-8fce3de1754a/warrior.jpg`;
+const assetUrl = `https://assets-eu-01.kc-usercontent.com/ede994d8-bb05-01b5-9c33-8b65e7372306/4f45e0a8-4fc3-4143-a81f-55b7e4ce7daa/warrior.jpg`;
 
 const transformedUrl = transformImageUrl(assetUrl)
     .withDpr(2)
@@ -503,7 +501,7 @@ const response = await deliveryClient.items().limitParameter(5).toAllPromise({
 ### Resolving rich text elements
 
 [Rich text elements](https://kontent.ai/learn/reference/delivery-api#section/Rich-text-element) in
-Kontent by Kentico may contain linked items and components. For example, if you write a blog post, you might want to
+Kontent.ai may contain linked items and components. For example, if you write a blog post, you might want to
 insert a video or testimonial to a specific place in your article.
 
 You need to define how these objects resolve to the HTML that will be rendered. This SDK provides you with few resolvers
@@ -521,7 +519,7 @@ Resolver | Description | Usage
 #### Example use of RichTextHtmlResolver
 
 ```typescript
-import { createRichTextHtmlResolver, createDeliveryClient, linkedItemsHelper } from '@kentico/kontent-delivery';
+import { createRichTextHtmlResolver, createDeliveryClient, linkedItemsHelper } from '@kontent-ai/delivery-sdk';
 
 export type Movie = IContentItem<{
     plot: Elements.RichTextElement;
@@ -575,7 +573,7 @@ const resolvedHtml = resolvedRichText.html;
 #### Example use of RichTextJsonResolver
 
 ```typescript
-import { createRichTextHtmlResolver, createDeliveryClient, linkedItemsHelper } from '@kentico/kontent-delivery';
+import { createRichTextHtmlResolver, createDeliveryClient, linkedItemsHelper } from '@kontent-ai/delivery-sdk';
 
 // get content item with rich text element
 const response = (await createDeliveryClient({ projectId: '<YOUR_PROJECT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
@@ -595,14 +593,14 @@ const json = createRichTextJsonResolver().resolveRichText({
 If you need to resolve rich text in `node.js`, you have to install following parser:
 
 ```
-npm i @kentico/kontent-delivery-node-parser --save
+npm i @kontent-ai/delivery-sdk-node-parser --save
 ```
 
 Once installed, it can be used by passing the parser to rich text resolver:
 
 ```typescript
-import { createRichTextHtmlResolver, createAsyncRichTextHtmlResolver } from '@kentico/kontent-delivery';
-import { nodeParser, asyncNodeParser } from '@kentico/kontent-delivery-node-parser';
+import { createRichTextHtmlResolver, createAsyncRichTextHtmlResolver } from '@kontent-ai/delivery-sdk';
+import { nodeParser, asyncNodeParser } from '@kontent-ai/delivery-sdk-node-parser';
 
 // transform rich text html into json
 const json = createRichTextHtmlResolver(nodeParser).resolveRichText(data);
@@ -688,11 +686,11 @@ const client = createDeliveryClient({
 
 ## Error handling
 
-If the error originates in Kontent by Kentico (see [error responses](https://kontent.ai/learn/reference/delivery-api#section/SDKs)), you will get a `DeliveryError` object
+If the error originates in Kontent.ai (see [error responses](https://kontent.ai/learn/reference/delivery-api#section/SDKs)), you will get a `DeliveryError` object
 instance with more specific information. Otherwise, you will get original error.
 
 ```typescript
-import { DeliveryError } from '@kentico/kontent-delivery';
+import { DeliveryError } from '@kontent-ai/delivery-sdk';
 
 try {
     await deliveryClient.item('invalid_codename').toPromise();
@@ -741,8 +739,7 @@ For this reason, you may disable mapping of linked items with `linkedItemsRefere
 The SDK allows you to inject your own instance of a class implementing the `IHttpService` interface. This way you can
 easily mock responses, implement your own http service, or modify the requests in some other way.
 
-Sample of a test `HttpService` implementation can be found at
-https://github.com/Kentico/kontent-core-js/blob/7ec7faaa779a4aa55802ade927f296cc3619a720/lib/http/test-http.service.ts
+Sample of a test `HttpService` implementation can be found at https://github.com/kontent-ai/core-sdk-js
 
 Once you have your `HttpService`, use it in delivery client initialization:
 
@@ -814,7 +811,7 @@ Note: You need to have `Chrome` installed in order to run tests via Karma.
 -   `npm run test:all` Runs all test
 
 > If you want to mock http responses, it is possible to use
-> [custom Http Service](https://github.com/Kentico/kontent-core-js#testing) as a part of the
+> [custom Http Service](https://github.com/kontent-ai/core-sdk-js#testing) as a part of the
 > [delivery client configuration](#client-configuration).
 
 ## Feedback & Contribution

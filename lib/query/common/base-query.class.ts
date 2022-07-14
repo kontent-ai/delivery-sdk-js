@@ -1,4 +1,4 @@
-import { IHeader, IQueryParameter } from '@kentico/kontent-core';
+import { IHeader, IQueryParameter } from '@kontent-ai/core-sdk';
 
 import { IDeliveryClientConfig } from '../../config';
 import { IDeliveryNetworkResponse, IKontentResponse, IQueryConfig, Parameters } from '../../models';

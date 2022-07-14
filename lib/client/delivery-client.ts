@@ -1,4 +1,4 @@
-import { HttpService } from '@kentico/kontent-core';
+import { HttpService } from '@kontent-ai/core-sdk';
 
 import { IDeliveryClientConfig } from '../config';
 import { IContentItem } from '../models';
@@ -22,7 +22,7 @@ export class DeliveryClient implements IDeliveryClient {
     public mappingService: IMappingService;
 
     /**
-     * Delivery client used to fetch data from Kentico Kontent
+     * Delivery client used to fetch data from Kontent.ai
      * @constructor
      * @param {IDeliveryClientConfig} config - The client configuration
      */

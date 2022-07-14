@@ -8,7 +8,7 @@ import {
     IHttpQueryOptions,
     IHttpService,
     IHttpCancelRequestToken
-} from '@kentico/kontent-core';
+} from '@kontent-ai/core-sdk';
 
 import { DeliveryClient } from '../../../../lib';
 

@@ -1,4 +1,4 @@
-import { IHttpService } from '@kentico/kontent-core';
+import { IHttpService } from '@kontent-ai/core-sdk';
 
 import { IDeliveryClientConfig } from '../config';
 import {
