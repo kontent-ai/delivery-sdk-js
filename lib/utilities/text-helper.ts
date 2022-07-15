@@ -1,6 +1,6 @@
 export class TextHelper {
     getPropertyNameRegex(): RegExp {
-        return /[\&\(\)\?\-\=\'\"\§\!\%\:\_\s.]+(.)?/g;
+        return /[\&\(\)\?\-\=\'\"\\\xa7\!\%\:\_\s.]+(.)?/g;
     }
 
     removeZeroWidthCharacters(str: string): string {
