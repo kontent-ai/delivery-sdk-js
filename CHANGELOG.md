@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.0.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.0.0...v12.0.1) (2022-07-15)
+
+
+### Bug Fixes
+
+* escapes property name regex to prevent unintended escaping caused by angular CLI ([0913986](https://github.com/kontent-ai/delivery-sdk-js/commit/0913986809a73fc09cda47a1acffe2352e3415cc))
+
 ## [12.0.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.0.0-0...v12.0.0) (2022-07-14)
 
 ## [12.0.0-0](https://github.com/kontent-ai/delivery-sdk-js/compare/v11.13.0...v12.0.0-0) (2022-07-14)
