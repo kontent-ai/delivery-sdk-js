@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.0.2](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.0.1...v12.0.2) (2022-07-21)
+
+
+### Bug Fixes
+
+* Handle '/' character in property name resolvers ([9ed6c77](https://github.com/kontent-ai/delivery-sdk-js/commit/9ed6c771129fb97e5e68708295fe9277be728380))
+
 ### [12.0.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.0.0...v12.0.1) (2022-07-15)
 
 
