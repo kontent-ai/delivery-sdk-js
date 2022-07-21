@@ -8,7 +8,6 @@ describe('Live taxonomies', () => {
     const termsWithNestedTermsCodename: string = 'film'; // codename of the taxonomy term that has nested terms
     const numberOfNestedTerms: number = 3; // this is the number of nested terms defined by 'termsWithNestedTermsCodename'
     const existingTaxonomyCodename: string = 'movietype'; // codename of some of the defined taxonomies
-    const numberOfTaxonomies: number = 2; // number of defined taxonomies
 
     let response: Responses.IListTaxonomiesResponse;
     let taxonomy: ITaxonomyGroup;
@@ -25,10 +24,6 @@ describe('Live taxonomies', () => {
 
     it(`taxonomies should be defined`, () => {
         expect(response.items).toBeDefined();
-    });
-
-    it(`there should be '${numberOfTaxonomies}' taxonomies`, () => {
-        expect(response.items.length).toEqual(numberOfTaxonomies);
     });
 
     it(`taxonomy with codename '${existingTaxonomyCodename}' should be defined`, () => {
