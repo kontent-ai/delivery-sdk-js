@@ -28,8 +28,8 @@ export class ItemMapper {
     }
 
     /**
-     * Maps single item to its proper strongly typed model from the given Kontent response
-     * @param response Kontent response used to map the item
+     * Maps single item to its proper strongly typed model from the given response
+     * @param response Response used to map the item
      * @param queryConfig Query configuration
      */
     mapSingleItemFromResponse<TContentItem extends IContentItem = IContentItem>(
@@ -47,8 +47,8 @@ export class ItemMapper {
     }
 
     /**
-     * Maps multiple items to their strongly typed model from the given Kontent response
-     * @param response Kontent response used to map the item
+     * Maps multiple items to their strongly typed model from the given  response
+     * @param response Response used to map the item
      * @param queryConfig Query configuration
      */
     mapMultipleItemsFromResponse<TContentItem extends IContentItem = IContentItem>(

@@ -40,7 +40,7 @@ export interface IDeliveryClient {
     items<TContentItem extends IContentItem = IContentItem>(): MultipleItemsQuery<TContentItem>;
 
     /**
-     * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent project.
+     * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent.ai project.
      */
     itemsFeed<TContentItem extends IContentItem = IContentItem>(): ItemsFeedQuery<TContentItem>;
 

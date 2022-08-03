@@ -11,7 +11,7 @@
 JavaScript Delivery SDK is a client library for retrieving data from [Kontent.ai](https://kontent.ai/). Works
 both in browser & node.js environments.
 
-# Kontent Delivery SDK
+# Kontent.ai Delivery SDK
 
 ## Installation
 
@@ -109,7 +109,7 @@ const movieText = response.data.items[0].title.value;
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Kontent SDK - Html sample</title>
+        <title>Kontent.ai SDK - Html sample</title>
         <script
             type="text/javascript"
             src="https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.min.js"
@@ -142,7 +142,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 
 | Property            |                   type                   | description                                                                                                                                                                                                                       |
 | ------------------- | :--------------------------------------: |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| projectId           |                  string                  | ProjectId of your Kontent project                                                                                                                                                                                                 |
+| projectId           |                  string                  | ProjectId of your Kontent.ai project                                                                                                                                                                                                 |
 | elementResolver?    |             ElementResolver              | Element resolver used to map custom elements                                                                                                                                                                                      |
 | previewApiKey?      |                  string                  | Preview API key used to get unpublished content items                                                                                                                                                                             |
 | defaultLanguage?    |                  string                  | Sets default language that will be used for all queries unless overriden with query parameters                                                                                                                                    |
@@ -160,9 +160,9 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 ### Create typed models
 
 > Recommended:Use the [Model Generator](https://www.npmjs.com/package/@kontent-ai/model-generator) to automatically
-> generate TypeScript models based on the content types in your Kontent project.
+> generate TypeScript models based on the content types in your Kontent.ai project.
 
-You may define optional models in Typescript representing your actual data defined in Kontent projects. You can also
+You may define optional models in Typescript representing your actual data defined in Kontent.ai projects. You can also
 auto-generate these models (see below).
 
 ```typescript
@@ -200,7 +200,7 @@ also get `UknownElement` or custom model if you register it for your custom elem
 You can register an `ElementResolver` to map custom elements into dedicated element models and work with data more
 effectively.
 
-For example, if you have a custom `color` element in your Kontent project with json data like:
+For example, if you have a custom `color` element in your Kontent.ai project with json data like:
 
 ```json
  "color": {
@@ -362,7 +362,7 @@ deliveryClient.item('warrior').languageParameter(`en`).toPromise();
 
 ### Property name resolvers
 
-Kontent element codenames are always in **lowercase** and use **underscore** as a replacement for special characters.
+Kontent.ai element codenames are always in **lowercase** and use **underscore** as a replacement for special characters.
 Using underscores might not be what you want to use in your code. Maybe you want to use `camelCase`, which is exactly
 what you can do by registering a `propertyNameResolver`. The following example converts `first_name` element name to
 `firstName`.

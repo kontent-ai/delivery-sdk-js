@@ -82,7 +82,7 @@ export class DeliveryClient implements IDeliveryClient {
     }
 
     /**
-     * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent project.
+     * Gets query for items feed. Executes single HTTP request only. Might not get all items from your Kontent.ai project.
      */
     itemsFeed<TContentItem extends IContentItem = IContentItem>(): ItemsFeedQuery<TContentItem> {
         return new ItemsFeedQuery<TContentItem>(this.config, this.queryService);
