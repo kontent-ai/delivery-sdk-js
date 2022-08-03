@@ -592,14 +592,14 @@ const json = createRichTextJsonResolver().resolveRichText({
 If you need to resolve rich text in `node.js`, you have to install following parser:
 
 ```
-npm i @kontent-ai/delivery-sdk-node-parser --save
+npm i @kontent-ai/delivery-node-parser --save
 ```
 
 Once installed, it can be used by passing the parser to rich text resolver:
 
 ```typescript
 import { createRichTextHtmlResolver, createAsyncRichTextHtmlResolver } from '@kontent-ai/delivery-sdk';
-import { nodeParser, asyncNodeParser } from '@kontent-ai/delivery-sdk-node-parser';
+import { nodeParser, asyncNodeParser } from '@kontent-ai/delivery-node-parser';
 
 // transform rich text html into json
 const json = createRichTextHtmlResolver(nodeParser).resolveRichText(data);
