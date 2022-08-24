@@ -537,7 +537,7 @@ const richTextElement = response.item.plot;
 // resolve HTML
 const resolvedRichText = createRichTextHtmlResolver().resolveRichText({
     element: richTextElement,
-    linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
+    linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.data.linkedItems),
     imageResolver: (imageId, image) => {
         return {
             imageHtml: `<img class="xImage" src="${image?.url}">`,
@@ -583,7 +583,7 @@ const richTextElement = response.item.plot;
 // transform rich text html into json
 const json = createRichTextJsonResolver().resolveRichText({
     element: response.item.elements.plot,
-    linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.linkedItems),
+    linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.data.linkedItems),
 });
 ```
 
