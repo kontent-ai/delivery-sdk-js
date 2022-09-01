@@ -16,6 +16,18 @@ describe('Property name resolvers', () => {
         snakeCase: 'test_value'
     },
     {
+        name: ';test;value',
+        camelCase: 'testValue',
+        pascalCase: 'TestValue',
+        snakeCase: 'test_value'
+    },
+    {
+        name: ',test,value',
+        camelCase: 'testValue',
+        pascalCase: 'TestValue',
+        snakeCase: 'test_value'
+    },
+    {
         name: '_test value',
         camelCase: 'testValue',
         pascalCase: 'TestValue',
