@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.1.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.0.2...v12.1.0) (2022-09-01)
+
+
+### Features
+
+* Handle commas & semicolons in name resolvers ([d990dcf](https://github.com/kontent-ai/delivery-sdk-js/commit/d990dcf8f976408efeca7692d05a9ad1f77a4279))
+
 ### [12.0.2](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.0.1...v12.0.2) (2022-07-21)
 
 
