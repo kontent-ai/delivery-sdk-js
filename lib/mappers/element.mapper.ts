@@ -150,12 +150,27 @@ export class ElementMapper {
         processingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
     ): Elements.RichTextElement {
-        // get all linked items nested in rich text
-        const richTextLinkedItems: IContentItem[] = [];
-
         const rawElement = elementWrapper.rawElement as Contracts.IRichTextElementContract;
 
-        for (const codename of rawElement.modular_content) {
+        // get all linked items nested in rich text
+        const richTextLinkedItems: IContentItem[] = [];
+        const richTextLinkedItemsCodenames: string[] = [];
+
+        const rawModularContentCodenamesMatches = (rawElement.value as string).matchAll(
+            /<object[^>]+data-codename=\"(?<codenames>[a-z0-9_]*)\".*?>/g
+        );
+        const rawModularContentCodenames = Array.from(rawModularContentCodenamesMatches).reduce<string[]>(
+            (acc, match) => {
+                if (match?.groups?.codenames) {
+                    acc.push(match?.groups?.codenames);
+                }
+                return acc;
+            },
+            [] as string[]
+        );
+
+        for (const codename of rawModularContentCodenames) {
+            richTextLinkedItemsCodenames.push(codename);
             // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
             const preparedData = preparedItems[codename];
 
@@ -203,7 +218,7 @@ export class ElementMapper {
 
         return {
             images: images,
-            linkedItemCodenames: rawElement.modular_content,
+            linkedItemCodenames: richTextLinkedItemsCodenames,
             linkedItems: richTextLinkedItems,
             links: links,
             name: rawElement.name,
