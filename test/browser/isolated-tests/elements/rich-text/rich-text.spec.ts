@@ -15,7 +15,7 @@ describe('Rich Text element', () => {
         const element = item.elements.rich as Elements.RichTextElement;
 
         expect(element.type).toEqual(ElementType.RichText);
-        expect(element.linkedItemCodenames).toEqual(['n1', 'n2', 'n3']);
+        expect(element.linkedItemCodenames).toEqual(['n1', 'n2', 'n3', 'n4']);
         for (var i = 0; i < element.linkedItems.length; ++i) {
             expect(element.linkedItems[i].system.codename).toBe(`n${i + 1}`);
         }
@@ -28,7 +28,7 @@ describe('Rich Text element', () => {
         const element = item.elements.rich as Elements.RichTextElement;
 
         expect(element.type).toEqual(ElementType.RichText);
-        expect(element.linkedItemCodenames).toEqual(['n1', 'n2', 'n3']);
+        expect(element.linkedItemCodenames).toEqual(['n1', 'n2', 'n3', 'n4']);
         for (var i = 0; i < element.linkedItems.length; ++i) {
             expect(element.linkedItems[i].system.codename).toBe(`n${i + 1}`);
         }
