@@ -157,12 +157,12 @@ export class ElementMapper {
         const richTextLinkedItemsCodenames: string[] = [];
 
         const rawModularContentCodenamesMatches = (rawElement.value as string).matchAll(
-            /<object[^>]+data-codename=\"(?<codenames>[a-z0-9_]*)\".*?>/g
+            /<object[^>]+data-codename=\"(?<codename>[a-z0-9_]*)\".*?>/g
         );
         const rawModularContentCodenames = Array.from(rawModularContentCodenamesMatches).reduce<string[]>(
             (acc, match) => {
-                if (match?.groups?.codenames) {
-                    acc.push(match?.groups?.codenames);
+                if (match.groups && match.groups.codename) {
+                    acc.push(match.groups.codename);
                 }
                 return acc;
             },
