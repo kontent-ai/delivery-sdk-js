@@ -152,14 +152,16 @@ export class ElementMapper {
     ): Elements.RichTextElement {
         const rawElement = elementWrapper.rawElement as Contracts.IRichTextElementContract;
 
-        // get all linked items nested in rich text
+        // get all linked items and linked items codenames nested in rich text
         const richTextLinkedItems: IContentItem[] = [];
         const richTextLinkedItemsCodenames: string[] = [];
 
+        // The Kontent Delivery API is not guaranteed to return rich-text modular_content array items in the same order in which they appear inside the `value` property.
+        // We extract the modular_content codenames in the rich-text value and sort the raw modular_content based on that order instead.
         const rawModularContentCodenamesMatches = (rawElement.value as string).matchAll(
             /<object[^>]+data-codename=\"(?<codename>[a-z0-9_]*)\".*?>/g
         );
-        const rawModularContentCodenames = Array.from(rawModularContentCodenamesMatches).reduce<string[]>(
+        const rawModularContentCodenamesSorted = Array.from(rawModularContentCodenamesMatches).reduce<string[]>(
             (acc, match) => {
                 if (match.groups && match.groups.codename) {
                     acc.push(match.groups.codename);
@@ -168,6 +170,9 @@ export class ElementMapper {
             },
             [] as string[]
         );
+        const rawModularContentCodenames = [...rawElement.modular_content].sort(function (a, b) {
+            return rawModularContentCodenamesSorted.indexOf(a) - rawModularContentCodenamesSorted.indexOf(b);
+        });
 
         for (const codename of rawModularContentCodenames) {
             richTextLinkedItemsCodenames.push(codename);
