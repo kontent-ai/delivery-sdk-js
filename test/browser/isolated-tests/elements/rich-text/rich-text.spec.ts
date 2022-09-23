@@ -18,7 +18,7 @@ describe('Rich-text element', () => {
         expect(element.type).toEqual(ElementType.RichText);
         expect(rawItem?.elements.rich.modular_content).toEqual(['n2', 'n4', 'n3', 'n1']);
         expect(element.linkedItemCodenames).toEqual(['n1', 'n2', 'n3', 'n4']);
-        for (var i = 0; i < element.linkedItems.length; ++i) {
+        for (const i = 0; i < element.linkedItems.length; ++i) {
             expect(element.linkedItems[i].system.codename).toBe(`n${i + 1}`);
         }
     });
@@ -33,7 +33,7 @@ describe('Rich-text element', () => {
         expect(element.type).toEqual(ElementType.RichText);
         expect(rawItem?.elements.rich.modular_content).toEqual(['n1', 'n2', 'n3', 'n4']);
         expect(element.linkedItemCodenames).toEqual(['n1', 'n2', 'n3', 'n4']);
-        for (var i = 0; i < element.linkedItems.length; ++i) {
+        for (const i = 0; i < element.linkedItems.length; ++i) {
             expect(element.linkedItems[i].system.codename).toBe(`n${i + 1}`);
         }
     });
