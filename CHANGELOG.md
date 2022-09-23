@@ -7,15 +7,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* add linked items ordering logic to mapRichTextElement + unit tests ([614a934](https://github.com/kontent-ai/delivery-sdk-js/commit/614a934ebbe849642712c863ab7388df9c839454))
-* added extra details to test cases to match API documentation specs ([0068188](https://github.com/kontent-ai/delivery-sdk-js/commit/0068188037e2432201d0ef3ed8b26b7f112c0e01))
 * Preservers the order of mapped linkedItems in RTE ([5d9db00](https://github.com/kontent-ai/delivery-sdk-js/commit/5d9db0079b1ea87f6225fe225eb1e772ad79743b))
-* updates dependencies ([0a4d0bf](https://github.com/kontent-ai/delivery-sdk-js/commit/0a4d0bf83863a2acb453b48ef34a5a4a7cf08a97))
+* Updates dependencies ([0a4d0bf](https://github.com/kontent-ai/delivery-sdk-js/commit/0a4d0bf83863a2acb453b48ef34a5a4a7cf08a97))
 
-
-### Bug Fixes
-
-* sort duplicate of modular_content rather than depending solely on matched codenames ([548cbcb](https://github.com/kontent-ai/delivery-sdk-js/commit/548cbcb1947f7d71d01c34da7d2ff6b4fdad8649))
 
 ## [12.1.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.0.2...v12.1.0) (2022-09-01)
 
