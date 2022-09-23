@@ -1,0 +1,160 @@
+{
+    "items": [
+        {
+            "system": {
+                "id": "a3dde145-2456-445d-ac33-3d3f6a092da7",
+                "name": "Rich Text Item (Unordered)",
+                "codename": "rich_text_item_unordered",
+                "language": "default",
+                "type": "item",
+                "sitemap_locations": [],
+                "collection": "default",
+                "last_modified": "2019-01-04T09:56:04.372261Z"
+            },
+            "elements": {
+                "rich": {
+                    "type": "rich_text",
+                    "name": "Rich",
+                    "images": {
+                        "66d73245-10e5-4478-93e7-5609fee3cdf7": {
+                            "image_id": "66d73245-10e5-4478-93e7-5609fee3cdf7",
+                            "description": null,
+                            "url": "https://assets-us-01.kc-usercontent.com:443/38af179c-40ba-42e7-a5ca-33b8cdcc0d45/66d73245-10e5-4478-93e7-5609fee3cdf7/image.jpg",
+                            "width": 600,
+                            "height": 457
+                        }
+                    },
+                    "links": {
+                        "ef23e568-6aa2-42cd-a120-7823c0ef19f7": {
+                            "codename": "article_codename",
+                            "type": "article",
+                            "url_slug": "my-article"
+                        }
+                    },
+                    "modular_content": ["n2", "n4", "n3", "n1"],
+                    "value": "<p>Basic formatted text: plain text, <strong>bold</strong>, <em>italics</em>, <code>monospace</code>, <sub>subscript</sub>, <sup>superscript</sup>.</p> <p>Links: <a data-item-id=\"ef23e568-6aa2-42cd-a120-7823c0ef19f7\" href=\"\">link to a content item</a>, <a href=\"https://kontent.ai/\" data-new-window=\"true\" target=\"_blank\" rel=\"noopener noreferrer\">link to web URL</a>, <a data-email-address=\"sales@kontent.ai\" href=\"mailto:sales@kontent.ai\">email link</a>, <a data-asset-id=\"237362b4-5f2b-480e-a1d3-0ad5a6d5f8bd\" href=\"https://assets-us-01.kc-usercontent.com:443/38af179c-40ba-42e7-a5ca-33b8cdcc0d45/237362b4-5f2b-480e-a1d3-0ad5a6d5f8bd/image.jpg\">link to asset</a>.</p> <p>Table</p> <table><tbody> <tr><td>A</td><td>B</td><td>C</td></tr> <tr><td>D</td><td>E</td><td>F</td></tr> <tr><td>G</td><td>H</td><td>I</td></tr> </tbody></table> <p>Image</p> <figure data-asset-id=\"66d73245-10e5-4478-93e7-5609fee3cdf7\" data-image-id=\"66d73245-10e5-4478-93e7-5609fee3cdf7\"><img src=\"https://assets-us-01.kc-usercontent.com:443/38af179c-40ba-42e7-a5ca-33b8cdcc0d45/66d73245-10e5-4478-93e7-5609fee3cdf7/image.jpg\" data-asset-id=\"66d73245-10e5-4478-93e7-5609fee3cdf7\" data-image-id=\"66d73245-10e5-4478-93e7-5609fee3cdf7\" alt=\"\"></figure> <p>Component</p></object><object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"component\" data-codename=\"n1\"></object><object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"component\" data-codename=\"n2\"></object><object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"component\" data-codename=\"n3\"></object><p>Inserted content item</p> <object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"link\" data-codename=\"n4\"></object>"
+                }
+            }
+        },
+        {
+            "system": {
+                "id": "a3dde145-2456-445d-ac33-3d3f6a092da8",
+                "name": "Rich Text Item (Ordered)",
+                "codename": "rich_text_item_ordered",
+                "language": "default",
+                "type": "item",
+                "sitemap_locations": [],
+                "collection": "default",
+                "last_modified": "2019-01-04T09:56:04.372261Z"
+            },
+            "elements": {
+                "rich": {
+                    "type": "rich_text",
+                    "name": "Rich",
+                    "images": {
+                        "66d73245-10e5-4478-93e7-5609fee3cdf7": {
+                            "image_id": "66d73245-10e5-4478-93e7-5609fee3cdf7",
+                            "description": null,
+                            "url": "https://assets-us-01.kc-usercontent.com:443/38af179c-40ba-42e7-a5ca-33b8cdcc0d45/66d73245-10e5-4478-93e7-5609fee3cdf7/image.jpg",
+                            "width": 600,
+                            "height": 457
+                        }
+                    },
+                    "links": {
+                        "ef23e568-6aa2-42cd-a120-7823c0ef19f7": {
+                            "codename": "n4",
+                            "type": "article",
+                            "url_slug": "my-article"
+                        }
+                    },
+                    "modular_content": ["n1", "n2", "n3", "n4"],
+                    "value": "<p>Basic formatted text: plain text, <strong>bold</strong>, <em>italics</em>, <code>monospace</code>, <sub>subscript</sub>, <sup>superscript</sup>.</p> <p>Links: <a data-item-id=\"ef23e568-6aa2-42cd-a120-7823c0ef19f7\" href=\"\">link to a content item</a>, <a href=\"https://kontent.ai/\" data-new-window=\"true\" target=\"_blank\" rel=\"noopener noreferrer\">link to web URL</a>, <a data-email-address=\"sales@kontent.ai\" href=\"mailto:sales@kontent.ai\">email link</a>, <a data-asset-id=\"237362b4-5f2b-480e-a1d3-0ad5a6d5f8bd\" href=\"https://assets-us-01.kc-usercontent.com:443/38af179c-40ba-42e7-a5ca-33b8cdcc0d45/237362b4-5f2b-480e-a1d3-0ad5a6d5f8bd/image.jpg\">link to asset</a>.</p> <p>Table</p> <table><tbody> <tr><td>A</td><td>B</td><td>C</td></tr> <tr><td>D</td><td>E</td><td>F</td></tr> <tr><td>G</td><td>H</td><td>I</td></tr> </tbody></table> <p>Image</p> <figure data-asset-id=\"66d73245-10e5-4478-93e7-5609fee3cdf7\" data-image-id=\"66d73245-10e5-4478-93e7-5609fee3cdf7\"><img src=\"https://assets-us-01.kc-usercontent.com:443/38af179c-40ba-42e7-a5ca-33b8cdcc0d45/66d73245-10e5-4478-93e7-5609fee3cdf7/image.jpg\" data-asset-id=\"66d73245-10e5-4478-93e7-5609fee3cdf7\" data-image-id=\"66d73245-10e5-4478-93e7-5609fee3cdf7\" alt=\"\"></figure> <p>Component</p></object><object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"component\" data-codename=\"n1\"></object><object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"component\" data-codename=\"n2\"></object><object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"component\" data-codename=\"n3\"></object><p>Inserted content item</p> <object type=\"application/kenticocloud\" data-type=\"item\" data-rel=\"link\" data-codename=\"n4\"></object>"
+                }
+            }
+        }
+    ],
+    "modular_content": {
+        "n1": {
+            "system": {
+                "id": "a3dde145-2456-445d-ac33-3d3f6a092da8-n1",
+                "name": "Modular Content 1",
+                "codename": "n1",
+                "language": "default",
+                "type": "modular_item",
+                "sitemap_locations": [],
+                "collection": "default",
+                "last_modified": "2019-01-04T09:56:04.372261Z"
+            },
+            "elements": {
+                "text": {
+                    "type": "text",
+                    "name": "Text",
+                    "value": "Text 1"
+                }
+            }
+        },
+        "n2": {
+            "system": {
+                "id": "a3dde245-2456-445d-ac33-3d3f6a092da8-n2",
+                "name": "Modular Content 2",
+                "codename": "n2",
+                "language": "default",
+                "type": "modular_item",
+                "sitemap_locations": [],
+                "collection": "default",
+                "last_modified": "2019-01-04T09:56:04.372261Z"
+            },
+            "elements": {
+                "text": {
+                    "type": "text",
+                    "name": "Text",
+                    "value": "Text 2"
+                }
+            }
+        },
+        "n3": {
+            "system": {
+                "id": "a3dde345-2456-445d-ac33-3d3f6a092da8-n3",
+                "name": "Modular Content 3",
+                "codename": "n3",
+                "language": "default",
+                "type": "modular_item",
+                "sitemap_locations": [],
+                "collection": "default",
+                "last_modified": "2019-01-04T09:56:04.372261Z"
+            },
+            "elements": {
+                "text": {
+                    "type": "text",
+                    "name": "Text",
+                    "value": "Text 3"
+                }
+            }
+        },
+        "n4": {
+            "system": {
+                "id": "a3dde345-2456-445d-ac33-3d3f6a092da8-n4",
+                "name": "Modular Content 4",
+                "codename": "n4",
+                "language": "default",
+                "type": "modular_item",
+                "sitemap_locations": [],
+                "collection": "default",
+                "last_modified": "2019-01-04T09:56:04.372261Z"
+            },
+            "elements": {
+                "text": {
+                    "type": "text",
+                    "name": "Text",
+                    "value": "Text 4"
+                }
+            }
+        }
+    },
+    "pagination": {
+        "skip": 0,
+        "limit": 0,
+        "count": 3,
+        "next_page": ""
+    }
+}

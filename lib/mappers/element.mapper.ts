@@ -150,12 +150,32 @@ export class ElementMapper {
         processingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
     ): Elements.RichTextElement {
-        // get all linked items nested in rich text
-        const richTextLinkedItems: IContentItem[] = [];
-
         const rawElement = elementWrapper.rawElement as Contracts.IRichTextElementContract;
 
-        for (const codename of rawElement.modular_content) {
+        // get all linked items and linked items codenames nested in rich text
+        const richTextLinkedItems: IContentItem[] = [];
+        const richTextLinkedItemsCodenames: string[] = [];
+
+        // The Kontent Delivery API is not guaranteed to return rich-text modular_content array items in the same order in which they appear inside the `value` property.
+        // We extract the modular_content codenames in the rich-text value and sort the raw modular_content based on that order instead.
+        const rawModularContentCodenamesMatches = (rawElement.value as string).matchAll(
+            /<object[^>]+data-codename=\"(?<codename>[a-z0-9_]*)\".*?>/g
+        );
+        const rawModularContentCodenamesSorted = Array.from(rawModularContentCodenamesMatches).reduce<string[]>(
+            (acc, match) => {
+                if (match.groups && match.groups.codename) {
+                    acc.push(match.groups.codename);
+                }
+                return acc;
+            },
+            [] as string[]
+        );
+        const rawModularContentCodenames = [...rawElement.modular_content].sort(function (a, b) {
+            return rawModularContentCodenamesSorted.indexOf(a) - rawModularContentCodenamesSorted.indexOf(b);
+        });
+
+        for (const codename of rawModularContentCodenames) {
+            richTextLinkedItemsCodenames.push(codename);
             // get linked item and check if it exists (it might not be included in response due to 'Depth' parameter)
             const preparedData = preparedItems[codename];
 
@@ -203,7 +223,7 @@ export class ElementMapper {
 
         return {
             images: images,
-            linkedItemCodenames: rawElement.modular_content,
+            linkedItemCodenames: richTextLinkedItemsCodenames,
             linkedItems: richTextLinkedItems,
             links: links,
             name: rawElement.name,
