@@ -81,7 +81,7 @@ const deliveryClient = createDeliveryClient({
 const response = await deliveryClient.items<Movie>().type('<CONTENT_TYPE_CODENAME>').toPromise();
 
 // read data of first item
-const movieText = response.data.items[0].title.value;
+const movieText = response.data.items[0].elements.title.value;
 ```
 
 ## JavaScript & CommonJS
@@ -100,7 +100,7 @@ const response = await deliveryClient.items()
   .toPromise();
 
 // read data of first item
-const movieText = response.data.items[0].title.value;
+const movieText = response.data.items[0].elements.title.value;
 ```
 
 ## HTML & UMD & CDN
