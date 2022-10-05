@@ -60,14 +60,14 @@
         "bundle-stats": "npm run build:umd && webpack-bundle-analyzer dist/bundles/stats.json"
     },
     "dependencies": {
-        "@kontent-ai/core-sdk": "10.0.0",
+        "@kontent-ai/core-sdk": "10.1.1",
         "uuid": "9.0.0",
         "url-parse": "1.5.10"
     },
     "devDependencies": {
         "@types/url-parse": "1.4.8",
         "@types/jasmine": "4.3.0",
-        "@types/node": "18.7.18",
+        "@types/node": "18.8.2",
         "@types/uuid": "8.3.4",
         "colors": "1.4.0",
         "jasmine-core": "4.4.0",
@@ -86,7 +86,7 @@
         "standard-version": "9.5.0",
         "ts-loader": "9.4.1",
         "tslint": "6.1.3",
-        "typescript": "4.8.3",
+        "typescript": "4.8.4",
         "webpack": "5.74.0",
         "webpack-bundle-analyzer": "4.6.1",
         "webpack-cli": "4.10.0"
