@@ -54,7 +54,7 @@ https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@latest/dist/bundles/konten
 ## TypeScript & ES6
 
 ```typescript
-import { IContentItem, Elements, createDeliveryClient } from '@kontent-ai/delivery-sdk';
+import { type IContentItem, type Elements, createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 /**
  * Defining models is optional, but will greatly benefit development
