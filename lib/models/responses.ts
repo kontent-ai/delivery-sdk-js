@@ -1,5 +1,4 @@
-
-import {Contracts } from '../contracts';
+import { Contracts } from '../contracts';
 import { IDeliveryNetworkResponse } from './common/base-responses';
 import { IKontentListAllResponse, IKontentListResponse, IKontentResponse } from './common/common-models';
 import { IPagination } from './common/pagination.class';
@@ -7,6 +6,7 @@ import { IContentType } from './content-type-models';
 import { IGenericElement } from './element-models';
 import { IContentItem, IContentItemsContainer } from './item-models';
 import { ILanguage } from './language-models';
+import { IContentItemDelta } from './sync-models';
 import { ITaxonomyGroup } from './taxonomy-models';
 
 export namespace Responses {
@@ -56,13 +56,29 @@ export namespace Responses {
     export interface IListContentItemsAllResponse<TContentItem extends IContentItem = IContentItem>
         extends IKontentListAllResponse {
         items: TContentItem[];
-        responses: IDeliveryNetworkResponse<IListContentItemsResponse<TContentItem>, Contracts.IListContentItemsContract>[];
+        responses: IDeliveryNetworkResponse<
+            IListContentItemsResponse<TContentItem>,
+            Contracts.IListContentItemsContract
+        >[];
     }
 
     export interface IViewContentItemResponse<TContentItem extends IContentItem = IContentItem>
         extends IKontentResponse {
         item: TContentItem;
         linkedItems: IContentItemsContainer;
+    }
+
+    export interface IInitializeSyncResponse extends IKontentResponse {
+        items: IContentItemDelta[];
+    }
+
+    export interface ISyncChangesResponse extends IKontentResponse {
+        items: IContentItemDelta[];
+    }
+
+    export interface ISyncChangesAllResponse extends IKontentListAllResponse {
+        items: IContentItemDelta[];
+        responses: IDeliveryNetworkResponse<ISyncChangesResponse, Contracts.ISyncChangesContract>[];
     }
 
     export interface IListLanguagesResponse extends IKontentListResponse {

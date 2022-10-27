@@ -2,9 +2,9 @@ import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
 import { Filters, IContentItem, IItemQueryConfig, IDeliveryNetworkResponse, Responses, Parameters } from '../../models';
 import { QueryService } from '../../services';
-import { BaseListingQuery } from '../common/base-listing-query.class';
+import { BaseItemListingQuery } from '../common/base-item-listing-query.class';
 
-export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem> extends BaseListingQuery<
+export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem> extends BaseItemListingQuery<
     Responses.IListContentItemsResponse<TContentItem>,
     Responses.IListContentItemsAllResponse<TContentItem>,
     IItemQueryConfig,

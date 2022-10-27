@@ -1,7 +1,6 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
 import {
-    continuationTokenHeaderName,
     IDeliveryNetworkResponse,
     ITaxonomyQueryConfig,
     Parameters,
@@ -52,20 +51,6 @@ export class TaxonomiesQuery extends BaseListingQuery<
         >
     > {
         return this.queryService.getTaxonomies(this.getUrl(), this._queryConfig ?? {});
-    }
-
-    /**
-     * Sets continuation token header
-     */
-    withContinuationToken(token: string): this {
-        this.withHeaders([
-            {
-                header: continuationTokenHeaderName,
-                value: token
-            }
-        ]);
-
-        return this;
     }
 
     getUrl(): string {

@@ -29,6 +29,24 @@ export namespace Contracts {
         pagination: IPaginationContract;
     }
 
+    export interface IContentItemDeltaContract {
+        codename: string;
+        id: string;
+        type: string;
+        language: string;
+        collection: string;
+        change_type: 'changed' | 'deleted';
+        timestamp: string;
+    }
+
+    export interface IInitializeSyncContract {
+        items: IContentItemDeltaContract[];
+    }
+
+    export interface ISyncChangesContract {
+        items: IContentItemDeltaContract[];
+    }
+
     export interface ILanguageContract {
         system: {
             id: string;

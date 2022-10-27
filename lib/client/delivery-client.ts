@@ -11,7 +11,9 @@ import {
     SingleTypeQuery,
     TaxonomiesQuery,
     TaxonomyQuery,
-    LanguagesQuery
+    LanguagesQuery,
+    InitializeSyncQuery,
+    SyncChangesQuery
 } from '../query';
 import { sdkInfo } from '../sdk-info.generated';
 import { IMappingService, MappingService, QueryService } from '../services';
@@ -110,5 +112,19 @@ export class DeliveryClient implements IDeliveryClient {
      */
     element(typeCodename: string, elementCodename: string): ElementQuery {
         return new ElementQuery(this.config, this.queryService, typeCodename, elementCodename);
+    }
+
+    /**
+     * Gets query for initializing sync
+     */
+    initializeSync(): InitializeSyncQuery {
+        return new InitializeSyncQuery(this.config, this.queryService);
+    }
+
+    /**
+     * Gets query fetching delta updates of content items
+     */
+    syncChanges(): SyncChangesQuery {
+        return new SyncChangesQuery(this.config, this.queryService);
     }
 }

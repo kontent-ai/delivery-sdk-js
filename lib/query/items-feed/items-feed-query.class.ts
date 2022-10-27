@@ -2,9 +2,9 @@ import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
 import { Filters, IContentItem, IItemQueryConfig, IDeliveryNetworkResponse, Parameters, Responses } from '../../models';
 import { QueryService } from '../../services';
-import { BaseListingQuery } from '../common/base-listing-query.class';
+import { BaseItemListingQuery } from '../common/base-item-listing-query.class';
 
-export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> extends BaseListingQuery<
+export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> extends BaseItemListingQuery<
     Responses.IListItemsFeedResponse<TContentItem>,
     Responses.IListItemsFeedAllResponse<TContentItem>,
     IItemQueryConfig,
@@ -82,7 +82,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     getUrl(): string {
         const action = '/items-feed';
 
-        // add default language is necessry
+        // add default language is necessary
         this.processDefaultLanguageParameter();
 
         return super.resolveUrlInternal(action);

@@ -5,4 +5,5 @@ export * from './taxonomy-models';
 export * from './content-type-models';
 export * from './language-models';
 export * from './responses';
+export * from './sync-models';
 

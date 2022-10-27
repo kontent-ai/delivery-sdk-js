@@ -1,0 +1,22 @@
+{
+  "items": [
+    {
+      "codename": "hello_world",
+      "id": "7adfb82a-1386-4228-bcc2-45073a0355f6",
+      "type": "article",
+      "language": "default",
+      "collection": "default",
+      "change_type": "changed",
+      "timestamp": "2022-10-06T08:38:40.0088127Z"
+    },
+    {
+      "codename": "bye__world",
+      "id": "42a3cfbd-4967-43e7-987b-e1e69c483e26",
+      "type": "article",
+      "language": "default",
+      "collection": "default",
+      "change_type": "deleted",
+      "timestamp": "2022-10-06T08:38:47.3613558Z"
+    }
+  ]
+}

@@ -1,9 +1,7 @@
 import { IHttpService } from '@kontent-ai/core-sdk';
 
 import { IDeliveryClientConfig } from '../config';
-import {
-    Contracts
-} from '../contracts';
+import { Contracts } from '../contracts';
 import {
     Responses,
     IContentItem,
@@ -12,7 +10,8 @@ import {
     IItemQueryConfig,
     IDeliveryNetworkResponse,
     ILanguagesQueryConfig,
-    ITaxonomyQueryConfig
+    ITaxonomyQueryConfig,
+    ISyncInitQueryConfig
 } from '../models';
 import {
     IKontentListAllResponse,
@@ -111,6 +110,37 @@ export class QueryService extends BaseDeliveryQueryService {
     }
 
     /**
+     * Initializes synchronization of changes in content items based on the specified parameters. After the initialization,
+     * you'll get an X-Continuation token in the response.
+     * Use the token to synchronize changes in the content items matching the initialization criteria.
+     * @param url Url
+     * @param queryConfig Query configuration
+     */
+    async initializeSync(
+        url: string,
+        queryConfig: ISyncInitQueryConfig
+    ): Promise<IDeliveryNetworkResponse<Responses.IInitializeSyncResponse, Contracts.IInitializeSyncContract>> {
+        const response = await this.postResponseAsync<Contracts.IInitializeSyncContract>(url, queryConfig);
+
+        return this.mapNetworkResponse(this.mappingService.initializeContentSync(response.data), response);
+    }
+
+    /**
+     * Retrieve a list of delta updates to recently changed content items in the specified project. 
+     * The types of items you get is determined by the X-Continuation token you use.
+     * @param url Url used to get multiple types
+     * @param queryConfig Query configuration
+     */
+    async syncChanges(
+        url: string,
+        queryConfig: IContentTypeQueryConfig
+    ): Promise<IDeliveryNetworkResponse<Responses.ISyncChangesResponse, Contracts.ISyncChangesContract>> {
+        const response = await this.getResponseAsync<Contracts.ISyncChangesContract>(url, queryConfig);
+
+        return this.mapNetworkResponse(this.mappingService.syncChanges(response.data), response);
+    }
+
+    /**
      * Gets languages
      * @param url Url
      * @param queryConfig Query configuration
@@ -163,10 +193,7 @@ export class QueryService extends BaseDeliveryQueryService {
     ): Promise<
         IDeliveryNetworkResponse<Responses.IViewContentTypeElementResponse, Contracts.IViewContentTypeElementContract>
     > {
-        const response = await this.getResponseAsync<Contracts.IViewContentTypeElementContract>(
-            url,
-            queryConfig
-        );
+        const response = await this.getResponseAsync<Contracts.IViewContentTypeElementContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.viewContentTypeElementResponse(response.data), response);
     }

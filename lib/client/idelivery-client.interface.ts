@@ -9,6 +9,8 @@ import {
     TaxonomiesQuery,
     TaxonomyQuery,
     LanguagesQuery,
+    InitializeSyncQuery,
+    SyncChangesQuery
 } from '../query';
 import { IMappingService } from '../services';
 
@@ -65,4 +67,14 @@ export interface IDeliveryClient {
      * Gets query for an element within a type
      */
     element(typeCodename: string, elementCodename: string): ElementQuery;
+
+    /**
+     * Gets query for initializing sync
+     */
+    initializeSync(): InitializeSyncQuery;
+
+    /**
+     * Gets query fetching delta updates of content items
+     */
+    syncChanges(): SyncChangesQuery;
 }

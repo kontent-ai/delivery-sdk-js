@@ -1,6 +1,6 @@
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
-import { GenericElementMapper, ItemMapper, LanguageMapper, TaxonomyMapper, TypeMapper } from '../mappers';
+import { SyncMapper, GenericElementMapper, ItemMapper, LanguageMapper, TaxonomyMapper, TypeMapper } from '../mappers';
 import { Responses, IContentItem, IPagination } from '../models';
 
 export interface IMappingService {
@@ -29,6 +29,8 @@ export interface IMappingService {
     ): Responses.IViewContentTypeElementResponse;
 
     listLanguagesResponse(data: Contracts.IListLanguagesContract): Responses.IListLanguagesResponse;
+    initializeContentSync(data: Contracts.IInitializeSyncContract): Responses.IInitializeSyncResponse;
+    syncChanges(data: Contracts.ISyncChangesContract): Responses.ISyncChangesResponse;
 }
 
 export class MappingService implements IMappingService {
@@ -37,6 +39,7 @@ export class MappingService implements IMappingService {
     private readonly itemMapper: ItemMapper;
     private readonly taxonomyMapper: TaxonomyMapper;
     private readonly genericElementMapper: GenericElementMapper;
+    private readonly syncMapper: SyncMapper;
 
     constructor(readonly config: IDeliveryClientConfig) {
         this.typeMapper = new TypeMapper();
@@ -44,6 +47,7 @@ export class MappingService implements IMappingService {
         this.itemMapper = new ItemMapper(config);
         this.taxonomyMapper = new TaxonomyMapper();
         this.genericElementMapper = new GenericElementMapper();
+        this.syncMapper = new SyncMapper();
     }
 
     /**
@@ -156,6 +160,18 @@ export class MappingService implements IMappingService {
     ): Responses.IViewContentTypeElementResponse {
         return {
             element: this.genericElementMapper.mapElement(data)
+        };
+    }
+
+    initializeContentSync(data: Contracts.IInitializeSyncContract): Responses.IInitializeSyncResponse {
+        return {
+            items: data.items.map((m) => this.syncMapper.mapContentItemDelta(m))
+        };
+    }
+
+    syncChanges(data: Contracts.ISyncChangesContract): Responses.ISyncChangesResponse {
+        return {
+            items: data.items.map((m) => this.syncMapper.mapContentItemDelta(m))
         };
     }
 

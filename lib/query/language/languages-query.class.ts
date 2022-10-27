@@ -1,7 +1,6 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
 import {
-    continuationTokenHeaderName,
     IDeliveryNetworkResponse,
     ILanguagesQueryConfig,
     Parameters,
@@ -42,20 +41,6 @@ export class LanguagesQuery extends BaseListingQuery<
      */
     skipParameter(skip: number): this {
         this.parameters.push(new Parameters.SkipParameter(skip));
-        return this;
-    }
-
-    /**
-     * Sets continuation token header
-     */
-    withContinuationToken(token: string): this {
-        this.withHeaders([
-            {
-                header: continuationTokenHeaderName,
-                value: token
-            }
-        ]);
-
         return this;
     }
 

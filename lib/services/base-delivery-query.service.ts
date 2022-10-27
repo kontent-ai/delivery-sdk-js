@@ -38,7 +38,7 @@ export abstract class BaseDeliveryQueryService {
         /**
          * Information about the SDK
          */
-         public readonly sdkInfo: ISDKInfo,
+        public readonly sdkInfo: ISDKInfo,
         /**
          * Mapping service
          */
@@ -111,6 +111,45 @@ export abstract class BaseDeliveryQueryService {
         }
 
         return headers;
+    }
+
+    /**
+     * Http POST response
+     * @param url Url of request
+     * @param queryConfig Query config configuration
+     */
+    protected async postResponseAsync<TRawData>(
+        url: string,
+        body: any,
+        queryConfig?: IQueryConfig,
+        serviceConfig?: {
+            headers?: IHeader[];
+        }
+    ): Promise<IResponse<TRawData>> {
+        if (!queryConfig) {
+            queryConfig = {};
+        }
+
+        if (!serviceConfig) {
+            serviceConfig = {};
+        }
+
+        try {
+            return await this.httpService.postAsync<TRawData>(
+                {
+                    url: url,
+                    body: body
+                },
+                {
+                    cancelToken: queryConfig?.cancelToken,
+                    responseType: 'json',
+                    retryStrategy: this.config.retryStrategy,
+                    headers: this.getHeaders(queryConfig, serviceConfig.headers ? serviceConfig.headers : [])
+                }
+            );
+        } catch (error) {
+            throw this.mapDeliveryError(error);
+        }
     }
 
     /**
