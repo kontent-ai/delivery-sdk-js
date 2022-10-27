@@ -10,7 +10,7 @@ export class GenericElementMapper {
         const element = response.element;
 
         return {
-            codename:element.codename,
+            codename: element.codename,
             name: element.name,
             type: element.type,
             options: element.options ? element.options : [],
