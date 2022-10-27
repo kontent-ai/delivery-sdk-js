@@ -126,7 +126,7 @@ export class QueryService extends BaseDeliveryQueryService {
     }
 
     /**
-     * Retrieve a list of delta updates to recently changed content items in the specified project. 
+     * Retrieve a list of delta updates to recently changed content items in the specified project.
      * The types of items you get is determined by the X-Continuation token you use.
      * @param url Url used to get multiple types
      * @param queryConfig Query configuration
