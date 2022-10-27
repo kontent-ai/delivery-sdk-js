@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.4.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.3.0...v12.4.0) (2022-10-27)
+
+
+### Features
+
+* Adds support for 'Sync API' - Initialize sync & sync changes endpoints ([60d4198](https://github.com/kontent-ai/delivery-sdk-js/commit/60d41980e9d4babd3e9f613135f48185915103b1))
+* updates dev dependencies ([b6b3d16](https://github.com/kontent-ai/delivery-sdk-js/commit/b6b3d16855e2ffc40d1a64c1d80da1068e64e0f0))
+
+
+### Bug Fixes
+
+* fixes mapping of view content type element query ([8c14c39](https://github.com/kontent-ai/delivery-sdk-js/commit/8c14c393de78a920570de4e0f37694b49df78615))
+
 ## [12.3.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.2.0...v12.3.0) (2022-10-05)
 
 
