@@ -11,7 +11,7 @@ export namespace Contracts {
         codename?: string;
         type: string;
         name: string;
-        taxonomyGroup?: string;
+        taxonomy_group?: string;
         options?: IElementOptionContract[];
     }
 
@@ -38,11 +38,7 @@ export namespace Contracts {
     }
 
     export interface IViewContentTypeElementContract {
-        type: string;
-        name: string;
-        codename: string;
-        taxonomy_group?: string;
-        options?: IElementOptionContract[];
+        element: IContentTypeElementContract;
     }
 
     export interface IElementContract {

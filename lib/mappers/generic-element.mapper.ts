@@ -7,12 +7,14 @@ export class GenericElementMapper {
             throw Error(`Invalid response for mapping element`);
         }
 
+        const element = response.element;
+
         return {
-            codename: response.codename,
-            name: response.name,
-            type: response.type,
-            options: response.options ? response.options : [],
-            taxonomyGroup: response.taxonomy_group
+            codename:element.codename,
+            name: element.name,
+            type: element.type,
+            options: element.options ? element.options : [],
+            taxonomyGroup: element.taxonomy_group
         };
     }
 }

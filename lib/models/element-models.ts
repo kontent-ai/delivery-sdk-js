@@ -27,7 +27,7 @@ export interface IGenericElement {
     /**
      * Codename of the element
      */
-    codename: string;
+    codename?: string;
 
     /**
      * Type of the element

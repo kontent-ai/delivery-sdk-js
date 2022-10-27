@@ -39,9 +39,7 @@ export class ElementQuery extends BaseQuery<
     }
 
     getUrl(): string {
-        const action = '/types/' + this.typeCodename + '/elements/' + this.elementCodename;
-
-        return super.resolveUrlInternal(action);
+        return super.resolveUrlInternal(`/types/${this.typeCodename}/elements/${this.elementCodename}`);
     }
 
     map(json: any): Responses.IViewContentTypeElementResponse {

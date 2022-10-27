@@ -21,7 +21,6 @@ describe('Live element', () => {
         taxonomyElementResponse = (
             await context.deliveryClient.element(typeCodename, taxonomyElementCodename).toPromise()
         ).data;
-
     });
 
     it(`element responses should be defined`, () => {
