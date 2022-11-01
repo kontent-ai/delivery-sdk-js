@@ -120,7 +120,7 @@ export class QueryService extends BaseDeliveryQueryService {
         url: string,
         queryConfig: ISyncInitQueryConfig
     ): Promise<IDeliveryNetworkResponse<Responses.IInitializeSyncResponse, Contracts.IInitializeSyncContract>> {
-        const response = await this.postResponseAsync<Contracts.IInitializeSyncContract>(url, queryConfig);
+        const response = await this.postResponseAsync<Contracts.IInitializeSyncContract>(url, {}, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.initializeContentSync(response.data), response);
     }
