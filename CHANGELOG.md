@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.4.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.4.0...v12.4.1) (2022-11-01)
+
+
+### Bug Fixes
+
+* fixes query configuration for initialize sync POST request ([42f317c](https://github.com/kontent-ai/delivery-sdk-js/commit/42f317cf3828b421188bccfb102a0a89077d4cea))
+
 ## [12.4.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.3.0...v12.4.0) (2022-10-27)
 
 
