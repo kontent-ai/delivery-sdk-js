@@ -60,7 +60,8 @@
       "released": {
         "type": "date_time",
         "name": "Released",
-        "value": "2011-09-09T00:00:00Z"
+        "value": "2011-09-09T00:00:00Z",
+        "display_timezone": "Europe/London"
       },
       "length": {
         "type": "number",
