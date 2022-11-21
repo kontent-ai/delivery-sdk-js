@@ -4,8 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [12.4.2](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.4.1...v12.4.2) (2022-11-21)
 
-### [12.4.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.4.0...v12.4.1) (2022-11-01)
+* Adds support for timezone in date elements
 
+### [12.4.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.4.0...v12.4.1) (2022-11-01)
 
 ### Bug Fixes
 

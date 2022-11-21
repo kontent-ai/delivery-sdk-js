@@ -20,7 +20,7 @@ export namespace Elements {
          * Display time zone
          */
         displayTimeZone: string | null;
-    }
+    };
 
     export type RichTextElement = ElementModels.IElement<string> & {
         /**
