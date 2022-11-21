@@ -84,6 +84,7 @@ describe('Verifies mapping of delivery content item', () => {
 
     it(`checks datetime element`, () => {
         expect(responseWithLinkedItems.item.elements.released.value).toEqual(warriorJson.item.elements.released.value);
+        expect(responseWithLinkedItems.item.elements.released.displayTimeZone).toEqual(warriorJson.item.elements.released.display_timezone);
     });
 
     it(`checks number element`, () => {

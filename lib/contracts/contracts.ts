@@ -67,6 +67,13 @@ export namespace Contracts {
         taxonomy_group?: string;
     }
 
+    export interface IDateTimeElementContract extends IElementContract {
+        /**
+         * Display time zone
+         */
+        display_timezone: string;
+    }
+
     export interface IAsssetRenditionContract {
         rendition_id: string;
         preset_id: string;

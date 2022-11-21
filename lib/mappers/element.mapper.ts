@@ -233,7 +233,11 @@ export class ElementMapper {
     }
 
     private mapDateTimeElement(elementWrapper: ElementModels.IElementWrapper): Elements.DateTimeElement {
-        return this.buildElement(elementWrapper, ElementType.DateTime, () => elementWrapper.rawElement.value);
+        const rawElement = elementWrapper.rawElement as Contracts.IDateTimeElementContract;
+        return {
+            ...this.buildElement(elementWrapper, ElementType.DateTime, () => rawElement.value),
+            displayTimeZone: rawElement.display_timezone ?? null
+        };
     }
 
     private mapMultipleChoiceElement(elementWrapper: ElementModels.IElementWrapper): Elements.MultipleChoiceElement {
