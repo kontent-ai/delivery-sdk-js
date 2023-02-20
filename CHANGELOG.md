@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.4.3](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.4.2...v12.4.3) (2023-02-20)
+
+
+### Bug Fixes
+
+* Handles '+' sign in name resolvers ([e30f235](https://github.com/kontent-ai/delivery-sdk-js/commit/e30f23558b790b8c046e26e37889d29a03bd2422))
+
 ### [12.4.2](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.4.1...v12.4.2) (2022-11-21)
 
 * Adds support for timezone in date elements
