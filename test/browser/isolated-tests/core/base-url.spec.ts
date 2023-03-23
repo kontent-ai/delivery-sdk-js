@@ -22,7 +22,7 @@ describe('Base URL', () => {
 
   it(`origin should be 'https://deliver.kontent.ai'`, () => expect(parsedUrl.origin).toEqual('https://deliver.kontent.ai'));
 
-  it(`pathname should contain project id'`, () => expect(itemsUrl).toContain(context.projectId));
+  it(`pathname should contain environment id'`, () => expect(itemsUrl).toContain(context.environmentId));
 
   it(`custom base URL should be used'`, () => {
     const baseUrl = 'http://custombase.com';

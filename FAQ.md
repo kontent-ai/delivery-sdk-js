@@ -21,7 +21,7 @@ import { AngularHttpService } from 'kentico-kontent-angular-http-service';
 
   constructor(angularHttpService: AngularHttpService) {
     const deliveryClient = new DeliveryClient({
-      projectId: 'xxx',
+      environmentId: 'xxx',
       httpService: angularHttpService
     });
   }

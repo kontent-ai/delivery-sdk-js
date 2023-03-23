@@ -74,7 +74,7 @@ export type Movie = IContentItem<{
 
 // initialize delivery client
 const deliveryClient = createDeliveryClient({
-    projectId: '<YOUR_PROJECT_ID>'
+    environmentId: '<YOUR_ENVIRONMENT_ID>'
 });
 
 // fetch items
@@ -91,7 +91,7 @@ const KontentDelivery = require('@kontent-ai/delivery-sdk');
 
 // initialize delivery client
 const deliveryClient = KontentDelivery.createDeliveryClient({
-  projectId: '<YOUR_PROJECT_ID>',
+  environmentId: '<YOUR_ENVIRONMENT_ID>',
 });
 
 // fetch items
@@ -120,7 +120,7 @@ const movieText = response.data.items[0].elements.title.value;
             var KontentDelivery = window['kontentDelivery'];
 
             var deliveryClient = KontentDelivery.createDeliveryClient({
-                projectId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
+                environmentId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
             });
 
             deliveryClient
@@ -142,11 +142,11 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 
 | Property            |                   type                   | description                                                                                                                                                                                                                       |
 | ------------------- | :--------------------------------------: |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| projectId           |                  string                  | ProjectId of your Kontent.ai project                                                                                                                                                                                                 |
+| environmentId           |                  string                  | environmentId of your Kontent.ai project                                                                                                                                                                                                 |
 | elementResolver?    |             ElementResolver              | Element resolver used to map custom elements                                                                                                                                                                                      |
 | previewApiKey?      |                  string                  | Preview API key used to get unpublished content items                                                                                                                                                                             |
 | defaultLanguage?    |                  string                  | Sets default language that will be used for all queries unless overriden with query parameters                                                                                                                                    |
-| proxy?              |        IDeliveryClientProxyConfig        | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'projectId'                                                                                              |
+| proxy?              |        IDeliveryClientProxyConfig        | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'environmentId'                                                                                              |
 | secureApiKey?       |                  string                  | Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key                                                                                                                           |
 | defaultQueryConfig? |               IQueryConfig               | Default configuration for all queries. Can be overriden by indidividual queries                                                                                                                                                   |
 | httpService ?       |               IHttpService               | Can be used to inject custom http service for performing requests                                                                                                                                                                 |
@@ -227,7 +227,7 @@ To resolve your custom element into `ColorElement`, use the `ElementResolver` in
 
 ```typescript
 const client = createDeliveryClient({
-    projectId: '<YOUR_PROJECT_ID>',
+    environmentId: '<YOUR_ENVIRONMENT_ID>',
     elementResolver: (elementWrapper) => {
         if (elementWrapper.rawElement.type === 'color') {
             const parsed = JSON.parse(elementWrapper.rawElement.value);
@@ -349,7 +349,7 @@ is not used during the initialization of delivery client.
 import { createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 var deliveryClient = new createDeliveryClient({
-    projectId: '<YOUR_PROJECT_ID>',
+    environmentId: '<YOUR_ENVIRONMENT_ID>',
     defaultLanguage: 'es'
 });
 
@@ -375,7 +375,7 @@ type Actor = IContentItem<{
 }>;
 
 const deliveryClient = createDeliveryClient({
-  projectId: '<YOUR_PROJECT_ID>';
+  environmentId: '<YOUR_ENVIRONMENT_ID>';
   propertyNameResolver: (contentType, element) => {
     if (element === 'first_name') {
         return 'firstName';
@@ -391,7 +391,7 @@ Rather then registering all elements manually, you can also use one of the built
 import { createDeliveryClient, snakeCasePropertyNameResolver, pascalCasePropertyNameResolver, camelCasePropertyNameResolver  } from '@kontent-ai/delivery-sdk';
 
 const deliveryClient = createDeliveryClient({
-  projectId: '<YOUR_PROJECT_ID>';
+  environmentId: '<YOUR_ENVIRONMENT_ID>';
   propertyNameResolver: camelCasePropertyNameResolver,
   // propertyNameResolver: snakeCasePropertyNameResolver,
   // propertyNameResolver: pascalCasePropertyNameResolver,
@@ -409,7 +409,7 @@ per query. In each case, you need to set `previewApiKey` in the delivery client 
 import { createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 const deliveryClient = createDeliveryClient({
-  projectId: '<YOUR_PROJECT_ID>';
+  environmentId: '<YOUR_ENVIRONMENT_ID>';
   previewApiKey: '<YOUR_PREVIEW_API_KEY>',
   defaultQueryConfig: {
     usePreviewMode: true
@@ -438,7 +438,7 @@ API key publicly.
 import { createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 const deliveryClient = createDeliveryClient({
-  projectId: '<YOUR_PROJECT_ID>';
+  environmentId: '<YOUR_ENVIRONMENT_ID>';
   secureApiKey: '<YOUR_SECURE_ACCESS_KEY>',
     defaultQueryConfig: {
       // Enabled secure access for all queries
@@ -529,7 +529,7 @@ export type Actor = IContentItem<{
 }>;
 
 // get content item with rich text element
-const response = (await createDeliveryClient({ projectId: '<YOUR_PROJECT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
+const response = (await createDeliveryClient({ environmentId: '<YOUR_ENVIRONMENT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
 
 // get rich text element
 const richTextElement = response.item.plot;
@@ -575,7 +575,7 @@ const resolvedHtml = resolvedRichText.html;
 import { createRichTextHtmlResolver, createDeliveryClient, linkedItemsHelper } from '@kontent-ai/delivery-sdk';
 
 // get content item with rich text element
-const response = (await createDeliveryClient({ projectId: '<YOUR_PROJECT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
+const response = (await createDeliveryClient({ environmentId: '<YOUR_ENVIRONMENT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
 
 // get rich text element
 const richTextElement = response.item.plot;
@@ -644,7 +644,7 @@ deliveryClient.taxonomies().toAllPromise();
 
 If you want to use a proxy server, you need to use different domain or otherwise transform URL. By using `proxy`
 configuration option you can define your own base domains as well as URL format. This is useful if you need to for
-example hide the `projectId` from URL.
+example hide the `environmentId` from URL.
 
 `IDeliveryClientProxyConfig` offers 3 ways of configuring proxy url:
 
@@ -657,7 +657,7 @@ Examples:
 
 ```typescript
 const client = createDeliveryClient({
-    projectId: '<YOUR_PROJECT_ID>',
+    environmentId: '<YOUR_ENVIRONMENT_ID>',
     // Will be used instead of 'https://deliver.kontent.ai' for all requests.
     // Parameters, filters, project Id and other parts of URL will use default values.
     proxy: {
@@ -668,12 +668,12 @@ const client = createDeliveryClient({
 
 ```typescript
 const client = createDeliveryClient({
-    projectId: '<YOUR_PROJECT_ID>',
+    environmentId: '<YOUR_ENVIRONMENT_ID>',
     proxy: {
         advancedProxyUrlResolver: (data) => {
             const action = data.action; // /items
             const domain = data.domain; // https://deliver.kontent.ai
-            const projectId = data.projectId; // xxx
+            const environmentId = data.environmentId; // xxx
             const queryString = data.queryString; // e.g. ?depth=1&elements=xElement
             const queryParameters = data.queryParameters; // array with query parameters parameters
             const queryConfig = data.queryConfig; // query configuration
@@ -728,7 +728,7 @@ For this reason, you may disable mapping of linked items with `linkedItemsRefere
 
 ```typescript
  const client = getTestDeliveryClient({
-    projectId: '<YOUR_PROJECT_ID>',
+    environmentId: '<YOUR_ENVIRONMENT_ID>',
     linkedItemsReferenceHandler: 'ignore' // or 'map'
 });
 ```
@@ -744,7 +744,7 @@ Once you have your `HttpService`, use it in delivery client initialization:
 
 ```typescript
 const deliveryClient = createDeliveryClient({
-    projectId: '<YOUR_PROJECT_ID>',
+    environmentId: '<YOUR_ENVIRONMENT_ID>',
     httpService: YourHttpServiceImplementation
 });
 ```
@@ -758,7 +758,7 @@ Every response from this SDK contains additional debug data you can use to inspe
 need to access response headers or other network related properties.
 
 ```typescript
-const deliveryResponse = await createDeliveryClient({ projectId: '<YOUR_PROJECT_ID' }).item('itemCodename').toPromise();
+const deliveryResponse = await createDeliveryClient({ environmentId: 'environmentId' }).item('itemCodename').toPromise();
 const rawResponseData = deliveryResponse.response; // contains raw response data, headers, status etc..
 const responseHeaders = deliveryResponse.response.headers;
 ```

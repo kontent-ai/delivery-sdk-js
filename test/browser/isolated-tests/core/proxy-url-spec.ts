@@ -5,7 +5,7 @@ describe('Proxy URL #1', () => {
   let proxyData: IProxyUrlData | undefined;
 
   const client = new DeliveryClient({
-    projectId: 'xxx',
+    environmentId: 'xxx',
     proxy: {
       advancedProxyUrlResolver: (data) => {
         proxyData = data;
@@ -31,7 +31,7 @@ describe('Proxy URL #1', () => {
     }
     expect(proxyData.action).toEqual('/items/xCodename');
     expect(proxyData.queryParameters.length).toEqual(2);
-    expect(proxyData.projectId).toEqual('xxx');
+    expect(proxyData.environmentId).toEqual('xxx');
     expect(proxyData.queryString).toEqual('?depth=1&elements=xElement');
     expect(proxyData.queryConfig.useSecuredMode).toBeTruthy();
     expect(proxyData.domain).toEqual('https://deliver.kontent.ai');

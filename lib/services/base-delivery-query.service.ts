@@ -61,7 +61,7 @@ export abstract class BaseDeliveryQueryService {
             action: action,
             domain: this.getDomain(queryConfig),
             queryConfig: queryConfig,
-            projectId: this.config.projectId
+            environmentId: this.config.environmentId
         });
     }
 
@@ -190,11 +190,11 @@ export abstract class BaseDeliveryQueryService {
     }
 
     /**
-     * Gets base URL of the request including the project Id
+     * Gets base URL of the request including the environment Id
      * @param queryConfig Query configuration
      */
     protected getBaseUrl(queryConfig: IQueryConfig): string {
-        return this.getDomain(queryConfig) + '/' + this.config.projectId;
+        return this.getDomain(queryConfig) + '/' + this.config.environmentId;
     }
 
     protected mapNetworkResponse<TData, TContract>(

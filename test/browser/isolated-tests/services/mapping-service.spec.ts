@@ -4,7 +4,7 @@ import * as responseJson from './mapping-service.spec.json';
 
 describe('Mapping service', () => {
     const client = getTestDeliveryClient({
-        projectId: 'x'
+        environmentId: 'x'
     });
 
     const listingResponse: Responses.IListContentItemsResponse =

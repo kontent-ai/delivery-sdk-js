@@ -24,7 +24,7 @@ describe('Custom element with custom model', () => {
 
     beforeAll(async () => {
         const response = await getDeliveryClientWithJson(responseJson, {
-            projectId: '',
+            environmentId: '',
             elementResolver: (elementWrapper) => {
                 const responseItem = responseJson.items[0];
                 const colorElement = responseJson.items[0].elements.color;

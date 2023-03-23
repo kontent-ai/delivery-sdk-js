@@ -28,7 +28,7 @@ describe('Property resolver', () => {
         response = await (
             await getDeliveryClientWithJson(warriorJson, {
                 propertyNameResolver: propertyResolver,
-                projectId: 'X'
+                environmentId: 'X'
             })
                 .item<MockMovie>('x')
                 .toPromise()

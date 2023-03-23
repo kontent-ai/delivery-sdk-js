@@ -4,7 +4,7 @@ import * as responseJson from './linked-items-mapping.json';
 
 describe('Linked items mapping enabled', () => {
     const client = getTestDeliveryClient({
-        projectId: 'x',
+        environmentId: 'x',
         linkedItemsReferenceHandler: 'map'
     });
 
