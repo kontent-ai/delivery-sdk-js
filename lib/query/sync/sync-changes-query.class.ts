@@ -12,7 +12,7 @@ export class SyncChangesQuery extends BaseListingQuery<
 > {
     protected _queryConfig: IItemQueryConfig = {};
 
-    private readonly action: string = '/sync';
+    private readonly action: string = '/early-access/sync';
 
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
         super(config, queryService);

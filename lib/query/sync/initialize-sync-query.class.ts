@@ -16,7 +16,7 @@ export class InitializeSyncQuery extends BaseQuery<
     ISyncInitQueryConfig,
     Contracts.IInitializeSyncContract
 > {
-    protected readonly endpoint: string = 'sync/init';
+    protected readonly endpoint: string = 'early-access/sync/init';
 
     protected _queryConfig: ILanguagesQueryConfig = {};
 
