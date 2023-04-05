@@ -30,12 +30,11 @@ export namespace Contracts {
     }
 
     export interface IContentItemDeltaContract {
-        codename: string;
-        id: string;
-        type: string;
-        language: string;
-        collection: string;
-        change_type: 'changed' | 'deleted';
+        data: {
+            system: IContentItemSystemAttributesContract;
+            elements: IContentItemElementsContracts | undefined;
+        };
+        change_type: 'changed_item' | 'deleted_item';
         timestamp: string;
     }
 

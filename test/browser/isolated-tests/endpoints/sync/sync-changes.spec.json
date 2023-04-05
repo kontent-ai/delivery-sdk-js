@@ -1,22 +1,45 @@
 {
     "items": [
         {
-            "codename": "hello_world",
-            "id": "7adfb82a-1386-4228-bcc2-45073a0355f6",
-            "type": "article",
-            "language": "default",
-            "collection": "default",
-            "change_type": "changed",
-            "timestamp": "2022-10-06T08:38:40.0088127Z"
+            "change_type": "deleted_item",
+            "timestamp": "2022-10-20T13:03:06.1310204Z",
+            "data": {
+                "system": {
+                    "id": "135d17ac-b6ba-4c6a-ae31-23c1193215cb",
+                    "collection": "default",
+                    "name": "My article",
+                    "codename": "my_article",
+                    "language": "en-US",
+                    "type": "article",
+                    "sitemap_locations": [],
+                    "last_modified": "2019-03-27T13:21:11.38Z",
+                    "workflow_step": "published"
+                }
+            }
         },
         {
-            "codename": "bye__world",
-            "id": "42a3cfbd-4967-43e7-987b-e1e69c483e26",
-            "type": "article",
-            "language": "default",
-            "collection": "default",
-            "change_type": "deleted",
-            "timestamp": "2022-10-06T08:38:47.3613558Z"
+            "change_type": "changed_item",
+            "timestamp": "2022-10-20T13:03:06.1310204Z",
+            "data": {
+                "system": {
+                    "id": "335d17ac-b6ba-4c6a-ae31-23c1193215cb",
+                    "collection": "default",
+                    "name": "My article",
+                    "codename": "my_article",
+                    "language": "en-US",
+                    "type": "article",
+                    "sitemap_locations": [],
+                    "last_modified": "2019-03-27T13:21:11.38Z",
+                    "workflow_step": "published"
+                },
+                "elements": {
+                    "title": {
+                        "type": "text",
+                        "name": "Title",
+                        "value": "Warrior"
+                    }
+                }
+            }
         }
     ]
 }

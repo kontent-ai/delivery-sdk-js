@@ -17,19 +17,28 @@ describe('Initialize sync', () => {
         expect(response.items.length).toEqual(responseJson.items.length);
 
         for (const item of response.items) {
-            const originalItem = responseJson.items.find((m) => m.id === item.id);
+            const originalItem = responseJson.items.find((m) => m.data.system.id === item.data.system.id);
 
             if (!originalItem) {
-                throw Error(`Invalid item '${item.id}'`);
+                throw Error(`Invalid item '${item.data.system.id}'`);
             }
 
-            expect(item.id).toEqual(originalItem.id);
-            expect(item.changeType).toEqual(originalItem.change_type);
-            expect(item.codename).toEqual(originalItem.codename);
-            expect(item.collection).toEqual(originalItem.collection);
-            expect(item.language).toEqual(originalItem.language);
             expect(item.timestamp).toEqual(originalItem.timestamp);
-            expect(item.type).toEqual(originalItem.type);
+            expect(item.changeType).toEqual(originalItem.change_type);
+
+            expect(item.data.system.codename).toEqual(originalItem.data.system.codename);
+            expect(item.data.system.type).toEqual(originalItem.data.system.type);
+            expect(item.data.system.collection).toEqual(originalItem.data.system.collection);
+            expect(item.data.system.language).toEqual(originalItem.data.system.language);
+            expect(item.data.system.name).toEqual(originalItem.data.system.name);
+            expect(item.data.system.workflowStep).toEqual(originalItem.data.system.workflow_step);
+            expect(item.data.system.lastModified).toEqual(originalItem.data.system.last_modified);
+
+            if (originalItem.data.elements) {
+                expect(item.data.elements).toEqual(originalItem.data.elements);
+            } else {
+                expect(item.data.elements).toEqual({});
+            }
         }
     });
 });
