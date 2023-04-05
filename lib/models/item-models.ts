@@ -127,4 +127,8 @@ export interface IRichTextImage {
 
 export interface IItemQueryConfig extends IQueryConfig {}
 
+export interface IItemFeedQueryConfig extends IQueryConfig {
+    disableItemLinking?: boolean;
+}
+
 export type PropertyNameResolver = (contentTypeCodename: string, elementCodename: string) => string;
