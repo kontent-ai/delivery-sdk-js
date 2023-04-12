@@ -18,6 +18,9 @@ describe('Items feed', () => {
             []
         )
             .itemsFeed<Movie>()
+            .queryConfig({
+                disableItemLinking: false
+            })
             .toAllPromise();
     });
 
