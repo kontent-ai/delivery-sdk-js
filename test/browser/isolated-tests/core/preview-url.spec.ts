@@ -15,9 +15,9 @@ describe('Preview URL', () => {
         expect(url.origin).toEqual('https://preview-deliver.kontent.ai');
     });
 
-    it(`preview pathname should contain project id'`, () => {
+    it(`preview pathname should contain environment id'`, () => {
         const url = context.deliveryClient.items().getUrl();
-        expect(url).toContain(context.projectId);
+        expect(url).toContain(context.environmentId);
     });
 });
 

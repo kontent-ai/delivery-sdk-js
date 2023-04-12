@@ -94,7 +94,7 @@ describe('Asset renditions', () => {
         beforeAll(async () => {
             const response = (await getDeliveryClientWithJson(responseJson, {
                 defaultRenditionPreset: 'default',
-                projectId: 'x'
+                environmentId: 'x'
             }).item('xx').toPromise());
 
             item = response.data.item;

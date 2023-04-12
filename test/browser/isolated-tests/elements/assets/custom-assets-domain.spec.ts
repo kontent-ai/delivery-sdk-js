@@ -9,7 +9,7 @@ describe('Custom assets domain', () => {
     beforeAll(async () => {
         const response = await getDeliveryClientWithJson(responseJson, {
             assetsDomain: customDomain,
-            projectId: 'x'
+            environmentId: 'x'
         })
             .item<Movie>('xx')
             .toPromise();
