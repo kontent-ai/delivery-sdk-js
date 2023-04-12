@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.0.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v13.0.0...v14.0.0) (2023-04-12)
+
 ## [13.0.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.4.3...v13.0.0) (2023-04-12)
 
 
