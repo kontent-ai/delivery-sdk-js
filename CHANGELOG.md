@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.0.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.4.3...v13.0.0) (2023-04-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* Implements new Sync API models (fixes https://github.com/kontent-ai/delivery-sdk-js/issues/363)
+* Renames 'projectId' to 'environmentId'
+* Uses new URL for Sync API endpoints
+
+### Features
+
+* adds automatic object linking for linked items / rich text elements in items feed query ([c246d31](https://github.com/kontent-ai/delivery-sdk-js/commit/c246d31161d1a058f6f81a131eb3907ecc5d9b34))
+* Implements new Sync API models (fixes https://github.com/kontent-ai/delivery-sdk-js/issues/363) ([28e6f11](https://github.com/kontent-ai/delivery-sdk-js/commit/28e6f11d74f858d6ab14c53b5768eb9e58873d4e))
+* Renames 'projectId' to 'environmentId' ([989cf99](https://github.com/kontent-ai/delivery-sdk-js/commit/989cf99f79dea6abe216f4af9cf508385c7c132e))
+* updates all dependencies ([4bde5e1](https://github.com/kontent-ai/delivery-sdk-js/commit/4bde5e1cea18549dbb1341b1761e7e8c480242e1))
+* updates dev deps ([1c5cc70](https://github.com/kontent-ai/delivery-sdk-js/commit/1c5cc707ebb519f8eeec5bd62c00034ebd042c41))
+* Uses new URL for Sync API endpoints ([55fbc11](https://github.com/kontent-ai/delivery-sdk-js/commit/55fbc11b1cd519cf9b1e6c92ca3d2c6a57a16959))
+
 ### [12.4.3](https://github.com/kontent-ai/delivery-sdk-js/compare/v12.4.2...v12.4.3) (2023-02-20)
 
 
