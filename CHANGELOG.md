@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [14.0.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.0.0...v14.0.1) (2023-04-12)
+
+
+### Bug Fixes
+
+* fixes sync endpoint URL (removes early-access) ([0fa47b1](https://github.com/kontent-ai/delivery-sdk-js/commit/0fa47b1580380cc0ad27faadc77140d152e37628))
+
 ## [14.0.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v13.0.0...v14.0.0) (2023-04-12)
 
 ### ⚠ BREAKING CHANGES
