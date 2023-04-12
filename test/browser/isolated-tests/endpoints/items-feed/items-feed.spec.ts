@@ -13,7 +13,7 @@ describe('Items feed', () => {
         response = await getDeliveryClientWithJsonAndHeaders(
             responseJson,
             {
-                environmentId: 'x',
+                projectId: 'x',
             },
             [
                 {

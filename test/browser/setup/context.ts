@@ -7,7 +7,7 @@ export class Context {
 
   public defaultQueryConfig?: IQueryConfig;
   public propertyNameResolver?: PropertyNameResolver;
-  public environmentId!: string;
+  public projectId!: string;
   public previewApiKey?: string;
   public securedApiKey?: string;
   public usePreviewMode: boolean = false;
@@ -22,7 +22,7 @@ export class Context {
     options?: {
       propertyNameResolver?: PropertyNameResolver;
       defaultQueryConfig?: IQueryConfig;
-      environmentId?: string,
+      projectId?: string,
       previewApiKey?: string,
       deliveryClient?: DeliveryClient,
       defaultLanguage?: string,
@@ -41,7 +41,7 @@ export class Context {
   getConfig(): IDeliveryClientConfig {
     return {
       propertyNameResolver: this.propertyNameResolver,
-      environmentId: this.environmentId,
+      projectId: this.projectId,
       previewApiKey: this.previewApiKey,
       secureApiKey: this.securedApiKey,
       defaultQueryConfig: this.defaultQueryConfig,

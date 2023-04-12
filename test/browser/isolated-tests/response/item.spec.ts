@@ -11,7 +11,7 @@ describe('Verifies mapping of delivery content item', () => {
         responseWithoutLinkedItems = (
             await getDeliveryClientWithJson(warriorJson, {
                 linkedItemsReferenceHandler: 'ignore',
-                environmentId: 'x'
+                projectId: 'x'
             })
                 .item<Movie>('x')
                 .toPromise()

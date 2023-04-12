@@ -17,7 +17,7 @@ describe('Camel case property resolver', () => {
         response = await (
             await getDeliveryClientWithJson(warriorJson, {
                 propertyNameResolver: camelCasePropertyNameResolver,
-                environmentId: 'X'
+                projectId: 'X'
             })
                 .item<MockWarrior>('x')
                 .toPromise()

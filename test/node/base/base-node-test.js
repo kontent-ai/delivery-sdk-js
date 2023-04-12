@@ -1,9 +1,9 @@
 const KontentDelivery = require('../../../dist/cjs');
 const assert = require('assert');
-const environmentId = 'da5abe9f-fdad-4168-97cd-b3464be2ccb9';
+const projectId = 'da5abe9f-fdad-4168-97cd-b3464be2ccb9';
 
 const deliveryClient = new KontentDelivery.DeliveryClient({
-  environmentId: environmentId,
+  projectId: projectId,
 });
 
 describe('Base node.js test', () => {

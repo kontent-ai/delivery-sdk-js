@@ -17,7 +17,7 @@ describe('Snake case property resolver', () => {
         response = await (
             await getDeliveryClientWithJson(warriorJson, {
                 propertyNameResolver: snakeCasePropertyNameResolver,
-                environmentId: 'X'
+                projectId: 'X'
             })
                 .item<MockWarrior>('x')
                 .toPromise()

@@ -10,7 +10,7 @@ export interface IProxyUrlData {
     queryParameters: IQueryParameter[];
     queryString: string;
     queryConfig: IQueryConfig;
-    environmentId: string;
+    projectId: string;
 }
 
 export interface ISDKInfo {

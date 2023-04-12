@@ -24,9 +24,9 @@ export interface IDeliveryClientProxyConfig {
 
 export interface IDeliveryClientConfig {
     /**
-     * EnvironmentId
+     * ProjectId of your Kontent.ai project
      */
-    environmentId: string;
+    projectId: string;
 
     /**
      * Resolver used to rename content item elements. Can be used to e.g. transform underscored element codenames to camelCase format

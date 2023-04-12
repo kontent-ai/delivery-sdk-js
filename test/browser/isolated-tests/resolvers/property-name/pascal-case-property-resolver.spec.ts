@@ -17,7 +17,7 @@ describe('Pascal case property resolver', () => {
         response = await (
             await getDeliveryClientWithJson(warriorJson, {
                 propertyNameResolver: pascalCasePropertyNameResolver,
-                environmentId: 'X'
+                projectId: 'X'
             })
                 .item<MockWarrior>('x')
                 .toPromise()

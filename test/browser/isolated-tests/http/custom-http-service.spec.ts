@@ -68,7 +68,7 @@ class CustomHttpService implements IHttpService<undefined> {
 
 describe('Custom Http service', () => {
     const client = new DeliveryClient({
-        environmentId: 'xxx',
+        projectId: 'xxx',
         httpService: new CustomHttpService()
     });
 

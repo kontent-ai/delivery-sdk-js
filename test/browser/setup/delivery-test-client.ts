@@ -3,7 +3,7 @@ import { defaultPropertyNameResolver } from '.';
 
 import { createDeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../../lib';
 
-const testenvironmentId: string = 'delivery-environment-id';
+const testProjectId: string = 'delivery-project-id';
 
 export function toPromise<T>(data: T): Promise<T> {
     return new Promise((resolve, reject) => {
@@ -17,14 +17,14 @@ export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDelivery
             ? config
             : {
                   propertyNameResolver: defaultPropertyNameResolver,
-                  environmentId: testenvironmentId
+                  projectId: testProjectId
               }
     );
 }
 
 export function getDeliveryClientWithError(errorJson: any): IDeliveryClient {
     return createDeliveryClient({
-        environmentId: testenvironmentId,
+        projectId: testProjectId,
         propertyNameResolver: defaultPropertyNameResolver,
         httpService: new TestHttpService({
             response: undefined,
@@ -48,7 +48,7 @@ export function getDeliveryClientWithJsonAndHeaders(
 ): IDeliveryClient {
     if (!config) {
         return createDeliveryClient({
-            environmentId: testenvironmentId,
+            projectId: testProjectId,
             propertyNameResolver: defaultPropertyNameResolver,
             httpService: new TestHttpService({
                 response: getResponseFromJson(json, responseHeaders),
