@@ -153,13 +153,13 @@ export namespace Filters {
     }
 
     export class GreaterThanFilter implements IQueryParameter {
-        constructor(public element: string, public value: string) {}
+        constructor(public element: string, public value: string | number) {}
 
         getParam(): string {
             return `${this.element.trim()}[gt]=${this.getParamValue()}`;
         }
 
-        private getParamValue(): string | undefined {
+        private getParamValue(): string | number | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -169,13 +169,13 @@ export namespace Filters {
     }
 
     export class GreaterThanOrEqualFilter implements IQueryParameter {
-        constructor(public element: string, public value: string) {}
+        constructor(public element: string, public value: string | number) {}
 
         getParam(): string {
             return `${this.element.trim()}[gte]=${this.getParamValue()}`;
         }
 
-        getParamValue(): string | undefined {
+        getParamValue(): string | number | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -225,13 +225,13 @@ export namespace Filters {
     }
 
     export class LessThanFilter implements IQueryParameter {
-        constructor(public element: string, public value: string) {}
+        constructor(public element: string, public value: string | number) {}
 
         getParam(): string {
             return `${this.element.trim()}[lt]=${this.getParamValue()}`;
         }
 
-        private getParamValue(): string | undefined {
+        private getParamValue(): string | number | undefined {
             if (!this.value) {
                 return defaultValue;
             }
@@ -240,13 +240,13 @@ export namespace Filters {
     }
 
     export class LessThanOrEqualFilter implements IQueryParameter {
-        constructor(public element: string, public value: string) {}
+        constructor(public element: string, public value: string | number) {}
 
         getParam(): string {
             return `${this.element.trim()}[lte]=${this.getParamValue()}`;
         }
 
-        private getParamValue(): string | undefined {
+        private getParamValue(): string | number | undefined {0
             if (!this.value) {
                 return defaultValue;
             }
@@ -256,13 +256,13 @@ export namespace Filters {
     }
 
     export class RangeFilter implements IQueryParameter {
-        constructor(public element: string, public lowerValue: number, public higherValue: number) {}
+        constructor(public element: string, public lowerValue: number | string, public higherValue: number | string) {}
 
         getParam(): string {
             return `${this.element.trim()}[range]=${this.getParamValue()}`;
         }
 
-        private getParamValue(): string | undefined {
+        private getParamValue(): string | number | undefined {
             let lowerVal = defaultValue;
             let higherVal = defaultValue;
 
