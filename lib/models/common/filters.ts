@@ -246,7 +246,8 @@ export namespace Filters {
             return `${this.element.trim()}[lte]=${this.getParamValue()}`;
         }
 
-        private getParamValue(): string | number | undefined {0
+        private getParamValue(): string | number | undefined {
+            0;
             if (!this.value) {
                 return defaultValue;
             }
