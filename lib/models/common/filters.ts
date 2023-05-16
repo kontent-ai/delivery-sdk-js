@@ -247,7 +247,6 @@ export namespace Filters {
         }
 
         private getParamValue(): string | number | undefined {
-            0;
             if (!this.value) {
                 return defaultValue;
             }
