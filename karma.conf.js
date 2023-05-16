@@ -1,38 +1,32 @@
 module.exports = function (config) {
     config.set({
-        frameworks: ["jasmine", "karma-typescript"],
+        frameworks: ['jasmine', 'karma-typescript'],
         plugins: [
-            require("karma-jasmine"),
-            require("karma-typescript"),
+            require('karma-jasmine'),
+            require('karma-typescript'),
             require('karma-chrome-launcher'),
-            require('karma-jasmine-html-reporter'),
+            require('karma-jasmine-html-reporter')
         ],
-        files: [
-            { pattern: "lib/**/*.ts" },
-            { pattern: "test/browser/**/*.ts" }
-        ],
-        exclude: [
-        ],
+        files: [{ pattern: 'lib/**/*.ts' }, { pattern: 'test/browser/**/*.ts' }],
+        exclude: [],
         preprocessors: {
-            "lib/**/*.ts": ["karma-typescript"],
-            "test/browser/**/*.ts": ["karma-typescript"]
+            'lib/**/*.ts': ['karma-typescript'],
+            'test/browser/**/*.ts': ['karma-typescript']
         },
-        reporters: ["kjhtml", "progress", "karma-typescript"],
-        browsers: ["Chrome"],
+        reporters: ['kjhtml', 'progress', 'karma-typescript'],
+        browsers: ['Chrome'],
         karmaTypescriptConfig: {
             compilerOptions: {
                 emitDecoratorMetadata: true,
                 experimentalDecorators: true,
                 resolveJsonModule: true,
-                module: "commonjs",
+                module: 'commonjs',
                 sourceMap: true,
-                target: "ES5"
+                target: 'ES5'
             },
-            exclude: ["node_modules"],
+            exclude: ['node_modules'],
             bundlerOptions: {
-                transforms: [
-                    require("karma-typescript-es6-transform")()
-                ]
+                transforms: [require('karma-typescript-es6-transform')()]
             }
         },
         coverageReporter: {
