@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.1.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.0.1...v14.1.0) (2023-05-16)
+
+
+### Features
+
+* rangeFilter now accepts strings, other comparison filters now accept numbers ([14e53e8](https://github.com/kontent-ai/delivery-sdk-js/commit/14e53e86c93625faaa955e7570bdf8bf6c5f609b))
+* updates deps ([3723aa0](https://github.com/kontent-ai/delivery-sdk-js/commit/3723aa020f4b83420883ba36dda0188c6fc1268a))
+
+
+### Bug Fixes
+
+* Preserves linked items order when using items-feed with item mapping ([e62d261](https://github.com/kontent-ai/delivery-sdk-js/commit/e62d261356112a6378d09399ed2b8cf67e866f1c))
+
 ### [14.0.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.0.0...v14.0.1) (2023-04-12)
 
 
