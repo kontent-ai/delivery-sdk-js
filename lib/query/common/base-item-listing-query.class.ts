@@ -93,7 +93,7 @@ export abstract class BaseItemListingQuery<
      * @param element Element to filter.
      * @param value Value
      */
-    greaterThanFilter(element: string, value: string): this {
+    greaterThanFilter(element: string, value: string | number): this {
         this.parameters.push(new Filters.GreaterThanFilter(element, value));
         return this;
     }
@@ -103,7 +103,7 @@ export abstract class BaseItemListingQuery<
      * @param element Element to filter.
      * @param value Value
      */
-    greaterThanOrEqualFilter(element: string, value: string): this {
+    greaterThanOrEqualFilter(element: string, value: string | number): this {
         this.parameters.push(new Filters.GreaterThanOrEqualFilter(element, value));
         return this;
     }
@@ -133,7 +133,7 @@ export abstract class BaseItemListingQuery<
      * @param element Element to filter.
      * @param value Value
      */
-    lessThanFilter(element: string, value: string): this {
+    lessThanFilter(element: string, value: string | number): this {
         this.parameters.push(new Filters.LessThanFilter(element, value));
         return this;
     }
@@ -142,7 +142,7 @@ export abstract class BaseItemListingQuery<
      * @param element Element to filter.
      * @param value Value
      */
-    lessThanOrEqualFilter(element: string, value: string): this {
+    lessThanOrEqualFilter(element: string, value: string | number): this {
         this.parameters.push(new Filters.LessThanOrEqualFilter(element, value));
         return this;
     }
@@ -152,7 +152,7 @@ export abstract class BaseItemListingQuery<
      * @param lowerValue Lower value of range (e.g. 2)
      * @param higherValue Higher value of range (e.g. 10)
      */
-    rangeFilter(element: string, lowerValue: number, higherValue: number): this {
+    rangeFilter(element: string, lowerValue: number | string, higherValue: number | string): this {
         this.parameters.push(new Filters.RangeFilter(element, lowerValue, higherValue));
         return this;
     }
