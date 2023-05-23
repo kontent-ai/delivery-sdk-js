@@ -2,7 +2,7 @@ import { Context, setup } from '../../setup';
 
 describe('Item url parameters', () => {
 
-    const context = new Context();
+    const context = new Context({defaultLanguage: 'default'});
     setup(context);
 
     it(`includeTotalCount parameter should be set to true when used`, () => {
@@ -174,5 +174,28 @@ describe('Item url parameters', () => {
 
         expect(param).toEqual('elem1[asc]');
     });
+
+    it('defaultLanguage should set language parameter', ()=> {
+        const url = new URL(
+            context.deliveryClient.items()
+            .getUrl()
+        );
+        const param = url.searchParams.get('language')
+        expect(param).toEqual('default')
+    });
+
+    it(`languageParameter should overwrite default language`, () => {
+        const url = new URL(
+            context.deliveryClient.items()
+                .languageParameter('es_ES')
+                .getUrl()
+        );
+
+        const param = url.searchParams.get('language')
+        expect(param).toEqual('es_ES')
+
+    });
+
+
 });
 
