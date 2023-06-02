@@ -10,7 +10,6 @@ import {
 } from '../../models';
 import { QueryService } from '../../services';
 import { BaseItemListingQuery } from '../common/base-item-listing-query.class';
-import { ElementType, Elements } from '../../elements';
 
 export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> extends BaseItemListingQuery<
     Responses.IListItemsFeedResponse<TContentItem>,
@@ -116,7 +115,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
         >[]
     ): Responses.IListItemsFeedAllResponse<TContentItem> {
         if (this.canLinkItems()) {
-            this.linkItems(items, responses);
+            this.linkFeedItems(items, responses);
         }
 
         return {
@@ -125,7 +124,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
         };
     }
 
-    private linkItems(
+    private linkFeedItems(
         items: TContentItem[],
         responses: IDeliveryNetworkResponse<
             Responses.IListItemsFeedResponse<TContentItem>,
@@ -133,94 +132,25 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
         >[]
     ): void {
         // prepare all available items (including components) for linking
-        const allContentItems: IContentItem[] = [];
+        const allAvailableContentItems: IContentItem[] = [];
 
         // process linked items (modular_content part of the response)
         for (const response of responses) {
-            allContentItems.push(...Object.values(response.data.linkedItems));
+            allAvailableContentItems.push(...Object.values(response.data.linkedItems));
         }
 
         // add standard items
         for (const item of items) {
-            if (!allContentItems.find((m) => m.system.codename.toLowerCase() === item.system.codename.toLowerCase())) {
-                allContentItems.push(item);
+            if (
+                !allAvailableContentItems.find(
+                    (m) => m.system.codename.toLowerCase() === item.system.codename.toLowerCase()
+                )
+            ) {
+                allAvailableContentItems.push(item);
             }
         }
         // process main items
-        for (const item of allContentItems) {
-            if (item.system.codename === 'get_started_with_kontent_ai') {
-                console.log('mapping test item', item);
-                console.log(
-                    'original items',
-                    (item.elements.subpages as any).linkedItems.map((m: any) => m.system.codename)
-                );
-            }
-
-            for (const elementKey of Object.keys(item.elements)) {
-                const element = item.elements[elementKey];
-
-                if (element.type === ElementType.ModularContent) {
-                    const linkedItemElement = element as Elements.LinkedItemsElement;
-
-                    if (item.system.codename === 'get_started_with_kontent_ai') {
-                        console.log('mapping test element', linkedItemElement);
-                    }
-
-                    // We create separate array for ordered items because the 'linkedItems' from response might be incomplete
-                    // e.g. If 4 items are linked, only 2 might be available in the response. Rest needs to be mapped from all available items
-                    const orderedLinkedItems: IContentItem[] = [];
-
-                    for (const linkedItemCodename of linkedItemElement.value) {
-                        let linkedItem: IContentItem | undefined;
-
-                        const linkedItemInElement = linkedItemElement.linkedItems.find(
-                            (m) => m.system.codename.toLowerCase() === linkedItemCodename.toLowerCase()
-                        );
-                        if (linkedItemInElement) {
-                            linkedItem = linkedItemInElement;
-                        } else {
-                            linkedItem = allContentItems.find(
-                                (m) => m.system.codename.toLowerCase() === linkedItemCodename.toLowerCase()
-                            );
-                        }
-
-                        if (linkedItem) {
-                            orderedLinkedItems.push(linkedItem);
-                        }
-                    }
-
-                    // Replace linked items with the ordered one
-                    linkedItemElement.linkedItems = orderedLinkedItems;
-                }
-
-                if (element.type === ElementType.RichText) {
-                    const orderedLinkedItems: IContentItem[] = [];
-
-                    const richTextElement = element as Elements.RichTextElement;
-
-                    for (const linkedItemCodename of richTextElement.linkedItemCodenames) {
-                        let linkedItem: IContentItem | undefined;
-
-                        const linkedItemInElement = richTextElement.linkedItems.find(
-                            (m) => m.system.codename.toLowerCase() === linkedItemCodename.toLowerCase()
-                        );
-                        if (linkedItemInElement) {
-                            linkedItem = linkedItemInElement;
-                        } else {
-                            linkedItem = allContentItems.find(
-                                (m) => m.system.codename.toLowerCase() === linkedItemCodename.toLowerCase()
-                            );
-                        }
-
-                        if (linkedItem) {
-                            orderedLinkedItems.push(linkedItem);
-                        }
-                    }
-
-                    richTextElement.linkedItems = orderedLinkedItems;
-                }
-            }
-        }
+        this.linkItemsInRte(allAvailableContentItems);
     }
 
     private canLinkItems(): boolean {

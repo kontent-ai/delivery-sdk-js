@@ -117,9 +117,36 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
             Contracts.IListContentItemsContract
         >[]
     ): Responses.IListContentItemsAllResponse<TContentItem> {
+        this.linkItems(items, responses);
+
         return {
             items: items,
             responses: responses
         };
+    }
+
+    private linkItems(
+        items: IContentItem[],
+        responses: IDeliveryNetworkResponse<
+            Responses.IListContentItemsResponse<TContentItem>,
+            Contracts.IListContentItemsContract
+        >[]
+    ): void {
+        // prepare all available items (including components) for linking
+        const allContentItems: IContentItem[] = [];
+
+        // process linked items (modular_content part of the response)
+        for (const response of responses) {
+            allContentItems.push(...Object.values(response.data.linkedItems));
+        }
+
+        // add standard items
+        for (const item of items) {
+            if (!allContentItems.find((m) => m.system.codename.toLowerCase() === item.system.codename.toLowerCase())) {
+                allContentItems.push(item);
+            }
+        }
+        // process main items
+        this.linkItemsInRte(allContentItems);
     }
 }
