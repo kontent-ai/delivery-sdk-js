@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.2.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.1.0...v14.2.0) (2023-06-02)
+
+
+### Features
+
+* adds support for linking items across responses when using toAllPromise items endpoint ([67e8e16](https://github.com/kontent-ai/delivery-sdk-js/commit/67e8e1653194b0b1e425ff390a094b29e7d4c1ff))
+* updates dependencies ([b83b3bd](https://github.com/kontent-ai/delivery-sdk-js/commit/b83b3bdbfb799857e1b2804d3afebd3b4693cb20))
+
 ## [14.1.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.0.1...v14.1.0) (2023-05-16)
 
 
