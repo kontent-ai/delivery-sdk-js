@@ -145,21 +145,21 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | environmentId           |                  string                  | environmentId of your Kontent.ai project                                                                                                                                                                                                 |
 | elementResolver?    |             ElementResolver              | Element resolver used to map custom elements                                                                                                                                                                                      |
 | previewApiKey?      |                  string                  | Preview API key used to get unpublished content items                                                                                                                                                                             |
-| defaultLanguage?    |                  string                  | Sets default language that will be used for all queries unless overriden with query parameters                                                                                                                                    |
+| defaultLanguage?    |                  string                  | Sets default language that will be used for all queries unless overridden with query parameters                                                                                                                                    |
 | proxy?              |        IDeliveryClientProxyConfig        | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'environmentId'                                                                                              |
 | secureApiKey?       |                  string                  | Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key                                                                                                                           |
-| defaultQueryConfig? |               IQueryConfig               | Default configuration for all queries. Can be overriden by indidividual queries                                                                                                                                                   |
+| defaultQueryConfig? |               IQueryConfig               | Default configuration for all queries. Can be overridden by individual queries                                                                                                                                                   |
 | httpService ?       |               IHttpService               | Can be used to inject custom http service for performing requests                                                                                                                                                                 |
 | globalHeaders?      | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request                                                                                                                                                                            |
 | retryStrategy?      |          IRetryStrategyOptions           | Retry strategy configuration                                                                                                                                                                                                      |
 | linkedItemsReferenceHandler?      |          LinkedItemsReferenceHandler           | Indicates if content items are automatically mapped. Available values: 'map' or 'ignore'                                                                                                                                          |
-| propertyNameResolver?      |          PropertyNameResolver           | Used to map properties. Choose one of following default resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver` or create your own PropertyNameResolver function           | 
+| propertyNameResolver?      |          PropertyNameResolver           | Used to map properties. Choose one of the following default resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver` or create your own PropertyNameResolver function           | 
 | assetsDomain?      |          string            | Custom domain for assets. Changes url of assets in both asset & rich text elements                                                                                                                                                |
 | defaultRenditionPreset?    |      string        | Codename of rendition preset to be applied by default to the base asset URL path when present. When set, the SDK will provide the URL of customized images by default. Right now the only supported preset codename is `default`. | 
 
 ### Create typed models
 
-> Recommended:Use the [Model Generator](https://www.npmjs.com/package/@kontent-ai/model-generator) to automatically
+> Recommended: Use the [Model Generator](https://www.npmjs.com/package/@kontent-ai/model-generator) to automatically
 > generate TypeScript models based on the content types in your Kontent.ai project.
 
 You may define optional models in Typescript representing your actual data defined in Kontent.ai projects. You can also
@@ -192,8 +192,8 @@ deliveryClient.item<Movie>('itemCodename').toPromise();
 ```
 
 Supported elements: `TextElement`, `MultipleChoiceElement`, `DateTimeElement`, `RichTextElement`, `NumberElement`,
-`AssetsElement`, `UrlSlugElement`, `TaxonomyElement`, `LinkedItemsElement` and `CustomElement`. Additionally you might
-also get `UknownElement` or custom model if you register it for your custom elements.
+`AssetsElement`, `UrlSlugElement`, `TaxonomyElement`, `LinkedItemsElement` and `CustomElement`. Additionally, you might
+also get `UnknownElement` or a custom model if you register it for your custom elements.
 
 #### Use custom models for Custom elements
 
@@ -223,7 +223,7 @@ type ColorElement = Elements.CustomElement<{
 }>;
 ```
 
-To resolve your custom element into `ColorElement`, use the `ElementResolver` in your dleivery client config:
+To resolve your custom element into `ColorElement`, use the `ElementResolver` in your delivery client config:
 
 ```typescript
 const client = createDeliveryClient({
@@ -304,7 +304,7 @@ deliveryClient.items<Movie>().type('movie').equalsFilter('elements.title', 'Warr
 
 #### Sort content
 
-You can sort data by using any of following methods:
+You can sort data by using any of the following methods:
 
 ```typescript
 deliveryClient.items<Movie>().type('movie').orderByDescending('elements.title').toPromise();
@@ -318,7 +318,7 @@ deliveryClient.items<Movie>().type('movie').orderByAscending('elements.title').t
 deliveryClient.items<Movie>().type('movie').orderParameter('elements.title', 'desc').toPromise();
 ```
 
-### Execute queries with custom URL
+### Execute queries with a custom URL
 
 When you have an URL (i.e. for `next page` in paging, for testing purposes or just if you prefer to build it on your
 own) and still want to leverage SDK functionality such as type mapping, property resolving etc., use `withUrl` parameter
@@ -385,7 +385,7 @@ const deliveryClient = createDeliveryClient({
 });
 ```
 
-Rather then registering all elements manually, you can also use one of the built-in property name resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver`
+Rather than registering all elements manually, you can also use one of the built-in property name resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver`
 
 ```typescript
 import { createDeliveryClient, snakeCasePropertyNameResolver, pascalCasePropertyNameResolver, camelCasePropertyNameResolver  } from '@kontent-ai/delivery-sdk';
@@ -488,10 +488,10 @@ All listing queries support automatic paging. To use automatic paging, use `toAl
 const response = await deliveryClient.items().limitParameter(5).toAllPromise();
 ```
 
-Alternatively, you may also specify maximum number of pages you want to get:
+Alternatively, you may also specify a maximum number of pages you want to get:
 
 ```typescript
-// only gets 3 page at maximum
+// only gets 3 pages at maximum
 const response = await deliveryClient.items().limitParameter(5).toAllPromise({
     pages: 3
 });
@@ -589,7 +589,7 @@ const json = createRichTextJsonResolver().resolveRichText({
 
 #### Resolving rich text in node.js
 
-If you need to resolve rich text in `node.js`, you have to install following parser:
+If you need to resolve rich text in `node.js`, you have to install the following parser:
 
 ```
 npm i @kontent-ai/delivery-node-parser --save
@@ -642,16 +642,16 @@ deliveryClient.taxonomies().toAllPromise();
 
 ## Proxy configuration
 
-If you want to use a proxy server, you need to use different domain or otherwise transform URL. By using `proxy`
+If you want to use a proxy server, you need to use a different domain or otherwise transform the URL. By using `proxy`
 configuration option you can define your own base domains as well as URL format. This is useful if you need to for
-example hide the `environmentId` from URL.
+example hide the `environmentId` from the URL.
 
-`IDeliveryClientProxyConfig` offers 3 ways of configuring proxy url:
+`IDeliveryClientProxyConfig` offers 3 ways of configuring proxy URL:
 
-1. `baseUrl` - Base url used for all requests. Defaults to 'deliver.kontent.ai'
-2. `basePreviewUrl` - Base url used for preview reqeusts. Defaults to 'preview-deliver.kontent.ai'
+1. `baseUrl` - Base URL used for all requests. Defaults to 'deliver.kontent.ai'
+2. `basePreviewUrl` - Base url used for preview requests. Defaults to 'preview-deliver.kontent.ai'
 3. `advancedProxyUrlResolver` - Resolver function where you get `IProxyUrlData` context data (includes domain, action,
-   query parameters..) and can fully customize final URL.
+   query parameters..) and can fully customize the final URL.
 
 Examples:
 
@@ -659,7 +659,7 @@ Examples:
 const client = createDeliveryClient({
     environmentId: '<YOUR_ENVIRONMENT_ID>',
     // Will be used instead of 'https://deliver.kontent.ai' for all requests.
-    // Parameters, filters, project Id and other parts of URL will use default values.
+    // Parameters, filters, project Id and other parts of the URL will use default values.
     proxy: {
         baseUrl: 'http://my-proxy.io'
     }
@@ -677,7 +677,7 @@ const client = createDeliveryClient({
             const queryString = data.queryString; // e.g. ?depth=1&elements=xElement
             const queryParameters = data.queryParameters; // array with query parameters parameters
             const queryConfig = data.queryConfig; // query configuration
-            return `http://my-proxy.io${action}${queryString}`; // proxy url with omitted project Id
+            return `http://my-proxy.io${action}${queryString}`; // proxy URL with omitted project Id
         }
     }
 });
@@ -686,7 +686,7 @@ const client = createDeliveryClient({
 ## Error handling
 
 If the error originates in Kontent.ai (see [error responses](https://kontent.ai/learn/reference/delivery-api#section/SDKs)), you will get a `DeliveryError` object
-instance with more specific information. Otherwise, you will get original error.
+instance with more specific information. Otherwise, you will get the original error.
 
 ```typescript
 import { DeliveryError } from '@kontent-ai/delivery-sdk';
@@ -706,7 +706,7 @@ try {
 
 ### Remapping json responses
 
-In some scenarios you might want to store `json` response for later use and use SDK to map the response for you. There are 2 ways you can map previously stored `json`:
+In some scenarios, you might want to store `json` response for later use and use SDK to map the response for you. There are 2 ways you can map previously stored `json`:
 
 ```typescript
 const result = await deliveryClient.item<Movie>('codename').toPromise();
@@ -722,7 +722,7 @@ const remappedData = deliveryClient.item<Movie>(movieCodename).map(json);
 
 ### Handling circular references
 
-By default the SDK automatically maps content items present in `linked items` & `rich text` elements. Linked items can reference other linked items in their tree (e.g. child item referencing parent) which may cause infinite nesting (circular reference). This behavior is not an issue for most scenarios, in fact it is beneficial as you can easily access all linked items. However, you cannot easily serialize such model. Using e.g. `JSON.stringify` would fail if there are circular references. 
+By default, the SDK automatically maps content items present in `linked items` & `rich text` elements. Linked items can reference other linked items in their tree (e.g. child item referencing parent) which may cause infinite nesting (circular reference). This behavior is not an issue for most scenarios, in fact it is beneficial as you can easily access all linked items. However, you cannot easily serialize such model. Using e.g. `JSON.stringify` would fail if there are circular references. 
 
 For this reason, you may disable mapping of linked items with `linkedItemsReferenceHandler` configuration option.
 
@@ -782,11 +782,11 @@ console.log(queryText);
 ## Upgrade
 
 The major version `11.0.0` is pretty much a complete overhaul of this SDK with many breaking changes. The major benefits
-you can with `11.0.0` are:
+of `11.0.0` are:
 
 -   Greatly reduced package size (from `~318KB` to `~95KB`). When Gzipped, this library is now only `~19KB`
 -   Reduced complexity by removing `rxjs` as not everyone needs to use it
--   Removed classes in favor of interfaces (again to reduce size of library)
+-   Removed classes in favor of interfaces (again to reduce the size of the library)
 -   Automatic paging support for all listing queries
 -   Improved resolving of rich text elements along with the `async` support
 -   Simplified custom models without the need of `typeResolvers`
@@ -798,7 +798,7 @@ you can with `11.0.0` are:
     later on)
 -   Updated all dependencies
 
-If you are upgrading from older version, please see this documentation first. If you are still unsure how to upgrade or
+If you are upgrading from an older version, please see this documentation first. If you are still unsure how to upgrade or
 have some other questions, feel free to submit an issue on this GitHub and we'll get back to you.
 
 ## Testing
