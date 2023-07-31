@@ -109,6 +109,7 @@ export namespace Parameters {
             if (!element) {
                 throw Error(`Element specified in 'OrderParameter' is null or empty`);
             }
+            
         }
 
         getParam(): string {
@@ -148,19 +149,28 @@ export namespace Parameters {
     }
 
     export class LanguageParameter implements IQueryParameter {
+       
         /**
          * Specifies language version to fetch
          * @constructor
          * @param {string} languageCodename - Codename of the language
          */
+        codenameValidationRegExp = new RegExp(`language=[a-zA-Z_][a-zA-Z0-9_]{0,59}$`)
+        languageQueryString = `language=${this.languageCodename}`
         constructor(public languageCodename: string) {
             if (!languageCodename) {
                 throw Error(`'LanguageParameter' must specify codename of the language`);
             }
         }
 
-        getParam(): string {
-            return `language=${this.languageCodename}`;
+        
+
+        
+        getParam(): string{
+            if(!this.languageQueryString.match(this.codenameValidationRegExp)){
+                throw Error(`Invalid language codename`)
+            }
+            else return this.languageQueryString
         }
     }
 }

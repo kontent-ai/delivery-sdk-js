@@ -1,14 +1,14 @@
 import { IHeader, IQueryParameter } from '@kontent-ai/core-sdk';
 
 import { IDeliveryClientConfig } from '../../config';
-import { IDeliveryNetworkResponse, IKontentResponse, IQueryConfig, Parameters } from '../../models';
+import { IDeliveryNetworkResponse, IKontentResponse, IQueryConfig, Parameters} from '../../models';
 import { QueryService } from '../../services';
+
 
 export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig extends IQueryConfig, TContract> {
     protected parameters: IQueryParameter[] = [];
     protected customUrl?: string;
     protected abstract _queryConfig: TQueryConfig;
-
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {}
 
     /**
@@ -119,7 +119,7 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
     protected processDefaultLanguageParameter(): void {
         // add default language if none is specified && default language is specified globally
         if (this.config.defaultLanguage) {
-            const languageParameter = this.getParameters().find((m) => m.getParam() === 'language');
+            const languageParameter = this.getParameters().find((m) => m.getParam().match(`language=[a-zA-Z_][a-zA-Z0-9_]{0,59}$`));
             if (!languageParameter) {
                 // language parameter was not specified in query, use globally defined language
                 this.parameters.push(new Parameters.LanguageParameter(this.config.defaultLanguage));
