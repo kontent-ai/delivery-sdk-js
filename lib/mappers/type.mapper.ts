@@ -7,9 +7,8 @@ export class TypeMapper {
     }
 
     mapMultipleTypes(response: Contracts.IListContentTypeContract): IContentType[] {
-        const that = this;
-        return response.types.map(function (type) {
-            return that.mapType(type);
+        return response.types.map((type) => {
+            return this.mapType(type);
         });
     }
 

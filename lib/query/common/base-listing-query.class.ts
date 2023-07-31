@@ -61,16 +61,14 @@ export abstract class BaseListingQuery<
                 };
             },
             getResponse: (nextPageUrl, continuationToken) => {
-                let query = this;
-
                 if (nextPageUrl) {
-                    query = this.withCustomUrl(nextPageUrl);
+                    this.withCustomUrl(nextPageUrl);
                 }
                 if (continuationToken) {
-                    query = this.withContinuationToken(continuationToken);
+                    this.withContinuationToken(continuationToken);
                 }
 
-                return query.toPromise();
+                return this.toPromise();
             }
         });
     }

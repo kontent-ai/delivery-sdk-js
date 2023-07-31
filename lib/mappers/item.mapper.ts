@@ -1,6 +1,11 @@
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
-import { IContentItem, IContentItemsContainer, IContentItemWithRawDataContainer, IContentItemWithRawElements } from '../models';
+import {
+    IContentItem,
+    IContentItemsContainer,
+    IContentItemWithRawDataContainer,
+    IContentItemWithRawElements
+} from '../models';
 import { ElementMapper } from './element.mapper';
 
 export interface IMapItemResult<TContentItem extends IContentItem = IContentItem> {
@@ -37,7 +42,7 @@ export class ItemMapper {
     ): ISingleItemMapResult<TContentItem> {
         const mapResult = this.mapItems<TContentItem>({
             mainItems: [response.item],
-            linkedItems: Object.values(response.modular_content),
+            linkedItems: Object.values(response.modular_content)
         });
 
         return {
@@ -52,7 +57,7 @@ export class ItemMapper {
      * @param queryConfig Query configuration
      */
     mapMultipleItemsFromResponse<TContentItem extends IContentItem = IContentItem>(
-        response: Contracts.IItemsWithModularContentContract,
+        response: Contracts.IItemsWithModularContentContract
     ): IMultipleItemsMapResult<TContentItem> {
         const mapResult = this.mapItems<TContentItem>({
             mainItems: response.items,
@@ -69,7 +74,6 @@ export class ItemMapper {
         mainItems: Contracts.IContentItemContract[];
         linkedItems: Contracts.IContentItemContract[];
     }): IMultipleItemsMapResult<TContentItem> {
-        const that = this;
         const processedItems: IContentItemsContainer = {};
         const preparedItems: IContentItemWithRawDataContainer = {};
         const processingStartedForCodenames: string[] = [];
@@ -87,7 +91,7 @@ export class ItemMapper {
 
         // then resolve items
         for (const item of data.mainItems) {
-            const itemResult = that.mapItem<TContentItem>({
+            const itemResult = this.mapItem<TContentItem>({
                 item: preparedItems[item.system.codename],
                 processedItems: processedItems,
                 preparedItems: preparedItems,
@@ -97,7 +101,7 @@ export class ItemMapper {
         }
 
         for (const item of data.linkedItems) {
-            const itemResult = that.mapItem<TContentItem>({
+            const itemResult = this.mapItem<TContentItem>({
                 item: preparedItems[item.system.codename],
                 processedItems: processedItems,
                 preparedItems: preparedItems,
@@ -130,7 +134,7 @@ export class ItemMapper {
             dataToMap: data.item,
             preparedItems: data.preparedItems,
             processingStartedForCodenames: [],
-            processedItems: data.processedItems,
+            processedItems: data.processedItems
         });
 
         if (!result) {

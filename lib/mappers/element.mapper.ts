@@ -158,7 +158,7 @@ export class ElementMapper {
         // The Kontent Delivery API is not guaranteed to return rich-text modular_content array items in the same order in which they appear inside the `value` property.
         // We extract the modular_content codenames in the rich-text value and sort the raw modular_content based on that order instead.
         const rawModularContentCodenamesMatches = (rawElement.value as string).matchAll(
-            /<object[^>]+data-codename=\"(?<codename>[a-z0-9_]*)\".*?>/g
+            /<object[^>]+data-codename="(?<codename>[a-z0-9_]*)".*?>/g
         );
         const rawModularContentCodenamesSorted = Array.from(rawModularContentCodenamesMatches).reduce<string[]>(
             (acc, match) => {
