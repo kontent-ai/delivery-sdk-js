@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.3.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.2.0...v14.3.0) (2023-07-31)
+
+
+### Features
+
+* updates deps, migrates to eslint, adds migrate related code fixes ([288cbb7](https://github.com/kontent-ai/delivery-sdk-js/commit/288cbb7ed6a853fce11383ab5f7475fe45758233))
+
+
+### Bug Fixes
+
+* typos ([3702502](https://github.com/kontent-ai/delivery-sdk-js/commit/3702502f6519e499f51ed2bf09f362d1667cc6ec))
+
 ## [14.2.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.1.0...v14.2.0) (2023-06-02)
 
 
