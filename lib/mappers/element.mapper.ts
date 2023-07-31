@@ -1,5 +1,4 @@
-import { enumHelper } from '@kontent-ai/core-sdk';
-import { deliveryUrlHelper } from '../utilities';
+import { deliveryUrlHelper, enumHelper } from '../utilities';
 
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
