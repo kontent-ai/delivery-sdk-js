@@ -13,6 +13,7 @@ export class Context {
   public usePreviewMode: boolean = false;
   public useSecuredMode: boolean = false;
   public defaultLanguage?: string;
+  public excludeArchivedItems?: boolean = true;
   public baseUrl?: string;
   public basePreviewUrl?: string;
   public globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];
@@ -26,6 +27,7 @@ export class Context {
       previewApiKey?: string,
       deliveryClient?: DeliveryClient,
       defaultLanguage?: string,
+      excludeArchivedItems?: boolean,
       baseUrl?: string,
       basePreviewUrl?: string,
       securedApiKey?: string,
@@ -52,6 +54,7 @@ export class Context {
       defaultLanguage: this.defaultLanguage,
       globalHeaders: this.globalHeaders,
       retryStrategy: this.retryStrategy,
+      excludeArchivedItems: this.excludeArchivedItems
     };
   }
 }

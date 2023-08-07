@@ -2,7 +2,7 @@ import { Context, setup } from '../../setup';
 
 describe('Item url parameters', () => {
 
-    const context = new Context({defaultLanguage: 'default'});
+    const context = new Context({defaultLanguage: 'default', excludeArchivedItems: true});
     setup(context);
 
     it(`includeTotalCount parameter should be set to true when used`, () => {
@@ -148,6 +148,16 @@ describe('Item url parameters', () => {
 
         expect(param).toEqual('en');
     });
+
+    it ('exclude archived items should apply workflow filter', () => {
+        const url = new URL(
+            context.deliveryClient.items()
+            .getUrl()
+        );
+        const param = url.searchParams.get('system.workflow_step[neq]');
+        console.log(param)
+        expect(param).toEqual('archived')
+    })
 
     // trim checks
 

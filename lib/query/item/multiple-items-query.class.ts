@@ -103,6 +103,9 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
+        //process client level archived item exclusion
+        this.processExcludeArchivedItemsParameter();
+
         return super.resolveUrlInternal(action);
     }
 

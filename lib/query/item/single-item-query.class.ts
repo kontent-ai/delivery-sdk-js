@@ -71,6 +71,9 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
         // add default language is necessry
         this.processDefaultLanguageParameter();
 
+        //process client level archived item exclusion
+        this.processExcludeArchivedItemsParameter();
+
         return super.resolveUrlInternal(action);
     }
 

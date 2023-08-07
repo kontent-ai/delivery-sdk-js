@@ -117,6 +117,7 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
 
     protected processDefaultLanguageParameter(): void {
         // add default language if none is specified && default language is specified globally
+        console.log(this.config.defaultLanguage)
         if (this.config.defaultLanguage) {
             const languageParameter = this.getParameters().find((m) =>
                 m.getParam().match(`language=[a-zA-Z_][a-zA-Z0-9_]{0,59}$`)
@@ -129,8 +130,9 @@ export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig
     }
 
     protected processExcludeArchivedItemsParameter(): void {
-        if (this.config.excludeArchivedItems) {
-            this.parameters.push(new Filters.NotEqualsFilter('system.workflow', 'archived'));
+        console.log('value of client flag', this.config.excludeArchivedItems)
+        if (this.config.excludeArchivedItems === true) {
+            this.parameters.push(new Filters.NotEqualsFilter('system.workflow_step', 'archived'));
         }
     }
 }
