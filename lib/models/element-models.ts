@@ -42,7 +42,7 @@ export interface IGenericElement {
     /**
      * Taxonomy group in case the element is a taxonomy
      */
-    taxonomyGroup?: string;
+    taxonomy_group?: string;
 
     /**
      * Array of options if the element has some

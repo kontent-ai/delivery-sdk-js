@@ -12,7 +12,7 @@ describe('Live element', () => {
 
     let multipleChoiceElementResponse: Responses.IViewContentTypeElementResponse;
     let taxonomyElementResponse: Responses.IViewContentTypeElementResponse;
-
+    console.log(context)
     beforeAll(async () => {
         multipleChoiceElementResponse = (
             await context.deliveryClient.element(typeCodename, multipleChoiceElementCodename).toPromise()
@@ -21,6 +21,8 @@ describe('Live element', () => {
         taxonomyElementResponse = (
             await context.deliveryClient.element(typeCodename, taxonomyElementCodename).toPromise()
         ).data;
+
+        console.log(taxonomyElementResponse);
     });
 
     it(`element responses should be defined`, () => {
@@ -28,18 +30,13 @@ describe('Live element', () => {
         expect(taxonomyElementResponse).toBeDefined();
     });
 
-    it(`element inside responses should be defined`, () => {
-        expect(multipleChoiceElementResponse.element).toBeDefined();
-        expect(taxonomyElementResponse.element).toBeDefined();
-    });
-
     it(`element taxonomy element should contain valid taxonomy group property`, () => {
-        expect(taxonomyElementResponse.element.taxonomyGroup).toBeDefined();
-        expect(taxonomyElementResponse.element.taxonomyGroup).toEqual(jasmine.any(String));
+        expect(taxonomyElementResponse.taxonomyGroup).toBeDefined();
+        expect(taxonomyElementResponse.taxonomyGroup).toEqual(jasmine.any(String));
     });
 
     it(`multiple choice element should contain options`, () => {
-        expect(multipleChoiceElementResponse.element.options).toBeDefined();
-        expect(multipleChoiceElementResponse.element.options.length).toBeGreaterThan(0);
+        expect(multipleChoiceElementResponse.options).toBeDefined();
+        expect(multipleChoiceElementResponse.options.length).toBeGreaterThan(0);
     });
 });

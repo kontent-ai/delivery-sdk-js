@@ -13,7 +13,7 @@ export class Context {
   public usePreviewMode: boolean = false;
   public useSecuredMode: boolean = false;
   public defaultLanguage?: string;
-  public excludeArchivedItems?: boolean = true;
+  public excludeArchivedItems?: boolean = false;
   public baseUrl?: string;
   public basePreviewUrl?: string;
   public globalHeaders?: (queryConfig: IQueryConfig) => IHeader[];

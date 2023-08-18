@@ -1,16 +1,11 @@
 import { Context, setup } from '../../setup';
 
 describe('Item url parameters', () => {
-
-    const context = new Context({defaultLanguage: 'default', excludeArchivedItems: true});
+    const context = new Context({ defaultLanguage: 'default', excludeArchivedItems: true });
     setup(context);
 
     it(`includeTotalCount parameter should be set to true when used`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .includeTotalCountParameter()
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().includeTotalCountParameter().getUrl())
 
         const param = url.searchParams.get('includeTotalCount');
 
@@ -18,11 +13,7 @@ describe('Item url parameters', () => {
     });
 
     it(`depth param should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .depthParameter(1)
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().depthParameter(1).getUrl());
 
         const param = url.searchParams.get('depth');
 
@@ -34,11 +25,7 @@ describe('Item url parameters', () => {
     });
 
     it(`multiple elements param should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .elementsParameter(['elem1', 'elem2'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().elementsParameter(['elem1', 'elem2']).getUrl());
 
         const param = url.searchParams.get('elements');
 
@@ -46,11 +33,7 @@ describe('Item url parameters', () => {
     });
 
     it(`single elements param should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .elementsParameter(['elem1'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().elementsParameter(['elem1']).getUrl());
 
         const param = url.searchParams.get('elements');
 
@@ -58,11 +41,7 @@ describe('Item url parameters', () => {
     });
 
     it(`limit parameter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .limitParameter(1)
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().limitParameter(1).getUrl());
 
         const param = url.searchParams.get('limit');
 
@@ -74,11 +53,7 @@ describe('Item url parameters', () => {
     });
 
     it(`order (desc) parameter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .orderParameter('elem1', 'desc')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().orderParameter('elem1', 'desc').getUrl());
 
         const param = url.searchParams.get('order');
 
@@ -86,11 +61,7 @@ describe('Item url parameters', () => {
     });
 
     it(`order (asc) parameter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .orderParameter('elem1', 'asc')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().orderParameter('elem1', 'asc').getUrl());
 
         const param = url.searchParams.get('order');
 
@@ -98,11 +69,7 @@ describe('Item url parameters', () => {
     });
 
     it(`orderByDescending should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .orderByDescending('elem1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().orderByDescending('elem1').getUrl());
 
         const param = url.searchParams.get('order');
 
@@ -110,11 +77,7 @@ describe('Item url parameters', () => {
     });
 
     it(`orderByAscending should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .orderByAscending('elem1')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().orderByAscending('elem1').getUrl());
 
         const param = url.searchParams.get('order');
 
@@ -122,11 +85,7 @@ describe('Item url parameters', () => {
     });
 
     it(`skip parameter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .skipParameter(1)
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().skipParameter(1).getUrl());
 
         const param = url.searchParams.get('skip');
 
@@ -138,35 +97,23 @@ describe('Item url parameters', () => {
     });
 
     it(`language parameter should be set`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .languageParameter('en')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().languageParameter('en').getUrl());
 
         const param = url.searchParams.get('language');
 
         expect(param).toEqual('en');
     });
 
-    it ('exclude archived items should apply workflow filter', () => {
-        const url = new URL(
-            context.deliveryClient.items()
-            .getUrl()
-        );
+    it('exclude archived items should apply workflow filter', () => {
+        const url = new URL(context.deliveryClient.items().getUrl());
         const param = url.searchParams.get('system.workflow_step[neq]');
-        console.log(param)
-        expect(param).toEqual('archived')
-    })
+        expect(param).toEqual('archived');
+    });
 
     // trim checks
 
     it(`elementsParameter should trim its element codenames`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .elementsParameter([' elem1', 'elem2', ' elem3'])
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().elementsParameter([' elem1', 'elem2', ' elem3']).getUrl());
 
         const param = url.searchParams.get('elements');
 
@@ -174,38 +121,23 @@ describe('Item url parameters', () => {
     });
 
     it(`orderParameter should trim its element`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .orderParameter(' elem1 ', 'asc')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().orderParameter(' elem1 ', 'asc').getUrl());
 
         const param = url.searchParams.get('order');
 
         expect(param).toEqual('elem1[asc]');
     });
 
-    it('defaultLanguage should set language parameter', ()=> {
-        const url = new URL(
-            context.deliveryClient.items()
-            .getUrl()
-        );
-        const param = url.searchParams.get('language')
-        expect(param).toEqual('default')
+    it('defaultLanguage should set language parameter', () => {
+        const url = new URL(context.deliveryClient.items().getUrl());
+        const param = url.searchParams.get('language');
+        expect(param).toEqual('default');
     });
 
     it(`languageParameter should overwrite default language`, () => {
-        const url = new URL(
-            context.deliveryClient.items()
-                .languageParameter('es_ES')
-                .getUrl()
-        );
+        const url = new URL(context.deliveryClient.items().languageParameter('es_ES').getUrl());
 
-        const param = url.searchParams.get('language')
-        expect(param).toEqual('es_ES')
-
+        const param = url.searchParams.get('language');
+        expect(param).toEqual('es_ES');
     });
-
-
 });
-

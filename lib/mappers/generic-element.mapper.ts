@@ -7,7 +7,7 @@ export class GenericElementMapper {
             throw Error(`Invalid response for mapping element`);
         }
 
-        const element = response.element;
+        const element = response;
 
         return {
             codename: element.codename,

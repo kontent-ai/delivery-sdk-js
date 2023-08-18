@@ -55,7 +55,11 @@ export namespace Contracts {
     }
 
     export interface IViewContentTypeElementContract {
-        element: IContentTypeElementContract;
+        codename?: string;
+        type: string;
+        name: string;
+        taxonomy_group?: string;
+        options?: IElementOptionContract[];
     }
 
     export interface IElementContract {

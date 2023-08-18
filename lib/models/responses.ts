@@ -3,7 +3,7 @@ import { IDeliveryNetworkResponse } from './common/base-responses';
 import { IKontentListAllResponse, IKontentListResponse, IKontentResponse } from './common/common-models';
 import { IPagination } from './common/pagination.class';
 import { IContentType } from './content-type-models';
-import { IGenericElement } from './element-models';
+import { IGenericElementOption } from './element-models';
 import { IContentItem, IContentItemsContainer } from './item-models';
 import { ILanguage } from './language-models';
 import { IContentItemDelta } from './sync-models';
@@ -24,14 +24,13 @@ export namespace Responses {
         type: IContentType;
     }
 
+    
     export interface IViewContentTypeElementResponse extends IKontentResponse {
-        /**
-         * Response containing content type element
-         *
-         * @constructor
-         * @param {IGenericElement} element - Content type element
-         */
-        element: IGenericElement;
+        codename?: string,
+        type: string,
+        name: string;
+        taxonomyGroup?: string
+        options: IGenericElementOption[];
     }
 
     export interface IListItemsFeedResponse<TContentItem extends IContentItem = IContentItem>
