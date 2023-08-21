@@ -156,6 +156,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | propertyNameResolver?      |          PropertyNameResolver           | Used to map properties. Choose one of the following default resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver` or create your own PropertyNameResolver function           | 
 | assetsDomain?      |          string            | Custom domain for assets. Changes url of assets in both asset & rich text elements                                                                                                                                                |
 | defaultRenditionPreset?    |      string        | Codename of rendition preset to be applied by default to the base asset URL path when present. When set, the SDK will provide the URL of customized images by default. Right now the only supported preset codename is `default`. | 
+| excludeArchivedItems?    |      boolean        | Can be used to exclude archived items from all queries by default. Only applicable when preview API is used. | 
 
 ### Create typed models
 

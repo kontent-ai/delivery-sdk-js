@@ -95,4 +95,9 @@ export interface IDeliveryClientConfig {
      * Codename of rendition preset to be applied by default to the base asset URL path.
      */
     defaultRenditionPreset?: string;
+
+    /**
+     * Can be used to exclude archived items from all queries by default. Only applicable when preview API is used
+     */
+    excludeArchivedItems?: boolean;
 }

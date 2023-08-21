@@ -60,6 +60,7 @@ export function setup(context: Context) {
         previewApiKey: previewApiKey,
         defaultQueryConfig: context.defaultQueryConfig,
         defaultLanguage: context.defaultLanguage,
+        excludeArchivedItems: context.excludeArchivedItems,
         proxy: {
             baseUrl: context.baseUrl,
             basePreviewUrl: context.basePreviewUrl,

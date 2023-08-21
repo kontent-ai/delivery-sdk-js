@@ -42,7 +42,6 @@ export class TypeMapper {
             const elementCodename = elementName;
 
             // extra properties for certain element types
-            const taxonomyGroup: string | undefined = typeElement.taxonomy_group;
             const options: Contracts.IElementOptionContract[] = [];
 
             // some elements can contain options
@@ -62,7 +61,7 @@ export class TypeMapper {
 
             elements.push({
                 codename: elementCodename,
-                taxonomyGroup: taxonomyGroup,
+                taxonomyGroup: typeElement.taxonomy_group,
                 options: options,
                 name: typeElement.name,
                 type: typeElement.type

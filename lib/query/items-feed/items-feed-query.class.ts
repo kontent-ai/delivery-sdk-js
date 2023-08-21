@@ -91,6 +91,9 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
         // add default language is necessary
         this.processDefaultLanguageParameter();
 
+        //process client level archived item exclusion
+        this.processExcludeArchivedItemsParameter();
+
         return super.resolveUrlInternal(action);
     }
 

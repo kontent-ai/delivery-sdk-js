@@ -100,8 +100,11 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
     getUrl(): string {
         const action = '/items';
 
-        // add default language is necessry
+        // handle default language
         this.processDefaultLanguageParameter();
+
+        // handle archived items
+        this.processExcludeArchivedItemsParameter();
 
         return super.resolveUrlInternal(action);
     }

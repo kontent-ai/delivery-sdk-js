@@ -147,7 +147,7 @@ export class MappingService implements IMappingService {
     listTaxonomiesResponse(data: Contracts.IListTaxonomyGroupsContract): Responses.IListTaxonomiesResponse {
         return {
             items: this.taxonomyMapper.mapTaxonomies(data.taxonomies),
-            pagination: this.mapPagination(data.pagination)
+            pagination: this.mapPagination(data.pagination),
         };
     }
 
@@ -158,9 +158,7 @@ export class MappingService implements IMappingService {
     viewContentTypeElementResponse(
         data: Contracts.IViewContentTypeElementContract
     ): Responses.IViewContentTypeElementResponse {
-        return {
-            element: this.genericElementMapper.mapElement(data)
-        };
+        return this.genericElementMapper.mapElement(data);
     }
 
     initializeContentSync(data: Contracts.IInitializeSyncContract): Responses.IInitializeSyncResponse {
