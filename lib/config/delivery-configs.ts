@@ -97,7 +97,7 @@ export interface IDeliveryClientConfig {
     defaultRenditionPreset?: string;
 
     /**
-     * Can be used to exclude archived items from all queries by default.
+     * Can be used to exclude archived items from all queries by default. Only applicable when preview API is used
      */
     excludeArchivedItems?: boolean;
 }
