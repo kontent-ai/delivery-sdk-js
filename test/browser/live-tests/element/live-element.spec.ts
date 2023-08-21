@@ -12,7 +12,7 @@ describe('Live element', () => {
 
     let multipleChoiceElementResponse: Responses.IViewContentTypeElementResponse;
     let taxonomyElementResponse: Responses.IViewContentTypeElementResponse;
-    console.log(context)
+
     beforeAll(async () => {
         multipleChoiceElementResponse = (
             await context.deliveryClient.element(typeCodename, multipleChoiceElementCodename).toPromise()
@@ -21,8 +21,6 @@ describe('Live element', () => {
         taxonomyElementResponse = (
             await context.deliveryClient.element(typeCodename, taxonomyElementCodename).toPromise()
         ).data;
-
-        console.log(taxonomyElementResponse);
     });
 
     it(`element responses should be defined`, () => {
