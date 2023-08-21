@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.4.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.3.1...v14.4.0) (2023-08-21)
+
+
+### Features
+
+* Adds 'excludeArchivedItems' client configuration & fixes element endpoint mapping due to API change ([19f3fff](https://github.com/kontent-ai/delivery-sdk-js/commit/19f3fff6ae50ccf81d7dcf49a81329ad3c7c8a09))
+* updates deps & increases required node version ([4b0dee3](https://github.com/kontent-ai/delivery-sdk-js/commit/4b0dee3f8c3050d3283c12038dad0755a2d5aa98))
+
 ### [14.3.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.3.0...v14.3.1) (2023-08-02)
 
 
