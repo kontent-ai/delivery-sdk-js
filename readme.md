@@ -288,7 +288,7 @@ deliveryClient.items<Movie>().type('movie').equalsFilter('elements.title', 'Warr
 | ------------------------ | ------------------------------------------------------------------------------------- |
 | type                     | Retrieve only content items based on the given type.                                  |
 | types                    | Retrieve only content items based on the given types.                                 |
-| allFilte                 | Element with an array of values contains the specified list of values.                |
+| allFilter                | Element with an array of values contains the specified list of values.                |
 | anyFilter                | Element with an array of values contains any value from the specified list of values. |
 | containsFilter           | Element with an array of values contains the specified value.                         |
 | equalsFilter             | Element value is the same as the specified value                                      |
