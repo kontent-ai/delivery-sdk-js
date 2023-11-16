@@ -59,17 +59,17 @@
         "bundle-stats": "npm run build:umd && webpack-bundle-analyzer dist/bundles/stats.json"
     },
     "dependencies": {
-        "@kontent-ai/core-sdk": "10.2.0",
-        "uuid": "9.0.0",
+        "@kontent-ai/core-sdk": "10.3.0",
+        "uuid": "9.0.1",
         "url-parse": "1.5.10"
     },
     "devDependencies": {
-        "@types/url-parse": "1.4.8",
-        "@types/jasmine": "4.3.5",
-        "@types/node": "20.5.1",
-        "@types/uuid": "9.0.2",
+        "@types/url-parse": "1.4.11",
+        "@types/jasmine": "5.1.2",
+        "@types/node": "20.9.0",
+        "@types/uuid": "9.0.7",
         "colors": "1.4.0",
-        "jasmine-core": "5.1.0",
+        "jasmine-core": "5.1.1",
         "jasmine-spec-reporter": "7.0.0",
         "karma": "6.4.2",
         "karma-chrome-launcher": "3.2.0",
@@ -83,13 +83,13 @@
         "lcov-parse": "1.0.0",
         "mocha": "10.2.0",
         "standard-version": "9.5.0",
-        "ts-loader": "9.4.4",
-        "@typescript-eslint/eslint-plugin": "6.4.0",
-        "@typescript-eslint/parser": "6.4.0",
-        "eslint": "8.47.0",
-        "typescript": "5.1.6",
-        "webpack": "5.88.2",
-        "webpack-bundle-analyzer": "4.9.0",
+        "ts-loader": "9.5.1",
+        "@typescript-eslint/eslint-plugin": "6.11.0",
+        "@typescript-eslint/parser": "6.11.0",
+        "eslint": "8.53.0",
+        "typescript": "5.2.2",
+        "webpack": "5.89.0",
+        "webpack-bundle-analyzer": "4.10.1",
         "webpack-cli": "5.1.4"
     }
 }
