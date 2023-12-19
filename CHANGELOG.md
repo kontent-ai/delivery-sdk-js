@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* Adds 'workflow' to system attributes (fixes https://github.com/kontent-ai/management-sdk-js/issues/128) ([6a0bf11](https://github.com/kontent-ai/delivery-sdk-js/commit/6a0bf11f45de93f87774f1d1b1b682c0df2b5c35))
+* Adds 'workflow' to system attributes ([6a0bf11](https://github.com/kontent-ai/delivery-sdk-js/commit/6a0bf11f45de93f87774f1d1b1b682c0df2b5c35))
 
 ## [14.5.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.4.0...v14.5.0) (2023-11-16)
 
