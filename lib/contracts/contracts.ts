@@ -179,6 +179,7 @@ export namespace Contracts {
         sitemap_locations: string[];
         collection: string;
         workflow_step: string | null;
+        workflow: string | null;
     }
 
     export interface IItemsWithModularContentContract {

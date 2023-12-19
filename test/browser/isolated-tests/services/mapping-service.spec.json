@@ -2,17 +2,16 @@
     "items": [
       {
         "system": {
-          "id": "cf106f4e-30a4-42ef-b313-b8ea3fd3e5c5",
-          "name": "Coffee Beverages Explained",
-          "codename": "coffee_beverages_explained",
-          "language": "default",
-          "type": "article",
-          "sitemap_locations": [
-            "articles"
-          ],
-          "collection": "default",
-          "last_modified": "2017-04-04T13:40:00.1102334Z",
-          "workflow_step": "published"
+            "id": "cf106f4e-30a4-42ef-b313-b8ea3fd3e5c5",
+            "name": "Coffee Beverages Explained",
+            "codename": "coffee_beverages_explained",
+            "language": "default",
+            "type": "article",
+            "sitemap_locations": ["articles"],
+            "collection": "default",
+            "last_modified": "2017-04-04T13:40:00.1102334Z",
+            "workflow_step": "published",
+            "workflow": "default"
         },
         "elements": {
           "title": {
@@ -47,17 +46,16 @@
       },
       {
         "system": {
-          "id": "23f71096-fa89-4f59-a3f9-970e970944ec",
-          "name": "Donate with us",
-          "codename": "donate_with_us",
-          "language": "default",
-          "type": "article",
-          "sitemap_locations": [
-            "articles"
-          ],
-          "collection": "default",
-          "last_modified": "2017-04-04T13:40:29.970377Z",
-          "workflow_step": "published"
+            "id": "23f71096-fa89-4f59-a3f9-970e970944ec",
+            "name": "Donate with us",
+            "codename": "donate_with_us",
+            "language": "default",
+            "type": "article",
+            "sitemap_locations": ["articles"],
+            "collection": "default",
+            "last_modified": "2017-04-04T13:40:29.970377Z",
+            "workflow_step": "published",
+            "workflow": "default"
         },
         "elements": {
           "title": {
@@ -92,17 +90,16 @@
       },
       {
         "system": {
-          "id": "b2fea94c-73fd-42ec-a22f-f409878de187",
-          "name": "Origins of Arabica Bourbon",
-          "codename": "origins_of_arabica_bourbon",
-          "language": "default",
-          "type": "article",
-          "sitemap_locations": [
-            "articles"
-          ],
-          "collection": "default",
-          "last_modified": "2017-04-04T13:45:44.1533096Z",
-          "workflow_step": "published"
+            "id": "b2fea94c-73fd-42ec-a22f-f409878de187",
+            "name": "Origins of Arabica Bourbon",
+            "codename": "origins_of_arabica_bourbon",
+            "language": "default",
+            "type": "article",
+            "sitemap_locations": ["articles"],
+            "collection": "default",
+            "last_modified": "2017-04-04T13:45:44.1533096Z",
+            "workflow_step": "published",
+            "workflow": "default"
         },
         "elements": {
           "title": {

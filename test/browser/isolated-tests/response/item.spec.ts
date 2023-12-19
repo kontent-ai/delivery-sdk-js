@@ -57,10 +57,21 @@ describe('Verifies mapping of delivery content item', () => {
         );
     });
 
+    it(`checks system workflow`, () => {
+        expect(responseWithLinkedItems.item.system.workflow).toEqual(warriorJson.item.system.workflow);
+    });
+
+    it(`checks system workflow step`, () => {
+        expect(responseWithLinkedItems.item.system.workflowStep).toEqual(warriorJson.item.system.workflow_step);
+    });
 
     it(`checks strongly typed taxonomy`, () => {
-        const globalReleaseTaxonomy = responseWithLinkedItems.item.elements.releaseCategory.value.find(m => m.codename === 'global_release');
-        const usReleaseTaxonomy = responseWithLinkedItems.item.elements.releaseCategory.value.find(m => m.codename === 'us_only');
+        const globalReleaseTaxonomy = responseWithLinkedItems.item.elements.releaseCategory.value.find(
+            (m) => m.codename === 'global_release'
+        );
+        const usReleaseTaxonomy = responseWithLinkedItems.item.elements.releaseCategory.value.find(
+            (m) => m.codename === 'us_only'
+        );
 
         expect(globalReleaseTaxonomy).toBeDefined();
         expect(usReleaseTaxonomy).toBeDefined();
@@ -84,7 +95,9 @@ describe('Verifies mapping of delivery content item', () => {
 
     it(`checks datetime element`, () => {
         expect(responseWithLinkedItems.item.elements.released.value).toEqual(warriorJson.item.elements.released.value);
-        expect(responseWithLinkedItems.item.elements.released.displayTimeZone).toEqual(warriorJson.item.elements.released.display_timezone);
+        expect(responseWithLinkedItems.item.elements.released.displayTimeZone).toEqual(
+            warriorJson.item.elements.released.display_timezone
+        );
     });
 
     it(`checks number element`, () => {

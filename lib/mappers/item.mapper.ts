@@ -160,7 +160,8 @@ export class ItemMapper {
                 name: item.system.name,
                 sitemapLocations: item.system.sitemap_locations,
                 type: item.system.type,
-                workflowStep: item.system.workflow_step ?? null
+                workflowStep: item.system.workflow_step ?? null,
+                workflow: item.system.workflow ?? null
             }
         };
         return contentItem;

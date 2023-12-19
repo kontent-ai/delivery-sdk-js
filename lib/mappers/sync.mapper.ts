@@ -23,7 +23,8 @@ export class SyncMapper {
                     name: systemContract.name,
                     sitemapLocations: systemContract.sitemap_locations,
                     type: systemContract.type,
-                    workflowStep: systemContract.workflow_step ?? null
+                    workflowStep: systemContract.workflow_step ?? null,
+                    workflow: systemContract.workflow ?? null
                 }
             }
         };

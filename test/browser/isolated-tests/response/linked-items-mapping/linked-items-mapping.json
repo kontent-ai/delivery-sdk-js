@@ -11,7 +11,8 @@
             ],
             "collection": "default",
             "last_modified": "2018-07-17T08:12:03.07Z",
-            "workflow_step": "x"
+            "workflow_step": "x",
+            "workflow": "default"
         },
         "elements": {
             "title": {
@@ -37,12 +38,11 @@
                 "codename": "on_roasts",
                 "language": "en-US",
                 "type": "article",
-                "sitemap_locations": [
-                    "articles"
-                ],
+                "sitemap_locations": ["articles"],
                 "collection": "default",
                 "last_modified": "2017-12-08T08:49:53.603Z",
-                "workflow_step": "x"
+                "workflow_step": "x",
+                "workflow": "default"
             },
             "elements": {
                 "title": {
@@ -67,12 +67,11 @@
                 "codename": "which_brewing_fits_you_",
                 "language": "en-US",
                 "type": "article",
-                "sitemap_locations": [
-                    "articles"
-                ],
+                "sitemap_locations": ["articles"],
                 "collection": "default",
                 "last_modified": "2018-10-11T08:45:56.917Z",
-                "workflow_step": "x"
+                "workflow_step": "x",
+                "workflow": "default"
             },
             "elements": {
                 "title": {

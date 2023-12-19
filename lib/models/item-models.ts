@@ -54,6 +54,11 @@ export interface IContentItemSystemAttributes {
      * Workflow step of the item
      */
     workflowStep: string | null;
+
+    /**
+     * Workflow of the item
+     */
+    workflow: string | null;
 }
 
 /**
