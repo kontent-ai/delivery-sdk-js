@@ -1,3 +1,4 @@
+import { codenameHelper } from '../utilities';
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
 import {
@@ -83,16 +84,16 @@ export class ItemMapper {
 
         // first prepare reference for all items
         for (const item of itemsToResolve) {
-            preparedItems[item.system.codename] = {
+            preparedItems[codenameHelper.escapeCodenameInCodenameIndexer(item.system.codename)] = {
                 item: this.createContentItem(item),
                 rawItem: item
             };
         }
 
-        // then resolve items
+        // then resolve main items
         for (const item of data.mainItems) {
             const itemResult = this.mapItem<TContentItem>({
-                item: preparedItems[item.system.codename],
+                item: preparedItems[codenameHelper.escapeCodenameInCodenameIndexer(item.system.codename)],
                 processedItems: processedItems,
                 preparedItems: preparedItems,
                 processingStartedForCodenames: processingStartedForCodenames
@@ -100,15 +101,16 @@ export class ItemMapper {
             mappedMainItems.push(itemResult.item);
         }
 
+        // and linked items
         for (const item of data.linkedItems) {
             const itemResult = this.mapItem<TContentItem>({
-                item: preparedItems[item.system.codename],
+                item: preparedItems[codenameHelper.escapeCodenameInCodenameIndexer(item.system.codename)],
                 processedItems: processedItems,
                 preparedItems: preparedItems,
                 processingStartedForCodenames: processingStartedForCodenames
             });
 
-            mappedLinkedItems[item.system.codename] = itemResult.item;
+            mappedLinkedItems[(item.system.codename)] = itemResult.item;
         }
 
         return {
@@ -164,6 +166,7 @@ export class ItemMapper {
                 workflow: item.system.workflow ?? null
             }
         };
+
         return contentItem;
     }
 }

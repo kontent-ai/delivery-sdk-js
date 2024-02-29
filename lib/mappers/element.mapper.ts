@@ -1,4 +1,4 @@
-import { deliveryUrlHelper, enumHelper } from '../utilities';
+import { codenameHelper, deliveryUrlHelper, enumHelper } from '../utilities';
 
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
@@ -28,7 +28,9 @@ export class ElementMapper {
         preparedItems: IContentItemWithRawDataContainer;
     }): IMapElementsResult<TContentItem> | undefined {
         // return processed item to avoid infinite recursion
-        const processedItem = data.processedItems[data.dataToMap.item.system.codename] as TContentItem | undefined;
+        const processedItem = data.processedItems[
+            codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)
+        ] as TContentItem | undefined;
         if (processedItem) {
             // item was already resolved
             return {
@@ -39,7 +41,7 @@ export class ElementMapper {
             };
         }
 
-        const preparedItem = data.preparedItems[data.dataToMap.item.system.codename];
+        const preparedItem = data.preparedItems[codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)];
         const itemInstance = preparedItem?.item as TContentItem;
 
         if (!itemInstance) {
@@ -374,15 +376,17 @@ export class ElementMapper {
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
     ): IContentItem | undefined {
+        const escapedCodename = codenameHelper.escapeCodenameInCodenameIndexer(codename);
+
         // first check if item was already resolved and return it if it was
-        const processedItem = processedItems[codename];
+        const processedItem = processedItems[escapedCodename];
 
         if (processedItem) {
             // item was already resolved
             return processedItem;
         }
 
-        const preparedItem = preparedItems[codename];
+        const preparedItem = preparedItems[escapedCodename];
 
         if (mappingStartedForCodenames.includes(codename)) {
             return preparedItem?.item;
@@ -409,7 +413,7 @@ export class ElementMapper {
             mappedLinkedItem = mappedLinkedItemResult.item;
 
             // add to processed items
-            processedItems[codename] = mappedLinkedItem;
+            processedItems[escapedCodename] = mappedLinkedItem;
         }
 
         return mappedLinkedItem;

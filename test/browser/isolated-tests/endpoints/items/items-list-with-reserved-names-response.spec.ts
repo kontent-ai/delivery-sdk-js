@@ -3,9 +3,9 @@ import { IQueryParameter } from '@kontent-ai/core-sdk';
 import { Responses } from '../../../../../lib';
 import { Context, setup } from '../../../setup';
 import { getDeliveryClientWithJson } from '../../../setup';
-import * as responseJson from './items-list-response.spec.json';
+import * as responseJson from './items-list-with-reserved-names-response.spec.json';
 
-describe('Items list response', () => {
+describe('Items list with reserved names', () => {
     const context = new Context();
     setup(context);
 

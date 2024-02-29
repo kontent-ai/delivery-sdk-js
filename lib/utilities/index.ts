@@ -3,3 +3,4 @@ export * from './guid.helper';
 export * from './delivery-url.helper';
 export * from './text.helper';
 export * from './enum.helper';
+export * from './codename.helper';
