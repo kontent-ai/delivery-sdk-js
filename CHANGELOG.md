@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.7.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.6.0...v14.7.0) (2024-02-29)
+
+
+### Features
+
+* updates deps (and fixes https://github.com/kontent-ai/delivery-sdk-js/issues/387) ([4d9df4b](https://github.com/kontent-ai/delivery-sdk-js/commit/4d9df4b30ac897448ed762311c887e58b5fb6f20))
+
+
+### Bug Fixes
+
+* escapes codenames to prevent collisions with javascript constructs (fixes https://github.com/kontent-ai/delivery-sdk-js/issues/388) ([c5ea589](https://github.com/kontent-ai/delivery-sdk-js/commit/c5ea58924fd0113003999432e15a82f46ac88e6b))
+
 ## [14.6.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.5.0...v14.6.0) (2023-12-19)
 
 
