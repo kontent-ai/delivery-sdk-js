@@ -40,6 +40,15 @@ describe('Item url parameters', () => {
         expect(param).toEqual('elem1');
     });
 
+    
+    it(`exclue elements param should be set`, () => {
+        const url = new URL(context.deliveryClient.items().excludeElementsParameter(['elem1', 'elem2']).getUrl());
+
+        const param = url.searchParams.get('excludeElements');
+
+        expect(param).toEqual('elem1,elem2');
+    });
+
     it(`limit parameter should be set`, () => {
         const url = new URL(context.deliveryClient.items().limitParameter(1).getUrl());
 

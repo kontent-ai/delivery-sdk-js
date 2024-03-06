@@ -51,6 +51,34 @@ export namespace Parameters {
         }
     }
 
+    export class ExcludeElementsParameter implements IQueryParameter {
+        /**
+         * Sets elements (projection) so that only certain elements are excluded from API response
+         * @constructor
+         * @param {string[]} elementCodenames - Array of element codenames to exclude from API response.
+         */
+        constructor(public elementCodenames: string[]) {}
+
+        getParam(): string {
+            return `excludeElements=${this.getParamValue()}`;
+        }
+
+        private getParamValue(): string | undefined {
+            if (!this.elementCodenames) {
+                return defaultValue;
+            }
+
+            return this.elementCodenames
+                .map((m) => {
+                    if (!m) {
+                        throw Error(`Codename of 'ExcludeElementsParameter' cannot be null or empty`);
+                    }
+                    return m.trim();
+                })
+                .join(',');
+        }
+    }
+
     export class LimitParameter implements IQueryParameter {
         /**
          * Limits the number of items that are returned from response

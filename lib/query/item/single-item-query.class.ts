@@ -59,6 +59,15 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
         return this;
     }
 
+    /**
+     * Used to exclude elements returned by query.
+     * @param elementCodenames Array of element codenames to exclude
+     */
+    excludeElementsParameter(elementCodenames: string[]): this {
+        this.parameters.push(new Parameters.ExcludeElementsParameter(elementCodenames));
+        return this;
+    }
+
     toPromise(): Promise<
         IDeliveryNetworkResponse<Responses.IViewContentItemResponse<TContentItem>, Contracts.IViewContentItemContract>
     > {

@@ -26,6 +26,15 @@ export class MultipleTypeQuery extends BaseListingQuery<
     }
 
     /**
+     * Used to exclude elements returned by query.
+     * @param elementCodenames Array of element codenames to exclude
+     */
+    excludeElementsParameter(elementCodenames: string[]): this {
+        this.parameters.push(new Parameters.ExcludeElementsParameter(elementCodenames));
+        return this;
+    }
+
+    /**
      * Limits the number of taxonomies returned by query
      * @param limit Number of taxonomies to load
      */

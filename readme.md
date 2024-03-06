@@ -256,7 +256,7 @@ type Movie = IContentItem<{
 
 ### Query parameters
 
-The SDK supports the following query parameters: `depthParameter`, `elementsParameter`, `limitParameter`,
+The SDK supports the following query parameters: `depthParameter`, `elementsParameter`, `excludeElementsParameter`, `limitParameter`,
 `orderParameter`, `skipParameter` and `languageParameter`. For more information about the parameters, see the
 [SDK query methods](#filter-content) below. You can also head over to
 [Delivery API reference](https://kontent.ai/learn/reference/delivery-api#tag/Filtering-content).

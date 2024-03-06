@@ -91,6 +91,15 @@ export class MultipleItemsQuery<TContentItem extends IContentItem = IContentItem
         return this;
     }
 
+    /**
+     * Used to exclude elements returned by query.
+     * @param elementCodenames Array of element codenames to exclude
+     */
+    excludeElementsParameter(elementCodenames: string[]): this {
+        this.parameters.push(new Parameters.ExcludeElementsParameter(elementCodenames));
+        return this;
+    }
+
     toPromise(): Promise<
         IDeliveryNetworkResponse<Responses.IListContentItemsResponse<TContentItem>, Contracts.IListContentItemsContract>
     > {
