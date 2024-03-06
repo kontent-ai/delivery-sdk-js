@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.8.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.7.0...v14.8.0) (2024-03-06)
+
+
+### Features
+
+* adds support for 'excludeElements' parameter (fixes https://github.com/kontent-ai/delivery-sdk-js/issues/389) ([64a2b17](https://github.com/kontent-ai/delivery-sdk-js/commit/64a2b17c9c461a0e0a58e96860a111e3dec20e5d))
+* updates deps, adds clean script, updates engine version to >= v18 ([6135b03](https://github.com/kontent-ai/delivery-sdk-js/commit/6135b035d59f05bb41e9208ca9c02a81d61700c2))
+
 ## [14.7.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.6.0...v14.7.0) (2024-02-29)
 
 
