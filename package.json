@@ -60,14 +60,14 @@
         "clean": "node clean.js"
     },
     "dependencies": {
-        "@kontent-ai/core-sdk": "10.4.0",
+        "@kontent-ai/core-sdk": "10.5.0",
         "uuid": "9.0.1",
         "url-parse": "1.5.10"
     },
     "devDependencies": {
         "@types/url-parse": "1.4.11",
         "@types/jasmine": "5.1.4",
-        "@types/node": "20.11.24",
+        "@types/node": "20.12.7",
         "@types/uuid": "9.0.8",
         "colors": "1.4.0",
         "jasmine-core": "5.1.2",
@@ -82,15 +82,15 @@
         "karma-typescript": "5.5.4",
         "karma-typescript-es6-transform": "5.5.4",
         "lcov-parse": "1.0.0",
-        "mocha": "10.3.0",
+        "mocha": "10.4.0",
         "standard-version": "9.5.0",
         "ts-loader": "9.5.1",
-        "@typescript-eslint/eslint-plugin": "7.1.1",
-        "@typescript-eslint/parser": "7.1.1",
+        "@typescript-eslint/eslint-plugin": "7.7.1",
+        "@typescript-eslint/parser": "7.7.1",
         "eslint": "8.57.0",
         "typescript": "5.2.2",
-        "webpack": "5.90.3",
-        "webpack-bundle-analyzer": "4.10.1",
+        "webpack": "5.91.0",
+        "webpack-bundle-analyzer": "4.10.2",
         "webpack-cli": "5.1.4"
     }
 }
