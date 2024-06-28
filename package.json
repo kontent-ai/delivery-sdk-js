@@ -61,15 +61,15 @@
         "clean": "tsx clean.ts"
     },
     "dependencies": {
-        "@kontent-ai/core-sdk": "10.5.0",
-        "uuid": "9.0.1",
+        "@kontent-ai/core-sdk": "10.6.0",
+        "uuid": "10.0.0",
         "url-parse": "1.5.10"
     },
     "devDependencies": {
         "@types/url-parse": "1.4.11",
         "@types/jasmine": "5.1.4",
-        "@types/node": "20.12.7",
-        "@types/uuid": "9.0.8",
+        "@types/node": "20.14.9",
+        "@types/uuid": "10.0.0",
         "colors": "1.4.0",
         "jasmine-core": "5.1.2",
         "jasmine-spec-reporter": "7.0.0",
@@ -83,15 +83,15 @@
         "karma-typescript": "5.5.4",
         "karma-typescript-es6-transform": "5.5.4",
         "lcov-parse": "1.0.0",
-        "mocha": "10.4.0",
+        "mocha": "10.5.2",
         "standard-version": "9.5.0",
         "ts-loader": "9.5.1",
-        "tsx": "4.7.3",
-        "@typescript-eslint/eslint-plugin": "7.7.1",
-        "@typescript-eslint/parser": "7.7.1",
+        "tsx": "4.15.7",
+        "@typescript-eslint/eslint-plugin": "7.14.1",
+        "@typescript-eslint/parser": "7.14.1",
         "eslint": "8.57.0",
         "typescript": "5.2.2",
-        "webpack": "5.91.0",
+        "webpack": "5.92.1",
         "webpack-bundle-analyzer": "4.10.2",
         "webpack-cli": "5.1.4"
     }
