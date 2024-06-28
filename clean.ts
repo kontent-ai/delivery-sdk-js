@@ -1,10 +1,10 @@
-import fs from 'fs';
-import Colors from 'colors';
+import { existsSync, rmSync } from 'fs';
+import { yellow } from 'colors';
 
 const paths = ['dist'];
 for (const path of paths) {
-    if (fs.existsSync(path)) {
-        fs.rmSync(path, { recursive: true });
-        console.log(`Path '${Colors.yellow(path)}' has been deleted`);
+    if (existsSync(path)) {
+        rmSync(path, { recursive: true });
+        console.log(`Path '${yellow(path)}' has been deleted`);
     }
 }

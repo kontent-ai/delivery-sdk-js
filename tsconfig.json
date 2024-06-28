@@ -1,40 +1,30 @@
 {
-  "compileOnSave": true,
-  "compilerOptions": {
-    "baseUrl": ".",
-    "outDir": "dist",
-    "sourceMap": true,
-    "declaration": true,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "module": "commonjs",
-    "target": "es6",
-    "strict": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
-    "resolveJsonModule": true,
-    "noImplicitReturns": true,
-    "allowUnreachableCode": false,
-    "alwaysStrict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noUnusedParameters": false,
-    "noUnusedLocals": true,
-    "strictFunctionTypes": true,
-    "noImplicitAny": true,
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "lib": [
-      "ESNext",
-      "dom"
-    ]
-  },
-  "include": [
-    "lib/**/*",
-    "test/**/*",
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "compileOnSave": true,
+    "compilerOptions": {
+        "baseUrl": ".",
+        "outDir": "dist",
+        "sourceMap": true,
+        "declaration": true,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "target": "es6",
+        "strict": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "resolveJsonModule": true,
+        "noImplicitReturns": true,
+        "allowUnreachableCode": false,
+        "alwaysStrict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noUnusedParameters": false,
+        "noUnusedLocals": true,
+        "strictFunctionTypes": true,
+        "noImplicitAny": true,
+        "typeRoots": ["./node_modules/@types"],
+        "lib": ["ESNext", "dom"]
+    },
+    "include": ["lib/**/*", "test/**/*", "misc/**/*", "clean.ts"],
+    "exclude": ["node_modules"]
 }
