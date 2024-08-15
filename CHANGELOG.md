@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.11.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.10.0...v14.11.0) (2024-08-15)
+
+
+### Features
+
+* updates deps (& fixes Axios vulnerability), updates eslint config ([ba49770](https://github.com/kontent-ai/delivery-sdk-js/commit/ba497700f460c43d2ea18db9b669cdd246112049))
+
 ## [14.10.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.9.0...v14.10.0) (2024-06-28)
 
 
