@@ -1,19 +1,6 @@
 export class EnumHelper {
-    getAllNames(T: any): any[] {
-        const enumNames: any[] = [];
-
-        for (const key in T) {
-            if (T.hasOwnProperty(key)) {
-                enumNames.push(key);
-            }
-        }
-
-        return enumNames;
-    }
-
-    getAllValues(T: any): any[] {
-        const allEnumValues: any[] = Object.keys(T).map((key) => T[key]);
-
+    getAllValues(T: any): string[] {
+        const allEnumValues: string[] = Object.keys(T).map((key) => T[key]);
         return allEnumValues;
     }
 
@@ -41,17 +28,6 @@ export class EnumHelper {
         } catch (err) {
             return undefined;
         }
-    }
-
-    getEnumFromName<T>(T: any, name: string): T | undefined {
-        const allNames = this.getAllNames(T);
-
-        for (const enumName of allNames) {
-            if (enumName.toLowerCase() === name.toLowerCase()) {
-                return T[enumName];
-            }
-        }
-        return undefined;
     }
 
     private isNumeric(value: any): boolean {

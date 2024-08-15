@@ -8,7 +8,7 @@ export const snakeCasePropertyNameResolver: PropertyNameResolver = (contentType,
 };
 
 function toSnakeCase(str: string): string {
-    str = str.replace(textHelper.getPropertyNameRegex(), (_, c) => '_' + (c ? c.toLowerCase() : ''));
+    str = str.replace(textHelper.getPropertyNameRegex(), (_, c: string) => '_' + (c ? c.toLowerCase() : ''));
     return removeEndUnderscore(removeStartUnderscore(str));
 }
 

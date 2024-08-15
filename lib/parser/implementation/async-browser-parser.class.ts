@@ -80,7 +80,7 @@ export class AsyncBrowserParser implements IAsyncParser<string> {
             for (let i = 0; i < htmlCollection.length; i++) {
                 const element = htmlCollection[i];
 
-                resolvers.elementResolverAsync(parserHelper.convertToParserElement(element));
+                await resolvers.elementResolverAsync(parserHelper.convertToParserElement(element));
 
                 const typeAttribute = element.attributes ? element.attributes.getNamedItem('type') : undefined;
 

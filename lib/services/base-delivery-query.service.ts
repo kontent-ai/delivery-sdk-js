@@ -327,7 +327,7 @@ export abstract class BaseDeliveryQueryService {
         };
     }
 
-    private mapDeliveryError(error: any): DeliveryError | any {
+    private mapDeliveryError(error: any): any {
         let axiosError: AxiosError | undefined;
 
         if (error.error) {

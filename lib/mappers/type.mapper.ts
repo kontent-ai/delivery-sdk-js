@@ -35,7 +35,7 @@ export class TypeMapper {
             const typeElement = type.elements[elementName];
 
             if (!typeElement) {
-                throw Error(`Cannot find element '${elementName}' on type '${type}'`);
+                throw Error(`Cannot find element '${elementName}' on type '${type.system.codename}'`);
             }
 
             // use json property as a codename of the type element
