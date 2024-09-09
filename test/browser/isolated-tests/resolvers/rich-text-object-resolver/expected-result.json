@@ -35,8 +35,8 @@
                 "item": {
                     "elements": {
                         "url": { "name": "Url", "type": "url_slug", "value": "tom-hardy" },
-                        "firstName": { "name": "First name", "type": "text", "value": "Tom" },
-                        "lastName": { "name": "Last name", "type": "text", "value": "Hardy" },
+                        "first_name": { "name": "First name", "type": "text", "value": "Tom" },
+                        "last_name": { "name": "Last name", "type": "text", "value": "Hardy" },
                         "photo": {
                             "name": "Photo",
                             "type": "asset",
@@ -85,8 +85,8 @@
                 "item": {
                     "elements": {
                         "url": { "name": "Url", "type": "url_slug", "value": "joel-edgerton" },
-                        "firstName": { "name": "First name", "type": "text", "value": "Joel" },
-                        "lastName": { "name": "Last name", "type": "text", "value": "Edgerton" },
+                        "first_name": { "name": "First name", "type": "text", "value": "Joel" },
+                        "last_name": { "name": "Last name", "type": "text", "value": "Edgerton" },
                         "photo": {
                             "name": "Photo",
                             "type": "asset",
@@ -319,8 +319,8 @@
                 "codename": "ec9813f6_194d_018f_e20c_36855fb6e600",
                 "item": {
                     "elements": {
-                        "firstName": { "name": "First name", "type": "text", "value": "Jennifer " },
-                        "lastName": { "name": "Last name", "type": "text", "value": "Morrison" },
+                        "first_name": { "name": "First name", "type": "text", "value": "Jennifer " },
+                        "last_name": { "name": "Last name", "type": "text", "value": "Morrison" },
                         "url": { "name": "Url", "type": "url_slug", "value": "component-actor-url" },
                         "photo": { "name": "Photo", "type": "asset", "value": [] }
                     },

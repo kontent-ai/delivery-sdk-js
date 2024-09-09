@@ -6,11 +6,11 @@ import { ElementModels, Elements, ElementType } from '../elements';
 import {
     IContentItem,
     IContentItemsContainer,
-    IMapElementsResult,
-    ILink,
-    IRichTextImage,
     IContentItemWithRawDataContainer,
-    IContentItemWithRawElements
+    IContentItemWithRawElements,
+    ILink,
+    IMapElementsResult,
+    IRichTextImage
 } from '../models';
 
 interface IRichTextImageUrlRecord {
@@ -41,7 +41,8 @@ export class ElementMapper {
             };
         }
 
-        const preparedItem = data.preparedItems[codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)];
+        const preparedItem =
+            data.preparedItems[codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)];
         const itemInstance = preparedItem?.item as TContentItem;
 
         if (!itemInstance) {
@@ -53,24 +54,22 @@ export class ElementMapper {
         const elementCodenames = Object.getOwnPropertyNames(data.dataToMap.rawItem.elements);
 
         for (const elementCodename of elementCodenames) {
-            const elementMap = this.resolveElementMap(itemInstance, elementCodename);
             const elementWrapper: ElementModels.IElementWrapper = {
                 system: data.dataToMap.item.system,
                 rawElement: data.dataToMap.rawItem.elements[elementCodename],
-                element: elementMap.resolvedName
+                element: elementCodename
             };
-            if (elementMap.shouldMapElement) {
-                const mappedElement = this.mapElement({
-                    elementWrapper: elementWrapper,
-                    item: itemInstance,
-                    preparedItems: data.preparedItems,
-                    processingStartedForCodenames: data.processingStartedForCodenames,
-                    processedItems: data.processedItems
-                });
 
-                // set mapped elements
-                itemInstance.elements[elementMap.resolvedName] = mappedElement;
-            }
+            const mappedElement = this.mapElement({
+                elementWrapper: elementWrapper,
+                item: itemInstance,
+                preparedItems: data.preparedItems,
+                processingStartedForCodenames: data.processingStartedForCodenames,
+                processedItems: data.processedItems
+            });
+
+            // set mapped elements
+            itemInstance.elements[elementCodename] = mappedElement;
         }
 
         return {
@@ -481,30 +480,6 @@ export class ElementMapper {
         return {
             imageUrlRecords: imageUrlRecords,
             richTextImages: images
-        };
-    }
-
-    private resolveElementMap(
-        item: IContentItem,
-        originalElementCodename: string
-    ): {
-        shouldMapElement: boolean;
-        resolvedName: string;
-    } {
-        let resolvedElementPropertyName: string | undefined = undefined;
-
-        if (this.config.propertyNameResolver) {
-            resolvedElementPropertyName = this.config.propertyNameResolver(item.system.type, originalElementCodename);
-        }
-
-        if (!resolvedElementPropertyName) {
-            // use original element codename
-            resolvedElementPropertyName = originalElementCodename;
-        }
-
-        return {
-            resolvedName: resolvedElementPropertyName,
-            shouldMapElement: true
         };
     }
 

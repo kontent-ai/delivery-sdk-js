@@ -1,12 +1,12 @@
-import { IContentItem, Elements } from '../../../lib';
+import { Elements, IContentItem } from '../../../lib';
 
 export type Actor = IContentItem<{
-    firstName: Elements.TextElement;
-    lastName: Elements.TextElement;
+    first_name: Elements.TextElement;
+    last_name: Elements.TextElement;
     photo: Elements.AssetsElement;
 }>;
 
-export type ReleaseCategoryTaxonomy = 'global_release' | 'us_only' | 'local_release';
+export type releasecategoryTaxonomy = 'global_release' | 'us_only' | 'local_release';
 
 export type Movie = IContentItem<{
     title: Elements.TextElement;
@@ -17,5 +17,5 @@ export type Movie = IContentItem<{
     category: Elements.MultipleChoiceElement;
     stars: Elements.LinkedItemsElement<Actor>;
     seoname: Elements.UrlSlugElement;
-    releaseCategory: Elements.TaxonomyElement<ReleaseCategoryTaxonomy>;
+    releasecategory: Elements.TaxonomyElement<releasecategoryTaxonomy>;
 }>;

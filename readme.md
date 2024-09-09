@@ -8,8 +8,8 @@
 
 # JavaScript Delivery SDK Documentation
 
-JavaScript Delivery SDK is a client library for retrieving data from [Kontent.ai](https://kontent.ai/). Works
-both in browser & node.js environments.
+JavaScript Delivery SDK is a client library for retrieving data from [Kontent.ai](https://kontent.ai/). Works both in
+browser & node.js environments.
 
 # Kontent.ai Delivery SDK
 
@@ -69,7 +69,7 @@ export type Movie = IContentItem<{
     category: Elements.MultipleChoiceElement;
     stars: Elements.LinkedItemsElement<Actor>;
     seoname: Elements.UrlSlugElement;
-    releaseCategory: Elements.TaxonomyElement;
+    releasecategory: Elements.TaxonomyElement;
 }>;
 
 // initialize delivery client
@@ -91,13 +91,11 @@ const KontentDelivery = require('@kontent-ai/delivery-sdk');
 
 // initialize delivery client
 const deliveryClient = KontentDelivery.createDeliveryClient({
-  environmentId: '<YOUR_ENVIRONMENT_ID>',
+    environmentId: '<YOUR_ENVIRONMENT_ID>'
 });
 
 // fetch items
-const response = await deliveryClient.items()
-  .type('<CONTENT_TYPE_CODENAME>')
-  .toPromise();
+const response = await deliveryClient.items().type('<CONTENT_TYPE_CODENAME>').toPromise();
 
 // read data of first item
 const movieText = response.data.items[0].elements.title.value;
@@ -140,23 +138,22 @@ const movieText = response.data.items[0].elements.title.value;
 
 Following is a list of configuration options for DeliveryClient (`IDeliveryClientConfig`):
 
-| Property            |                   type                   | description                                                                                                                                                                                                                       |
-| ------------------- | :--------------------------------------: |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| environmentId           |                  string                  | environmentId of your Kontent.ai project                                                                                                                                                                                                 |
-| elementResolver?    |             ElementResolver              | Element resolver used to map custom elements                                                                                                                                                                                      |
-| previewApiKey?      |                  string                  | Preview API key used to get unpublished content items                                                                                                                                                                             |
-| defaultLanguage?    |                  string                  | Sets default language that will be used for all queries unless overridden with query parameters                                                                                                                                    |
-| proxy?              |        IDeliveryClientProxyConfig        | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'environmentId'                                                                                              |
-| secureApiKey?       |                  string                  | Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key                                                                                                                           |
-| defaultQueryConfig? |               IQueryConfig               | Default configuration for all queries. Can be overridden by individual queries                                                                                                                                                   |
-| httpService ?       |               IHttpService               | Can be used to inject custom http service for performing requests                                                                                                                                                                 |
-| globalHeaders?      | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request                                                                                                                                                                            |
-| retryStrategy?      |          IRetryStrategyOptions           | Retry strategy configuration                                                                                                                                                                                                      |
-| linkedItemsReferenceHandler?      |          LinkedItemsReferenceHandler           | Indicates if content items are automatically mapped. Available values: 'map' or 'ignore'                                                                                                                                          |
-| propertyNameResolver?      |          PropertyNameResolver           | Used to map properties. Choose one of the following default resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver` or create your own PropertyNameResolver function           | 
-| assetsDomain?      |          string            | Custom domain for assets. Changes url of assets in both asset & rich text elements                                                                                                                                                |
-| defaultRenditionPreset?    |      string        | Codename of rendition preset to be applied by default to the base asset URL path when present. When set, the SDK will provide the URL of customized images by default. Right now the only supported preset codename is `default`. | 
-| excludeArchivedItems?    |      boolean        | Can be used to exclude archived items from all queries by default. Only applicable when preview API is used. | 
+| Property                     |                   type                   | description                                                                                                                                                                                                                       |
+| ---------------------------- | :--------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| environmentId                |                  string                  | environmentId of your Kontent.ai project                                                                                                                                                                                          |
+| elementResolver?             |             ElementResolver              | Element resolver used to map custom elements                                                                                                                                                                                      |
+| previewApiKey?               |                  string                  | Preview API key used to get unpublished content items                                                                                                                                                                             |
+| defaultLanguage?             |                  string                  | Sets default language that will be used for all queries unless overridden with query parameters                                                                                                                                   |
+| proxy?                       |        IDeliveryClientProxyConfig        | Can be used to configure custom URLs. Useful when you use reverse proxy or have a need to transform URL - e.g. to remove 'environmentId'                                                                                          |
+| secureApiKey?                |                  string                  | Secured API key: Use secured API only when running on Node.JS server, otherwise you can expose your key                                                                                                                           |
+| defaultQueryConfig?          |               IQueryConfig               | Default configuration for all queries. Can be overridden by individual queries                                                                                                                                                    |
+| httpService ?                |               IHttpService               | Can be used to inject custom http service for performing requests                                                                                                                                                                 |
+| globalHeaders?               | (queryConfig: IQueryConfig) => IHeader[] | Adds ability to add extra headers to each http request                                                                                                                                                                            |
+| retryStrategy?               |          IRetryStrategyOptions           | Retry strategy configuration                                                                                                                                                                                                      |
+| linkedItemsReferenceHandler? |       LinkedItemsReferenceHandler        | Indicates if content items are automatically mapped. Available values: 'map' or 'ignore'                                                                                                                                          |
+| assetsDomain?                |                  string                  | Custom domain for assets. Changes url of assets in both asset & rich text elements                                                                                                                                                |
+| defaultRenditionPreset?      |                  string                  | Codename of rendition preset to be applied by default to the base asset URL path when present. When set, the SDK will provide the URL of customized images by default. Right now the only supported preset codename is `default`. |
+| excludeArchivedItems?        |                 boolean                  | Can be used to exclude archived items from all queries by default. Only applicable when preview API is used.                                                                                                                      |
 
 ### Create typed models
 
@@ -178,7 +175,7 @@ export type Movie = IContentItem<{
     category: Elements.MultipleChoiceElement;
     stars: Elements.LinkedItemsElement<Actor>;
     seoname: Elements.UrlSlugElement;
-    releaseCategory: Elements.TaxonomyElement;
+    releasecategory: Elements.TaxonomyElement;
 }>;
 ```
 
@@ -256,9 +253,9 @@ type Movie = IContentItem<{
 
 ### Query parameters
 
-The SDK supports the following query parameters: `depthParameter`, `elementsParameter`, `excludeElementsParameter`, `limitParameter`,
-`orderParameter`, `skipParameter` and `languageParameter`. For more information about the parameters, see the
-[SDK query methods](#filter-content) below. You can also head over to
+The SDK supports the following query parameters: `depthParameter`, `elementsParameter`, `excludeElementsParameter`,
+`limitParameter`, `orderParameter`, `skipParameter` and `languageParameter`. For more information about the parameters,
+see the [SDK query methods](#filter-content) below. You can also head over to
 [Delivery API reference](https://kontent.ai/learn/reference/delivery-api#tag/Filtering-content).
 
 ```typescript
@@ -361,44 +358,6 @@ deliveryClient.item('warrior').toPromise();
 deliveryClient.item('warrior').languageParameter(`en`).toPromise();
 ```
 
-### Property name resolvers
-
-Kontent.ai element codenames are always in **lowercase** and use **underscore** as a replacement for special characters.
-Using underscores might not be what you want to use in your code. Maybe you want to use `camelCase`, which is exactly
-what you can do by registering a `propertyNameResolver`. The following example converts `first_name` element name to
-`firstName`.
-
-```typescript
-import { ContentItem, Elements, createDeliveryClient  } from '@kontent-ai/delivery-sdk';
-
-type Actor = IContentItem<{
-    firstName: Elements.TextElement;
-}>;
-
-const deliveryClient = createDeliveryClient({
-  environmentId: '<YOUR_ENVIRONMENT_ID>';
-  propertyNameResolver: (contentType, element) => {
-    if (element === 'first_name') {
-        return 'firstName';
-    }
-    return element;
-    }
-});
-```
-
-Rather than registering all elements manually, you can also use one of the built-in property name resolvers: `snakeCasePropertyNameResolver`, `pascalCasePropertyNameResolver` & `camelCasePropertyNameResolver`
-
-```typescript
-import { createDeliveryClient, snakeCasePropertyNameResolver, pascalCasePropertyNameResolver, camelCasePropertyNameResolver  } from '@kontent-ai/delivery-sdk';
-
-const deliveryClient = createDeliveryClient({
-  environmentId: '<YOUR_ENVIRONMENT_ID>';
-  propertyNameResolver: camelCasePropertyNameResolver,
-  // propertyNameResolver: snakeCasePropertyNameResolver,
-  // propertyNameResolver: pascalCasePropertyNameResolver,
-});
-```
-
 ### Preview mode
 
 You can enable the preview mode either globally (when [initializing the DeliveryClient](#how-to-use-deliveryclient)) or
@@ -431,7 +390,8 @@ deliveryClient
 
 ### Secure Delivery API
 
-Using the Delivery API with [secure access](https://kontent.ai/learn/tutorials/develop-apps/build-strong-foundation/restrict-public-access) enabled
+Using the Delivery API with
+[secure access](https://kontent.ai/learn/tutorials/develop-apps/build-strong-foundation/restrict-public-access) enabled
 is recommend only when the request is not being executed on the client (browser) because otherwise you will expose the
 API key publicly.
 
@@ -500,21 +460,21 @@ const response = await deliveryClient.items().limitParameter(5).toAllPromise({
 
 ### Resolving rich text elements
 
-[Rich text elements](https://kontent.ai/learn/reference/delivery-api#section/Rich-text-element) in
-Kontent.ai may contain linked items and components. For example, if you write a blog post, you might want to
-insert a video or testimonial to a specific place in your article.
+[Rich text elements](https://kontent.ai/learn/reference/delivery-api#section/Rich-text-element) in Kontent.ai may
+contain linked items and components. For example, if you write a blog post, you might want to insert a video or
+testimonial to a specific place in your article.
 
 You need to define how these objects resolve to the HTML that will be rendered. This SDK provides you with few resolvers
-that help you to transform the input HTML to your desired HTML, JSON or object. 
+that help you to transform the input HTML to your desired HTML, JSON or object.
 
 Built-in resolvers provided by SDK:
 
-Resolver | Description | Usage
---- | --- | --- |
-`RichTextHtmlResolver` | Tranforms rich text HTML by replacing linked items, links or images with custom HTML | `createRichTextHtmlResolver().resolveRichText(data)`
-`RichTextJsonResolver` | Tranforms rich text HTML into JSON | `createRichTextJsonResolver().resolveRichText(data)`
-`RichTextObjectResolver` | Tranforms rich text HTML into javascript Object | `createRichTextObjectResolver().resolveRichText(data)`
-`AsyncRichTextHtmlResolver` | Async version of `RichTextHtmlResolver` | `await createAsyncRichTextHtmlResolver().resolveRichTextAsync(data)`
+| Resolver                    | Description                                                                          | Usage                                                                |
+| --------------------------- | ------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| `RichTextHtmlResolver`      | Tranforms rich text HTML by replacing linked items, links or images with custom HTML | `createRichTextHtmlResolver().resolveRichText(data)`                 |
+| `RichTextJsonResolver`      | Tranforms rich text HTML into JSON                                                   | `createRichTextJsonResolver().resolveRichText(data)`                 |
+| `RichTextObjectResolver`    | Tranforms rich text HTML into javascript Object                                      | `createRichTextObjectResolver().resolveRichText(data)`               |
+| `AsyncRichTextHtmlResolver` | Async version of `RichTextHtmlResolver`                                              | `await createAsyncRichTextHtmlResolver().resolveRichTextAsync(data)` |
 
 #### Example use of RichTextHtmlResolver
 
@@ -526,11 +486,13 @@ export type Movie = IContentItem<{
 }>;
 
 export type Actor = IContentItem<{
-    firstName: Elements.RichTextElement;
+    first_name: Elements.RichTextElement;
 }>;
 
 // get content item with rich text element
-const response = (await createDeliveryClient({ environmentId: '<YOUR_ENVIRONMENT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
+const response = (
+    await createDeliveryClient({ environmentId: '<YOUR_ENVIRONMENT_ID>' }).item<Movie>('itemCodename').toPromise()
+).data;
 
 // get rich text element
 const richTextElement = response.item.plot;
@@ -557,7 +519,7 @@ const resolvedRichText = createRichTextHtmlResolver().resolveRichText({
         if (contentItem && contentItem.system.type === 'actor') {
             const actor = contentItem as Actor;
             return {
-                contentItemHtml: `<div class="xClass">${actor.elements.firstName.value}</div>`
+                contentItemHtml: `<div class="xClass">${actor.elements.first_name.value}</div>`
             };
         }
 
@@ -576,7 +538,9 @@ const resolvedHtml = resolvedRichText.html;
 import { createRichTextHtmlResolver, createDeliveryClient, linkedItemsHelper } from '@kontent-ai/delivery-sdk';
 
 // get content item with rich text element
-const response = (await createDeliveryClient({ environmentId: '<YOUR_ENVIRONMENT_ID>' }).item<Movie>('itemCodename').toPromise()).data;
+const response = (
+    await createDeliveryClient({ environmentId: '<YOUR_ENVIRONMENT_ID>' }).item<Movie>('itemCodename').toPromise()
+).data;
 
 // get rich text element
 const richTextElement = response.item.plot;
@@ -584,7 +548,7 @@ const richTextElement = response.item.plot;
 // transform rich text html into json
 const json = createRichTextJsonResolver().resolveRichText({
     element: response.item.elements.plot,
-    linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.data.linkedItems),
+    linkedItems: linkedItemsHelper.convertLinkedItemsToArray(response.data.linkedItems)
 });
 ```
 
@@ -611,7 +575,10 @@ const html = await createAsyncRichTextHtmlResolver(asyncNodeParser).resolveRichT
 
 ### Creating custom rich text resolvers
 
-This SDK provides you with `browserParser` which you can use to implement your own rich text resolver. A common usecase for creating custom resolvers is when you want to convert rich text element into, for example, `react components`, `angular commponents` or components in some other popular framework. The parser will take care of actually parsing html, while you can focus on creating specific logic for creating components dynamically. 
+This SDK provides you with `browserParser` which you can use to implement your own rich text resolver. A common usecase
+for creating custom resolvers is when you want to convert rich text element into, for example, `react components`,
+`angular commponents` or components in some other popular framework. The parser will take care of actually parsing html,
+while you can focus on creating specific logic for creating components dynamically.
 
 ## Get content types
 
@@ -686,7 +653,8 @@ const client = createDeliveryClient({
 
 ## Error handling
 
-If the error originates in Kontent.ai (see [error responses](https://kontent.ai/learn/reference/delivery-api#section/SDKs)), you will get a `DeliveryError` object
+If the error originates in Kontent.ai (see
+[error responses](https://kontent.ai/learn/reference/delivery-api#section/SDKs)), you will get a `DeliveryError` object
 instance with more specific information. Otherwise, you will get the original error.
 
 ```typescript
@@ -707,7 +675,8 @@ try {
 
 ### Remapping json responses
 
-In some scenarios, you might want to store `json` response for later use and use SDK to map the response for you. There are 2 ways you can map previously stored `json`:
+In some scenarios, you might want to store `json` response for later use and use SDK to map the response for you. There
+are 2 ways you can map previously stored `json`:
 
 ```typescript
 const result = await deliveryClient.item<Movie>('codename').toPromise();
@@ -723,12 +692,16 @@ const remappedData = deliveryClient.item<Movie>(movieCodename).map(json);
 
 ### Handling circular references
 
-By default, the SDK automatically maps content items present in `linked items` & `rich text` elements. Linked items can reference other linked items in their tree (e.g. child item referencing parent) which may cause infinite nesting (circular reference). This behavior is not an issue for most scenarios, in fact it is beneficial as you can easily access all linked items. However, you cannot easily serialize such model. Using e.g. `JSON.stringify` would fail if there are circular references. 
+By default, the SDK automatically maps content items present in `linked items` & `rich text` elements. Linked items can
+reference other linked items in their tree (e.g. child item referencing parent) which may cause infinite nesting
+(circular reference). This behavior is not an issue for most scenarios, in fact it is beneficial as you can easily
+access all linked items. However, you cannot easily serialize such model. Using e.g. `JSON.stringify` would fail if
+there are circular references.
 
 For this reason, you may disable mapping of linked items with `linkedItemsReferenceHandler` configuration option.
 
 ```typescript
- const client = getTestDeliveryClient({
+const client = getTestDeliveryClient({
     environmentId: '<YOUR_ENVIRONMENT_ID>',
     linkedItemsReferenceHandler: 'ignore' // or 'map'
 });
@@ -750,7 +723,6 @@ const deliveryClient = createDeliveryClient({
 });
 ```
 
-
 ## Debugging
 
 ### Accessing request data
@@ -759,7 +731,9 @@ Every response from this SDK contains additional debug data you can use to inspe
 need to access response headers or other network related properties.
 
 ```typescript
-const deliveryResponse = await createDeliveryClient({ environmentId: 'environmentId' }).item('itemCodename').toPromise();
+const deliveryResponse = await createDeliveryClient({ environmentId: 'environmentId' })
+    .item('itemCodename')
+    .toPromise();
 const rawResponseData = deliveryResponse.response; // contains raw response data, headers, status etc..
 const responseHeaders = deliveryResponse.response.headers;
 ```
@@ -780,6 +754,7 @@ console.log(queryText);
 // outputs:
 // https://deliver.kontent.ai/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
 ```
+
 ## Upgrade
 
 The major version `11.0.0` is pretty much a complete overhaul of this SDK with many breaking changes. The major benefits
@@ -799,8 +774,8 @@ of `11.0.0` are:
     later on)
 -   Updated all dependencies
 
-If you are upgrading from an older version, please see this documentation first. If you are still unsure how to upgrade or
-have some other questions, feel free to submit an issue on this GitHub and we'll get back to you.
+If you are upgrading from an older version, please see this documentation first. If you are still unsure how to upgrade
+or have some other questions, feel free to submit an issue on this GitHub and we'll get back to you.
 
 ## Testing
 

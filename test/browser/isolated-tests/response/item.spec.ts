@@ -52,7 +52,7 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks taxonomy element value`, () => {
-        expect(responseWithLinkedItems.item.elements.releaseCategory.value[0].codename).toEqual(
+        expect(responseWithLinkedItems.item.elements.releasecategory.value[0].codename).toEqual(
             warriorJson.item.elements.releasecategory.value[0].codename
         );
     });
@@ -66,10 +66,10 @@ describe('Verifies mapping of delivery content item', () => {
     });
 
     it(`checks strongly typed taxonomy`, () => {
-        const globalReleaseTaxonomy = responseWithLinkedItems.item.elements.releaseCategory.value.find(
+        const globalReleaseTaxonomy = responseWithLinkedItems.item.elements.releasecategory.value.find(
             (m) => m.codename === 'global_release'
         );
-        const usReleaseTaxonomy = responseWithLinkedItems.item.elements.releaseCategory.value.find(
+        const usReleaseTaxonomy = responseWithLinkedItems.item.elements.releasecategory.value.find(
             (m) => m.codename === 'us_only'
         );
 
@@ -123,7 +123,7 @@ describe('Verifies mapping of delivery content item', () => {
         expect(
             responseWithLinkedItems.item.elements.stars.linkedItems.find(
                 (m) =>
-                    m.elements.firstName.value === warriorJson.modular_content.joel_edgerton.elements.first_name.value
+                    m.elements.first_name.value === warriorJson.modular_content.joel_edgerton.elements.first_name.value
             )
         ).toBeDefined();
     });
@@ -131,7 +131,7 @@ describe('Verifies mapping of delivery content item', () => {
     it(`checks that text element in second linked item is set`, () => {
         expect(
             responseWithLinkedItems.item.elements.stars.linkedItems.find(
-                (m) => m.elements.firstName.value === warriorJson.modular_content.tom_hardy.elements.first_name.value
+                (m) => m.elements.first_name.value === warriorJson.modular_content.tom_hardy.elements.first_name.value
             )
         ).toBeDefined();
     });

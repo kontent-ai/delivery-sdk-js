@@ -1,10 +1,10 @@
-import { Actor, getDeliveryClientWithJson, Movie, toPromise } from '../../../setup';
 import {
     createAsyncRichTextHtmlResolver,
     IResolvedRichTextHtmlResult,
-    Responses,
-    linkedItemsHelper
+    linkedItemsHelper,
+    Responses
 } from '../../../../../lib';
+import { Actor, getDeliveryClientWithJson, Movie, toPromise } from '../../../setup';
 import * as warriorJson from '../../fake-data/fake-warrior-response.json';
 
 const expectedHtml = `<p>The youngest son of an alcoholic former boxer returns home, where he's trained by his father for competition in a mixed martial arts tournament - a path that puts the fighter on a collision course with his estranged, older brother.</p>
@@ -43,7 +43,7 @@ describe('Rich text resolver (URL priority) async', () => {
                 if (contentItem && contentItem.system.type === 'actor') {
                     const actor = contentItem as Actor;
                     return {
-                        contentItemHtml: `<div class="xClass">${actor.elements.firstName.value}</div>`
+                        contentItemHtml: `<div class="xClass">${actor.elements.first_name.value}</div>`
                     };
                 }
 

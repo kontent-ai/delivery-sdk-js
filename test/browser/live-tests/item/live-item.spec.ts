@@ -72,8 +72,8 @@ describe('Live item', () => {
         expect(response.item.elements.plot.linkedItemCodenames).toContain('joel_edgerton');
     });
 
-    it(`check that linked item (Actor) has 'firstName' text properly assigned`, () => {
-        expect(response.item.elements.stars.linkedItems[0].elements.firstName.value).toEqual('Tom');
+    it(`check that linked item (Actor) has 'first_name' text properly assigned`, () => {
+        expect(response.item.elements.stars.linkedItems[0].elements.first_name.value).toEqual('Tom');
     });
 
     it(`images should be mapped in plot rich text element`, () => {

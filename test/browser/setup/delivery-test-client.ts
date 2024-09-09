@@ -1,5 +1,4 @@
 import { IHeader, IResponse, TestHttpService } from '@kontent-ai/core-sdk';
-import { defaultPropertyNameResolver } from '.';
 
 import { createDeliveryClient, IDeliveryClient, IDeliveryClientConfig } from '../../../lib';
 
@@ -16,7 +15,6 @@ export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDelivery
         config
             ? config
             : {
-                  propertyNameResolver: defaultPropertyNameResolver,
                   environmentId: testenvironmentId
               }
     );
@@ -25,7 +23,6 @@ export function getTestDeliveryClient(config?: IDeliveryClientConfig): IDelivery
 export function getDeliveryClientWithError(errorJson: any): IDeliveryClient {
     return createDeliveryClient({
         environmentId: testenvironmentId,
-        propertyNameResolver: defaultPropertyNameResolver,
         httpService: new TestHttpService({
             response: undefined,
             error: errorJson
@@ -49,7 +46,6 @@ export function getDeliveryClientWithJsonAndHeaders(
     if (!config) {
         return createDeliveryClient({
             environmentId: testenvironmentId,
-            propertyNameResolver: defaultPropertyNameResolver,
             httpService: new TestHttpService({
                 response: getResponseFromJson(json, responseHeaders),
                 error: undefined

@@ -1,10 +1,5 @@
+import { createRichTextJsonResolver, IRichTextJsonResult, linkedItemsHelper, Responses } from '../../../../../lib';
 import { getDeliveryClientWithJson, Movie } from '../../../setup';
-import {
-    Responses,
-    linkedItemsHelper,
-    createRichTextJsonResolver,
-    IRichTextJsonResult
-} from '../../../../../lib';
 import * as warriorJson from '../../fake-data/fake-warrior-response.json';
 import * as expectedJson from './expected-result.json';
 

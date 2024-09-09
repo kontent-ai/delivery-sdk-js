@@ -1,6 +1,6 @@
 import { Contracts } from '../contracts';
-import { IQueryConfig } from './common/common-models';
 import { ElementModels } from '../elements/element-models';
+import { IQueryConfig } from './common/common-models';
 
 export interface IMapElementsResult<TContentItem extends IContentItem = IContentItem> {
     item: TContentItem;
@@ -135,5 +135,3 @@ export interface IItemQueryConfig extends IQueryConfig {}
 export interface IItemFeedQueryConfig extends IQueryConfig {
     disableItemLinking?: boolean;
 }
-
-export type PropertyNameResolver = (contentTypeCodename: string, elementCodename: string) => string;
