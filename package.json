@@ -20,7 +20,7 @@
         "Kontent Typescript"
     ],
     "engines": {
-        "node": ">= 18"
+        "node": ">= 20"
     },
     "main": "./dist/cjs/index.js",
     "module": "./dist/es6/index.js",
@@ -68,10 +68,10 @@
     "devDependencies": {
         "@types/url-parse": "1.4.11",
         "@types/jasmine": "5.1.4",
-        "@types/node": "22.3.0",
+        "@types/node": "22.5.4",
         "@types/uuid": "10.0.0",
         "colors": "1.4.0",
-        "jasmine-core": "5.2.0",
+        "jasmine-core": "5.3.0",
         "jasmine-spec-reporter": "7.0.0",
         "karma": "6.4.4",
         "karma-chrome-launcher": "3.2.0",
@@ -86,14 +86,14 @@
         "mocha": "10.7.3",
         "standard-version": "9.5.0",
         "ts-loader": "9.5.1",
-        "tsx": "4.17.0",
-        "@typescript-eslint/eslint-plugin": "8.1.0",
-        "@typescript-eslint/parser": "8.1.0",
-        "eslint": "9.9.0",
+        "tsx": "4.19.0",
+        "@typescript-eslint/eslint-plugin": "8.4.0",
+        "@typescript-eslint/parser": "8.4.0",
+        "eslint": "9.10.0",
         "typescript": "5.2.2",
-        "webpack": "5.93.0",
+        "webpack": "5.94.0",
         "webpack-bundle-analyzer": "4.10.2",
         "webpack-cli": "5.1.4",
-        "typescript-eslint": "8.1.0"
+        "typescript-eslint": "8.4.0"
     }
 }
