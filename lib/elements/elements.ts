@@ -22,7 +22,7 @@ export namespace Elements {
         displayTimeZone: string | null;
     };
 
-    export type RichTextElement = ElementModels.IElement<string> & {
+    export type RichTextElement<TContentItem extends IContentItem = IContentItem> = ElementModels.IElement<string> & {
         /**
          * Links
          */
@@ -43,7 +43,7 @@ export namespace Elements {
          * as it depends on the `depth` parameter of query.
          * The `linkedItemsReferenceHandler` configuration can be used to disable mapping of linked items
          */
-        linkedItems: IContentItem[];
+        linkedItems: TContentItem[];
     };
 
     export type NumberElement = ElementModels.IElement<number | null>;
