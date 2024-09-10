@@ -110,7 +110,7 @@ const movieText = response.data.items[0].elements.title.value;
         <title>Kontent.ai SDK - Html sample</title>
         <script
             type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@11.0.0/dist/bundles/kontent-delivery.umd.min.js"
+            src="https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@14.11.0/dist/bundles/kontent-delivery.umd.min.js"
         ></script>
     </head>
     <body>
