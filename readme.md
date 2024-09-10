@@ -8,22 +8,22 @@
 
 # JavaScript Delivery SDK Documentation
 
-JavaScript Delivery SDK is a client library for retrieving data from [Kontent.ai](https://kontent.ai/). Works both in
-browser & node.js environments.
+This library is build for fetching [Kontent.ai](https://kontent.ai/) data with `Delivery API`. Works in browser & node.
+
+> [!TIP]  
+> It's highly recommended to use this library in combination with
+> [Model Generator](https://www.npmjs.com/package/@kontent-ai/model-generator). This will enable you to access your data
+> in a strongly typed manner and will greatly simplify working with your data.
 
 # Kontent.ai Delivery SDK
 
 ## Installation
 
-You can install this library using `npm` or you can use global CDNs such `jsdelivr`.
-
-### npm
-
-```
+```bash
 npm i @kontent-ai/delivery-sdk --save
 ```
 
-### UMD Bundles
+## UMD
 
 When using UMD bundle and including this library in `script` tag on your `html` page, you can find it under the
 `kontentDelivery` global variable.
@@ -33,43 +33,24 @@ Bundles are distributed in `dist/bundles` folder:
 -   `dist/bundles/kontent-delivery.umd.js`
 -   `dist/bundles/kontent-delivery.umd.min.js`
 
-#### CDN
-
-##### kontent-delivery.umd.js
-
-![Gzip UMD bundle](https://img.badgesize.io/https:/cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@latest/dist/bundles/kontent-delivery.umd.js?compression=gzip)
-
-```
-https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@latest/dist/bundles/kontent-delivery.umd.js
-```
-
-##### kontent-delivery.umd.min.js
-
-![Gzip UMD Minified bundle](https://img.badgesize.io/https:/cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@latest/dist/bundles/kontent-delivery.umd.min.js?compression=gzip)
-
-```
-https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@latest/dist/bundles/kontent-delivery.umd.min.js
-```
-
-## TypeScript & ES6
+## Getting started
 
 ```typescript
 import { type IContentItem, type Elements, createDeliveryClient } from '@kontent-ai/delivery-sdk';
 
 /**
- * Defining models is optional, but will greatly benefit development
- * experience & further maintenance of your code
+ * Generate models with @kontent-ai/model-generator
  */
 export type Movie = IContentItem<{
-    title: Elements.TextElement;
-    plot: Elements.RichTextElement;
-    released: Elements.DateTimeElement;
-    length: Elements.NumberElement;
-    poster: Elements.AssetsElement;
-    category: Elements.MultipleChoiceElement;
-    stars: Elements.LinkedItemsElement<Actor>;
-    seoname: Elements.UrlSlugElement;
-    releasecategory: Elements.TaxonomyElement;
+    readonly title: Elements.TextElement;
+    readonly plot: Elements.RichTextElement;
+    readonly released: Elements.DateTimeElement;
+    readonly length: Elements.NumberElement;
+    readonly poster: Elements.AssetsElement;
+    readonly category: Elements.MultipleChoiceElement;
+    readonly stars: Elements.LinkedItemsElement<Actor>;
+    readonly seoname: Elements.UrlSlugElement;
+    readonly releasecategory: Elements.TaxonomyElement;
 }>;
 
 // initialize delivery client
@@ -84,59 +65,7 @@ const response = await deliveryClient.items<Movie>().type('<CONTENT_TYPE_CODENAM
 const movieText = response.data.items[0].elements.title.value;
 ```
 
-## JavaScript & CommonJS
-
-```javascript
-const KontentDelivery = require('@kontent-ai/delivery-sdk');
-
-// initialize delivery client
-const deliveryClient = KontentDelivery.createDeliveryClient({
-    environmentId: '<YOUR_ENVIRONMENT_ID>'
-});
-
-// fetch items
-const response = await deliveryClient.items().type('<CONTENT_TYPE_CODENAME>').toPromise();
-
-// read data of first item
-const movieText = response.data.items[0].elements.title.value;
-```
-
-## HTML & UMD & CDN
-
-```html
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Kontent.ai SDK - Html sample</title>
-        <script
-            type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/@kontent-ai/delivery-sdk@14.11.0/dist/bundles/kontent-delivery.umd.min.js"
-        ></script>
-    </head>
-    <body>
-        <script type="text/javascript">
-            var KontentDelivery = window['kontentDelivery'];
-
-            var deliveryClient = KontentDelivery.createDeliveryClient({
-                environmentId: 'da5abe9f-fdad-4168-97cd-b3464be2ccb9'
-            });
-
-            deliveryClient
-                .items()
-                .type('movie')
-                .toPromise()
-                .then((response) => console.log(response));
-        </script>
-        <h1>See console</h1>
-    </body>
-</html>
-```
-
-## SDK Documentation
-
-## Client configuration
-
-Following is a list of configuration options for DeliveryClient (`IDeliveryClientConfig`):
+## Configuration
 
 | Property                     |                   type                   | description                                                                                                                                                                                                                       |
 | ---------------------------- | :--------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -155,45 +84,7 @@ Following is a list of configuration options for DeliveryClient (`IDeliveryClien
 | defaultRenditionPreset?      |                  string                  | Codename of rendition preset to be applied by default to the base asset URL path when present. When set, the SDK will provide the URL of customized images by default. Right now the only supported preset codename is `default`. |
 | excludeArchivedItems?        |                 boolean                  | Can be used to exclude archived items from all queries by default. Only applicable when preview API is used.                                                                                                                      |
 
-### Create typed models
-
-> Recommended: Use the [Model Generator](https://www.npmjs.com/package/@kontent-ai/model-generator) to automatically
-> generate TypeScript models based on the content types in your Kontent.ai project.
-
-You may define optional models in Typescript representing your actual data defined in Kontent.ai projects. You can also
-auto-generate these models (see below).
-
-```typescript
-import { IContentItem, Elements } from '@kontent-ai/delivery-sdk';
-
-export type Movie = IContentItem<{
-    title: Elements.TextElement;
-    plot: Elements.RichTextElement;
-    released: Elements.DateTimeElement;
-    length: Elements.NumberElement;
-    poster: Elements.AssetsElement;
-    category: Elements.MultipleChoiceElement;
-    stars: Elements.LinkedItemsElement<Actor>;
-    seoname: Elements.UrlSlugElement;
-    releasecategory: Elements.TaxonomyElement;
-}>;
-```
-
-### Fetch data
-
-To get multiple content items, use the `items` method. You can specify the content type with the `type` method:
-
-```typescript
-deliveryClient.items<Movie>().type('typeCodename').toPromise();
-
-deliveryClient.item<Movie>('itemCodename').toPromise();
-```
-
-Supported elements: `TextElement`, `MultipleChoiceElement`, `DateTimeElement`, `RichTextElement`, `NumberElement`,
-`AssetsElement`, `UrlSlugElement`, `TaxonomyElement`, `LinkedItemsElement` and `CustomElement`. Additionally, you might
-also get `UnknownElement` or a custom model if you register it for your custom elements.
-
-#### Use custom models for Custom elements
+### Use custom models for Custom elements
 
 You can register an `ElementResolver` to map custom elements into dedicated element models and work with data more
 effectively.
@@ -251,68 +142,65 @@ type Movie = IContentItem<{
 }>;
 ```
 
-### Query parameters
+### Querying
 
 The SDK supports the following query parameters: `depthParameter`, `elementsParameter`, `excludeElementsParameter`,
 `limitParameter`, `orderParameter`, `skipParameter` and `languageParameter`. For more information about the parameters,
 see the [SDK query methods](#filter-content) below. You can also head over to
-[Delivery API reference](https://kontent.ai/learn/reference/delivery-api#tag/Filtering-content).
+[Delivery API reference](https://kontent.ai/learn/docs/apis/openapi/delivery-api/#tag/Filtering-parameters).
 
 ```typescript
 // Gets 5 items based on the Movie type
 deliveryClient.items<Movie>().type('movie').limitParameter(5).skipParameter(2).toPromise();
 ```
 
-#### Filter content
+| Filter                     |
+| -------------------------- |
+| `depthParameter`           |
+| `elementsParameter`        |
+| `excludeElementsParameter` |
+| `limitParameter`           |
+| `orderParameter`           |
+| `skipParameter`            |
+| `languageParameter`        |
 
-This example returns all **Movie** content items whose **title** element is equal to **Warrior**. Filters are also
-considered query parameters and can be combined. See
-[Content filtering in API reference](https://kontent.ai/learn/reference/delivery-api#tag/Filtering-content) for more
-general examples.
+#### Filtering
 
-Supported filters: `type`, `types`, `allFilter`, `anyFilter`, `containsFilter`, `equalsFilter`, `greaterThanFilter`,
-`greaterThanOrEqualFilter`, `infilter`, `lessThanFilter`, `lessThanOrEqualFilter`, `rangeFilter`, `emptyFilter`,
-`notEmptyFilter`, `notEqualsFilter`, `NotInFilter`.
+Filters are also considered query parameters and can be combined. See
+[Content filtering in API reference](https://kontent.ai/learn/docs/apis/openapi/delivery-api/#tag/Filtering-parameters)
+for more examples.
 
 ```typescript
 // Gets items based on the Movie type with 'Warrior' in their 'Title' element
 deliveryClient.items<Movie>().type('movie').equalsFilter('elements.title', 'Warrior').toPromise();
 ```
 
-##### Filtering methods
+| Filter                     |
+| -------------------------- |
+| `type`                     |
+| `types`                    |
+| `allFilter`                |
+| `anyFilter`                |
+| `containsFilter`           |
+| `equalsFilter`             |
+| `greaterThanFilter`        |
+| `greaterThanOrEqualFilter` |
+| `inFilter`                 |
+| `lessThanFilter`           |
+| `lessThanOrEqualFilter`    |
+| `rangeFilter`              |
+| `emptyFilter`              |
+| `NotEmptyFilter`           |
+| `notEqualsFilter`          |
+| `notInFilter`              |
 
-| Filter                   | Description                                                                           |
-| ------------------------ | ------------------------------------------------------------------------------------- |
-| type                     | Retrieve only content items based on the given type.                                  |
-| types                    | Retrieve only content items based on the given types.                                 |
-| allFilter                | Element with an array of values contains the specified list of values.                |
-| anyFilter                | Element with an array of values contains any value from the specified list of values. |
-| containsFilter           | Element with an array of values contains the specified value.                         |
-| equalsFilter             | Element value is the same as the specified value                                      |
-| greaterThanFilter        | Element value is greater than the specified value.                                    |
-| greaterThanOrEqualFilter | Element value is greater than or equals the specified value.                          |
-| infilter                 | Element value is in the specified list of values.                                     |
-| lessThanFilter           | Element value is less than the specified value.                                       |
-| lessThanOrEqualFilter    | Element value is less than or equals the specified value                              |
-| rangeFilter              | Element value falls in the specified range of two values, both inclusive.             |
-| emptyFilter              | Property value is empty.                                                              |
-| NotEmptyFilter           | Property value is not empty.                                                          |
-| notEqualsFilter          | Property value does not equal the specified value.                                    |
-| notInFilter              | Property value is not in the specified list of values.                                |
-
-#### Sort content
+#### Soring
 
 You can sort data by using any of the following methods:
 
 ```typescript
 deliveryClient.items<Movie>().type('movie').orderByDescending('elements.title').toPromise();
-```
-
-```typescript
 deliveryClient.items<Movie>().type('movie').orderByAscending('elements.title').toPromise();
-```
-
-```typescript
 deliveryClient.items<Movie>().type('movie').orderParameter('elements.title', 'desc').toPromise();
 ```
 
@@ -447,11 +335,7 @@ All listing queries support automatic paging. To use automatic paging, use `toAl
 ```typescript
 // this executed multiple HTTP requests until it gets all items
 const response = await deliveryClient.items().limitParameter(5).toAllPromise();
-```
 
-Alternatively, you may also specify a maximum number of pages you want to get:
-
-```typescript
 // only gets 3 pages at maximum
 const response = await deliveryClient.items().limitParameter(5).toAllPromise({
     pages: 3
@@ -469,29 +353,17 @@ To learn how to work with Rich text element have a look at
 
 ## Get content types
 
-To retrieve information about your content types, you can use the `type` and `types` methods.
-
 ```typescript
-deliveryClient
-    .type('movie') // codename of the type
-    .toPromise();
-
+deliveryClient.type('movie').toPromise();
 deliveryClient.types().toPromise();
-
 deliveryClient.types().toAllPromise();
 ```
 
 ## Get taxonomies
 
-To retrieve information about your taxonomies, you can use the `taxonomy` and `taxonomies` methods.
-
 ```typescript
-deliveryClient
-    .taxonomy('taxonomyGroupName') // codename of the Taxonomy group
-    .toPromise();
-
+deliveryClient.taxonomy('taxonomyGroupName').toPromise();
 deliveryClient.taxonomies().toPromise();
-
 deliveryClient.taxonomies().toAllPromise();
 ```
 
@@ -567,7 +439,6 @@ are 2 ways you can map previously stored `json`:
 
 ```typescript
 const result = await deliveryClient.item<Movie>('codename').toPromise();
-
 const json = result.response.data;
 
 // approach #1
