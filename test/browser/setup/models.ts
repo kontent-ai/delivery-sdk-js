@@ -18,7 +18,8 @@ export type Actor = IContentItem<
     WorkflowStepCodenames
 >;
 
-export type releasecategoryTaxonomy = 'global_release' | 'us_only' | 'local_release';
+export type ReleaseCategoryTaxonomy = 'global_release' | 'us_only' | 'local_release';
+export type CategoryMultipleChoiceOptionCodenames = 'sci_fi' | 'action' | 'comedy' | 'drama' | 'romance' | 'animation';
 
 export type Movie = IContentItem<
     {
@@ -27,10 +28,10 @@ export type Movie = IContentItem<
         readonly released: Elements.DateTimeElement;
         readonly length: Elements.NumberElement;
         readonly poster: Elements.AssetsElement;
-        readonly category: Elements.MultipleChoiceElement;
+        readonly category: Elements.MultipleChoiceElement<CategoryMultipleChoiceOptionCodenames>;
         readonly stars: Elements.LinkedItemsElement<Actor>;
         readonly seoname: Elements.UrlSlugElement;
-        readonly releasecategory: Elements.TaxonomyElement<releasecategoryTaxonomy>;
+        readonly releasecategory: Elements.TaxonomyElement<ReleaseCategoryTaxonomy, 'releasecategory'>;
     },
     'movie',
     LanguageCodenames,
