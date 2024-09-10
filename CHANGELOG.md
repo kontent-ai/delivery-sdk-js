@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [15.0.0-0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.11.0...v15.0.0-0) (2024-09-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removes parser & rich text resolver. To work with RTE use the newer and better `@kontent-ai/rich-text-resolver` library instead.
+* Removes `propertyName` resolver configuration. All elements are now referenced only by their codenames present in Kontent.ai
+
+### Features
+
+* Adds narrowing types for Taxonomy & Multiple choice elements ([3118752](https://github.com/kontent-ai/delivery-sdk-js/commit/3118752e05fe27f09b72c7bab21804b114fa057e))
+* Adds optional generic types to `IContentItem` narrowing down available values of system attributes ([8c894af](https://github.com/kontent-ai/delivery-sdk-js/commit/8c894afde62ee2ed40b44fbebc9dd9b8891115c5))
+* Makes `RichTextElement` take generic parameter narrowing down allowed types of linked items ([68b31a8](https://github.com/kontent-ai/delivery-sdk-js/commit/68b31a81431646a7ab06647652592b81d075527b))
+* Removes `propertyName` resolver configuration. All elements are now referenced only by their codenames present in Kontent.ai ([7ef5951](https://github.com/kontent-ai/delivery-sdk-js/commit/7ef5951c505b1acf2424c99255f435aa1a26a53e))
+* Removes parser & rich text resolver. To work with RTE use the newer and better `@kontent-ai/rich-text-resolver` library instead. ([2bd30c3](https://github.com/kontent-ai/delivery-sdk-js/commit/2bd30c3d4527b470848984d70e03136c2e01885e))
+* updates deps ([82c2c11](https://github.com/kontent-ai/delivery-sdk-js/commit/82c2c115482b0ee5ab74e3a94d9e8ebb55112532))
+
 ## [14.11.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v14.10.0...v14.11.0) (2024-08-15)
 
 
