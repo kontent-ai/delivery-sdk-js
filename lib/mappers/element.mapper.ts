@@ -307,7 +307,7 @@ export class ElementMapper {
     private mapTaxonomyElement(elementWrapper: ElementModels.IElementWrapper): Elements.TaxonomyElement {
         return {
             ...this.buildElement(elementWrapper, ElementType.Taxonomy, () => elementWrapper.rawElement.value),
-            taxonomyGroup: elementWrapper.rawElement.taxonomy_group
+            taxonomyGroup: elementWrapper.rawElement.taxonomy_group ?? ''
         };
     }
 
