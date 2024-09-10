@@ -755,28 +755,6 @@ console.log(queryText);
 // https://deliver.kontent.ai/b52fa0db-84ec-4310-8f7c-3b94ed06644d/items?limit=10&order=system.codename[desc]&system.type=movie
 ```
 
-## Upgrade
-
-The major version `11.0.0` is pretty much a complete overhaul of this SDK with many breaking changes. The major benefits
-of `11.0.0` are:
-
--   Greatly reduced package size (from `~318KB` to `~95KB`). When Gzipped, this library is now only `~19KB`
--   Reduced complexity by removing `rxjs` as not everyone needs to use it
--   Removed classes in favor of interfaces (again to reduce the size of the library)
--   Automatic paging support for all listing queries
--   Improved resolving of rich text elements along with the `async` support
--   Simplified custom models without the need of `typeResolvers`
--   Better retry strategy options
--   More extension methods added for all queries that support it (feed listing, content type listing etc..)
--   Removal of duplicate `raw` data to reduce the size of mapped responses while still being able to easily access debug
-    data with typed network response
--   Simplified mapping of `json` data to SDK response (when you for example store `json` in cache and need to re-map it
-    later on)
--   Updated all dependencies
-
-If you are upgrading from an older version, please see this documentation first. If you are still unsure how to upgrade
-or have some other questions, feel free to submit an issue on this GitHub and we'll get back to you.
-
 ## Testing
 
 Note: You need to have `Chrome` installed in order to run tests via Karma.
