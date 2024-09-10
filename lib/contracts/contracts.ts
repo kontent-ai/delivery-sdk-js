@@ -67,7 +67,7 @@ export namespace Contracts {
         name: string;
         type: string;
         value: any;
-        taxonomy_group?: string;
+        taxonomy_group: string;
     }
 
     export interface IDateTimeElementContract extends IElementContract {
