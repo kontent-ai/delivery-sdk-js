@@ -1,6 +1,6 @@
 import { Contracts } from '../contracts';
-import { IQueryConfig } from './common/common-models';
 import { ElementModels } from '../elements/element-models';
+import { IQueryConfig } from './common/common-models';
 
 export interface IMapElementsResult<TContentItem extends IContentItem = IContentItem> {
     item: TContentItem;
@@ -9,7 +9,13 @@ export interface IMapElementsResult<TContentItem extends IContentItem = IContent
     processingStartedForCodenames: string[];
 }
 
-export interface IContentItemSystemAttributes {
+export interface IContentItemSystemAttributes<
+    TTypeCodename extends string = string,
+    TLanguageCodenames extends string = string,
+    TCollectionCodenames extends string = string,
+    TWorkflowCodenames extends string = string,
+    TWorkflowStepCodenames extends string = string
+> {
     /**
      * Id of the item
      */
@@ -28,7 +34,7 @@ export interface IContentItemSystemAttributes {
     /**
      * Codename of the type this item is using
      */
-    type: string;
+    type: TTypeCodename;
 
     /**
      * Date when the item was last modified
@@ -38,7 +44,7 @@ export interface IContentItemSystemAttributes {
     /**
      * Codename of the language
      */
-    language: string;
+    language: TLanguageCodenames;
 
     /**
      * Array of sitemap locations (obsolete)
@@ -48,17 +54,17 @@ export interface IContentItemSystemAttributes {
     /**
      * Codename of the collection this item belongs to
      */
-    collection: string;
+    collection: TCollectionCodenames;
 
     /**
      * Workflow step of the item
      */
-    workflowStep: string | null;
+    workflowStep: TWorkflowStepCodenames | null;
 
     /**
      * Workflow of the item
      */
-    workflow: string | null;
+    workflow: TWorkflowCodenames | null;
 }
 
 /**
@@ -75,7 +81,14 @@ export interface IContentItemElements {
     [key: string]: ContentItemElementsIndexer;
 }
 
-export interface IContentItem<TElements extends IContentItemElements = IContentItemElements> {
+export interface IContentItem<
+    TElements extends IContentItemElements = IContentItemElements,
+    TTypeCodename extends string = string,
+    TLanguageCodenames extends string = string,
+    TCollectionCodenames extends string = string,
+    TWorkflowCodenames extends string = string,
+    TWorkflowStepCodenames extends string = string
+> {
     /**
      * Elements of the content item
      */
@@ -84,7 +97,13 @@ export interface IContentItem<TElements extends IContentItemElements = IContentI
     /**
      * System data of the content item
      */
-    system: IContentItemSystemAttributes;
+    system: IContentItemSystemAttributes<
+        TTypeCodename,
+        TLanguageCodenames,
+        TCollectionCodenames,
+        TWorkflowCodenames,
+        TWorkflowStepCodenames
+    >;
 }
 
 export interface ILink {
@@ -135,5 +154,3 @@ export interface IItemQueryConfig extends IQueryConfig {}
 export interface IItemFeedQueryConfig extends IQueryConfig {
     disableItemLinking?: boolean;
 }
-
-export type PropertyNameResolver = (contentTypeCodename: string, elementCodename: string) => string;

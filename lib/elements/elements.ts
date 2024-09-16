@@ -13,7 +13,9 @@ export namespace Elements {
         linkedItems: TContentItem[];
     };
 
-    export type MultipleChoiceElement = ElementModels.IElement<ElementModels.MultipleChoiceOption[]>;
+    export type MultipleChoiceElement<TOptionCodenames extends string = string> = ElementModels.IElement<
+        ElementModels.MultipleChoiceOption<TOptionCodenames>[]
+    >;
 
     export type DateTimeElement = ElementModels.IElement<string | null> & {
         /**
@@ -22,7 +24,7 @@ export namespace Elements {
         displayTimeZone: string | null;
     };
 
-    export type RichTextElement = ElementModels.IElement<string> & {
+    export type RichTextElement<TContentItem extends IContentItem = IContentItem> = ElementModels.IElement<string> & {
         /**
          * Links
          */
@@ -43,7 +45,7 @@ export namespace Elements {
          * as it depends on the `depth` parameter of query.
          * The `linkedItemsReferenceHandler` configuration can be used to disable mapping of linked items
          */
-        linkedItems: IContentItem[];
+        linkedItems: TContentItem[];
     };
 
     export type NumberElement = ElementModels.IElement<number | null>;
@@ -52,13 +54,14 @@ export namespace Elements {
 
     export type UrlSlugElement = ElementModels.IElement<string>;
 
-    export type TaxonomyElement<TaxonomyCodename extends string = string> = ElementModels.IElement<
-        ElementModels.TaxonomyTerm<TaxonomyCodename>[]
-    > & {
+    export type TaxonomyElement<
+        TaxonomyCodenames extends string = string,
+        TaxonomyGroupCodename extends string = string
+    > = ElementModels.IElement<ElementModels.TaxonomyTerm<TaxonomyCodenames>[]> & {
         /**
          * Taxonomy group
          */
-        taxonomyGroup: string | null;
+        taxonomyGroup: TaxonomyGroupCodename;
     };
 
     export type UnknownElement = ElementModels.IElement<any>;

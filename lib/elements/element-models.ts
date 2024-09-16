@@ -1,14 +1,8 @@
-import { IContentItemSystemAttributes } from '../models/item-models';
 import { Contracts } from '../contracts';
+import { IContentItemSystemAttributes } from '../models/item-models';
 import { ElementType } from './element-type';
 
 export namespace ElementModels {
-    export interface IRichTextResolverData {
-        html: string;
-        linkedItemCodenames: string[];
-        componentCodenames: string[];
-    }
-
     export interface IElementWrapper {
         element: string;
         system: IContentItemSystemAttributes;
@@ -83,13 +77,13 @@ export namespace ElementModels {
         url: string;
     }
 
-    export interface MultipleChoiceOption {
+    export interface MultipleChoiceOption<TOptionCodename extends string = string> {
         name: string;
-        codename: string;
+        codename: TOptionCodename;
     }
 
-    export interface TaxonomyTerm<TaxonomyCodename extends string = string> {
+    export interface TaxonomyTerm<TTaxonomyCodename extends string = string> {
         name: string;
-        codename: TaxonomyCodename;
+        codename: TTaxonomyCodename;
     }
 }

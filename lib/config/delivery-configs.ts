@@ -1,7 +1,7 @@
 import { IHeader, IHttpService, IRetryStrategyOptions } from '@kontent-ai/core-sdk';
 
 import { ElementResolver } from '../elements';
-import { LinkedItemsReferenceHandler, IProxyUrlData, IQueryConfig, PropertyNameResolver } from '../models';
+import { IProxyUrlData, IQueryConfig, LinkedItemsReferenceHandler } from '../models';
 
 export interface IDeliveryClientProxyConfig {
     /**
@@ -27,11 +27,6 @@ export interface IDeliveryClientConfig {
      * EnvironmentId
      */
     environmentId: string;
-
-    /**
-     * Resolver used to rename content item elements. Can be used to e.g. transform underscored element codenames to camelCase format
-     */
-    propertyNameResolver?: PropertyNameResolver;
 
     /**
      * Preview API key
