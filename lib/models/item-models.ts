@@ -70,24 +70,24 @@ export interface IContentItemSystemAttributes<
 /**
  * Indexer for elements within content item
  */
-export type ContentItemElementsIndexer = ElementModels.IElement<any>;
+export type ContentItemElementsIndexer<TElement extends ElementModels.IElement<any> = ElementModels.IElement<any>> =
+    TElement;
 
 export type ContentItemType = 'component' | 'linkedItem';
 
-export interface IContentItemElements {
-    /**
-     * Indexer
-     */
-    [key: string]: ContentItemElementsIndexer;
-}
+type ContentItemElements<TElementCodenames extends string = string> = Record<
+    TElementCodenames,
+    ContentItemElementsIndexer
+>;
 
 export interface IContentItem<
-    TElements extends IContentItemElements = IContentItemElements,
+    TElements extends ContentItemElements<TTypeElementCodenames> = ContentItemElements,
     TTypeCodename extends string = string,
     TLanguageCodenames extends string = string,
     TCollectionCodenames extends string = string,
     TWorkflowCodenames extends string = string,
-    TWorkflowStepCodenames extends string = string
+    TWorkflowStepCodenames extends string = string,
+    TTypeElementCodenames extends string = string
 > {
     /**
      * Elements of the content item

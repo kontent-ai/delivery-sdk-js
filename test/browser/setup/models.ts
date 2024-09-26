@@ -4,6 +4,7 @@ type LanguageCodenames = 'default' | 'en';
 type CollectionCodenames = 'default';
 type WorkflowCodenames = 'default';
 type WorkflowStepCodenames = 'draft' | 'published' | 'review';
+type ActorElementCodenames = 'first_name' | 'last_name' | 'photo';
 
 export type Actor = IContentItem<
     {
@@ -15,11 +16,23 @@ export type Actor = IContentItem<
     LanguageCodenames,
     CollectionCodenames,
     WorkflowCodenames,
-    WorkflowStepCodenames
+    WorkflowStepCodenames,
+    ActorElementCodenames
 >;
 
 export type ReleaseCategoryTaxonomy = 'global_release' | 'us_only' | 'local_release';
 export type CategoryMultipleChoiceOptionCodenames = 'sci_fi' | 'action' | 'comedy' | 'drama' | 'romance' | 'animation';
+
+type MovieElementCodenames =
+    | 'title'
+    | 'plot'
+    | 'released'
+    | 'length'
+    | 'poster'
+    | 'category'
+    | 'stars'
+    | 'seoname'
+    | 'releasecategory';
 
 export type Movie = IContentItem<
     {
@@ -27,15 +40,16 @@ export type Movie = IContentItem<
         readonly plot: Elements.RichTextElement;
         readonly released: Elements.DateTimeElement;
         readonly length: Elements.NumberElement;
-        readonly poster: Elements.AssetsElement;
         readonly category: Elements.MultipleChoiceElement<CategoryMultipleChoiceOptionCodenames>;
-        readonly stars: Elements.LinkedItemsElement<Actor>;
         readonly seoname: Elements.UrlSlugElement;
+        readonly poster: Elements.AssetsElement;
+        readonly stars: Elements.LinkedItemsElement<Actor>;
         readonly releasecategory: Elements.TaxonomyElement<ReleaseCategoryTaxonomy, 'releasecategory'>;
     },
     'movie',
     LanguageCodenames,
     CollectionCodenames,
     WorkflowCodenames,
-    WorkflowStepCodenames
+    WorkflowStepCodenames,
+    MovieElementCodenames
 >;
