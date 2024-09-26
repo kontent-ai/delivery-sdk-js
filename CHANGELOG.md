@@ -1,7 +1,14 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See
-[standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [15.1.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v15.0.0...v15.1.0) (2024-09-26)
+
+
+### Features
+
+* Adds support for constraining item element properties using pre-defined codenames type ([c7b16b7](https://github.com/kontent-ai/delivery-sdk-js/commit/c7b16b7e70c4ea223e432a76bc059ba94916bc58))
+* updates deps ([03fdc22](https://github.com/kontent-ai/delivery-sdk-js/commit/03fdc22f153d573fc4b0d8bc483795cbafb9a1b5))
 
 ## [15.0.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v15.0.0-0...v15.0.0) (2024-09-16)
 
