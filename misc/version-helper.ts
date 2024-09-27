@@ -1,6 +1,6 @@
-import { writeFileSync } from 'fs';
-import { yellow, red, green, cyan } from 'colors';
 import { ISDKInfo } from '@kontent-ai/core-sdk';
+import { cyan, green, red, yellow } from 'colors';
+import { writeFileSync } from 'fs';
 
 export const verifySdkVersion = (sdkInfo: ISDKInfo, versionInPackage: string) => {
     if (sdkInfo.version !== versionInPackage) {
@@ -8,11 +8,7 @@ export const verifySdkVersion = (sdkInfo: ISDKInfo, versionInPackage: string) =>
         Please make sure to use identical versions.`;
         throw Error(red(msg));
     } else {
-        console.log(
-            `Version check successful for '$.yellow(sdkInfo.version)}' and package '$.yellow(
-                sdkInfo.name
-            )}'`
-        );
+        console.log(`Version check successful for '${yellow(sdkInfo.version)}' and package '${yellow(sdkInfo.name)}'`);
     }
 };
 
