@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [15.1.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v15.1.0...v15.1.1) (2024-09-27)
+
+
+### Bug Fixes
+
+* re-exports IContentItemElements type ([ddc570f](https://github.com/kontent-ai/delivery-sdk-js/commit/ddc570f9d34bcc7db555cd093f98d9144b67ce94))
+
 ## [15.1.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v15.0.0...v15.1.0) (2024-09-26)
 
 
