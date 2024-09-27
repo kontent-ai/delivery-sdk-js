@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [15.2.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v15.1.1...v15.2.0) (2024-09-27)
+
+
+### Features
+
+* exports optional 'Snippet' type used for strongly typed modelling ([96ef2d5](https://github.com/kontent-ai/delivery-sdk-js/commit/96ef2d5b708a83006917bdd9d985035cae079445))
+
 ### [15.1.1](https://github.com/kontent-ai/delivery-sdk-js/compare/v15.1.0...v15.1.1) (2024-09-27)
 
 
