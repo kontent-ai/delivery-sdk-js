@@ -83,6 +83,11 @@ export type IContentItemElements<TElementCodenames extends string = string> = Re
     ContentItemElementsIndexer
 >;
 
+export type Snippet<
+    TElementCodenames extends string,
+    TElements extends IContentItemElements<TElementCodenames>
+> = TElements;
+
 export interface IContentItem<
     TElements extends IContentItemElements<TTypeElementCodenames> = IContentItemElements,
     TTypeCodename extends string = string,
