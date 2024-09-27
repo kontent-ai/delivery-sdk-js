@@ -75,13 +75,16 @@ export type ContentItemElementsIndexer<TElement extends ElementModels.IElement<a
 
 export type ContentItemType = 'component' | 'linkedItem';
 
-type ContentItemElements<TElementCodenames extends string = string> = Record<
+/**
+ * Prefix with I to keep the name consistent and prevent releasing major version
+ */
+export type IContentItemElements<TElementCodenames extends string = string> = Record<
     TElementCodenames,
     ContentItemElementsIndexer
 >;
 
 export interface IContentItem<
-    TElements extends ContentItemElements<TTypeElementCodenames> = ContentItemElements,
+    TElements extends IContentItemElements<TTypeElementCodenames> = IContentItemElements,
     TTypeCodename extends string = string,
     TLanguageCodenames extends string = string,
     TCollectionCodenames extends string = string,
