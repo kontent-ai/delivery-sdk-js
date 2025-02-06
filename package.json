@@ -39,7 +39,7 @@
         "lint:check": "npx eslint lib",
         "test:browser": "karma start karma.conf.js",
         "test:gh-actions": "karma start karma-gh-actions.conf.js",
-        "test:node": "npm run build:commonjs && npx mocha -- \"test/node/**/*.js\" --timeout 15000",
+        "test:node": "npm run build:commonjs && npx mocha  --timeout 15s -- \"test/node/**/*.js\"",
         "test:all": "npm run test:node && npm run test:gh-actions",
         "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version ",
         "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version ",
@@ -61,17 +61,17 @@
         "clean": "tsx clean.ts"
     },
     "dependencies": {
-        "@kontent-ai/core-sdk": "10.8.0",
+        "@kontent-ai/core-sdk": "10.9.0",
         "uuid": "10.0.0",
         "url-parse": "1.5.10"
     },
     "devDependencies": {
         "@types/url-parse": "1.4.11",
-        "@types/jasmine": "5.1.4",
-        "@types/node": "22.7.2",
+        "@types/jasmine": "5.1.5",
+        "@types/node": "22.13.1",
         "@types/uuid": "10.0.0",
         "colors": "1.4.0",
-        "jasmine-core": "5.3.0",
+        "jasmine-core": "5.5.0",
         "jasmine-spec-reporter": "7.0.0",
         "karma": "6.4.4",
         "karma-chrome-launcher": "3.2.0",
@@ -83,17 +83,17 @@
         "karma-typescript": "5.5.4",
         "karma-typescript-es6-transform": "5.5.4",
         "lcov-parse": "1.0.0",
-        "mocha": "10.7.3",
+        "mocha": "11.1.0",
         "standard-version": "9.5.0",
-        "ts-loader": "9.5.1",
-        "tsx": "4.19.1",
-        "@typescript-eslint/eslint-plugin": "8.7.0",
-        "@typescript-eslint/parser": "8.7.0",
-        "eslint": "9.11.1",
+        "ts-loader": "9.5.2",
+        "tsx": "4.19.2",
+        "@typescript-eslint/eslint-plugin": "8.23.0",
+        "@typescript-eslint/parser": "8.23.0",
+        "eslint": "9.19.0",
         "typescript": "5.2.2",
-        "webpack": "5.95.0",
+        "webpack": "5.97.1",
         "webpack-bundle-analyzer": "4.10.2",
-        "webpack-cli": "5.1.4",
-        "typescript-eslint": "8.7.0"
+        "webpack-cli": "6.0.1",
+        "typescript-eslint": "8.23.0"
     }
 }
