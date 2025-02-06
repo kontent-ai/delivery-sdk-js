@@ -1,4 +1,4 @@
-import { ClientTypes as TClientTypes, IContentItem } from '../models';
+import { ClientTypes, IContentItem } from '../models';
 import {
     ElementQuery,
     ItemsFeedQuery,
@@ -15,7 +15,7 @@ import {
 import { IMappingService } from '../services';
 
 export interface IDeliveryClient<
-    T extends TClientTypes = {
+    TClientTypes extends ClientTypes = {
         readonly contentItemType: IContentItem;
         readonly contentTypeCodenames: string;
         readonly workflowCodenames: string;
@@ -29,63 +29,74 @@ export interface IDeliveryClient<
     /**
      * Mapping service - can be used to get strongly typed responses from json result
      */
-    mappingService: IMappingService<T>;
+    mappingService: IMappingService<TClientTypes>;
 
     /**
      * Gets query for languages
      */
-    languages(): LanguagesQuery<T>;
+    languages(): LanguagesQuery<TClientTypes>;
 
     /**
      * Gets query for multiple types
      */
-    types(): MultipleTypeQuery<T>;
+    types(): MultipleTypeQuery<TClientTypes>;
 
     /**
      * Gets query for single type
      * @param {string} typeCodename - Codename of the type to retrieve
      */
-    type(typeCodename: T['contentTypeCodenames']): SingleTypeQuery<T>;
+    type(typeCodename: TClientTypes['contentTypeCodenames']): SingleTypeQuery<TClientTypes>;
 
     /**
      * Gets query for multiple items
      */
-    items<TContentItem extends IContentItem = T['contentItemType']>(): MultipleItemsQuery<T, TContentItem>;
+    items<TContentItem extends IContentItem = TClientTypes['contentItemType']>(): MultipleItemsQuery<
+        TClientTypes,
+        TContentItem
+    >;
 
     /**
      * Gets query for items feed. Executes single HTTP request only
      */
-    itemsFeed<TContentItem extends IContentItem = T['contentItemType']>(): ItemsFeedQuery<T, TContentItem>;
+    itemsFeed<TContentItem extends IContentItem = TClientTypes['contentItemType']>(): ItemsFeedQuery<
+        TClientTypes,
+        TContentItem
+    >;
 
     /**
      * Gets query for single item
      * @param {string} codename - Codename of item to retrieve
      */
-    item<TContentItem extends IContentItem = T['contentItemType']>(codename: string): SingleItemQuery<T, TContentItem>;
+    item<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
+        codename: string
+    ): SingleItemQuery<TClientTypes, TContentItem>;
 
     /**
      * Gets query for multiple taxonomies
      */
-    taxonomies(): TaxonomiesQuery<T>;
+    taxonomies(): TaxonomiesQuery<TClientTypes>;
 
     /**
      * Gets query for single item
      * @param {string} codename - Codename of taxonomy to retrieve
      */
-    taxonomy(codename: T['taxonomyCodenames']): TaxonomyQuery<T>;
+    taxonomy(codename: TClientTypes['taxonomyCodenames']): TaxonomyQuery<TClientTypes>;
 
     /**
      * Gets query for an element within a type
      */
-    element(typeCodename: T['contentTypeCodenames'], elementCodename: T['elementCodenames']): ElementQuery<T>;
+    element(
+        typeCodename: TClientTypes['contentTypeCodenames'],
+        elementCodename: TClientTypes['elementCodenames']
+    ): ElementQuery<TClientTypes>;
 
     /**
      * Gets query for initializing sync
      */
-    initializeSync(): InitializeSyncQuery<T>;
+    initializeSync(): InitializeSyncQuery<TClientTypes>;
 
     /**
      * Gets query fetching delta updates of content items
      */
-    syncChanges(): SyncChangesQuery<T>;
+    syncChanges(): SyncChangesQuery<TClientTypes>;
 }

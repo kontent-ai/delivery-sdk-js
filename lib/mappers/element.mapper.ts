@@ -4,7 +4,7 @@ import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
 import { ElementModels, Elements, ElementType } from '../elements';
 import {
-    ClientTypes as TClientTypes,
+    ClientTypes,
     IContentItem,
     IContentItemsContainer,
     IContentItemWithRawDataContainer,
@@ -19,10 +19,10 @@ interface IRichTextImageUrlRecord {
     newUrl: string;
 }
 
-export class ElementMapper<T extends TClientTypes> {
+export class ElementMapper<TClientTypes extends ClientTypes> {
     constructor(private readonly config: IDeliveryClientConfig) {}
 
-    mapElements<TContentItem extends IContentItem = T['contentItemType']>(data: {
+    mapElements<TContentItem extends IContentItem = TClientTypes['contentItemType']>(data: {
         dataToMap: IContentItemWithRawElements;
         processedItems: IContentItemsContainer;
         processingStartedForCodenames: string[];

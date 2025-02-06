@@ -2,7 +2,7 @@ import { IHeader, IQueryParameter } from '@kontent-ai/core-sdk';
 
 import { IDeliveryClientConfig } from '../../config';
 import {
-    ClientTypes as TClientTypes,
+    ClientTypes,
     Filters,
     IDeliveryNetworkResponse,
     IKontentResponse,
@@ -12,7 +12,7 @@ import {
 import { QueryService } from '../../services';
 
 export abstract class BaseQuery<
-    T extends TClientTypes,
+    TClientTypes extends ClientTypes,
     TResponse extends IKontentResponse,
     TQueryConfig extends IQueryConfig,
     TContract
@@ -20,7 +20,7 @@ export abstract class BaseQuery<
     protected parameters: IQueryParameter[] = [];
     protected customUrl?: string;
     protected abstract _queryConfig: TQueryConfig;
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<T>) {}
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {}
 
     /**
      * Gets URL of the query
