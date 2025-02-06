@@ -14,18 +14,7 @@ import {
 } from '../query';
 import { IMappingService } from '../services';
 
-export interface IDeliveryClient<
-    TClientTypes extends ClientTypes = {
-        readonly contentItemType: IContentItem;
-        readonly contentTypeCodenames: string;
-        readonly workflowCodenames: string;
-        readonly worfklowStepCodenames: string;
-        readonly collectionCodenames: string;
-        readonly taxonomyCodenames: string;
-        readonly languageCodenames: string;
-        readonly elementCodenames: string;
-    }
-> {
+export interface IDeliveryClient<TClientTypes extends ClientTypes = ClientTypes> {
     /**
      * Mapping service - can be used to get strongly typed responses from json result
      */

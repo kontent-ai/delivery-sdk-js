@@ -18,19 +18,7 @@ import { sdkInfo } from '../sdk-info.generated';
 import { IMappingService, MappingService, QueryService } from '../services';
 import { IDeliveryClient } from './idelivery-client.interface';
 
-export class DeliveryClient<
-    TClientTypes extends ClientTypes = {
-        readonly contentItemType: IContentItem;
-        readonly contentTypeCodenames: string;
-        readonly workflowCodenames: string;
-        readonly worfklowStepCodenames: string;
-        readonly collectionCodenames: string;
-        readonly taxonomyCodenames: string;
-        readonly languageCodenames: string;
-        readonly elementCodenames: string;
-    }
-> implements IDeliveryClient
-{
+export class DeliveryClient<TClientTypes extends ClientTypes = ClientTypes> implements IDeliveryClient {
     private queryService: QueryService<TClientTypes>;
     public mappingService: IMappingService<TClientTypes>;
 
