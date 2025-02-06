@@ -1,7 +1,7 @@
 import { Contracts } from '../contracts';
-import { ClientTypes as TClientTypes, IGenericElement } from '../models';
+import { IGenericElement } from '../models';
 
-export class GenericElementMapper<T extends TClientTypes> {
+export class GenericElementMapper {
     mapElement(response: Contracts.IViewContentTypeElementContract): IGenericElement {
         if (!response) {
             throw Error(`Invalid response for mapping element`);

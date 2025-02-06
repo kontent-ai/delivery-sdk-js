@@ -1,18 +1,20 @@
 import { Contracts } from '../contracts';
-import { ClientTypes as TClientTypes, IContentType, IContentTypeSystemAttributes, IGenericElement } from '../models';
+import { ClientTypes, IContentType, IContentTypeSystemAttributes, IGenericElement } from '../models';
 
-export class TypeMapper<T extends TClientTypes> {
-    mapSingleType(response: Contracts.IViewContentTypeContract): IContentType<T['contentTypeCodenames']> {
+export class TypeMapper<TClientTypes extends ClientTypes> {
+    mapSingleType(response: Contracts.IViewContentTypeContract): IContentType<TClientTypes['contentTypeCodenames']> {
         return this.mapType(response);
     }
 
-    mapMultipleTypes(response: Contracts.IListContentTypeContract): IContentType<T['contentTypeCodenames']>[] {
+    mapMultipleTypes(
+        response: Contracts.IListContentTypeContract
+    ): IContentType<TClientTypes['contentTypeCodenames']>[] {
         return response.types.map((type) => {
             return this.mapType(type);
         });
     }
 
-    private mapType(type: Contracts.IContentTypeContract): IContentType<T['contentTypeCodenames']> {
+    private mapType(type: Contracts.IContentTypeContract): IContentType<TClientTypes['contentTypeCodenames']> {
         if (!type) {
             throw Error(`Cannot map type`);
         }
@@ -21,7 +23,7 @@ export class TypeMapper<T extends TClientTypes> {
             throw Error(`Cannot map type elements`);
         }
 
-        const system: IContentTypeSystemAttributes<T['contentTypeCodenames']> = {
+        const system: IContentTypeSystemAttributes<TClientTypes['contentTypeCodenames']> = {
             codename: type.system.codename,
             id: type.system.id,
             name: type.system.name,

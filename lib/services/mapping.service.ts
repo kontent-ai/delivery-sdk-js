@@ -48,8 +48,8 @@ export class MappingService<TClientTypes extends ClientTypes> implements IMappin
     private readonly languageMapper: LanguageMapper<TClientTypes>;
     private readonly itemMapper: ItemMapper<TClientTypes>;
     private readonly taxonomyMapper: TaxonomyMapper<TClientTypes>;
-    private readonly genericElementMapper: GenericElementMapper<TClientTypes>;
-    private readonly syncMapper: SyncMapper<TClientTypes>;
+    private readonly genericElementMapper: GenericElementMapper;
+    private readonly syncMapper: SyncMapper;
 
     constructor(readonly config: IDeliveryClientConfig) {
         this.typeMapper = new TypeMapper();

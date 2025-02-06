@@ -1,7 +1,7 @@
 import { Contracts } from '../contracts';
-import { ClientTypes, IContentItemDelta } from '../models';
+import { IContentItemDelta } from '../models';
 
-export class SyncMapper<TClientTypes extends ClientTypes> {
+export class SyncMapper {
     mapContentItemDelta(itemDeltaContract: Contracts.IContentItemDeltaContract): IContentItemDelta {
         const systemContract = itemDeltaContract.data.system;
 
