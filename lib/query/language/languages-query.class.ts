@@ -1,17 +1,13 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import {
-    IDeliveryNetworkResponse,
-    ILanguagesQueryConfig,
-    Parameters,
-    Responses
-} from '../../models';
+import { ClientTypes, IDeliveryNetworkResponse, ILanguagesQueryConfig, Parameters, Responses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class LanguagesQuery extends BaseListingQuery<
-    Responses.IListLanguagesResponse,
-    Responses.IListLanguagesAllResponse,
+export class LanguagesQuery<TClientTypes extends ClientTypes> extends BaseListingQuery<
+    TClientTypes,
+    Responses.IListLanguagesResponse<TClientTypes['languageCodenames']>,
+    Responses.IListLanguagesAllResponse<TClientTypes['languageCodenames']>,
     ILanguagesQueryConfig,
     Contracts.IListLanguagesContract
 > {
@@ -22,7 +18,7 @@ export class LanguagesQuery extends BaseListingQuery<
 
     protected _queryConfig: ILanguagesQueryConfig = {};
 
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
 
@@ -45,7 +41,10 @@ export class LanguagesQuery extends BaseListingQuery<
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<Responses.IListLanguagesResponse, Contracts.IListLanguagesContract>
+        IDeliveryNetworkResponse<
+            Responses.IListLanguagesResponse<TClientTypes['languageCodenames']>,
+            Contracts.IListLanguagesContract
+        >
     > {
         return this.queryService.getLanguages(this.getUrl(), this._queryConfig ?? {});
     }
@@ -65,14 +64,17 @@ export class LanguagesQuery extends BaseListingQuery<
         return this;
     }
 
-    map(json: any): Responses.IListLanguagesResponse {
+    map(json: any): Responses.IListLanguagesResponse<TClientTypes['languageCodenames']> {
         return this.queryService.mappingService.listLanguagesResponse(json);
     }
 
     protected allResponseFactory(
         items: any[],
-        responses: IDeliveryNetworkResponse<Responses.IListLanguagesResponse, Contracts.IListLanguagesContract>[]
-    ): Responses.IListLanguagesAllResponse {
+        responses: IDeliveryNetworkResponse<
+            Responses.IListLanguagesResponse<TClientTypes['languageCodenames']>,
+            Contracts.IListLanguagesContract
+        >[]
+    ): Responses.IListLanguagesAllResponse<TClientTypes['languageCodenames']> {
         return {
             items: items,
             responses: responses

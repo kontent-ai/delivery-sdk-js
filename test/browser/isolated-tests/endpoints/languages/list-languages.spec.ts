@@ -7,12 +7,11 @@ describe('List languages', () => {
     const context = new Context();
     setup(context);
 
-    let response: Responses.IListLanguagesResponse;
+    let response: Responses.IListLanguagesResponse<string>;
 
     beforeAll(async () => {
         response = (await getDeliveryClientWithJson(responseJson).languages().toPromise()).data;
     });
-
 
     it(`Response should have all properties assigned`, () => {
         expect(response.items.length).toEqual(responseJson.languages.length);

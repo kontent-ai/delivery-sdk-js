@@ -1,14 +1,14 @@
 import { Contracts } from '../contracts';
-import { ILanguage } from '../models';
+import { ClientTypes, ILanguage } from '../models';
 
-export class LanguageMapper {
-    mapMultipleLanguages(response: Contracts.IListLanguagesContract): ILanguage[] {
+export class LanguageMapper<TClientTypes extends ClientTypes> {
+    mapMultipleLanguages(response: Contracts.IListLanguagesContract): ILanguage<TClientTypes['languageCodenames']>[] {
         return response.languages.map((language) => {
             return this.mapLanguage(language);
         });
     }
 
-    private mapLanguage(language: Contracts.ILanguageContract): ILanguage {
+    private mapLanguage(language: Contracts.ILanguageContract): ILanguage<TClientTypes['languageCodenames']> {
         if (!language) {
             throw Error(`Cannot map language`);
         }

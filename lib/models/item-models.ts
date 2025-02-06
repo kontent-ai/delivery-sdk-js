@@ -162,3 +162,14 @@ export interface IItemQueryConfig extends IQueryConfig {}
 export interface IItemFeedQueryConfig extends IQueryConfig {
     disableItemLinking?: boolean;
 }
+
+export type ClientTypes = {
+    readonly contentItemType: IContentItem;
+    readonly contentTypeCodenames: string;
+    readonly workflowCodenames: string;
+    readonly worfklowStepCodenames: string;
+    readonly collectionCodenames: string;
+    readonly taxonomyCodenames: string;
+    readonly languageCodenames: string;
+    readonly elementCodenames: string;
+};

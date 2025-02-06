@@ -2,6 +2,7 @@ import { codenameHelper } from '../utilities';
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
 import {
+    ClientTypes,
     IContentItem,
     IContentItemsContainer,
     IContentItemWithRawDataContainer,
@@ -26,8 +27,8 @@ export interface ISingleItemMapResult<TContentItem extends IContentItem = IConte
     linkedItems: IContentItemsContainer;
 }
 
-export class ItemMapper {
-    private readonly elementMapper: ElementMapper;
+export class ItemMapper<TClientTypes extends ClientTypes> {
+    private readonly elementMapper: ElementMapper<TClientTypes>;
 
     constructor(readonly config: IDeliveryClientConfig) {
         this.elementMapper = new ElementMapper(config);
@@ -110,7 +111,7 @@ export class ItemMapper {
                 processingStartedForCodenames: processingStartedForCodenames
             });
 
-            mappedLinkedItems[(item.system.codename)] = itemResult.item;
+            mappedLinkedItems[item.system.codename] = itemResult.item;
         }
 
         return {

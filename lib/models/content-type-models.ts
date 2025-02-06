@@ -1,7 +1,7 @@
 import { IQueryConfig } from './common/common-models';
 import { IGenericElement } from './element-models';
 
-export interface IContentTypeSystemAttributes {
+export interface IContentTypeSystemAttributes<TContentTypeCodename extends string> {
     /**
      * Id of the type
      */
@@ -15,7 +15,7 @@ export interface IContentTypeSystemAttributes {
     /**
      * Codename of the type
      */
-    codename: string;
+    codename: TContentTypeCodename;
 
     /**
      * Date of last modification
@@ -23,11 +23,11 @@ export interface IContentTypeSystemAttributes {
     lastModified: Date;
 }
 
-export interface IContentType {
+export interface IContentType<TContentTypeCodename extends string> {
     /**
      * Content type system attributes
      */
-    system: IContentTypeSystemAttributes;
+    system: IContentTypeSystemAttributes<TContentTypeCodename>;
 
     /**
      * Elements (elements) assigned to content type

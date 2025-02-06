@@ -14,6 +14,9 @@ describe('Response with Promises', () => {
             .then((xResponse) => {
                 response = xResponse.data;
                 done();
+            })
+            .catch((err) => {
+                throw err;
             });
     });
 

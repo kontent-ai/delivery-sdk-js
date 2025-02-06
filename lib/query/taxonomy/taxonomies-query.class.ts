@@ -1,17 +1,13 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import {
-    IDeliveryNetworkResponse,
-    ITaxonomyQueryConfig,
-    Parameters,
-    Responses
-} from '../../models';
+import { ClientTypes, IDeliveryNetworkResponse, ITaxonomyQueryConfig, Parameters, Responses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class TaxonomiesQuery extends BaseListingQuery<
-    Responses.IListTaxonomiesResponse,
-    Responses.IListTaxonomiesAllResponse,
+export class TaxonomiesQuery<TClientTypes extends ClientTypes> extends BaseListingQuery<
+    TClientTypes,
+    Responses.IListTaxonomiesResponse<TClientTypes['languageCodenames']>,
+    Responses.IListTaxonomiesAllResponse<TClientTypes['languageCodenames']>,
     ITaxonomyQueryConfig,
     Contracts.IListTaxonomyGroupsContract
 > {
@@ -22,7 +18,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
 
     protected _queryConfig: ITaxonomyQueryConfig = {};
 
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
 
@@ -46,7 +42,7 @@ export class TaxonomiesQuery extends BaseListingQuery<
 
     toPromise(): Promise<
         IDeliveryNetworkResponse<
-            Responses.IListTaxonomiesResponse,
+            Responses.IListTaxonomiesResponse<TClientTypes['languageCodenames']>,
             Contracts.IListTaxonomyGroupsContract
         >
     > {
@@ -59,17 +55,17 @@ export class TaxonomiesQuery extends BaseListingQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): Responses.IListTaxonomiesResponse {
+    map(json: any): Responses.IListTaxonomiesResponse<TClientTypes['languageCodenames']> {
         return this.queryService.mappingService.listTaxonomiesResponse(json);
     }
 
     protected allResponseFactory(
         items: any[],
         responses: IDeliveryNetworkResponse<
-            Responses.IListTaxonomiesResponse,
+            Responses.IListTaxonomiesResponse<TClientTypes['languageCodenames']>,
             Contracts.IListTaxonomyGroupsContract
         >[]
-    ): Responses.IListTaxonomiesAllResponse {
+    ): Responses.IListTaxonomiesAllResponse<TClientTypes['languageCodenames']> {
         return {
             items: items,
             responses: responses

@@ -6,12 +6,17 @@ import {
     IDeliveryNetworkResponse,
     Parameters,
     Responses,
-    IItemFeedQueryConfig
+    IItemFeedQueryConfig,
+    ClientTypes
 } from '../../models';
 import { QueryService } from '../../services';
 import { BaseItemListingQuery } from '../common/base-item-listing-query.class';
 
-export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> extends BaseItemListingQuery<
+export class ItemsFeedQuery<
+    TClientTypes extends ClientTypes,
+    TContentItem extends IContentItem = IContentItem
+> extends BaseItemListingQuery<
+    TClientTypes,
     Responses.IListItemsFeedResponse<TContentItem>,
     Responses.IListItemsFeedAllResponse<TContentItem>,
     IItemFeedQueryConfig,
@@ -19,7 +24,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
 > {
     protected _queryConfig: IItemFeedQueryConfig = {};
 
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
 
