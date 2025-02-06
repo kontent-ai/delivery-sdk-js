@@ -10,7 +10,7 @@ export interface IMappingService<TClientTypes extends ClientTypes> {
 
     itemsFeedResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IItemsFeedContract
-    ): Responses.IListItemsFeedResponse<TContentItem>;
+    ): Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>;
 
     viewContentTypeResponse(
         data: Contracts.IViewContentTypeContract
@@ -18,11 +18,11 @@ export interface IMappingService<TClientTypes extends ClientTypes> {
 
     viewContentItemResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IViewContentItemContract
-    ): Responses.IViewContentItemResponse<TContentItem>;
+    ): Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']>;
 
     listContentItemsResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IListContentItemsContract
-    ): Responses.IListContentItemsResponse<TContentItem>;
+    ): Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']>;
 
     viewTaxonomyResponse(
         data: Contracts.IViewTaxonomyGroupContract
@@ -101,7 +101,7 @@ export class MappingService<TClientTypes extends ClientTypes> implements IMappin
 
     itemsFeedResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IItemsFeedContract
-    ): Responses.IListItemsFeedResponse<TContentItem> {
+    ): Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']> {
         const itemsResult = this.itemMapper.mapItems<TContentItem>({
             linkedItems: Object.values(data.modular_content),
             mainItems: data.items
@@ -120,7 +120,7 @@ export class MappingService<TClientTypes extends ClientTypes> implements IMappin
      */
     viewContentItemResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IViewContentItemContract
-    ): Responses.IViewContentItemResponse<TContentItem> {
+    ): Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']> {
         const itemResult = this.itemMapper.mapSingleItemFromResponse<TContentItem>(data);
 
         return {
@@ -136,7 +136,7 @@ export class MappingService<TClientTypes extends ClientTypes> implements IMappin
      */
     listContentItemsResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IListContentItemsContract
-    ): Responses.IListContentItemsResponse<TContentItem> {
+    ): Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']> {
         const itemsResult = this.itemMapper.mapMultipleItemsFromResponse<TContentItem>(data);
 
         return {

@@ -17,8 +17,8 @@ export class ItemsFeedQuery<
     TContentItem extends IContentItem = IContentItem
 > extends BaseItemListingQuery<
     TClientTypes,
-    Responses.IListItemsFeedResponse<TContentItem>,
-    Responses.IListItemsFeedAllResponse<TContentItem>,
+    Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>,
+    Responses.IListItemsFeedAllResponse<TContentItem, TClientTypes['contentItemType']>,
     IItemFeedQueryConfig,
     Contracts.IItemsFeedContract
 > {
@@ -94,7 +94,10 @@ export class ItemsFeedQuery<
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<Responses.IListItemsFeedResponse<TContentItem>, Contracts.IItemsFeedContract>
+        IDeliveryNetworkResponse<
+            Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>,
+            Contracts.IItemsFeedContract
+        >
     > {
         return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
     }
@@ -120,17 +123,17 @@ export class ItemsFeedQuery<
         return this;
     }
 
-    map(json: any): Responses.IListItemsFeedResponse<TContentItem> {
+    map(json: any): Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']> {
         return this.queryService.mappingService.itemsFeedResponse(json);
     }
 
     protected allResponseFactory(
         items: TContentItem[],
         responses: IDeliveryNetworkResponse<
-            Responses.IListItemsFeedResponse<TContentItem>,
+            Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>,
             Contracts.IItemsFeedContract
         >[]
-    ): Responses.IListItemsFeedAllResponse<TContentItem> {
+    ): Responses.IListItemsFeedAllResponse<TContentItem, TClientTypes['contentItemType']> {
         if (this.canLinkItems()) {
             this.linkFeedItems(items, responses);
         }
@@ -144,7 +147,7 @@ export class ItemsFeedQuery<
     private linkFeedItems(
         items: TContentItem[],
         responses: IDeliveryNetworkResponse<
-            Responses.IListItemsFeedResponse<TContentItem>,
+            Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>,
             Contracts.IItemsFeedContract
         >[]
     ): void {

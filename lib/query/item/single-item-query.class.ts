@@ -16,7 +16,7 @@ export class SingleItemQuery<
     TContentItem extends IContentItem = IContentItem
 > extends BaseQuery<
     TClientTypes,
-    Responses.IViewContentItemResponse<TContentItem>,
+    Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']>,
     IItemQueryConfig,
     Contracts.IViewContentItemContract
 > {
@@ -80,7 +80,10 @@ export class SingleItemQuery<
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<Responses.IViewContentItemResponse<TContentItem>, Contracts.IViewContentItemContract>
+        IDeliveryNetworkResponse<
+            Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']>,
+            Contracts.IViewContentItemContract
+        >
     > {
         return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
     }
@@ -97,7 +100,7 @@ export class SingleItemQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): Responses.IViewContentItemResponse<TContentItem> {
+    map(json: any): Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']> {
         return this.queryService.mappingService.viewContentItemResponse(json);
     }
 }

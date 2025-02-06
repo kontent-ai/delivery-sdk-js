@@ -17,8 +17,8 @@ export class MultipleItemsQuery<
     TContentItem extends IContentItem = IContentItem
 > extends BaseItemListingQuery<
     TClientTypes,
-    Responses.IListContentItemsResponse<TContentItem>,
-    Responses.IListContentItemsAllResponse<TContentItem>,
+    Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']>,
+    Responses.IListContentItemsAllResponse<TContentItem, TClientTypes['contentItemType']>,
     IItemQueryConfig,
     Contracts.IListContentItemsContract
 > {
@@ -113,7 +113,10 @@ export class MultipleItemsQuery<
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<Responses.IListContentItemsResponse<TContentItem>, Contracts.IListContentItemsContract>
+        IDeliveryNetworkResponse<
+            Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']>,
+            Contracts.IListContentItemsContract
+        >
     > {
         return this.queryService.getMultipleItems(this.getUrl(), this._queryConfig ?? {});
     }
@@ -130,17 +133,17 @@ export class MultipleItemsQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): Responses.IListContentItemsResponse<TContentItem> {
+    map(json: any): Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']> {
         return this.queryService.mappingService.listContentItemsResponse(json);
     }
 
     protected allResponseFactory(
         items: any[],
         responses: IDeliveryNetworkResponse<
-            Responses.IListContentItemsResponse<TContentItem>,
+            Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']>,
             Contracts.IListContentItemsContract
         >[]
-    ): Responses.IListContentItemsAllResponse<TContentItem> {
+    ): Responses.IListContentItemsAllResponse<TContentItem, TClientTypes['contentItemType']> {
         this.linkItems(items, responses);
 
         return {
@@ -152,7 +155,7 @@ export class MultipleItemsQuery<
     private linkItems(
         items: IContentItem[],
         responses: IDeliveryNetworkResponse<
-            Responses.IListContentItemsResponse<TContentItem>,
+            Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']>,
             Contracts.IListContentItemsContract
         >[]
     ): void {

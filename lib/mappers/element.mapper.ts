@@ -24,7 +24,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
 
     mapElements<TContentItem extends IContentItem = TClientTypes['contentItemType']>(data: {
         dataToMap: IContentItemWithRawElements;
-        processedItems: IContentItemsContainer;
+        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
     }): IMapElementsResult<TContentItem> | undefined {
@@ -84,7 +84,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
     private mapElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
         item: IContentItem;
-        processedItems: IContentItemsContainer;
+        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
     }): ElementModels.IElement<any> {
@@ -147,7 +147,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
 
     private mapRichTextElement(
         elementWrapper: ElementModels.IElementWrapper,
-        processedItems: IContentItemsContainer,
+        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>,
         processingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
     ): Elements.RichTextElement {
@@ -337,7 +337,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
 
     private mapLinkedItemsElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
-        processedItems: IContentItemsContainer;
+        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
     }): Elements.LinkedItemsElement<any> {
@@ -372,7 +372,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
     private getOrSaveLinkedItemForElement(
         codename: string,
         element: Contracts.IElementContract,
-        processedItems: IContentItemsContainer,
+        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>,
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
     ): IContentItem | undefined {

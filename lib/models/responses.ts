@@ -35,38 +35,51 @@ export namespace Responses {
         options: IGenericElementOption[];
     }
 
-    export interface IListItemsFeedResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentListResponse {
+    export interface IListItemsFeedResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentListResponse {
         items: TContentItem[];
-        linkedItems: IContentItemsContainer;
+        linkedItems: IContentItemsContainer<TLinkedItemType>;
     }
 
-    export interface IListItemsFeedAllResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentListAllResponse {
-        items: TContentItem[];
-        responses: IDeliveryNetworkResponse<IListItemsFeedResponse<TContentItem>, Contracts.IItemsFeedContract>[];
-    }
-
-    export interface IListContentItemsResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentListResponse {
-        items: TContentItem[];
-        pagination: IPagination;
-        linkedItems: IContentItemsContainer;
-    }
-
-    export interface IListContentItemsAllResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentListAllResponse {
+    export interface IListItemsFeedAllResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentListAllResponse {
         items: TContentItem[];
         responses: IDeliveryNetworkResponse<
-            IListContentItemsResponse<TContentItem>,
+            IListItemsFeedResponse<TContentItem, TLinkedItemType>,
+            Contracts.IItemsFeedContract
+        >[];
+    }
+
+    export interface IListContentItemsResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentListResponse {
+        items: TContentItem[];
+        pagination: IPagination;
+        linkedItems: IContentItemsContainer<TLinkedItemType>;
+    }
+
+    export interface IListContentItemsAllResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentListAllResponse {
+        items: TContentItem[];
+        responses: IDeliveryNetworkResponse<
+            IListContentItemsResponse<TContentItem, TLinkedItemType>,
             Contracts.IListContentItemsContract
         >[];
     }
 
-    export interface IViewContentItemResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentResponse {
+    export interface IViewContentItemResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentResponse {
         item: TContentItem;
-        linkedItems: IContentItemsContainer;
+        linkedItems: IContentItemsContainer<TLinkedItemType>;
     }
 
     export interface IInitializeSyncResponse extends IKontentResponse {

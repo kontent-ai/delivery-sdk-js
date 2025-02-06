@@ -42,12 +42,15 @@ export class QueryService<TClientTypes extends ClientTypes> extends BaseDelivery
         url: string,
         queryConfig: IItemQueryConfig
     ): Promise<
-        IDeliveryNetworkResponse<Responses.IViewContentItemResponse<TContentItem>, Contracts.IViewContentItemContract>
+        IDeliveryNetworkResponse<
+            Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']>,
+            Contracts.IViewContentItemContract
+        >
     > {
         const response = await this.getResponseAsync<Contracts.IViewContentItemContract>(url, queryConfig);
 
         return this.mapNetworkResponse<
-            Responses.IViewContentItemResponse<TContentItem>,
+            Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']>,
             Contracts.IViewContentItemContract
         >(this.mappingService.viewContentItemResponse<TContentItem>(response.data), response);
     }
@@ -60,7 +63,12 @@ export class QueryService<TClientTypes extends ClientTypes> extends BaseDelivery
     async getItemsFeed<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         url: string,
         queryConfig: IItemQueryConfig
-    ): Promise<IDeliveryNetworkResponse<Responses.IListItemsFeedResponse<TContentItem>, Contracts.IItemsFeedContract>> {
+    ): Promise<
+        IDeliveryNetworkResponse<
+            Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>,
+            Contracts.IItemsFeedContract
+        >
+    > {
         const response = await this.getResponseAsync<Contracts.IItemsFeedContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.itemsFeedResponse<TContentItem>(response.data), response);
@@ -75,7 +83,10 @@ export class QueryService<TClientTypes extends ClientTypes> extends BaseDelivery
         url: string,
         queryConfig: IItemQueryConfig
     ): Promise<
-        IDeliveryNetworkResponse<Responses.IListContentItemsResponse<TContentItem>, Contracts.IListContentItemsContract>
+        IDeliveryNetworkResponse<
+            Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']>,
+            Contracts.IListContentItemsContract
+        >
     > {
         const response = await this.getResponseAsync<Contracts.IListContentItemsContract>(url, queryConfig);
 

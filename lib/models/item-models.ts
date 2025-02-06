@@ -2,9 +2,12 @@ import { Contracts } from '../contracts';
 import { ElementModels } from '../elements/element-models';
 import { IQueryConfig } from './common/common-models';
 
-export interface IMapElementsResult<TContentItem extends IContentItem = IContentItem> {
+export interface IMapElementsResult<
+    TContentItem extends IContentItem = IContentItem,
+    TLinkedItemType extends IContentItem = IContentItem
+> {
     item: TContentItem;
-    processedItems: IContentItemsContainer;
+    processedItems: IContentItemsContainer<TLinkedItemType>;
     preparedItems: IContentItemWithRawDataContainer;
     processingStartedForCodenames: string[];
 }
@@ -145,8 +148,8 @@ export interface IContentItemWithRawDataContainer {
     [key: string]: IContentItemWithRawElements;
 }
 
-export interface IContentItemsContainer {
-    [key: string]: IContentItem;
+export interface IContentItemsContainer<TLinkedItemType extends IContentItem> {
+    [key: string]: TLinkedItemType;
 }
 
 export interface IRichTextImage {
