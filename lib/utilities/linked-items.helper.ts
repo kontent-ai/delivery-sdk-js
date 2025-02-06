@@ -1,8 +1,9 @@
 import { IContentItem, IContentItemsContainer } from '../models/item-models';
 
 export class LinkedItemsHelper {
-
-    convertLinkedItemsToArray(linkedItems: IContentItemsContainer): IContentItem[] {
+    convertLinkedItemsToArray<TLinkedItemType extends IContentItem = IContentItem>(
+        linkedItems: IContentItemsContainer<TLinkedItemType>
+    ): IContentItem[] {
         const linkedItemsArray: IContentItem[] = [];
 
         for (const linkedItemKey of Object.keys(linkedItems)) {

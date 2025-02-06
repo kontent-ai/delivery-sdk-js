@@ -27,7 +27,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
         processedItems: IContentItemsContainer<TClientTypes['contentItemType']>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
-    }): IMapElementsResult<TContentItem> | undefined {
+    }): IMapElementsResult<TContentItem, TClientTypes['contentItemType']> | undefined {
         // return processed item to avoid infinite recursion
         const processedItem = data.processedItems[
             codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)
