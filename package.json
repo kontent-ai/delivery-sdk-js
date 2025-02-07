@@ -62,14 +62,12 @@
     },
     "dependencies": {
         "@kontent-ai/core-sdk": "10.9.0",
-        "uuid": "10.0.0",
         "url-parse": "1.5.10"
     },
     "devDependencies": {
         "@types/url-parse": "1.4.11",
         "@types/jasmine": "5.1.5",
         "@types/node": "22.13.1",
-        "@types/uuid": "10.0.0",
         "colors": "1.4.0",
         "jasmine-core": "5.5.0",
         "jasmine-spec-reporter": "7.0.0",
