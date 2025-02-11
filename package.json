@@ -61,11 +61,9 @@
         "clean": "tsx clean.ts"
     },
     "dependencies": {
-        "@kontent-ai/core-sdk": "10.9.0",
-        "url-parse": "1.5.10"
+        "@kontent-ai/core-sdk": "10.9.0"
     },
     "devDependencies": {
-        "@types/url-parse": "1.4.11",
         "@types/jasmine": "5.1.5",
         "@types/node": "22.13.1",
         "colors": "1.4.0",
