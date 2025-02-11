@@ -67,7 +67,7 @@
         "@types/jasmine": "5.1.5",
         "@types/node": "22.13.1",
         "colors": "1.4.0",
-        "jasmine-core": "5.5.0",
+        "jasmine-core": "5.6.0",
         "jasmine-spec-reporter": "7.0.0",
         "karma": "6.4.4",
         "karma-chrome-launcher": "3.2.0",
@@ -83,13 +83,13 @@
         "standard-version": "9.5.0",
         "ts-loader": "9.5.2",
         "tsx": "4.19.2",
-        "@typescript-eslint/eslint-plugin": "8.23.0",
-        "@typescript-eslint/parser": "8.23.0",
-        "eslint": "9.19.0",
+        "@typescript-eslint/eslint-plugin": "8.24.0",
+        "@typescript-eslint/parser": "8.24.0",
+        "eslint": "9.20.0",
         "typescript": "5.2.2",
         "webpack": "5.97.1",
         "webpack-bundle-analyzer": "4.10.2",
         "webpack-cli": "6.0.1",
-        "typescript-eslint": "8.23.0"
+        "typescript-eslint": "8.24.0"
     }
 }
