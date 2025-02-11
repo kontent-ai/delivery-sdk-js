@@ -6,7 +6,7 @@ import { BaseQuery } from '../common/base-query.class';
 
 export class TaxonomyQuery<TClientTypes extends ClientTypes> extends BaseQuery<
     TClientTypes,
-    Responses.IViewTaxonomyResponse<TClientTypes['languageCodenames']>,
+    Responses.IViewTaxonomyResponse<TClientTypes['taxonomyCodenames']>,
     ITaxonomyQueryConfig,
     Contracts.IViewTaxonomyGroupContract
 > {
@@ -31,7 +31,7 @@ export class TaxonomyQuery<TClientTypes extends ClientTypes> extends BaseQuery<
 
     toPromise(): Promise<
         IDeliveryNetworkResponse<
-            Responses.IViewTaxonomyResponse<TClientTypes['languageCodenames']>,
+            Responses.IViewTaxonomyResponse<TClientTypes['taxonomyCodenames']>,
             Contracts.IViewTaxonomyGroupContract
         >
     > {
@@ -44,7 +44,7 @@ export class TaxonomyQuery<TClientTypes extends ClientTypes> extends BaseQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): Responses.IViewTaxonomyResponse<TClientTypes['languageCodenames']> {
+    map(json: any): Responses.IViewTaxonomyResponse<TClientTypes['taxonomyCodenames']> {
         return this.queryService.mappingService.viewTaxonomyResponse(json);
     }
 }

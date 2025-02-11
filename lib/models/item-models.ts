@@ -148,8 +148,8 @@ export interface IContentItemWithRawDataContainer {
     [key: string]: IContentItemWithRawElements;
 }
 
-export interface IContentItemsContainer<TLinkedItemType extends IContentItem> {
-    [key: string]: TLinkedItemType;
+export interface IContentItemsContainer<TContentItem extends IContentItem> {
+    [key: string]: TContentItem;
 }
 
 export interface IRichTextImage {

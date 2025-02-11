@@ -120,7 +120,7 @@ export class ItemMapper<TClientTypes extends ClientTypes> {
                 processingStartedForCodenames: processingStartedForCodenames
             });
 
-            mappedLinkedItems[item.system.codename] = itemResult.item as TClientTypes['contentItemType'];
+            mappedLinkedItems[item.system.codename] = itemResult.item;
         }
 
         return {

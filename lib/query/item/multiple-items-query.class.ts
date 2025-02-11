@@ -98,7 +98,7 @@ export class MultipleItemsQuery<
      * Used to limit the number of elements returned by query.
      * @param elementCodenames Array of element codenames to fetch
      */
-    elementsParameter(elementCodenames: TClientTypes['languageCodenames'][]): this {
+    elementsParameter(elementCodenames: TClientTypes['elementCodenames'][]): this {
         this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
         return this;
     }
@@ -107,7 +107,7 @@ export class MultipleItemsQuery<
      * Used to exclude elements returned by query.
      * @param elementCodenames Array of element codenames to exclude
      */
-    excludeElementsParameter(elementCodenames: TClientTypes['languageCodenames'][]): this {
+    excludeElementsParameter(elementCodenames: TClientTypes['elementCodenames'][]): this {
         this.parameters.push(new Parameters.ExcludeElementsParameter(elementCodenames));
         return this;
     }
