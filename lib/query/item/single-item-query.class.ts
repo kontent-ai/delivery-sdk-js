@@ -1,11 +1,22 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { IContentItem, IItemQueryConfig, IDeliveryNetworkResponse, Responses, Parameters } from '../../models';
+import {
+    IContentItem,
+    IItemQueryConfig,
+    IDeliveryNetworkResponse,
+    Responses,
+    Parameters,
+    ClientTypes
+} from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> extends BaseQuery<
-    Responses.IViewContentItemResponse<TContentItem>,
+export class SingleItemQuery<
+    TClientTypes extends ClientTypes,
+    TContentItem extends IContentItem = IContentItem
+> extends BaseQuery<
+    TClientTypes,
+    Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']>,
     IItemQueryConfig,
     Contracts.IViewContentItemContract
 > {
@@ -13,7 +24,7 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
 
     constructor(
         protected config: IDeliveryClientConfig,
-        protected queryService: QueryService,
+        protected queryService: QueryService<TClientTypes>,
         private codename: string
     ) {
         super(config, queryService);
@@ -45,7 +56,7 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
      * Language codename
      * @param languageCodename Codename of the language
      */
-    languageParameter(languageCodename: string): this {
+    languageParameter(languageCodename: TClientTypes['languageCodenames']): this {
         this.parameters.push(new Parameters.LanguageParameter(languageCodename));
         return this;
     }
@@ -54,7 +65,7 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
      * Used to limit the number of elements returned by query.
      * @param elementCodenames Array of element codenames to fetch
      */
-    elementsParameter(elementCodenames: string[]): this {
+    elementsParameter(elementCodenames: TClientTypes['elementCodenames'][]): this {
         this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
         return this;
     }
@@ -63,13 +74,16 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
      * Used to exclude elements returned by query.
      * @param elementCodenames Array of element codenames to exclude
      */
-    excludeElementsParameter(elementCodenames: string[]): this {
+    excludeElementsParameter(elementCodenames: TClientTypes['elementCodenames'][]): this {
         this.parameters.push(new Parameters.ExcludeElementsParameter(elementCodenames));
         return this;
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<Responses.IViewContentItemResponse<TContentItem>, Contracts.IViewContentItemContract>
+        IDeliveryNetworkResponse<
+            Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']>,
+            Contracts.IViewContentItemContract
+        >
     > {
         return this.queryService.getSingleItemAsync(this.getUrl(), this._queryConfig ?? {});
     }
@@ -86,7 +100,7 @@ export class SingleItemQuery<TContentItem extends IContentItem = IContentItem> e
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): Responses.IViewContentItemResponse<TContentItem> {
+    map(json: any): Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']> {
         return this.queryService.mappingService.viewContentItemResponse(json);
     }
 }

@@ -7,7 +7,7 @@ describe('Delivery errors', () => {
 
     const invalidCodename: string = 'the_invalid_codename';
     let succeeded: boolean;
-    let error: any | DeliveryError;
+    let error: unknown;
 
     beforeAll(async () => {
         try {

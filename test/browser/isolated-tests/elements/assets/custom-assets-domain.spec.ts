@@ -37,7 +37,7 @@ describe('Custom assets domain', () => {
         const richTextElement = item.elements.plot;
 
         for (const image of richTextElement.images) {
-            const imagePathname = deliveryUrlHelper.getUrlPathname(image.url);
+            const imagePathname = deliveryUrlHelper.getPathname(image.url);
             expect(image.url).toEqual(`${customDomain}${imagePathname}`);
         }
     });

@@ -9,13 +9,13 @@ describe('Live taxonomies', () => {
     const numberOfNestedTerms: number = 3; // this is the number of nested terms defined by 'termsWithNestedTermsCodename'
     const existingTaxonomyCodename: string = 'movietype'; // codename of some of the defined taxonomies
 
-    let response: Responses.IListTaxonomiesResponse;
-    let taxonomy: ITaxonomyGroup;
+    let response: Responses.IListTaxonomiesResponse<string>;
+    let taxonomy: ITaxonomyGroup<string>;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.taxonomies().toPromise()).data;
 
-        taxonomy = response.items.find((m) => m.system.codename === existingTaxonomyCodename) as ITaxonomyGroup;
+        taxonomy = response.items.find((m) => m.system.codename === existingTaxonomyCodename) as ITaxonomyGroup<string>;
     });
 
     it(`taxonomies should have pagination`, () => {

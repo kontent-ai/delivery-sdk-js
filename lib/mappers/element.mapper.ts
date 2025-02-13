@@ -18,19 +18,18 @@ interface IRichTextImageUrlRecord {
     newUrl: string;
 }
 
-export class ElementMapper {
+export class ElementMapper<TContentItemType extends IContentItem> {
     constructor(private readonly config: IDeliveryClientConfig) {}
 
-    mapElements<TContentItem extends IContentItem = IContentItem>(data: {
+    mapElements<TContentItem extends TContentItemType = TContentItemType>(data: {
         dataToMap: IContentItemWithRawElements;
-        processedItems: IContentItemsContainer;
+        processedItems: IContentItemsContainer<TContentItem>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
-    }): IMapElementsResult<TContentItem> | undefined {
+    }): IMapElementsResult<TContentItem, TContentItemType> | undefined {
         // return processed item to avoid infinite recursion
-        const processedItem = data.processedItems[
-            codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)
-        ] as TContentItem | undefined;
+        const processedItem =
+            data.processedItems[codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)];
         if (processedItem) {
             // item was already resolved
             return {
@@ -43,7 +42,8 @@ export class ElementMapper {
 
         const preparedItem =
             data.preparedItems[codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)];
-        const itemInstance = preparedItem?.item as TContentItem;
+
+        const itemInstance = preparedItem?.item;
 
         if (!itemInstance) {
             // item is not present in response
@@ -73,7 +73,7 @@ export class ElementMapper {
         }
 
         return {
-            item: itemInstance,
+            item: itemInstance as TContentItem,
             processedItems: data.processedItems,
             preparedItems: data.preparedItems,
             processingStartedForCodenames: data.processingStartedForCodenames
@@ -83,7 +83,7 @@ export class ElementMapper {
     private mapElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
         item: IContentItem;
-        processedItems: IContentItemsContainer;
+        processedItems: IContentItemsContainer<TContentItemType>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
     }): ElementModels.IElement<any> {
@@ -146,7 +146,7 @@ export class ElementMapper {
 
     private mapRichTextElement(
         elementWrapper: ElementModels.IElementWrapper,
-        processedItems: IContentItemsContainer,
+        processedItems: IContentItemsContainer<TContentItemType>,
         processingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
     ): Elements.RichTextElement {
@@ -336,7 +336,7 @@ export class ElementMapper {
 
     private mapLinkedItemsElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
-        processedItems: IContentItemsContainer;
+        processedItems: IContentItemsContainer<TContentItemType>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
     }): Elements.LinkedItemsElement<any> {
@@ -371,7 +371,7 @@ export class ElementMapper {
     private getOrSaveLinkedItemForElement(
         codename: string,
         element: Contracts.IElementContract,
-        processedItems: IContentItemsContainer,
+        processedItems: IContentItemsContainer<TContentItemType>,
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
     ): IContentItem | undefined {
@@ -398,7 +398,7 @@ export class ElementMapper {
             return undefined;
         }
 
-        let mappedLinkedItem: IContentItem | undefined;
+        let mappedLinkedItem: TContentItemType | undefined;
 
         // original resolving if item is still undefined
         const mappedLinkedItemResult = this.mapElements({

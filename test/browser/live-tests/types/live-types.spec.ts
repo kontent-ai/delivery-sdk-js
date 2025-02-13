@@ -5,7 +5,7 @@ describe('Live types', () => {
     const context = new Context();
     setup(context);
 
-    let response: Responses.IListContentTypesResponse;
+    let response: Responses.IListContentTypesResponse<string>;
 
     beforeAll(async () => {
         response = (await context.deliveryClient.types().toPromise()).data;

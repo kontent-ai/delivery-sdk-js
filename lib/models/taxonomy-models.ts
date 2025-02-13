@@ -1,14 +1,14 @@
 import { IQueryConfig } from './common/common-models';
 
-export interface ITaxonomyGroup {
-    system: ITaxonomySystemAttributes;
+export interface ITaxonomyGroup<TaxonomyCodename extends string> {
+    system: ITaxonomySystemAttributes<TaxonomyCodename>;
     terms: ITaxonomyTerms[];
 }
 
-export interface ITaxonomySystemAttributes {
+export interface ITaxonomySystemAttributes<TaxonomyCodename extends string> {
     id: string;
     name: string;
-    codename: string;
+    codename: TaxonomyCodename;
     lastModified: Date;
 }
 

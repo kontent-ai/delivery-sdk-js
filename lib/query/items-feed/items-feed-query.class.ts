@@ -6,20 +6,25 @@ import {
     IDeliveryNetworkResponse,
     Parameters,
     Responses,
-    IItemFeedQueryConfig
+    IItemFeedQueryConfig,
+    ClientTypes
 } from '../../models';
 import { QueryService } from '../../services';
 import { BaseItemListingQuery } from '../common/base-item-listing-query.class';
 
-export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> extends BaseItemListingQuery<
-    Responses.IListItemsFeedResponse<TContentItem>,
-    Responses.IListItemsFeedAllResponse<TContentItem>,
+export class ItemsFeedQuery<
+    TClientTypes extends ClientTypes,
+    TContentItem extends IContentItem = IContentItem
+> extends BaseItemListingQuery<
+    TClientTypes,
+    Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>,
+    Responses.IListItemsFeedAllResponse<TContentItem, TClientTypes['contentItemType']>,
     IItemFeedQueryConfig,
     Contracts.IItemsFeedContract
 > {
     protected _queryConfig: IItemFeedQueryConfig = {};
 
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
 
@@ -89,7 +94,10 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<Responses.IListItemsFeedResponse<TContentItem>, Contracts.IItemsFeedContract>
+        IDeliveryNetworkResponse<
+            Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>,
+            Contracts.IItemsFeedContract
+        >
     > {
         return this.queryService.getItemsFeed(this.getUrl(), this._queryConfig ?? {});
     }
@@ -115,17 +123,17 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
         return this;
     }
 
-    map(json: any): Responses.IListItemsFeedResponse<TContentItem> {
+    map(json: any): Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']> {
         return this.queryService.mappingService.itemsFeedResponse(json);
     }
 
     protected allResponseFactory(
         items: TContentItem[],
         responses: IDeliveryNetworkResponse<
-            Responses.IListItemsFeedResponse<TContentItem>,
+            Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>,
             Contracts.IItemsFeedContract
         >[]
-    ): Responses.IListItemsFeedAllResponse<TContentItem> {
+    ): Responses.IListItemsFeedAllResponse<TContentItem, TClientTypes['contentItemType']> {
         if (this.canLinkItems()) {
             this.linkFeedItems(items, responses);
         }
@@ -139,7 +147,7 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
     private linkFeedItems(
         items: TContentItem[],
         responses: IDeliveryNetworkResponse<
-            Responses.IListItemsFeedResponse<TContentItem>,
+            Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>,
             Contracts.IItemsFeedContract
         >[]
     ): void {
@@ -148,7 +156,11 @@ export class ItemsFeedQuery<TContentItem extends IContentItem = IContentItem> ex
 
         // process linked items (modular_content part of the response)
         for (const response of responses) {
-            allAvailableContentItems.push(...Object.values(response.data.linkedItems));
+            allAvailableContentItems.push(
+                ...Object.values(response.data.linkedItems)
+                    .filter((m) => m !== undefined)
+                    .map((m) => m as TClientTypes['contentItemType'])
+            );
         }
 
         // add standard items

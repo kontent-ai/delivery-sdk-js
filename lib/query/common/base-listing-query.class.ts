@@ -8,18 +8,20 @@ import {
     IDeliveryNetworkResponse,
     IListAllQueryConfig,
     IQueryConfig,
-    IContentItem
+    IContentItem,
+    ClientTypes
 } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from './base-query.class';
 
 export abstract class BaseListingQuery<
+    TClientTypes extends ClientTypes,
     TResponse extends IKontentListResponse,
     TAllResponse extends IKontentListAllResponse,
     TQueryConfig extends IQueryConfig,
     TContract
-> extends BaseQuery<TResponse, TQueryConfig, TContract> {
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+> extends BaseQuery<TClientTypes, TResponse, TQueryConfig, TContract> {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
 

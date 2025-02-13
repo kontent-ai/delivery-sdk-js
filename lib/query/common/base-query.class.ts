@@ -1,14 +1,26 @@
 import { IHeader, IQueryParameter } from '@kontent-ai/core-sdk';
 
 import { IDeliveryClientConfig } from '../../config';
-import { Filters, IDeliveryNetworkResponse, IKontentResponse, IQueryConfig, Parameters } from '../../models';
+import {
+    ClientTypes,
+    Filters,
+    IDeliveryNetworkResponse,
+    IKontentResponse,
+    IQueryConfig,
+    Parameters
+} from '../../models';
 import { QueryService } from '../../services';
 
-export abstract class BaseQuery<TResponse extends IKontentResponse, TQueryConfig extends IQueryConfig, TContract> {
+export abstract class BaseQuery<
+    TClientTypes extends ClientTypes,
+    TResponse extends IKontentResponse,
+    TQueryConfig extends IQueryConfig,
+    TContract
+> {
     protected parameters: IQueryParameter[] = [];
     protected customUrl?: string;
     protected abstract _queryConfig: TQueryConfig;
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {}
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {}
 
     /**
      * Gets URL of the query

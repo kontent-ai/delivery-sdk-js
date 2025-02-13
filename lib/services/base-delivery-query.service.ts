@@ -9,13 +9,14 @@ import {
     sdkVersionHeader,
     staleContentHeaderName,
     continuationTokenHeaderName,
-    IDeliveryNetworkResponse
+    IDeliveryNetworkResponse,
+    ClientTypes
 } from '../models';
 
 import { IDeliveryClientConfig } from '../config';
 import { IMappingService } from './mapping.service';
 
-export abstract class BaseDeliveryQueryService {
+export abstract class BaseDeliveryQueryService<TClientTypes extends ClientTypes> {
     /**
      * Default base Url to Kontent.ai Delivery API
      */
@@ -42,7 +43,7 @@ export abstract class BaseDeliveryQueryService {
         /**
          * Mapping service
          */
-        public readonly mappingService: IMappingService
+        public readonly mappingService: IMappingService<TClientTypes>
     ) {}
 
     /**

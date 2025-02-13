@@ -1,11 +1,12 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { IContentTypeQueryConfig, IDeliveryNetworkResponse, Responses } from '../../models';
+import { ClientTypes, IContentTypeQueryConfig, IDeliveryNetworkResponse, Responses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export class SingleTypeQuery extends BaseQuery<
-    Responses.IViewContentTypeResponse,
+export class SingleTypeQuery<TClientTypes extends ClientTypes> extends BaseQuery<
+    TClientTypes,
+    Responses.IViewContentTypeResponse<TClientTypes['contentTypeCodenames']>,
     IContentTypeQueryConfig,
     Contracts.IViewContentTypeContract
 > {
@@ -13,7 +14,7 @@ export class SingleTypeQuery extends BaseQuery<
 
     constructor(
         protected config: IDeliveryClientConfig,
-        protected queryService: QueryService,
+        protected queryService: QueryService<TClientTypes>,
         private typeCodename: string
     ) {
         super(config, queryService);
@@ -24,7 +25,10 @@ export class SingleTypeQuery extends BaseQuery<
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<Responses.IViewContentTypeResponse, Contracts.IViewContentTypeContract>
+        IDeliveryNetworkResponse<
+            Responses.IViewContentTypeResponse<TClientTypes['contentTypeCodenames']>,
+            Contracts.IViewContentTypeContract
+        >
     > {
         return this.queryService.getSingleType(this.getUrl(), this._queryConfig ?? {});
     }
@@ -35,7 +39,7 @@ export class SingleTypeQuery extends BaseQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): Responses.IViewContentTypeResponse {
+    map(json: any): Responses.IViewContentTypeResponse<TClientTypes['contentTypeCodenames']> {
         return this.queryService.mappingService.viewContentTypeResponse(json);
     }
 }

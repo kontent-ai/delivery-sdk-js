@@ -1,6 +1,7 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
 import {
+    ClientTypes,
     Filters,
     IDeliveryNetworkResponse,
     ILanguagesQueryConfig,
@@ -11,7 +12,8 @@ import {
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export class InitializeSyncQuery extends BaseQuery<
+export class InitializeSyncQuery<TClientTypes extends ClientTypes> extends BaseQuery<
+    TClientTypes,
     Responses.IInitializeSyncResponse,
     ISyncInitQueryConfig,
     Contracts.IInitializeSyncContract
@@ -20,7 +22,7 @@ export class InitializeSyncQuery extends BaseQuery<
 
     protected _queryConfig: ILanguagesQueryConfig = {};
 
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
 
