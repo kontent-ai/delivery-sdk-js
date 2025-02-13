@@ -44,10 +44,10 @@ export interface IMappingService<TClientTypes extends ClientTypes> {
 }
 
 export class MappingService<TClientTypes extends ClientTypes> implements IMappingService<TClientTypes> {
-    private readonly typeMapper: TypeMapper<TClientTypes>;
-    private readonly languageMapper: LanguageMapper<TClientTypes>;
-    private readonly itemMapper: ItemMapper<TClientTypes>;
-    private readonly taxonomyMapper: TaxonomyMapper<TClientTypes>;
+    private readonly typeMapper: TypeMapper<TClientTypes['contentTypeCodenames']>;
+    private readonly languageMapper: LanguageMapper<TClientTypes['languageCodenames']>;
+    private readonly itemMapper: ItemMapper<TClientTypes['contentItemType']>;
+    private readonly taxonomyMapper: TaxonomyMapper<TClientTypes['taxonomyCodenames']>;
     private readonly genericElementMapper: GenericElementMapper;
     private readonly syncMapper: SyncMapper;
 

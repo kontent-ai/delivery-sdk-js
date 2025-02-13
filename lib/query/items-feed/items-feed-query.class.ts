@@ -156,7 +156,11 @@ export class ItemsFeedQuery<
 
         // process linked items (modular_content part of the response)
         for (const response of responses) {
-            allAvailableContentItems.push(...Object.values(response.data.linkedItems));
+            allAvailableContentItems.push(
+                ...Object.values(response.data.linkedItems)
+                    .filter((m) => m !== undefined)
+                    .map((m) => m as TClientTypes['contentItemType'])
+            );
         }
 
         // add standard items

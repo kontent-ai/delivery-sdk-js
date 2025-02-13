@@ -2,7 +2,6 @@ import { codenameHelper } from '../utilities';
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
 import {
-    ClientTypes,
     IContentItem,
     IContentItemsContainer,
     IContentItemWithRawDataContainer,
@@ -36,8 +35,8 @@ export interface ISingleItemMapResult<
     linkedItems: IContentItemsContainer<TLinkedItemType>;
 }
 
-export class ItemMapper<TClientTypes extends ClientTypes> {
-    private readonly elementMapper: ElementMapper<TClientTypes>;
+export class ItemMapper<TContentItemType extends IContentItem> {
+    private readonly elementMapper: ElementMapper<TContentItemType>;
 
     constructor(readonly config: IDeliveryClientConfig) {
         this.elementMapper = new ElementMapper(config);
@@ -48,9 +47,9 @@ export class ItemMapper<TClientTypes extends ClientTypes> {
      * @param response Response used to map the item
      * @param queryConfig Query configuration
      */
-    mapSingleItemFromResponse<TContentItem extends IContentItem = IContentItem>(
+    mapSingleItemFromResponse<TContentItem extends TContentItemType = TContentItemType>(
         response: Contracts.IViewContentItemContract
-    ): ISingleItemMapResult<TContentItem, TClientTypes['contentItemType']> {
+    ): ISingleItemMapResult<TContentItem, TContentItemType> {
         const mapResult = this.mapItems<TContentItem>({
             mainItems: [response.item],
             linkedItems: Object.values(response.modular_content)
@@ -67,9 +66,9 @@ export class ItemMapper<TClientTypes extends ClientTypes> {
      * @param response Response used to map the item
      * @param queryConfig Query configuration
      */
-    mapMultipleItemsFromResponse<TContentItem extends IContentItem = IContentItem>(
+    mapMultipleItemsFromResponse<TContentItem extends TContentItemType = TContentItemType>(
         response: Contracts.IItemsWithModularContentContract
-    ): IMultipleItemsMapResult<TContentItem, TClientTypes['contentItemType']> {
+    ): IMultipleItemsMapResult<TContentItem, TContentItemType> {
         const mapResult = this.mapItems<TContentItem>({
             mainItems: response.items,
             linkedItems: Object.values(response.modular_content)
@@ -81,15 +80,15 @@ export class ItemMapper<TClientTypes extends ClientTypes> {
     /**
      * Maps item contracts to full models
      */
-    mapItems<TContentItem extends IContentItem = IContentItem>(data: {
+    mapItems<TContentItem extends TContentItemType = TContentItemType>(data: {
         mainItems: Contracts.IContentItemContract[];
         linkedItems: Contracts.IContentItemContract[];
-    }): IMultipleItemsMapResult<TContentItem, TClientTypes['contentItemType']> {
-        const processedItems: IContentItemsContainer<TClientTypes['contentItemType']> = {};
+    }): IMultipleItemsMapResult<TContentItem, TContentItemType> {
+        const processedItems: IContentItemsContainer<TContentItem> = {};
         const preparedItems: IContentItemWithRawDataContainer = {};
         const processingStartedForCodenames: string[] = [];
         const mappedMainItems: TContentItem[] = [];
-        const mappedLinkedItems: IContentItemsContainer<TClientTypes['contentItemType']> = {};
+        const mappedLinkedItems: IContentItemsContainer<TContentItem> = {};
         const itemsToResolve: Contracts.IContentItemContract[] = [...data.mainItems, ...data.linkedItems];
 
         // first prepare reference for all items
@@ -132,12 +131,12 @@ export class ItemMapper<TClientTypes extends ClientTypes> {
     /**
      * Maps item contract to full model
      */
-    private mapItem<TContentItem extends IContentItem = IContentItem>(data: {
+    private mapItem<TContentItem extends TContentItemType = TContentItemType>(data: {
         item: IContentItemWithRawElements;
-        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>;
+        processedItems: IContentItemsContainer<TContentItem>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
-    }): IMapItemResult<TContentItem, TClientTypes['contentItemType']> {
+    }): IMapItemResult<TContentItem, TContentItemType> {
         if (!data.item) {
             throw Error(`Could not map item because its undefined`);
         }

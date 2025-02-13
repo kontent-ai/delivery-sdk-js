@@ -4,7 +4,6 @@ import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
 import { ElementModels, Elements, ElementType } from '../elements';
 import {
-    ClientTypes,
     IContentItem,
     IContentItemsContainer,
     IContentItemWithRawDataContainer,
@@ -19,19 +18,18 @@ interface IRichTextImageUrlRecord {
     newUrl: string;
 }
 
-export class ElementMapper<TClientTypes extends ClientTypes> {
+export class ElementMapper<TContentItemType extends IContentItem> {
     constructor(private readonly config: IDeliveryClientConfig) {}
 
-    mapElements<TContentItem extends IContentItem = TClientTypes['contentItemType']>(data: {
+    mapElements<TContentItem extends TContentItemType = TContentItemType>(data: {
         dataToMap: IContentItemWithRawElements;
-        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>;
+        processedItems: IContentItemsContainer<TContentItem>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
-    }): IMapElementsResult<TContentItem, TClientTypes['contentItemType']> | undefined {
+    }): IMapElementsResult<TContentItem, TContentItemType> | undefined {
         // return processed item to avoid infinite recursion
-        const processedItem = data.processedItems[
-            codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)
-        ] as TContentItem | undefined;
+        const processedItem =
+            data.processedItems[codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)];
         if (processedItem) {
             // item was already resolved
             return {
@@ -44,7 +42,8 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
 
         const preparedItem =
             data.preparedItems[codenameHelper.escapeCodenameInCodenameIndexer(data.dataToMap.item.system.codename)];
-        const itemInstance = preparedItem?.item as TContentItem;
+
+        const itemInstance = preparedItem?.item;
 
         if (!itemInstance) {
             // item is not present in response
@@ -74,7 +73,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
         }
 
         return {
-            item: itemInstance,
+            item: itemInstance as TContentItem,
             processedItems: data.processedItems,
             preparedItems: data.preparedItems,
             processingStartedForCodenames: data.processingStartedForCodenames
@@ -84,7 +83,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
     private mapElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
         item: IContentItem;
-        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>;
+        processedItems: IContentItemsContainer<TContentItemType>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
     }): ElementModels.IElement<any> {
@@ -147,7 +146,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
 
     private mapRichTextElement(
         elementWrapper: ElementModels.IElementWrapper,
-        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>,
+        processedItems: IContentItemsContainer<TContentItemType>,
         processingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
     ): Elements.RichTextElement {
@@ -337,7 +336,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
 
     private mapLinkedItemsElement(data: {
         elementWrapper: ElementModels.IElementWrapper;
-        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>;
+        processedItems: IContentItemsContainer<TContentItemType>;
         processingStartedForCodenames: string[];
         preparedItems: IContentItemWithRawDataContainer;
     }): Elements.LinkedItemsElement<any> {
@@ -372,7 +371,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
     private getOrSaveLinkedItemForElement(
         codename: string,
         element: Contracts.IElementContract,
-        processedItems: IContentItemsContainer<TClientTypes['contentItemType']>,
+        processedItems: IContentItemsContainer<TContentItemType>,
         mappingStartedForCodenames: string[],
         preparedItems: IContentItemWithRawDataContainer
     ): IContentItem | undefined {
@@ -399,7 +398,7 @@ export class ElementMapper<TClientTypes extends ClientTypes> {
             return undefined;
         }
 
-        let mappedLinkedItem: IContentItem | undefined;
+        let mappedLinkedItem: TContentItemType | undefined;
 
         // original resolving if item is still undefined
         const mappedLinkedItemResult = this.mapElements({

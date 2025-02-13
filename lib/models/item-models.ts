@@ -149,7 +149,7 @@ export interface IContentItemWithRawDataContainer {
 }
 
 export interface IContentItemsContainer<TContentItem extends IContentItem> {
-    [key: string]: TContentItem;
+    [key: string]: TContentItem | undefined;
 }
 
 export interface IRichTextImage {

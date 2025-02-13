@@ -164,7 +164,11 @@ export class MultipleItemsQuery<
 
         // process linked items (modular_content part of the response)
         for (const response of responses) {
-            allContentItems.push(...Object.values(response.data.linkedItems));
+            allContentItems.push(
+                ...Object.values(response.data.linkedItems)
+                    .filter((m) => m !== undefined)
+                    .map((m) => m as TClientTypes['contentItemType'])
+            );
         }
 
         // add standard items
