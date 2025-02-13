@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [16.0.0-0](https://github.com/kontent-ai/delivery-sdk-js/compare/v15.2.0...v16.0.0-0) (2025-02-13)
+
+
+### Features
+
+* adds support for client generics, improving type safety in combination with model generator ([d45a0e3](https://github.com/kontent-ai/delivery-sdk-js/commit/d45a0e385e3ddc2b88805ef7c69725c5fdf84f18))
+* removes url-parse package in favor of native URL class ([34bfe8f](https://github.com/kontent-ai/delivery-sdk-js/commit/34bfe8f93df1f801948f4f948f6de0671d4cc524))
+* updates deps ([6335bba](https://github.com/kontent-ai/delivery-sdk-js/commit/6335bbaa49e92a75ae34bfda22844c217b36d31a))
+
+
+### Bug Fixes
+
+* package.json & package-lock.json to reduce vulnerabilities ([da3b536](https://github.com/kontent-ai/delivery-sdk-js/commit/da3b536e4b1c99344f3ecb7135257136f07c587c))
+
 ## [15.2.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v15.1.1...v15.2.0) (2024-09-27)
 
 
