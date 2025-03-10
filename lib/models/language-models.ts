@@ -1,13 +1,13 @@
 import { IQueryConfig } from './common';
 
-export interface ILanguageSystem {
+export interface ILanguageSystem<TLanguageCodenames extends string> {
     id: string;
     name: string;
-    codename: string;
+    codename: TLanguageCodenames;
 }
 
-export interface ILanguage {
-    system: ILanguageSystem;
+export interface ILanguage<TLanguageCodenames extends string> {
+    system: ILanguageSystem<TLanguageCodenames>;
 }
 
 export interface ILanguagesQueryConfig extends IQueryConfig {

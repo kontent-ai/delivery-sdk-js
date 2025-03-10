@@ -1,10 +1,11 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { IItemQueryConfig, IDeliveryNetworkResponse, Responses } from '../../models';
+import { IItemQueryConfig, IDeliveryNetworkResponse, Responses, ClientTypes } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class SyncChangesQuery extends BaseListingQuery<
+export class SyncChangesQuery<TClientTypes extends ClientTypes> extends BaseListingQuery<
+    TClientTypes,
     Responses.ISyncChangesResponse,
     Responses.ISyncChangesAllResponse,
     IItemQueryConfig,
@@ -14,7 +15,7 @@ export class SyncChangesQuery extends BaseListingQuery<
 
     private readonly action: string = '/sync';
 
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
 

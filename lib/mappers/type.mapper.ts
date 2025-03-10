@@ -1,18 +1,18 @@
 import { Contracts } from '../contracts';
 import { IContentType, IContentTypeSystemAttributes, IGenericElement } from '../models';
 
-export class TypeMapper {
-    mapSingleType(response: Contracts.IViewContentTypeContract): IContentType {
+export class TypeMapper<TContentTypeCodenames extends string> {
+    mapSingleType(response: Contracts.IViewContentTypeContract): IContentType<TContentTypeCodenames> {
         return this.mapType(response);
     }
 
-    mapMultipleTypes(response: Contracts.IListContentTypeContract): IContentType[] {
+    mapMultipleTypes(response: Contracts.IListContentTypeContract): IContentType<TContentTypeCodenames>[] {
         return response.types.map((type) => {
             return this.mapType(type);
         });
     }
 
-    private mapType(type: Contracts.IContentTypeContract): IContentType {
+    private mapType(type: Contracts.IContentTypeContract): IContentType<TContentTypeCodenames> {
         if (!type) {
             throw Error(`Cannot map type`);
         }
@@ -21,8 +21,8 @@ export class TypeMapper {
             throw Error(`Cannot map type elements`);
         }
 
-        const system: IContentTypeSystemAttributes = {
-            codename: type.system.codename,
+        const system: IContentTypeSystemAttributes<TContentTypeCodenames> = {
+            codename: type.system.codename as TContentTypeCodenames,
             id: type.system.id,
             name: type.system.name,
             lastModified: type.system.last_modified

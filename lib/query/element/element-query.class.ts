@@ -1,20 +1,20 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { Responses, IElementQueryConfig, IDeliveryNetworkResponse } from '../../models';
+import { Responses, IElementQueryConfig, IDeliveryNetworkResponse, ClientTypes } from '../../models';
 import { QueryService } from '../../services';
 import { BaseQuery } from '../common/base-query.class';
 
-export class ElementQuery extends BaseQuery<
+export class ElementQuery<TClientTypes extends ClientTypes> extends BaseQuery<
+    TClientTypes,
     Responses.IViewContentTypeElementResponse,
     IElementQueryConfig,
     Contracts.IViewContentTypeElementContract
 > {
-
     protected _queryConfig: IElementQueryConfig = {};
 
     constructor(
         protected config: IDeliveryClientConfig,
-        protected queryService: QueryService,
+        protected queryService: QueryService<TClientTypes>,
         private typeCodename: string,
         private elementCodename: string
     ) {
@@ -30,10 +30,7 @@ export class ElementQuery extends BaseQuery<
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<
-            Responses.IViewContentTypeElementResponse,
-            Contracts.IViewContentTypeElementContract
-        >
+        IDeliveryNetworkResponse<Responses.IViewContentTypeElementResponse, Contracts.IViewContentTypeElementContract>
     > {
         return this.queryService.getElementAsync(this.getUrl(), this._queryConfig ?? {});
     }

@@ -1,43 +1,53 @@
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
 import { SyncMapper, GenericElementMapper, ItemMapper, LanguageMapper, TaxonomyMapper, TypeMapper } from '../mappers';
-import { Responses, IContentItem, IPagination } from '../models';
+import { Responses, IContentItem, IPagination, ClientTypes } from '../models';
 
-export interface IMappingService {
-    listContentTypesResponse(data: Contracts.IListContentTypeContract): Responses.IListContentTypesResponse;
+export interface IMappingService<TClientTypes extends ClientTypes> {
+    listContentTypesResponse(
+        data: Contracts.IListContentTypeContract
+    ): Responses.IListContentTypesResponse<TClientTypes['contentTypeCodenames']>;
 
-    itemsFeedResponse<TContentItem extends IContentItem = IContentItem>(
+    itemsFeedResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IItemsFeedContract
-    ): Responses.IListItemsFeedResponse<TContentItem>;
+    ): Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>;
 
-    viewContentTypeResponse(data: Contracts.IViewContentTypeContract): Responses.IViewContentTypeResponse;
+    viewContentTypeResponse(
+        data: Contracts.IViewContentTypeContract
+    ): Responses.IViewContentTypeResponse<TClientTypes['contentTypeCodenames']>;
 
-    viewContentItemResponse<TContentItem extends IContentItem = IContentItem>(
+    viewContentItemResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IViewContentItemContract
-    ): Responses.IViewContentItemResponse<TContentItem>;
+    ): Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']>;
 
-    listContentItemsResponse<TContentItem extends IContentItem = IContentItem>(
+    listContentItemsResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IListContentItemsContract
-    ): Responses.IListContentItemsResponse<TContentItem>;
+    ): Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']>;
 
-    viewTaxonomyResponse(data: Contracts.IViewTaxonomyGroupContract): Responses.IViewTaxonomyResponse;
+    viewTaxonomyResponse(
+        data: Contracts.IViewTaxonomyGroupContract
+    ): Responses.IViewTaxonomyResponse<TClientTypes['taxonomyCodenames']>;
 
-    listTaxonomiesResponse(data: Contracts.IListTaxonomyGroupsContract): Responses.IListTaxonomiesResponse;
+    listTaxonomiesResponse(
+        data: Contracts.IListTaxonomyGroupsContract
+    ): Responses.IListTaxonomiesResponse<TClientTypes['taxonomyCodenames']>;
 
     viewContentTypeElementResponse(
         data: Contracts.IViewContentTypeElementContract
     ): Responses.IViewContentTypeElementResponse;
 
-    listLanguagesResponse(data: Contracts.IListLanguagesContract): Responses.IListLanguagesResponse;
+    listLanguagesResponse(
+        data: Contracts.IListLanguagesContract
+    ): Responses.IListLanguagesResponse<TClientTypes['languageCodenames']>;
     initializeContentSync(data: Contracts.IInitializeSyncContract): Responses.IInitializeSyncResponse;
     syncChanges(data: Contracts.ISyncChangesContract): Responses.ISyncChangesResponse;
 }
 
-export class MappingService implements IMappingService {
-    private readonly typeMapper: TypeMapper;
-    private readonly languageMapper: LanguageMapper;
-    private readonly itemMapper: ItemMapper;
-    private readonly taxonomyMapper: TaxonomyMapper;
+export class MappingService<TClientTypes extends ClientTypes> implements IMappingService<TClientTypes> {
+    private readonly typeMapper: TypeMapper<TClientTypes['contentTypeCodenames']>;
+    private readonly languageMapper: LanguageMapper<TClientTypes['languageCodenames']>;
+    private readonly itemMapper: ItemMapper<TClientTypes['contentItemType']>;
+    private readonly taxonomyMapper: TaxonomyMapper<TClientTypes['taxonomyCodenames']>;
     private readonly genericElementMapper: GenericElementMapper;
     private readonly syncMapper: SyncMapper;
 
@@ -54,7 +64,9 @@ export class MappingService implements IMappingService {
      * Gets response for list of languages
      * @param data Response data
      */
-    listLanguagesResponse(data: Contracts.IListLanguagesContract): Responses.IListLanguagesResponse {
+    listLanguagesResponse(
+        data: Contracts.IListLanguagesContract
+    ): Responses.IListLanguagesResponse<TClientTypes['languageCodenames']> {
         return {
             items: this.languageMapper.mapMultipleLanguages(data),
             pagination: this.mapPagination(data.pagination)
@@ -65,7 +77,9 @@ export class MappingService implements IMappingService {
      * Gets response for getting a multiple type
      * @param data Response data
      */
-    listContentTypesResponse(data: Contracts.IListContentTypeContract): Responses.IListContentTypesResponse {
+    listContentTypesResponse(
+        data: Contracts.IListContentTypeContract
+    ): Responses.IListContentTypesResponse<TClientTypes['contentTypeCodenames']> {
         return {
             items: this.typeMapper.mapMultipleTypes(data),
             pagination: this.mapPagination(data.pagination)
@@ -77,15 +91,17 @@ export class MappingService implements IMappingService {
      * @param data Response data
      * @param options Options
      */
-    viewContentTypeResponse(data: Contracts.IViewContentTypeContract): Responses.IViewContentTypeResponse {
+    viewContentTypeResponse(
+        data: Contracts.IViewContentTypeContract
+    ): Responses.IViewContentTypeResponse<TClientTypes['contentTypeCodenames']> {
         return {
             type: this.typeMapper.mapSingleType(data)
         };
     }
 
-    itemsFeedResponse<TContentItem extends IContentItem = IContentItem>(
+    itemsFeedResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IItemsFeedContract
-    ): Responses.IListItemsFeedResponse<TContentItem> {
+    ): Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']> {
         const itemsResult = this.itemMapper.mapItems<TContentItem>({
             linkedItems: Object.values(data.modular_content),
             mainItems: data.items
@@ -102,9 +118,9 @@ export class MappingService implements IMappingService {
      * @param data Response data
      * @param queryConfig Query configuration
      */
-    viewContentItemResponse<TContentItem extends IContentItem = IContentItem>(
+    viewContentItemResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IViewContentItemContract
-    ): Responses.IViewContentItemResponse<TContentItem> {
+    ): Responses.IViewContentItemResponse<TContentItem, TClientTypes['contentItemType']> {
         const itemResult = this.itemMapper.mapSingleItemFromResponse<TContentItem>(data);
 
         return {
@@ -118,9 +134,9 @@ export class MappingService implements IMappingService {
      * @param data Response data
      * @param queryConfig Query configuration
      */
-    listContentItemsResponse<TContentItem extends IContentItem = IContentItem>(
+    listContentItemsResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IListContentItemsContract
-    ): Responses.IListContentItemsResponse<TContentItem> {
+    ): Responses.IListContentItemsResponse<TContentItem, TClientTypes['contentItemType']> {
         const itemsResult = this.itemMapper.mapMultipleItemsFromResponse<TContentItem>(data);
 
         return {
@@ -134,7 +150,9 @@ export class MappingService implements IMappingService {
      * Gets response for getting single taxonomy item
      * @param data Response data
      */
-    viewTaxonomyResponse(data: Contracts.IViewTaxonomyGroupContract): Responses.IViewTaxonomyResponse {
+    viewTaxonomyResponse(
+        data: Contracts.IViewTaxonomyGroupContract
+    ): Responses.IViewTaxonomyResponse<TClientTypes['taxonomyCodenames']> {
         return {
             taxonomy: this.taxonomyMapper.mapTaxonomy(data.system, data.terms)
         };
@@ -144,10 +162,12 @@ export class MappingService implements IMappingService {
      * Gets response for getting multiples taxonomies
      * @param data Response data
      */
-    listTaxonomiesResponse(data: Contracts.IListTaxonomyGroupsContract): Responses.IListTaxonomiesResponse {
+    listTaxonomiesResponse(
+        data: Contracts.IListTaxonomyGroupsContract
+    ): Responses.IListTaxonomiesResponse<TClientTypes['taxonomyCodenames']> {
         return {
             items: this.taxonomyMapper.mapTaxonomies(data.taxonomies),
-            pagination: this.mapPagination(data.pagination),
+            pagination: this.mapPagination(data.pagination)
         };
     }
 

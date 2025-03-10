@@ -10,61 +10,76 @@ import { IContentItemDelta } from './sync-models';
 import { ITaxonomyGroup } from './taxonomy-models';
 
 export namespace Responses {
-    export interface IListContentTypesResponse extends IKontentListResponse {
-        items: IContentType[];
+    export interface IListContentTypesResponse<TContentTypeCodename extends string> extends IKontentListResponse {
+        items: IContentType<TContentTypeCodename>[];
         pagination: IPagination;
     }
 
-    export interface IListContentTypesAllResponse extends IKontentListAllResponse {
-        items: IContentType[];
-        responses: IDeliveryNetworkResponse<IListContentTypesResponse, Contracts.IListContentTypeContract>[];
+    export interface IListContentTypesAllResponse<TContentTypeCodename extends string> extends IKontentListAllResponse {
+        items: IContentType<TContentTypeCodename>[];
+        responses: IDeliveryNetworkResponse<
+            IListContentTypesResponse<TContentTypeCodename>,
+            Contracts.IListContentTypeContract
+        >[];
     }
 
-    export interface IViewContentTypeResponse extends IKontentResponse {
-        type: IContentType;
+    export interface IViewContentTypeResponse<TContentTypeCodename extends string> extends IKontentResponse {
+        type: IContentType<TContentTypeCodename>;
     }
 
-    
     export interface IViewContentTypeElementResponse extends IKontentResponse {
-        codename?: string,
-        type: string,
+        codename?: string;
+        type: string;
         name: string;
-        taxonomyGroup?: string
+        taxonomyGroup?: string;
         options: IGenericElementOption[];
     }
 
-    export interface IListItemsFeedResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentListResponse {
+    export interface IListItemsFeedResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentListResponse {
         items: TContentItem[];
-        linkedItems: IContentItemsContainer;
+        linkedItems: IContentItemsContainer<TLinkedItemType>;
     }
 
-    export interface IListItemsFeedAllResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentListAllResponse {
-        items: TContentItem[];
-        responses: IDeliveryNetworkResponse<IListItemsFeedResponse<TContentItem>, Contracts.IItemsFeedContract>[];
-    }
-
-    export interface IListContentItemsResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentListResponse {
-        items: TContentItem[];
-        pagination: IPagination;
-        linkedItems: IContentItemsContainer;
-    }
-
-    export interface IListContentItemsAllResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentListAllResponse {
+    export interface IListItemsFeedAllResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentListAllResponse {
         items: TContentItem[];
         responses: IDeliveryNetworkResponse<
-            IListContentItemsResponse<TContentItem>,
+            IListItemsFeedResponse<TContentItem, TLinkedItemType>,
+            Contracts.IItemsFeedContract
+        >[];
+    }
+
+    export interface IListContentItemsResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentListResponse {
+        items: TContentItem[];
+        pagination: IPagination;
+        linkedItems: IContentItemsContainer<TLinkedItemType>;
+    }
+
+    export interface IListContentItemsAllResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentListAllResponse {
+        items: TContentItem[];
+        responses: IDeliveryNetworkResponse<
+            IListContentItemsResponse<TContentItem, TLinkedItemType>,
             Contracts.IListContentItemsContract
         >[];
     }
 
-    export interface IViewContentItemResponse<TContentItem extends IContentItem = IContentItem>
-        extends IKontentResponse {
+    export interface IViewContentItemResponse<
+        TContentItem extends IContentItem = IContentItem,
+        TLinkedItemType extends IContentItem = IContentItem
+    > extends IKontentResponse {
         item: TContentItem;
-        linkedItems: IContentItemsContainer;
+        linkedItems: IContentItemsContainer<TLinkedItemType>;
     }
 
     export interface IInitializeSyncResponse extends IKontentResponse {
@@ -80,27 +95,33 @@ export namespace Responses {
         responses: IDeliveryNetworkResponse<ISyncChangesResponse, Contracts.ISyncChangesContract>[];
     }
 
-    export interface IListLanguagesResponse extends IKontentListResponse {
-        items: ILanguage[];
+    export interface IListLanguagesResponse<TLanguageCodenames extends string> extends IKontentListResponse {
+        items: ILanguage<TLanguageCodenames>[];
         pagination: IPagination;
     }
 
-    export interface IListLanguagesAllResponse extends IKontentListAllResponse {
-        items: ILanguage[];
-        responses: IDeliveryNetworkResponse<IListLanguagesResponse, Contracts.IListLanguagesContract>[];
+    export interface IListLanguagesAllResponse<TLanguageCodenames extends string> extends IKontentListAllResponse {
+        items: ILanguage<TLanguageCodenames>[];
+        responses: IDeliveryNetworkResponse<
+            IListLanguagesResponse<TLanguageCodenames>,
+            Contracts.IListLanguagesContract
+        >[];
     }
 
-    export interface IViewTaxonomyResponse extends IKontentResponse {
-        taxonomy: ITaxonomyGroup;
+    export interface IViewTaxonomyResponse<TaxonomyCodename extends string> extends IKontentResponse {
+        taxonomy: ITaxonomyGroup<TaxonomyCodename>;
     }
 
-    export interface IListTaxonomiesResponse extends IKontentListResponse {
-        items: ITaxonomyGroup[];
+    export interface IListTaxonomiesResponse<TaxonomyCodename extends string> extends IKontentListResponse {
+        items: ITaxonomyGroup<TaxonomyCodename>[];
         pagination: IPagination;
     }
 
-    export interface IListTaxonomiesAllResponse extends IKontentListAllResponse {
-        items: ITaxonomyGroup[];
-        responses: IDeliveryNetworkResponse<IListTaxonomiesResponse, Contracts.IListTaxonomyGroupsContract>[];
+    export interface IListTaxonomiesAllResponse<TaxonomyCodename extends string> extends IKontentListAllResponse {
+        items: ITaxonomyGroup<TaxonomyCodename>[];
+        responses: IDeliveryNetworkResponse<
+            IListTaxonomiesResponse<TaxonomyCodename>,
+            Contracts.IListTaxonomyGroupsContract
+        >[];
     }
 }

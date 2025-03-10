@@ -1,16 +1,10 @@
-import * as urlParse from 'url-parse';
-
 export class DeliveryUrlHelper {
     replaceAssetDomain(originalAssetUrl: string, customDomain: string): string {
-        const urlPath = this.getUrlPathname(originalAssetUrl);
-
-        return `${customDomain}${urlPath}`;
+        return `${customDomain}${this.getPathname(originalAssetUrl)}`;
     }
 
-    getUrlPathname(url: string): string {
-        const parsedUrl = urlParse(url);
-
-        return parsedUrl.pathname;
+    getPathname(url: string): string {
+        return new URL(url).pathname;
     }
 }
 

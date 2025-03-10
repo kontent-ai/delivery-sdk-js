@@ -1,11 +1,11 @@
 import { Contracts } from '../contracts';
 import { ITaxonomyGroup, ITaxonomySystemAttributes, ITaxonomyTerms } from '../models';
 
-export class TaxonomyMapper {
+export class TaxonomyMapper<TaxonomyCodenames extends string> {
     mapTaxonomy(
         taxonomySystem: Contracts.ITaxonomySystemAttributesContract,
         taxonomyTerms: Contracts.ITaxonomyTermsContract[]
-    ): ITaxonomyGroup {
+    ): ITaxonomyGroup<TaxonomyCodenames> {
         if (!taxonomySystem) {
             throw Error(`Cannot map taxonomy due to missing 'system' property`);
         }
@@ -18,9 +18,9 @@ export class TaxonomyMapper {
             throw Error(`Cannot map terms because no terms array was provided`);
         }
 
-        const mappedSystemAttributes: ITaxonomySystemAttributes = {
+        const mappedSystemAttributes: ITaxonomySystemAttributes<TaxonomyCodenames> = {
             name: taxonomySystem.name,
-            codename: taxonomySystem.codename,
+            codename: taxonomySystem.codename as TaxonomyCodenames,
             id: taxonomySystem.id,
             lastModified: taxonomySystem.last_modified
         };
@@ -33,7 +33,7 @@ export class TaxonomyMapper {
         };
     }
 
-    mapTaxonomies(taxonomies: Contracts.ITaxonomyGroupContract[]): ITaxonomyGroup[] {
+    mapTaxonomies(taxonomies: Contracts.ITaxonomyGroupContract[]): ITaxonomyGroup<TaxonomyCodenames>[] {
         if (!taxonomies) {
             throw Error(`Cannot map taxonomy due to missing 'taxonomies' property`);
         }
@@ -42,7 +42,7 @@ export class TaxonomyMapper {
             throw Error(`Cannot map taxonomies because the 'taxonomies' property is not an array `);
         }
 
-        const mappedTaxonomies: ITaxonomyGroup[] = [];
+        const mappedTaxonomies: ITaxonomyGroup<TaxonomyCodenames>[] = [];
 
         taxonomies.forEach((taxonomy) => {
             mappedTaxonomies.push(this.mapTaxonomy(taxonomy.system, taxonomy.terms));

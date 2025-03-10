@@ -1,18 +1,19 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { IContentTypeQueryConfig, IDeliveryNetworkResponse, Parameters, Responses } from '../../models';
+import { ClientTypes, IContentTypeQueryConfig, IDeliveryNetworkResponse, Parameters, Responses } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
-export class MultipleTypeQuery extends BaseListingQuery<
-    Responses.IListContentTypesResponse,
-    Responses.IListContentTypesAllResponse,
+export class MultipleTypeQuery<TClientTypes extends ClientTypes> extends BaseListingQuery<
+    TClientTypes,
+    Responses.IListContentTypesResponse<TClientTypes['contentTypeCodenames']>,
+    Responses.IListContentTypesAllResponse<TClientTypes['contentTypeCodenames']>,
     IContentTypeQueryConfig,
     Contracts.IListContentTypeContract
 > {
     protected _queryConfig: IContentTypeQueryConfig = {};
 
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
 
@@ -20,7 +21,7 @@ export class MultipleTypeQuery extends BaseListingQuery<
      * Used to limit the number of elements returned by query.
      * @param elementCodenames Array of element codenames to fetch
      */
-    elementsParameter(elementCodenames: string[]): this {
+    elementsParameter(elementCodenames: TClientTypes['elementCodenames'][]): this {
         this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
         return this;
     }
@@ -29,7 +30,7 @@ export class MultipleTypeQuery extends BaseListingQuery<
      * Used to exclude elements returned by query.
      * @param elementCodenames Array of element codenames to exclude
      */
-    excludeElementsParameter(elementCodenames: string[]): this {
+    excludeElementsParameter(elementCodenames: TClientTypes['elementCodenames'][]): this {
         this.parameters.push(new Parameters.ExcludeElementsParameter(elementCodenames));
         return this;
     }
@@ -53,7 +54,10 @@ export class MultipleTypeQuery extends BaseListingQuery<
     }
 
     toPromise(): Promise<
-        IDeliveryNetworkResponse<Responses.IListContentTypesResponse, Contracts.IListContentTypeContract>
+        IDeliveryNetworkResponse<
+            Responses.IListContentTypesResponse<TClientTypes['contentTypeCodenames']>,
+            Contracts.IListContentTypeContract
+        >
     > {
         return this.queryService.getMultipleTypes(this.getUrl(), this._queryConfig ?? {});
     }
@@ -64,14 +68,17 @@ export class MultipleTypeQuery extends BaseListingQuery<
         return super.resolveUrlInternal(action);
     }
 
-    map(json: any): Responses.IListContentTypesResponse {
+    map(json: any): Responses.IListContentTypesResponse<TClientTypes['contentTypeCodenames']> {
         return this.queryService.mappingService.listContentTypesResponse(json);
     }
 
     protected allResponseFactory(
         items: any[],
-        responses: IDeliveryNetworkResponse<Responses.IListContentTypesResponse, Contracts.IListContentTypeContract>[]
-    ): Responses.IListContentTypesAllResponse {
+        responses: IDeliveryNetworkResponse<
+            Responses.IListContentTypesResponse<TClientTypes['contentTypeCodenames']>,
+            Contracts.IListContentTypeContract
+        >[]
+    ): Responses.IListContentTypesAllResponse<TClientTypes['contentTypeCodenames']> {
         return {
             items: items,
             responses: responses

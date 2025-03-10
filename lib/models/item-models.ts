@@ -2,9 +2,12 @@ import { Contracts } from '../contracts';
 import { ElementModels } from '../elements/element-models';
 import { IQueryConfig } from './common/common-models';
 
-export interface IMapElementsResult<TContentItem extends IContentItem = IContentItem> {
+export interface IMapElementsResult<
+    TContentItem extends IContentItem = IContentItem,
+    TLinkedItemType extends IContentItem = IContentItem
+> {
     item: TContentItem;
-    processedItems: IContentItemsContainer;
+    processedItems: IContentItemsContainer<TLinkedItemType>;
     preparedItems: IContentItemWithRawDataContainer;
     processingStartedForCodenames: string[];
 }
@@ -145,8 +148,8 @@ export interface IContentItemWithRawDataContainer {
     [key: string]: IContentItemWithRawElements;
 }
 
-export interface IContentItemsContainer {
-    [key: string]: IContentItem;
+export interface IContentItemsContainer<TContentItem extends IContentItem> {
+    [key: string]: TContentItem | undefined;
 }
 
 export interface IRichTextImage {
@@ -162,3 +165,14 @@ export interface IItemQueryConfig extends IQueryConfig {}
 export interface IItemFeedQueryConfig extends IQueryConfig {
     disableItemLinking?: boolean;
 }
+
+export type ClientTypes = {
+    readonly contentItemType: IContentItem;
+    readonly contentTypeCodenames: string;
+    readonly workflowCodenames: string;
+    readonly worfklowStepCodenames: string;
+    readonly collectionCodenames: string;
+    readonly taxonomyCodenames: string;
+    readonly languageCodenames: string;
+    readonly elementCodenames: string;
+};

@@ -1,5 +1,6 @@
 import { IDeliveryClientConfig } from '../../config';
 import {
+    ClientTypes,
     Filters,
     IKontentListAllResponse,
     IKontentListResponse,
@@ -11,12 +12,13 @@ import { QueryService } from '../../services';
 import { BaseListingQuery } from './base-listing-query.class';
 
 export abstract class BaseItemListingQuery<
+    TClientTypes extends ClientTypes,
     TResponse extends IKontentListResponse,
     TAllResponse extends IKontentListAllResponse,
     TQueryConfig extends IQueryConfig,
     TContract
-> extends BaseListingQuery<TResponse, TAllResponse, TQueryConfig, TContract> {
-    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService) {
+> extends BaseListingQuery<TClientTypes, TResponse, TAllResponse, TQueryConfig, TContract> {
+    constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
 
