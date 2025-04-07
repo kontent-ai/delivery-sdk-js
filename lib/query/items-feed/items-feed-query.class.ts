@@ -32,7 +32,7 @@ export class ItemsFeedQuery<
      * Gets only item of given type
      * @param type Codename of type to get
      */
-    type(type: string): this {
+    type(type: TClientTypes['contentTypeCodenames']): this {
         this.parameters.push(new Filters.TypeFilter(type));
         return this;
     }
@@ -42,7 +42,7 @@ export class ItemsFeedQuery<
      * I.e. get items of either 'Actor' or 'Movie' type
      * @param types Types to get
      */
-    types(types: string[]): this {
+    types(types: TClientTypes['contentTypeCodenames'][]): this {
         this.parameters.push(new Filters.TypeFilter(types));
         return this;
     }
@@ -51,7 +51,7 @@ export class ItemsFeedQuery<
      * Gets only item from given collection
      * @param collection Codename of collection to get
      */
-    collection(collection: string): this {
+    collection(collection: TClientTypes['collectionCodenames']): this {
         this.parameters.push(new Filters.CollectionFilter(collection));
         return this;
     }
@@ -61,7 +61,7 @@ export class ItemsFeedQuery<
      * I.e. get items of either 'default' or 'christmas-campaign' collection
      * @param collections Collections to get
      */
-    collections(collections: string[]): this {
+    collections(collections: TClientTypes['collectionCodenames'][]): this {
         this.parameters.push(new Filters.CollectionFilter(collections));
         return this;
     }
@@ -70,7 +70,7 @@ export class ItemsFeedQuery<
      * Language codename
      * @param languageCodename Codename of the language
      */
-    languageParameter(languageCodename: string): this {
+    languageParameter(languageCodename: TClientTypes['languageCodenames']): this {
         this.parameters.push(new Parameters.LanguageParameter(languageCodename));
         return this;
     }
@@ -79,7 +79,7 @@ export class ItemsFeedQuery<
      * Used to limit the number of elements returned by query.
      * @param elementCodenames Array of element codenames to fetch
      */
-    elementsParameter(elementCodenames: string[]): this {
+    elementsParameter(elementCodenames: TClientTypes['elementCodenames'][]): this {
         this.parameters.push(new Parameters.ElementsParameter(elementCodenames));
         return this;
     }
@@ -88,7 +88,7 @@ export class ItemsFeedQuery<
      * Used to exclude elements returned by query.
      * @param elementCodenames Array of element codenames to exclude
      */
-    excludeElementsParameter(elementCodenames: string[]): this {
+    excludeElementsParameter(elementCodenames: TClientTypes['elementCodenames'][]): this {
         this.parameters.push(new Parameters.ExcludeElementsParameter(elementCodenames));
         return this;
     }
