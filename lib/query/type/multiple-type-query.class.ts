@@ -1,11 +1,19 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { ClientTypes, IContentTypeQueryConfig, IDeliveryNetworkResponse, Parameters, Responses } from '../../models';
+import {
+    ClientTypes,
+    IContentType,
+    IContentTypeQueryConfig,
+    IDeliveryNetworkResponse,
+    Parameters,
+    Responses
+} from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class MultipleTypeQuery<TClientTypes extends ClientTypes> extends BaseListingQuery<
     TClientTypes,
+    IContentType<TClientTypes['contentTypeCodenames']>,
     Responses.IListContentTypesResponse<TClientTypes['contentTypeCodenames']>,
     Responses.IListContentTypesAllResponse<TClientTypes['contentTypeCodenames']>,
     IContentTypeQueryConfig,
@@ -73,7 +81,7 @@ export class MultipleTypeQuery<TClientTypes extends ClientTypes> extends BaseLis
     }
 
     protected allResponseFactory(
-        items: any[],
+        items: IContentType<TClientTypes['contentTypeCodenames']>[],
         responses: IDeliveryNetworkResponse<
             Responses.IListContentTypesResponse<TClientTypes['contentTypeCodenames']>,
             Contracts.IListContentTypeContract

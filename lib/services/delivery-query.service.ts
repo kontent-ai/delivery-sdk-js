@@ -1,5 +1,4 @@
 import { IHttpService } from '@kontent-ai/core-sdk';
-
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
 import {
@@ -72,6 +71,20 @@ export class QueryService<TClientTypes extends ClientTypes> extends BaseDelivery
         const response = await this.getResponseAsync<Contracts.IItemsFeedContract>(url, queryConfig);
 
         return this.mapNetworkResponse(this.mappingService.itemsFeedResponse<TContentItem>(response.data), response);
+    }
+
+    /**
+     * Gets single used in response. Might not contain all used in references.
+     * @param url Url
+     * @param queryConfig Query configuration
+     */
+    async getUsedIn(
+        url: string,
+        queryConfig: IItemQueryConfig
+    ): Promise<IDeliveryNetworkResponse<Responses.IUsedInResponse<TClientTypes>, Contracts.IUsedInItemsContract>> {
+        const response = await this.getResponseAsync<Contracts.IUsedInItemsContract>(url, queryConfig);
+
+        return this.mapNetworkResponse(this.mappingService.usedInResponse(response.data), response);
     }
 
     /**

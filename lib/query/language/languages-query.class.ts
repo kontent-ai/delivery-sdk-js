@@ -1,11 +1,19 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { ClientTypes, IDeliveryNetworkResponse, ILanguagesQueryConfig, Parameters, Responses } from '../../models';
+import {
+    ClientTypes,
+    IDeliveryNetworkResponse,
+    ILanguage,
+    ILanguagesQueryConfig,
+    Parameters,
+    Responses
+} from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class LanguagesQuery<TClientTypes extends ClientTypes> extends BaseListingQuery<
     TClientTypes,
+    ILanguage<TClientTypes['languageCodenames']>,
     Responses.IListLanguagesResponse<TClientTypes['languageCodenames']>,
     Responses.IListLanguagesAllResponse<TClientTypes['languageCodenames']>,
     ILanguagesQueryConfig,
@@ -69,7 +77,7 @@ export class LanguagesQuery<TClientTypes extends ClientTypes> extends BaseListin
     }
 
     protected allResponseFactory(
-        items: any[],
+        items: ILanguage<TClientTypes['languageCodenames']>[],
         responses: IDeliveryNetworkResponse<
             Responses.IListLanguagesResponse<TClientTypes['languageCodenames']>,
             Contracts.IListLanguagesContract

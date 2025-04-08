@@ -12,7 +12,8 @@ import {
     TaxonomyQuery,
     LanguagesQuery,
     InitializeSyncQuery,
-    SyncChangesQuery
+    SyncChangesQuery,
+    UsedInQuery
 } from '../query';
 import { sdkInfo } from '../sdk-info.generated';
 import { IMappingService, MappingService, QueryService } from '../services';
@@ -136,5 +137,19 @@ export class DeliveryClient<TClientTypes extends ClientTypes = ClientTypes> impl
      */
     syncChanges(): SyncChangesQuery<TClientTypes> {
         return new SyncChangesQuery(this.config, this.queryService);
+    }
+
+    /**
+     * Item listing of where an asset is used
+     */
+    assetUsedIn(assetCodename: string): UsedInQuery<TClientTypes> {
+        return new UsedInQuery(this.config, this.queryService, { entity: 'asset', codename: assetCodename });
+    }
+
+    /**
+     * Item listing of where a content item is used
+     */
+    itemUsedIn(itemCodename: string): UsedInQuery<TClientTypes> {
+        return new UsedInQuery(this.config, this.queryService, { entity: 'contentItem', codename: itemCodename });
     }
 }

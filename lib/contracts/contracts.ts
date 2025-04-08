@@ -189,6 +189,24 @@ export namespace Contracts {
 
     export interface IItemsFeedContract extends IItemsWithModularContentContract {}
 
+    export interface IUsedInItemsContract {
+        items: IUsedInItemContract[];
+    }
+
+    export interface IUsedInItemContract {
+        system: {
+            id: string;
+            name: string;
+            codename: string;
+            language: string;
+            type: string;
+            collection: string;
+            workflow: string;
+            workflow_step: string;
+            last_modified: string;
+        };
+    }
+
     export interface IListContentItemsContract extends IItemsWithModularContentContract {
         pagination: IPaginationContract;
     }

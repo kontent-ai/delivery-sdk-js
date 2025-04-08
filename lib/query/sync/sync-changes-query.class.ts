@@ -1,11 +1,12 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { IItemQueryConfig, IDeliveryNetworkResponse, Responses, ClientTypes } from '../../models';
+import { IItemQueryConfig, IDeliveryNetworkResponse, Responses, ClientTypes, IContentItemDelta } from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class SyncChangesQuery<TClientTypes extends ClientTypes> extends BaseListingQuery<
     TClientTypes,
+    IContentItemDelta,
     Responses.ISyncChangesResponse,
     Responses.ISyncChangesAllResponse,
     IItemQueryConfig,
@@ -41,7 +42,7 @@ export class SyncChangesQuery<TClientTypes extends ClientTypes> extends BaseList
     }
 
     protected allResponseFactory(
-        items: any[],
+        items: IContentItemDelta[],
         responses: IDeliveryNetworkResponse<Responses.ISyncChangesResponse, Contracts.ISyncChangesContract>[]
     ): Responses.ISyncChangesAllResponse {
         return {

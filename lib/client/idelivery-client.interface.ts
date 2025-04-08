@@ -10,7 +10,8 @@ import {
     TaxonomyQuery,
     LanguagesQuery,
     InitializeSyncQuery,
-    SyncChangesQuery
+    SyncChangesQuery,
+    UsedInQuery
 } from '../query';
 import { IMappingService } from '../services';
 
@@ -88,4 +89,14 @@ export interface IDeliveryClient<TClientTypes extends ClientTypes = ClientTypes>
      * Gets query fetching delta updates of content items
      */
     syncChanges(): SyncChangesQuery<TClientTypes>;
+
+    /**
+     * Item listing of where an asset is used
+     */
+    assetUsedIn(assetCodename: string): UsedInQuery<TClientTypes>;
+
+    /**
+     * Item listing of where a content item is used
+     */
+    itemUsedIn(itemCodename: string): UsedInQuery<TClientTypes>;
 }
