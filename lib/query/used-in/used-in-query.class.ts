@@ -90,7 +90,7 @@ export class UsedInQuery<TClientTypes extends ClientTypes> extends BaseListingQu
     }
 
     getUrl(): string {
-        const action = `${this.setup.entity === 'asset' ? 'assets' : 'items'}/${this.setup.codename}/used-in`;
+        const action = `/${this.setup.entity === 'asset' ? 'assets' : 'items'}/${this.setup.codename}/used-in`;
 
         // add default language is necessary
         this.processDefaultLanguageParameter();

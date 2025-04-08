@@ -3,7 +3,7 @@ import { Context, Movie, setup } from '../../../setup';
 import { getDeliveryClientWithJsonAndHeaders } from '../../../setup';
 import * as responseJson from './items-feed-all.spec.json';
 
-describe('Items feed', () => {
+describe('Items feed all', () => {
     const context = new Context();
     setup(context);
 

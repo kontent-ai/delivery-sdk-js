@@ -1,0 +1,17 @@
+{
+    "items": [
+        {
+            "system": {
+                "id": "e27603e9-49e7-4d73-ba9f-843017d460db",
+                "name": "Product",
+                "codename": "product",
+                "language": "default",
+                "type": "product_example_content_type",
+                "collection": "default",
+                "workflow": "default",
+                "workflow_step": "published",
+                "last_modified": "2019-09-16T09:30:06.1123998Z"
+            }
+        }
+    ]
+}
