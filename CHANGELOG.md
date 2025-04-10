@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [16.1.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v16.0.0...v16.1.0) (2025-04-10)
+
+
+### Features
+
+* Adds delivery client types to items feed query ([f834b31](https://github.com/kontent-ai/delivery-sdk-js/commit/f834b3171b3f0c51c54bf90a343ba33fcca8b279))
+* Adds support for asset/item used queries ([a321d40](https://github.com/kontent-ai/delivery-sdk-js/commit/a321d40f2ff9f1848f98750750fa0c200259bbb1))
+* updates deps ([5e52ac6](https://github.com/kontent-ai/delivery-sdk-js/commit/5e52ac63bc8d6171fd003f74d0ee2c5418a82b1e))
+
 ## [16.0.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v16.0.0-0...v16.0.0) (2025-03-11)
 
 
