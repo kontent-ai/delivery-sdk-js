@@ -1,11 +1,19 @@
 import { Contracts } from '../../contracts';
 import { IDeliveryClientConfig } from '../../config';
-import { ClientTypes, IDeliveryNetworkResponse, ITaxonomyQueryConfig, Parameters, Responses } from '../../models';
+import {
+    ClientTypes,
+    IDeliveryNetworkResponse,
+    ITaxonomyGroup,
+    ITaxonomyQueryConfig,
+    Parameters,
+    Responses
+} from '../../models';
 import { QueryService } from '../../services';
 import { BaseListingQuery } from '../common/base-listing-query.class';
 
 export class TaxonomiesQuery<TClientTypes extends ClientTypes> extends BaseListingQuery<
     TClientTypes,
+    ITaxonomyGroup<TClientTypes['taxonomyCodenames']>,
     Responses.IListTaxonomiesResponse<TClientTypes['taxonomyCodenames']>,
     Responses.IListTaxonomiesAllResponse<TClientTypes['taxonomyCodenames']>,
     ITaxonomyQueryConfig,
@@ -60,7 +68,7 @@ export class TaxonomiesQuery<TClientTypes extends ClientTypes> extends BaseListi
     }
 
     protected allResponseFactory(
-        items: any[],
+        items: ITaxonomyGroup<TClientTypes['taxonomyCodenames']>[],
         responses: IDeliveryNetworkResponse<
             Responses.IListTaxonomiesResponse<TClientTypes['taxonomyCodenames']>,
             Contracts.IListTaxonomyGroupsContract

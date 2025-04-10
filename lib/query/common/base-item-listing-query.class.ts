@@ -1,7 +1,9 @@
+import { ElementType, Elements } from '../../elements';
 import { IDeliveryClientConfig } from '../../config';
 import {
     ClientTypes,
     Filters,
+    IContentItem,
     IKontentListAllResponse,
     IKontentListResponse,
     IQueryConfig,
@@ -17,7 +19,7 @@ export abstract class BaseItemListingQuery<
     TAllResponse extends IKontentListAllResponse,
     TQueryConfig extends IQueryConfig,
     TContract
-> extends BaseListingQuery<TClientTypes, TResponse, TAllResponse, TQueryConfig, TContract> {
+> extends BaseListingQuery<TClientTypes, IContentItem, TResponse, TAllResponse, TQueryConfig, TContract> {
     constructor(protected config: IDeliveryClientConfig, protected queryService: QueryService<TClientTypes>) {
         super(config, queryService);
     }
@@ -203,5 +205,70 @@ export abstract class BaseItemListingQuery<
     skipParameter(skip: number): this {
         this.parameters.push(new Parameters.SkipParameter(skip));
         return this;
+    }
+
+    protected linkItemsInRte(allContentItems: IContentItem[]): void {
+        for (const item of allContentItems) {
+            for (const elementKey of Object.keys(item.elements)) {
+                const element = item.elements[elementKey];
+
+                if (element.type === ElementType.ModularContent) {
+                    const linkedItemElement = element as Elements.LinkedItemsElement;
+
+                    // We create separate array for ordered items because the 'linkedItems' from response might be incomplete
+                    // e.g. If 4 items are linked, only 2 might be available in the response. Rest needs to be mapped from all available items
+                    const orderedLinkedItems: IContentItem[] = [];
+
+                    for (const linkedItemCodename of linkedItemElement.value) {
+                        let linkedItem: IContentItem | undefined;
+
+                        const linkedItemInElement = linkedItemElement.linkedItems.find(
+                            (m) => m.system.codename.toLowerCase() === linkedItemCodename.toLowerCase()
+                        );
+                        if (linkedItemInElement) {
+                            linkedItem = linkedItemInElement;
+                        } else {
+                            linkedItem = allContentItems.find(
+                                (m) => m.system.codename.toLowerCase() === linkedItemCodename.toLowerCase()
+                            );
+                        }
+
+                        if (linkedItem) {
+                            orderedLinkedItems.push(linkedItem);
+                        }
+                    }
+
+                    // Replace linked items with the ordered one
+                    linkedItemElement.linkedItems = orderedLinkedItems;
+                }
+
+                if (element.type === ElementType.RichText) {
+                    const orderedLinkedItems: IContentItem[] = [];
+
+                    const richTextElement = element as Elements.RichTextElement;
+
+                    for (const linkedItemCodename of richTextElement.linkedItemCodenames) {
+                        let linkedItem: IContentItem | undefined;
+
+                        const linkedItemInElement = richTextElement.linkedItems.find(
+                            (m) => m.system.codename.toLowerCase() === linkedItemCodename.toLowerCase()
+                        );
+                        if (linkedItemInElement) {
+                            linkedItem = linkedItemInElement;
+                        } else {
+                            linkedItem = allContentItems.find(
+                                (m) => m.system.codename.toLowerCase() === linkedItemCodename.toLowerCase()
+                            );
+                        }
+
+                        if (linkedItem) {
+                            orderedLinkedItems.push(linkedItem);
+                        }
+                    }
+
+                    richTextElement.linkedItems = orderedLinkedItems;
+                }
+            }
+        }
     }
 }

@@ -166,6 +166,20 @@ export interface IItemFeedQueryConfig extends IQueryConfig {
     disableItemLinking?: boolean;
 }
 
+export interface IUsedInItemRecord<TClientTypes extends ClientTypes> {
+    readonly system: {
+        readonly id: string;
+        readonly name: string;
+        readonly codename: string;
+        readonly language: TClientTypes['languageCodenames'];
+        readonly type: TClientTypes['contentTypeCodenames'];
+        readonly collection: TClientTypes['collectionCodenames'];
+        readonly workflow: TClientTypes['workflowCodenames'];
+        readonly workflowStep: TClientTypes['worfklowStepCodenames'];
+        readonly lastModified: string;
+    };
+}
+
 export type ClientTypes = {
     readonly contentItemType: IContentItem;
     readonly contentTypeCodenames: string;

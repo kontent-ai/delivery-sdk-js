@@ -4,10 +4,11 @@ import { IKontentListAllResponse, IKontentListResponse, IKontentResponse } from 
 import { IPagination } from './common/pagination.class';
 import { IContentType } from './content-type-models';
 import { IGenericElementOption } from './element-models';
-import { IContentItem, IContentItemsContainer } from './item-models';
+import { IContentItem, IContentItemsContainer, IUsedInItemRecord } from './item-models';
 import { ILanguage } from './language-models';
 import { IContentItemDelta } from './sync-models';
 import { ITaxonomyGroup } from './taxonomy-models';
+import { ClientTypes } from './item-models';
 
 export namespace Responses {
     export interface IListContentTypesResponse<TContentTypeCodename extends string> extends IKontentListResponse {
@@ -33,6 +34,15 @@ export namespace Responses {
         name: string;
         taxonomyGroup?: string;
         options: IGenericElementOption[];
+    }
+
+    export interface IUsedInResponse<TClientTypes extends ClientTypes> extends IKontentListResponse {
+        items: IUsedInItemRecord<TClientTypes>[];
+    }
+
+    export interface IUsedInAllResponse<TClientTypes extends ClientTypes> extends IKontentListAllResponse {
+        items: IUsedInItemRecord<TClientTypes>[];
+        responses: IDeliveryNetworkResponse<IUsedInResponse<TClientTypes>, Contracts.IUsedInItemsContract>[];
     }
 
     export interface IListItemsFeedResponse<

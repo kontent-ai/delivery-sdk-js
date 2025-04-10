@@ -1,6 +1,14 @@
 import { IDeliveryClientConfig } from '../config';
 import { Contracts } from '../contracts';
-import { SyncMapper, GenericElementMapper, ItemMapper, LanguageMapper, TaxonomyMapper, TypeMapper } from '../mappers';
+import {
+    SyncMapper,
+    GenericElementMapper,
+    ItemMapper,
+    LanguageMapper,
+    TaxonomyMapper,
+    TypeMapper,
+    UsedInMapper
+} from '../mappers';
 import { Responses, IContentItem, IPagination, ClientTypes } from '../models';
 
 export interface IMappingService<TClientTypes extends ClientTypes> {
@@ -11,6 +19,8 @@ export interface IMappingService<TClientTypes extends ClientTypes> {
     itemsFeedResponse<TContentItem extends IContentItem = TClientTypes['contentItemType']>(
         data: Contracts.IItemsFeedContract
     ): Responses.IListItemsFeedResponse<TContentItem, TClientTypes['contentItemType']>;
+
+    usedInResponse(data: Contracts.IUsedInItemsContract): Responses.IUsedInResponse<TClientTypes>;
 
     viewContentTypeResponse(
         data: Contracts.IViewContentTypeContract
@@ -48,6 +58,7 @@ export class MappingService<TClientTypes extends ClientTypes> implements IMappin
     private readonly languageMapper: LanguageMapper<TClientTypes['languageCodenames']>;
     private readonly itemMapper: ItemMapper<TClientTypes['contentItemType']>;
     private readonly taxonomyMapper: TaxonomyMapper<TClientTypes['taxonomyCodenames']>;
+    private readonly usedInMapper: UsedInMapper<TClientTypes>;
     private readonly genericElementMapper: GenericElementMapper;
     private readonly syncMapper: SyncMapper;
 
@@ -56,8 +67,15 @@ export class MappingService<TClientTypes extends ClientTypes> implements IMappin
         this.languageMapper = new LanguageMapper();
         this.itemMapper = new ItemMapper(config);
         this.taxonomyMapper = new TaxonomyMapper();
+        this.usedInMapper = new UsedInMapper<TClientTypes>();
         this.genericElementMapper = new GenericElementMapper();
         this.syncMapper = new SyncMapper();
+    }
+
+    usedInResponse(data: Contracts.IUsedInItemsContract): Responses.IUsedInResponse<TClientTypes> {
+        return {
+            items: data.items.map((m) => this.usedInMapper.mapUsedInItem(m))
+        };
     }
 
     /**
