@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [16.2.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v16.1.0...v16.2.0) (2025-04-30)
+
+
+### Features
+
+* updates deps ([0d72545](https://github.com/kontent-ai/delivery-sdk-js/commit/0d72545bf8d3aea85731ae279f63d0937fbabff1))
+
+
+### Bug Fixes
+
+* **models:** correct typo in workflowStepCodenames property ([58428fd](https://github.com/kontent-ai/delivery-sdk-js/commit/58428fdc16cccd94e4ec84c93b8e2bd0cb68762c))
+
 ## [16.1.0](https://github.com/kontent-ai/delivery-sdk-js/compare/v16.0.0...v16.1.0) (2025-04-10)
 
 
