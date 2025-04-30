@@ -175,7 +175,7 @@ export interface IUsedInItemRecord<TClientTypes extends ClientTypes> {
         readonly type: TClientTypes['contentTypeCodenames'];
         readonly collection: TClientTypes['collectionCodenames'];
         readonly workflow: TClientTypes['workflowCodenames'];
-        readonly workflowStep: TClientTypes['worfklowStepCodenames'];
+        readonly workflowStep: TClientTypes['workflowStepCodenames'];
         readonly lastModified: string;
     };
 }
@@ -184,7 +184,7 @@ export type ClientTypes = {
     readonly contentItemType: IContentItem;
     readonly contentTypeCodenames: string;
     readonly workflowCodenames: string;
-    readonly worfklowStepCodenames: string;
+    readonly workflowStepCodenames: string;
     readonly collectionCodenames: string;
     readonly taxonomyCodenames: string;
     readonly languageCodenames: string;
