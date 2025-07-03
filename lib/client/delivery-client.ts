@@ -126,14 +126,22 @@ export class DeliveryClient<TClientTypes extends ClientTypes = ClientTypes> impl
     }
 
     /**
-     * Gets query for initializing sync
+     * @deprecated Sync API v1 is deprecated and will be shut down by the end of this year.
+     * Please migrate to Sync API v2 using the `@kontent-ai/sync-sdk` package.
+     *
+     * For migration guidance and full documentation, visit:
+     * https://kontent.ai/learn/docs/apis/openapi/sync-api-v2/
      */
     initializeSync(): InitializeSyncQuery<TClientTypes> {
         return new InitializeSyncQuery(this.config, this.queryService);
     }
 
     /**
-     * Gets query fetching delta updates of content items
+     * @deprecated Sync API v1 is deprecated and will be shut down by the end of this year.
+     * Please migrate to Sync API v2 using the `@kontent-ai/sync-sdk` package.
+     *
+     * For migration guidance and full documentation, visit:
+     * https://kontent.ai/learn/docs/apis/openapi/sync-api-v2/
      */
     syncChanges(): SyncChangesQuery<TClientTypes> {
         return new SyncChangesQuery(this.config, this.queryService);

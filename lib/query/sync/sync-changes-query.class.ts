@@ -21,6 +21,9 @@ export class SyncChangesQuery<TClientTypes extends ClientTypes> extends BaseList
     }
 
     toPromise(): Promise<IDeliveryNetworkResponse<Responses.ISyncChangesResponse, Contracts.ISyncChangesContract>> {
+        console.warn(
+            `Sync Api v1 is deprecated. Please use the new Sync Api v2. https://kontent.ai/learn/docs/apis/openapi/sync-api-v2/`
+        );
         return this.queryService.syncChanges(this.getUrl(), this._queryConfig ?? {});
     }
 

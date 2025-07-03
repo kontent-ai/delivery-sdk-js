@@ -56,6 +56,9 @@ export class InitializeSyncQuery<TClientTypes extends ClientTypes> extends BaseQ
     toPromise(): Promise<
         IDeliveryNetworkResponse<Responses.IInitializeSyncResponse, Contracts.IInitializeSyncContract>
     > {
+        console.warn(
+            `Sync Api v1 is deprecated. Please use the new Sync Api v2. https://kontent.ai/learn/docs/apis/openapi/sync-api-v2/`
+        );
         return this.queryService.initializeSync(this.getUrl(), this._queryConfig ?? {});
     }
 
