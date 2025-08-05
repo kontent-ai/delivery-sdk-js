@@ -1,6 +1,6 @@
 {
     "name": "@kontent-ai/delivery-sdk",
-    "version": "16.2.1",
+    "version": "16.3.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/kontent-ai/delivery-sdk-js"
