@@ -61,13 +61,13 @@
         "clean": "tsx clean.ts"
     },
     "dependencies": {
-        "@kontent-ai/core-sdk": "10.12.0"
+        "@kontent-ai/core-sdk": "10.12.1"
     },
     "devDependencies": {
-        "@types/jasmine": "5.1.8",
-        "@types/node": "24.2.0",
+        "@types/jasmine": "5.1.12",
+        "@types/node": "24.10.0",
         "colors": "1.4.0",
-        "jasmine-core": "5.9.0",
+        "jasmine-core": "5.12.1",
         "jasmine-spec-reporter": "7.0.0",
         "karma": "6.4.4",
         "karma-chrome-launcher": "3.2.0",
@@ -79,15 +79,15 @@
         "karma-typescript": "5.5.4",
         "karma-typescript-es6-transform": "5.5.4",
         "lcov-parse": "1.0.0",
-        "mocha": "11.7.1",
+        "mocha": "11.7.5",
         "standard-version": "9.5.0",
-        "ts-loader": "9.5.2",
-        "tsx": "4.20.3",
+        "ts-loader": "9.5.4",
+        "tsx": "4.20.6",
         "@typescript-eslint/eslint-plugin": "8.39.0",
         "@typescript-eslint/parser": "8.39.0",
         "eslint": "9.32.0",
         "typescript": "5.2.2",
-        "webpack": "5.101.0",
+        "webpack": "5.102.1",
         "webpack-bundle-analyzer": "4.10.2",
         "webpack-cli": "6.0.1",
         "typescript-eslint": "8.39.0"
