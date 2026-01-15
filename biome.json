@@ -1,0 +1,25 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"extends": ["@kontent-ai/biome-config/base"],
+	"formatter": {
+		"indentWidth": 4,
+		"indentStyle": "tab",
+		"lineWidth": 140
+	},
+	"linter": {
+		"rules": {
+			"correctness": {
+				"noUnusedImports": {
+					"fix": "safe",
+					"level": "error"
+				},
+				"useImportExtensions": {
+					"level": "error",
+					"options": {
+						"forceJsExtensions": true
+					}
+				}
+			}
+		}
+	}
+}

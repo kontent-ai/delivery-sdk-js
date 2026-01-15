@@ -1,0 +1,59 @@
+{
+	"name": "@kontent-ai/delivery-sdk",
+	"version": "17.0.0-preview.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kontent-ai/delivery-sdk-js"
+	},
+	"private": false,
+	"author": "richard sustek",
+	"license": "MIT",
+	"description": "Official Kontent.AI Delivery API SDK",
+	"keywords": [
+		"Kontent",
+		"Kontent.ai",
+		"Kontent SDK",
+		"Kontent API",
+		"Kontent Delivery",
+		"Kontent Javascript",
+		"Kontent Node.js",
+		"Kontent Typescript"
+	],
+	"engines": {
+		"node": ">= 22"
+	},
+	"exports": "./dist/public_api.js",
+	"types": "./dist/public_api.d.ts",
+	"type": "module",
+	"scripts": {
+		"prepublishOnly": "npm run build",
+		"eslint": "eslint",
+		"lint": "npm run biome:check && npm run eslint",
+		"build": "npm run biome:check && npm run eslint && npm run build:noemit && npm run clean && tsc --p tsconfig.build.json && npm run update:version",
+		"build:noemit": "tsc --p tsconfig.json",
+		"test": "npm run test:unit && npm run test:integration",
+		"test:unit": "vitest run --config=vitest-unit.config.ts",
+		"test:integration": "vitest run --config=vitest-integration.config.ts",
+		"biome:check": "biome check",
+		"biome:fix": "biome check --write",
+		"biome:fix:unsafe": "biome check --write --unsafe",
+		"clean": "tsx scripts/clean.ts",
+		"update:version": "tsx ./scripts/update-version.ts"
+	},
+	"dependencies": {
+		"@kontent-ai/core-sdk": "12.0.0-preview.7",
+		"zod": "4.3.5"
+	},
+	"devDependencies": {
+		"@kontent-ai/biome-config": "0.7.0",
+		"@kontent-ai/eslint-config": "2.3.0",
+		"eslint": "9.39.2",
+		"@biomejs/biome": "2.3.11",
+		"@types/node": "25.0.8",
+		"chalk": "5.6.2",
+		"typescript": "5.9.3",
+		"vitest": "4.0.17",
+		"dotenv": "17.2.3",
+		"tsx": "4.21.0"
+	}
+}

@@ -1,0 +1,22 @@
+name: Integration Tests
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+env:
+    INTEGRATION_ENVIRONMENT_ID: ${{ secrets.INTEGRATION_ENVIRONMENT_ID }}
+    INTEGRATION_MANAGEMENT_API_KEY: ${{ secrets.INTEGRATION_MANAGEMENT_API_KEY }}
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Use Node.js from .nvmrc file
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+            - run: npm ci
+            - run: npm run test:integration

@@ -1,0 +1,27 @@
+on:
+  release:
+    types: [published]
+
+name: publish-to-npm
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm ci
+      
+      - run: npm publish --access=public
+        if: ${{!github.event.release.prerelease}}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
+      - run: npm publish --tag prerelease
+        if: ${{github.event.release.prerelease}}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
