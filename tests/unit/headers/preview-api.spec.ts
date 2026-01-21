@@ -17,7 +17,7 @@ describe("Preview API", async () => {
 	let requestHeaders: readonly Header[] = [];
 	const previewApiKey = "y";
 
-	await getDeliveryClient("x")
+	const query = getDeliveryClient("x")
 		.previewApi(previewApiKey)
 		.create({
 			httpService: getDefaultHttpService({
@@ -30,12 +30,23 @@ describe("Preview API", async () => {
 				},
 			}),
 		})
-		.listLanguages()
-		.toPromise();
+		.listLanguages();
 
-	const authorizationHeader = requestHeaders.find((header) => header.name === ("Authorization" satisfies CommonHeaderNames));
+	// execute query so that http service is called and request headers are captured
+	const { success, error } = await query.toPromise();
+
+	it("Response should be successful", () => {
+		expect(success).toBeTruthy();
+		expect(error).toBeUndefined();
+	});
 
 	it("Request headers should contain authorization header with delivery API key", () => {
+		const authorizationHeader = requestHeaders.find((header) => header.name === ("Authorization" satisfies CommonHeaderNames));
 		expect(authorizationHeader?.value).toEqual(`Bearer ${previewApiKey}`);
+	});
+
+	it("URL should point to preview API", () => {
+		const { host } = new URL(query.toUrl());
+		expect(host).toEqual("preview-deliver.kontent.ai");
 	});
 });

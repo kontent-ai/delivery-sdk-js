@@ -1,15 +1,9 @@
-import { getDefaultHttpAdapter, getDefaultHttpService, getSdkIdHeader, type Header } from "@kontent-ai/core-sdk";
+import { type CommonHeaderNames, getDefaultHttpAdapter, getDefaultHttpService, type Header } from "@kontent-ai/core-sdk";
 import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { getDeliveryClient } from "../../../lib/public_api.js";
 
-describe("Delivery tracking header", async () => {
-	const expectedHeader = getSdkIdHeader({
-		name: "@kontent-ai/delivery-sdk",
-		version: "{{version}}", // macro is replaced by the version from package.json during build
-		host: "npmjs.com",
-	});
-
+describe("Public deliver API", async () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});
@@ -45,9 +39,13 @@ describe("Delivery tracking header", async () => {
 		expect(error).toBeUndefined();
 	});
 
-	const syncTrackingHeader = requestHeaders.find((header) => header.name === expectedHeader.name);
+	it("Request headers should NOT contain authorization header with delivery API key", () => {
+		const authorizationHeader = requestHeaders.find((header) => header.name === ("Authorization" satisfies CommonHeaderNames));
+		expect(authorizationHeader).toBeUndefined();
+	});
 
-	it("Request headers should contain sync tracking header with current package info", () => {
-		expect(syncTrackingHeader?.value).toEqual(expectedHeader.value);
+	it("URL should point to public deliver API", () => {
+		const { host } = new URL(query.toUrl());
+		expect(host).toEqual("deliver.kontent.ai");
 	});
 });

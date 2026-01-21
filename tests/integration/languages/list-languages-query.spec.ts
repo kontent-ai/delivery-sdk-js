@@ -9,12 +9,17 @@ describe("List languages query", async () => {
 		baseUrl: config.env.deliveryBaseUrl,
 	});
 
-	const { response } = await client.listLanguages().toPromise();
+	const { response, success, error } = await client.listLanguages().toPromise();
+
+	it("Response should be successful", () => {
+		expect(success).toBeTruthy();
+		expect(error).toBeUndefined();
+	});
 
 	it("Response payload should match schema", async () => {
-		const parseResult = await listLanguagesPayloadSchema.safeParseAsync(response?.payload);
-		expect(parseResult.error).toBeUndefined();
-		expect(parseResult.success).toBeTruthy();
+		const { error: parseError, success: parseSuccess } = await listLanguagesPayloadSchema.safeParseAsync(response?.payload);
+		expect(parseSuccess).toBeTruthy();
+		expect(parseError).toBeUndefined();
 	});
 
 	it("Response should contain at least one language", () => {
