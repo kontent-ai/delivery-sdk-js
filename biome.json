@@ -21,5 +21,8 @@
 				}
 			}
 		}
+	},
+	"files": {
+		"includes": ["lib/**/*.ts", "tests/**/*.ts", "scripts/**/*.ts", "!_legacy/**/*"]
 	}
 }

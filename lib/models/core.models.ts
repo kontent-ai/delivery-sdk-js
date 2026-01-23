@@ -3,13 +3,21 @@ import z from "zod";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 
 export type DeliveryClientTypes = {
+	// readonly contentItemType: IContentItem;
+	// readonly contentTypeCodenames: string;
+	// readonly workflowCodenames: string;
+	// readonly workflowStepCodenames: string;
+	// readonly collectionCodenames: string;
+	// readonly taxonomyCodenames: string;
 	readonly languageCodenames: string;
-	readonly typeCodenames: string;
-	readonly workflowCodenames: string;
-	readonly workflowStepCodenames: string;
-	readonly collectionCodenames: string;
-	readonly taxonomyCodenames: string;
+	// readonly elementCodenames: string;
 };
+
+export type DeliveryClientSchema<TDeliveryClientTypes extends DeliveryClientTypes> =
+	| {
+			readonly languageCodenames: readonly TDeliveryClientTypes["languageCodenames"][];
+	  }
+	| undefined;
 
 export type DeliveryResponseMeta<TExtraMetadata = unknown> = Pick<AdapterResponse, "status" | "responseHeaders"> & {
 	readonly continuationToken?: string;
@@ -56,11 +64,9 @@ export type DeliveryClient<TDeliveryApiTypes extends DeliveryClientTypes = Deliv
 	readonly config: DeliveryClientConfig;
 
 	/**
-	 * Initializes synchronization of changes in all of the supported entities.
-	 * After the initialization, you’ll get the X-Continuation token which you
-	 * should store for later use in the 'sync' function.
+	 * List languages.
 	 */
-	listLanguages(): ListLanguagesQuery;
+	listLanguages(): ListLanguagesQuery<TDeliveryApiTypes>;
 };
 
 export type CreateDeliveryClientOptions = Omit<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">;

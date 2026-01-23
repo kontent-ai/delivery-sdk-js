@@ -12,5 +12,5 @@ export type {
 /*
 Languages
 */
-export { Language, ListLanguagesPayload, languageSchema, listLanguagesPayloadSchema } from "./queries/languages/language.models.js";
+export { Language2, ListLanguagesPayload, languageSchema, listLanguagesPayloadSchema } from "./queries/languages/language.models.js";
 export type { ListLanguagesQuery } from "./queries/languages/list-languages-query.js";

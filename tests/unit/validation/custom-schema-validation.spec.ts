@@ -1,15 +1,28 @@
+import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { describe, expect, it } from "vitest";
 import { getDeliveryClient } from "../../../lib/client/delivery-client.js";
 import { listLanguagesPayloadSchema } from "../../../lib/queries/languages/language.models.js";
-import { getIntegrationTestConfig } from "../../integration-tests.config.js";
 
-describe("List languages query", async () => {
-	const config = getIntegrationTestConfig();
-	const client = getDeliveryClient<{ languageCodenames: "hello" | "world" }>(config.env.id).publicApi().create({
-		baseUrl: config.env.deliveryBaseUrl,
-	});
+describe("Custom schema validation", async () => {
+	const client = getDeliveryClient<{ languageCodenames: "en-US" | "cs-CZ" }>("x", {
+		languageCodenames: ["en-US", "cs-CZ"],
+	})
+		.publicApi()
+		.create({
+			responseValidation: {
+				enable: true,
+			},
+			httpService: getTestHttpServiceWithJsonResponse({
+				jsonResponse: {
+					result: "invalidValue",
+				},
+				statusCode: 200,
+			}),
+		});
 
 	const { response, success, error } = await client.listLanguages().toPromise();
+
+	console.log(response?.payload.languages[0].system.codename);
 
 	it("Response should be successful", () => {
 		expect(success).toBeTruthy();

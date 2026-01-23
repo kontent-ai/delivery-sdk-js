@@ -1,12 +1,18 @@
-import type { CreateDeliveryClientOptions, DeliveryClient, DeliveryClientConfig, DeliveryClientTypes } from "../models/core.models.js";
+import type {
+	CreateDeliveryClientOptions,
+	DeliveryClient,
+	DeliveryClientConfig,
+	DeliveryClientSchema,
+	DeliveryClientTypes,
+} from "../models/core.models.js";
 import { getListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 
-type GetDeliveryClient<TSyncApiTypes extends DeliveryClientTypes = DeliveryClientTypes> = {
+type GetDeliveryClient<TDeliveryApiTypes extends DeliveryClientTypes = DeliveryClientTypes> = {
 	/**
 	 * Use publicly available API for requests.
 	 */
 	publicApi: () => {
-		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TSyncApiTypes>;
+		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TDeliveryApiTypes>;
 	};
 	/**
 	 * Use preview API for requests.
@@ -14,7 +20,7 @@ type GetDeliveryClient<TSyncApiTypes extends DeliveryClientTypes = DeliveryClien
 	 * Requires a delivery API key with preview access.
 	 */
 	previewApi: (deliveryApiKey: string) => {
-		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TSyncApiTypes>;
+		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TDeliveryApiTypes>;
 	};
 
 	/**
@@ -23,12 +29,12 @@ type GetDeliveryClient<TSyncApiTypes extends DeliveryClientTypes = DeliveryClien
 	 * Requires a delivery API key with secure access.
 	 */
 	secureApi: (deliveryApiKey: string) => {
-		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TSyncApiTypes>;
+		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TDeliveryApiTypes>;
 	};
 };
 
 /**
- * Creates a new sync client instance using fluent API.
+ * Creates a new delivery client instance using fluent API.
  *
  * You may choose to use public, preview or secure API.
  *
@@ -38,34 +44,37 @@ type GetDeliveryClient<TSyncApiTypes extends DeliveryClientTypes = DeliveryClien
  */
 export function getDeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes = DeliveryClientTypes>(
 	environmentId: string,
+	schema?: DeliveryClientSchema<TDeliveryClientTypes>,
 ): GetDeliveryClient<TDeliveryClientTypes> {
 	return {
 		publicApi: () => {
-			return withClient<TDeliveryClientTypes>({ apiMode: "public", environmentId });
+			return withClient<TDeliveryClientTypes>({ apiMode: "public", environmentId }, schema);
 		},
 		previewApi: (deliveryApiKey: string) => {
-			return withClient<TDeliveryClientTypes>({ apiMode: "preview", environmentId, deliveryApiKey });
+			return withClient<TDeliveryClientTypes>({ apiMode: "preview", environmentId, deliveryApiKey }, schema);
 		},
 		secureApi: (deliveryApiKey: string) => {
-			return withClient<TDeliveryClientTypes>({ apiMode: "secure", environmentId, deliveryApiKey });
+			return withClient<TDeliveryClientTypes>({ apiMode: "secure", environmentId, deliveryApiKey }, schema);
 		},
 	};
 }
 
 function withClient<TDeliveryClientTypes extends DeliveryClientTypes>(
 	requiredConfig: Pick<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">,
+	schema: DeliveryClientSchema<TDeliveryClientTypes>,
 ) {
 	return {
 		create: (options?: CreateDeliveryClientOptions): DeliveryClient<TDeliveryClientTypes> =>
-			createDeliveryClient<TDeliveryClientTypes>({ ...requiredConfig, ...options }),
+			createDeliveryClient<TDeliveryClientTypes>({ ...requiredConfig, ...options }, schema),
 	};
 }
 
 function createDeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes>(
 	config: DeliveryClientConfig,
+	schema: DeliveryClientSchema<TDeliveryClientTypes>,
 ): DeliveryClient<TDeliveryClientTypes> {
 	return {
 		config,
-		listLanguages: () => getListLanguagesQuery<TDeliveryClientTypes>(config),
+		listLanguages: () => getListLanguagesQuery<TDeliveryClientTypes>(config, schema),
 	};
 }

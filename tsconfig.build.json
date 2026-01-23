@@ -4,5 +4,6 @@
 		"noEmit": false,
 		"outDir": "dist"
 	},
-	"include": ["lib/**/*"]
+	"include": ["lib/**/*"],
+	"exclude": ["tests/**/*", "scripts/**/*"]
 }
