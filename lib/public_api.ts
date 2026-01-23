@@ -5,6 +5,7 @@ export type {
 	CreateDeliveryClientOptions,
 	DeliveryClient,
 	DeliveryClientConfig,
+	DeliveryClientSchema,
 	DeliveryClientTypes,
 	DeliveryResponse,
 	DeliveryResponseMeta,

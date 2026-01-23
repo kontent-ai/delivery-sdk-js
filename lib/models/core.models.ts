@@ -13,7 +13,7 @@ export type DeliveryClientTypes = {
 	// readonly elementCodenames: string;
 };
 
-export type DeliveryClientSchema<TDeliveryClientTypes extends DeliveryClientTypes> =
+export type DeliveryClientSchema<TDeliveryClientTypes extends DeliveryClientTypes = DeliveryClientTypes> =
 	| {
 			readonly languageCodenames: readonly TDeliveryClientTypes["languageCodenames"][];
 	  }

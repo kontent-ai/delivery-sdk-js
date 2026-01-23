@@ -7,7 +7,14 @@ import type {
 } from "../models/core.models.js";
 import { getListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 
-type GetDeliveryClient<TDeliveryApiTypes extends DeliveryClientTypes = DeliveryClientTypes> = {
+type DeliverySchemaBuilder = {
+	withSchema: <TDeliveryClientTypes extends DeliveryClientTypes>(
+		schema: DeliveryClientSchema<TDeliveryClientTypes>,
+	) => DeliveryApiBuilder<TDeliveryClientTypes>;
+	withUnknownSchema: () => DeliveryApiBuilder<DeliveryClientTypes>;
+};
+
+type DeliveryApiBuilder<TDeliveryApiTypes extends DeliveryClientTypes = DeliveryClientTypes> = {
 	/**
 	 * Use publicly available API for requests.
 	 */
@@ -42,10 +49,21 @@ type GetDeliveryClient<TDeliveryApiTypes extends DeliveryClientTypes = DeliveryC
  *
  * @param environmentId - The Id of the Kontent.ai environment.
  */
-export function getDeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes = DeliveryClientTypes>(
+export function getDeliveryClient(environmentId: string): DeliverySchemaBuilder {
+	return {
+		withSchema: <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) => {
+			return getApiBuilder(environmentId, schema);
+		},
+		withUnknownSchema: () => {
+			return getApiBuilder(environmentId, undefined);
+		},
+	};
+}
+
+function getApiBuilder<TDeliveryClientTypes extends DeliveryClientTypes>(
 	environmentId: string,
-	schema?: DeliveryClientSchema<TDeliveryClientTypes>,
-): GetDeliveryClient<TDeliveryClientTypes> {
+	schema: DeliveryClientSchema<TDeliveryClientTypes>,
+) {
 	return {
 		publicApi: () => {
 			return withClient<TDeliveryClientTypes>({ apiMode: "public", environmentId }, schema);

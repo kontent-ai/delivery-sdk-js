@@ -4,9 +4,8 @@ import { getDeliveryClient } from "../../../lib/client/delivery-client.js";
 import { listLanguagesPayloadSchema } from "../../../lib/queries/languages/language.models.js";
 
 describe("Custom schema validation", async () => {
-	const client = getDeliveryClient<{ languageCodenames: "en-US" | "cs-CZ" }>("x", {
-		languageCodenames: ["en-US", "cs-CZ"],
-	})
+	const client = getDeliveryClient("x")
+		.withSchema({ languageCodenames: ["en-US", "cs-CZ"] as const })
 		.publicApi()
 		.create({
 			responseValidation: {
@@ -22,7 +21,8 @@ describe("Custom schema validation", async () => {
 
 	const { response, success, error } = await client.listLanguages().toPromise();
 
-	console.log(response?.payload.languages[0].system.codename);
+	const test: "en-US" | "cs-CZ" | undefined = response?.payload.languages[0].system.codename;
+	void test;
 
 	it("Response should be successful", () => {
 		expect(success).toBeTruthy();

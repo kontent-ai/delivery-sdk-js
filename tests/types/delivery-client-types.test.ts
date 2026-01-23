@@ -1,35 +1,18 @@
-/** biome-ignore-all lint/correctness/noUnusedVariables: We don't want to use the variables in this file */
-import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
-import { getDeliveryClient } from "../../lib/client/delivery-client.js";
+/** biome-ignore-all lint/correctness/noUnusedVariables: This file is for compile-time checks */
+import { createDeliveryClientSchema } from "../../lib/public_api.js";
 
 type OriginTypes = {
 	readonly languageCodenames: "en-US" | "cs-CZ";
 };
 
-const client = getDeliveryClient<OriginTypes>("x")
-	.publicApi()
-	.create({
-		responseValidation: {
-			enable: false,
-		},
-		httpService: getTestHttpServiceWithJsonResponse({
-			jsonResponse: {},
-			statusCode: 200,
-		}),
-	});
+const schema = createDeliveryClientSchema<OriginTypes>()({
+	languageCodenames: ["en-US", "cs-CZ"] as const,
+});
 
-const { response: languageResponse } = await client.listLanguages().toPromise();
-
-if (!languageResponse) {
-	throw new Error("Language response is undefined");
-}
-
-const validLanguageCodenames: readonly OriginTypes["languageCodenames"][] = languageResponse.payload.languages.map(
-	(language) => language.system.codename,
-);
+// @ts-expect-error - missing "cs-CZ"
+createDeliveryClientSchema<OriginTypes>()({ languageCodenames: ["en-US"] as const });
 
 // @ts-expect-error - "de-DE" is not allowed
-const invalidLanguageCodename: OriginTypes["languageCodenames"] = "de-DE";
+createDeliveryClientSchema<OriginTypes>()({ languageCodenames: ["en-US", "cs-CZ", "de-DE"] as const });
 
-void validLanguageCodenames;
-void invalidLanguageCodename;
+void schema;

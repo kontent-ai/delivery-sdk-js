@@ -5,7 +5,7 @@ import { getIntegrationTestConfig } from "../../integration-tests.config.js";
 
 describe("List languages query", async () => {
 	const config = getIntegrationTestConfig();
-	const client = getDeliveryClient<{ languageCodenames: "hello" | "world" }>(config.env.id).publicApi().create({
+	const client = getDeliveryClient(config.env.id).withUnknownSchema().publicApi().create({
 		baseUrl: config.env.deliveryBaseUrl,
 	});
 

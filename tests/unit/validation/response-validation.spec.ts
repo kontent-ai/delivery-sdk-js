@@ -7,6 +7,7 @@ import { getDeliveryClient } from "../../../lib/client/delivery-client.js";
 describe("Response validation", () => {
 	test("Error should be returned when response does not match schema and validation is enabled", async ({ expect }) => {
 		const query = getDeliveryClient("x")
+			.withUnknownSchema()
 			.publicApi()
 			.create({
 				responseValidation: {
@@ -39,6 +40,7 @@ describe("Response validation", () => {
 
 	test("Error should not be returned when response does not match schema but validation is disabled", async ({ expect }) => {
 		const { success, error } = await getDeliveryClient("x")
+			.withUnknownSchema()
 			.publicApi()
 			.create({
 				responseValidation: {
