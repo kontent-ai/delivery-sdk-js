@@ -6,6 +6,7 @@ class CustomError extends Error {}
 
 describe("Handling of custom errors", async () => {
 	const { success, error } = await getDeliveryClient("x")
+		.withUnknownSchema()
 		.publicApi()
 		.create({
 			responseValidation: {

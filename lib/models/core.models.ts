@@ -13,11 +13,9 @@ export type DeliveryClientTypes = {
 	// readonly elementCodenames: string;
 };
 
-export type DeliveryClientSchema<TDeliveryClientTypes extends DeliveryClientTypes = DeliveryClientTypes> =
-	| {
-			readonly languageCodenames: readonly TDeliveryClientTypes["languageCodenames"][];
-	  }
-	| undefined;
+export type DeliveryClientSchema<TLanguageCodenames extends string> = {
+	readonly languageCodenames: readonly TLanguageCodenames[] | undefined;
+};
 
 export type DeliveryResponseMeta<TExtraMetadata = unknown> = Pick<AdapterResponse, "status" | "responseHeaders"> & {
 	readonly continuationToken?: string;
@@ -60,13 +58,13 @@ export type DeliveryClientConfig = SdkConfig & {
  * Can be used to narrow down the types of the response payload.
  * For example, the codenames of langauges, content types etc. can be narrowed.
  */
-export type DeliveryClient<TDeliveryApiTypes extends DeliveryClientTypes = DeliveryClientTypes> = {
+export type DeliveryClient<TLanguageCodenames extends string> = {
 	readonly config: DeliveryClientConfig;
 
 	/**
 	 * List languages.
 	 */
-	listLanguages(): ListLanguagesQuery<TDeliveryApiTypes>;
+	listLanguages(): ListLanguagesQuery<TLanguageCodenames>;
 };
 
 export type CreateDeliveryClientOptions = Omit<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">;

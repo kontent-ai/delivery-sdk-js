@@ -18,6 +18,7 @@ describe("Preview API", async () => {
 	const previewApiKey = "y";
 
 	const query = getDeliveryClient("x")
+		.withUnknownSchema()
 		.previewApi(previewApiKey)
 		.create({
 			httpService: getDefaultHttpService({

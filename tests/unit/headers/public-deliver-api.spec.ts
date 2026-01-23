@@ -17,6 +17,7 @@ describe("Public deliver API", async () => {
 	let requestHeaders: readonly Header[] = [];
 
 	const query = getDeliveryClient("x")
+		.withUnknownSchema()
 		.publicApi()
 		.create({
 			httpService: getDefaultHttpService({

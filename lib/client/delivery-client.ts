@@ -1,25 +1,19 @@
-import type {
-	CreateDeliveryClientOptions,
-	DeliveryClient,
-	DeliveryClientConfig,
-	DeliveryClientSchema,
-	DeliveryClientTypes,
-} from "../models/core.models.js";
+import type { CreateDeliveryClientOptions, DeliveryClient, DeliveryClientConfig, DeliveryClientSchema } from "../models/core.models.js";
 import { getListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 
 type DeliverySchemaBuilder = {
-	withSchema: <TDeliveryClientTypes extends DeliveryClientTypes>(
-		schema: DeliveryClientSchema<TDeliveryClientTypes>,
-	) => DeliveryApiBuilder<TDeliveryClientTypes>;
-	withUnknownSchema: () => DeliveryApiBuilder<DeliveryClientTypes>;
+	withSchema: <TLanguageCodenames extends string>(
+		schema: DeliveryClientSchema<TLanguageCodenames>,
+	) => DeliveryApiBuilder<TLanguageCodenames>;
+	withUnknownSchema: () => DeliveryApiBuilder<string>;
 };
 
-type DeliveryApiBuilder<TDeliveryApiTypes extends DeliveryClientTypes = DeliveryClientTypes> = {
+type DeliveryApiBuilder<TLanguageCodenames extends string> = {
 	/**
 	 * Use publicly available API for requests.
 	 */
 	publicApi: () => {
-		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TDeliveryApiTypes>;
+		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TLanguageCodenames>;
 	};
 	/**
 	 * Use preview API for requests.
@@ -27,7 +21,7 @@ type DeliveryApiBuilder<TDeliveryApiTypes extends DeliveryClientTypes = Delivery
 	 * Requires a delivery API key with preview access.
 	 */
 	previewApi: (deliveryApiKey: string) => {
-		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TDeliveryApiTypes>;
+		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TLanguageCodenames>;
 	};
 
 	/**
@@ -36,7 +30,7 @@ type DeliveryApiBuilder<TDeliveryApiTypes extends DeliveryClientTypes = Delivery
 	 * Requires a delivery API key with secure access.
 	 */
 	secureApi: (deliveryApiKey: string) => {
-		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TDeliveryApiTypes>;
+		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TLanguageCodenames>;
 	};
 };
 
@@ -51,48 +45,45 @@ type DeliveryApiBuilder<TDeliveryApiTypes extends DeliveryClientTypes = Delivery
  */
 export function getDeliveryClient(environmentId: string): DeliverySchemaBuilder {
 	return {
-		withSchema: <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) => {
+		withSchema: <TLanguageCodenames extends string>(schema: DeliveryClientSchema<TLanguageCodenames>) => {
 			return getApiBuilder(environmentId, schema);
 		},
 		withUnknownSchema: () => {
-			return getApiBuilder(environmentId, undefined);
+			return getApiBuilder(environmentId, { languageCodenames: undefined });
 		},
 	};
 }
 
-function getApiBuilder<TDeliveryClientTypes extends DeliveryClientTypes>(
-	environmentId: string,
-	schema: DeliveryClientSchema<TDeliveryClientTypes>,
-) {
+function getApiBuilder<TLanguageCodenames extends string>(environmentId: string, schema: DeliveryClientSchema<TLanguageCodenames>) {
 	return {
 		publicApi: () => {
-			return withClient<TDeliveryClientTypes>({ apiMode: "public", environmentId }, schema);
+			return withClient<TLanguageCodenames>({ apiMode: "public", environmentId }, schema);
 		},
 		previewApi: (deliveryApiKey: string) => {
-			return withClient<TDeliveryClientTypes>({ apiMode: "preview", environmentId, deliveryApiKey }, schema);
+			return withClient<TLanguageCodenames>({ apiMode: "preview", environmentId, deliveryApiKey }, schema);
 		},
 		secureApi: (deliveryApiKey: string) => {
-			return withClient<TDeliveryClientTypes>({ apiMode: "secure", environmentId, deliveryApiKey }, schema);
+			return withClient<TLanguageCodenames>({ apiMode: "secure", environmentId, deliveryApiKey }, schema);
 		},
 	};
 }
 
-function withClient<TDeliveryClientTypes extends DeliveryClientTypes>(
+function withClient<TLanguageCodenames extends string>(
 	requiredConfig: Pick<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">,
-	schema: DeliveryClientSchema<TDeliveryClientTypes>,
+	schema: DeliveryClientSchema<TLanguageCodenames>,
 ) {
 	return {
-		create: (options?: CreateDeliveryClientOptions): DeliveryClient<TDeliveryClientTypes> =>
-			createDeliveryClient<TDeliveryClientTypes>({ ...requiredConfig, ...options }, schema),
+		create: (options?: CreateDeliveryClientOptions): DeliveryClient<TLanguageCodenames> =>
+			createDeliveryClient<TLanguageCodenames>({ ...requiredConfig, ...options }, schema),
 	};
 }
 
-function createDeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes>(
+function createDeliveryClient<TLanguageCodenames extends string>(
 	config: DeliveryClientConfig,
-	schema: DeliveryClientSchema<TDeliveryClientTypes>,
-): DeliveryClient<TDeliveryClientTypes> {
+	schema: DeliveryClientSchema<TLanguageCodenames>,
+): DeliveryClient<TLanguageCodenames> {
 	return {
 		config,
-		listLanguages: () => getListLanguagesQuery<TDeliveryClientTypes>(config, schema),
+		listLanguages: () => getListLanguagesQuery<TLanguageCodenames>(config, schema),
 	};
 }

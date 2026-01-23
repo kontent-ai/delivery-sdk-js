@@ -18,6 +18,7 @@ describe("Secure API", async () => {
 	const secureApiKey = "y";
 
 	const query = getDeliveryClient("x")
+		.withUnknownSchema()
 		.secureApi(secureApiKey)
 		.create({
 			httpService: getDefaultHttpService({
