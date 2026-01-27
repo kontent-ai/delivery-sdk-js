@@ -1,9 +1,9 @@
 import type { ContinuationHeaderName, Header } from "@kontent-ai/core-sdk";
 import chalk from "chalk";
-import * as dotenv from "dotenv";
+import { config } from "dotenv";
 
 // needed to load .env environment to current process when run via package.json script
-dotenv.config();
+config();
 
 export function getEnvironmentRequiredValue(variableName: string): string {
 	const value = getEnvironmentOptionalValue(variableName);

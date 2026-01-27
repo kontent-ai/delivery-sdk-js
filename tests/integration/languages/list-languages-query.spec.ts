@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { getDeliveryClient } from "../../../lib/client/delivery-client.js";
-import { listLanguagesPayloadSchema } from "../../../lib/queries/languages/language.models.js";
+import { listLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
+import { getCodenameSchema } from "../../../lib/utils/type.utils.js";
 import { getIntegrationTestConfig } from "../../integration-tests.config.js";
 
 describe("List languages query", async () => {
@@ -17,7 +18,9 @@ describe("List languages query", async () => {
 	});
 
 	it("Response payload should match schema", async () => {
-		const { error: parseError, success: parseSuccess } = await listLanguagesPayloadSchema.safeParseAsync(response?.payload);
+		const { error: parseError, success: parseSuccess } = await listLanguagesPayload(getCodenameSchema(undefined)).safeParseAsync(
+			response?.payload,
+		);
 		expect(parseSuccess).toBeTruthy();
 		expect(parseError).toBeUndefined();
 	});

@@ -7,7 +7,7 @@ type OriginTypes = {
 };
 
 const client = getDeliveryClient("x")
-	.withSchema<OriginTypes["languageCodenames"]>({ languageCodenames: ["en-US", "cs-CZ"] })
+	.withSchema({ languageCodenames: ["en-US", "cs-CZ"] })
 	.publicApi()
 	.create({
 		responseValidation: {

@@ -1,9 +1,9 @@
 import { getQuery, type Query } from "@kontent-ai/core-sdk";
-import z from "zod";
 import { deliverySdkInfo } from "../../delivery-sdk-info.js";
 import type { DeliveryClient, DeliveryClientConfig, DeliveryClientSchema } from "../../models/core.models.js";
+import { getCodenameSchema } from "../../utils/type.utils.js";
 import { getDeliveryEndpointUrl } from "../../utils/url.utils.js";
-import { getListLanguagesPayloadSchema, type ListLanguagesPayload } from "./language.models.js";
+import { type ListLanguagesPayload, listLanguagesPayload } from "./language.models.js";
 
 export type ListLanguagesQuery<TLanguageCodenames extends string> = Query<ListLanguagesPayload<TLanguageCodenames>>;
 
@@ -13,15 +13,15 @@ export function getListLanguagesQuery<TLanguageCodenames extends string>(
 ): ReturnType<DeliveryClient<TLanguageCodenames>["listLanguages"]> {
 	const url = getDeliveryEndpointUrl({ path: "/languages", ...config });
 
-	const codenames = schema.languageCodenames
-		? z.enum(schema.languageCodenames)
-		: (z.string() as unknown as z.ZodType<TLanguageCodenames>);
+	const zodSchema = schema.languageCodenames
+		? listLanguagesPayload(getCodenameSchema(schema.languageCodenames))
+		: listLanguagesPayload(getCodenameSchema(undefined));
 
 	const { toPromise } = getQuery<ListLanguagesPayload<TLanguageCodenames>, null>({
 		config,
+		zodSchema,
 		sdkInfo: deliverySdkInfo,
 		authorizationApiKey: config.deliveryApiKey,
-		zodSchema: getListLanguagesPayloadSchema<TLanguageCodenames>(codenames),
 		continuationToken: undefined,
 		extraMetadata: () => {
 			return {};
