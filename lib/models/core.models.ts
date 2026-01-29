@@ -52,11 +52,8 @@ export type DeliveryClientConfig = SdkConfig & {
 };
 
 /**
- * Sync client instance.
+ * Delivery client instance. This is the main entry point for the delivery API.
  *
- * @param TSyncApiTypes - The types representing your Kontent.ai environment.
- * Can be used to narrow down the types of the response payload.
- * For example, the codenames of langauges, content types etc. can be narrowed.
  */
 export type DeliveryClient<TLanguageCodenames extends string> = {
 	readonly config: DeliveryClientConfig;
