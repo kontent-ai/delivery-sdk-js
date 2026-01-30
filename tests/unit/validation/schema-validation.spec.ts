@@ -42,8 +42,8 @@ describe("Schema validation", () => {
 
 		const { success, error } = await client.listLanguages().toPromise();
 
-		expect(success).toBeFalsy();
 		expect(error).toBeDefined();
+		expect(success).toBeFalsy();
 		expect(error?.details.reason).toBe("validationFailed");
 	});
 
@@ -63,8 +63,8 @@ describe("Schema validation", () => {
 
 		const { success, error } = await client.listLanguages().toPromise();
 
-		expect(success).toBeTruthy();
 		expect(error).toBeUndefined();
+		expect(success).toBeTruthy();
 	});
 
 	test("Response should be successful when response matches general string codename schema", async () => {
@@ -83,7 +83,27 @@ describe("Schema validation", () => {
 
 		const { success, error } = await client.listLanguages().toPromise();
 
-		expect(success).toBeTruthy();
 		expect(error).toBeUndefined();
+		expect(success).toBeTruthy();
+	});
+
+	test("Response should be successful when an empty array is provided as codenames source", async () => {
+		const client = getDeliveryClient("x")
+			.withSchema({ languageCodenames: [] }) // empty array
+			.publicApi()
+			.create({
+				responseValidation: {
+					enable: true,
+				},
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse: mockPayload,
+					statusCode: 200,
+				}),
+			});
+
+		const { success, error } = await client.listLanguages().toPromise();
+
+		expect(error).toBeUndefined();
+		expect(success).toBeTruthy();
 	});
 });

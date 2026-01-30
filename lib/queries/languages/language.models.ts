@@ -1,26 +1,25 @@
 import { z } from "zod";
-import { type DeliveryClientTypes, paginationSchema } from "../../models/core.models.js";
+import { type DeliveryClientSchema, type DeliveryClientTypes, paginationSchema } from "../../models/core.models.js";
+import { getCodenameSchema } from "../../utils/type.utils.js";
 
-export const languagePayload = <TDeliveryClientTypes extends DeliveryClientTypes>(
-	languageCodenames: z.ZodType<TDeliveryClientTypes["languageCodenames"][number]>,
-) =>
+export const languagePayload = <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) =>
 	z
 		.object({
 			system: z
 				.object({
 					id: z.string(),
-					codename: languageCodenames,
+					codename: getCodenameSchema(schema.languageCodenames),
 				})
 				.readonly(),
 		})
 		.readonly();
 
 export const listLanguagesPayload = <TDeliveryClientTypes extends DeliveryClientTypes>(
-	languageCodenames: z.ZodType<TDeliveryClientTypes["languageCodenames"][number]>,
+	schema: DeliveryClientSchema<TDeliveryClientTypes>,
 ) =>
 	z
 		.object({
-			languages: z.array(languagePayload(languageCodenames)),
+			languages: z.array(languagePayload(schema)),
 			...paginationSchema.shape,
 		})
 		.readonly();
