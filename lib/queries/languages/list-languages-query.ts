@@ -1,21 +1,21 @@
 import { getQuery, type Query } from "@kontent-ai/core-sdk";
 import { deliverySdkInfo } from "../../delivery-sdk-info.js";
-import type { DeliveryClient, DeliveryClientConfig, DeliveryClientSchema } from "../../models/core.models.js";
-import { getCodenameShema } from "../../utils/type.utils.js";
+import type { DeliveryClient, DeliveryClientConfig, DeliveryClientSchema, DeliveryClientTypes } from "../../models/core.models.js";
+import { getCodenameSchema } from "../../utils/type.utils.js";
 import { getDeliveryEndpointUrl } from "../../utils/url.utils.js";
 import { type ListLanguagesPayload, listLanguagesPayload } from "./language.models.js";
 
-export type ListLanguagesQuery<TLanguageCodenames extends string> = Query<ListLanguagesPayload<TLanguageCodenames>>;
+export type ListLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTypes> = Query<ListLanguagesPayload<TDeliveryClientTypes>>;
 
-export function getListLanguagesQuery<TLanguageCodenames extends string>(
+export function getListLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTypes>(
 	config: DeliveryClientConfig,
-	schema: DeliveryClientSchema<TLanguageCodenames>,
-): ReturnType<DeliveryClient<TLanguageCodenames>["listLanguages"]> {
+	schema: DeliveryClientSchema<TDeliveryClientTypes>,
+): ReturnType<DeliveryClient<TDeliveryClientTypes>["listLanguages"]> {
 	const url = getDeliveryEndpointUrl({ path: "/languages", ...config });
 
-	const { toPromise } = getQuery<ListLanguagesPayload<TLanguageCodenames>, null>({
+	const { toPromise } = getQuery<ListLanguagesPayload<TDeliveryClientTypes>, null>({
 		config,
-		zodSchema: listLanguagesPayload(getCodenameShema(schema.languageCodenames)),
+		zodSchema: listLanguagesPayload(getCodenameSchema(schema.languageCodenames)),
 		sdkInfo: deliverySdkInfo,
 		authorizationApiKey: config.deliveryApiKey,
 		continuationToken: undefined,

@@ -1,26 +1,34 @@
 import { z } from "zod";
-import { paginationSchema } from "../../models/core.models.js";
+import { type DeliveryClientTypes, paginationSchema } from "../../models/core.models.js";
 
-export const languagePayload = <TCodename extends string>(codenameSchema: z.ZodType<TCodename>) =>
+export const languagePayload = <TDeliveryClientTypes extends DeliveryClientTypes>(
+	languageCodenames: z.ZodType<TDeliveryClientTypes["languageCodenames"][number]>,
+) =>
 	z
 		.object({
 			system: z
 				.object({
 					id: z.string(),
-					codename: codenameSchema,
+					codename: languageCodenames,
 				})
 				.readonly(),
 		})
 		.readonly();
 
-export const listLanguagesPayload = <TLanguageCodenames extends string>(codenameSchema: z.ZodType<TLanguageCodenames>) =>
+export const listLanguagesPayload = <TDeliveryClientTypes extends DeliveryClientTypes>(
+	languageCodenames: z.ZodType<TDeliveryClientTypes["languageCodenames"][number]>,
+) =>
 	z
 		.object({
-			languages: z.array(languagePayload(codenameSchema)),
+			languages: z.array(languagePayload(languageCodenames)),
 			...paginationSchema.shape,
 		})
 		.readonly();
 
-export type ListLanguagesPayload<TLanguageCodenames extends string> = z.infer<ReturnType<typeof listLanguagesPayload<TLanguageCodenames>>>;
+export type ListLanguagesPayload<TDeliveryClientTypes extends DeliveryClientTypes> = z.infer<
+	ReturnType<typeof listLanguagesPayload<TDeliveryClientTypes>>
+>;
 
-export type LanguagePayload<TLanguageCodenames extends string> = z.infer<ReturnType<typeof languagePayload<TLanguageCodenames>>>;
+export type LanguagePayload<TDeliveryClientTypes extends DeliveryClientTypes> = z.infer<
+	ReturnType<typeof languagePayload<TDeliveryClientTypes>>
+>;

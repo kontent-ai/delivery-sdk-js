@@ -1,19 +1,25 @@
-import type { CreateDeliveryClientOptions, DeliveryClient, DeliveryClientConfig, DeliveryClientSchema } from "../models/core.models.js";
+import type {
+	CreateDeliveryClientOptions,
+	DeliveryClient,
+	DeliveryClientConfig,
+	DeliveryClientSchema,
+	DeliveryClientTypes,
+} from "../models/core.models.js";
 import { getListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 
 type DeliverySchemaBuilder = {
-	withSchema: <TLanguageCodenames extends string>(
-		schema: DeliveryClientSchema<TLanguageCodenames>,
-	) => DeliveryApiBuilder<TLanguageCodenames>;
-	withUnknownSchema: () => DeliveryApiBuilder<string>;
+	withSchema: <TDeliveryClientTypes extends DeliveryClientTypes>(
+		schema: DeliveryClientSchema<TDeliveryClientTypes>,
+	) => DeliveryApiBuilder<TDeliveryClientTypes>;
+	withUnknownSchema: () => DeliveryApiBuilder<DeliveryClientTypes>;
 };
 
-type DeliveryApiBuilder<TLanguageCodenames extends string> = {
+type DeliveryApiBuilder<TDeliveryClientTypes extends DeliveryClientTypes> = {
 	/**
 	 * Use publicly available API for requests.
 	 */
 	publicApi: () => {
-		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TLanguageCodenames>;
+		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TDeliveryClientTypes>;
 	};
 	/**
 	 * Use preview API for requests.
@@ -21,7 +27,7 @@ type DeliveryApiBuilder<TLanguageCodenames extends string> = {
 	 * Requires a delivery API key with preview access.
 	 */
 	previewApi: (deliveryApiKey: string) => {
-		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TLanguageCodenames>;
+		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TDeliveryClientTypes>;
 	};
 
 	/**
@@ -30,7 +36,7 @@ type DeliveryApiBuilder<TLanguageCodenames extends string> = {
 	 * Requires a delivery API key with secure access.
 	 */
 	secureApi: (deliveryApiKey: string) => {
-		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TLanguageCodenames>;
+		create: (options?: CreateDeliveryClientOptions) => DeliveryClient<TDeliveryClientTypes>;
 	};
 };
 
@@ -45,8 +51,8 @@ type DeliveryApiBuilder<TLanguageCodenames extends string> = {
  */
 export function getDeliveryClient(environmentId: string): DeliverySchemaBuilder {
 	return {
-		withSchema: <TLanguageCodenames extends string>(schema: DeliveryClientSchema<TLanguageCodenames>) => {
-			return getApiBuilder(environmentId, schema);
+		withSchema: <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) => {
+			return getApiBuilder<TDeliveryClientTypes>(environmentId, schema);
 		},
 		withUnknownSchema: () => {
 			return getApiBuilder(environmentId, { languageCodenames: undefined });
@@ -54,36 +60,39 @@ export function getDeliveryClient(environmentId: string): DeliverySchemaBuilder 
 	};
 }
 
-function getApiBuilder<TLanguageCodenames extends string>(environmentId: string, schema: DeliveryClientSchema<TLanguageCodenames>) {
-	return {
-		publicApi: () => {
-			return withClient<TLanguageCodenames>({ apiMode: "public", environmentId }, schema);
-		},
-		previewApi: (deliveryApiKey: string) => {
-			return withClient<TLanguageCodenames>({ apiMode: "preview", environmentId, deliveryApiKey }, schema);
-		},
-		secureApi: (deliveryApiKey: string) => {
-			return withClient<TLanguageCodenames>({ apiMode: "secure", environmentId, deliveryApiKey }, schema);
-		},
-	};
-}
-
-function withClient<TLanguageCodenames extends string>(
-	requiredConfig: Pick<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">,
-	schema: DeliveryClientSchema<TLanguageCodenames>,
+function getApiBuilder<const TDeliveryClientTypes extends DeliveryClientTypes>(
+	environmentId: string,
+	schema: DeliveryClientSchema<TDeliveryClientTypes>,
 ) {
 	return {
-		create: (options?: CreateDeliveryClientOptions): DeliveryClient<TLanguageCodenames> =>
-			createDeliveryClient<TLanguageCodenames>({ ...requiredConfig, ...options }, schema),
+		publicApi: () => {
+			return withClient<TDeliveryClientTypes>({ apiMode: "public", environmentId }, schema);
+		},
+		previewApi: (deliveryApiKey: string) => {
+			return withClient<TDeliveryClientTypes>({ apiMode: "preview", environmentId, deliveryApiKey }, schema);
+		},
+		secureApi: (deliveryApiKey: string) => {
+			return withClient<TDeliveryClientTypes>({ apiMode: "secure", environmentId, deliveryApiKey }, schema);
+		},
 	};
 }
 
-function createDeliveryClient<TLanguageCodenames extends string>(
+function withClient<const TDeliveryClientTypes extends DeliveryClientTypes>(
+	requiredConfig: Pick<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">,
+	schema: DeliveryClientSchema<TDeliveryClientTypes>,
+) {
+	return {
+		create: (options?: CreateDeliveryClientOptions): DeliveryClient<TDeliveryClientTypes> =>
+			createDeliveryClient<TDeliveryClientTypes>({ ...requiredConfig, ...options }, schema),
+	};
+}
+
+function createDeliveryClient<const TDeliveryClientTypes extends DeliveryClientTypes>(
 	config: DeliveryClientConfig,
-	schema: DeliveryClientSchema<TLanguageCodenames>,
-): DeliveryClient<TLanguageCodenames> {
+	schema: DeliveryClientSchema<TDeliveryClientTypes>,
+): DeliveryClient<TDeliveryClientTypes> {
 	return {
 		config,
-		listLanguages: () => getListLanguagesQuery<TLanguageCodenames>(config, schema),
+		listLanguages: () => getListLanguagesQuery<TDeliveryClientTypes>(config, schema),
 	};
 }

@@ -4,17 +4,18 @@ import type { ListLanguagesQuery } from "../queries/languages/list-languages-que
 
 export type DeliveryClientTypes = {
 	// readonly contentItemType: IContentItem;
-	// readonly contentTypeCodenames: string;
-	// readonly workflowCodenames: string;
-	// readonly workflowStepCodenames: string;
-	// readonly collectionCodenames: string;
-	// readonly taxonomyCodenames: string;
-	readonly languageCodenames: string;
-	// readonly elementCodenames: string;
+	// readonly contentTypeCodenames: readonly [string, ...string[]];
+	// readonly workflowCodenames: readonly [string, ...string[]];
+	// readonly workflowStepCodenames: readonly [string, ...string[]];
+	// readonly collectionCodenames: readonly [string, ...string[]];
+	readonly taxonomyCodenames: readonly string[];
+	readonly languageCodenames: readonly string[];
+	// readonly elementCodenames: readonly [string, ...string[]];
 };
 
-export type DeliveryClientSchema<TLanguageCodenames extends string> = {
-	readonly languageCodenames: readonly TLanguageCodenames[] | undefined;
+export type DeliveryClientSchema<TDeliveryClientTypes extends DeliveryClientTypes> = {
+	readonly taxonomyCodenames?: TDeliveryClientTypes["taxonomyCodenames"];
+	readonly languageCodenames?: TDeliveryClientTypes["languageCodenames"];
 };
 
 export type DeliveryResponseMeta<TExtraMetadata = unknown> = Pick<AdapterResponse, "status" | "responseHeaders"> & {
@@ -55,13 +56,13 @@ export type DeliveryClientConfig = SdkConfig & {
  * Delivery client instance. This is the main entry point for the delivery API.
  *
  */
-export type DeliveryClient<TLanguageCodenames extends string> = {
+export type DeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes = DeliveryClientTypes> = {
 	readonly config: DeliveryClientConfig;
 
 	/**
 	 * List languages.
 	 */
-	listLanguages(): ListLanguagesQuery<TLanguageCodenames>;
+	listLanguages(): ListLanguagesQuery<TDeliveryClientTypes>;
 };
 
 export type CreateDeliveryClientOptions = Omit<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">;
