@@ -61,7 +61,7 @@
         "clean": "tsx clean.ts"
     },
     "dependencies": {
-        "@kontent-ai/core-sdk": "10.12.1"
+        "@kontent-ai/core-sdk": "10.12.3"
     },
     "devDependencies": {
         "@types/jasmine": "5.1.12",
@@ -78,6 +78,7 @@
         "karma-sourcemap-loader": "0.4.0",
         "karma-typescript": "5.5.4",
         "karma-typescript-es6-transform": "5.5.4",
+        "karma-webpack": "5.0.1",
         "lcov-parse": "1.0.0",
         "mocha": "11.7.5",
         "standard-version": "9.5.0",

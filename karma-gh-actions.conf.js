@@ -1,39 +1,47 @@
 module.exports = function (config) {
     config.set({
-        frameworks: ["jasmine", "karma-typescript"],
+        frameworks: ['jasmine'],
         plugins: [
-            require("karma-jasmine"),
-            require("karma-typescript"),
+            require('karma-jasmine'),
             require('karma-chrome-launcher'),
             require('karma-jasmine-html-reporter'),
+            require('karma-webpack'),
+            require('karma-sourcemap-loader')
         ],
         files: [
-            { pattern: "lib/**/*.ts" },
-            { pattern: "test/browser/**/*.ts" }
-        ],
-        exclude: [
+            { pattern: 'test/browser/**/*.ts', watched: false }
         ],
         preprocessors: {
-            "lib/**/*.ts": ["karma-typescript"],
-            "test/browser/**/*.ts": ["karma-typescript"]
+            'test/browser/**/*.ts': ['webpack', 'sourcemap']
         },
-        reporters: ["kjhtml", "progress", "karma-typescript"],
-        browsers: ["Chrome"],
-        karmaTypescriptConfig: {
-            compilerOptions: {
-                emitDecoratorMetadata: true,
-                experimentalDecorators: true,
-                resolveJsonModule: true,
-                module: "commonjs",
-                sourceMap: true,
-                target: "ES5"
+        reporters: ['kjhtml', 'progress'],
+        browsers: ['Chrome'],
+        webpack: {
+            mode: 'development',
+            devtool: 'inline-source-map',
+            resolve: {
+                extensions: ['.ts', '.js']
             },
-            exclude: ["node_modules"],
-            bundlerOptions: {
-                transforms: [
-                    require("karma-typescript-es6-transform")()
+            module: {
+                rules: [
+                    {
+                        test: /\.ts$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: 'ts-loader',
+                            options: {
+                                transpileOnly: true,
+                                compilerOptions: {
+                                    sourceMap: true
+                                }
+                            }
+                        }
+                    }
                 ]
             }
+        },
+        webpackMiddleware: {
+            stats: 'errors-only'
         },
         coverageReporter: {
             reporters: [
@@ -51,6 +59,6 @@ module.exports = function (config) {
         },
         logLevel: config.DEBUG,
         browserDisconnectTolerance: 2,
-        browserNoActivityTimeout: 5000000
+        browserNoActivityTimeout: 30000
     });
 };
