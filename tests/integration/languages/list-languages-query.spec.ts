@@ -17,12 +17,12 @@ describe("List languages query", async () => {
 	});
 
 	it("Response payload should match schema", async () => {
-		const { error: parseError, success: parseSuccess } = await listLanguagesPayload({}).safeParseAsync(response?.data);
+		const { error: parseError, success: parseSuccess } = await listLanguagesPayload({}).safeParseAsync(response?.payload);
 		expect(parseSuccess).toBeTruthy();
 		expect(parseError).toBeUndefined();
 	});
 
 	it("Response should contain at least one language", () => {
-		expect(response?.data?.languages?.length).toBeGreaterThanOrEqual(1);
+		expect(response?.payload?.languages?.length).toBeGreaterThanOrEqual(1);
 	});
 });
