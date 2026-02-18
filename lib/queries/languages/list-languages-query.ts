@@ -1,7 +1,7 @@
 import { createPagingQuery, type PagingQuery } from "@kontent-ai/core-sdk";
 import { deliverySdkInfo } from "../../delivery-sdk-info.js";
 import type { DeliveryClient, DeliveryClientConfig, DeliveryClientSchema, DeliveryClientTypes } from "../../models/core.models.js";
-import { getPaginationByUrl } from "../../utils/paging.utils.js";
+import { getNextPageByUrl } from "../../utils/paging.utils.js";
 import { getDeliveryEndpointUrl } from "../../utils/url.utils.js";
 import { type ListLanguagesPayload, listLanguagesPayload } from "./language.models.js";
 
@@ -21,7 +21,7 @@ export function getListLanguagesQuery<TDeliveryClientTypes extends DeliveryClien
 		mapMetadata: () => {
 			return {};
 		},
-		pagination: getPaginationByUrl(),
+		getNextPageData: getNextPageByUrl(),
 		request: {
 			url,
 			body: null,

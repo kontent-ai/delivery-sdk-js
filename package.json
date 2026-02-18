@@ -42,7 +42,7 @@
 		"update:version": "tsx ./scripts/update-version.ts"
 	},
 	"dependencies": {
-		"@kontent-ai/core-sdk": "12.0.0-preview.10",
+		"@kontent-ai/core-sdk": "12.0.0-preview.11",
 		"zod": "4.3.6"
 	},
 	"devDependencies": {
