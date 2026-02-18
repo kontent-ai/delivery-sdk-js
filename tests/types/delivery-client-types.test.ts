@@ -30,9 +30,7 @@ if (!languageResponse) {
 }
 
 // Verifies that the language codenames are assignable from the response schema
-const validLanguageCodenames: readonly ("en-US" | "cs-CZ")[] = languageResponse.payload.languages.map(
-	(language) => language.system.codename,
-);
+const validLanguageCodenames: readonly ("en-US" | "cs-CZ")[] = languageResponse.data.languages.map((language) => language.system.codename);
 
 // @ts-expect-error - "de-DE" is not allowed
 const invalidLanguageCodename: DeliveryTypes["languageCodenames"][number] = "de-DE";

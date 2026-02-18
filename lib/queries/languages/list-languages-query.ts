@@ -1,4 +1,4 @@
-import { getQuery, type Query } from "@kontent-ai/core-sdk";
+import { createQuery, type Query } from "@kontent-ai/core-sdk";
 import { deliverySdkInfo } from "../../delivery-sdk-info.js";
 import type { DeliveryClient, DeliveryClientConfig, DeliveryClientSchema, DeliveryClientTypes } from "../../models/core.models.js";
 import { getDeliveryEndpointUrl } from "../../utils/url.utils.js";
@@ -12,13 +12,12 @@ export function getListLanguagesQuery<TDeliveryClientTypes extends DeliveryClien
 ): ReturnType<DeliveryClient<TDeliveryClientTypes>["listLanguages"]> {
 	const url = getDeliveryEndpointUrl({ path: "/languages", ...config });
 
-	const { toPromise } = getQuery<ListLanguagesPayload<TDeliveryClientTypes>, null>({
+	const { toPromise } = createQuery<ListLanguagesPayload<TDeliveryClientTypes>, null>({
 		config,
 		zodSchema: listLanguagesPayload(schema),
 		sdkInfo: deliverySdkInfo,
 		authorizationApiKey: config.deliveryApiKey,
-		continuationToken: undefined,
-		extraMetadata: () => {
+		mapMetadata: () => {
 			return {};
 		},
 		request: {
