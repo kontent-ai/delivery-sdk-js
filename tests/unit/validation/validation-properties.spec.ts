@@ -2,11 +2,11 @@ import type { ErrorReason } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { describe, test } from "vitest";
 import { ZodError } from "zod";
-import { getDeliveryClient } from "../../../lib/client/delivery-client.js";
+import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 
 describe("Response validation", () => {
 	test("Error should be returned when response does not match schema and validation is enabled", async ({ expect }) => {
-		const query = getDeliveryClient("x")
+		const query = createDeliveryClient("x")
 			.withUnknownSchema()
 			.publicApi()
 			.create({
@@ -39,7 +39,7 @@ describe("Response validation", () => {
 	});
 
 	test("Error should not be returned when response does not match schema but validation is disabled", async ({ expect }) => {
-		const { success, error } = await getDeliveryClient("x")
+		const { success, error } = await createDeliveryClient("x")
 			.withUnknownSchema()
 			.publicApi()
 			.create({

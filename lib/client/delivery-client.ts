@@ -49,7 +49,7 @@ type DeliveryApiBuilder<TDeliveryClientTypes extends DeliveryClientTypes> = {
  *
  * @param environmentId - The Id of the Kontent.ai environment.
  */
-export function getDeliveryClient(environmentId: string): DeliverySchemaBuilder {
+export function createDeliveryClient(environmentId: string): DeliverySchemaBuilder {
 	return {
 		withSchema: <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) => {
 			return getApiBuilder<TDeliveryClientTypes>(environmentId, schema);
@@ -83,11 +83,11 @@ function withClient<const TDeliveryClientTypes extends DeliveryClientTypes>(
 ) {
 	return {
 		create: (options?: CreateDeliveryClientOptions): DeliveryClient<TDeliveryClientTypes> =>
-			createDeliveryClient<TDeliveryClientTypes>({ ...requiredConfig, ...options }, schema),
+			buildDeliveryClient<TDeliveryClientTypes>({ ...requiredConfig, ...options }, schema),
 	};
 }
 
-function createDeliveryClient<const TDeliveryClientTypes extends DeliveryClientTypes>(
+function buildDeliveryClient<const TDeliveryClientTypes extends DeliveryClientTypes>(
 	config: DeliveryClientConfig,
 	schema: DeliveryClientSchema<TDeliveryClientTypes>,
 ): DeliveryClient<TDeliveryClientTypes> {

@@ -1,15 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { getDeliveryClient } from "../../../lib/client/delivery-client.js";
+import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import { listLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
 import { getIntegrationTestConfig } from "../../integration-tests.config.js";
+import { isPagingQuery } from "../../utils/test.utils.js";
 
 describe("List languages query", async () => {
 	const config = getIntegrationTestConfig();
-	const client = getDeliveryClient(config.env.id).withUnknownSchema().publicApi().create({
+	const client = createDeliveryClient(config.env.id).withUnknownSchema().publicApi().create({
 		baseUrl: config.env.deliveryBaseUrl,
 	});
 
 	const { response, success, error } = await client.listLanguages().toPromise();
+
+	it("Query should be a paging query", () => {
+		expect(isPagingQuery(client.listLanguages())).toBeTruthy();
+	});
 
 	it("Response should be successful", () => {
 		expect(success).toBeTruthy();

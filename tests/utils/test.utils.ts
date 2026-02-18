@@ -1,4 +1,4 @@
-import type { ContinuationHeaderName, Header } from "@kontent-ai/core-sdk";
+import type { ContinuationHeaderName, Header, PagingQuery, Query } from "@kontent-ai/core-sdk";
 import chalk from "chalk";
 import { config } from "dotenv";
 
@@ -23,3 +23,7 @@ export const fakeXContinuationTokenHeader: Header = {
 	name: "X-Continuation" satisfies ContinuationHeaderName,
 	value: "x",
 };
+
+export function isPagingQuery<T>(query: Query<T> | PagingQuery<T>): query is PagingQuery<T> {
+	return "toPromise" in query && "toAllPromise" in query;
+}

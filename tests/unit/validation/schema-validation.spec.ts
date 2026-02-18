@@ -1,6 +1,6 @@
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { describe, expect, test } from "vitest";
-import { getDeliveryClient } from "../../../lib/client/delivery-client.js";
+import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import type { DeliveryClientTypes } from "../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
 
@@ -27,7 +27,7 @@ describe("Schema validation", () => {
 	};
 
 	test("Response should NOT be successful when response does not match defined language codenames schema", async () => {
-		const client = getDeliveryClient("x")
+		const client = createDeliveryClient("x")
 			.withSchema({ languageCodenames: ["en-US", "cs-CZ"] }) // does not include "de-DE"
 			.publicApi()
 			.create({
@@ -48,7 +48,7 @@ describe("Schema validation", () => {
 	});
 
 	test("Response should be successful when response matches defines language codenames schema", async () => {
-		const client = getDeliveryClient("x")
+		const client = createDeliveryClient("x")
 			.withSchema({ languageCodenames: ["en-US", "cs-CZ", "de-DE"] }) // includes all allowed codenames
 			.publicApi()
 			.create({
@@ -68,7 +68,7 @@ describe("Schema validation", () => {
 	});
 
 	test("Response should be successful when response matches general string codename schema", async () => {
-		const client = getDeliveryClient("x")
+		const client = createDeliveryClient("x")
 			.withUnknownSchema() // should use general string for validation
 			.publicApi()
 			.create({
@@ -88,7 +88,7 @@ describe("Schema validation", () => {
 	});
 
 	test("Response should be successful when an empty array is provided as codenames source", async () => {
-		const client = getDeliveryClient("x")
+		const client = createDeliveryClient("x")
 			.withSchema({ languageCodenames: [] }) // empty array
 			.publicApi()
 			.create({

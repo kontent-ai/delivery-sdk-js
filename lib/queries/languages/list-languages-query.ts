@@ -1,10 +1,11 @@
-import { createQuery, type Query } from "@kontent-ai/core-sdk";
+import { createPagingQuery, type PagingQuery } from "@kontent-ai/core-sdk";
 import { deliverySdkInfo } from "../../delivery-sdk-info.js";
 import type { DeliveryClient, DeliveryClientConfig, DeliveryClientSchema, DeliveryClientTypes } from "../../models/core.models.js";
+import { getPaginationByUrl } from "../../utils/paging.utils.js";
 import { getDeliveryEndpointUrl } from "../../utils/url.utils.js";
 import { type ListLanguagesPayload, listLanguagesPayload } from "./language.models.js";
 
-export type ListLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTypes> = Query<ListLanguagesPayload<TDeliveryClientTypes>>;
+export type ListLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTypes> = PagingQuery<ListLanguagesPayload<TDeliveryClientTypes>>;
 
 export function getListLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTypes>(
 	config: DeliveryClientConfig,
@@ -12,7 +13,7 @@ export function getListLanguagesQuery<TDeliveryClientTypes extends DeliveryClien
 ): ReturnType<DeliveryClient<TDeliveryClientTypes>["listLanguages"]> {
 	const url = getDeliveryEndpointUrl({ path: "/languages", ...config });
 
-	const { toPromise } = createQuery<ListLanguagesPayload<TDeliveryClientTypes>, null>({
+	const { toPromise, toAllPromise } = createPagingQuery<ListLanguagesPayload<TDeliveryClientTypes>, null>({
 		config,
 		zodSchema: listLanguagesPayload(schema),
 		sdkInfo: deliverySdkInfo,
@@ -20,6 +21,7 @@ export function getListLanguagesQuery<TDeliveryClientTypes extends DeliveryClien
 		mapMetadata: () => {
 			return {};
 		},
+		pagination: getPaginationByUrl(),
 		request: {
 			url,
 			body: null,
@@ -30,5 +32,6 @@ export function getListLanguagesQuery<TDeliveryClientTypes extends DeliveryClien
 	return {
 		toUrl: () => url,
 		toPromise,
+		toAllPromise,
 	};
 }

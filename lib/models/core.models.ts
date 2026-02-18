@@ -86,4 +86,4 @@ export const paginationSchema = z.object({
 
 export type PaginationSchema = Readonly<z.infer<typeof paginationSchema>>;
 
-export type PayloadWithPagination<TPayload> = TPayload & PaginationSchema;
+export type ResponseWithPagination<TPayload> = TPayload & PaginationSchema;

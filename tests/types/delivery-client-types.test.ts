@@ -1,5 +1,5 @@
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
-import { getDeliveryClient } from "../../lib/client/delivery-client.js";
+import { createDeliveryClient } from "../../lib/client/delivery-client.js";
 import type { DeliveryClient, DeliveryClientSchema, DeliveryClientTypes } from "../../lib/models/core.models.js";
 
 type DeliveryTypes = DeliveryClientTypes & {
@@ -10,7 +10,7 @@ const schema: DeliveryClientSchema<DeliveryTypes> = {
 	languageCodenames: ["en-US", "cs-CZ"],
 };
 
-const client: DeliveryClient<DeliveryTypes> = getDeliveryClient("x")
+const client: DeliveryClient<DeliveryTypes> = createDeliveryClient("x")
 	.withSchema(schema)
 	.publicApi()
 	.create({
