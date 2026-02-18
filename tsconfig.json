@@ -41,5 +41,5 @@
 		"typeRoots": ["./node_modules/@types"]
 	},
 	"include": ["lib/**/*", "tests/**/*", "eslint.config.js", "vitest.config.ts", "sample/**/*", "scripts/**/*"],
-	"exclude": ["node_modules"]
+	"exclude": ["node_modules", "_legacy"]
 }

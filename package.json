@@ -42,14 +42,14 @@
 		"update:version": "tsx ./scripts/update-version.ts"
 	},
 	"dependencies": {
-		"@kontent-ai/core-sdk": "12.0.0-preview.8",
+		"@kontent-ai/core-sdk": "12.0.0-preview.9",
 		"zod": "4.3.6"
 	},
 	"devDependencies": {
 		"@kontent-ai/biome-config": "0.7.0",
 		"@kontent-ai/eslint-config": "2.3.0",
 		"eslint": "10.0.0",
-		"@biomejs/biome": "2.3.15",
+		"@biomejs/biome": "2.4.2",
 		"@types/node": "25.2.3",
 		"chalk": "5.6.2",
 		"typescript": "5.9.3",
