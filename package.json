@@ -27,9 +27,9 @@
 	"type": "module",
 	"scripts": {
 		"prepublishOnly": "npm run build",
-		"eslint": "eslint",
+		"eslint": "eslint -c eslint.config.mjs .",
 		"lint": "npm run biome:check && npm run eslint",
-		"build": "npm run biome:check && npm run eslint && npm run build:noemit && npm run clean && tsc --p tsconfig.build.json && npm run update:version",
+		"build": "npm run lint && npm run build:noemit && npm run clean && tsc --p tsconfig.build.json && npm run update:version",
 		"build:noemit": "tsc --p tsconfig.json",
 		"test": "npm run test:unit && npm run test:integration && npm run test:types",
 		"test:unit": "vitest run --config=vitest-unit.config.ts",
