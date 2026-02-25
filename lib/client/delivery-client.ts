@@ -5,7 +5,7 @@ import type {
 	DeliveryClientSchema,
 	DeliveryClientTypes,
 } from "../models/core.models.js";
-import { getListLanguagesQuery } from "../queries/languages/list-languages-query.js";
+import { createListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 
 type DeliverySchemaBuilder = {
 	withSchema: <TDeliveryClientTypes extends DeliveryClientTypes>(
@@ -93,6 +93,6 @@ function buildDeliveryClient<const TDeliveryClientTypes extends DeliveryClientTy
 ): DeliveryClient<TDeliveryClientTypes> {
 	return {
 		config,
-		listLanguages: () => getListLanguagesQuery<TDeliveryClientTypes>(config, schema),
+		listLanguages: () => createListLanguagesQuery<TDeliveryClientTypes>(config, schema),
 	};
 }

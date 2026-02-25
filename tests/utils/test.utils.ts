@@ -24,6 +24,6 @@ export const fakeXContinuationTokenHeader: Header = {
 	value: "x",
 };
 
-export function isPagingQuery<T>(query: Query<T> | PagingQuery<T>): query is PagingQuery<T> {
+export function isPagingQuery<T, TBody = null>(query: Query<T, TBody> | PagingQuery<T, TBody>): query is PagingQuery<T, TBody> {
 	return "toPromise" in query && "toAllPromise" in query;
 }
