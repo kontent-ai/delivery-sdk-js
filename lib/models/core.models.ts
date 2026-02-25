@@ -1,4 +1,4 @@
-import type { AdapterResponse, ContinuationHeaderName, SdkConfig } from "@kontent-ai/core-sdk";
+import type { AdapterResponse, SdkConfig } from "@kontent-ai/core-sdk";
 import z from "zod";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 
@@ -67,12 +67,6 @@ export type DeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes = De
 
 export type CreateDeliveryClientOptions = Omit<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">;
 
-export class MissingContinuationTokenError extends Error {
-	constructor() {
-		super(`Missing '${"X-Continuation" satisfies ContinuationHeaderName}' header`);
-	}
-}
-
 export const paginationSchema = z.object({
 	pagination: z
 		.object({
@@ -85,5 +79,3 @@ export const paginationSchema = z.object({
 });
 
 export type PaginationSchema = Readonly<z.infer<typeof paginationSchema>>;
-
-export type ResponseWithPagination<TPayload> = TPayload & PaginationSchema;
