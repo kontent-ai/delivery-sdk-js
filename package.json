@@ -41,16 +41,16 @@
 		"clean": "tsx scripts/clean.ts",
 		"update:version": "tsx ./scripts/update-version.ts"
 	},
-	"dependencies": {
-		"@kontent-ai/core-sdk": "12.0.0-preview.11",
-		"zod": "4.3.6"
+	"peerDependencies": {
+		"@kontent-ai/core-sdk": "^12.0.0-preview.11",
+		"zod": "^4.3.6"
 	},
 	"devDependencies": {
 		"@kontent-ai/biome-config": "0.7.0",
-		"@kontent-ai/eslint-config": "2.3.0",
-		"eslint": "10.0.0",
-		"@biomejs/biome": "2.4.2",
-		"@types/node": "25.2.3",
+		"@kontent-ai/eslint-config": "2.4.1",
+		"eslint": "10.0.2",
+		"@biomejs/biome": "2.4.4",
+		"@types/node": "25.3.0",
 		"chalk": "5.6.2",
 		"typescript": "5.9.3",
 		"vitest": "4.0.18",
