@@ -1,11 +1,11 @@
-import type { ApiMode, DeliveryClientConfig } from "../models/core.models.js";
+import type { ApiMode, DeliveryClientConfig, DeliveryEndpoints } from "../models/core.models.js";
 
-export function getDeliveryEndpointUrl({
+export function getDeliveryUrl({
 	environmentId,
 	path,
 	baseUrl,
 	apiMode,
-}: { readonly path: string } & Pick<DeliveryClientConfig, "baseUrl" | "environmentId" | "apiMode">): string {
+}: { readonly path: DeliveryEndpoints } & Pick<DeliveryClientConfig, "baseUrl" | "environmentId" | "apiMode">): string {
 	return getEndpointUrl({
 		environmentId,
 		path,

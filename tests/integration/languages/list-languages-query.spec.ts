@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import { listLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
-import { getDeliveryEndpointUrl } from "../../../lib/utils/url.utils.js";
+import { getDeliveryUrl } from "../../../lib/utils/url.utils.js";
 import { getIntegrationTestConfig } from "../../integration-tests.config.js";
 import { isPagingQuery } from "../../utils/test.utils.js";
 
@@ -16,7 +16,7 @@ describe("List languages query", async () => {
 	const { response, success, error } = await query.toPromise();
 
 	it("Expect url to be correct", () => {
-		expect(query.toUrl()).toBe(`${getDeliveryEndpointUrl({ apiMode: "public", environmentId: config.env.id, path: "/languages" })}`);
+		expect(query.toUrl()).toBe(`${getDeliveryUrl({ apiMode: "public", environmentId: config.env.id, path: "languages" })}`);
 	});
 
 	it("Query should be a paging query", () => {

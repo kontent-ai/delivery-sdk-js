@@ -79,3 +79,16 @@ export const paginationSchema = z.object({
 });
 
 export type PaginationSchema = Readonly<z.infer<typeof paginationSchema>>;
+
+export type DeliveryEndpoints =
+	| "languages"
+	| "items"
+	| `items/${string}`
+	| "items-feed"
+	| `assets/${string}/used-in`
+	| `items/${string}/used-in`
+	| "taxonomies"
+	| `taxonomies/${string}`
+	| "types"
+	| `types/${string}`
+	| `types/${string}/elements/${string}`;
