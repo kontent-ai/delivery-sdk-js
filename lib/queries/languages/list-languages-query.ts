@@ -1,8 +1,6 @@
-import { createPagingQuery, type PagingQuery } from "@kontent-ai/core-sdk";
-import { deliverySdkInfo } from "../../delivery-sdk-info.js";
+import type { PagingQuery } from "@kontent-ai/core-sdk";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryClientTypes } from "../../models/core.models.js";
-import { getNextPageByUrl } from "../../utils/paging.utils.js";
-import { getDeliveryUrl } from "../../utils/url.utils.js";
+import { createDeliveryPagingQuery } from "../delivery-queries.js";
 import { type ListLanguagesPayload, listLanguagesPayload } from "./language.models.js";
 
 export type ListLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTypes> = PagingQuery<
@@ -14,19 +12,9 @@ export function listLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTy
 	config: DeliveryClientConfig,
 	schema: DeliveryClientSchema<TDeliveryClientTypes>,
 ): ListLanguagesQuery<TDeliveryClientTypes> {
-	return createPagingQuery<ListLanguagesPayload<TDeliveryClientTypes>, null, null>({
+	return createDeliveryPagingQuery({
 		config,
 		zodSchema: listLanguagesPayload(schema),
-		sdkInfo: deliverySdkInfo,
-		authorizationApiKey: config.deliveryApiKey,
-		mapMetadata: () => {
-			return null;
-		},
-		getNextPageData: getNextPageByUrl(),
-		request: {
-			url: getDeliveryUrl({ path: "languages", ...config }),
-			body: null,
-			method: "GET",
-		},
+		endpoint: "languages",
 	});
 }
