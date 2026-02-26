@@ -8,6 +8,7 @@ export const languagePayload = <TDeliveryClientTypes extends DeliveryClientTypes
 			system: z
 				.object({
 					id: z.string(),
+					name: z.string(),
 					codename: getCodenameSchema(schema.languageCodenames),
 				})
 				.readonly(),
@@ -19,7 +20,7 @@ export const listLanguagesPayload = <TDeliveryClientTypes extends DeliveryClient
 ) =>
 	z
 		.object({
-			languages: z.array(languagePayload(schema)),
+			languages: z.array(languagePayload(schema)).readonly(),
 			...paginationSchema.shape,
 		})
 		.readonly();

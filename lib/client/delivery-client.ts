@@ -8,9 +8,23 @@ import type {
 import { createListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 
 type DeliverySchemaBuilder = {
+	/**
+	 * By providing a schema, you get stronger type safety,
+	 * which means many potential errors are caught at compile time rather than at runtime.
+	 *
+	 * Schemas can be generated using the `@kontent-ai/model-generator` npm package.
+	 */
 	withSchema: <TDeliveryClientTypes extends DeliveryClientTypes>(
 		schema: DeliveryClientSchema<TDeliveryClientTypes>,
 	) => DeliveryApiBuilder<TDeliveryClientTypes>;
+	/**
+	 * Use this only when you cannot provide a schema and have a strong reason to accept reduced type safety.
+	 *
+	 * Prefer `withSchema` whenever possible to ensure potential errors are caught at compile time
+	 * rather than at runtime.
+	 *
+	 * Schemas can be generated using the `@kontent-ai/model-generator` npm package.
+	 */
 	withUnknownSchema: () => DeliveryApiBuilder<DeliveryClientTypes>;
 };
 

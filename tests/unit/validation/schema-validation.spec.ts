@@ -15,6 +15,7 @@ describe("Schema validation", () => {
 				system: {
 					id: "1",
 					codename: "de-DE",
+					name: "German",
 				},
 			},
 		],
