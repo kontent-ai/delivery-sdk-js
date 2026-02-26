@@ -3,10 +3,11 @@ import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit
 import { describe, test } from "vitest";
 import { ZodError } from "zod";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
+import { unitEnvironmentId } from "../../utils/test.utils.js";
 
 describe("Response validation", () => {
 	test("Error should be returned when response does not match schema and validation is enabled", async ({ expect }) => {
-		const query = createDeliveryClient("x")
+		const query = createDeliveryClient(unitEnvironmentId)
 			.withUnknownSchema()
 			.publicApi()
 			.create({

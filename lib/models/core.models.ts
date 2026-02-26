@@ -1,6 +1,7 @@
 import type { AdapterResponse, SdkConfig } from "@kontent-ai/core-sdk";
 import z from "zod";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
+import type { ListTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
 
 export type DeliveryClientTypes = {
 	// readonly contentItemType: IContentItem;
@@ -63,6 +64,11 @@ export type DeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes = De
 	 * List languages.
 	 */
 	listLanguages(): ListLanguagesQuery<TDeliveryClientTypes>;
+
+	/**
+	 * List taxonomies.
+	 */
+	listTaxonomies(): ListTaxonomiesQuery<TDeliveryClientTypes>;
 };
 
 export type CreateDeliveryClientOptions = Omit<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">;

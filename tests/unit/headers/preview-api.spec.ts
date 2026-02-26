@@ -2,6 +2,7 @@ import { type CommonHeaderNames, getDefaultHttpAdapter, getDefaultHttpService, t
 import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDeliveryClient } from "../../../lib/public_api.js";
+import { unitEnvironmentId } from "../../utils/test.utils.js";
 
 describe("Preview API", async () => {
 	afterEach(() => {
@@ -17,7 +18,7 @@ describe("Preview API", async () => {
 	let requestHeaders: readonly Header[] = [];
 	const previewApiKey = "y";
 
-	const query = createDeliveryClient("x")
+	const query = createDeliveryClient(unitEnvironmentId)
 		.withUnknownSchema()
 		.previewApi(previewApiKey)
 		.create({

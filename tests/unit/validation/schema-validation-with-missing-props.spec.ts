@@ -3,6 +3,7 @@ import { describe, expect, test } from "vitest";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import type { DeliveryClientTypes } from "../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
+import { unitEnvironmentId } from "../../utils/test.utils.js";
 
 describe("Valid schema validation with missing props", () => {
 	const mockPayload: Omit<ListLanguagesPayload<DeliveryClientTypes>, "pagination"> = {
@@ -18,7 +19,7 @@ describe("Valid schema validation with missing props", () => {
 	};
 
 	test("Validation should fail when response is missing schema properties", async () => {
-		const client = createDeliveryClient("x")
+		const client = createDeliveryClient(unitEnvironmentId)
 			.withUnknownSchema()
 			.publicApi()
 			.create({

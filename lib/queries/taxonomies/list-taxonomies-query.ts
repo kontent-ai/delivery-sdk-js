@@ -3,20 +3,20 @@ import { deliverySdkInfo } from "../../delivery-sdk-info.js";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryClientTypes } from "../../models/core.models.js";
 import { getNextPageByUrl } from "../../utils/paging.utils.js";
 import { getDeliveryUrl } from "../../utils/url.utils.js";
-import { type ListLanguagesPayload, listLanguagesPayload } from "./language.models.js";
+import { type ListTaxonomiesPayload, listTaxonomiesPayload } from "./taxonomy.models.js";
 
-export type ListLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTypes> = PagingQuery<
-	ListLanguagesPayload<TDeliveryClientTypes>,
+export type ListTaxonomiesQuery<TDeliveryClientTypes extends DeliveryClientTypes> = PagingQuery<
+	ListTaxonomiesPayload<TDeliveryClientTypes>,
 	null
 >;
 
-export function listLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTypes>(
+export function listTaxonomiesQuery<TDeliveryClientTypes extends DeliveryClientTypes>(
 	config: DeliveryClientConfig,
 	schema: DeliveryClientSchema<TDeliveryClientTypes>,
-): ListLanguagesQuery<TDeliveryClientTypes> {
-	return createPagingQuery<ListLanguagesPayload<TDeliveryClientTypes>, null, null>({
+): ListTaxonomiesQuery<TDeliveryClientTypes> {
+	return createPagingQuery<ListTaxonomiesPayload<TDeliveryClientTypes>, null, null>({
 		config,
-		zodSchema: listLanguagesPayload(schema),
+		zodSchema: listTaxonomiesPayload(schema),
 		sdkInfo: deliverySdkInfo,
 		authorizationApiKey: config.deliveryApiKey,
 		mapMetadata: () => {
@@ -24,7 +24,7 @@ export function listLanguagesQuery<TDeliveryClientTypes extends DeliveryClientTy
 		},
 		getNextPageData: getNextPageByUrl(),
 		request: {
-			url: getDeliveryUrl({ path: "languages", ...config }),
+			url: getDeliveryUrl({ path: "taxonomies", ...config }),
 			body: null,
 			method: "GET",
 		},

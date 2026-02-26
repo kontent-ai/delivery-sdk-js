@@ -1,11 +1,12 @@
 import { type ErrorReason, getDefaultHttpService } from "@kontent-ai/core-sdk";
 import { describe, expect, it } from "vitest";
 import { createDeliveryClient } from "../../../lib/public_api.js";
+import { unitEnvironmentId } from "../../utils/test.utils.js";
 
 class CustomError extends Error {}
 
 describe("Handling of custom errors", async () => {
-	const { success, error } = await createDeliveryClient("x")
+	const { success, error } = await createDeliveryClient(unitEnvironmentId)
 		.withUnknownSchema()
 		.publicApi()
 		.create({
