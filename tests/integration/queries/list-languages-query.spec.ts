@@ -1,10 +1,10 @@
 import { describe } from "vitest";
 import type { DeliveryClientTypes } from "../../../lib/models/core.models.js";
 import { type ListLanguagesPayload, listLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
-import { runQueryIntegrationTestsAsync } from "../../utils/integration-test.utils.js";
+import { runQueryTestsAsync } from "../../utils/integration-test.utils.js";
 
 describe("List languages query", async () => {
-	await runQueryIntegrationTestsAsync<ListLanguagesPayload<DeliveryClientTypes>>({
+	await runQueryTestsAsync<ListLanguagesPayload<DeliveryClientTypes>>({
 		endpoint: "languages",
 		unitTestPayload: {
 			languages: [

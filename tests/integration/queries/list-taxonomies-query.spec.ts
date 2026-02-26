@@ -1,10 +1,10 @@
 import { describe } from "vitest";
 import type { DeliveryClientTypes } from "../../../lib/models/core.models.js";
 import { type ListTaxonomiesPayload, listTaxonomiesPayload } from "../../../lib/queries/taxonomies/taxonomy.models.js";
-import { runQueryIntegrationTestsAsync } from "../../utils/integration-test.utils.js";
+import { runQueryTestsAsync } from "../../utils/integration-test.utils.js";
 
 describe("List taxonomies query", async () => {
-	await runQueryIntegrationTestsAsync<ListTaxonomiesPayload<DeliveryClientTypes>>({
+	await runQueryTestsAsync<ListTaxonomiesPayload<DeliveryClientTypes>>({
 		endpoint: "taxonomies",
 		unitTestPayload: {
 			taxonomies: [
