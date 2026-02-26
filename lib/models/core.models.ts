@@ -1,5 +1,6 @@
 import type { AdapterResponse, SdkConfig } from "@kontent-ai/core-sdk";
 import z from "zod";
+import type { ListContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import type { ListTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
 
@@ -69,6 +70,11 @@ export type DeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes = De
 	 * List taxonomies.
 	 */
 	listTaxonomies(): ListTaxonomiesQuery<TDeliveryClientTypes>;
+
+	/**
+	 * List content types.
+	 */
+	listContentTypes(): ListContentTypesQuery<TDeliveryClientTypes>;
 };
 
 export type CreateDeliveryClientOptions = Omit<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">;
@@ -98,3 +104,7 @@ export type DeliveryEndpoints =
 	| "types"
 	| `types/${string}`
 	| `types/${string}/elements/${string}`;
+
+export const nilUuid = "00000000-0000-0000-0000-000000000000";
+
+export const kontentUuidSchema = z.union([z.uuid({ version: "v4" }), z.literal(nilUuid)]);

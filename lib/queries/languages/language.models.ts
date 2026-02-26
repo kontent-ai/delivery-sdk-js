@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { type DeliveryClientSchema, type DeliveryClientTypes, paginationSchema } from "../../models/core.models.js";
+import { type DeliveryClientSchema, type DeliveryClientTypes, kontentUuidSchema, paginationSchema } from "../../models/core.models.js";
 import { getCodenameSchema } from "../../utils/type.utils.js";
 
 export const languagePayload = <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) =>
@@ -7,7 +7,7 @@ export const languagePayload = <TDeliveryClientTypes extends DeliveryClientTypes
 		.object({
 			system: z
 				.object({
-					id: z.string(),
+					id: kontentUuidSchema,
 					name: z.string(),
 					codename: getCodenameSchema(schema.languageCodenames),
 				})

@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import type { DeliveryClientTypes } from "../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
-import { unitEnvironmentId } from "../../utils/test.utils.js";
+import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 
 type TestDeliveryClientTypes = DeliveryClientTypes & {
 	readonly languageCodenames: readonly ["en-US", "cs-CZ", "de-DE"];
@@ -14,7 +14,7 @@ describe("Schema validation", () => {
 		languages: [
 			{
 				system: {
-					id: "1",
+					id: getFakeUuid(),
 					codename: "de-DE",
 					name: "German",
 				},

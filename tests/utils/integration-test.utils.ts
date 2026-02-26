@@ -134,13 +134,13 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 		expect(query.toUrl()).toBe(`${getDeliveryUrl({ apiMode: "public", environmentId: client.config.environmentId, path: endpoint })}`);
 	});
 	it(`${testName} Response should be successful`, () => {
-		expect(success).toBeTruthy();
 		expect(error).toBeUndefined();
+		expect(success).toBeTruthy();
 	});
 	it(`${testName} Response payload should match schema`, async () => {
 		const { error: parseError, success: parseSuccess } = await expectedSchema.safeParseAsync(response?.payload);
-		expect(parseSuccess).toBeTruthy();
 		expect(parseError).toBeUndefined();
+		expect(parseSuccess).toBeTruthy();
 	});
 	if (testType === "Unit") {
 		it(`${testName} Payload should be equal to unit test payload`, () => {
@@ -173,8 +173,8 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	readonly maxPagesCount: number;
 }): void {
 	it(`${testName} Response should be successful`, () => {
-		expect(pagingSuccess).toBeTruthy();
 		expect(pagingError).toBeUndefined();
+		expect(pagingSuccess).toBeTruthy();
 	});
 	if (testType === "Unit") {
 		const firstResponse = pagingResponses?.[0];
@@ -184,8 +184,8 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	}
 	it(`${testName} First paging response payload should match schema`, async () => {
 		const { error: parseError, success: parseSuccess } = await expectedSchema.safeParseAsync(response?.payload);
-		expect(parseSuccess).toBeTruthy();
 		expect(parseError).toBeUndefined();
+		expect(parseSuccess).toBeTruthy();
 	});
 	it(`${testName} Iterator responses should be equal to paging responses`, () => {
 		expect(iteratorPayloads.length).toEqual(maxPagesCount);

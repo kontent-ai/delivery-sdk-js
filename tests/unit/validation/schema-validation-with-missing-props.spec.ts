@@ -3,14 +3,14 @@ import { describe, expect, test } from "vitest";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import type { DeliveryClientTypes } from "../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
-import { unitEnvironmentId } from "../../utils/test.utils.js";
+import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 
 describe("Valid schema validation with missing props", () => {
 	const mockPayload: Omit<ListLanguagesPayload<DeliveryClientTypes>, "pagination"> = {
 		languages: [
 			{
 				system: {
-					id: "1",
+					id: getFakeUuid(),
 					codename: "de-DE",
 					name: "German",
 				},
