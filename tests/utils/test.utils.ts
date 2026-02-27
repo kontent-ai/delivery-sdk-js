@@ -1,33 +1,13 @@
-import type { ContinuationHeaderName, Header, PagingQuery, Query } from "@kontent-ai/core-sdk";
-import chalk from "chalk";
+import { type ContinuationHeaderName, type Header, nilUuid } from "@kontent-ai/core-sdk";
 import { config } from "dotenv";
-import { nilUuid } from "../../lib/models/core.models.js";
 
 // needed to load .env environment to current process when run via package.json script
 config();
-
-export function getEnvironmentRequiredValue(variableName: string): string {
-	const value = getEnvironmentOptionalValue(variableName);
-
-	if (!value) {
-		throw new Error(`Missing environment variable '${chalk.red(variableName)}'`);
-	}
-
-	return value;
-}
-
-export function getEnvironmentOptionalValue(variableName: string): string | undefined {
-	return process.env[variableName];
-}
 
 export const fakeXContinuationTokenHeader: Header = {
 	name: "X-Continuation" satisfies ContinuationHeaderName,
 	value: "x",
 };
-
-export function isPagingQuery<T, TBody = null>(query: Query<T, TBody> | PagingQuery<T, TBody>): query is PagingQuery<T, TBody> {
-	return "toPromise" in query && "toAllPromise" in query && "pages" in query;
-}
 
 export const unitEnvironmentId = "xyz";
 

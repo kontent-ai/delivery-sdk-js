@@ -1,3 +1,4 @@
+import { getEndpointUrl } from "@kontent-ai/core-sdk";
 import type { ApiMode, DeliveryClientConfig, DeliveryEndpoints } from "../models/core.models.js";
 
 export function getDeliveryUrl({
@@ -13,26 +14,10 @@ export function getDeliveryUrl({
 	});
 }
 
-export function getEndpointUrl({
-	environmentId,
-	path,
-	baseUrl,
-}: {
-	readonly environmentId: string;
-	readonly path: string;
-	readonly baseUrl: string;
-}): string {
-	return removeDuplicateSlashes(`${baseUrl}/${environmentId}/${path}`);
-}
-
 function getDefaultBaseUrlForApiMode(apiMode: ApiMode): string {
 	if (apiMode === "preview") {
 		return "https://preview-deliver.kontent.ai";
 	}
 
 	return "https://deliver.kontent.ai";
-}
-
-function removeDuplicateSlashes(path: string): string {
-	return path.replace(/\/+/g, "/");
 }

@@ -1,5 +1,5 @@
-import { getEndpointUrl } from "../lib/utils/url.utils.js";
-import { getEnvironmentOptionalValue, getEnvironmentRequiredValue } from "./utils/test.utils.js";
+import { getEndpointUrl } from "@kontent-ai/core-sdk";
+import { getEnvironmentOptionalValue, getEnvironmentRequiredValue } from "@kontent-ai/core-sdk/devkit";
 
 export function getIntegrationTestConfig() {
 	const integrationEnv = {

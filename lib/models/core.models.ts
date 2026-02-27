@@ -104,7 +104,3 @@ export type DeliveryEndpoints =
 	| "types"
 	| `types/${string}`
 	| `types/${string}/elements/${string}`;
-
-export const nilUuid = "00000000-0000-0000-0000-000000000000";
-
-export const kontentUuidSchema = z.union([z.uuid({ version: "v4" }), z.literal(nilUuid)]);

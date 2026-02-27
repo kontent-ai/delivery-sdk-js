@@ -1,4 +1,4 @@
-import type { JsonValue, PagingQuery, Query } from "@kontent-ai/core-sdk";
+import { isPagingQuery, type JsonValue, type PagingQuery, type Query } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { expect, it } from "vitest";
 import type { ZodType } from "zod";
@@ -6,7 +6,7 @@ import type { DeliveryClient, DeliveryClientTypes, DeliveryEndpoints } from "../
 import { createDeliveryClient } from "../../lib/public_api.js";
 import { getDeliveryUrl } from "../../lib/utils/url.utils.js";
 import { getIntegrationTestConfig } from "../integration-tests.config.js";
-import { isPagingQuery, unitEnvironmentId } from "./test.utils.js";
+import { unitEnvironmentId } from "./test.utils.js";
 
 type TestType = "Integration" | "Unit";
 

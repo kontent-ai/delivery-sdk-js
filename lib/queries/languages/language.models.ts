@@ -1,6 +1,6 @@
+import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
-import { type DeliveryClientSchema, type DeliveryClientTypes, kontentUuidSchema, paginationSchema } from "../../models/core.models.js";
-import { getCodenameSchema } from "../../utils/type.utils.js";
+import { type DeliveryClientSchema, type DeliveryClientTypes, paginationSchema } from "../../models/core.models.js";
 
 export const languagePayload = <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) =>
 	z
