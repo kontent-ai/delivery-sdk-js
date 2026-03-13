@@ -3,8 +3,8 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig(
 	{
-		// Global ignores (applies regardless of which configs/plugins match files)
-		ignores: ["dist/**/*", "_legacy/**/*", "coverage/**/*"],
+		// Global ignores
+		ignores: ["dist/**/*", "_legacy/**/*"],
 	},
 	{
 		extends: [kontentAiConfig],

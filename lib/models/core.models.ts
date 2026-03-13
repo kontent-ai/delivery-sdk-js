@@ -1,4 +1,4 @@
-import type { AdapterResponse, SdkConfig } from "@kontent-ai/core-sdk";
+import type { AdapterResponse, JsonValue, SdkConfig } from "@kontent-ai/core-sdk";
 import z from "zod";
 import type { ListContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
@@ -20,7 +20,7 @@ export type DeliveryClientSchema<TDeliveryClientTypes extends DeliveryClientType
 	readonly languageCodenames?: TDeliveryClientTypes["languageCodenames"];
 };
 
-export type DeliveryResponseMeta<TExtraMetadata = unknown> = Pick<AdapterResponse, "status" | "responseHeaders"> & {
+export type DeliveryResponseMeta<TExtraMetadata = unknown> = Pick<AdapterResponse<JsonValue>, "status" | "responseHeaders"> & {
 	readonly continuationToken?: string;
 } & TExtraMetadata;
 

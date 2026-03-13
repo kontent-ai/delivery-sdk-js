@@ -23,16 +23,15 @@ describe("Response validation", () => {
 			})
 			.listLanguages();
 
-		const { success, error } = await query.toPromise();
+		const { success, error } = await query.fetchPageSafe();
 
 		expect(success).toBe(false);
 		expect(error).toBeDefined();
 		expect(error?.details.reason).toStrictEqual<ErrorReason>("validationFailed");
 
 		if (error?.details.reason === "validationFailed") {
-			expect(error.details.url).toStrictEqual(query.toUrl());
+			expect(error.details.url).toStrictEqual(query.url);
 			expect(error.details.zodError).toBeInstanceOf(ZodError);
-			expect(error.details.message).toBeDefined();
 			expect(error.details.response).toBeDefined();
 		} else {
 			throw new Error(`Unexpected error reason '${error?.details.reason}'`);
@@ -56,7 +55,7 @@ describe("Response validation", () => {
 				}),
 			})
 			.listLanguages()
-			.toPromise();
+			.fetchPageSafe();
 
 		expect(success).toBe(true);
 		expect(error).toBeUndefined();

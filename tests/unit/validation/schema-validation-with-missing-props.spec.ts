@@ -32,7 +32,7 @@ describe("Valid schema validation with missing props", () => {
 				}),
 			});
 
-		const { success, error } = await client.listLanguages().toPromise();
+		const { success, error } = await client.listLanguages().fetchPageSafe();
 
 		expect(error).toBeDefined();
 		expect(success).toBeFalsy();

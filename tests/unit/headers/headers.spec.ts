@@ -29,10 +29,10 @@ describe("Delivery tracking header", async () => {
 		.create({
 			httpService: getDefaultHttpService({
 				adapter: {
-					requestAsync: async (options) => {
+					executeRequest: async (options) => {
 						requestHeaders = options.requestHeaders ?? [];
 
-						return await getDefaultHttpAdapter().requestAsync(options);
+						return await getDefaultHttpAdapter().executeRequest(options);
 					},
 				},
 			}),
@@ -40,7 +40,7 @@ describe("Delivery tracking header", async () => {
 		.listLanguages();
 
 	// execute query so that http service is called and request headers are captured
-	const { success, error } = await query.toPromise();
+	const { success, error } = await query.fetchPageSafe();
 
 	it("Response should be successful", () => {
 		expect(success).toBeTruthy();

@@ -1,11 +1,11 @@
-import type { PagingQuery } from "@kontent-ai/core-sdk";
+import type { PagedFetchQuery } from "@kontent-ai/core-sdk";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryClientTypes } from "../../models/core.models.js";
 import { createDeliveryPagingQuery } from "../delivery-queries.js";
 import { type ListTaxonomiesPayload, listTaxonomiesPayload } from "./taxonomy.models.js";
 
-export type ListTaxonomiesQuery<TDeliveryClientTypes extends DeliveryClientTypes> = PagingQuery<
+export type ListTaxonomiesQuery<TDeliveryClientTypes extends DeliveryClientTypes> = PagedFetchQuery<
 	ListTaxonomiesPayload<TDeliveryClientTypes>,
-	null
+	unknown
 >;
 
 export function listTaxonomiesQuery<TDeliveryClientTypes extends DeliveryClientTypes>(

@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDeliveryClient } from "../../../lib/public_api.js";
 import { unitEnvironmentId } from "../../utils/test.utils.js";
 
-describe("Preview API", async () => {
+describe("Public deliver API", async () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});
@@ -16,18 +16,17 @@ describe("Preview API", async () => {
 	});
 
 	let requestHeaders: readonly Header[] = [];
-	const previewApiKey = "y";
 
 	const query = createDeliveryClient(unitEnvironmentId)
 		.withUnknownSchema()
-		.previewApi(previewApiKey)
+		.publicApi()
 		.create({
 			httpService: getDefaultHttpService({
 				adapter: {
-					requestAsync: async (options) => {
+					executeRequest: async (options) => {
 						requestHeaders = options.requestHeaders ?? [];
 
-						return await getDefaultHttpAdapter().requestAsync(options);
+						return await getDefaultHttpAdapter().executeRequest(options);
 					},
 				},
 			}),
@@ -35,20 +34,20 @@ describe("Preview API", async () => {
 		.listLanguages();
 
 	// execute query so that http service is called and request headers are captured
-	const { success, error } = await query.toPromise();
+	const { success, error, response } = await query.fetchPageSafe();
 
 	it("Response should be successful", () => {
 		expect(success).toBeTruthy();
 		expect(error).toBeUndefined();
 	});
 
-	it("Request headers should contain authorization header with delivery API key", () => {
+	it("Request headers should NOT contain authorization header with delivery API key", () => {
 		const authorizationHeader = requestHeaders.find((header) => header.name === ("Authorization" satisfies CommonHeaderNames));
-		expect(authorizationHeader?.value).toEqual(`Bearer ${previewApiKey}`);
+		expect(authorizationHeader).toBeUndefined();
 	});
 
-	it("URL should point to preview API", () => {
-		const { host } = new URL(query.toUrl());
-		expect(host).toEqual("preview-deliver.kontent.ai");
+	it("URL should point to public deliver API", () => {
+		const { host } = new URL(response?.meta?.url ?? "n/a");
+		expect(host).toEqual("deliver.kontent.ai");
 	});
 });

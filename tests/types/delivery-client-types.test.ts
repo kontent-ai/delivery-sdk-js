@@ -23,11 +23,7 @@ const client: DeliveryClient<DeliveryTypes> = createDeliveryClient("x")
 		}),
 	});
 
-const { response: languageResponse } = await client.listLanguages().toPromise();
-
-if (!languageResponse) {
-	throw new Error("Language response is undefined");
-}
+const languageResponse = await client.listLanguages().fetchPage();
 
 // Verifies that the language codenames are assignable from the response schema
 const validLanguageCodenames: readonly ("en-US" | "cs-CZ")[] = languageResponse.payload.languages.map(

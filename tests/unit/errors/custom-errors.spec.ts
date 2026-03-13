@@ -15,25 +15,25 @@ describe("Handling of custom errors", async () => {
 			},
 			httpService: getDefaultHttpService({
 				adapter: {
-					requestAsync: () => {
+					executeRequest: () => {
 						throw new CustomError();
 					},
 				},
 			}),
 		})
 		.listLanguages()
-		.toPromise();
+		.fetchPageSafe();
 
 	it("Success should be false", () => {
 		expect(success).toBe(false);
 	});
 
-	it("Error should be unknown", () => {
-		expect(error?.details.reason).toBe<ErrorReason>("unknown");
+	it("Error should be adapterError", () => {
+		expect(error?.details.reason).toBe<ErrorReason>("adapterError");
 	});
 
 	it("Original error should be propagated and be of proper type", () => {
-		if (error?.details.reason === "unknown") {
+		if (error?.details.reason === "adapterError") {
 			expect(error.details.originalError).toBeInstanceOf(CustomError);
 		} else {
 			throw new Error("Error should be unknown");

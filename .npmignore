@@ -1,10 +1,6 @@
 # Ignore everything
 *
-
-# But descend into directories
-
-# Recursively allow files under subtree
-!/lib/**
+# And allow following
 !/dist/**
 !package.json
 !.npmignore

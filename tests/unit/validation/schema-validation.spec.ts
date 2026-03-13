@@ -42,7 +42,7 @@ describe("Schema validation", () => {
 				}),
 			});
 
-		const { success, error } = await client.listLanguages().toPromise();
+		const { success, error } = await client.listLanguages().fetchPageSafe();
 
 		expect(error).toBeDefined();
 		expect(success).toBeFalsy();
@@ -63,7 +63,7 @@ describe("Schema validation", () => {
 				}),
 			});
 
-		const { success, error } = await client.listLanguages().toPromise();
+		const { success, error } = await client.listLanguages().fetchPageSafe();
 
 		expect(error).toBeUndefined();
 		expect(success).toBeTruthy();
@@ -83,7 +83,7 @@ describe("Schema validation", () => {
 				}),
 			});
 
-		const { success, error } = await client.listLanguages().toPromise();
+		const { success, error } = await client.listLanguages().fetchPageSafe();
 
 		expect(error).toBeUndefined();
 		expect(success).toBeTruthy();
@@ -103,7 +103,7 @@ describe("Schema validation", () => {
 				}),
 			});
 
-		const { success, error } = await client.listLanguages().toPromise();
+		const { success, error } = await client.listLanguages().fetchPageSafe();
 
 		expect(error).toBeUndefined();
 		expect(success).toBeTruthy();

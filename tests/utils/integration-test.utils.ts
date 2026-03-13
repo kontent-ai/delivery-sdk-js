@@ -1,4 +1,4 @@
-import { isPagingQuery, type JsonValue, type PagingQuery, type Query } from "@kontent-ai/core-sdk";
+import { type FetchQuery, isPagingQuery, type JsonValue, type PagedFetchQuery } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { expect, it } from "vitest";
 import type { ZodType } from "zod";
@@ -10,6 +10,10 @@ import { unitEnvironmentId } from "./test.utils.js";
 
 type TestType = "Integration" | "Unit";
 
+type SelectQuery<TResponsePayload extends JsonValue> = (
+	client: DeliveryClient<DeliveryClientTypes>,
+) => FetchQuery<TResponsePayload, unknown> | PagedFetchQuery<TResponsePayload, unknown>;
+
 export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 	endpoint,
 	unitTestPayload,
@@ -19,7 +23,7 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 	readonly expectedSchema: ZodType<TResponsePayload>;
 	readonly endpoint: DeliveryEndpoints;
 	readonly unitTestPayload: TResponsePayload;
-	readonly selectQuery: (client: DeliveryClient<DeliveryClientTypes>) => Query<TResponsePayload, unknown>;
+	readonly selectQuery: SelectQuery<TResponsePayload>;
 }): Promise<void> {
 	const integrationTestConfig = getIntegrationTestConfig();
 	const clients = createTestClients({
@@ -82,9 +86,12 @@ function createTestClients<TResponsePayload extends JsonValue>({
 					statusCode: 200,
 				}),
 			}),
-		createDeliveryClient(environmentId).withUnknownSchema().publicApi().create({
-			baseUrl: deliveryBaseUrl,
-		}),
+		createDeliveryClient(environmentId)
+			.withUnknownSchema()
+			.publicApi()
+			.create({
+				...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
+			}),
 	];
 }
 
@@ -122,7 +129,7 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 	readonly testName: string;
 	readonly endpoint: DeliveryEndpoints;
 	readonly client: DeliveryClient<DeliveryClientTypes>;
-	readonly query: Query<TResponsePayload, unknown>;
+	readonly query: ReturnType<SelectQuery<TResponsePayload>>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly success: boolean;
 	readonly error: unknown;
@@ -131,7 +138,7 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 	readonly testType: TestType;
 }): void {
 	it(`${testName} Expect url to be correct`, () => {
-		expect(query.toUrl()).toBe(`${getDeliveryUrl({ apiMode: "public", environmentId: client.config.environmentId, path: endpoint })}`);
+		expect(query.url).toBe(`${getDeliveryUrl({ apiMode: "public", environmentId: client.config.environmentId, path: endpoint })}`);
 	});
 	it(`${testName} Response should be successful`, () => {
 		expect(error).toBeUndefined();
@@ -203,22 +210,26 @@ async function executeDefaultQueryAsync<TResponsePayload extends JsonValue>({
 	selectQuery,
 }: {
 	readonly client: DeliveryClient<DeliveryClientTypes>;
-	readonly selectQuery: (client: DeliveryClient<DeliveryClientTypes>) => Query<TResponsePayload, unknown>;
+	readonly selectQuery: SelectQuery<TResponsePayload>;
 }): Promise<{
-	readonly query: Query<TResponsePayload, unknown>;
+	readonly query: ReturnType<SelectQuery<TResponsePayload>>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly success: boolean;
 	readonly error: unknown;
 }> {
 	const query = selectQuery(client);
-	const { response, success, error } = await query.toPromise();
+	if (isPagingQuery(query)) {
+		const { response, success, error } = await query.fetchPageSafe();
+		return { query, response, success, error };
+	}
+	const { response, success, error } = await query.fetchSafe();
 	return { query, response, success, error };
 }
 
 async function executePagingQueryAsync<TResponsePayload extends JsonValue>({
 	query,
 }: {
-	readonly query: PagingQuery<TResponsePayload, unknown>;
+	readonly query: PagedFetchQuery<TResponsePayload, unknown>;
 }): Promise<{
 	readonly pagingResponses: readonly { readonly payload: TResponsePayload }[] | undefined;
 	readonly pagingSuccess: boolean;
@@ -226,7 +237,7 @@ async function executePagingQueryAsync<TResponsePayload extends JsonValue>({
 	readonly iteratorPayloads: readonly TResponsePayload[];
 	readonly maxPagesCount: number;
 }> {
-	const { responses: pagingResponses, success: pagingSuccess, error: pagingError } = await query.toAllPromise();
+	const { responses: pagingResponses, success: pagingSuccess, error: pagingError } = await query.fetchAllPagesSafe();
 	const iteratorPayloads: TResponsePayload[] = [];
 	const maxPagesCount = 1;
 	for await (const pageResponse of query.pages({ maxPagesCount })) {

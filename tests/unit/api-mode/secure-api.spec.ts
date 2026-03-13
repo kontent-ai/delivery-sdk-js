@@ -4,7 +4,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDeliveryClient } from "../../../lib/public_api.js";
 import { unitEnvironmentId } from "../../utils/test.utils.js";
 
-describe("Public deliver API", async () => {
+describe("Secure API", async () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});
@@ -16,17 +16,18 @@ describe("Public deliver API", async () => {
 	});
 
 	let requestHeaders: readonly Header[] = [];
+	const secureApiKey = "y";
 
 	const query = createDeliveryClient(unitEnvironmentId)
 		.withUnknownSchema()
-		.publicApi()
+		.secureApi(secureApiKey)
 		.create({
 			httpService: getDefaultHttpService({
 				adapter: {
-					requestAsync: async (options) => {
+					executeRequest: async (options) => {
 						requestHeaders = options.requestHeaders ?? [];
 
-						return await getDefaultHttpAdapter().requestAsync(options);
+						return await getDefaultHttpAdapter().executeRequest(options);
 					},
 				},
 			}),
@@ -34,20 +35,20 @@ describe("Public deliver API", async () => {
 		.listLanguages();
 
 	// execute query so that http service is called and request headers are captured
-	const { success, error } = await query.toPromise();
+	const { success, error, response } = await query.fetchPageSafe();
 
 	it("Response should be successful", () => {
 		expect(success).toBeTruthy();
 		expect(error).toBeUndefined();
 	});
 
-	it("Request headers should NOT contain authorization header with delivery API key", () => {
+	it("Request headers should contain authorization header with secure API key", () => {
 		const authorizationHeader = requestHeaders.find((header) => header.name === ("Authorization" satisfies CommonHeaderNames));
-		expect(authorizationHeader).toBeUndefined();
+		expect(authorizationHeader?.value).toEqual(`Bearer ${secureApiKey}`);
 	});
 
-	it("URL should point to public deliver API", () => {
-		const { host } = new URL(query.toUrl());
+	it("URL should point to secure API", () => {
+		const { host } = new URL(response?.meta?.url ?? "n/a");
 		expect(host).toEqual("deliver.kontent.ai");
 	});
 });

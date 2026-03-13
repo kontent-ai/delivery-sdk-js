@@ -2,43 +2,36 @@
 	"compileOnSave": true,
 	"compilerOptions": {
 		// Language + runtime environment
-		"target": "es2022",
+		"rootDir": ".",
+		"target": "esnext",
 		"lib": ["esnext"],
 
 		// Modules + resolution
 		"module": "NodeNext",
 		"moduleResolution": "nodenext",
 		"resolveJsonModule": true,
-		"allowSyntheticDefaultImports": true,
 
 		// Emit behavior (even if `noEmit` is true, these are useful for tooling expectations)
 		"noEmit": true,
 		"declaration": true,
 		"sourceMap": true,
-		"importHelpers": true,
-
-		// Decorators
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
 
 		// Strictness + type safety
 		"strict": true,
-		"alwaysStrict": true,
 		"noImplicitAny": true,
-		"strictNullChecks": true,
-		"strictFunctionTypes": true,
-		"strictPropertyInitialization": true,
-
-		// Lint-like correctness checks
 		"noImplicitReturns": true,
 		"allowUnreachableCode": false,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"forceConsistentCasingInFileNames": true,
-
-		// Perf / compatibility
+		"exactOptionalPropertyTypes": true,
+		"noUncheckedIndexedAccess": true,
+		"noFallthroughCasesInSwitch": true,
+		"useUnknownInCatchVariables": true,
 		"skipLibCheck": true,
-		"typeRoots": ["./node_modules/@types"]
+
+		// Types
+		"types": ["node"]
 	},
 	"include": ["lib/**/*", "tests/**/*", "eslint.config.js", "vitest.config.ts", "sample/**/*", "scripts/**/*"],
 	"exclude": ["node_modules", "_legacy"]

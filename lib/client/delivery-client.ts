@@ -71,7 +71,7 @@ export function createDeliveryClient(environmentId: string): DeliverySchemaBuild
 			return getApiBuilder<TDeliveryClientTypes>(environmentId, schema);
 		},
 		withUnknownSchema: () => {
-			return getApiBuilder(environmentId, { languageCodenames: undefined });
+			return getApiBuilder(environmentId, { languageCodenames: [] });
 		},
 	};
 }
