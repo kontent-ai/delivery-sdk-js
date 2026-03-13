@@ -29,18 +29,18 @@ describe("Schema validation", () => {
 	};
 
 	test("Response should NOT be successful when response does not match defined language codenames schema", async () => {
-		const client = createDeliveryClient(unitEnvironmentId)
-			.withSchema({ languageCodenames: ["en-US", "cs-CZ"] }) // does not include "de-DE"
-			.publicApi()
-			.create({
-				responseValidation: {
-					enable: true,
-				},
-				httpService: getTestHttpServiceWithJsonResponse({
-					jsonResponse: mockPayload,
-					statusCode: 200,
-				}),
-			});
+		const client = createDeliveryClient({
+			apiMode: "public",
+			environmentId: unitEnvironmentId,
+			schema: { languageCodenames: ["en-US", "cs-CZ"], taxonomyCodenames: [] },
+			httpService: getTestHttpServiceWithJsonResponse({
+				jsonResponse: mockPayload,
+				statusCode: 200,
+			}),
+			responseValidation: {
+				enable: true,
+			},
+		});
 
 		const { success, error } = await client.listLanguages().fetchPageSafe();
 
@@ -50,18 +50,15 @@ describe("Schema validation", () => {
 	});
 
 	test("Response should be successful when response matches defines language codenames schema", async () => {
-		const client = createDeliveryClient(unitEnvironmentId)
-			.withSchema({ languageCodenames: ["en-US", "cs-CZ", "de-DE"] }) // includes all allowed codenames
-			.publicApi()
-			.create({
-				responseValidation: {
-					enable: true,
-				},
-				httpService: getTestHttpServiceWithJsonResponse({
-					jsonResponse: mockPayload,
-					statusCode: 200,
-				}),
-			});
+		const client = createDeliveryClient({
+			apiMode: "public",
+			environmentId: unitEnvironmentId,
+			schema: { languageCodenames: ["en-US", "cs-CZ", "de-DE"], taxonomyCodenames: [] },
+			httpService: getTestHttpServiceWithJsonResponse({
+				jsonResponse: mockPayload,
+				statusCode: 200,
+			}),
+		});
 
 		const { success, error } = await client.listLanguages().fetchPageSafe();
 
@@ -70,18 +67,15 @@ describe("Schema validation", () => {
 	});
 
 	test("Response should be successful when response matches general string codename schema", async () => {
-		const client = createDeliveryClient(unitEnvironmentId)
-			.withUnknownSchema() // should use general string for validation
-			.publicApi()
-			.create({
-				responseValidation: {
-					enable: true,
-				},
-				httpService: getTestHttpServiceWithJsonResponse({
-					jsonResponse: mockPayload,
-					statusCode: 200,
-				}),
-			});
+		const client = createDeliveryClient({
+			apiMode: "public",
+			environmentId: unitEnvironmentId,
+			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			httpService: getTestHttpServiceWithJsonResponse({
+				jsonResponse: mockPayload,
+				statusCode: 200,
+			}),
+		});
 
 		const { success, error } = await client.listLanguages().fetchPageSafe();
 
@@ -90,18 +84,15 @@ describe("Schema validation", () => {
 	});
 
 	test("Response should be successful when an empty array is provided as codenames source", async () => {
-		const client = createDeliveryClient(unitEnvironmentId)
-			.withSchema({ languageCodenames: [] }) // empty array
-			.publicApi()
-			.create({
-				responseValidation: {
-					enable: true,
-				},
-				httpService: getTestHttpServiceWithJsonResponse({
-					jsonResponse: mockPayload,
-					statusCode: 200,
-				}),
-			});
+		const client = createDeliveryClient({
+			apiMode: "public",
+			environmentId: unitEnvironmentId,
+			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			httpService: getTestHttpServiceWithJsonResponse({
+				jsonResponse: mockPayload,
+				statusCode: 200,
+			}),
+		});
 
 		const { success, error } = await client.listLanguages().fetchPageSafe();
 

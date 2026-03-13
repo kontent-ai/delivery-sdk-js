@@ -92,6 +92,6 @@ describe("List content types query", async () => {
 			},
 		},
 		selectQuery: (client) => client.listContentTypes(),
-		expectedSchema: listContentTypesPayload({}),
+		expectedSchema: listContentTypesPayload({ languageCodenames: [], taxonomyCodenames: [] }),
 	});
 });

@@ -19,18 +19,21 @@ describe("Valid schema validation with missing props", () => {
 	};
 
 	test("Validation should fail when response is missing schema properties", async () => {
-		const client = createDeliveryClient(unitEnvironmentId)
-			.withUnknownSchema()
-			.publicApi()
-			.create({
-				responseValidation: {
-					enable: true,
-				},
-				httpService: getTestHttpServiceWithJsonResponse({
-					jsonResponse: mockPayload,
-					statusCode: 200,
-				}),
-			});
+		const client = createDeliveryClient({
+			apiMode: "public",
+			environmentId: unitEnvironmentId,
+			schema: {
+				languageCodenames: [],
+				taxonomyCodenames: [],
+			},
+			httpService: getTestHttpServiceWithJsonResponse({
+				jsonResponse: mockPayload,
+				statusCode: 200,
+			}),
+			responseValidation: {
+				enable: true,
+			},
+		});
 
 		const { success, error } = await client.listLanguages().fetchPageSafe();
 

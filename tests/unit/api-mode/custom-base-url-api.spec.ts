@@ -6,17 +6,19 @@ import { unitEnvironmentId } from "../../utils/test.utils.js";
 describe("Custom base URL API", async () => {
 	const customBaseUrl = "https://domain.com";
 
-	const query = createDeliveryClient(unitEnvironmentId)
-		.withUnknownSchema()
-		.publicApi()
-		.create({
-			baseUrl: customBaseUrl,
-			httpService: getTestHttpServiceWithJsonResponse({
-				jsonResponse: {},
-				statusCode: 200,
-			}),
-		})
-		.listLanguages();
+	const query = createDeliveryClient({
+		apiMode: "public",
+		environmentId: unitEnvironmentId,
+		schema: {
+			languageCodenames: [],
+			taxonomyCodenames: [],
+		},
+		httpService: getTestHttpServiceWithJsonResponse({
+			jsonResponse: {},
+			statusCode: 200,
+		}),
+		baseUrl: customBaseUrl,
+	}).listLanguages();
 
 	// execute query so that http service is called and request headers are captured
 	const { response } = await query.fetchPageSafe();

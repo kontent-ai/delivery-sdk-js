@@ -53,6 +53,6 @@ describe("List taxonomies query", async () => {
 			},
 		},
 		selectQuery: (client) => client.listTaxonomies(),
-		expectedSchema: listTaxonomiesPayload<DeliveryClientTypes>({}),
+		expectedSchema: listTaxonomiesPayload<DeliveryClientTypes>({ languageCodenames: [], taxonomyCodenames: [] }),
 	});
 });

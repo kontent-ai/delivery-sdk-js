@@ -24,7 +24,7 @@ export function createDeliveryPagingQuery<TPayload extends PaginationSchema>({
 		getNextPageData: getNextPageByUrl(),
 		request: {
 			url: getDeliveryUrl({ path: endpoint, ...config }),
-			authorizationApiKey: config.deliveryApiKey,
+			authorizationApiKey: "deliveryApiKey" in config ? config.deliveryApiKey : undefined,
 		},
 	});
 }

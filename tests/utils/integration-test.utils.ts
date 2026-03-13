@@ -77,21 +77,36 @@ function createTestClients<TResponsePayload extends JsonValue>({
 	readonly deliveryBaseUrl: string | undefined;
 }): readonly DeliveryClient<DeliveryClientTypes>[] {
 	return [
-		createDeliveryClient(unitEnvironmentId)
-			.withUnknownSchema()
-			.publicApi()
-			.create({
-				httpService: getTestHttpServiceWithJsonResponse({
-					jsonResponse: unitTestPayload,
-					statusCode: 200,
-				}),
+		createDeliveryClient({
+			apiMode: "public",
+			environmentId: unitEnvironmentId,
+			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			httpService: getTestHttpServiceWithJsonResponse({
+				jsonResponse: unitTestPayload,
+				statusCode: 200,
 			}),
-		createDeliveryClient(environmentId)
-			.withUnknownSchema()
-			.publicApi()
-			.create({
-				...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
-			}),
+		}),
+		// createDeliveryClient(unitEnvironmentId)
+		// 	.withUnknownSchema()
+		// 	.publicApi()
+		// 	.create({
+		// 		httpService: getTestHttpServiceWithJsonResponse({
+		// 			jsonResponse: unitTestPayload,
+		// 			statusCode: 200,
+		// 		}),
+		// 	}),
+		createDeliveryClient({
+			apiMode: "public",
+			environmentId: environmentId,
+			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
+		}),
+		// createDeliveryClient(environmentId)
+		// 	.withUnknownSchema()
+		// 	.publicApi()
+		// 	.create({
+		// 		...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
+		// 	}),
 	];
 }
 

@@ -23,21 +23,23 @@ describe("Delivery tracking header", async () => {
 
 	let requestHeaders: readonly Header[] = [];
 
-	const query = createDeliveryClient(unitEnvironmentId)
-		.withUnknownSchema()
-		.publicApi()
-		.create({
-			httpService: getDefaultHttpService({
-				adapter: {
-					executeRequest: async (options) => {
-						requestHeaders = options.requestHeaders ?? [];
+	const query = createDeliveryClient({
+		apiMode: "public",
+		environmentId: unitEnvironmentId,
+		schema: {
+			languageCodenames: [],
+			taxonomyCodenames: [],
+		},
+		httpService: getDefaultHttpService({
+			adapter: {
+				executeRequest: async (options) => {
+					requestHeaders = options.requestHeaders ?? [];
 
-						return await getDefaultHttpAdapter().executeRequest(options);
-					},
+					return await getDefaultHttpAdapter().executeRequest(options);
 				},
-			}),
-		})
-		.listLanguages();
+			},
+		}),
+	}).listLanguages();
 
 	// execute query so that http service is called and request headers are captured
 	const { success, error } = await query.fetchPageSafe();

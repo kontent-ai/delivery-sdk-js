@@ -1,5 +1,5 @@
 import type { PagedFetchQuery } from "@kontent-ai/core-sdk";
-import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryClientTypes } from "../../models/core.models.js";
+import type { DeliveryClientConfigWithSchema, DeliveryClientTypes } from "../../models/core.models.js";
 import { createDeliveryPagingQuery } from "../delivery-queries.js";
 import { type ListContentTypesPayload, listContentTypesPayload } from "./content-type.models.js";
 
@@ -9,12 +9,11 @@ export type ListContentTypesQuery<TDeliveryClientTypes extends DeliveryClientTyp
 >;
 
 export function listContentTypes<TDeliveryClientTypes extends DeliveryClientTypes>(
-	config: DeliveryClientConfig,
-	schema: DeliveryClientSchema<TDeliveryClientTypes>,
+	config: DeliveryClientConfigWithSchema<TDeliveryClientTypes>,
 ): ListContentTypesQuery<TDeliveryClientTypes> {
 	return createDeliveryPagingQuery({
 		config,
-		zodSchema: listContentTypesPayload(schema),
+		zodSchema: listContentTypesPayload(config.schema),
 		endpoint: "types",
 	});
 }

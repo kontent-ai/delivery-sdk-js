@@ -6,21 +6,24 @@ import { unitEnvironmentId } from "../../utils/test.utils.js";
 class CustomError extends Error {}
 
 describe("Handling of custom errors", async () => {
-	const { success, error } = await createDeliveryClient(unitEnvironmentId)
-		.withUnknownSchema()
-		.publicApi()
-		.create({
-			responseValidation: {
-				enable: true,
-			},
-			httpService: getDefaultHttpService({
-				adapter: {
-					executeRequest: () => {
-						throw new CustomError();
-					},
+	const { success, error } = await createDeliveryClient({
+		apiMode: "public",
+		environmentId: unitEnvironmentId,
+		schema: {
+			languageCodenames: [],
+			taxonomyCodenames: [],
+		},
+		httpService: getDefaultHttpService({
+			adapter: {
+				executeRequest: () => {
+					throw new CustomError();
 				},
-			}),
-		})
+			},
+		}),
+		responseValidation: {
+			enable: true,
+		},
+	})
 		.listLanguages()
 		.fetchPageSafe();
 

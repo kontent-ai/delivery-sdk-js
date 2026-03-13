@@ -24,6 +24,9 @@ describe("List languages query", async () => {
 			},
 		},
 		selectQuery: (client) => client.listLanguages(),
-		expectedSchema: listLanguagesPayload({}),
+		expectedSchema: listLanguagesPayload({
+			languageCodenames: [],
+			taxonomyCodenames: [],
+		}),
 	});
 });

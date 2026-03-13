@@ -8,20 +8,21 @@ type DeliveryTypes = DeliveryClientTypes & {
 
 const schema: DeliveryClientSchema<DeliveryTypes> = {
 	languageCodenames: ["en-US", "cs-CZ"],
+	taxonomyCodenames: ["categories"],
 };
 
-const client: DeliveryClient<DeliveryTypes> = createDeliveryClient("x")
-	.withSchema(schema)
-	.publicApi()
-	.create({
-		responseValidation: {
-			enable: false,
-		},
-		httpService: getTestHttpServiceWithJsonResponse({
-			jsonResponse: {},
-			statusCode: 200,
-		}),
-	});
+const client: DeliveryClient<DeliveryTypes> = createDeliveryClient({
+	apiMode: "public",
+	environmentId: "x",
+	schema,
+	responseValidation: {
+		enable: false,
+	},
+	httpService: getTestHttpServiceWithJsonResponse({
+		jsonResponse: {},
+		statusCode: 200,
+	}),
+});
 
 const languageResponse = await client.listLanguages().fetchPage();
 

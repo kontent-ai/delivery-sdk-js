@@ -16,8 +16,8 @@ export type DeliveryClientTypes = {
 };
 
 export type DeliveryClientSchema<TDeliveryClientTypes extends DeliveryClientTypes> = {
-	readonly taxonomyCodenames?: TDeliveryClientTypes["taxonomyCodenames"];
-	readonly languageCodenames?: TDeliveryClientTypes["languageCodenames"];
+	readonly taxonomyCodenames: TDeliveryClientTypes["taxonomyCodenames"];
+	readonly languageCodenames: TDeliveryClientTypes["languageCodenames"];
 };
 
 export type DeliveryResponseMeta<TExtraMetadata = unknown> = Pick<AdapterResponse<JsonValue>, "status" | "responseHeaders"> & {
@@ -31,27 +31,39 @@ export type DeliveryResponse<TPayload, TExtraMetadata = unknown> = {
 
 export type ApiMode = "public" | "preview" | "secure";
 
-export type DeliveryClientConfig = SdkConfig & {
-	/**
-	 * The environment ID of your Kontent.ai project. Can be found under 'Project settings' in the Kontent.ai app.
-	 */
-	readonly environmentId: string;
+export type DeliveryClientConfig<TDeliveryClientTypes extends DeliveryClientTypes = DeliveryClientTypes> = SdkConfig &
+	ApiDeliveryClientConfig & {
+		/**
+		 * The environment ID of your Kontent.ai project. Can be found under 'Project settings' in the Kontent.ai app.
+		 */
+		readonly environmentId: string;
 
-	/**
-	 * Delivery API key.
-	 *
-	 * Required for secure and preview modes.
-	 */
-	readonly deliveryApiKey?: string;
+		/**
+		 * Schema for the delivery client.
+		 *
+		 * If you provide schema, you can get stronger type safety by enabling the response validation.
+		 *
+		 * Generate using the `@kontent-ai/model-generator` npm package.
+		 *
+		 * @see https://github.com/kontent-ai/model-generator-js
+		 */
+		readonly schema?: DeliveryClientSchema<TDeliveryClientTypes>;
+	};
 
-	/**
-	 * Mode for the API.
-	 *
-	 * Secure mode requires a delivery API key with secure access.
-	 * Preview mode requires a delivery API key with preview access.
-	 * Delivery mode is used for public access.
-	 */
-	readonly apiMode: ApiMode;
+export type ApiDeliveryClientConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
+
+export type PublicDeliveryClientConfig = {
+	readonly apiMode: PickStringLiteral<ApiMode, "public">;
+};
+
+export type PreviewDeliveryClientConfig = {
+	readonly apiMode: PickStringLiteral<ApiMode, "preview">;
+	readonly deliveryApiKey: string;
+};
+
+export type SecureDeliveryClientConfig = {
+	readonly apiMode: PickStringLiteral<ApiMode, "secure">;
+	readonly deliveryApiKey: string;
 };
 
 /**
@@ -59,7 +71,7 @@ export type DeliveryClientConfig = SdkConfig & {
  *
  */
 export type DeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes = DeliveryClientTypes> = {
-	readonly config: DeliveryClientConfig;
+	readonly config: DeliveryClientConfig<TDeliveryClientTypes>;
 
 	/**
 	 * List languages.
@@ -77,7 +89,8 @@ export type DeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes = De
 	listContentTypes(): ListContentTypesQuery<TDeliveryClientTypes>;
 };
 
-export type CreateDeliveryClientOptions = Omit<DeliveryClientConfig, "environmentId" | "apiMode" | "deliveryApiKey">;
+export type DeliveryClientConfigWithSchema<TDeliveryClientTypes extends DeliveryClientTypes> = DeliveryClientConfig<TDeliveryClientTypes> &
+	Required<Pick<DeliveryClientConfig<TDeliveryClientTypes>, "schema">>;
 
 export const paginationSchema = z.object({
 	pagination: z
@@ -104,3 +117,5 @@ export type DeliveryEndpoints =
 	| "types"
 	| `types/${string}`
 	| `types/${string}/elements/${string}`;
+
+type PickStringLiteral<T extends string, U extends T> = U;

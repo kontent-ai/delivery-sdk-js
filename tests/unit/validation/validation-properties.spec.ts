@@ -7,21 +7,20 @@ import { unitEnvironmentId } from "../../utils/test.utils.js";
 
 describe("Response validation", () => {
 	test("Error should be returned when response does not match schema and validation is enabled", async ({ expect }) => {
-		const query = createDeliveryClient(unitEnvironmentId)
-			.withUnknownSchema()
-			.publicApi()
-			.create({
-				responseValidation: {
-					enable: true,
+		const query = createDeliveryClient({
+			apiMode: "public",
+			environmentId: unitEnvironmentId,
+			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			httpService: getTestHttpServiceWithJsonResponse({
+				jsonResponse: {
+					result: "invalidValue",
 				},
-				httpService: getTestHttpServiceWithJsonResponse({
-					jsonResponse: {
-						result: "invalidValue",
-					},
-					statusCode: 200,
-				}),
-			})
-			.listLanguages();
+				statusCode: 200,
+			}),
+			responseValidation: {
+				enable: true,
+			},
+		}).listLanguages();
 
 		const { success, error } = await query.fetchPageSafe();
 
@@ -39,21 +38,20 @@ describe("Response validation", () => {
 	});
 
 	test("Error should not be returned when response does not match schema but validation is disabled", async ({ expect }) => {
-		const { success, error } = await createDeliveryClient("x")
-			.withUnknownSchema()
-			.publicApi()
-			.create({
-				responseValidation: {
-					enable: false,
+		const { success, error } = await createDeliveryClient({
+			apiMode: "public",
+			environmentId: unitEnvironmentId,
+			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			httpService: getTestHttpServiceWithJsonResponse({
+				jsonResponse: {
+					value: "invalidValue",
 				},
-
-				httpService: getTestHttpServiceWithJsonResponse({
-					jsonResponse: {
-						value: "invalidValue",
-					},
-					statusCode: 200,
-				}),
-			})
+				statusCode: 200,
+			}),
+			responseValidation: {
+				enable: false,
+			},
+		})
 			.listLanguages()
 			.fetchPageSafe();
 
