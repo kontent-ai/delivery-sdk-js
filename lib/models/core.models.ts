@@ -11,10 +11,14 @@ export type PartialDeliveryClientShema = {
 };
 
 export type DeliveryClientSchema<TSchema extends PartialDeliveryClientShema = PartialDeliveryClientShema> = {
-	readonly languageCodenames: TSchema["languageCodenames"] extends readonly string[] ? TSchema["languageCodenames"] : readonly string[];
-	readonly taxonomyCodenames: TSchema["taxonomyCodenames"] extends readonly string[] ? TSchema["taxonomyCodenames"] : readonly string[];
-	readonly contentTypeCodenames: TSchema["contentTypeCodenames"] extends readonly string[]
-		? TSchema["contentTypeCodenames"]
+	readonly languageCodenames?: NonNullable<TSchema["languageCodenames"]> extends readonly string[]
+		? NonNullable<TSchema["languageCodenames"]>
+		: readonly string[];
+	readonly taxonomyCodenames?: NonNullable<TSchema["taxonomyCodenames"]> extends readonly string[]
+		? NonNullable<TSchema["taxonomyCodenames"]>
+		: readonly string[];
+	readonly contentTypeCodenames?: NonNullable<TSchema["contentTypeCodenames"]> extends readonly string[]
+		? NonNullable<TSchema["contentTypeCodenames"]>
 		: readonly string[];
 };
 

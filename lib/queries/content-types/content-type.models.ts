@@ -2,14 +2,14 @@ import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import { type DeliveryClientSchema, paginationSchema } from "../../models/core.models.js";
 
-export const contentTypePayload = <TSchema extends DeliveryClientSchema>(schema: TSchema) =>
+export const contentTypePayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			system: z
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema<TSchema["contentTypeCodenames"]>(schema.contentTypeCodenames),
+					codename: getCodenameSchema<NonNullable<TSchema["contentTypeCodenames"]>>(schema?.contentTypeCodenames),
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),
@@ -17,7 +17,7 @@ export const contentTypePayload = <TSchema extends DeliveryClientSchema>(schema:
 		})
 		.readonly();
 
-export const listContentTypesPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema) =>
+export const listContentTypesPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			types: z.array(contentTypePayload(schema)).readonly(),

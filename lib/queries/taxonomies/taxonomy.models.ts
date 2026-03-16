@@ -2,23 +2,23 @@ import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import { type DeliveryClientSchema, paginationSchema } from "../../models/core.models.js";
 
-export const taxonomyTermPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema) =>
+export const taxonomyTermPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z.object({
 		name: z.string(),
-		codename: getCodenameSchema<TSchema["taxonomyCodenames"]>(schema.taxonomyCodenames),
+		codename: getCodenameSchema<NonNullable<TSchema["taxonomyCodenames"]>>(schema?.taxonomyCodenames),
 		get terms() {
 			return z.array(taxonomyTermPayload(schema)).readonly();
 		},
 	});
 
-export const taxonomyPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema) =>
+export const taxonomyPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			system: z
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema<TSchema["taxonomyCodenames"]>(schema.taxonomyCodenames),
+					codename: getCodenameSchema<NonNullable<TSchema["taxonomyCodenames"]>>(schema?.taxonomyCodenames),
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),
@@ -26,7 +26,7 @@ export const taxonomyPayload = <TSchema extends DeliveryClientSchema>(schema: TS
 		})
 		.readonly();
 
-export const listTaxonomiesPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema) =>
+export const listTaxonomiesPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			taxonomies: z.array(taxonomyPayload(schema)).readonly(),
