@@ -1,6 +1,7 @@
 import type { PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
 import type { ListContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
+import type { FetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
 
 export type PartialDeliveryClientShema = {
@@ -54,6 +55,7 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	listLanguages(): ListLanguagesQuery<TSchema>;
 	listTaxonomies(): ListTaxonomiesQuery<TSchema>;
 	listContentTypes(): ListContentTypesQuery<TSchema>;
+	fetchTaxonomy(codename: NonNullable<TSchema["taxonomyCodenames"]>[number]): FetchTaxonomyQuery<TSchema>;
 };
 
 export type DeliveryEndpoints =

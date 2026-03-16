@@ -1,6 +1,7 @@
 import type { DeliveryClient, DeliveryClientConfig, PartialDeliveryClientShema } from "../models/core.models.js";
 import { listContentTypes } from "../queries/content-types/list-content-types-query.js";
 import { listLanguagesQuery } from "../queries/languages/list-languages-query.js";
+import { fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import { listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
 
 /**
@@ -35,5 +36,6 @@ export function createDeliveryClient<const TSchema extends PartialDeliveryClient
 		listTaxonomies: () => listTaxonomiesQuery(config),
 		listLanguages: () => listLanguagesQuery(config),
 		listContentTypes: () => listContentTypes(config),
+		fetchTaxonomy: (codename: NonNullable<TSchema["taxonomyCodenames"]>[number]) => fetchTaxonomyQuery(codename, config),
 	};
 }
