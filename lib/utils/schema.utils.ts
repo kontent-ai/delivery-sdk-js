@@ -1,13 +1,17 @@
-import type { DefaultDeliveryClientSchema } from "../models/core.models.js";
+import type { DeliveryClientSchema, PartialDeliveryClientShema } from "../models/core.models.js";
 
-const defaultSchema = {
-	languageCodenames: [] as const,
-	taxonomyCodenames: [] as const,
-	contentTypeCodenames: [] as const,
-} satisfies DefaultDeliveryClientSchema;
+export function getDefaultSchema(): DeliveryClientSchema {
+	return {
+		languageCodenames: [],
+		taxonomyCodenames: [],
+		contentTypeCodenames: [],
+	};
+}
 
-export function toRequiredSchema<T extends DefaultDeliveryClientSchema | undefined>(
-	schema?: T,
-): [T] extends [undefined] ? DefaultDeliveryClientSchema : NonNullable<T> {
-	return (schema ?? defaultSchema) as [T] extends [undefined] ? DefaultDeliveryClientSchema : NonNullable<T>;
+export function toFullSchema<TSchema extends PartialDeliveryClientShema>(schema: TSchema): DeliveryClientSchema<TSchema> {
+	return {
+		languageCodenames: schema.languageCodenames ?? [],
+		taxonomyCodenames: schema.taxonomyCodenames ?? [],
+		contentTypeCodenames: schema.contentTypeCodenames ?? [],
+	};
 }

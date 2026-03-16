@@ -10,13 +10,7 @@ export type PartialDeliveryClientShema = {
 	readonly contentTypeCodenames?: readonly string[];
 };
 
-export type AllDeliverySchema = {
-	readonly languageCodenames: readonly string[];
-	readonly taxonomyCodenames: readonly string[];
-	readonly contentTypeCodenames: readonly string[];
-};
-
-export type FullDeliveryClientSchema<TSchema extends PartialDeliveryClientShema> = {
+export type DeliveryClientSchema<TSchema extends PartialDeliveryClientShema = PartialDeliveryClientShema> = {
 	readonly languageCodenames: TSchema["languageCodenames"] extends readonly string[] ? TSchema["languageCodenames"] : readonly string[];
 	readonly taxonomyCodenames: TSchema["taxonomyCodenames"] extends readonly string[] ? TSchema["taxonomyCodenames"] : readonly string[];
 	readonly contentTypeCodenames: TSchema["contentTypeCodenames"] extends readonly string[]
@@ -24,15 +18,7 @@ export type FullDeliveryClientSchema<TSchema extends PartialDeliveryClientShema>
 		: readonly string[];
 };
 
-export type DeliveryClientSchema = {
-	readonly languageCodenames: readonly string[];
-	readonly taxonomyCodenames: readonly string[];
-	readonly contentTypeCodenames: readonly string[];
-};
-
-export type DefaultDeliveryClientSchema = DeliveryClientSchema;
-
-export type DeliveryClientTypesFromSchema<TSchema extends DefaultDeliveryClientSchema> = {
+export type DeliveryClientTypesFromSchema<TSchema extends DeliveryClientSchema> = {
 	readonly languageCodenames: TSchema["languageCodenames"];
 	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
 	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
@@ -84,14 +70,14 @@ export type SecureDeliveryClientConfig = {
 	readonly deliveryApiKey: string;
 };
 
-export type DeliveryClientConfigWithSchema<TSchema extends DefaultDeliveryClientSchema> = DeliveryClientConfig<TSchema> & {
+export type DeliveryClientConfigWithSchema<TSchema extends DeliveryClientSchema> = DeliveryClientConfig<TSchema> & {
 	readonly schema: TSchema;
 };
 
 /**
  * Delivery client instance. This is the main entry point for the delivery API.
  */
-export type DeliveryClient<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = {
+export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = {
 	readonly config: DeliveryClientConfig<TSchema>;
 
 	/**

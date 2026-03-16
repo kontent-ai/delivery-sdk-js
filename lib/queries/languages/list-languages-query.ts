@@ -1,11 +1,11 @@
 import type { PagedFetchQuery } from "@kontent-ai/core-sdk";
-import type { DefaultDeliveryClientSchema, DeliveryClientConfigWithSchema } from "../../models/core.models.js";
+import type { DeliveryClientConfigWithSchema, DeliveryClientSchema } from "../../models/core.models.js";
 import { createDeliveryPagingQuery } from "../delivery-queries.js";
 import { type ListLanguagesPayload, listLanguagesPayload } from "./language.models.js";
 
-export type ListLanguagesQuery<TSchema extends DefaultDeliveryClientSchema> = PagedFetchQuery<ListLanguagesPayload<TSchema>, unknown>;
+export type ListLanguagesQuery<TSchema extends DeliveryClientSchema> = PagedFetchQuery<ListLanguagesPayload<TSchema>, unknown>;
 
-export function listLanguagesQuery<TSchema extends DefaultDeliveryClientSchema>(
+export function listLanguagesQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfigWithSchema<TSchema>,
 ): ListLanguagesQuery<TSchema> {
 	return createDeliveryPagingQuery({

@@ -1,12 +1,7 @@
 import { createPagedFetchQuery, type PagedFetchQuery } from "@kontent-ai/core-sdk";
 import type { ZodType } from "zod";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
-import type {
-	DefaultDeliveryClientSchema,
-	DeliveryClientConfigWithSchema,
-	DeliveryEndpoints,
-	PaginationSchema,
-} from "../models/core.models.js";
+import type { DeliveryClientConfigWithSchema, DeliveryClientSchema, DeliveryEndpoints, PaginationSchema } from "../models/core.models.js";
 import { getNextPageByUrl } from "../utils/paging.utils.js";
 import { getDeliveryUrl } from "../utils/url.utils.js";
 
@@ -15,7 +10,7 @@ export function createDeliveryPagingQuery<TPayload extends PaginationSchema>({
 	zodSchema,
 	endpoint,
 }: {
-	readonly config: DeliveryClientConfigWithSchema<DefaultDeliveryClientSchema>;
+	readonly config: DeliveryClientConfigWithSchema<DeliveryClientSchema>;
 	readonly zodSchema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
 }): PagedFetchQuery<TPayload, null> {

@@ -2,9 +2,9 @@
 export { createDeliveryClient } from "./client/delivery-client.js";
 export type {
 	ApiMode,
-	DefaultDeliveryClientSchema,
 	DeliveryClient,
 	DeliveryClientConfig,
+	DeliveryClientSchema as DefaultDeliveryClientSchema,
 	DeliveryClientSchema,
 	DeliveryClientTypesFromSchema,
 	DeliveryResponse,

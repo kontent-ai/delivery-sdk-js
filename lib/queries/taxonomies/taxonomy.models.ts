@@ -1,8 +1,8 @@
 import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
-import { type DefaultDeliveryClientSchema, paginationSchema } from "../../models/core.models.js";
+import { type DeliveryClientSchema, paginationSchema } from "../../models/core.models.js";
 
-export const taxonomyTermPayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
+export const taxonomyTermPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema) =>
 	z.object({
 		name: z.string(),
 		codename: getCodenameSchema<TSchema["taxonomyCodenames"]>(schema.taxonomyCodenames),
@@ -11,7 +11,7 @@ export const taxonomyTermPayload = <TSchema extends DefaultDeliveryClientSchema>
 		},
 	});
 
-export const taxonomyPayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
+export const taxonomyPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema) =>
 	z
 		.object({
 			system: z
@@ -26,7 +26,7 @@ export const taxonomyPayload = <TSchema extends DefaultDeliveryClientSchema>(sch
 		})
 		.readonly();
 
-export const listTaxonomiesPayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
+export const listTaxonomiesPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema) =>
 	z
 		.object({
 			taxonomies: z.array(taxonomyPayload(schema)).readonly(),
@@ -34,8 +34,8 @@ export const listTaxonomiesPayload = <TSchema extends DefaultDeliveryClientSchem
 		})
 		.readonly();
 
-export type TaxonomyTermPayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<ReturnType<typeof taxonomyTermPayload<TSchema>>>;
+export type TaxonomyTermPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof taxonomyTermPayload<TSchema>>>;
 
-export type TaxonomyPayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<ReturnType<typeof taxonomyPayload<TSchema>>>;
+export type TaxonomyPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof taxonomyPayload<TSchema>>>;
 
-export type ListTaxonomiesPayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<ReturnType<typeof listTaxonomiesPayload<TSchema>>>;
+export type ListTaxonomiesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listTaxonomiesPayload<TSchema>>>;
