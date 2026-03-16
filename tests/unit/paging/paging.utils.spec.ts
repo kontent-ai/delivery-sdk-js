@@ -1,6 +1,6 @@
 import type { QueryResponse } from "@kontent-ai/core-sdk";
 import { describe, expect, it } from "vitest";
-import type { PaginationSchema } from "../../../lib/models/core.models.js";
+import type { PaginationSchema } from "../../../lib/models/pagination.models.js";
 import { getNextPageByUrl } from "../../../lib/utils/paging.utils.js";
 
 describe("Paging utils", () => {

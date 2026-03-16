@@ -6,9 +6,9 @@ export type {
 	DeliveryClient,
 	DeliveryClientConfig,
 	DeliveryClientSchema,
-	PaginationSchema,
 	PartialDeliveryClientShema,
 } from "./models/core.models.js";
+export { PaginationSchema, paginationSchema } from "./models/pagination.models.js";
 // Content Types
 export { type ContentTypePayload, ListContentTypesPayload } from "./queries/content-types/content-type.models.js";
 export type { ListContentTypesQuery } from "./queries/content-types/list-content-types-query.js";

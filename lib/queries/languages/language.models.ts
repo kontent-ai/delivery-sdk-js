@@ -1,6 +1,7 @@
 import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
-import { type DeliveryClientSchema, paginationSchema } from "../../models/core.models.js";
+import type { DeliveryClientSchema } from "../../models/core.models.js";
+import { paginationSchema } from "../../models/pagination.models.js";
 
 export const languagePayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z

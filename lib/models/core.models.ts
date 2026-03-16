@@ -1,5 +1,4 @@
 import type { PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
-import z from "zod";
 import type { ListContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import type { ListTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
@@ -56,19 +55,6 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	listTaxonomies(): ListTaxonomiesQuery<TSchema>;
 	listContentTypes(): ListContentTypesQuery<TSchema>;
 };
-
-export const paginationSchema = z.object({
-	pagination: z
-		.object({
-			skip: z.number(),
-			limit: z.number(),
-			count: z.number(),
-			next_page: z.string(),
-		})
-		.readonly(),
-});
-
-export type PaginationSchema = Readonly<z.infer<typeof paginationSchema>>;
 
 export type DeliveryEndpoints =
 	| "languages"

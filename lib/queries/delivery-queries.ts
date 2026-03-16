@@ -1,7 +1,8 @@
 import { createPagedFetchQuery, type PagedFetchQuery } from "@kontent-ai/core-sdk";
 import type { ZodType } from "zod";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
-import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints, PaginationSchema } from "../models/core.models.js";
+import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints } from "../models/core.models.js";
+import type { PaginationSchema } from "../models/pagination.models.js";
 import { getNextPageByUrl } from "../utils/paging.utils.js";
 import { getDeliveryUrl } from "../utils/url.utils.js";
 
