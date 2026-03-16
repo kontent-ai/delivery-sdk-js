@@ -1,13 +1,13 @@
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { describe, expect, test } from "vitest";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
-import type { DeliveryClientTypes } from "../../../lib/models/core.models.js";
+import type { InferClientTypesFromSchema } from "../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
 import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 
-type TestDeliveryClientTypes = DeliveryClientTypes & {
+type TestDeliveryClientTypes = InferClientTypesFromSchema<{
 	readonly languageCodenames: readonly ["en-US", "cs-CZ", "de-DE"];
-};
+}>;
 
 describe("Schema validation", () => {
 	const mockPayload: ListLanguagesPayload<TestDeliveryClientTypes> = {

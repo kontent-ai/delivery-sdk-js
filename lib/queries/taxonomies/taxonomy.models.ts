@@ -1,24 +1,24 @@
 import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
-import { type DeliveryClientSchema, type DeliveryClientTypes, paginationSchema } from "../../models/core.models.js";
+import { type DefaultDeliveryClientSchema, paginationSchema } from "../../models/core.models.js";
 
-export const taxonomyTermPayload = <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) =>
+export const taxonomyTermPayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
 	z.object({
 		name: z.string(),
-		codename: getCodenameSchema(schema.taxonomyCodenames),
+		codename: getCodenameSchema<TSchema["taxonomyCodenames"]>(schema.taxonomyCodenames),
 		get terms() {
 			return z.array(taxonomyTermPayload(schema)).readonly();
 		},
 	});
 
-export const taxonomyPayload = <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) =>
+export const taxonomyPayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
 	z
 		.object({
 			system: z
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema(schema.taxonomyCodenames),
+					codename: getCodenameSchema<TSchema["taxonomyCodenames"]>(schema.taxonomyCodenames),
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),
@@ -26,9 +26,7 @@ export const taxonomyPayload = <TDeliveryClientTypes extends DeliveryClientTypes
 		})
 		.readonly();
 
-export const listTaxonomiesPayload = <TDeliveryClientTypes extends DeliveryClientTypes>(
-	schema: DeliveryClientSchema<TDeliveryClientTypes>,
-) =>
+export const listTaxonomiesPayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
 	z
 		.object({
 			taxonomies: z.array(taxonomyPayload(schema)).readonly(),
@@ -36,10 +34,8 @@ export const listTaxonomiesPayload = <TDeliveryClientTypes extends DeliveryClien
 		})
 		.readonly();
 
-export type ListTaxonomiesPayload<TDeliveryClientTypes extends DeliveryClientTypes> = z.infer<
-	ReturnType<typeof listTaxonomiesPayload<TDeliveryClientTypes>>
->;
+export type TaxonomyTermPayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<ReturnType<typeof taxonomyTermPayload<TSchema>>>;
 
-export type TaxonomyPayload<TDeliveryClientTypes extends DeliveryClientTypes> = z.infer<
-	ReturnType<typeof taxonomyPayload<TDeliveryClientTypes>>
->;
+export type TaxonomyPayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<ReturnType<typeof taxonomyPayload<TSchema>>>;
+
+export type ListTaxonomiesPayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<ReturnType<typeof listTaxonomiesPayload<TSchema>>>;

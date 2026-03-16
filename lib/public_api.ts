@@ -2,10 +2,11 @@
 export { createDeliveryClient } from "./client/delivery-client.js";
 export type {
 	ApiMode,
+	DefaultDeliveryClientSchema,
 	DeliveryClient,
 	DeliveryClientConfig,
 	DeliveryClientSchema,
-	DeliveryClientTypes,
+	DeliveryClientTypesFromSchema,
 	DeliveryResponse,
 	DeliveryResponseMeta,
 } from "./models/core.models.js";

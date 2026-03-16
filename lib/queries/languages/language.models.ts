@@ -1,23 +1,21 @@
 import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
-import { type DeliveryClientSchema, type DeliveryClientTypes, paginationSchema } from "../../models/core.models.js";
+import { type DefaultDeliveryClientSchema, paginationSchema } from "../../models/core.models.js";
 
-export const languagePayload = <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) =>
+export const languagePayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
 	z
 		.object({
 			system: z
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema(schema.languageCodenames),
+					codename: getCodenameSchema<TSchema["languageCodenames"]>(schema.languageCodenames),
 				})
 				.readonly(),
 		})
 		.readonly();
 
-export const listLanguagesPayload = <TDeliveryClientTypes extends DeliveryClientTypes>(
-	schema: DeliveryClientSchema<TDeliveryClientTypes>,
-) =>
+export const listLanguagesPayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
 	z
 		.object({
 			languages: z.array(languagePayload(schema)).readonly(),
@@ -25,10 +23,6 @@ export const listLanguagesPayload = <TDeliveryClientTypes extends DeliveryClient
 		})
 		.readonly();
 
-export type ListLanguagesPayload<TDeliveryClientTypes extends DeliveryClientTypes> = z.infer<
-	ReturnType<typeof listLanguagesPayload<TDeliveryClientTypes>>
->;
+export type LanguagePayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<ReturnType<typeof languagePayload<TSchema>>>;
 
-export type LanguagePayload<TDeliveryClientTypes extends DeliveryClientTypes> = z.infer<
-	ReturnType<typeof languagePayload<TDeliveryClientTypes>>
->;
+export type ListLanguagesPayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<ReturnType<typeof listLanguagesPayload<TSchema>>>;

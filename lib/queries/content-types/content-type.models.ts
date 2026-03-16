@@ -1,15 +1,15 @@
 import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
-import { type DeliveryClientSchema, type DeliveryClientTypes, paginationSchema } from "../../models/core.models.js";
+import { type DefaultDeliveryClientSchema, paginationSchema } from "../../models/core.models.js";
 
-export const contentTypePayload = <TDeliveryClientTypes extends DeliveryClientTypes>(schema: DeliveryClientSchema<TDeliveryClientTypes>) =>
+export const contentTypePayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
 	z
 		.object({
 			system: z
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema(schema.taxonomyCodenames),
+					codename: getCodenameSchema<NonNullable<TSchema["contentTypeCodenames"]>>(schema.contentTypeCodenames),
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),
@@ -17,9 +17,7 @@ export const contentTypePayload = <TDeliveryClientTypes extends DeliveryClientTy
 		})
 		.readonly();
 
-export const listContentTypesPayload = <TDeliveryClientTypes extends DeliveryClientTypes>(
-	schema: DeliveryClientSchema<TDeliveryClientTypes>,
-) =>
+export const listContentTypesPayload = <TSchema extends DefaultDeliveryClientSchema>(schema: TSchema) =>
 	z
 		.object({
 			types: z.array(contentTypePayload(schema)).readonly(),
@@ -27,10 +25,8 @@ export const listContentTypesPayload = <TDeliveryClientTypes extends DeliveryCli
 		})
 		.readonly();
 
-export type ListContentTypesPayload<TDeliveryClientTypes extends DeliveryClientTypes> = z.infer<
-	ReturnType<typeof listContentTypesPayload<TDeliveryClientTypes>>
->;
+export type ContentTypePayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<ReturnType<typeof contentTypePayload<TSchema>>>;
 
-export type ContentTypePayload<TDeliveryClientTypes extends DeliveryClientTypes> = z.infer<
-	ReturnType<typeof contentTypePayload<TDeliveryClientTypes>>
+export type ListContentTypesPayload<TSchema extends DefaultDeliveryClientSchema> = z.infer<
+	ReturnType<typeof listContentTypesPayload<TSchema>>
 >;

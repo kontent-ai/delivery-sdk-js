@@ -1,20 +1,13 @@
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { createDeliveryClient } from "../../lib/client/delivery-client.js";
-import type { DeliveryClient, DeliveryClientSchema, DeliveryClientTypes } from "../../lib/models/core.models.js";
 
-type DeliveryTypes = DeliveryClientTypes & {
-	readonly languageCodenames: readonly ["en-US", "cs-CZ"];
-};
-
-const schema: DeliveryClientSchema<DeliveryTypes> = {
-	languageCodenames: ["en-US", "cs-CZ"],
-	taxonomyCodenames: ["categories"],
-};
-
-const client: DeliveryClient<DeliveryTypes> = createDeliveryClient({
+const client = createDeliveryClient({
 	apiMode: "public",
 	environmentId: "x",
-	schema,
+	schema: {
+		languageCodenames: ["en-US", "cs-CZ"] as const,
+		taxonomyCodenames: ["categories"] as const,
+	},
 	responseValidation: {
 		enable: false,
 	},
@@ -27,12 +20,13 @@ const client: DeliveryClient<DeliveryTypes> = createDeliveryClient({
 const languageResponse = await client.listLanguages().fetchPage();
 
 // Verifies that the language codenames are assignable from the response schema
-const validLanguageCodenames: readonly ("en-US" | "cs-CZ")[] = languageResponse.payload.languages.map(
-	(language) => language.system.codename,
-);
+const validLanguageCodenames = languageResponse.payload.languages.map((language) => language.system.codename) as readonly (
+	| "en-US"
+	| "cs-CZ"
+)[];
 
 // @ts-expect-error - "de-DE" is not allowed
-const invalidLanguageCodename: DeliveryTypes["languageCodenames"][number] = "de-DE";
+const invalidLanguageCodename: "en-US" | "cs-CZ" = "de-DE";
 
 void validLanguageCodenames;
 void invalidLanguageCodename;

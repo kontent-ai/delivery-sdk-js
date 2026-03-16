@@ -4,20 +4,24 @@ import type { ListContentTypesQuery } from "../queries/content-types/list-conten
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import type { ListTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
 
-export type DeliveryClientTypes = {
-	// readonly contentItemType: IContentItem;
-	// readonly contentTypeCodenames: readonly [string, ...string[]];
-	// readonly workflowCodenames: readonly [string, ...string[]];
-	// readonly workflowStepCodenames: readonly [string, ...string[]];
-	// readonly collectionCodenames: readonly [string, ...string[]];
-	readonly taxonomyCodenames: readonly string[];
-	readonly languageCodenames: readonly string[];
-	// readonly elementCodenames: readonly [string, ...string[]];
+export type InferClientTypesFromSchema<TSchema extends DeliveryClientSchema> = {
+	readonly languageCodenames: TSchema["languageCodenames"];
+	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
+	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
 };
 
-export type DeliveryClientSchema<TDeliveryClientTypes extends DeliveryClientTypes> = {
-	readonly taxonomyCodenames: TDeliveryClientTypes["taxonomyCodenames"];
-	readonly languageCodenames: TDeliveryClientTypes["languageCodenames"];
+export type DeliveryClientSchema = {
+	readonly languageCodenames: readonly string[];
+	readonly taxonomyCodenames: readonly string[];
+	readonly contentTypeCodenames: readonly string[];
+};
+
+export type DefaultDeliveryClientSchema = DeliveryClientSchema;
+
+export type DeliveryClientTypesFromSchema<TSchema extends DefaultDeliveryClientSchema> = {
+	readonly languageCodenames: TSchema["languageCodenames"];
+	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
+	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
 };
 
 export type DeliveryResponseMeta<TExtraMetadata = unknown> = Pick<AdapterResponse<JsonValue>, "status" | "responseHeaders"> & {
@@ -31,7 +35,7 @@ export type DeliveryResponse<TPayload, TExtraMetadata = unknown> = {
 
 export type ApiMode = "public" | "preview" | "secure";
 
-export type DeliveryClientConfig<TDeliveryClientTypes extends DeliveryClientTypes = DeliveryClientTypes> = SdkConfig &
+export type DeliveryClientConfig<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = SdkConfig &
 	ApiDeliveryClientConfig & {
 		/**
 		 * The environment ID of your Kontent.ai project. Can be found under 'Project settings' in the Kontent.ai app.
@@ -47,7 +51,7 @@ export type DeliveryClientConfig<TDeliveryClientTypes extends DeliveryClientType
 		 *
 		 * @see https://github.com/kontent-ai/model-generator-js
 		 */
-		readonly schema?: DeliveryClientSchema<TDeliveryClientTypes>;
+		readonly schema?: TSchema | undefined;
 	};
 
 export type ApiDeliveryClientConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
@@ -66,31 +70,31 @@ export type SecureDeliveryClientConfig = {
 	readonly deliveryApiKey: string;
 };
 
+export type DeliveryClientConfigWithSchema<TSchema extends DefaultDeliveryClientSchema> = DeliveryClientConfig<TSchema> & {
+	readonly schema: TSchema;
+};
+
 /**
  * Delivery client instance. This is the main entry point for the delivery API.
- *
  */
-export type DeliveryClient<TDeliveryClientTypes extends DeliveryClientTypes = DeliveryClientTypes> = {
-	readonly config: DeliveryClientConfig<TDeliveryClientTypes>;
+export type DeliveryClient<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = {
+	readonly config: DeliveryClientConfig<TSchema>;
 
 	/**
 	 * List languages.
 	 */
-	listLanguages(): ListLanguagesQuery<TDeliveryClientTypes>;
+	listLanguages(): ListLanguagesQuery<TSchema>;
 
 	/**
 	 * List taxonomies.
 	 */
-	listTaxonomies(): ListTaxonomiesQuery<TDeliveryClientTypes>;
+	listTaxonomies(): ListTaxonomiesQuery<TSchema>;
 
 	/**
 	 * List content types.
 	 */
-	listContentTypes(): ListContentTypesQuery<TDeliveryClientTypes>;
+	listContentTypes(): ListContentTypesQuery<TSchema>;
 };
-
-export type DeliveryClientConfigWithSchema<TDeliveryClientTypes extends DeliveryClientTypes> = DeliveryClientConfig<TDeliveryClientTypes> &
-	Required<Pick<DeliveryClientConfig<TDeliveryClientTypes>, "schema">>;
 
 export const paginationSchema = z.object({
 	pagination: z
