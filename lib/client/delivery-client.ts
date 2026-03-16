@@ -1,4 +1,4 @@
-import type { DeliveryClient, DeliveryClientConfig, DeliveryClientSchema, PartialDeliveryClientShema } from "../models/core.models.js";
+import type { DeliveryClient, DeliveryClientConfig, PartialDeliveryClientShema } from "../models/core.models.js";
 import { listContentTypes } from "../queries/content-types/list-content-types-query.js";
 import { listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
@@ -29,27 +29,11 @@ import { listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query
  */
 export function createDeliveryClient<const TSchema extends PartialDeliveryClientShema = PartialDeliveryClientShema>(
 	config: DeliveryClientConfig<TSchema>,
-): DeliveryClient<DeliveryClientSchema<TSchema>> {
+): DeliveryClient<TSchema> {
 	return {
 		config,
 		listTaxonomies: () => listTaxonomiesQuery(config),
 		listLanguages: () => listLanguagesQuery(config),
 		listContentTypes: () => listContentTypes(config),
 	};
-}
-
-const fe4 = createDeliveryClient({
-	apiMode: "preview",
-	deliveryApiKey: "x",
-	environmentId: "c",
-	schema: {
-		languageCodenames: ["en-us", "de-de"],
-	},
-});
-
-const query4 = await fe4.listLanguages().fetchAllPages();
-
-if (query4.responses[0]?.payload.languages[0]) {
-	query4.responses[0].payload.languages[0].system.codename === "de-de";
-	query4.responses[0].payload.languages[0].system.codename === "aaaa";
 }
