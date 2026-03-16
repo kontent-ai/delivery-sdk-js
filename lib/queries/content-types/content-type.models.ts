@@ -9,7 +9,7 @@ export const contentTypePayload = <TSchema extends DefaultDeliveryClientSchema>(
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema<NonNullable<TSchema["contentTypeCodenames"]>>(schema.contentTypeCodenames),
+					codename: getCodenameSchema<TSchema["contentTypeCodenames"]>(schema.contentTypeCodenames),
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),

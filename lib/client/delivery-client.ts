@@ -67,7 +67,7 @@ const fe = createDeliveryClient({
 	apiMode: "preview",
 	deliveryApiKey: "x",
 	environmentId: "c",
-	schema: { languageCodenames: ["en-us", "de-de"], taxonomyCodenames: ["categories"], contentTypeCodenames: ["g"] },
+	schema: { languageCodenames: ["en-us", "de-de"], taxonomyCodenames: ["categories"] },
 });
 
 const fefe = await fe.listContentTypes().fetchAllPages();
@@ -97,10 +97,11 @@ const query3 = await fe3.listLanguages().fetchAllPages();
 const query4 = await fe4.listLanguages().fetchAllPages();
 
 if (query.responses[0]?.payload.languages[0]) {
-	query.responses[0].payload.languages[0].system.codename === "";
-	query.responses[0].payload.languages[0].system.codename === "de-de2";
+	query.responses[0].payload.languages[0].system.codename === "de-de";
+	query.responses[0].payload.languages[0].system.codename === "de-deF";
 }
 
 query.responses[0]?.payload.languages[0]?.system.codename === "de-de2";
 query3.responses[0]?.payload.languages[0]?.system.codename === "de-de";
+
 query4.responses[0]?.payload.languages[0]?.system.codename === "en-us";
