@@ -9,7 +9,7 @@ export const languagePayload = <TSchema extends DeliveryClientSchema>(schema: TS
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getLanguageCodenameSchema(schema?.languageCodenames),
+					codename: getCodenameSchema<NonNullable<TSchema["languageCodenames"]>>(schema?.languageCodenames),
 				})
 				.readonly(),
 		})
@@ -26,7 +26,3 @@ export const listLanguagesPayload = <TSchema extends DeliveryClientSchema>(schem
 export type LanguagePayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof languagePayload<TSchema>>>;
 
 export type ListLanguagesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listLanguagesPayload<TSchema>>>;
-
-function getLanguageCodenameSchema<TCodenames extends readonly string[]>(codenames: TCodenames | undefined): z.ZodType<TCodenames[number]> {
-	return getCodenameSchema<TCodenames>(codenames);
-}
