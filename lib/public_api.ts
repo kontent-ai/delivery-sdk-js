@@ -9,18 +9,12 @@ export type {
 	PaginationSchema,
 	PartialDeliveryClientShema,
 } from "./models/core.models.js";
-/*
-Content Types
-*/
+// Content Types
 export { type ContentTypePayload, ListContentTypesPayload } from "./queries/content-types/content-type.models.js";
 export type { ListContentTypesQuery } from "./queries/content-types/list-content-types-query.js";
-/*
-Languages
-*/
+// Languages
 export { type LanguagePayload, ListLanguagesPayload } from "./queries/languages/language.models.js";
 export type { ListLanguagesQuery } from "./queries/languages/list-languages-query.js";
-/*
-Taxonomies
-*/
+// Taxonomies
 export type { ListTaxonomiesQuery } from "./queries/taxonomies/list-taxonomies-query.js";
 export { ListTaxonomiesPayload, type TaxonomyPayload } from "./queries/taxonomies/taxonomy.models.js";
