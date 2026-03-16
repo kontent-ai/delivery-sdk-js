@@ -1,15 +1,54 @@
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { describe, expect, test } from "vitest";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
-import type { InferClientTypesFromSchema } from "../../../lib/models/core.models.js";
+import type { FullDeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
 import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 
-type TestDeliveryClientTypes = InferClientTypesFromSchema<{
-	readonly languageCodenames: readonly ["en-US", "cs-CZ", "de-DE"];
-}>;
+type PartialSchemaInput = {
+	readonly languageCodenames?: readonly string[];
+	readonly taxonomyCodenames?: readonly string[];
+	readonly contentTypeCodenames?: readonly string[];
+};
+
+type InferFullSchema<T extends PartialSchemaInput> = {
+	readonly languageCodenames: T["languageCodenames"] extends readonly string[] ? T["languageCodenames"] : readonly string[];
+	readonly taxonomyCodenames: T["taxonomyCodenames"] extends readonly string[] ? T["taxonomyCodenames"] : readonly string[];
+	readonly contentTypeCodenames: T["contentTypeCodenames"] extends readonly string[] ? T["contentTypeCodenames"] : readonly string[];
+};
+
+function createPartialShema<const T extends PartialSchemaInput>(schema: T): InferFullSchema<T> {
+	return {
+		languageCodenames: schema.languageCodenames ?? [],
+		taxonomyCodenames: schema.taxonomyCodenames ?? [],
+		contentTypeCodenames: schema.contentTypeCodenames ?? [],
+	};
+}
+
+const fe = createPartialShema({
+	contentTypeCodenames: ["f"],
+});
+
+const clientfefe = createDeliveryClient({
+	apiMode: "public",
+	environmentId: unitEnvironmentId,
+	schema: { languageCodenames: ["en-US", "cs-CZ"] },
+});
+void fe;
+void clientfefe;
+const bbb = await clientfefe.listLanguages().fetchPage();
+const ccc = await clientfefe.listTaxonomies().fetchPage();
+bbb.payload.languages[0]?.system.codename === "cs-CZ2";
+const fgggge = ccc.payload.taxonomies[0]?.system.codename === "fefefe";
+const hzthzhz = ccc.payload.taxonomies[0]?.system.codename;
 
 describe("Schema validation", () => {
+	type TestDeliveryClientTypes = FullDeliveryClientSchema<{
+		readonly languageCodenames: readonly ["en-US", "cs-CZ", "de-DE"];
+		readonly taxonomyCodenames: readonly [];
+		readonly contentTypeCodenames: readonly [];
+	}>;
+
 	const mockPayload: ListLanguagesPayload<TestDeliveryClientTypes> = {
 		languages: [
 			{

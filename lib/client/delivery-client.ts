@@ -3,7 +3,8 @@ import type {
 	DeliveryClient,
 	DeliveryClientConfig,
 	DeliveryClientConfigWithSchema,
-	InferClientTypesFromSchema,
+	FullDeliveryClientSchema,
+	PartialDeliveryClientShema,
 } from "../models/core.models.js";
 import { listContentTypes } from "../queries/content-types/list-content-types-query.js";
 import { listLanguagesQuery } from "../queries/languages/list-languages-query.js";
@@ -34,29 +35,28 @@ import { toRequiredSchema } from "../utils/schema.utils.js";
  *   environmentId: "x",
  * });
  */
-export function createDeliveryClient<const TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema>(
+export function createDeliveryClient<const TSchema extends PartialDeliveryClientShema = PartialDeliveryClientShema>(
 	config: DeliveryClientConfig<TSchema>,
-): DeliveryClient<TSchema> {
+): DeliveryClient<FullDeliveryClientSchema<TSchema>> {
 	if (config.schema === undefined) {
-		const schema = toRequiredSchema(undefined);
 		const configWithSchema: DeliveryClientConfigWithSchema<DefaultDeliveryClientSchema> = {
 			...config,
-			schema,
+			schema: toRequiredSchema(undefined),
 		};
 		return {
-			config: config,
+			config: configWithSchema,
 			listTaxonomies: () => listTaxonomiesQuery(configWithSchema),
 			listLanguages: () => listLanguagesQuery(configWithSchema),
 			listContentTypes: () => listContentTypes(configWithSchema),
-		} as DeliveryClient<TSchema>;
+		};
 	}
 	const schema = config.schema;
-	const configWithSchema: DeliveryClientConfigWithSchema<TSchema> = {
+	const configWithSchema: DeliveryClientConfigWithSchema<FullDeliveryClientSchema<TSchema>> = {
 		...config,
-		schema,
+		schema: schema as FullDeliveryClientSchema<TSchema>,
 	};
 	return {
-		config: config,
+		config: configWithSchema,
 		listTaxonomies: () => listTaxonomiesQuery(configWithSchema),
 		listLanguages: () => listLanguagesQuery(configWithSchema),
 		listContentTypes: () => listContentTypes(configWithSchema),
@@ -67,10 +67,13 @@ const fe = createDeliveryClient({
 	apiMode: "preview",
 	deliveryApiKey: "x",
 	environmentId: "c",
-	schema: { languageCodenames: ["en-us", "de-de"], taxonomyCodenames: ["categories"], contentTypeCodenames: [] },
+	schema: { languageCodenames: ["en-us", "de-de"], taxonomyCodenames: ["categories"], contentTypeCodenames: ["g"] },
 });
 
-type Fe3 = InferClientTypesFromSchema<{
+const fefe = await fe.listContentTypes().fetchAllPages();
+const ggg = fefe.responses[0]?.payload.types[0]?.system.codename;
+
+type Fe3 = FullDeliveryClientSchema<{
 	readonly taxonomyCodenames: readonly ("categories" | "tags")[];
 	readonly languageCodenames: readonly ("en-us" | "de-de")[];
 	readonly contentTypeCodenames: readonly ("article" | "product")[];
@@ -95,9 +98,9 @@ const query4 = await fe4.listLanguages().fetchAllPages();
 
 if (query.responses[0]?.payload.languages[0]) {
 	query.responses[0].payload.languages[0].system.codename === "";
-	query.responses[0].payload.languages[0].system.codename === "de-de";
+	query.responses[0].payload.languages[0].system.codename === "de-de2";
 }
 
 query.responses[0]?.payload.languages[0]?.system.codename === "de-de2";
-query3.responses[0]?.payload.languages[0]?.system.codename === "de-de45";
+query3.responses[0]?.payload.languages[0]?.system.codename === "de-de";
 query4.responses[0]?.payload.languages[0]?.system.codename === "en-us";

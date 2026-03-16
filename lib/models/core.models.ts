@@ -4,10 +4,24 @@ import type { ListContentTypesQuery } from "../queries/content-types/list-conten
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import type { ListTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
 
-export type InferClientTypesFromSchema<TSchema extends DeliveryClientSchema> = {
-	readonly languageCodenames: TSchema["languageCodenames"];
-	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
-	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
+export type PartialDeliveryClientShema = {
+	readonly languageCodenames?: readonly string[];
+	readonly taxonomyCodenames?: readonly string[];
+	readonly contentTypeCodenames?: readonly string[];
+};
+
+export type AllDeliverySchema = {
+	readonly languageCodenames: readonly string[];
+	readonly taxonomyCodenames: readonly string[];
+	readonly contentTypeCodenames: readonly string[];
+};
+
+export type FullDeliveryClientSchema<TSchema extends PartialDeliveryClientShema> = {
+	readonly languageCodenames: TSchema["languageCodenames"] extends readonly string[] ? TSchema["languageCodenames"] : readonly string[];
+	readonly taxonomyCodenames: TSchema["taxonomyCodenames"] extends readonly string[] ? TSchema["taxonomyCodenames"] : readonly string[];
+	readonly contentTypeCodenames: TSchema["contentTypeCodenames"] extends readonly string[]
+		? TSchema["contentTypeCodenames"]
+		: readonly string[];
 };
 
 export type DeliveryClientSchema = {
@@ -35,7 +49,7 @@ export type DeliveryResponse<TPayload, TExtraMetadata = unknown> = {
 
 export type ApiMode = "public" | "preview" | "secure";
 
-export type DeliveryClientConfig<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = SdkConfig &
+export type DeliveryClientConfig<TSchema extends PartialDeliveryClientShema = PartialDeliveryClientShema> = SdkConfig &
 	ApiDeliveryClientConfig & {
 		/**
 		 * The environment ID of your Kontent.ai project. Can be found under 'Project settings' in the Kontent.ai app.

@@ -3,6 +3,7 @@ import type { DefaultDeliveryClientSchema } from "../models/core.models.js";
 const defaultSchema = {
 	languageCodenames: [] as const,
 	taxonomyCodenames: [] as const,
+	contentTypeCodenames: [] as const,
 } satisfies DefaultDeliveryClientSchema;
 
 export function toRequiredSchema<T extends DefaultDeliveryClientSchema | undefined>(
