@@ -41,20 +41,6 @@ export type DeliveryClientConfig<TSchema extends PartialDeliveryClientShema = Pa
 
 export type ApiDeliveryClientConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
 
-export type PublicDeliveryClientConfig = {
-	readonly apiMode: PickStringLiteral<ApiMode, "public">;
-};
-
-export type PreviewDeliveryClientConfig = {
-	readonly apiMode: PickStringLiteral<ApiMode, "preview">;
-	readonly deliveryApiKey: string;
-};
-
-export type SecureDeliveryClientConfig = {
-	readonly apiMode: PickStringLiteral<ApiMode, "secure">;
-	readonly deliveryApiKey: string;
-};
-
 export type DeliveryClientConfigWithSchema<TSchema extends DeliveryClientSchema> = DeliveryClientConfig<TSchema> & {
 	readonly schema: TSchema;
 };
@@ -92,3 +78,17 @@ export type DeliveryEndpoints =
 	| "types"
 	| `types/${string}`
 	| `types/${string}/elements/${string}`;
+
+type PublicDeliveryClientConfig = {
+	readonly apiMode: PickStringLiteral<ApiMode, "public">;
+};
+
+type PreviewDeliveryClientConfig = {
+	readonly apiMode: PickStringLiteral<ApiMode, "preview">;
+	readonly deliveryApiKey: string;
+};
+
+type SecureDeliveryClientConfig = {
+	readonly apiMode: PickStringLiteral<ApiMode, "secure">;
+	readonly deliveryApiKey: string;
+};
