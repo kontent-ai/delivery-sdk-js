@@ -2,7 +2,7 @@ import { type FetchQuery, isPagingQuery, type JsonValue, type PagedFetchQuery } 
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { expect, it } from "vitest";
 import type { ZodType } from "zod";
-import type { DeliveryClient, DeliveryClientTypes, DeliveryEndpoints } from "../../lib/models/core.models.js";
+import type { DeliveryClient, DeliveryClientSchema, DeliveryEndpoints } from "../../lib/models/core.models.js";
 import { createDeliveryClient } from "../../lib/public_api.js";
 import { getDeliveryUrl } from "../../lib/utils/url.utils.js";
 import { getIntegrationTestConfig } from "../integration-tests.config.js";
@@ -11,8 +11,16 @@ import { unitEnvironmentId } from "./test.utils.js";
 type TestType = "Integration" | "Unit";
 
 type SelectQuery<TResponsePayload extends JsonValue> = (
-	client: DeliveryClient<DeliveryClientTypes>,
+	client: DeliveryClient<DeliveryClientSchema>,
 ) => FetchQuery<TResponsePayload, unknown> | PagedFetchQuery<TResponsePayload, unknown>;
+
+export function getIntegrationTestsSchema(): DeliveryClientSchema {
+	return {
+		languageCodenames: [],
+		taxonomyCodenames: [],
+		contentTypeCodenames: [],
+	};
+}
 
 export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 	endpoint,
@@ -75,7 +83,7 @@ function createTestClients<TResponsePayload extends JsonValue>({
 	readonly unitTestPayload: TResponsePayload;
 	readonly environmentId: string;
 	readonly deliveryBaseUrl: string | undefined;
-}): readonly DeliveryClient<DeliveryClientTypes>[] {
+}): readonly DeliveryClient<DeliveryClientSchema>[] {
 	return [
 		createDeliveryClient({
 			apiMode: "public",
@@ -86,27 +94,12 @@ function createTestClients<TResponsePayload extends JsonValue>({
 				statusCode: 200,
 			}),
 		}),
-		// createDeliveryClient(unitEnvironmentId)
-		// 	.withUnknownSchema()
-		// 	.publicApi()
-		// 	.create({
-		// 		httpService: getTestHttpServiceWithJsonResponse({
-		// 			jsonResponse: unitTestPayload,
-		// 			statusCode: 200,
-		// 		}),
-		// 	}),
 		createDeliveryClient({
 			apiMode: "public",
 			environmentId: environmentId,
 			schema: { languageCodenames: [], taxonomyCodenames: [] },
 			...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
 		}),
-		// createDeliveryClient(environmentId)
-		// 	.withUnknownSchema()
-		// 	.publicApi()
-		// 	.create({
-		// 		...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
-		// 	}),
 	];
 }
 
@@ -143,7 +136,7 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 }: {
 	readonly testName: string;
 	readonly endpoint: DeliveryEndpoints;
-	readonly client: DeliveryClient<DeliveryClientTypes>;
+	readonly client: DeliveryClient<DeliveryClientSchema>;
 	readonly query: ReturnType<SelectQuery<TResponsePayload>>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly success: boolean;
@@ -224,7 +217,7 @@ async function executeDefaultQueryAsync<TResponsePayload extends JsonValue>({
 	client,
 	selectQuery,
 }: {
-	readonly client: DeliveryClient<DeliveryClientTypes>;
+	readonly client: DeliveryClient<DeliveryClientSchema>;
 	readonly selectQuery: SelectQuery<TResponsePayload>;
 }): Promise<{
 	readonly query: ReturnType<SelectQuery<TResponsePayload>>;

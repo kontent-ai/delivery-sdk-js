@@ -8,7 +8,7 @@ import type {
 import { listContentTypes } from "../queries/content-types/list-content-types-query.js";
 import { listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
-import { getDefaultSchema, toFullSchema } from "../utils/schema.utils.js";
+import { resolveSchema } from "../utils/schema.utils.js";
 
 /**
  * Creates a delivery client. When you provide a schema, codenames are inferred for type safety.
@@ -39,7 +39,7 @@ export function createDeliveryClient<const TSchema extends PartialDeliveryClient
 ): DeliveryClient<DeliveryClientSchema<TSchema>> {
 	const configWithSchema: DeliveryClientConfigWithSchema<DeliveryClientSchema<TSchema>> = {
 		...config,
-		schema: toFullSchema(config.schema ?? getDefaultSchema()),
+		schema: resolveSchema(config.schema),
 	};
 	return {
 		config: configWithSchema,

@@ -1,4 +1,4 @@
-import type { AdapterResponse, JsonValue, SdkConfig } from "@kontent-ai/core-sdk";
+import type { PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
 import z from "zod";
 import type { ListContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
@@ -16,21 +16,6 @@ export type DeliveryClientSchema<TSchema extends PartialDeliveryClientShema = Pa
 	readonly contentTypeCodenames: TSchema["contentTypeCodenames"] extends readonly string[]
 		? TSchema["contentTypeCodenames"]
 		: readonly string[];
-};
-
-export type DeliveryClientTypesFromSchema<TSchema extends DeliveryClientSchema> = {
-	readonly languageCodenames: TSchema["languageCodenames"];
-	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
-	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
-};
-
-export type DeliveryResponseMeta<TExtraMetadata = unknown> = Pick<AdapterResponse<JsonValue>, "status" | "responseHeaders"> & {
-	readonly continuationToken?: string;
-} & TExtraMetadata;
-
-export type DeliveryResponse<TPayload, TExtraMetadata = unknown> = {
-	readonly payload: TPayload;
-	readonly meta: DeliveryResponseMeta<TExtraMetadata>;
 };
 
 export type ApiMode = "public" | "preview" | "secure";
@@ -74,25 +59,11 @@ export type DeliveryClientConfigWithSchema<TSchema extends DeliveryClientSchema>
 	readonly schema: TSchema;
 };
 
-/**
- * Delivery client instance. This is the main entry point for the delivery API.
- */
 export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = {
 	readonly config: DeliveryClientConfig<TSchema>;
 
-	/**
-	 * List languages.
-	 */
 	listLanguages(): ListLanguagesQuery<TSchema>;
-
-	/**
-	 * List taxonomies.
-	 */
 	listTaxonomies(): ListTaxonomiesQuery<TSchema>;
-
-	/**
-	 * List content types.
-	 */
 	listContentTypes(): ListContentTypesQuery<TSchema>;
 };
 
@@ -121,5 +92,3 @@ export type DeliveryEndpoints =
 	| "types"
 	| `types/${string}`
 	| `types/${string}/elements/${string}`;
-
-type PickStringLiteral<T extends string, U extends T> = U;
