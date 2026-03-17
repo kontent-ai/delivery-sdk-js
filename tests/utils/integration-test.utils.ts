@@ -6,7 +6,7 @@ import type { DeliveryClient, DeliveryClientSchema, DeliveryEndpoints } from "..
 import { createDeliveryClient } from "../../lib/public_api.js";
 import { getDeliveryUrl } from "../../lib/utils/url.utils.js";
 import { getIntegrationTestConfig } from "../integration-tests.config.js";
-import { unitEnvironmentId } from "./test.utils.js";
+import { isFetchQueryWithExpectedFunctions, isPagedFetchQueryWithExpectedFunctions, unitEnvironmentId } from "./test.utils.js";
 
 type TestType = "Integration" | "Unit";
 
@@ -64,6 +64,7 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 
 		if (isPagingQuery(query)) {
 			registerPagingTests({
+				query,
 				testName,
 				testType,
 				unitTestPayload,
@@ -157,6 +158,11 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 		expect(parseError).toBeUndefined();
 		expect(parseSuccess).toBeTruthy();
 	});
+	if (!isPagingQuery(query)) {
+		it(`${testName} Query should be a fetch query with expected functions`, () => {
+			expect(isFetchQueryWithExpectedFunctions(query)).toBeTruthy();
+		});
+	}
 	if (testType === "Unit") {
 		it(`${testName} Payload should be equal to unit test payload`, () => {
 			expect(response?.payload).toEqual(unitTestPayload);
@@ -165,6 +171,7 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 }
 
 function registerPagingTests<TResponsePayload extends JsonValue>({
+	query,
 	testName,
 	testType,
 	unitTestPayload,
@@ -176,6 +183,7 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	iteratorPayloads,
 	maxPagesCount,
 }: {
+	readonly query: PagedFetchQuery<TResponsePayload, unknown>;
 	readonly testName: string;
 	readonly testType: TestType;
 	readonly unitTestPayload: TResponsePayload;
@@ -204,6 +212,9 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	});
 	it(`${testName} Iterator responses should be equal to paging responses`, () => {
 		expect(iteratorPayloads.length).toEqual(maxPagesCount);
+	});
+	it(`${testName} Query should be a paged fetch query with expected functions`, () => {
+		expect(isPagedFetchQueryWithExpectedFunctions(query)).toBeTruthy();
 	});
 	if (testType === "Unit") {
 		const firstIteratorResponse = iteratorPayloads?.[0];

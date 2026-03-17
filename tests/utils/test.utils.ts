@@ -1,4 +1,4 @@
-import { type ContinuationHeaderName, type Header, nilUuid } from "@kontent-ai/core-sdk";
+import { type ContinuationHeaderName, type FetchQuery, type Header, nilUuid, type PagedFetchQuery } from "@kontent-ai/core-sdk";
 
 export const fakeXContinuationTokenHeader: Header = {
 	name: "X-Continuation" satisfies ContinuationHeaderName,
@@ -9,4 +9,41 @@ export const unitEnvironmentId = "xyz";
 
 export function getFakeUuid(): string {
 	return nilUuid;
+}
+
+export function isFetchQueryWithExpectedFunctions(query: unknown): query is FetchQuery<unknown, unknown> {
+	type ExpectedFunctions = keyof FetchQuery<unknown, unknown>;
+	if (!query || typeof query !== "object") {
+		return false;
+	}
+
+	const expectedFunctions: readonly ExpectedFunctions[] = ["fetchSafe", "fetch", "schema", "url"];
+
+	if (expectedFunctions.every((func) => func in query)) {
+		return true;
+	}
+	return false;
+}
+
+export function isPagedFetchQueryWithExpectedFunctions(query: unknown): query is PagedFetchQuery<unknown, unknown> {
+	type ExpectedFunctions = keyof PagedFetchQuery<unknown, unknown>;
+	if (!query || typeof query !== "object") {
+		return false;
+	}
+
+	const expectedFunctions: readonly ExpectedFunctions[] = [
+		"fetchAllPagesSafe",
+		"fetchPageSafe",
+		"pages",
+		"schema",
+		"url",
+		"fetchAllPages",
+		"fetchPage",
+		"pagesSafe",
+	];
+
+	if (expectedFunctions.every((func) => func in query)) {
+		return true;
+	}
+	return false;
 }
