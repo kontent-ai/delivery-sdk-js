@@ -1,8 +1,9 @@
 import type { PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
 import type { ListContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
-import type { FetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
+import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
+import type { DeliveryRequest } from "./request.models.js";
 
 export type PartialDeliveryClientShema = {
 	readonly languageCodenames?: readonly string[];
@@ -27,7 +28,7 @@ export type ApiMode = "public" | "preview" | "secure";
 export type DeliveryClientConfig<TSchema extends PartialDeliveryClientShema = PartialDeliveryClientShema> = SdkConfig &
 	ApiDeliveryClientConfig & {
 		/**
-		 * The environment ID of your Kontent.ai project. Can be found under 'Project settings' in the Kontent.ai app.
+		 * The environment ID of your Kontent.ai project. Can be found in the Kontent.ai app.
 		 */
 		readonly environmentId: string;
 
@@ -52,10 +53,10 @@ export type DeliveryClientConfigWithSchema<TSchema extends DeliveryClientSchema>
 export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = {
 	readonly config: DeliveryClientConfig<TSchema>;
 
-	listLanguages(): ListLanguagesQuery<TSchema>;
-	listTaxonomies(): ListTaxonomiesQuery<TSchema>;
-	listContentTypes(): ListContentTypesQuery<TSchema>;
-	fetchTaxonomy(codename: NonNullable<TSchema["taxonomyCodenames"]>[number]): FetchTaxonomyQuery<TSchema>;
+	listLanguages(request?: DeliveryRequest): ListLanguagesQuery<TSchema>;
+	listTaxonomies(request?: DeliveryRequest): ListTaxonomiesQuery<TSchema>;
+	listContentTypes(request?: DeliveryRequest): ListContentTypesQuery<TSchema>;
+	fetchTaxonomy(request: FetchTaxonomyQueryRequest<TSchema>): FetchTaxonomyQuery<TSchema>;
 };
 
 export type DeliveryEndpoints =
@@ -72,15 +73,30 @@ export type DeliveryEndpoints =
 	| `types/${string}/elements/${string}`;
 
 type PublicDeliveryClientConfig = {
+	/**
+	 * The API mode of the delivery client. Public access is the default mode.
+	 */
 	readonly apiMode: PickStringLiteral<ApiMode, "public">;
 };
 
 type PreviewDeliveryClientConfig = {
+	/**
+	 * The API mode of the delivery client.
+	 */
 	readonly apiMode: PickStringLiteral<ApiMode, "preview">;
+	/**
+	 * The delivery API key of your Kontent.ai project with preview access enabled.
+	 */
 	readonly deliveryApiKey: string;
 };
 
 type SecureDeliveryClientConfig = {
+	/**
+	 * The API mode of the delivery client.
+	 */
 	readonly apiMode: PickStringLiteral<ApiMode, "secure">;
+	/**
+	 * The delivery API key of your Kontent.ai project with secure access enabled.
+	 */
 	readonly deliveryApiKey: string;
 };

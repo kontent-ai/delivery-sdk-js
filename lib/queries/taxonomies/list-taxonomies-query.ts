@@ -1,5 +1,6 @@
 import type { PagedFetchQuery } from "@kontent-ai/core-sdk";
 import type { DeliveryClientConfig, DeliveryClientSchema } from "../../models/core.models.js";
+import type { DeliveryRequest } from "../../models/request.models.js";
 import { createDeliveryPagingQuery } from "../delivery-queries.js";
 import { type ListTaxonomiesPayload, listTaxonomiesPayload } from "./taxonomy.models.js";
 
@@ -7,9 +8,11 @@ export type ListTaxonomiesQuery<TSchema extends DeliveryClientSchema> = PagedFet
 
 export function listTaxonomiesQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
+	request?: DeliveryRequest,
 ): ListTaxonomiesQuery<TSchema> {
 	return createDeliveryPagingQuery({
 		config,
+		request,
 		zodSchema: listTaxonomiesPayload(config.schema),
 		endpoint: "taxonomies",
 	});

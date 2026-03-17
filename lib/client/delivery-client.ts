@@ -1,7 +1,8 @@
 import type { DeliveryClient, DeliveryClientConfig, PartialDeliveryClientShema } from "../models/core.models.js";
+import type { DeliveryRequest } from "../models/request.models.js";
 import { listContentTypes } from "../queries/content-types/list-content-types-query.js";
 import { listLanguagesQuery } from "../queries/languages/list-languages-query.js";
-import { fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
+import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import { listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
 
 /**
@@ -14,7 +15,8 @@ import { listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query
  * By enabling the response validation, you can also achieve a run-time type safety.
  *
  * @example
- * // With schema – narrow codename types
+ * With schema – narrow codename types
+ *
  * const client = createDeliveryClient({
  *   apiMode: "public",
  *   environmentId: "x",
@@ -22,7 +24,8 @@ import { listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query
  * });
  *
  * @example
- * // Without schema – schema optional, codenames are string
+ * Without schema – schema optional, codenames are string
+ *
  * const client = createDeliveryClient({
  *   apiMode: "public",
  *   environmentId: "x",
@@ -33,9 +36,9 @@ export function createDeliveryClient<const TSchema extends PartialDeliveryClient
 ): DeliveryClient<TSchema> {
 	return {
 		config,
-		listTaxonomies: () => listTaxonomiesQuery(config),
-		listLanguages: () => listLanguagesQuery(config),
-		listContentTypes: () => listContentTypes(config),
-		fetchTaxonomy: (codename: NonNullable<TSchema["taxonomyCodenames"]>[number]) => fetchTaxonomyQuery(codename, config),
+		listTaxonomies: (request?: DeliveryRequest) => listTaxonomiesQuery(config, request),
+		listLanguages: (request?: DeliveryRequest) => listLanguagesQuery(config, request),
+		listContentTypes: (request?: DeliveryRequest) => listContentTypes(config, request),
+		fetchTaxonomy: (request: FetchTaxonomyQueryRequest<TSchema>) => fetchTaxonomyQuery(config, request),
 	};
 }
