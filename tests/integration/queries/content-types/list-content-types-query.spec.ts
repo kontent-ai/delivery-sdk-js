@@ -1,7 +1,7 @@
 import { describe } from "vitest";
-import type { DeliveryClientSchema } from "../../../lib/models/core.models.js";
-import { type ListContentTypesPayload, listContentTypesPayload } from "../../../lib/queries/content-types/content-type.models.js";
-import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../utils/integration-test.utils.js";
+import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
+import { type ListContentTypesPayload, listContentTypesPayload } from "../../../../lib/queries/content-types/content-type.models.js";
+import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 
 describe("List content types query", async () => {
 	await runQueryTestsAsync<ListContentTypesPayload<DeliveryClientSchema>>({
