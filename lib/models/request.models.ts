@@ -26,3 +26,7 @@ export type DeliveryRequestConfig = {
 	 */
 	readonly headers?: readonly Header[];
 };
+
+export type OrderDirection = "asc" | "desc";
+
+export type SystemOrderQueryParam<TSortableProperties extends string> = `system.${TSortableProperties}[${OrderDirection}]`;
