@@ -4,6 +4,12 @@ export type DeliveryRequest = {
 	readonly config?: DeliveryRequestConfig;
 };
 
+export type PagingDeliveryRequest = DeliveryRequest &
+	QueryParameters<{
+		readonly skip?: number;
+		readonly limit?: number;
+	}>;
+
 export type QueryRequestWithCodename<TCodenames extends readonly string[]> = {
 	readonly codename: TCodenames[number];
 };
