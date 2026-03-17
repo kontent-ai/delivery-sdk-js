@@ -124,3 +124,44 @@ describe("Bypass CDN cache header should be absent by default", async () => {
 		expect(bypassCdnCacheHeader).toBeUndefined();
 	});
 });
+
+describe("Extra headers should be present", async () => {
+	const extraHeader: Header = { name: "X-Extra-Header", value: "extra" };
+
+	afterEach(() => {
+		vi.resetAllMocks();
+	});
+
+	mockGlobalFetchJsonResponse({
+		jsonResponse: {},
+		statusCode: 200,
+		continuationToken: "x",
+	});
+
+	let requestHeaders: readonly Header[] = [];
+
+	const query = createDeliveryClient({
+		apiMode: "public",
+		environmentId: unitEnvironmentId,
+		httpService: getDefaultHttpService({
+			adapter: {
+				executeRequest: async (options) => {
+					requestHeaders = options.requestHeaders ?? [];
+					return await getDefaultHttpAdapter().executeRequest(options);
+				},
+			},
+		}),
+	}).listLanguages({
+		config: {
+			headers: [extraHeader],
+		},
+	});
+
+	// execute query so that http service is called and request headers are captured
+	await query.fetchPageSafe();
+
+	it("Request headers should contain extra header", () => {
+		const foundHeader = requestHeaders.find((header) => header.name === extraHeader.name);
+		expect(foundHeader?.value).toEqual("extra");
+	});
+});
