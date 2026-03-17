@@ -2,7 +2,7 @@ import type { PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
 import type { ListContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
 import type { ListLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
-import type { ListTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
+import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
 import type { DeliveryRequest } from "./request.models.js";
 
 export type PartialDeliveryClientShema = {
@@ -54,7 +54,7 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	readonly config: DeliveryClientConfig<TSchema>;
 
 	listLanguages(request?: DeliveryRequest): ListLanguagesQuery<TSchema>;
-	listTaxonomies(request?: DeliveryRequest): ListTaxonomiesQuery<TSchema>;
+	listTaxonomies(request?: ListTaxonomiesQueryRequest): ListTaxonomiesQuery<TSchema>;
 	listContentTypes(request?: DeliveryRequest): ListContentTypesQuery<TSchema>;
 	fetchTaxonomy(request: FetchTaxonomyQueryRequest<TSchema>): FetchTaxonomyQuery<TSchema>;
 };

@@ -3,7 +3,7 @@ import type { DeliveryRequest } from "../models/request.models.js";
 import { listContentTypes } from "../queries/content-types/list-content-types-query.js";
 import { listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
-import { listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
+import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
 
 /**
  * Creates a delivery client. When you provide a schema, codenames are inferred for type safety.
@@ -36,7 +36,7 @@ export function createDeliveryClient<const TSchema extends PartialDeliveryClient
 ): DeliveryClient<TSchema> {
 	return {
 		config,
-		listTaxonomies: (request?: DeliveryRequest) => listTaxonomiesQuery(config, request),
+		listTaxonomies: (request?: ListTaxonomiesQueryRequest) => listTaxonomiesQuery(config, request),
 		listLanguages: (request?: DeliveryRequest) => listLanguagesQuery(config, request),
 		listContentTypes: (request?: DeliveryRequest) => listContentTypes(config, request),
 		fetchTaxonomy: (request: FetchTaxonomyQueryRequest<TSchema>) => fetchTaxonomyQuery(config, request),

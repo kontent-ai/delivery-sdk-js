@@ -11,7 +11,7 @@ import type { ZodType } from "zod";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints } from "../models/core.models.js";
 import type { PaginationSchema } from "../models/pagination.models.js";
-import type { DeliveryRequest } from "../models/request.models.js";
+import type { DeliveryRequest, QueryParameters } from "../models/request.models.js";
 import { getNextPageByUrl } from "../utils/paging.utils.js";
 import { getDeliveryUrl } from "../utils/url.utils.js";
 
@@ -80,7 +80,7 @@ function getRequestData<TPayload extends JsonValue>({
 }): FetchQueryRequest<TPayload, null>["request"] {
 	return {
 		requestHeaders: getHeaders(request),
-		url: getDeliveryUrl({ path: endpoint, ...config }),
+		url: addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), request),
 		authorizationApiKey: config.apiMode === "preview" || config.apiMode === "secure" ? config.deliveryApiKey : undefined,
 	};
 }
@@ -94,4 +94,38 @@ function getHeaders(request?: DeliveryRequest): readonly Header[] {
 
 function getBypassCdnCacheHeader(): Header {
 	return { name: "X-KC-Wait-For-Loading-New-Content", value: "true" };
+}
+
+function addQueryParametersToUrl(url: string, request: DeliveryRequest | undefined): string {
+	if (!isQueryWithParameters(request)) {
+		return url;
+	}
+	return `${url}${url.includes("?") ? "&" : "?"}${getUrlSearchParams(request).toString()}`;
+}
+
+function getUrlSearchParams(request: QueryParameters<Record<string, string | number | undefined>>): URLSearchParams {
+	return new URLSearchParams(
+		Object.entries(request.query ?? {})
+			.filter(hasDefinedQueryValue)
+			.map(([key, value]) => [key, value.toString()]),
+	);
+}
+
+function isQueryWithParameters(
+	request: DeliveryRequest | undefined,
+): request is DeliveryRequest & QueryParameters<Record<string, string | number | undefined>> {
+	if (!request) {
+		return false;
+	}
+
+	if (("query" satisfies keyof QueryParameters<Record<string, string | number | undefined>>) in request) {
+		return true;
+	}
+
+	return false;
+}
+
+function hasDefinedQueryValue<K, V>(item: [K, V | undefined]): item is [K, V] {
+	const [, value] = item;
+	return value !== undefined || value !== null;
 }

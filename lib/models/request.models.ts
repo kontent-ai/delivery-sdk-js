@@ -4,6 +4,14 @@ export type DeliveryRequest = {
 	readonly config?: DeliveryRequestConfig;
 };
 
+export type QueryRequestWithCodename<TCodenames extends readonly string[]> = {
+	readonly codename: TCodenames[number];
+};
+
+export type QueryParameters<TParameters extends Record<string, string | number | undefined>> = {
+	readonly query?: TParameters;
+};
+
 export type DeliveryRequestConfig = {
 	/**
 	 * When enabled, sets the `X-KC-Wait-For-Loading-New-Content` header so the Delivery API
