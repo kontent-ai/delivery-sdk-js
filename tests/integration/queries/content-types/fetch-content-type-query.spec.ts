@@ -62,6 +62,11 @@ describe("Fetch content type query", async () => {
 					type: "modular_content",
 					name: "Cast",
 				},
+				customElem: {
+					type: "custom",
+					name: "Custom element",
+					value: null,
+				},
 			},
 		},
 		selectQuery: (client) => client.fetchContentType({ codename: codename }),
