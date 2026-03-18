@@ -125,7 +125,7 @@ function isQueryWithParameters(
 	return false;
 }
 
-function hasDefinedQueryValue<K, V>(item: [K, V | undefined]): item is [K, V] {
+function hasDefinedQueryValue<Key, Value>(item: [Key, Value | undefined]): item is [Key, Value] {
 	const [, value] = item;
 	return value !== undefined || value !== null;
 }
