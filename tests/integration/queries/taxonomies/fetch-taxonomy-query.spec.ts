@@ -4,9 +4,9 @@ import { type TaxonomyPayload, taxonomyPayload } from "../../../../lib/queries/t
 import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 
 describe("Fetch taxonomy query", async () => {
-	const taxonomyCodename = "movie_type";
+	const codename = "movie_type";
 	await runQueryTestsAsync<TaxonomyPayload<DeliveryClientSchema>>({
-		endpoint: `taxonomies/${taxonomyCodename}`,
+		endpoint: `taxonomies/${codename}`,
 		unitTestPayload: {
 			system: {
 				id: "b7f516a3-36b9-4108-919f-ed83ea91926e",
@@ -43,7 +43,7 @@ describe("Fetch taxonomy query", async () => {
 				},
 			],
 		},
-		selectQuery: (client) => client.fetchTaxonomy({ codename: taxonomyCodename }),
+		selectQuery: (client) => client.fetchTaxonomy({ codename: codename }),
 		expectedSchema: taxonomyPayload(getIntegrationTestsSchema()),
 	});
 });
