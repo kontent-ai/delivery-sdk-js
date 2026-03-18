@@ -17,45 +17,45 @@ import { getDeliveryUrl } from "../utils/url.utils.js";
 
 export function createDeliveryPagingQuery<TPayload extends PaginationSchema>({
 	config,
-	zodSchema,
+	schema,
 	endpoint,
 	request,
 }: {
 	readonly request: DeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
-	readonly zodSchema: ZodType<TPayload>;
+	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
 }): PagedFetchQuery<TPayload, null> {
 	return createPagedFetchQuery<TPayload, null>({
-		...getSharedRequestData<TPayload>({ config, endpoint, zodSchema, request }),
+		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByUrl(),
 	});
 }
 
 export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	config,
-	zodSchema,
+	schema,
 	endpoint,
 	request,
 }: {
 	readonly request: DeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
-	readonly zodSchema: ZodType<TPayload>;
+	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
 }): FetchQuery<TPayload, null> {
-	return createFetchQuery<TPayload, null>(getSharedRequestData<TPayload>({ config, endpoint, zodSchema, request }));
+	return createFetchQuery<TPayload, null>(getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }));
 }
 
 function getSharedRequestData<TPayload extends JsonValue>({
 	config,
 	endpoint,
-	zodSchema,
+	schema,
 	request,
 }: {
 	readonly request: DeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoints;
-	readonly zodSchema: ZodType<TPayload>;
+	readonly schema: ZodType<TPayload>;
 }): Pick<FetchQueryRequest<TPayload, null>, "abortSignal" | "config" | "sdkInfo" | "mapMetadata" | "request" | "zodSchema"> {
 	return {
 		abortSignal: undefined,
@@ -65,7 +65,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 			return null;
 		},
 		request: getRequestData<TPayload>({ config, endpoint, request }),
-		zodSchema,
+		zodSchema: schema,
 	};
 }
 

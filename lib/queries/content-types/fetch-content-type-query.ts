@@ -16,7 +16,7 @@ export function fetchContentTypeQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		zodSchema: contentTypePayload(config.schema),
+		schema: contentTypePayload(config.schema),
 		endpoint: `types/${request.codename}`,
 	});
 }

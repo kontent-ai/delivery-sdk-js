@@ -18,7 +18,7 @@ export function listTaxonomiesQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagingQuery({
 		config,
 		request,
-		zodSchema: listTaxonomiesPayload(config.schema),
+		schema: listTaxonomiesPayload(config.schema),
 		endpoint: "taxonomies",
 	});
 }

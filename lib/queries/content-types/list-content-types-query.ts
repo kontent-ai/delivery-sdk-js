@@ -18,7 +18,7 @@ export function listContentTypes<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagingQuery({
 		config,
 		request,
-		zodSchema: listContentTypesPayload(config.schema),
+		schema: listContentTypesPayload(config.schema),
 		endpoint: "types",
 	});
 }

@@ -16,7 +16,7 @@ export function fetchTaxonomyQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		zodSchema: taxonomyPayload(config.schema),
+		schema: taxonomyPayload(config.schema),
 		endpoint: `taxonomies/${request.codename}`,
 	});
 }

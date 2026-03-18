@@ -18,7 +18,7 @@ export function listLanguagesQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagingQuery({
 		config,
 		request,
-		zodSchema: listLanguagesPayload(config.schema),
+		schema: listLanguagesPayload(config.schema),
 		endpoint: "languages",
 	});
 }
