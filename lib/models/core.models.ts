@@ -1,4 +1,4 @@
-import type { PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
+import type { FetchQuery, JsonValue, PagedFetchQuery, PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
 import type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "../queries/content-types/fetch-content-type-query.js";
 import type { ListContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
 import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
@@ -60,6 +60,10 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	fetchTaxonomy(request: FetchTaxonomyQueryRequest<TSchema>): FetchTaxonomyQuery<TSchema>;
 	fetchContentType(request: FetchContentTypeQueryRequest<TSchema>): FetchContentTypeQuery<TSchema>;
 };
+
+export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, unknown>;
+
+export type DeliveryPagedFetchQuery<TPayload extends JsonValue> = PagedFetchQuery<TPayload, unknown>;
 
 export type DeliveryEndpoints =
 	| "languages"

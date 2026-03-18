@@ -1,10 +1,9 @@
-import type { PagedFetchQuery } from "@kontent-ai/core-sdk";
-import type { DeliveryClientConfig, DeliveryClientSchema } from "../../models/core.models.js";
+import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
 import type { DeliveryRequest, PagingDeliveryRequest, QueryParameters, SystemOrderQueryParam } from "../../models/request.models.js";
 import { createDeliveryPagingQuery } from "../delivery-queries.js";
 import { type ContentTypePayload, type ListContentTypesPayload, listContentTypesPayload } from "./content-type.models.js";
 
-export type ListContentTypesQuery<TSchema extends DeliveryClientSchema> = PagedFetchQuery<ListContentTypesPayload<TSchema>, unknown>;
+export type ListContentTypesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListContentTypesPayload<TSchema>>;
 
 export type ListContentTypesQueryRequest = PagingDeliveryRequest &
 	QueryParameters<{
