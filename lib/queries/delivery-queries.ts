@@ -118,11 +118,7 @@ function isQueryWithParameters(
 		return false;
 	}
 
-	if (("query" satisfies keyof QueryParameters<Record<string, string | number | undefined>>) in request) {
-		return true;
-	}
-
-	return false;
+	return ("query" satisfies keyof QueryParameters<Record<string, string | number | undefined>>) in request;
 }
 
 function hasDefinedQueryValue<Key, Value>(item: [Key, Value | undefined]): item is [Key, Value] {

@@ -14,7 +14,7 @@ export type QueryRequestWithCodename<TCodenames extends readonly string[]> = {
 	readonly codename: TCodenames[number];
 };
 
-export type QueryParameters<TParameters extends Record<string, string | number | undefined>> = {
+export type QueryParameters<TParameters extends Record<string, string | number | undefined | readonly string[]>> = {
 	readonly query?: TParameters;
 };
 
@@ -35,4 +35,22 @@ export type DeliveryRequestConfig = {
 
 export type OrderDirection = "asc" | "desc";
 
+/**
+ * Matches the format of the order parameter in the Delivery API.
+ *
+ * @example
+ * ```ts
+ * `order=system.name[asc]`
+ * `order=system.name[desc]`
+ * `order=system.id[asc]`
+ */
 export type SystemOrderQueryParam<TSortableProperties extends string> = `system.${TSortableProperties}[${OrderDirection}]`;
+
+/**
+ * Array of element codenames that will get transformed into a comma-separated list used in the elements parameter.
+ *
+ * @example
+ * ```ts
+ * `elements=title,summary,related_articles`
+ */
+export type ElementSelectionQueryParam<TElementCodenames extends string> = readonly TElementCodenames[];

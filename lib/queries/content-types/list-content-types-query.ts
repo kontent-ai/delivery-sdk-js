@@ -1,18 +1,24 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
-import type { DeliveryRequest, PagingDeliveryRequest, QueryParameters, SystemOrderQueryParam } from "../../models/request.models.js";
+import type {
+	ElementSelectionQueryParam,
+	PagingDeliveryRequest,
+	QueryParameters,
+	SystemOrderQueryParam,
+} from "../../models/request.models.js";
 import { createDeliveryPagingQuery } from "../delivery-queries.js";
 import { type ContentTypePayload, type ListContentTypesPayload, listContentTypesPayload } from "./content-type.models.js";
 
 export type ListContentTypesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListContentTypesPayload<TSchema>>;
 
-export type ListContentTypesQueryRequest = PagingDeliveryRequest &
+export type ListContentTypesQueryRequest<TSchema extends DeliveryClientSchema> = PagingDeliveryRequest &
 	QueryParameters<{
 		readonly order?: SystemOrderQueryParam<keyof ContentTypePayload<DeliveryClientSchema>["system"]>;
+		readonly elements?: ElementSelectionQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
 	}>;
 
 export function listContentTypes<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
-	request?: DeliveryRequest,
+	request?: ListContentTypesQueryRequest<TSchema>,
 ): ListContentTypesQuery<TSchema> {
 	return createDeliveryPagingQuery({
 		config,

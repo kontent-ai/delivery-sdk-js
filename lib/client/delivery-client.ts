@@ -1,7 +1,6 @@
 import type { DeliveryClient, DeliveryClientConfig, PartialDeliveryClientShema } from "../models/core.models.js";
-import type { DeliveryRequest } from "../models/request.models.js";
 import { type FetchContentTypeQueryRequest, fetchContentTypeQuery } from "../queries/content-types/fetch-content-type-query.js";
-import { listContentTypes } from "../queries/content-types/list-content-types-query.js";
+import { type ListContentTypesQueryRequest, listContentTypes } from "../queries/content-types/list-content-types-query.js";
 import { type ListLanguagesQueryRequest, listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
@@ -39,7 +38,7 @@ export function createDeliveryClient<const TSchema extends PartialDeliveryClient
 		config,
 		listTaxonomies: (request?: ListTaxonomiesQueryRequest) => listTaxonomiesQuery(config, request),
 		listLanguages: (request?: ListLanguagesQueryRequest) => listLanguagesQuery(config, request),
-		listContentTypes: (request?: DeliveryRequest) => listContentTypes(config, request),
+		listContentTypes: (request?: ListContentTypesQueryRequest<TSchema>) => listContentTypes(config, request),
 		fetchTaxonomy: (request: FetchTaxonomyQueryRequest<TSchema>) => fetchTaxonomyQuery(config, request),
 		fetchContentType: (request: FetchContentTypeQueryRequest<TSchema>) => fetchContentTypeQuery(config, request),
 	};

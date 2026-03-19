@@ -1,4 +1,6 @@
+import type { JsonValue } from "@kontent-ai/core-sdk";
 import { describe, expect, it } from "vitest";
+import type { DeliveryPagedFetchQuery } from "../../../lib/models/core.models.js";
 import { createDeliveryClient } from "../../../lib/public_api.js";
 import { unitEnvironmentId } from "../../utils/test.utils.js";
 
@@ -8,17 +10,48 @@ describe("Query parameters", () => {
 		environmentId: unitEnvironmentId,
 	});
 
-	it("Skip and limit query parameters should be added to the url", () => {
-		const { url } = client.listLanguages({
+	it("Paging parameters should be added to the url", () => {
+		const listingQueries: readonly DeliveryPagedFetchQuery<JsonValue>[] = [
+			client.listLanguages({
+				query: {
+					order: "system.name[asc]",
+					skip: 5,
+					limit: 10,
+				},
+			}),
+			client.listTaxonomies({
+				query: {
+					order: "system.name[asc]",
+					skip: 5,
+					limit: 10,
+				},
+			}),
+			client.listContentTypes({
+				query: {
+					order: "system.name[asc]",
+					skip: 5,
+					limit: 10,
+				},
+			}),
+		];
+
+		for (const query of listingQueries) {
+			const { url } = query;
+			const parsedUrl = new URL(url);
+			expect(parsedUrl.searchParams.get("skip")).toStrictEqual("5");
+			expect(parsedUrl.searchParams.get("limit")).toStrictEqual("10");
+			expect(parsedUrl.searchParams.get("order")).toStrictEqual("system.name[asc]");
+		}
+	});
+
+	it("Elements query parameter should be added as a comma-separated list in the url", () => {
+		const { url } = client.listContentTypes({
 			query: {
-				skip: 5,
-				limit: 10,
-				order: "system.name[asc]",
+				elements: ["x", "y", "z"],
 			},
 		});
+
 		const parsedUrl = new URL(url);
-		expect(parsedUrl.searchParams.get("skip")).toBe("5");
-		expect(parsedUrl.searchParams.get("limit")).toBe("10");
-		expect(parsedUrl.searchParams.get("order")).toBe("system.name[asc]");
+		expect(parsedUrl.searchParams.get("elements")).toStrictEqual("x,y,z");
 	});
 });
