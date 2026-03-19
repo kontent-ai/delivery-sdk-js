@@ -1,4 +1,4 @@
-import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
+import { getCodenameSchema, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationSchema } from "../../models/pagination.models.js";
@@ -16,21 +16,21 @@ const contentTypeElementSchema = z.discriminatedUnion("type", [
 			type: z.literal("text"),
 			name: z.string(),
 		})
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 	z
 		.object({
 			type: z.literal("number"),
 			name: z.string(),
 		})
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 	z
 		.object({
 			type: z.literal("rich_text"),
 			name: z.string(),
 		})
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 	z
 		.object({
@@ -38,21 +38,21 @@ const contentTypeElementSchema = z.discriminatedUnion("type", [
 			name: z.string(),
 			options: z.array(contentTypeElementOptionSchema).readonly(),
 		})
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 	z
 		.object({
 			type: z.literal("date_time"),
 			name: z.string(),
 		})
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 	z
 		.object({
 			type: z.literal("asset"),
 			name: z.string(),
 		})
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 	z
 		.object({
@@ -60,7 +60,7 @@ const contentTypeElementSchema = z.discriminatedUnion("type", [
 			name: z.string(),
 			taxonomy_group: z.string(),
 		})
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 	z
 		.object({
@@ -68,14 +68,14 @@ const contentTypeElementSchema = z.discriminatedUnion("type", [
 			name: z.string(),
 		})
 
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 	z
 		.object({
 			type: z.literal("modular_content"),
 			name: z.string(),
 		})
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 	z
 		.object({
@@ -83,7 +83,7 @@ const contentTypeElementSchema = z.discriminatedUnion("type", [
 			name: z.string(),
 			value: z.string().or(z.null()),
 		})
-		.catchall(z.any())
+		.catchall(jsonValueSchema)
 		.readonly(),
 ]);
 
