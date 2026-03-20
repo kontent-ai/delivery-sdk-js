@@ -110,6 +110,23 @@ export const listContentTypesPayload = <TSchema extends DeliveryClientSchema>(sc
 		})
 		.readonly();
 
+export const contentTypeElementPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+	z
+		.intersection(
+			contentTypeElementSchema,
+			z
+				.object({
+					// Required only for the endpoint `types/{type}/elements/{element}`
+					codename: getCodenameSchema<NonNullable<TSchema["elementCodenames"]>>(schema?.elementCodenames),
+				})
+				.readonly(),
+		)
+		.readonly();
+
 export type ContentTypePayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentTypePayload<TSchema>>>;
+
+export type ContentTypeElementPayload<TSchema extends DeliveryClientSchema> = z.infer<
+	ReturnType<typeof contentTypeElementPayload<TSchema>>
+>;
 
 export type ListContentTypesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentTypesPayload<TSchema>>>;

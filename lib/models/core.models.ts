@@ -4,6 +4,10 @@ import type { ListContentTypesQuery, ListContentTypesQueryRequest } from "../que
 import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
+import type {
+	FetchContentTypeElementQuery,
+	FetchContentTypeElementQueryRequest,
+} from "../queries/content-types/fetch-content-type-element-query.js";
 
 export type PartialDeliveryClientShema = {
 	readonly languageCodenames?: readonly string[];
@@ -62,6 +66,7 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	listContentTypes(request?: ListContentTypesQueryRequest<TSchema>): ListContentTypesQuery<TSchema>;
 	fetchTaxonomy(request: FetchTaxonomyQueryRequest<TSchema>): FetchTaxonomyQuery<TSchema>;
 	fetchContentType(request: FetchContentTypeQueryRequest<TSchema>): FetchContentTypeQuery<TSchema>;
+	fetchContentTypeElement(request: FetchContentTypeElementQueryRequest<TSchema>): FetchContentTypeElementQuery<TSchema>;
 };
 
 export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, unknown>;
