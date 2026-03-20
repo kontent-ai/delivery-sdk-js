@@ -1,7 +1,7 @@
 import type { DeliveryClient, DeliveryClientConfig, PartialDeliveryClientShema } from "../models/core.models.js";
 import {
-	fetchContentTypeElementQuery,
 	type FetchContentTypeElementQueryRequest,
+	fetchContentTypeElementQuery,
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import { type FetchContentTypeQueryRequest, fetchContentTypeQuery } from "../queries/content-types/fetch-content-type-query.js";
 import { type ListContentTypesQueryRequest, listContentTypes } from "../queries/content-types/list-content-types-query.js";

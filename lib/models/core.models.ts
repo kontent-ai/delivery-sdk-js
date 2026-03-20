@@ -1,13 +1,13 @@
 import type { FetchQuery, JsonValue, PagedFetchQuery, PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
+import type {
+	FetchContentTypeElementQuery,
+	FetchContentTypeElementQueryRequest,
+} from "../queries/content-types/fetch-content-type-element-query.js";
 import type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "../queries/content-types/fetch-content-type-query.js";
 import type { ListContentTypesQuery, ListContentTypesQueryRequest } from "../queries/content-types/list-content-types-query.js";
 import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
-import type {
-	FetchContentTypeElementQuery,
-	FetchContentTypeElementQueryRequest,
-} from "../queries/content-types/fetch-content-type-element-query.js";
 
 export type PartialDeliveryClientShema = {
 	readonly languageCodenames?: readonly string[];
