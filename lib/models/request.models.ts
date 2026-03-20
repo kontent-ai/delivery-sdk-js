@@ -4,10 +4,11 @@ export type DeliveryRequest = {
 	readonly config?: DeliveryRequestConfig;
 };
 
-export type PagingDeliveryRequest = DeliveryRequest &
+export type PagingDeliveryRequest<TSortableProperties extends string> = DeliveryRequest &
 	QueryParameters<{
 		readonly skip?: number;
 		readonly limit?: number;
+		readonly order?: SystemOrderQueryParam<TSortableProperties>;
 	}>;
 
 export type QueryRequestWithCodename<TCodenames extends readonly string[]> = {
