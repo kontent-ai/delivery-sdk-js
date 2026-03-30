@@ -22,6 +22,14 @@
 			}
 		}
 	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
 	"files": {
 		"includes": ["lib/**/*.ts", "tests/**/*.ts", "scripts/**/*.ts", "!_legacy/**/*"]
 	}
