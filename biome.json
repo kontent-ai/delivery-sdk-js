@@ -31,6 +31,6 @@
 		}
 	},
 	"files": {
-		"includes": ["lib/**/*.ts", "tests/**/*.ts", "scripts/**/*.ts", "!_legacy/**/*"]
+		"includes": ["lib/**/*.ts", "tests/**/*.ts", "scripts/**/*.ts", "**/*.json", "!_legacy/**/*"]
 	}
 }
