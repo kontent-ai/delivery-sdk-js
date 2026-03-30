@@ -20,10 +20,6 @@ describe("Public deliver API", async () => {
 	const query = createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
-		schema: {
-			languageCodenames: [],
-			taxonomyCodenames: [],
-		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: async (options) => {

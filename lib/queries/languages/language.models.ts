@@ -10,7 +10,7 @@ export const languagePayload = <TSchema extends DeliveryClientSchema>(schema: TS
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema<NonNullable<TSchema["languageCodenames"]>>(schema?.languageCodenames),
+					codename: getCodenameSchema<TSchema["languageCodenames"][number]>(schema?.languageCodenames),
 				})
 				.readonly(),
 		})

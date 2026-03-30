@@ -19,6 +19,7 @@ export function getIntegrationTestsSchema(): DeliveryClientSchema {
 		languageCodenames: [],
 		taxonomyCodenames: [],
 		contentTypeCodenames: [],
+		elementCodenames: [],
 	};
 }
 
@@ -89,7 +90,7 @@ function createTestClients<TResponsePayload extends JsonValue>({
 		createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: unitTestPayload,
 				statusCode: 200,
@@ -98,7 +99,7 @@ function createTestClients<TResponsePayload extends JsonValue>({
 		createDeliveryClient({
 			apiMode: "public",
 			environmentId: environmentId,
-			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
 			...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
 		}),
 	];

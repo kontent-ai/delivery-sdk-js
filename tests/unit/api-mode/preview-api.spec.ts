@@ -22,10 +22,6 @@ describe("Preview API", async () => {
 		apiMode: "preview",
 		environmentId: unitEnvironmentId,
 		deliveryApiKey: previewApiKey,
-		schema: {
-			languageCodenames: [],
-			taxonomyCodenames: [],
-		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: async (options) => {

@@ -32,6 +32,8 @@ describe("Valid schema validation with extra props", () => {
 			schema: {
 				languageCodenames: [],
 				taxonomyCodenames: [],
+				contentTypeCodenames: [],
+				elementCodenames: [],
 			},
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,

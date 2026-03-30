@@ -10,7 +10,7 @@ describe("Response validation", () => {
 		const query = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: {
 					result: "invalidValue",
@@ -41,7 +41,7 @@ describe("Response validation", () => {
 		const { success, error } = await createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: {
 					value: "invalidValue",

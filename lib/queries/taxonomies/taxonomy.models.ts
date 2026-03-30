@@ -6,7 +6,7 @@ import { paginationSchema } from "../../models/pagination.models.js";
 export const taxonomyTermPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z.object({
 		name: z.string(),
-		codename: getCodenameSchema<NonNullable<TSchema["taxonomyCodenames"]>>(schema?.taxonomyCodenames),
+		codename: getCodenameSchema<TSchema["taxonomyCodenames"][number]>(schema?.taxonomyCodenames),
 		get terms() {
 			return z.array(taxonomyTermPayload(schema)).readonly();
 		},
@@ -19,7 +19,7 @@ export const taxonomyPayload = <TSchema extends DeliveryClientSchema>(schema: TS
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema<NonNullable<TSchema["taxonomyCodenames"]>>(schema?.taxonomyCodenames),
+					codename: getCodenameSchema<TSchema["taxonomyCodenames"][number]>(schema?.taxonomyCodenames),
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),

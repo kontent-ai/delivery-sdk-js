@@ -22,10 +22,6 @@ describe("Secure API", async () => {
 		apiMode: "secure",
 		environmentId: unitEnvironmentId,
 		deliveryApiKey: secureApiKey,
-		schema: {
-			languageCodenames: [],
-			taxonomyCodenames: [],
-		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: async (options) => {

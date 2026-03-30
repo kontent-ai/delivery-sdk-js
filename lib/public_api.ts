@@ -6,7 +6,7 @@ export type {
 	DeliveryClient,
 	DeliveryClientConfig,
 	DeliveryClientSchema,
-	PartialDeliveryClientShema,
+	FullDeliveryClientShema as PartialDeliveryClientShema,
 } from "./models/core.models.js";
 export { PaginationSchema, paginationSchema } from "./models/pagination.models.js";
 // Content Types

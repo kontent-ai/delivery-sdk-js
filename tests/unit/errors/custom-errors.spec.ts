@@ -12,6 +12,8 @@ describe("Handling of custom errors", async () => {
 		schema: {
 			languageCodenames: [],
 			taxonomyCodenames: [],
+			contentTypeCodenames: [],
+			elementCodenames: [],
 		},
 		httpService: getDefaultHttpService({
 			adapter: {

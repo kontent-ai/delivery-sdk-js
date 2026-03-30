@@ -94,11 +94,11 @@ export const contentTypePayload = <TSchema extends DeliveryClientSchema>(schema:
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema<NonNullable<TSchema["contentTypeCodenames"]>>(schema?.contentTypeCodenames),
+					codename: getCodenameSchema<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),
-			elements: z.record(z.string(), contentTypeElementSchema).readonly(),
+			elements: z.record(getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentTypeElementSchema),
 		})
 		.readonly();
 
@@ -117,7 +117,7 @@ export const contentTypeElementPayload = <TSchema extends DeliveryClientSchema>(
 			z
 				.object({
 					// Required only for the endpoint `types/{type}/elements/{element}`
-					codename: getCodenameSchema<NonNullable<TSchema["elementCodenames"]>>(schema?.elementCodenames),
+					codename: getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames),
 				})
 				.readonly(),
 		)

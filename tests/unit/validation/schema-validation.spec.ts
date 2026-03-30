@@ -8,6 +8,9 @@ import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 describe("Schema validation", () => {
 	type TestDeliveryClientTypes = DeliveryClientSchema<{
 		readonly languageCodenames: readonly ["en-US", "cs-CZ", "de-DE"];
+		readonly taxonomyCodenames: readonly [];
+		readonly contentTypeCodenames: readonly [];
+		readonly elementCodenames: readonly [];
 	}>;
 
 	const mockPayload: ListLanguagesPayload<TestDeliveryClientTypes> = {
@@ -32,7 +35,7 @@ describe("Schema validation", () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: ["en-US", "cs-CZ"], taxonomyCodenames: [] },
+			schema: { languageCodenames: ["en-US", "cs-CZ"], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,
 				statusCode: 200,
@@ -53,7 +56,12 @@ describe("Schema validation", () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: ["en-US", "cs-CZ", "de-DE"], taxonomyCodenames: [] },
+			schema: {
+				languageCodenames: ["en-US", "cs-CZ", "de-DE"],
+				taxonomyCodenames: [],
+				contentTypeCodenames: [],
+				elementCodenames: [],
+			},
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,
 				statusCode: 200,
@@ -70,7 +78,7 @@ describe("Schema validation", () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,
 				statusCode: 200,
@@ -87,7 +95,7 @@ describe("Schema validation", () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: [], taxonomyCodenames: [] },
+			schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,
 				statusCode: 200,

@@ -1,4 +1,4 @@
-import type { DeliveryClient, DeliveryClientConfig, PartialDeliveryClientShema } from "../models/core.models.js";
+import type { DeliveryClient, DeliveryClientConfig, FullDeliveryClientShema } from "../models/core.models.js";
 import {
 	type FetchContentTypeElementQueryRequest,
 	fetchContentTypeElementQuery,
@@ -35,7 +35,7 @@ import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries
  *   environmentId: "x",
  * });
  */
-export function createDeliveryClient<const TSchema extends PartialDeliveryClientShema = PartialDeliveryClientShema>(
+export function createDeliveryClient<const TSchema extends FullDeliveryClientShema = FullDeliveryClientShema>(
 	config: DeliveryClientConfig<TSchema>,
 ): DeliveryClient<TSchema> {
 	return {

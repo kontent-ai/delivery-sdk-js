@@ -7,22 +7,28 @@ const taxonomyCodenames = ["categories"] as const;
 
 type ValidLanguageCodename = (typeof languageCodenames)[number];
 
-const client: DeliveryClient<{ languageCodenames: typeof languageCodenames; taxonomyCodenames: typeof taxonomyCodenames }> =
-	createDeliveryClient({
-		apiMode: "public",
-		environmentId: "x",
-		schema: {
-			languageCodenames,
-			taxonomyCodenames,
-		},
-		responseValidation: {
-			enable: false,
-		},
-		httpService: getTestHttpServiceWithJsonResponse({
-			jsonResponse: {},
-			statusCode: 200,
-		}),
-	});
+const client: DeliveryClient<{
+	languageCodenames: typeof languageCodenames;
+	taxonomyCodenames: typeof taxonomyCodenames;
+	contentTypeCodenames: string[];
+	elementCodenames: string[];
+}> = createDeliveryClient({
+	apiMode: "public",
+	environmentId: "x",
+	schema: {
+		languageCodenames,
+		taxonomyCodenames,
+		contentTypeCodenames: [],
+		elementCodenames: [],
+	},
+	responseValidation: {
+		enable: false,
+	},
+	httpService: getTestHttpServiceWithJsonResponse({
+		jsonResponse: {},
+		statusCode: 200,
+	}),
+});
 
 const languageResponse = await client.listLanguages().fetchPage();
 

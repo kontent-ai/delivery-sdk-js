@@ -9,31 +9,23 @@ import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/l
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
 
-export type PartialDeliveryClientShema = {
-	readonly languageCodenames?: readonly string[];
-	readonly taxonomyCodenames?: readonly string[];
-	readonly contentTypeCodenames?: readonly string[];
-	readonly elementCodenames?: readonly string[];
+export type FullDeliveryClientShema = {
+	readonly languageCodenames: readonly string[];
+	readonly taxonomyCodenames: readonly string[];
+	readonly contentTypeCodenames: readonly string[];
+	readonly elementCodenames: readonly string[];
 };
 
-export type DeliveryClientSchema<TSchema extends PartialDeliveryClientShema = PartialDeliveryClientShema> = {
-	readonly languageCodenames?: NonNullable<TSchema["languageCodenames"]> extends readonly string[]
-		? NonNullable<TSchema["languageCodenames"]>
-		: readonly string[];
-	readonly taxonomyCodenames?: NonNullable<TSchema["taxonomyCodenames"]> extends readonly string[]
-		? NonNullable<TSchema["taxonomyCodenames"]>
-		: readonly string[];
-	readonly contentTypeCodenames?: NonNullable<TSchema["contentTypeCodenames"]> extends readonly string[]
-		? NonNullable<TSchema["contentTypeCodenames"]>
-		: readonly string[];
-	readonly elementCodenames?: NonNullable<TSchema["elementCodenames"]> extends readonly string[]
-		? NonNullable<TSchema["elementCodenames"]>
-		: readonly string[];
+export type DeliveryClientSchema<TSchema extends FullDeliveryClientShema = FullDeliveryClientShema> = {
+	readonly languageCodenames: TSchema["languageCodenames"];
+	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
+	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
+	readonly elementCodenames: TSchema["elementCodenames"];
 };
 
 export type ApiMode = "public" | "preview" | "secure";
 
-export type DeliveryClientConfig<TSchema extends PartialDeliveryClientShema = PartialDeliveryClientShema> = SdkConfig &
+export type DeliveryClientConfig<TSchema extends FullDeliveryClientShema = FullDeliveryClientShema> = SdkConfig &
 	ApiDeliveryClientConfig & {
 		/**
 		 * The environment ID of your Kontent.ai project. Can be found in the Kontent.ai app.

@@ -9,10 +9,6 @@ describe("Custom base URL API", async () => {
 	const query = createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
-		schema: {
-			languageCodenames: [],
-			taxonomyCodenames: [],
-		},
 		httpService: getTestHttpServiceWithJsonResponse({
 			jsonResponse: {},
 			statusCode: 200,
