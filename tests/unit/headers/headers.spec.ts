@@ -4,7 +4,30 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDeliveryClient } from "../../../lib/public_api.js";
 import { unitEnvironmentId } from "../../utils/test.utils.js";
 
+type ListLanguagesConfig = Parameters<ReturnType<typeof createDeliveryClient>["listLanguages"]>[0];
+
 const waitingForLoadingNewContentHeader: Header = { name: "X-KC-Wait-For-Loading-New-Content", value: "true" };
+
+async function captureRequestHeaders(listLanguagesConfig?: ListLanguagesConfig): Promise<readonly Header[]> {
+	let captured: readonly Header[] = [];
+
+	const client = createDeliveryClient({
+		apiMode: "public",
+		environmentId: unitEnvironmentId,
+		httpService: getDefaultHttpService({
+			adapter: {
+				executeRequest: async (options) => {
+					captured = options.requestHeaders ?? [];
+					return await getDefaultHttpAdapter().executeRequest(options);
+				},
+			},
+		}),
+	});
+
+	await client.listLanguages(listLanguagesConfig).fetchPageSafe();
+
+	return captured;
+}
 
 describe("Delivery tracking header", async () => {
 	const expectedHeader = getSdkIdHeader({
@@ -23,28 +46,10 @@ describe("Delivery tracking header", async () => {
 		continuationToken: "x",
 	});
 
-	let requestHeaders: readonly Header[] = [];
-
-	const query = createDeliveryClient({
-		apiMode: "public",
-		environmentId: unitEnvironmentId,
-		httpService: getDefaultHttpService({
-			adapter: {
-				executeRequest: async (options) => {
-					requestHeaders = options.requestHeaders ?? [];
-
-					return await getDefaultHttpAdapter().executeRequest(options);
-				},
-			},
-		}),
-	}).listLanguages();
-
-	// execute query so that http service is called and request headers are captured
-	await query.fetchPageSafe();
-
-	const syncTrackingHeader = requestHeaders.find((header) => header.name === expectedHeader.name);
+	const requestHeaders = await captureRequestHeaders();
 
 	it("Request headers should contain sync tracking header with current package info", () => {
+		const syncTrackingHeader = requestHeaders.find((header) => header.name === expectedHeader.name);
 		expect(syncTrackingHeader?.value).toEqual(expectedHeader.value);
 	});
 });
@@ -60,28 +65,7 @@ describe("Bypass CDN cache header should be present when bypassCdnCache is true"
 		continuationToken: "x",
 	});
 
-	let requestHeaders: readonly Header[] = [];
-
-	const query = createDeliveryClient({
-		apiMode: "public",
-		environmentId: unitEnvironmentId,
-		httpService: getDefaultHttpService({
-			adapter: {
-				executeRequest: async (options) => {
-					requestHeaders = options.requestHeaders ?? [];
-
-					return await getDefaultHttpAdapter().executeRequest(options);
-				},
-			},
-		}),
-	}).listLanguages({
-		config: {
-			bypassCdnCache: true,
-		},
-	});
-
-	// execute query so that http service is called and request headers are captured
-	await query.fetchPageSafe();
+	const requestHeaders = await captureRequestHeaders({ config: { bypassCdnCache: true } });
 
 	it("Request headers should contain bypass CDN cache header", () => {
 		const bypassCdnCacheHeader = requestHeaders.find((header) => header.name === waitingForLoadingNewContentHeader.name);
@@ -100,24 +84,7 @@ describe("Bypass CDN cache header should be absent by default", async () => {
 		continuationToken: "x",
 	});
 
-	let requestHeaders: readonly Header[] = [];
-
-	const query = createDeliveryClient({
-		apiMode: "public",
-		environmentId: unitEnvironmentId,
-		httpService: getDefaultHttpService({
-			adapter: {
-				executeRequest: async (options) => {
-					requestHeaders = options.requestHeaders ?? [];
-
-					return await getDefaultHttpAdapter().executeRequest(options);
-				},
-			},
-		}),
-	}).listLanguages();
-
-	// execute query so that http service is called and request headers are captured
-	await query.fetchPageSafe();
+	const requestHeaders = await captureRequestHeaders();
 
 	it("Request headers should NOT contain bypass CDN cache header", () => {
 		const bypassCdnCacheHeader = requestHeaders.find((header) => header.name === waitingForLoadingNewContentHeader.name);
@@ -138,27 +105,7 @@ describe("Extra headers should be present", async () => {
 		continuationToken: "x",
 	});
 
-	let requestHeaders: readonly Header[] = [];
-
-	const query = createDeliveryClient({
-		apiMode: "public",
-		environmentId: unitEnvironmentId,
-		httpService: getDefaultHttpService({
-			adapter: {
-				executeRequest: async (options) => {
-					requestHeaders = options.requestHeaders ?? [];
-					return await getDefaultHttpAdapter().executeRequest(options);
-				},
-			},
-		}),
-	}).listLanguages({
-		config: {
-			headers: [extraHeader],
-		},
-	});
-
-	// execute query so that http service is called and request headers are captured
-	await query.fetchPageSafe();
+	const requestHeaders = await captureRequestHeaders({ config: { headers: [extraHeader] } });
 
 	it("Request headers should contain extra header", () => {
 		const foundHeader = requestHeaders.find((header) => header.name === extraHeader.name);
