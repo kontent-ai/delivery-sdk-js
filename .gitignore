@@ -1,6 +1,7 @@
 # Custom
 .editorconfig
 .env
+.claude/settings.local.json
 
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
