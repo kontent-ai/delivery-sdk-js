@@ -6,6 +6,10 @@ export default defineConfig({
 		dir: "tests/unit",
 		globals: true,
 		environment: "node",
+		coverage: {
+			provider: "v8",
+			include: ["lib/**/*.ts"],
+		},
 	},
 	build: {
 		target: "esnext",

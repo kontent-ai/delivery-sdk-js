@@ -19,5 +19,7 @@ function getDefaultBaseUrlForApiMode(apiMode: ApiMode): string {
 		return "https://preview-deliver.kontent.ai";
 	}
 
+	// Both "public" and "secure" modes use the same base URL.
+	// Secure mode is distinguished by the Authorization header, not a different endpoint.
 	return "https://deliver.kontent.ai";
 }
