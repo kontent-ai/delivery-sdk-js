@@ -1,8 +1,9 @@
-import { type FetchQuery, isPagingQuery, type JsonValue, type KontentSdkError, type PagedFetchQuery } from "@kontent-ai/core-sdk";
+import { type FetchQuery, getDefaultHttpService, isPagingQuery, type JsonValue, type KontentSdkError, type PagedFetchQuery } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { expect, it } from "vitest";
 import type { ZodType } from "zod";
 import type { DeliveryClient, DeliveryClientSchema, DeliveryEndpoints } from "../../lib/models/core.models.js";
+import { DeliverySdkError } from "../../lib/models/error.models.js";
 import { createDeliveryClient } from "../../lib/public_api.js";
 import { getDeliveryUrl } from "../../lib/utils/url.utils.js";
 import { getIntegrationTestConfig } from "../integration-tests.config.js";
@@ -51,6 +52,8 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 			unitTestPayload,
 		});
 	}
+
+	await runFailingClientQueryTestAsync({ endpoint, selectQuery });
 }
 
 async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
@@ -89,6 +92,21 @@ async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
 			...(await executePagingQueryAsync<TResponsePayload>({ query })),
 		});
 	}
+}
+
+function createFailingUnitTestClient(): DeliveryClient<DeliveryClientSchema> {
+	return createDeliveryClient({
+		apiMode: "public",
+		environmentId: unitEnvironmentId,
+		schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
+		httpService: getDefaultHttpService({
+			adapter: {
+				executeRequest: () => {
+					throw new Error("Simulated failure");
+				},
+			},
+		}),
+	});
 }
 
 function createUnitTestClient<TResponsePayload extends JsonValue>(unitTestPayload: TResponsePayload): DeliveryClient<DeliveryClientSchema> {
@@ -325,6 +343,23 @@ function registerPagingIteratorTests<TResponsePayload extends JsonValue>({
 			expect(firstIteratorResponse).toEqual(unitTestPayload);
 		});
 	}
+}
+
+async function runFailingClientQueryTestAsync<TResponsePayload extends JsonValue>({
+	endpoint,
+	selectQuery,
+}: {
+	readonly endpoint: DeliveryEndpoints;
+	readonly selectQuery: SelectQuery<TResponsePayload>;
+}): Promise<void> {
+	const client = createFailingUnitTestClient();
+	const query = selectQuery(client);
+	const { error } = isPagingQuery(query) ? await query.fetchPageSafe() : await query.fetchSafe();
+	const testName = `Unit[${endpoint}]: `;
+
+	it(`${testName} Error should be an instance of DeliverySdkError`, () => {
+		expect(error).toBeInstanceOf(DeliverySdkError);
+	});
 }
 
 async function executeDefaultQueryAsync<TResponsePayload extends JsonValue>({
