@@ -1,4 +1,4 @@
-import { type FetchQuery, isPagingQuery, type JsonValue, type PagedFetchQuery } from "@kontent-ai/core-sdk";
+import { type FetchQuery, isPagingQuery, type JsonValue, type KontentSdkError, type PagedFetchQuery } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { expect, it } from "vitest";
 import type { ZodType } from "zod";
@@ -12,7 +12,7 @@ type TestType = "Integration" | "Unit";
 
 type SelectQuery<TResponsePayload extends JsonValue> = (
 	client: DeliveryClient<DeliveryClientSchema>,
-) => FetchQuery<TResponsePayload, unknown> | PagedFetchQuery<TResponsePayload, unknown>;
+) => FetchQuery<TResponsePayload, unknown, KontentSdkError> | PagedFetchQuery<TResponsePayload, unknown, KontentSdkError>;
 
 export function getIntegrationTestsSchema(): DeliveryClientSchema {
 	return {
@@ -237,7 +237,7 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	iteratorPayloads,
 	maxPagesCount,
 }: {
-	readonly query: PagedFetchQuery<TResponsePayload, unknown>;
+	readonly query: PagedFetchQuery<TResponsePayload, unknown, KontentSdkError>;
 	readonly testName: string;
 	readonly testType: TestType;
 	readonly unitTestPayload: TResponsePayload;
@@ -307,7 +307,7 @@ function registerPagingIteratorTests<TResponsePayload extends JsonValue>({
 	unitTestPayload,
 }: {
 	readonly testName: string;
-	readonly query: PagedFetchQuery<TResponsePayload, unknown>;
+	readonly query: PagedFetchQuery<TResponsePayload, unknown, KontentSdkError>;
 	readonly iteratorPayloads: readonly TResponsePayload[];
 	readonly maxPagesCount: number;
 	readonly testType: TestType;
@@ -351,7 +351,7 @@ async function executeDefaultQueryAsync<TResponsePayload extends JsonValue>({
 async function executePagingQueryAsync<TResponsePayload extends JsonValue>({
 	query,
 }: {
-	readonly query: PagedFetchQuery<TResponsePayload, unknown>;
+	readonly query: PagedFetchQuery<TResponsePayload, unknown, KontentSdkError>;
 }): Promise<{
 	readonly pagingResponses: readonly { readonly payload: TResponsePayload }[] | undefined;
 	readonly pagingSuccess: boolean;

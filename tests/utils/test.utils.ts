@@ -1,4 +1,11 @@
-import { type ContinuationHeaderName, type FetchQuery, type Header, nilUuid, type PagedFetchQuery } from "@kontent-ai/core-sdk";
+import {
+	type ContinuationHeaderName,
+	type FetchQuery,
+	type Header,
+	type KontentSdkError,
+	nilUuid,
+	type PagedFetchQuery,
+} from "@kontent-ai/core-sdk";
 
 export const fakeXContinuationTokenHeader: Header = {
 	name: "X-Continuation" satisfies ContinuationHeaderName,
@@ -11,8 +18,8 @@ export function getFakeUuid(): string {
 	return nilUuid;
 }
 
-export function isFetchQueryWithExpectedFunctions(query: unknown): query is FetchQuery<unknown, unknown> {
-	type ExpectedFunctions = keyof FetchQuery<unknown, unknown>;
+export function isFetchQueryWithExpectedFunctions(query: unknown): query is FetchQuery<unknown, unknown, KontentSdkError> {
+	type ExpectedFunctions = keyof FetchQuery<unknown, unknown, KontentSdkError>;
 	if (!query || typeof query !== "object") {
 		return false;
 	}
@@ -25,8 +32,8 @@ export function isFetchQueryWithExpectedFunctions(query: unknown): query is Fetc
 	return false;
 }
 
-export function isPagedFetchQueryWithExpectedFunctions(query: unknown): query is PagedFetchQuery<unknown, unknown> {
-	type ExpectedFunctions = keyof PagedFetchQuery<unknown, unknown>;
+export function isPagedFetchQueryWithExpectedFunctions(query: unknown): query is PagedFetchQuery<unknown, unknown, KontentSdkError> {
+	type ExpectedFunctions = keyof PagedFetchQuery<unknown, unknown, KontentSdkError>;
 	if (!query || typeof query !== "object") {
 		return false;
 	}

@@ -4,6 +4,8 @@ export type DeliveryRequest = {
 	readonly config?: DeliveryRequestConfig;
 };
 
+export type QueryParameterRecord = Record<string, string | number | undefined | readonly string[]>;
+
 export type PagingDeliveryRequest<TSortableProperties extends string> = DeliveryRequest &
 	QueryParameters<{
 		readonly skip?: number;
@@ -15,7 +17,7 @@ export type QueryRequestWithCodename<TCodenames extends readonly string[]> = {
 	readonly codename: TCodenames[number];
 };
 
-export type QueryParameters<TParameters extends Record<string, string | number | undefined | readonly string[]>> = {
+export type QueryParameters<TParameters extends QueryParameterRecord> = {
 	readonly query?: TParameters;
 };
 

@@ -10,10 +10,12 @@ import {
 import type { ZodType } from "zod";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints } from "../models/core.models.js";
+import type { DeliverySdkError } from "../models/error.models.js";
 import type { PaginationSchema } from "../models/pagination.models.js";
-import type { DeliveryRequest, QueryParameters } from "../models/request.models.js";
+import type { DeliveryRequest, QueryParameterRecord, QueryParameters } from "../models/request.models.js";
+import { mapDeliveryError } from "../utils/error.utils.js";
 import { getNextPageByUrl } from "../utils/paging.utils.js";
-import { getDeliveryUrl } from "../utils/url.utils.js";
+import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
 
 export function createDeliveryPagingQuery<TPayload extends PaginationSchema>({
 	config,
@@ -25,8 +27,8 @@ export function createDeliveryPagingQuery<TPayload extends PaginationSchema>({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
-}): PagedFetchQuery<TPayload, null> {
-	return createPagedFetchQuery<TPayload, null>({
+}): PagedFetchQuery<TPayload, null, DeliverySdkError> {
+	return createPagedFetchQuery<TPayload, null, DeliverySdkError>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByUrl(),
 	});
@@ -42,8 +44,10 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
-}): FetchQuery<TPayload, null> {
-	return createFetchQuery<TPayload, null>(getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }));
+}): FetchQuery<TPayload, null, DeliverySdkError> {
+	return createFetchQuery<TPayload, null, DeliverySdkError>(
+		getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
+	);
 }
 
 function getSharedRequestData<TPayload extends JsonValue>({
@@ -56,7 +60,10 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoints;
 	readonly schema: ZodType<TPayload>;
-}): Pick<FetchQueryRequest<TPayload, null>, "abortSignal" | "config" | "sdkInfo" | "mapMetadata" | "request" | "zodSchema"> {
+}): Pick<
+	FetchQueryRequest<TPayload, null, DeliverySdkError>,
+	"abortSignal" | "config" | "sdkInfo" | "mapMetadata" | "request" | "zodSchema" | "mapError"
+> {
 	return {
 		abortSignal: undefined,
 		config,
@@ -66,6 +73,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 		},
 		request: getRequestData<TPayload>({ config, endpoint, request }),
 		zodSchema: schema,
+		mapError: mapDeliveryError,
 	};
 }
 
@@ -77,12 +85,20 @@ function getRequestData<TPayload extends JsonValue>({
 	readonly request: DeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoints;
-}): FetchQueryRequest<TPayload, null>["request"] {
+}): FetchQueryRequest<TPayload, null, DeliverySdkError>["request"] {
 	return {
 		requestHeaders: getHeaders(request),
-		url: addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), request),
+		url: addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), getQueryParameters(request)),
 		authorizationApiKey: config.apiMode === "preview" || config.apiMode === "secure" ? config.deliveryApiKey : undefined,
 	};
+}
+
+function getQueryParameters(request: DeliveryRequest | undefined): QueryParameterRecord | undefined {
+	if (!request || !isQueryWithParameters(request)) {
+		return undefined;
+	}
+
+	return request.query;
 }
 
 function getHeaders(request?: DeliveryRequest): readonly Header[] {
@@ -96,32 +112,6 @@ function getBypassCdnCacheHeader(): Header {
 	return { name: "X-KC-Wait-For-Loading-New-Content", value: "true" };
 }
 
-function addQueryParametersToUrl(url: string, request: DeliveryRequest | undefined): string {
-	if (!isQueryWithParameters(request)) {
-		return url;
-	}
-	return `${url}${url.includes("?") ? "&" : "?"}${getUrlSearchParams(request).toString()}`;
-}
-
-function getUrlSearchParams(request: QueryParameters<Record<string, string | number | undefined>>): URLSearchParams {
-	return new URLSearchParams(
-		Object.entries(request.query ?? {})
-			.filter(hasDefinedQueryValue)
-			.map(([key, value]) => [key, value.toString()]),
-	);
-}
-
-function isQueryWithParameters(
-	request: DeliveryRequest | undefined,
-): request is DeliveryRequest & QueryParameters<Record<string, string | number | undefined>> {
-	if (!request) {
-		return false;
-	}
-
-	return ("query" satisfies keyof QueryParameters<Record<string, string | number | undefined>>) in request;
-}
-
-function hasDefinedQueryValue<Key, Value>(item: [Key, Value | undefined]): item is [Key, Value] {
-	const [, value] = item;
-	return value !== undefined && value !== null;
+function isQueryWithParameters(request: DeliveryRequest): request is DeliveryRequest & QueryParameters<QueryParameterRecord> {
+	return ("query" satisfies keyof QueryParameters<QueryParameterRecord>) in request;
 }

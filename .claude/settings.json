@@ -1,16 +1,3 @@
 {
-	"hooks": {
-		"PostToolUse": [
-			{
-				"matcher": "Edit|Write|NotebookEdit",
-				"hooks": [
-					{
-						"type": "command",
-						"command": "node -e \"process.stdin.resume();let d='';process.stdin.on('data',c=>d+=c);process.stdin.on('end',()=>{const p=JSON.parse(d);const f=p.tool_input?.file_path||p.tool_input?.notebook_path||'';process.stdout.write(f);});\" | { read -r f && [ -n \"$f\" ] && npm run biome:fix -- \"$f\"; } 2>/dev/null || true",
-						"statusMessage": "Running biome..."
-					}
-				]
-			}
-		]
-	}
+	"hooks": {}
 }

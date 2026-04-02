@@ -8,6 +8,7 @@ import type { ListContentTypesQuery, ListContentTypesQueryRequest } from "../que
 import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
+import type { DeliverySdkError } from "./error.models.js";
 
 export type FullDeliveryClientShema = {
 	readonly languageCodenames: readonly string[];
@@ -61,9 +62,9 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	fetchContentTypeElement(request: FetchContentTypeElementQueryRequest<TSchema>): FetchContentTypeElementQuery<TSchema>;
 };
 
-export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, unknown>;
+export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, unknown, DeliverySdkError>;
 
-export type DeliveryPagedFetchQuery<TPayload extends JsonValue> = PagedFetchQuery<TPayload, unknown>;
+export type DeliveryPagedFetchQuery<TPayload extends JsonValue> = PagedFetchQuery<TPayload, unknown, DeliverySdkError>;
 
 export type DeliveryEndpoints =
 	| "languages"
