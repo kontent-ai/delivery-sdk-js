@@ -1,4 +1,11 @@
-import { type FetchQuery, getDefaultHttpService, isPagingQuery, type JsonValue, type KontentSdkError, type PagedFetchQuery } from "@kontent-ai/core-sdk";
+import {
+	type FetchQuery,
+	getDefaultHttpService,
+	isPagingQuery,
+	type JsonValue,
+	type KontentSdkError,
+	type PagedFetchQuery,
+} from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { expect, it } from "vitest";
 import type { ZodType } from "zod";
