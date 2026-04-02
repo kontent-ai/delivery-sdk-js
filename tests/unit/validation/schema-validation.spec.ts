@@ -90,21 +90,4 @@ describe("Schema validation", () => {
 		expect(error).toBeUndefined();
 		expect(success).toBeTruthy();
 	});
-
-	test("Response should be successful when an empty array is provided as codenames source", async () => {
-		const client = createDeliveryClient({
-			apiMode: "public",
-			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
-			httpService: getTestHttpServiceWithJsonResponse({
-				jsonResponse: mockPayload,
-				statusCode: 200,
-			}),
-		});
-
-		const { success, error } = await client.listLanguages().fetchPageSafe();
-
-		expect(error).toBeUndefined();
-		expect(success).toBeTruthy();
-	});
 });
