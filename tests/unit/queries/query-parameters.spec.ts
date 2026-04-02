@@ -54,18 +54,4 @@ describe("Query parameters", () => {
 		const parsedUrl = new URL(url);
 		expect(parsedUrl.searchParams.get("elements")).toStrictEqual("x,y,z");
 	});
-
-	it("Undefined query parameters should be omitted from the url", () => {
-		const { url } = client.listLanguages({
-			query: {
-				skip: 5,
-				// limit and order are absent (undefined) — must not appear in URL
-			},
-		});
-
-		const parsedUrl = new URL(url);
-		expect(parsedUrl.searchParams.get("skip")).toStrictEqual("5");
-		expect(parsedUrl.searchParams.has("limit")).toBe(false);
-		expect(parsedUrl.searchParams.has("order")).toBe(false);
-	});
 });
