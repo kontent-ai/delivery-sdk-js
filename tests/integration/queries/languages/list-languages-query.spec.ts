@@ -2,27 +2,12 @@ import { describe } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import { type ListLanguagesPayload, listLanguagesPayload } from "../../../../lib/queries/languages/language.models.js";
 import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
+import unitTestPayload from "./list-languages-query.payload.js";
 
 describe("List languages query", async () => {
 	await runQueryTestsAsync<ListLanguagesPayload<DeliveryClientSchema>>({
 		endpoint: "languages",
-		unitTestPayload: {
-			languages: [
-				{
-					system: {
-						id: "00000000-0000-0000-0000-000000000000",
-						name: "Default project language",
-						codename: "default",
-					},
-				},
-			],
-			pagination: {
-				skip: 0,
-				limit: 0,
-				count: 1,
-				next_page: "",
-			},
-		},
+		unitTestPayload,
 		selectQuery: (client) => client.listLanguages(),
 		expectedSchema: listLanguagesPayload(getIntegrationTestsSchema()),
 	});
