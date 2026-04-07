@@ -63,8 +63,8 @@ export default {
 		{
 			system: {
 				id: "068c2ea7-144f-4472-ac0a-70e6f53034bf",
-				name: "Stars",
-				codename: "stars",
+				name: "Star",
+				codename: "star",
 				last_modified: "2026-02-26T14:02:20.3307783Z",
 			},
 			elements: {

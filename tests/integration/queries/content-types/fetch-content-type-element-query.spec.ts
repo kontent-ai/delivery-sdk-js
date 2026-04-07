@@ -7,12 +7,14 @@ import payloads from "./fetch-content-type-element-query.payload.js";
 describe("Fetch content type element query", async () => {
 	const typeCodename = "movie";
 
-	for (const payload of payloads) {
-		await runQueryTestsAsync<ContentTypeElementPayload<DeliveryClientSchema>>({
+	const tests: readonly Promise<void>[] = payloads.map(async (payload) =>
+		runQueryTestsAsync<ContentTypeElementPayload<DeliveryClientSchema>>({
 			endpoint: `types/${typeCodename}/elements/${payload.codename}`,
 			unitTestPayload: payload,
 			selectQuery: (client) => client.fetchContentTypeElement({ typeCodename, elementCodename: payload.codename }),
 			expectedSchema: contentTypeElementPayload(getIntegrationTestsSchema()),
-		});
-	}
+		}),
+	);
+
+	await Promise.all(tests);
 });
