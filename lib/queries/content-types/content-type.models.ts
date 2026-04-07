@@ -81,7 +81,6 @@ const contentTypeElementSchema = z.discriminatedUnion("type", [
 		.object({
 			type: z.literal("custom"),
 			name: z.string(),
-			value: z.string().or(z.null()),
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
