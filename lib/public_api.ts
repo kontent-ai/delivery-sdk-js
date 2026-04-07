@@ -9,6 +9,15 @@ export type {
 	FullDeliveryClientShema,
 } from "./models/core.models.js";
 export { PaginationSchema, paginationSchema } from "./models/pagination.models.js";
+// Content Items
+export type {
+	ContentItemElementPayload,
+	ContentItemPayload,
+	FetchContentItemPayload,
+	ListContentItemsPayload,
+} from "./queries/content-items/content-item.models.js";
+export type { FetchContentItemQuery, FetchContentItemQueryRequest } from "./queries/content-items/fetch-content-item-query.js";
+export type { ListContentItemsQuery, ListContentItemsQueryRequest } from "./queries/content-items/list-content-items-query.js";
 // Content Types
 export {
 	ContentTypeElementPayload,

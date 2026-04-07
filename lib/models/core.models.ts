@@ -1,4 +1,6 @@
 import type { FetchQuery, JsonValue, PagedFetchQuery, PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
+import type { FetchContentItemQuery, FetchContentItemQueryRequest } from "../queries/content-items/fetch-content-item-query.js";
+import type { ListContentItemsQuery, ListContentItemsQueryRequest } from "../queries/content-items/list-content-items-query.js";
 import type {
 	FetchContentTypeElementQuery,
 	FetchContentTypeElementQueryRequest,
@@ -15,6 +17,9 @@ export type FullDeliveryClientShema = {
 	readonly taxonomyCodenames: readonly string[];
 	readonly contentTypeCodenames: readonly string[];
 	readonly elementCodenames: readonly string[];
+	readonly collectionCodenames: readonly string[];
+	readonly workflowCodenames: readonly string[];
+	readonly workflowStepCodenames: readonly string[];
 };
 
 export type DeliveryClientSchema<TSchema extends FullDeliveryClientShema = FullDeliveryClientShema> = {
@@ -22,6 +27,9 @@ export type DeliveryClientSchema<TSchema extends FullDeliveryClientShema = FullD
 	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
 	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
 	readonly elementCodenames: TSchema["elementCodenames"];
+	readonly collectionCodenames: TSchema["collectionCodenames"];
+	readonly workflowCodenames: TSchema["workflowCodenames"];
+	readonly workflowStepCodenames: TSchema["workflowStepCodenames"];
 };
 
 export type ApiMode = "public" | "preview" | "secure";
@@ -60,6 +68,8 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	fetchTaxonomy(request: FetchTaxonomyQueryRequest<TSchema>): FetchTaxonomyQuery<TSchema>;
 	fetchContentType(request: FetchContentTypeQueryRequest<TSchema>): FetchContentTypeQuery<TSchema>;
 	fetchContentTypeElement(request: FetchContentTypeElementQueryRequest<TSchema>): FetchContentTypeElementQuery<TSchema>;
+	fetchContentItem(request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema>;
+	listContentItems(request?: ListContentItemsQueryRequest<TSchema>): ListContentItemsQuery<TSchema>;
 };
 
 export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, unknown, DeliverySdkError>;

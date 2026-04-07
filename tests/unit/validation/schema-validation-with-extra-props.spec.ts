@@ -34,6 +34,9 @@ describe("Valid schema validation with extra props", () => {
 				taxonomyCodenames: [],
 				contentTypeCodenames: [],
 				elementCodenames: [],
+				collectionCodenames: [],
+				workflowCodenames: [],
+				workflowStepCodenames: [],
 			},
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,

@@ -11,6 +11,9 @@ describe("Schema validation", () => {
 		readonly taxonomyCodenames: readonly [];
 		readonly contentTypeCodenames: readonly [];
 		readonly elementCodenames: readonly [];
+		readonly collectionCodenames: readonly [];
+		readonly workflowCodenames: readonly [];
+		readonly workflowStepCodenames: readonly [];
 	}>;
 
 	const mockPayload: ListLanguagesPayload<TestDeliveryClientTypes> = {
@@ -35,7 +38,15 @@ describe("Schema validation", () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: ["en-US", "cs-CZ"], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
+			schema: {
+				languageCodenames: ["en-US", "cs-CZ"],
+				taxonomyCodenames: [],
+				contentTypeCodenames: [],
+				elementCodenames: [],
+				collectionCodenames: [],
+				workflowCodenames: [],
+				workflowStepCodenames: [],
+			},
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,
 				statusCode: 200,
@@ -61,6 +72,9 @@ describe("Schema validation", () => {
 				taxonomyCodenames: [],
 				contentTypeCodenames: [],
 				elementCodenames: [],
+				collectionCodenames: [],
+				workflowCodenames: [],
+				workflowStepCodenames: [],
 			},
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,
@@ -78,7 +92,15 @@ describe("Schema validation", () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
+			schema: {
+				languageCodenames: [],
+				taxonomyCodenames: [],
+				contentTypeCodenames: [],
+				elementCodenames: [],
+				collectionCodenames: [],
+				workflowCodenames: [],
+				workflowStepCodenames: [],
+			},
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,
 				statusCode: 200,

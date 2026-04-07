@@ -12,6 +12,9 @@ const client: DeliveryClient<{
 	taxonomyCodenames: typeof taxonomyCodenames;
 	contentTypeCodenames: string[];
 	elementCodenames: string[];
+	collectionCodenames: string[];
+	workflowCodenames: string[];
+	workflowStepCodenames: string[];
 }> = createDeliveryClient({
 	apiMode: "public",
 	environmentId: "x",
@@ -20,6 +23,9 @@ const client: DeliveryClient<{
 		taxonomyCodenames,
 		contentTypeCodenames: [],
 		elementCodenames: [],
+		collectionCodenames: [],
+		workflowCodenames: [],
+		workflowStepCodenames: [],
 	},
 	responseValidation: {
 		enable: false,

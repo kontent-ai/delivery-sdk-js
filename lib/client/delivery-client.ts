@@ -1,4 +1,6 @@
 import type { DeliveryClient, DeliveryClientConfig, FullDeliveryClientShema } from "../models/core.models.js";
+import { type FetchContentItemQueryRequest, fetchContentItemQuery } from "../queries/content-items/fetch-content-item-query.js";
+import { type ListContentItemsQueryRequest, listContentItemsQuery } from "../queries/content-items/list-content-items-query.js";
 import {
 	type FetchContentTypeElementQueryRequest,
 	fetchContentTypeElementQuery,
@@ -46,5 +48,7 @@ export function createDeliveryClient<const TSchema extends FullDeliveryClientShe
 		fetchTaxonomy: (request: FetchTaxonomyQueryRequest<TSchema>) => fetchTaxonomyQuery(config, request),
 		fetchContentType: (request: FetchContentTypeQueryRequest<TSchema>) => fetchContentTypeQuery(config, request),
 		fetchContentTypeElement: (request: FetchContentTypeElementQueryRequest<TSchema>) => fetchContentTypeElementQuery(config, request),
+		fetchContentItem: (request: FetchContentItemQueryRequest<TSchema>) => fetchContentItemQuery(config, request),
+		listContentItems: (request?: ListContentItemsQueryRequest<TSchema>) => listContentItemsQuery(config, request),
 	};
 }

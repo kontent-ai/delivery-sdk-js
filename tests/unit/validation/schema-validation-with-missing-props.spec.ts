@@ -27,6 +27,9 @@ describe("Valid schema validation with missing props", () => {
 				taxonomyCodenames: [],
 				contentTypeCodenames: [],
 				elementCodenames: [],
+				collectionCodenames: [],
+				workflowCodenames: [],
+				workflowStepCodenames: [],
 			},
 			httpService: getTestHttpServiceWithJsonResponse({
 				jsonResponse: mockPayload,

@@ -1,0 +1,15 @@
+import { describe } from "vitest";
+import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
+import { type FetchContentItemPayload, fetchContentItemPayload } from "../../../../lib/queries/content-items/content-item.models.js";
+import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
+import unitTestPayload from "./fetch-content-item-query.payload.js";
+
+describe("Fetch content item query", async () => {
+	const codename = "brad_pitt";
+	await runQueryTestsAsync<FetchContentItemPayload<DeliveryClientSchema>>({
+		endpoint: `items/${codename}`,
+		unitTestPayload,
+		selectQuery: (client) => client.fetchContentItem({ codename }),
+		expectedSchema: fetchContentItemPayload(getIntegrationTestsSchema()),
+	});
+});

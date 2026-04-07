@@ -14,6 +14,9 @@ describe("Handling of custom errors", async () => {
 			taxonomyCodenames: [],
 			contentTypeCodenames: [],
 			elementCodenames: [],
+			collectionCodenames: [],
+			workflowCodenames: [],
+			workflowStepCodenames: [],
 		},
 		httpService: getDefaultHttpService({
 			adapter: {

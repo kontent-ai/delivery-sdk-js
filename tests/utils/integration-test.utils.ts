@@ -28,6 +28,9 @@ export function getIntegrationTestsSchema(): DeliveryClientSchema {
 		taxonomyCodenames: [],
 		contentTypeCodenames: [],
 		elementCodenames: [],
+		collectionCodenames: [],
+		workflowCodenames: [],
+		workflowStepCodenames: [],
 	};
 }
 
@@ -105,7 +108,15 @@ function createFailingUnitTestClient(): DeliveryClient<DeliveryClientSchema> {
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
-		schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
+		schema: {
+			languageCodenames: [],
+			taxonomyCodenames: [],
+			contentTypeCodenames: [],
+			elementCodenames: [],
+			collectionCodenames: [],
+			workflowCodenames: [],
+			workflowStepCodenames: [],
+		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: () => {
@@ -120,7 +131,15 @@ function createUnitTestClient<TResponsePayload extends JsonValue>(unitTestPayloa
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
-		schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
+		schema: {
+			languageCodenames: [],
+			taxonomyCodenames: [],
+			contentTypeCodenames: [],
+			elementCodenames: [],
+			collectionCodenames: [],
+			workflowCodenames: [],
+			workflowStepCodenames: [],
+		},
 		httpService: getTestHttpServiceWithJsonResponse({
 			jsonResponse: unitTestPayload,
 			statusCode: 200,
@@ -132,7 +151,15 @@ function createIntegrationTestClient(environmentId: string, deliveryBaseUrl: str
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId,
-		schema: { languageCodenames: [], taxonomyCodenames: [], contentTypeCodenames: [], elementCodenames: [] },
+		schema: {
+			languageCodenames: [],
+			taxonomyCodenames: [],
+			contentTypeCodenames: [],
+			elementCodenames: [],
+			collectionCodenames: [],
+			workflowCodenames: [],
+			workflowStepCodenames: [],
+		},
 		...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
 	});
 }
