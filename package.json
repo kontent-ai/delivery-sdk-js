@@ -48,9 +48,9 @@
 	"devDependencies": {
 		"@kontent-ai/biome-config": "0.7.0",
 		"@kontent-ai/eslint-config": "2.4.1",
-		"eslint": "10.1.0",
+		"eslint": "10.2.0",
 		"@biomejs/biome": "2.4.10",
-		"@types/node": "25.5.0",
+		"@types/node": "25.5.2",
 		"typescript": "6.0.2",
 		"vitest": "4.1.2",
 		"@vitest/coverage-v8": "4.1.2",
