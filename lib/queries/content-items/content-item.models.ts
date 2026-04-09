@@ -156,7 +156,7 @@ export const contentItemSchema = <TSchema extends DeliveryClientSchema>(schema: 
 					workflow_step: getCodenameSchema<TSchema["workflowStepCodenames"][number]>(schema?.workflowStepCodenames),
 				})
 				.readonly(),
-			elements: z.record(getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentItemElementSchema),
+			elements: z.optional(z.record(getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentItemElementSchema)),
 		})
 		.readonly();
 
@@ -181,3 +181,4 @@ export type ContentItemElementPayload = z.infer<typeof contentItemElementSchema>
 export type ContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSchema<TSchema>>>;
 export type ListContentItemsPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentItemsPayload<TSchema>>>;
 export type FetchContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof fetchContentItemPayload<TSchema>>>;
+
