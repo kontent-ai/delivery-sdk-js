@@ -51,8 +51,8 @@ const richTextLinkSchema = z
 	.catchall(jsonValueSchema)
 	.readonly();
 
-const contentItemElementSchema = z.discriminatedUnion("type", [
-	z
+export const elementSchemas = {
+	text: z
 		.object({
 			type: z.literal("text"),
 			name: z.string(),
@@ -60,7 +60,7 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	z
+	number: z
 		.object({
 			type: z.literal("number"),
 			name: z.string(),
@@ -68,7 +68,7 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	z
+	richText: z
 		.object({
 			type: z.literal("rich_text"),
 			name: z.string(),
@@ -79,7 +79,7 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	z
+	multipleChoice: z
 		.object({
 			type: z.literal("multiple_choice"),
 			name: z.string(),
@@ -87,7 +87,7 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	z
+	dateTime: z
 		.object({
 			type: z.literal("date_time"),
 			name: z.string(),
@@ -96,7 +96,7 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	z
+	asset: z
 		.object({
 			type: z.literal("asset"),
 			name: z.string(),
@@ -104,7 +104,7 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	z
+	taxonomy: z
 		.object({
 			type: z.literal("taxonomy"),
 			name: z.string(),
@@ -113,7 +113,7 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	z
+	urlSlug: z
 		.object({
 			type: z.literal("url_slug"),
 			name: z.string(),
@@ -121,7 +121,7 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	z
+	linkedItems: z
 		.object({
 			type: z.literal("modular_content"),
 			name: z.string(),
@@ -129,7 +129,7 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	z
+	custom: z
 		.object({
 			type: z.literal("custom"),
 			name: z.string(),
@@ -137,26 +137,50 @@ const contentItemElementSchema = z.discriminatedUnion("type", [
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-]);
+};
 
-export const contentItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+const contentItemElementSchema = z
+	.discriminatedUnion("type", [
+		elementSchemas.text,
+		elementSchemas.number,
+		elementSchemas.richText,
+		elementSchemas.multipleChoice,
+		elementSchemas.dateTime,
+		elementSchemas.asset,
+		elementSchemas.taxonomy,
+		elementSchemas.urlSlug,
+		elementSchemas.linkedItems,
+		elementSchemas.custom,
+	])
+	.readonly();
+
+export const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
-			system: z
-				.object({
-					id: kontentUuidSchema,
-					name: z.string(),
-					codename: getCodenameSchema<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
-					language: getCodenameSchema<TSchema["languageCodenames"][number]>(schema?.languageCodenames),
-					type: getCodenameSchema<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
-					collection: getCodenameSchema<TSchema["collectionCodenames"][number]>(schema?.collectionCodenames),
-					sitemap_locations: z.array(z.string()).readonly(),
-					last_modified: z.iso.datetime(),
-					workflow: getCodenameSchema<TSchema["workflowCodenames"][number]>(schema?.workflowCodenames),
-					workflow_step: getCodenameSchema<TSchema["workflowStepCodenames"][number]>(schema?.workflowStepCodenames),
-				})
-				.readonly(),
-			elements: z.optional(z.record(getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentItemElementSchema)),
+			id: kontentUuidSchema,
+			name: z.string(),
+			codename: getCodenameSchema<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
+			language: getCodenameSchema<TSchema["languageCodenames"][number]>(schema?.languageCodenames),
+			type: getCodenameSchema<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
+			collection: getCodenameSchema<TSchema["collectionCodenames"][number]>(schema?.collectionCodenames),
+			sitemap_locations: z.array(z.string()).readonly(),
+			last_modified: z.iso.datetime(),
+			workflow: getCodenameSchema<TSchema["workflowCodenames"][number]>(schema?.workflowCodenames),
+			workflow_step: getCodenameSchema<TSchema["workflowStepCodenames"][number]>(schema?.workflowStepCodenames),
+		})
+		.readonly();
+
+export const contentItemWithSystemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+	z.object({
+		system: contentItemSystemSchema(schema),
+	});
+
+export const contentItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+	contentItemWithSystemSchema(schema)
+		.extend({
+			elements: z.optional(
+				z.record(getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentItemElementSchema),
+			),
 		})
 		.readonly();
 
@@ -177,8 +201,19 @@ export const fetchContentItemPayload = <TSchema extends DeliveryClientSchema>(sc
 		})
 		.readonly();
 
+export type ContentItemSystemSortableProperty =
+	| "id"
+	| "name"
+	| "codename"
+	| "language"
+	| "type"
+	| "collection"
+	| "last_modified"
+	| "workflow"
+	| "workflow_step";
+
+export type ContentItemSystemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSystemSchema<TSchema>>>;
 export type ContentItemElementPayload = z.infer<typeof contentItemElementSchema>;
 export type ContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSchema<TSchema>>>;
 export type ListContentItemsPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentItemsPayload<TSchema>>>;
 export type FetchContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof fetchContentItemPayload<TSchema>>>;
-

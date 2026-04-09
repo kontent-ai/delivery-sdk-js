@@ -13,6 +13,8 @@ export { PaginationSchema, paginationSchema } from "./models/pagination.models.j
 export type {
 	ContentItemElementPayload,
 	ContentItemPayload,
+	ContentItemSystemFilterableProperty,
+	ContentItemSystemSortableProperty,
 	FetchContentItemPayload,
 	ListContentItemsPayload,
 } from "./queries/content-items/content-item.models.js";

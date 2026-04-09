@@ -3,11 +3,17 @@ import type {
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
 	PagingDeliveryRequest,
+	QueryFilters,
 	QueryParameters,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
 import { createDeliveryPagingQuery } from "../delivery-queries.js";
-import { type ContentItemPayload, type ListContentItemsPayload, listContentItemsPayload } from "./content-item.models.js";
+import {
+	type ContentItemPayload,
+	type ContentItemSystemPayload,
+	type ListContentItemsPayload,
+	listContentItemsPayload,
+} from "./content-item.models.js";
 
 export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>>;
 
@@ -15,6 +21,7 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 	| SystemOrderQueryParam<keyof ContentItemPayload<DeliveryClientSchema>["system"]>
 	| ElementOrderQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>
 > &
+	QueryFilters<TSchema, keyof ContentItemSystemPayload<TSchema>> &
 	QueryParameters<{
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.

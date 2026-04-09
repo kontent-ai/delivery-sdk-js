@@ -46,6 +46,7 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 	readonly selectQuery: SelectQuery<TResponsePayload>;
 }): Promise<void> {
 	const integrationTestConfig = getIntegrationTestConfig();
+
 	const clients = createTestClients({
 		unitTestPayload,
 		environmentId: integrationTestConfig.env.id,

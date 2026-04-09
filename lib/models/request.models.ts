@@ -1,4 +1,6 @@
 import type { Header } from "@kontent-ai/core-sdk";
+import type { DeliveryClientSchema } from "./core.models.js";
+import type { FilterQueryParam, QueryFilter } from "./filter.models.js";
 
 export type DeliveryRequest = {
 	readonly config?: DeliveryRequestConfig;
@@ -19,6 +21,13 @@ export type QueryRequestWithCodename<TCodenames extends readonly string[]> = {
 
 export type QueryParameters<TParameters extends QueryParameterRecord> = {
 	readonly query?: TParameters;
+};
+
+export type QueryFilters<TSchema extends DeliveryClientSchema, TSystemProperties extends string> = {
+	readonly filters?: readonly (
+		| QueryFilter<TSystemProperties, NonNullable<TSchema["elementCodenames"]>[number]>
+		| FilterQueryParam<TSchema>
+	)[];
 };
 
 export type DeliveryRequestConfig = {
