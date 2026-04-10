@@ -2,6 +2,7 @@ import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuer
 import type {
 	ElementSelectionQueryParam,
 	PagingDeliveryRequest,
+	QueryFilters,
 	QueryParameters,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
@@ -13,6 +14,7 @@ export type ListContentTypesQuery<TSchema extends DeliveryClientSchema> = Delive
 export type ListContentTypesQueryRequest<TSchema extends DeliveryClientSchema> = PagingDeliveryRequest<
 	SystemOrderQueryParam<keyof ContentTypePayload<DeliveryClientSchema>["system"]>
 > &
+	QueryFilters<keyof ContentTypePayload<TSchema>["system"], never> &
 	QueryParameters<{
 		readonly elements?: ElementSelectionQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
 	}>;

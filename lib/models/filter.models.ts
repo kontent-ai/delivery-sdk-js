@@ -6,7 +6,7 @@ export const operatorToFilterOp: Record<EmptyRichtextOperator, FilterOperators> 
 
 export type ObjectFilter<TSystemProperties extends string, TElementProperties extends string> = {
 	readonly property: FilterProperty<TSystemProperties, TElementProperties>;
-	readonly value: string | number | boolean | undefined;
+	readonly value: string | number | boolean | undefined | string[];
 	readonly operator: SpecialFilterOperators | FilterOperators;
 };
 
