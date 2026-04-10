@@ -5,11 +5,13 @@ import { type LanguagePayload, type ListLanguagesPayload, listLanguagesPayload }
 
 export type ListLanguagesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListLanguagesPayload<TSchema>>;
 
-export type ListLanguagesQueryRequest = PagingDeliveryRequest<SystemOrderQueryParam<keyof LanguagePayload<DeliveryClientSchema>["system"]>>;
+export type ListLanguagesQueryRequest<TSchema extends DeliveryClientSchema> = PagingDeliveryRequest<
+	SystemOrderQueryParam<keyof LanguagePayload<TSchema>["system"]>
+>;
 
 export function listLanguagesQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
-	request?: ListLanguagesQueryRequest,
+	request?: ListLanguagesQueryRequest<TSchema>,
 ): ListLanguagesQuery<TSchema> {
 	return createDeliveryPagingQuery({
 		config,

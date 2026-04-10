@@ -5,13 +5,13 @@ import { type ListTaxonomiesPayload, listTaxonomiesPayload, type TaxonomyPayload
 
 export type ListTaxonomiesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListTaxonomiesPayload<TSchema>>;
 
-export type ListTaxonomiesQueryRequest = PagingDeliveryRequest<
-	SystemOrderQueryParam<keyof TaxonomyPayload<DeliveryClientSchema>["system"]>
+export type ListTaxonomiesQueryRequest<TSchema extends DeliveryClientSchema> = PagingDeliveryRequest<
+	SystemOrderQueryParam<keyof TaxonomyPayload<TSchema>["system"]>
 >;
 
 export function listTaxonomiesQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
-	request?: ListTaxonomiesQueryRequest,
+	request?: ListTaxonomiesQueryRequest<TSchema>,
 ): ListTaxonomiesQuery<TSchema> {
 	return createDeliveryPagingQuery({
 		config,

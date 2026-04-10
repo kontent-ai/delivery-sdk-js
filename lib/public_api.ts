@@ -6,7 +6,7 @@ export type {
 	DeliveryClient,
 	DeliveryClientConfig,
 	DeliveryClientSchema,
-	FullDeliveryClientShema,
+	FullDeliveryClientSchema,
 } from "./models/core.models.js";
 export { PaginationSchema, paginationSchema } from "./models/pagination.models.js";
 // Content Items

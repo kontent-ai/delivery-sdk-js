@@ -12,7 +12,7 @@ import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/t
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
 import type { DeliverySdkError } from "./error.models.js";
 
-export type FullDeliveryClientShema = {
+export type FullDeliveryClientSchema = {
 	readonly languageCodenames: readonly string[];
 	readonly taxonomyCodenames: readonly string[];
 	readonly contentTypeCodenames: readonly string[];
@@ -22,7 +22,7 @@ export type FullDeliveryClientShema = {
 	readonly workflowStepCodenames: readonly string[];
 };
 
-export type DeliveryClientSchema<TSchema extends FullDeliveryClientShema = FullDeliveryClientShema> = {
+export type DeliveryClientSchema<TSchema extends FullDeliveryClientSchema = FullDeliveryClientSchema> = {
 	readonly languageCodenames: TSchema["languageCodenames"];
 	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
 	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
@@ -34,7 +34,7 @@ export type DeliveryClientSchema<TSchema extends FullDeliveryClientShema = FullD
 
 export type ApiMode = "public" | "preview" | "secure";
 
-export type DeliveryClientConfig<TSchema extends FullDeliveryClientShema = FullDeliveryClientShema> = SdkConfig &
+export type DeliveryClientConfig<TSchema extends FullDeliveryClientSchema = FullDeliveryClientSchema> = SdkConfig &
 	ApiDeliveryClientConfig & {
 		/**
 		 * The environment ID of your Kontent.ai project. Can be found in the Kontent.ai app.
@@ -62,8 +62,8 @@ export type DeliveryClientConfigWithSchema<TSchema extends DeliveryClientSchema>
 export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = {
 	readonly config: DeliveryClientConfig<TSchema>;
 
-	listLanguages(request?: ListLanguagesQueryRequest): ListLanguagesQuery<TSchema>;
-	listTaxonomies(request?: ListTaxonomiesQueryRequest): ListTaxonomiesQuery<TSchema>;
+	listLanguages(request?: ListLanguagesQueryRequest<TSchema>): ListLanguagesQuery<TSchema>;
+	listTaxonomies(request?: ListTaxonomiesQueryRequest<TSchema>): ListTaxonomiesQuery<TSchema>;
 	listContentTypes(request?: ListContentTypesQueryRequest<TSchema>): ListContentTypesQuery<TSchema>;
 	fetchTaxonomy(request: FetchTaxonomyQueryRequest<TSchema>): FetchTaxonomyQuery<TSchema>;
 	fetchContentType(request: FetchContentTypeQueryRequest<TSchema>): FetchContentTypeQuery<TSchema>;
