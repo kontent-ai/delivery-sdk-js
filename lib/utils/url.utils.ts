@@ -1,4 +1,5 @@
 import { getEndpointUrl } from "@kontent-ai/core-sdk";
+import { match } from "ts-pattern";
 import type { ApiMode, DeliveryClientConfig, DeliveryEndpoints } from "../models/core.models.js";
 import { type CombinedFilter, type EmptyRichtextFilter, emptyRichtextOperators, type QueryFilter } from "../models/filter.models.js";
 import type { QueryParameterRecord } from "../models/request.models.js";
@@ -92,31 +93,35 @@ function getFilterParams(filters: readonly CombinedFilter<string, string>[] | un
 		return [];
 	}
 	return filters.flatMap((filter) => {
-		// Special case for "isEmptyRichText" operator
-		if (isEmptyRichtextFilter(filter)) {
-			return [[`${filter.property}[${filter.operator === "isEmptyRichText" ? "eq" : "neq"}]`, "<p><br></p>"]];
-		}
+		return (
+			match(filter)
+				.returnType<readonly string[][]>()
+				// Special case for "isEmptyRichText" operator
+				.when(isEmptyRichtextFilter, (filter) => [
+					[`${filter.property}[${filter.operator === "isEmptyRichText" ? "eq" : "neq"}]`, "<p><br></p>"],
+				])
+				.when(isQueryFilter, (filter) => {
+					if (!filterHasDefinedValue(filter)) {
+						return [];
+					}
 
-		if (isQueryFilter(filter)) {
-			if (!filterHasDefinedValue(filter)) {
-				return [];
-			}
+					// Special case for "=" operator which we can just omit from the property definition
+					if (filter.operator === "=") {
+						return [[filter.property, filter.value.toString()]];
+					}
 
-			// Special case for "=" operator which we can just omit from the property definition
-			if (filter.operator === "=") {
-				return [[filter.property, filter.value.toString()]];
-			}
+					// Special case for "!=" operator which we need to convert to "neq"
+					if (filter.operator === "!=") {
+						return [[`${filter.property}[neq]`, filter.value.toString()]];
+					}
 
-			// Special case for "!=" operator which we need to convert to "neq"
-			if (filter.operator === "!=") {
-				return [[`${filter.property}[neq]`, filter.value.toString()]];
-			}
-
-			return [[`${filter.property}[${filter.operator}]`, filter.value.toString()]];
-		}
-
-		// Split the filter string into property and value
-		const separatorIndex = filter.indexOf("=");
-		return [[filter.slice(0, separatorIndex), filter.slice(separatorIndex + 1)]];
+					return [[`${filter.property}[${filter.operator}]`, filter.value.toString()]];
+				})
+				.otherwise((stringFilter) => {
+					// Split the filter string into property and value
+					const separatorIndex = stringFilter.indexOf("=");
+					return [[stringFilter.slice(0, separatorIndex), stringFilter.slice(separatorIndex + 1)]];
+				})
+		);
 	});
 }

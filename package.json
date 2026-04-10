@@ -43,6 +43,7 @@
 	},
 	"peerDependencies": {
 		"@kontent-ai/core-sdk": "^12.0.0-preview.24",
+		"ts-pattern": "^5",
 		"zod": "^4"
 	},
 	"devDependencies": {
