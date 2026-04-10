@@ -1,6 +1,6 @@
 import { getEndpointUrl } from "@kontent-ai/core-sdk";
 import type { ApiMode, DeliveryClientConfig, DeliveryEndpoints } from "../models/core.models.js";
-import type { CombinedFilter, QueryFilter } from "../models/filter.models.js";
+import { type CombinedFilter, type EmptyRichtextFilter, emptyRichtextOperators, type QueryFilter } from "../models/filter.models.js";
 import type { QueryParameterRecord } from "../models/request.models.js";
 
 export function getDeliveryUrl({
@@ -31,7 +31,19 @@ export function addQueryParametersToUrl(
 		return url;
 	}
 
-	return `${url}${url.includes("?") ? "&" : "?"}${searchParams.toString().replaceAll("%5B", "[").replaceAll("%5D", "]")}`;
+	return `${url}${url.includes("?") ? "&" : "?"}${searchParams.toString()}`;
+}
+
+export function isEmptyRichtextFilter(value: unknown): value is EmptyRichtextFilter<string> {
+	if (typeof value !== "object" || value === null || value === undefined) {
+		return false;
+	}
+
+	if (!(("operator" satisfies keyof EmptyRichtextFilter<string>) in value)) {
+		return false;
+	}
+
+	return emptyRichtextOperators.some((operator) => operator === value.operator);
 }
 
 function getDefaultBaseUrlForApiMode(apiMode: ApiMode): string {
@@ -80,6 +92,11 @@ function getFilterParams(filters: readonly CombinedFilter<string, string>[] | un
 		return [];
 	}
 	return filters.flatMap((filter) => {
+		// Special case for "isEmptyRichText" operator
+		if (isEmptyRichtextFilter(filter)) {
+			return [[`${filter.property}[${filter.operator === "isEmptyRichText" ? "eq" : "neq"}]`, "<p><br></p>"]];
+		}
+
 		if (isQueryFilter(filter)) {
 			if (!filterHasDefinedValue(filter)) {
 				return [];

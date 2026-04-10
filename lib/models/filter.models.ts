@@ -1,7 +1,9 @@
-import type { ContentItemSystemPayload } from "../queries/content-items/content-item.models.js";
 import type { DeliveryClientSchema } from "./core.models.js";
 
-type SpecialFilterOperators = "=" | "!=";
+export const emptyRichtextOperators = ["isEmptyRichText", "isNotEmptyRichText"] as const;
+
+export type SpecialFilterOperators = "=" | "!=";
+export type EmptyRichtextOperator = (typeof emptyRichtextOperators)[number];
 
 export type FilterOperators =
 	| "eq"
@@ -36,14 +38,13 @@ export type QueryFilter<TSystemProperties extends string, TElementProperties ext
 	readonly operator: SpecialFilterOperators | FilterOperators;
 };
 
-export type CombinedFilter<TSystemProperties extends string, TElementProperties extends string> =
-	| QueryFilter<TSystemProperties, TElementProperties>
-	| FilterQueryParam<TSystemProperties, TElementProperties>;
-
-const filter: QueryFilter<keyof ContentItemSystemPayload<DeliveryClientSchema>, "hello" | "world"> = {
-	property: "elements.hello",
-	operator: "gte",
-	value: "fe",
+export type EmptyRichtextFilter<TElementProperties extends string> = {
+	readonly property: `elements.${TElementProperties}`;
+	readonly operator: EmptyRichtextOperator;
+	readonly value?: never;
 };
 
-void filter;
+export type CombinedFilter<TSystemProperties extends string, TElementProperties extends string> =
+	| QueryFilter<TSystemProperties, TElementProperties>
+	| EmptyRichtextFilter<TElementProperties>
+	| FilterQueryParam<TSystemProperties, TElementProperties>;
