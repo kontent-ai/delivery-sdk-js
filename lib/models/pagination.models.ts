@@ -12,9 +12,10 @@ export const paginationSchema = z.object({
 });
 
 export const paginationSchemaWithTotalCount = z.object({
-	pagination: paginationObjectSchema
-		.extend({
-			total_count: z.number().optional().readonly(),
+	pagination: z
+		.object({
+			...paginationObjectSchema.shape,
+			total_count: z.number().optional(),
 		})
 		.readonly(),
 });
