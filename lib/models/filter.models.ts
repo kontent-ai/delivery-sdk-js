@@ -1,9 +1,10 @@
 import type { ContentItemSystemPayload } from "../queries/content-items/content-item.models.js";
 import type { DeliveryClientSchema } from "./core.models.js";
 
+type SpecialFilterOperators = "=" | "!=";
+
 export type FilterOperators =
 	| "eq"
-	| "="
 	| "neq"
 	| "empty"
 	| "nempty"
@@ -32,7 +33,7 @@ export type ElementsFilterQueryParam<TSchema extends DeliveryClientSchema> =
 export type QueryFilter<TSystemProperties extends string, TElementProperties extends string> = {
 	readonly property: QueryFilterProperty<TSystemProperties, TElementProperties>;
 	readonly value: string | number | boolean | undefined;
-	readonly operator: FilterOperators;
+	readonly operator: SpecialFilterOperators | FilterOperators;
 };
 
 export type CombinedFilter<TSystemProperties extends string, TElementProperties extends string> =

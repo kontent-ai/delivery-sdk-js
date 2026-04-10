@@ -52,6 +52,20 @@ describe("Filters", () => {
 		expect(url).toContain("system.language=default");
 	});
 
+	it("Filter defined as string with value containing '!=' should be added to the url correctly", () => {
+		const url = client.listContentItems({
+			filters: [
+				{
+					property: "system.language",
+					operator: "!=",
+					value: "default",
+				},
+			],
+		}).url;
+
+		expect(url).toContain("system.language[neq]=default");
+	});
+
 	it("Filters defined as both object and string should all be added to the url", () => {
 		const url = client.listContentItems({
 			filters: [

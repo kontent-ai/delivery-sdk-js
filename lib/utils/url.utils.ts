@@ -90,6 +90,11 @@ function getFilterParams(filters: readonly CombinedFilter<string, string>[] | un
 				return [[filter.property, filter.value.toString()]];
 			}
 
+			// Special case for "!=" operator which we need to convert to "neq"
+			if (filter.operator === "!=") {
+				return [[`${filter.property}[neq]`, filter.value.toString()]];
+			}
+
 			return [[`${filter.property}[${filter.operator}]`, filter.value.toString()]];
 		}
 
