@@ -21,7 +21,7 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 	| SystemOrderQueryParam<keyof ContentItemPayload<DeliveryClientSchema>["system"]>
 	| ElementOrderQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>
 > &
-	QueryFilters<TSchema, keyof ContentItemSystemPayload<TSchema>> &
+	QueryFilters<keyof ContentItemSystemPayload<TSchema>, NonNullable<TSchema["elementCodenames"]>[number]> &
 	QueryParameters<{
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.

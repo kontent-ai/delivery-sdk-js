@@ -11,8 +11,9 @@ import type { ZodType } from "zod";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints } from "../models/core.models.js";
 import type { DeliverySdkError } from "../models/error.models.js";
+import type { CombinedFilter } from "../models/filter.models.js";
 import type { PaginationSchema } from "../models/pagination.models.js";
-import type { DeliveryRequest, QueryParameterRecord, QueryParameters } from "../models/request.models.js";
+import type { DeliveryRequest, QueryFilters, QueryParameterRecord, QueryParameters } from "../models/request.models.js";
 import { mapDeliveryError } from "../utils/error.utils.js";
 import { getNextPageByUrl } from "../utils/paging.utils.js";
 import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
@@ -88,9 +89,17 @@ function getRequestData<TPayload extends JsonValue>({
 }): FetchQueryRequest<TPayload, null, DeliverySdkError>["request"] {
 	return {
 		requestHeaders: getHeaders(request),
-		url: addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), getQueryParameters(request)),
+		url: addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), getQueryParameters(request), getFilters(request)),
 		authorizationApiKey: config.apiMode === "preview" || config.apiMode === "secure" ? config.deliveryApiKey : undefined,
 	};
+}
+
+function getFilters(request: DeliveryRequest | undefined): readonly CombinedFilter<string, string>[] | undefined {
+	if (!request || !isQueryWithFilters(request)) {
+		return undefined;
+	}
+
+	return request.filters;
 }
 
 function getQueryParameters(request: DeliveryRequest | undefined): QueryParameterRecord | undefined {
@@ -114,4 +123,8 @@ function getBypassCdnCacheHeader(): Header {
 
 function isQueryWithParameters(request: DeliveryRequest): request is DeliveryRequest & QueryParameters<QueryParameterRecord> {
 	return ("query" satisfies keyof QueryParameters<QueryParameterRecord>) in request;
+}
+
+function isQueryWithFilters(request: DeliveryRequest): request is DeliveryRequest & QueryFilters<string, string> {
+	return ("filters" satisfies keyof QueryFilters<string, string>) in request;
 }

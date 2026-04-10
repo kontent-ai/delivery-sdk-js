@@ -18,8 +18,9 @@ export type FilterOperators =
 	| "any"
 	| "all";
 
-export type FilterQueryParam<TSchema extends DeliveryClientSchema> =
-	`${"elements" | "system"}.${keyof ContentItemSystemPayload<TSchema>}[${FilterOperators}]=${string}`;
+export type FilterQueryParam<TSystemProperties extends string, TElementProperties extends string> =
+	| `system.${TSystemProperties}[${FilterOperators}]=${string}`
+	| `elements.${TElementProperties}[${FilterOperators}]=${string}`;
 
 export type QueryFilterProperty<TSystemProperties extends string, TElementProperties extends string> =
 	| `system.${TSystemProperties}`
@@ -30,9 +31,13 @@ export type ElementsFilterQueryParam<TSchema extends DeliveryClientSchema> =
 
 export type QueryFilter<TSystemProperties extends string, TElementProperties extends string> = {
 	readonly property: QueryFilterProperty<TSystemProperties, TElementProperties>;
-	readonly value: string | number | null;
+	readonly value: string | number | boolean | undefined;
 	readonly operator: FilterOperators;
 };
+
+export type CombinedFilter<TSystemProperties extends string, TElementProperties extends string> =
+	| QueryFilter<TSystemProperties, TElementProperties>
+	| FilterQueryParam<TSystemProperties, TElementProperties>;
 
 const filter: QueryFilter<keyof ContentItemSystemPayload<DeliveryClientSchema>, "hello" | "world"> = {
 	property: "elements.hello",
