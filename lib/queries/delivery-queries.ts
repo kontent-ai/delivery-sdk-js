@@ -11,7 +11,7 @@ import type { ZodType } from "zod";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints } from "../models/core.models.js";
 import type { DeliverySdkError } from "../models/error.models.js";
-import type { CombinedFilter } from "../models/filter.models.js";
+import type { Filter } from "../models/filter.models.js";
 import type { PaginationSchema } from "../models/pagination.models.js";
 import type { DeliveryRequest, QueryFilters, QueryParameterRecord, QueryParameters } from "../models/request.models.js";
 import { mapDeliveryError } from "../utils/error.utils.js";
@@ -94,7 +94,7 @@ function getRequestData<TPayload extends JsonValue>({
 	};
 }
 
-function getFilters(request: DeliveryRequest | undefined): readonly CombinedFilter<string, string>[] | undefined {
+function getFilters(request: DeliveryRequest | undefined): readonly Filter<string, string>[] | undefined {
 	if (!request || !isQueryWithFilters(request)) {
 		return undefined;
 	}

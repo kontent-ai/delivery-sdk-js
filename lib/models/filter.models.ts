@@ -1,11 +1,30 @@
-import type { DeliveryClientSchema } from "./core.models.js";
-
 export const emptyRichtextOperators = ["isEmptyRichText", "isNotEmptyRichText"] as const;
+export const operatorToFilterOp: Record<EmptyRichtextOperator, FilterOperators> = {
+	isEmptyRichText: "eq",
+	isNotEmptyRichText: "neq",
+};
 
-export type SpecialFilterOperators = "=" | "!=";
-export type EmptyRichtextOperator = (typeof emptyRichtextOperators)[number];
+export type ObjectFilter<TSystemProperties extends string, TElementProperties extends string> = {
+	readonly property: FilterProperty<TSystemProperties, TElementProperties>;
+	readonly value: string | number | boolean | undefined;
+	readonly operator: SpecialFilterOperators | FilterOperators;
+};
 
-export type FilterOperators =
+export type EmptyRichtextFilter<TElementProperties extends string> = {
+	readonly property: `elements.${TElementProperties}`;
+	readonly operator: EmptyRichtextOperator;
+	readonly value?: never;
+};
+
+export type Filter<TSystemProperties extends string, TElementProperties extends string> =
+	| ObjectFilter<TSystemProperties, TElementProperties>
+	| EmptyRichtextFilter<TElementProperties>
+	| FullFilterQuery<TSystemProperties, TElementProperties>;
+
+type SpecialFilterOperators = "=" | "!=";
+type EmptyRichtextOperator = (typeof emptyRichtextOperators)[number];
+
+type FilterOperators =
 	| "eq"
 	| "neq"
 	| "empty"
@@ -21,30 +40,10 @@ export type FilterOperators =
 	| "any"
 	| "all";
 
-export type FilterQueryParam<TSystemProperties extends string, TElementProperties extends string> =
+type FullFilterQuery<TSystemProperties extends string, TElementProperties extends string> =
 	| `system.${TSystemProperties}[${FilterOperators}]=${string}`
 	| `elements.${TElementProperties}[${FilterOperators}]=${string}`;
 
-export type QueryFilterProperty<TSystemProperties extends string, TElementProperties extends string> =
+type FilterProperty<TSystemProperties extends string, TElementProperties extends string> =
 	| `system.${TSystemProperties}`
 	| `elements.${TElementProperties}`;
-
-export type ElementsFilterQueryParam<TSchema extends DeliveryClientSchema> =
-	`elements.${NonNullable<TSchema["elementCodenames"]>[number]}[${FilterOperators}]=${string}`;
-
-export type QueryFilter<TSystemProperties extends string, TElementProperties extends string> = {
-	readonly property: QueryFilterProperty<TSystemProperties, TElementProperties>;
-	readonly value: string | number | boolean | undefined;
-	readonly operator: SpecialFilterOperators | FilterOperators;
-};
-
-export type EmptyRichtextFilter<TElementProperties extends string> = {
-	readonly property: `elements.${TElementProperties}`;
-	readonly operator: EmptyRichtextOperator;
-	readonly value?: never;
-};
-
-export type CombinedFilter<TSystemProperties extends string, TElementProperties extends string> =
-	| QueryFilter<TSystemProperties, TElementProperties>
-	| EmptyRichtextFilter<TElementProperties>
-	| FilterQueryParam<TSystemProperties, TElementProperties>;

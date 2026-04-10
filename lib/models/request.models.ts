@@ -1,5 +1,5 @@
 import type { Header } from "@kontent-ai/core-sdk";
-import type { CombinedFilter } from "./filter.models.js";
+import type { Filter } from "./filter.models.js";
 
 export type DeliveryRequest = {
 	readonly config?: DeliveryRequestConfig;
@@ -23,7 +23,7 @@ export type QueryParameters<TParameters extends QueryParameterRecord> = {
 };
 
 export type QueryFilters<TSystemProperties extends string, TElementProperties extends string> = {
-	readonly filters?: readonly CombinedFilter<TSystemProperties, TElementProperties>[];
+	readonly filters?: readonly Filter<TSystemProperties, TElementProperties>[];
 };
 
 export type DeliveryRequestConfig = {

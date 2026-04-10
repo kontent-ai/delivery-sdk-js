@@ -1,7 +1,13 @@
 import { getEndpointUrl } from "@kontent-ai/core-sdk";
 import { match } from "ts-pattern";
 import type { ApiMode, DeliveryClientConfig, DeliveryEndpoints } from "../models/core.models.js";
-import { type CombinedFilter, type EmptyRichtextFilter, emptyRichtextOperators, type QueryFilter } from "../models/filter.models.js";
+import {
+	type EmptyRichtextFilter,
+	emptyRichtextOperators,
+	type Filter,
+	type ObjectFilter,
+	operatorToFilterOp,
+} from "../models/filter.models.js";
 import type { QueryParameterRecord } from "../models/request.models.js";
 
 export function getDeliveryUrl({
@@ -20,7 +26,7 @@ export function getDeliveryUrl({
 export function addQueryParametersToUrl(
 	url: string,
 	query: QueryParameterRecord | undefined,
-	filters: readonly CombinedFilter<string, string>[] | undefined,
+	filters: readonly Filter<string, string>[] | undefined,
 ): string {
 	if (!query && !filters) {
 		return url;
@@ -59,14 +65,14 @@ function getDefaultBaseUrlForApiMode(apiMode: ApiMode): string {
 
 function getUrlSearchParams(
 	query: QueryParameterRecord | undefined,
-	filters: readonly CombinedFilter<string, string>[] | undefined,
+	filters: readonly Filter<string, string>[] | undefined,
 ): URLSearchParams {
 	return new URLSearchParams(getQueryParams(query).concat(getFilterParams(filters)));
 }
 
 function filterHasDefinedValue(
-	filter: QueryFilter<string, string>,
-): filter is QueryFilter<string, string> & { readonly value: NonNullable<typeof filter.value> } {
+	filter: ObjectFilter<string, string>,
+): filter is ObjectFilter<string, string> & { readonly value: NonNullable<typeof filter.value> } {
 	return filter.value !== undefined && filter.value !== null;
 }
 
@@ -75,7 +81,7 @@ function queryHasDefinedValue<Key, Value>(item: [Key, Value | undefined]): item 
 	return value !== undefined && value !== null;
 }
 
-function isQueryFilter(value: unknown): value is QueryFilter<string, string> {
+function isQueryFilter(value: unknown): value is ObjectFilter<string, string> {
 	return typeof value === "object" && value !== null && "property" in value && "operator" in value && "value" in value;
 }
 
@@ -88,7 +94,7 @@ function getQueryParams(query: QueryParameterRecord | undefined): readonly strin
 		.map(([key, value]) => [key, value.toString()]);
 }
 
-function getFilterParams(filters: readonly CombinedFilter<string, string>[] | undefined): readonly string[][] {
+function getFilterParams(filters: readonly Filter<string, string>[] | undefined): readonly string[][] {
 	if (!filters) {
 		return [];
 	}
@@ -97,9 +103,7 @@ function getFilterParams(filters: readonly CombinedFilter<string, string>[] | un
 			match(filter)
 				.returnType<readonly string[][]>()
 				// Special case for "isEmptyRichText" operator
-				.when(isEmptyRichtextFilter, (filter) => [
-					[`${filter.property}[${filter.operator === "isEmptyRichText" ? "eq" : "neq"}]`, "<p><br></p>"],
-				])
+				.when(isEmptyRichtextFilter, (filter) => [[`${filter.property}[${operatorToFilterOp[filter.operator]}]`, "<p><br></p>"]])
 				.when(isQueryFilter, (filter) => {
 					if (!filterHasDefinedValue(filter)) {
 						return [];
