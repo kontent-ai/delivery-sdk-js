@@ -17,13 +17,16 @@ export {
 	type ContentItemElementPayload,
 	type ContentItemPayload,
 	type ContentItemSystemPayload,
-	type ContentItemSystemSortableProperty,
-	contentItemWithSystemSchema,
 	elementSchemas,
 	type FetchContentItemPayload,
+	type ItemsReferencingAssetPayload,
 	type ListContentItemsPayload,
 } from "./queries/content-items/content-item.models.js";
 export type { FetchContentItemQuery, FetchContentItemQueryRequest } from "./queries/content-items/fetch-content-item-query.js";
+export type {
+	ItemsReferencingAssetQuery,
+	ItemsReferencingAssetQueryRequest,
+} from "./queries/content-items/items-referencing-asset-query.js";
 export type { ListContentItemsQuery, ListContentItemsQueryRequest } from "./queries/content-items/list-content-items-query.js";
 // Content Types
 export {

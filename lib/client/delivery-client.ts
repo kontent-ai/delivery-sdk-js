@@ -1,6 +1,10 @@
 import type { DeliveryClient, DeliveryClientConfig, FullDeliveryClientSchema } from "../models/core.models.js";
 import { type FetchContentItemQueryRequest, fetchContentItemQuery } from "../queries/content-items/fetch-content-item-query.js";
 import { type ItemsFeedQueryRequest, itemsFeedQuery } from "../queries/content-items/items-feed-query.js";
+import {
+	type ItemsReferencingAssetQueryRequest,
+	itemsReferencingAssetQuery,
+} from "../queries/content-items/items-referencing-asset-query.js";
 import { type ListContentItemsQueryRequest, listContentItemsQuery } from "../queries/content-items/list-content-items-query.js";
 import {
 	type FetchContentTypeElementQueryRequest,
@@ -52,5 +56,6 @@ export function createDeliveryClient<const TSchema extends FullDeliveryClientSch
 		fetchContentItem: (request: FetchContentItemQueryRequest<TSchema>) => fetchContentItemQuery(config, request),
 		listContentItems: (request?: ListContentItemsQueryRequest<TSchema>) => listContentItemsQuery(config, request),
 		itemsFeed: (request?: ItemsFeedQueryRequest<TSchema>) => itemsFeedQuery(config, request),
+		itemsReferencingAsset: (request: ItemsReferencingAssetQueryRequest<TSchema>) => itemsReferencingAssetQuery(config, request),
 	};
 }

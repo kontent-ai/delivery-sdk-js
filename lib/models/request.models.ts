@@ -6,16 +6,26 @@ export type DeliveryRequest = {
 };
 
 export type QueryParameterRecord = Record<string, string | number | boolean | undefined | readonly string[]>;
+export type HeaderParameterRecord = Record<string, string | number | boolean>;
 
-export type PagingDeliveryRequest<TSortableProperties extends string> = DeliveryRequest &
+export type PagingByUrlDeliveryRequest<TSortableProperties extends string> = DeliveryRequest &
 	QueryParameters<{
 		readonly skip?: number;
 		readonly limit?: number;
 		readonly order?: TSortableProperties;
 	}>;
 
+export type PagingByTokenDeliveryRequest = DeliveryRequest &
+	HeaderParameters<{
+		readonly continuationToken?: string;
+	}>;
+
 export type QueryRequestWithCodename<TCodenames extends readonly string[]> = {
 	readonly codename: TCodenames[number];
+};
+
+export type HeaderParameters<TParameters extends HeaderParameterRecord> = {
+	readonly headers?: TParameters;
 };
 
 export type QueryParameters<TParameters extends QueryParameterRecord> = {

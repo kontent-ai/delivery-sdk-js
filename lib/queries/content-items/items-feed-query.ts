@@ -1,8 +1,8 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
 import type {
+	DeliveryRequest,
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
-	PagingDeliveryRequest,
 	QueryFilters,
 	QueryParameters,
 	SystemOrderQueryParam,
@@ -12,12 +12,12 @@ import { type ContentItemPayload, type ContentItemSystemPayload, type ItemsFeedP
 
 export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>>;
 
-export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = PagingDeliveryRequest<
-	| SystemOrderQueryParam<keyof ContentItemPayload<DeliveryClientSchema>["system"]>
-	| ElementOrderQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>
-> &
+export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequest &
 	QueryFilters<keyof ContentItemSystemPayload<TSchema>, NonNullable<TSchema["elementCodenames"]>[number]> &
 	QueryParameters<{
+		readonly order?:
+			| SystemOrderQueryParam<keyof ContentItemPayload<DeliveryClientSchema>["system"]>
+			| ElementOrderQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
 		 */
@@ -40,13 +40,6 @@ export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = Paging
 		 * To exclude all linked items from the response, set depth to 0.
 		 */
 		readonly depth?: number;
-
-		/**
-		 * Adds the information about the total number of content items matching your query.
-		 * Only the content filtering parameters affect the resulting number.
-		 * Other parameters in your query, such as limit, skip, or order, don't have an effect on it.
-		 */
-		readonly includeTotalCount?: boolean;
 	}>;
 
 export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(

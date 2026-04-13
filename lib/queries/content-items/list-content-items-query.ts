@@ -2,7 +2,7 @@ import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuer
 import type {
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
-	PagingDeliveryRequest,
+	PagingByUrlDeliveryRequest,
 	QueryFilters,
 	QueryParameters,
 	SystemOrderQueryParam,
@@ -17,7 +17,7 @@ import {
 
 export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>>;
 
-export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = PagingDeliveryRequest<
+export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = PagingByUrlDeliveryRequest<
 	| SystemOrderQueryParam<keyof ContentItemPayload<DeliveryClientSchema>["system"]>
 	| ElementOrderQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>
 > &
