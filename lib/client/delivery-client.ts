@@ -1,4 +1,4 @@
-import type { DeliveryClient, DeliveryClientConfig, FullDeliveryClientShema } from "../models/core.models.js";
+import type { DeliveryClient, DeliveryClientConfig, FullDeliveryClientSchema } from "../models/core.models.js";
 import { type FetchContentItemQueryRequest, fetchContentItemQuery } from "../queries/content-items/fetch-content-item-query.js";
 import { type ListContentItemsQueryRequest, listContentItemsQuery } from "../queries/content-items/list-content-items-query.js";
 import {
@@ -37,13 +37,13 @@ import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries
  *   environmentId: "x",
  * });
  */
-export function createDeliveryClient<const TSchema extends FullDeliveryClientShema = FullDeliveryClientShema>(
+export function createDeliveryClient<const TSchema extends FullDeliveryClientSchema = FullDeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 ): DeliveryClient<TSchema> {
 	return {
 		config,
-		listTaxonomies: (request?: ListTaxonomiesQueryRequest) => listTaxonomiesQuery(config, request),
-		listLanguages: (request?: ListLanguagesQueryRequest) => listLanguagesQuery(config, request),
+		listTaxonomies: (request?: ListTaxonomiesQueryRequest<TSchema>) => listTaxonomiesQuery(config, request),
+		listLanguages: (request?: ListLanguagesQueryRequest<TSchema>) => listLanguagesQuery(config, request),
 		listContentTypes: (request?: ListContentTypesQueryRequest<TSchema>) => listContentTypes(config, request),
 		fetchTaxonomy: (request: FetchTaxonomyQueryRequest<TSchema>) => fetchTaxonomyQuery(config, request),
 		fetchContentType: (request: FetchContentTypeQueryRequest<TSchema>) => fetchContentTypeQuery(config, request),
