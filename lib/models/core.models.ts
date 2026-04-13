@@ -1,5 +1,6 @@
 import type { FetchQuery, JsonValue, PagedFetchQuery, PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
 import type { FetchContentItemQuery, FetchContentItemQueryRequest } from "../queries/content-items/fetch-content-item-query.js";
+import type { ItemsFeedQuery, ItemsFeedQueryRequest } from "../queries/content-items/items-feed-query.js";
 import type { ListContentItemsQuery, ListContentItemsQueryRequest } from "../queries/content-items/list-content-items-query.js";
 import type {
 	FetchContentTypeElementQuery,
@@ -70,6 +71,7 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	fetchContentTypeElement(request: FetchContentTypeElementQueryRequest<TSchema>): FetchContentTypeElementQuery<TSchema>;
 	fetchContentItem(request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema>;
 	listContentItems(request?: ListContentItemsQueryRequest<TSchema>): ListContentItemsQuery<TSchema>;
+	itemsFeed(request?: ItemsFeedQueryRequest<TSchema>): ItemsFeedQuery<TSchema>;
 };
 
 export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, unknown, DeliverySdkError>;

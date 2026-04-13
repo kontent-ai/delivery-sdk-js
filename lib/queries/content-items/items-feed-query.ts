@@ -7,17 +7,12 @@ import type {
 	QueryParameters,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
-import { createDeliveryPagingByUrlQuery } from "../delivery-queries.js";
-import {
-	type ContentItemPayload,
-	type ContentItemSystemPayload,
-	type ListContentItemsPayload,
-	listContentItemsPayload,
-} from "./content-item.models.js";
+import { createDeliveryPagingByTokenQuery } from "../delivery-queries.js";
+import { type ContentItemPayload, type ContentItemSystemPayload, type ItemsFeedPayload, itemsFeedPayload } from "./content-item.models.js";
 
-export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>>;
+export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>>;
 
-export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = PagingDeliveryRequest<
+export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = PagingDeliveryRequest<
 	| SystemOrderQueryParam<keyof ContentItemPayload<DeliveryClientSchema>["system"]>
 	| ElementOrderQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>
 > &
@@ -54,14 +49,14 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 		readonly includeTotalCount?: boolean;
 	}>;
 
-export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
+export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
-	request?: ListContentItemsQueryRequest<TSchema>,
-): ListContentItemsQuery<TSchema> {
-	return createDeliveryPagingByUrlQuery({
+	request?: ItemsFeedQueryRequest<TSchema>,
+): ItemsFeedQuery<TSchema> {
+	return createDeliveryPagingByTokenQuery({
 		config,
 		request,
-		schema: listContentItemsPayload(config.schema),
-		endpoint: "items",
+		schema: itemsFeedPayload(config.schema),
+		endpoint: "items-feed",
 	});
 }

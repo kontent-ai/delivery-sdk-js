@@ -6,7 +6,7 @@ import type {
 	QueryParameters,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
-import { createDeliveryPagingQuery } from "../delivery-queries.js";
+import { createDeliveryPagingByUrlQuery } from "../delivery-queries.js";
 import { type ContentTypePayload, type ListContentTypesPayload, listContentTypesPayload } from "./content-type.models.js";
 
 export type ListContentTypesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListContentTypesPayload<TSchema>>;
@@ -23,7 +23,7 @@ export function listContentTypes<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ListContentTypesQueryRequest<TSchema>,
 ): ListContentTypesQuery<TSchema> {
-	return createDeliveryPagingQuery({
+	return createDeliveryPagingByUrlQuery({
 		config,
 		request,
 		schema: listContentTypesPayload(config.schema),

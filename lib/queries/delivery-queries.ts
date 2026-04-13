@@ -15,10 +15,10 @@ import type { Filter } from "../models/filter.models.js";
 import type { PaginationSchema } from "../models/pagination.models.js";
 import type { DeliveryRequest, QueryFilters, QueryParameterRecord, QueryParameters } from "../models/request.models.js";
 import { mapDeliveryError } from "../utils/error.utils.js";
-import { getNextPageByUrl } from "../utils/paging.utils.js";
+import { getNextPageByContinuationToken, getNextPageByUrl } from "../utils/paging.utils.js";
 import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
 
-export function createDeliveryPagingQuery<TPayload extends PaginationSchema>({
+export function createDeliveryPagingByUrlQuery<TPayload extends PaginationSchema>({
 	config,
 	schema,
 	endpoint,
@@ -32,6 +32,23 @@ export function createDeliveryPagingQuery<TPayload extends PaginationSchema>({
 	return createPagedFetchQuery<TPayload, null, DeliverySdkError>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByUrl(),
+	});
+}
+
+export function createDeliveryPagingByTokenQuery<TPayload extends JsonValue>({
+	config,
+	schema,
+	endpoint,
+	request,
+}: {
+	readonly request: DeliveryRequest | undefined;
+	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
+	readonly schema: ZodType<TPayload>;
+	readonly endpoint: DeliveryEndpoints;
+}): PagedFetchQuery<TPayload, null, DeliverySdkError> {
+	return createPagedFetchQuery<TPayload, null, DeliverySdkError>({
+		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
+		getNextPageData: getNextPageByContinuationToken(),
 	});
 }
 
