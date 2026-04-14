@@ -61,7 +61,7 @@
         "clean": "tsx clean.ts"
     },
     "dependencies": {
-        "@kontent-ai/core-sdk": "10.12.3"
+        "@kontent-ai/core-sdk": "10.12.4"
     },
     "devDependencies": {
         "@types/jasmine": "5.1.12",
