@@ -11,6 +11,17 @@ describe("Query parameters", () => {
 	});
 
 	it("Paging parameters should be added to the url", () => {
+		const testQuery: DeliveryPagedFetchQuery<JsonValue> = client.listLanguages({
+			query: {
+				order: "system.name[asc]",
+				skip: 5,
+				limit: 10,
+			},
+		});
+
+		void testQuery;
+		const fefefe: DeliveryPagedFetchQuery<JsonValue>[] = [testQuery];
+
 		const listingQueries: readonly DeliveryPagedFetchQuery<JsonValue>[] = [
 			client.listLanguages({
 				query: {
@@ -33,25 +44,44 @@ describe("Query parameters", () => {
 					limit: 10,
 				},
 			}),
+			client.listContentItems({
+				query: {
+					order: "system.name[asc]",
+					skip: 5,
+					limit: 10,
+				},
+			}),
 		];
 
-		for (const query of listingQueries) {
-			const { url } = query;
-			const parsedUrl = new URL(url);
-			expect(parsedUrl.searchParams.get("skip")).toStrictEqual("5");
-			expect(parsedUrl.searchParams.get("limit")).toStrictEqual("10");
-			expect(parsedUrl.searchParams.get("order")).toStrictEqual("system.name[asc]");
+		for (const { getQueryData } of listingQueries) {
+			const { success, data, error } = getQueryData();
+
+			if (!success) {
+				throw new Error(`Failed to get query data: ${error}`);
+			}
+
+			const { url } = data;
+			expect(url.searchParams.get("skip")).toStrictEqual("5");
+			expect(url.searchParams.get("limit")).toStrictEqual("10");
+			expect(url.searchParams.get("order")).toStrictEqual("system.name[asc]");
 		}
 	});
 
 	it("Elements query parameter should be added as a comma-separated list in the url", () => {
-		const { url } = client.listContentTypes({
+		const { getQueryData } = client.listContentTypes({
 			query: {
 				elements: ["x", "y", "z"],
 			},
 		});
 
-		const parsedUrl = new URL(url);
-		expect(parsedUrl.searchParams.get("elements")).toStrictEqual("x,y,z");
+		const { success, data, error } = getQueryData();
+
+		if (!success) {
+			throw new Error(`Failed to get query data: ${error}`);
+		}
+
+		const { url } = data;
+
+		expect(url.searchParams.get("elements")).toStrictEqual("x,y,z");
 	});
 });

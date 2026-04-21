@@ -9,11 +9,18 @@ import {
 } from "@kontent-ai/core-sdk";
 import type { ZodType } from "zod";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
-import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints } from "../models/core.models.js";
+import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints, DeliveryMetadata } from "../models/core.models.js";
 import type { DeliverySdkError } from "../models/error.models.js";
 import type { Filter } from "../models/filter.models.js";
 import type { PaginationSchema } from "../models/pagination.models.js";
-import type { DeliveryRequest, QueryFilters, QueryParameterRecord, QueryParameters } from "../models/request.models.js";
+import type {
+	DeliveryRequest,
+	HeaderParameterRecord,
+	HeaderParameters,
+	QueryFilters,
+	QueryParameterRecord,
+	QueryParameters,
+} from "../models/request.models.js";
 import { mapDeliveryError } from "../utils/error.utils.js";
 import { getNextPageByContinuationToken, getNextPageByUrl } from "../utils/paging.utils.js";
 import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
@@ -28,8 +35,8 @@ export function createDeliveryPagingByUrlQuery<TPayload extends PaginationSchema
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
-}): PagedFetchQuery<TPayload, null, DeliverySdkError> {
-	return createPagedFetchQuery<TPayload, null, DeliverySdkError>({
+}): PagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError> {
+	return createPagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByUrl(),
 	});
@@ -45,8 +52,8 @@ export function createDeliveryPagingByTokenQuery<TPayload extends JsonValue>({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
-}): PagedFetchQuery<TPayload, null, DeliverySdkError> {
-	return createPagedFetchQuery<TPayload, null, DeliverySdkError>({
+}): PagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError> {
+	return createPagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByContinuationToken(),
 	});
@@ -62,8 +69,8 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
-}): FetchQuery<TPayload, null, DeliverySdkError> {
-	return createFetchQuery<TPayload, null, DeliverySdkError>(
+}): FetchQuery<TPayload, DeliveryMetadata, DeliverySdkError> {
+	return createFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>(
 		getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 	);
 }
@@ -79,23 +86,25 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	readonly endpoint: DeliveryEndpoints;
 	readonly schema: ZodType<TPayload>;
 }): Pick<
-	FetchQueryRequest<TPayload, null, DeliverySdkError>,
-	"abortSignal" | "config" | "sdkInfo" | "mapMetadata" | "request" | "zodSchema" | "mapError"
+	FetchQueryRequest<TPayload, DeliveryMetadata, DeliverySdkError>,
+	"abortSignal" | "config" | "sdkInfo" | "mapMetadata" | "authorizationApiKey" | "url" | "requestHeaders" | "zodSchema" | "mapError"
 > {
 	return {
 		abortSignal: undefined,
 		config,
 		sdkInfo: deliverySdkInfo,
 		mapMetadata: () => {
-			return null;
+			return {};
 		},
-		request: getRequestData<TPayload>({ config, endpoint, request }),
+		requestHeaders: getHeaders(request),
+		url: getUrl({ request, config, endpoint }),
+		authorizationApiKey: config.apiMode === "preview" || config.apiMode === "secure" ? config.deliveryApiKey : undefined,
 		zodSchema: schema,
 		mapError: mapDeliveryError,
 	};
 }
 
-function getRequestData<TPayload extends JsonValue>({
+function getUrl({
 	request,
 	config,
 	endpoint,
@@ -103,12 +112,8 @@ function getRequestData<TPayload extends JsonValue>({
 	readonly request: DeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoints;
-}): FetchQueryRequest<TPayload, null, DeliverySdkError>["request"] {
-	return {
-		requestHeaders: getHeaders(request),
-		url: addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), getQueryParameters(request), getFilters(request)),
-		authorizationApiKey: config.apiMode === "preview" || config.apiMode === "secure" ? config.deliveryApiKey : undefined,
-	};
+}): string {
+	return addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), getQueryParameters(request), getFilters(request));
 }
 
 function getFilters(request: DeliveryRequest | undefined): readonly Filter<string, string>[] | undefined {
@@ -128,10 +133,17 @@ function getQueryParameters(request: DeliveryRequest | undefined): QueryParamete
 }
 
 function getHeaders(request?: DeliveryRequest): readonly Header[] {
-	if (!request?.config) {
+	if (!request || !isQueryWithHeaders(request)) {
 		return [];
 	}
-	return [...(request.config?.headers ?? []), ...(request.config.bypassCdnCache ? [getBypassCdnCacheHeader()] : [])];
+
+	const configHeaders: readonly Header[] = request.config?.headers ?? [];
+	const requestHeaders: readonly Header[] = Object.entries(request.headers ?? {}).map<Header>(([name, value]) => ({
+		name,
+		value: value.toString(),
+	}));
+
+	return [...configHeaders, ...requestHeaders, ...(request.config?.bypassCdnCache ? [getBypassCdnCacheHeader()] : [])];
 }
 
 function getBypassCdnCacheHeader(): Header {
@@ -144,4 +156,8 @@ function isQueryWithParameters(request: DeliveryRequest): request is DeliveryReq
 
 function isQueryWithFilters(request: DeliveryRequest): request is DeliveryRequest & QueryFilters<string, string> {
 	return ("filters" satisfies keyof QueryFilters<string, string>) in request;
+}
+
+function isQueryWithHeaders(request: DeliveryRequest): request is DeliveryRequest & HeaderParameters<HeaderParameterRecord> {
+	return ("headers" satisfies keyof HeaderParameters<HeaderParameterRecord>) in request;
 }

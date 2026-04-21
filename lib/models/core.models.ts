@@ -37,6 +37,8 @@ export type DeliveryClientSchema<TSchema extends FullDeliveryClientSchema = Full
 	readonly workflowStepCodenames: TSchema["workflowStepCodenames"];
 };
 
+export type DeliveryMetadata = unknown;
+
 export type ApiMode = "public" | "preview" | "secure";
 
 export type DeliveryClientConfig<TSchema extends FullDeliveryClientSchema = FullDeliveryClientSchema> = SdkConfig &
@@ -79,9 +81,9 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	itemsReferencingAsset(request: ItemsReferencingAssetQueryRequest<TSchema>): ItemsReferencingAssetQuery<TSchema>;
 };
 
-export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, unknown, DeliverySdkError>;
+export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>;
 
-export type DeliveryPagedFetchQuery<TPayload extends JsonValue> = PagedFetchQuery<TPayload, unknown, DeliverySdkError>;
+export type DeliveryPagedFetchQuery<TPayload extends JsonValue> = PagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>;
 
 export type DeliveryEndpoints =
 	| "languages"
