@@ -21,7 +21,7 @@ describe("Filters", () => {
 			})
 			.inspect();
 
-		expect(data?.url).toContain(new URLSearchParams("system.language[eq]=default").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("system.language[eq]=default").toString());
 	});
 
 	it("Filter defined as string should be added to the url", () => {
@@ -31,7 +31,7 @@ describe("Filters", () => {
 			})
 			.inspect();
 
-		expect(data?.url).toContain(new URLSearchParams("system.language[eq]=default").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("system.language[eq]=default").toString());
 	});
 
 	it("Handle multiple equal signs in value", () => {
@@ -41,7 +41,7 @@ describe("Filters", () => {
 			})
 			.inspect();
 
-		expect(data?.url).toContain(new URLSearchParams("system.codename[eq]=abc=def").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("system.codename[eq]=abc=def").toString());
 	});
 
 	it("Filter defined as string with value containing '=' should be added to the url correctly", () => {
@@ -57,7 +57,7 @@ describe("Filters", () => {
 			})
 			.inspect();
 
-		expect(data?.url).toContain(new URLSearchParams("system.language=default").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("system.language=default").toString());
 	});
 
 	it("Filter defined as string with value containing '!=' should be added to the url correctly", () => {
@@ -73,7 +73,7 @@ describe("Filters", () => {
 			})
 			.inspect();
 
-		expect(data?.url).toContain(new URLSearchParams("system.language[neq]=default").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("system.language[neq]=default").toString());
 	});
 
 	it("isEmptyRichText filter should produce [eq]=<p><br></p> in the url", () => {
@@ -88,7 +88,7 @@ describe("Filters", () => {
 			})
 			.inspect();
 
-		expect(data?.url).toContain(new URLSearchParams("elements.description[eq]=<p><br></p>").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("elements.description[eq]=<p><br></p>").toString());
 	});
 
 	it("isNotEmptyRichText filter should produce [neq]=<p><br></p> in the url", () => {
@@ -103,7 +103,7 @@ describe("Filters", () => {
 			})
 			.inspect();
 
-		expect(data?.url).toContain(new URLSearchParams("elements.description[neq]=<p><br></p>").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("elements.description[neq]=<p><br></p>").toString());
 	});
 
 	it("Filters defined as both object and string should all be added to the url", () => {
@@ -120,7 +120,7 @@ describe("Filters", () => {
 			})
 			.inspect();
 
-		expect(data?.url).toContain(new URLSearchParams("system.language[eq]=default").toString());
-		expect(data?.url).toContain(new URLSearchParams("system.type[eq]=movie").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("system.language[eq]=default").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("system.type[eq]=movie").toString());
 	});
 });

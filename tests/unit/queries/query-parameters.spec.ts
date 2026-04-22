@@ -38,6 +38,7 @@ describe("Query parameters", () => {
 					order: "system.name[asc]",
 					skip: 5,
 					limit: 10,
+					depth: 4,
 				},
 			}),
 		];

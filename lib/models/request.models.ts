@@ -17,9 +17,11 @@ export type DeliveryRequestWithUrlPaging<
 	TQuery extends QueryParameterRecord,
 	TFilters extends readonly Filter<string, string>[],
 > = DeliveryRequest<THeaders, TQuery, TFilters> & {
-	readonly skip?: number;
-	readonly limit?: number;
-	readonly order?: TSortableProperties;
+	readonly query?: {
+		readonly skip?: number;
+		readonly limit?: number;
+		readonly order?: TSortableProperties;
+	};
 };
 
 export type DeliveryRequestWithTokenPaging<
@@ -54,7 +56,7 @@ export type DeliveryRequestConfig = {
 	/**
 	 * Additional headers to be added to the request.
 	 */
-	readonly headers?: readonly Header[];
+	readonly customHeaders?: readonly Header[];
 };
 
 export type OrderDirection = "asc" | "desc";

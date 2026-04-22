@@ -108,19 +108,7 @@ function getUrl({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoints;
 }): string {
-	return addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), getQueryParameters(request), getFilters(request));
-}
-
-function getFilters(request: DefaultDeliveryRequest | undefined): readonly Filter<string, string>[] | undefined {
-	if (!request?.filters) {
-		return undefined;
-	}
-
-	return request.filters;
-}
-
-function getQueryParameters(request: DefaultDeliveryRequest | undefined): QueryParameterRecord | undefined {
-	return request?.query;
+	return addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), request?.query, request?.filters);
 }
 
 function getHeaders(request?: DefaultDeliveryRequest): readonly Header[] {
@@ -128,7 +116,7 @@ function getHeaders(request?: DefaultDeliveryRequest): readonly Header[] {
 		return [];
 	}
 
-	const configHeaders: readonly Header[] = request.config?.headers ?? [];
+	const configHeaders: readonly Header[] = request.config?.customHeaders ?? [];
 	const requestHeaders: readonly Header[] = Object.entries(request.headers ?? {}).map<Header>(([name, value]) => ({
 		name,
 		value: value.toString(),

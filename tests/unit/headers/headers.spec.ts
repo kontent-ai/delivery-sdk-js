@@ -105,7 +105,7 @@ describe("Extra headers should be present", async () => {
 		continuationToken: "x",
 	});
 
-	const requestHeaders = await captureRequestHeaders({ config: { headers: [extraHeader] } });
+	const requestHeaders = await captureRequestHeaders({ config: { customHeaders: [extraHeader] } });
 
 	it("Request headers should contain extra header", () => {
 		const foundHeader = requestHeaders.find((header) => header.name === extraHeader.name);

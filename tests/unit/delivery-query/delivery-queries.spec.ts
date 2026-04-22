@@ -2,8 +2,9 @@ import type { JsonValue } from "@kontent-ai/core-sdk";
 import { describe, expect, it } from "vitest";
 import { type ZodType, z } from "zod";
 import type { DeliveryClientConfig, FullDeliveryClientSchema } from "../../../lib/models/core.models.js";
+import type { Filter } from "../../../lib/models/filter.models.js";
 import { paginationSchema } from "../../../lib/models/pagination.models.js";
-import type { DeliveryRequest, QueryFilters, QueryParameters } from "../../../lib/models/request.models.js";
+import type { DeliveryRequest } from "../../../lib/models/request.models.js";
 import {
 	createDeliveryFetchQuery,
 	createDeliveryPagingByTokenQuery,
@@ -62,7 +63,7 @@ describe("createDeliveryFetchQuery", () => {
 	});
 
 	it("URL includes query parameters when request.query is provided", () => {
-		const request: DeliveryRequest & QueryParameters<{ readonly language: string; readonly depth: number }> = {
+		const request: DeliveryRequest<never, { readonly language: string; readonly depth: number }, never> = {
 			query: { language: "en-us", depth: 2 },
 		};
 		const { inspect } = createDeliveryFetchQuery({
@@ -78,7 +79,7 @@ describe("createDeliveryFetchQuery", () => {
 	});
 
 	it("URL includes filters when request.filters is provided", () => {
-		const request: DeliveryRequest & QueryFilters<string, string> = {
+		const request: DeliveryRequest<never, never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "article" }],
 		};
 		const { inspect } = createDeliveryFetchQuery({
@@ -124,7 +125,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 	});
 
 	it("URL has no query string when request has neither query nor filters", () => {
-		const request: DeliveryRequest = {};
+		const request: DeliveryRequest<never, never, never> = {};
 		const { inspect } = createDeliveryPagingByUrlQuery({
 			config: clientConfig,
 			request,
@@ -135,7 +136,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 	});
 
 	it("URL includes query parameters when request.query is provided", () => {
-		const request: DeliveryRequest & QueryParameters<{ readonly skip: number; readonly limit: number }> = {
+		const request: DeliveryRequest<never, { readonly skip: number; readonly limit: number }, never> = {
 			query: { skip: 10, limit: 5 },
 		};
 		const { inspect } = createDeliveryPagingByUrlQuery({
@@ -151,7 +152,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 	});
 
 	it("URL includes filters when request.filters is provided", () => {
-		const request: DeliveryRequest & QueryFilters<string, string> = {
+		const request: DeliveryRequest<never, never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "movie" }],
 		};
 		const { inspect } = createDeliveryPagingByUrlQuery({
@@ -197,7 +198,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 	});
 
 	it("URL has no query string when request has neither query nor filters", () => {
-		const request: DeliveryRequest = {};
+		const request: DeliveryRequest<never, never, never> = {};
 		const { inspect } = createDeliveryPagingByTokenQuery({
 			config: clientConfig,
 			request,
@@ -208,7 +209,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 	});
 
 	it("URL includes query parameters when request.query is provided", () => {
-		const request: DeliveryRequest & QueryParameters<{ readonly language: string }> = {
+		const request: DeliveryRequest<never, { readonly language: string }, never> = {
 			query: { language: "en-us" },
 		};
 		const { inspect } = createDeliveryPagingByTokenQuery({
@@ -221,7 +222,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 	});
 
 	it("URL includes filters when request.filters is provided", () => {
-		const request: DeliveryRequest & QueryFilters<string, string> = {
+		const request: DeliveryRequest<never, never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "blog" }],
 		};
 		const { inspect } = createDeliveryPagingByTokenQuery({
