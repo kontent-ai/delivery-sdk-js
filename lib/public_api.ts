@@ -13,6 +13,8 @@ export type {
 export type { EmptyRichtextFilter, Filter, ObjectFilter } from "./models/filter.models.js";
 // Pagination
 export type { PaginationSchema, PaginationSchemaWithTotalCount } from "./models/pagination.models.js";
+// Request config
+export type { DeliveryRequestConfig } from "./models/request.models.js";
 // Content Items
 export {
 	type ContentItemElementPayload,
@@ -20,10 +22,12 @@ export {
 	type ContentItemSystemPayload,
 	elementSchemas,
 	type FetchContentItemPayload,
+	type ItemsFeedPayload,
 	type ItemsReferencingAssetPayload,
 	type ListContentItemsPayload,
 } from "./queries/content-items/content-item.models.js";
 export type { FetchContentItemQuery, FetchContentItemQueryRequest } from "./queries/content-items/fetch-content-item-query.js";
+export type { ItemsFeedQuery, ItemsFeedQueryRequest } from "./queries/content-items/items-feed-query.js";
 export type {
 	ItemsReferencingAssetQuery,
 	ItemsReferencingAssetQueryRequest,
@@ -35,6 +39,10 @@ export {
 	type ContentTypePayload,
 	ListContentTypesPayload,
 } from "./queries/content-types/content-type.models.js";
+export type {
+	FetchContentTypeElementQuery,
+	FetchContentTypeElementQueryRequest,
+} from "./queries/content-types/fetch-content-type-element-query.js";
 export { type FetchContentTypeQuery, FetchContentTypeQueryRequest } from "./queries/content-types/fetch-content-type-query.js";
 export type { ListContentTypesQuery, ListContentTypesQueryRequest } from "./queries/content-types/list-content-types-query.js";
 // Languages

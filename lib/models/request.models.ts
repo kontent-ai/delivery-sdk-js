@@ -26,7 +26,6 @@ export type DeliveryRequestWithTokenPaging<
 	TFilters extends readonly Filter<string, string>[],
 > = DeliveryRequest<TQuery, TFilters> & {
 	readonly headers?: {
-		readonly "X-KC-Wait-For-Loading-New-Content"?: boolean;
 		readonly "X-Continuation"?: string;
 	};
 };
