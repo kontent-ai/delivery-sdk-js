@@ -3,7 +3,7 @@ import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationSchema } from "../../models/pagination.models.js";
 
-export const taxonomyTermPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+const taxonomyTermPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z.object({
 		name: z.string(),
 		codename: getCodenameSchema<TSchema["taxonomyCodenames"][number]>(schema?.taxonomyCodenames),

@@ -167,7 +167,7 @@ const contentItemSystemSchemaBase = <TSchema extends DeliveryClientSchema>(schem
 		workflow_step: getCodenameSchema<TSchema["workflowStepCodenames"][number]>(schema?.workflowStepCodenames),
 	});
 
-export const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			...contentItemSystemSchemaBase(schema).shape,
@@ -175,7 +175,7 @@ export const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>(sc
 		})
 		.readonly();
 
-export const contentItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+const contentItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			system: contentItemSystemSchema(schema),
