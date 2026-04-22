@@ -11,7 +11,6 @@ type SystemProperties = keyof LanguagePayload<DeliveryClientSchema>["system"];
 export type ListLanguagesQueryRequest = DeliveryRequestWithUrlPaging<
 	SystemOrderQueryParam<SystemProperties>,
 	never,
-	never,
 	readonly Filter<SystemProperties, never>[]
 >;
 

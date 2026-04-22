@@ -9,7 +9,6 @@ export type FetchContentTypeQuery<TSchema extends DeliveryClientSchema> = Delive
 
 export type FetchContentTypeQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
 	NonNullable<TSchema["contentTypeCodenames"]>,
-	never,
 	{
 		readonly elements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
 	},

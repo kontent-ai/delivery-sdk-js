@@ -1,22 +1,19 @@
 import type { Header } from "@kontent-ai/core-sdk";
 import type { Filter } from "./filter.models.js";
 
-export type DeliveryRequest<
-	THeaders extends HeaderParameterRecord,
-	TQuery extends QueryParameterRecord,
-	TFilters extends readonly Filter<string, string>[],
-> = {
+export type DeliveryRequest<TQuery extends QueryParameterRecord, TFilters extends readonly Filter<string, string>[]> = {
 	readonly config?: DeliveryRequestConfig;
-} & ([THeaders] extends [never] ? object : { readonly headers?: THeaders }) &
-	([TQuery] extends [never] ? object : { readonly query?: TQuery }) &
+	readonly headers?: {
+		readonly "X-KC-Wait-For-Loading-New-Content"?: boolean;
+	};
+} & ([TQuery] extends [never] ? object : { readonly query?: TQuery }) &
 	([TFilters] extends [never] ? object : { readonly filters?: TFilters });
 
 export type DeliveryRequestWithUrlPaging<
 	TSortableProperties extends string,
-	THeaders extends HeaderParameterRecord,
 	TQuery extends QueryParameterRecord,
 	TFilters extends readonly Filter<string, string>[],
-> = DeliveryRequest<THeaders, TQuery, TFilters> & {
+> = DeliveryRequest<TQuery, TFilters> & {
 	readonly query?: {
 		readonly skip?: number;
 		readonly limit?: number;
@@ -25,34 +22,26 @@ export type DeliveryRequestWithUrlPaging<
 };
 
 export type DeliveryRequestWithTokenPaging<
-	THeaders extends HeaderParameterRecord,
 	TQuery extends QueryParameterRecord,
 	TFilters extends readonly Filter<string, string>[],
-> = DeliveryRequest<THeaders & { readonly continuationToken?: string }, TQuery, TFilters> & {
-	readonly continuationToken?: string;
+> = DeliveryRequest<TQuery, TFilters> & {
+	readonly headers?: {
+		readonly "X-KC-Wait-For-Loading-New-Content"?: boolean;
+		readonly "X-Continuation"?: string;
+	};
 };
 
 export type DeliveryRequestWithCodename<
 	TCodenames extends readonly string[],
-	THeaders extends HeaderParameterRecord,
 	TQuery extends QueryParameterRecord,
 	TFilters extends readonly Filter<string, string>[],
-> = DeliveryRequest<THeaders, TQuery, TFilters> & {
+> = DeliveryRequest<TQuery, TFilters> & {
 	readonly codename: TCodenames[number];
 };
 
 export type QueryParameterRecord = Record<string, string | number | boolean | undefined | readonly string[]>;
-export type HeaderParameterRecord = Record<string, string | number | boolean>;
 
 export type DeliveryRequestConfig = {
-	/**
-	 * When enabled, sets the `X-KC-Wait-For-Loading-New-Content` header so the Delivery API
-	 * waits for the latest content to be loaded before responding instead of serving
-	 * a potentially stale response from the CDN cache. Useful when you know the
-	 * requested content has just changed (for example, after handling a webhook).
-	 */
-	readonly bypassCdnCache?: boolean;
-
 	/**
 	 * Additional headers to be added to the request.
 	 */

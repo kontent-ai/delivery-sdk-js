@@ -8,7 +8,6 @@ export type FetchTaxonomyQuery<TSchema extends DeliveryClientSchema> = DeliveryF
 export type FetchTaxonomyQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
 	NonNullable<TSchema["taxonomyCodenames"]>,
 	never,
-	never,
 	never
 >;
 

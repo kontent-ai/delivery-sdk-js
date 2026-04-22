@@ -7,6 +7,7 @@ export type {
 	DeliveryClientConfig,
 	DeliveryClientSchema,
 	FullDeliveryClientSchema,
+	WaitForLoadingNewContentHeaderName,
 } from "./models/core.models.js";
 // Filters
 export type { EmptyRichtextFilter, Filter, ObjectFilter } from "./models/filter.models.js";

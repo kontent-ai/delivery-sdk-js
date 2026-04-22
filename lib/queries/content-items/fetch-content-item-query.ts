@@ -7,7 +7,6 @@ export type FetchContentItemQuery<TSchema extends DeliveryClientSchema> = Delive
 
 export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
 	NonNullable<TSchema["contentTypeCodenames"]>,
-	never,
 	{
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.

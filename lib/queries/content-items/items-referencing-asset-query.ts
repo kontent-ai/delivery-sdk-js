@@ -10,7 +10,6 @@ export type ItemsReferencingAssetQuery<TSchema extends DeliveryClientSchema> = D
 
 export type ItemsReferencingAssetQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
 	never,
-	never,
 	readonly Filter<keyof ContentItemSystemPayload<TSchema>, never>[]
 > & {
 	/**

@@ -11,7 +11,6 @@ type SystemProperties = keyof TaxonomyPayload<DeliveryClientSchema>["system"];
 export type ListTaxonomiesQueryRequest = DeliveryRequestWithUrlPaging<
 	SystemOrderQueryParam<SystemProperties>,
 	never,
-	never,
 	readonly Filter<SystemProperties, never>[]
 >;
 

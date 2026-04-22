@@ -16,7 +16,6 @@ export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = Delive
 
 export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
 	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ElementProperties<TSchema>>,
-	never,
 	{
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
@@ -26,12 +25,12 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
 		 */
-		readonly elements?: ElementSelectionQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
+		readonly elements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
 
 		/**
 		 * Specifies which elements to exclude from the response. By default, no elements are excluded.
 		 */
-		readonly excludeElements?: ElementSelectionQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
+		readonly excludeElements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
 
 		/**
 		 * Determines the nesting level for linked content items that the API returns.

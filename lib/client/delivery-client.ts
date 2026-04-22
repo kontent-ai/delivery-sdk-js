@@ -59,31 +59,3 @@ export function createDeliveryClient<const TSchema extends FullDeliveryClientSch
 		itemsReferencingAsset: (request: ItemsReferencingAssetQueryRequest<TSchema>) => itemsReferencingAssetQuery(config, request),
 	};
 }
-
-// const testClient = createDeliveryClient({
-// 	apiMode: "public",
-// 	environmentId: "x",
-// 	schema: {
-// 		languageCodenames: ["en-us", "es-es"],
-// 		taxonomyCodenames: ["categories"],
-// 		contentTypeCodenames: ["article"],
-// 		elementCodenames: ["title", "content"],
-// 		collectionCodenames: ["articles"],
-// 		workflowCodenames: ["publish"],
-// 		workflowStepCodenames: ["publish"],
-// 	},
-// });
-
-// testClient.listContentItems({
-// 	filters: [
-// 		{
-// 			operator: "any",
-// 			property: "system.language",
-// 			value: "fe",
-// 		},
-// 	],
-// 	query: {
-// 		excludeElements: ["content"],
-// 		elements: ["title", "content"],
-// 	},
-// });

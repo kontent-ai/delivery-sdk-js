@@ -13,12 +13,12 @@ import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints, Del
 import type { DeliverySdkError } from "../models/error.models.js";
 import type { Filter } from "../models/filter.models.js";
 import type { PaginationSchema } from "../models/pagination.models.js";
-import type { DeliveryRequest, HeaderParameterRecord, QueryParameterRecord } from "../models/request.models.js";
+import type { DeliveryRequest, QueryParameterRecord } from "../models/request.models.js";
 import { mapDeliveryError } from "../utils/error.utils.js";
 import { getNextPageByContinuationToken, getNextPageByUrl } from "../utils/paging.utils.js";
 import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
 
-type DefaultDeliveryRequest = DeliveryRequest<HeaderParameterRecord, QueryParameterRecord, readonly Filter<string, string>[]>;
+type DefaultDeliveryRequest = DeliveryRequest<QueryParameterRecord, readonly Filter<string, string>[]>;
 
 export function createDeliveryPagingByUrlQuery<TPayload extends PaginationSchema>({
 	config,
@@ -122,9 +122,5 @@ function getHeaders(request?: DefaultDeliveryRequest): readonly Header[] {
 		value: value.toString(),
 	}));
 
-	return [...configHeaders, ...requestHeaders, ...(request.config?.bypassCdnCache ? [getBypassCdnCacheHeader()] : [])];
-}
-
-function getBypassCdnCacheHeader(): Header {
-	return { name: "X-KC-Wait-For-Loading-New-Content", value: "true" };
+	return [...configHeaders, ...requestHeaders];
 }

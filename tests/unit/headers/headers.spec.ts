@@ -1,14 +1,18 @@
-import { getDefaultHttpAdapter, getDefaultHttpService, getSdkIdHeader, type Header } from "@kontent-ai/core-sdk";
+import {
+	type ContinuationTokenHeaderName,
+	getDefaultHttpAdapter,
+	getDefaultHttpService,
+	getSdkIdHeader,
+	type Header,
+} from "@kontent-ai/core-sdk";
 import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { createDeliveryClient } from "../../../lib/public_api.js";
+import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
+import type { FullDeliveryClientSchema, WaitForLoadingNewContentHeaderName } from "../../../lib/models/core.models.js";
+import type { ItemsFeedQueryRequest } from "../../../lib/queries/content-items/items-feed-query.js";
 import { unitEnvironmentId } from "../../utils/test.utils.js";
 
-type ListLanguagesConfig = Parameters<ReturnType<typeof createDeliveryClient>["listLanguages"]>[0];
-
-const waitingForLoadingNewContentHeader: Header = { name: "X-KC-Wait-For-Loading-New-Content", value: "true" };
-
-async function captureRequestHeaders(listLanguagesConfig?: ListLanguagesConfig): Promise<readonly Header[]> {
+async function captureRequestHeaders(listConfig?: ItemsFeedQueryRequest<FullDeliveryClientSchema>): Promise<readonly Header[]> {
 	let captured: readonly Header[] = [];
 
 	const client = createDeliveryClient({
@@ -24,7 +28,7 @@ async function captureRequestHeaders(listLanguagesConfig?: ListLanguagesConfig):
 		}),
 	});
 
-	await client.listLanguages(listLanguagesConfig).fetchPageSafe();
+	await client.itemsFeed(listConfig).fetchPageSafe();
 
 	return captured;
 }
@@ -32,7 +36,7 @@ async function captureRequestHeaders(listLanguagesConfig?: ListLanguagesConfig):
 describe("Delivery tracking header", async () => {
 	const expectedHeader = getSdkIdHeader({
 		name: "@kontent-ai/delivery-sdk",
-		version: "{{version}}", // macro is replaced by the version from package.json during build
+		version: "{{version}}",
 		host: "npmjs.com",
 	});
 
@@ -54,25 +58,6 @@ describe("Delivery tracking header", async () => {
 	});
 });
 
-describe("Bypass CDN cache header should be present when bypassCdnCache is true", async () => {
-	afterEach(() => {
-		vi.resetAllMocks();
-	});
-
-	mockGlobalFetchJsonResponse({
-		jsonResponse: {},
-		statusCode: 200,
-		continuationToken: "x",
-	});
-
-	const requestHeaders = await captureRequestHeaders({ config: { bypassCdnCache: true } });
-
-	it("Request headers should contain bypass CDN cache header", () => {
-		const bypassCdnCacheHeader = requestHeaders.find((header) => header.name === waitingForLoadingNewContentHeader.name);
-		expect(bypassCdnCacheHeader?.value).toEqual(waitingForLoadingNewContentHeader.value);
-	});
-});
-
 describe("Bypass CDN cache header should be absent by default", async () => {
 	afterEach(() => {
 		vi.resetAllMocks();
@@ -87,7 +72,9 @@ describe("Bypass CDN cache header should be absent by default", async () => {
 	const requestHeaders = await captureRequestHeaders();
 
 	it("Request headers should NOT contain bypass CDN cache header", () => {
-		const bypassCdnCacheHeader = requestHeaders.find((header) => header.name === waitingForLoadingNewContentHeader.name);
+		const bypassCdnCacheHeader = requestHeaders.find(
+			(header) => header.name === ("X-KC-Wait-For-Loading-New-Content" satisfies WaitForLoadingNewContentHeaderName),
+		);
 		expect(bypassCdnCacheHeader).toBeUndefined();
 	});
 });
@@ -109,6 +96,25 @@ describe("Extra headers should be present", async () => {
 
 	it("Request headers should contain extra header", () => {
 		const foundHeader = requestHeaders.find((header) => header.name === extraHeader.name);
-		expect(foundHeader?.value).toEqual("extra");
+		expect(foundHeader?.value).toEqual(extraHeader.value);
+	});
+});
+
+describe("Continuation header token should be present", async () => {
+	const continuationTokenValue = "x";
+	const requestHeaders = await captureRequestHeaders({ headers: { "X-Continuation": continuationTokenValue } });
+
+	it("Request headers should contain continuation token header", () => {
+		const foundHeader = requestHeaders.find((header) => header.name === ("X-Continuation" satisfies ContinuationTokenHeaderName));
+		expect(foundHeader?.value).toEqual(continuationTokenValue);
+	});
+});
+
+describe("Continuation header token should be absent by default", async () => {
+	const requestHeaders = await captureRequestHeaders();
+
+	it("Request headers should NOT contain continuation token header", () => {
+		const foundHeader = requestHeaders.find((header) => header.name === ("X-Continuation" satisfies ContinuationTokenHeaderName));
+		expect(foundHeader).toBeUndefined();
 	});
 });

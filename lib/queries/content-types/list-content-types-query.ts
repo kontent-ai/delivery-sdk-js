@@ -11,7 +11,6 @@ export type ListContentTypesQuery<TSchema extends DeliveryClientSchema> = Delive
 
 export type ListContentTypesQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
 	SystemOrderQueryParam<SystemProperties>,
-	never,
 	{
 		readonly elements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
 	},
