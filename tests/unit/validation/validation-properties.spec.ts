@@ -37,7 +37,7 @@ describe("Response validation", () => {
 		expect(error?.details.reason).toStrictEqual<ErrorReason>("validationFailed");
 
 		if (error?.details.reason === "validationFailed") {
-			expect(error.details.url).toStrictEqual(query.getQueryData().data?.url);
+			expect(error.details.url).toStrictEqual(query.inspect().data?.url);
 			expect(error.details.zodError).toBeInstanceOf(ZodError);
 			expect(error.details.response).toBeDefined();
 		} else {

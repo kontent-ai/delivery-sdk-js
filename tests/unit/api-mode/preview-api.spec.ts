@@ -1,4 +1,4 @@
-import { type CommonHeaderNames, getDefaultHttpAdapter, getDefaultHttpService, type Header } from "@kontent-ai/core-sdk";
+import { getDefaultHttpAdapter, getDefaultHttpService, type Header, type KnownHeaderName } from "@kontent-ai/core-sdk";
 import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDeliveryClient } from "../../../lib/public_api.js";
@@ -42,7 +42,7 @@ describe("Preview API", async () => {
 	});
 
 	it("Request headers should contain authorization header with delivery API key", () => {
-		const authorizationHeader = requestHeaders.find((header) => header.name === ("Authorization" satisfies CommonHeaderNames));
+		const authorizationHeader = requestHeaders.find((header) => header.name === ("Authorization" satisfies KnownHeaderName));
 		expect(authorizationHeader?.value).toEqual(`Bearer ${previewApiKey}`);
 	});
 

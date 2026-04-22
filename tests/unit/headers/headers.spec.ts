@@ -48,7 +48,7 @@ describe("Delivery tracking header", async () => {
 
 	const requestHeaders = await captureRequestHeaders();
 
-	it("Request headers should contain sync tracking header with current package info", () => {
+	it("Request headers should contain delivery tracking header with current package info", () => {
 		const syncTrackingHeader = requestHeaders.find((header) => header.name === expectedHeader.name);
 		expect(syncTrackingHeader?.value).toEqual(expectedHeader.value);
 	});

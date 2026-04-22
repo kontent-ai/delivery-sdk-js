@@ -13,17 +13,12 @@ import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryEndpoints, Del
 import type { DeliverySdkError } from "../models/error.models.js";
 import type { Filter } from "../models/filter.models.js";
 import type { PaginationSchema } from "../models/pagination.models.js";
-import type {
-	DeliveryRequest,
-	HeaderParameterRecord,
-	HeaderParameters,
-	QueryFilters,
-	QueryParameterRecord,
-	QueryParameters,
-} from "../models/request.models.js";
+import type { DeliveryRequest, HeaderParameterRecord, QueryParameterRecord } from "../models/request.models.js";
 import { mapDeliveryError } from "../utils/error.utils.js";
 import { getNextPageByContinuationToken, getNextPageByUrl } from "../utils/paging.utils.js";
 import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
+
+type DefaultDeliveryRequest = DeliveryRequest<HeaderParameterRecord, QueryParameterRecord, readonly Filter<string, string>[]>;
 
 export function createDeliveryPagingByUrlQuery<TPayload extends PaginationSchema>({
 	config,
@@ -31,7 +26,7 @@ export function createDeliveryPagingByUrlQuery<TPayload extends PaginationSchema
 	endpoint,
 	request,
 }: {
-	readonly request: DeliveryRequest | undefined;
+	readonly request: DefaultDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
@@ -48,7 +43,7 @@ export function createDeliveryPagingByTokenQuery<TPayload extends JsonValue>({
 	endpoint,
 	request,
 }: {
-	readonly request: DeliveryRequest | undefined;
+	readonly request: DefaultDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
@@ -65,7 +60,7 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	endpoint,
 	request,
 }: {
-	readonly request: DeliveryRequest | undefined;
+	readonly request: DefaultDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoints;
@@ -81,7 +76,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	schema,
 	request,
 }: {
-	readonly request: DeliveryRequest | undefined;
+	readonly request: DefaultDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoints;
 	readonly schema: ZodType<TPayload>;
@@ -109,31 +104,27 @@ function getUrl({
 	config,
 	endpoint,
 }: {
-	readonly request: DeliveryRequest | undefined;
+	readonly request: DefaultDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoints;
 }): string {
 	return addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), getQueryParameters(request), getFilters(request));
 }
 
-function getFilters(request: DeliveryRequest | undefined): readonly Filter<string, string>[] | undefined {
-	if (!request || !isQueryWithFilters(request)) {
+function getFilters(request: DefaultDeliveryRequest | undefined): readonly Filter<string, string>[] | undefined {
+	if (!request?.filters) {
 		return undefined;
 	}
 
 	return request.filters;
 }
 
-function getQueryParameters(request: DeliveryRequest | undefined): QueryParameterRecord | undefined {
-	if (!request || !isQueryWithParameters(request)) {
-		return undefined;
-	}
-
-	return request.query;
+function getQueryParameters(request: DefaultDeliveryRequest | undefined): QueryParameterRecord | undefined {
+	return request?.query;
 }
 
-function getHeaders(request?: DeliveryRequest): readonly Header[] {
-	if (!request || !isQueryWithHeaders(request)) {
+function getHeaders(request?: DefaultDeliveryRequest): readonly Header[] {
+	if (!request) {
 		return [];
 	}
 
@@ -148,16 +139,4 @@ function getHeaders(request?: DeliveryRequest): readonly Header[] {
 
 function getBypassCdnCacheHeader(): Header {
 	return { name: "X-KC-Wait-For-Loading-New-Content", value: "true" };
-}
-
-function isQueryWithParameters(request: DeliveryRequest): request is DeliveryRequest & QueryParameters<QueryParameterRecord> {
-	return ("query" satisfies keyof QueryParameters<QueryParameterRecord>) in request;
-}
-
-function isQueryWithFilters(request: DeliveryRequest): request is DeliveryRequest & QueryFilters<string, string> {
-	return ("filters" satisfies keyof QueryFilters<string, string>) in request;
-}
-
-function isQueryWithHeaders(request: DeliveryRequest): request is DeliveryRequest & HeaderParameters<HeaderParameterRecord> {
-	return ("headers" satisfies keyof HeaderParameters<HeaderParameterRecord>) in request;
 }

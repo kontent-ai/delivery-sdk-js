@@ -1,7 +1,7 @@
-import type { GetNextPageData, JsonValue } from "@kontent-ai/core-sdk";
+import type { ExtractNextPageDataFn, JsonValue } from "@kontent-ai/core-sdk";
 import type { PaginationSchema } from "../models/pagination.models.js";
 
-export function getNextPageByUrl<TPayload extends PaginationSchema, TMeta>(): GetNextPageData<TPayload, TMeta> {
+export function getNextPageByUrl<TPayload extends PaginationSchema, TMeta>(): ExtractNextPageDataFn<TPayload, TMeta> {
 	return (response) => {
 		return {
 			continuationToken: undefined,
@@ -10,7 +10,7 @@ export function getNextPageByUrl<TPayload extends PaginationSchema, TMeta>(): Ge
 	};
 }
 
-export function getNextPageByContinuationToken<TPayload extends JsonValue, TMeta>(): GetNextPageData<TPayload, TMeta> {
+export function getNextPageByContinuationToken<TPayload extends JsonValue, TMeta>(): ExtractNextPageDataFn<TPayload, TMeta> {
 	return (response) => {
 		return {
 			continuationToken: response.meta.continuationToken,

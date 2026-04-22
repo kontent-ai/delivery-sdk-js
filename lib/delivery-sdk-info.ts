@@ -1,6 +1,6 @@
-import type { SDKInfo } from "@kontent-ai/core-sdk";
+import type { SdkInfo } from "@kontent-ai/core-sdk";
 
-export const deliverySdkInfo: SDKInfo = {
+export const deliverySdkInfo: SdkInfo = {
 	version: "{{version}}",
 	name: "@kontent-ai/delivery-sdk",
 	host: "npmjs.com",

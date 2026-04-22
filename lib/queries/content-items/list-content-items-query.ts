@@ -1,28 +1,23 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
+import type { Filter } from "../../models/filter.models.js";
 import type {
+	DeliveryRequestWithUrlPaging,
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
-	PagingByUrlDeliveryRequest,
-	QueryFilters,
-	QueryParameters,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
 import { createDeliveryPagingByUrlQuery } from "../delivery-queries.js";
-import {
-	type ContentItemPayload,
-	type ContentItemSystemPayload,
-	type ListContentItemsPayload,
-	listContentItemsPayload,
-} from "./content-item.models.js";
+import { type ContentItemPayload, type ListContentItemsPayload, listContentItemsPayload } from "./content-item.models.js";
+
+type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
+type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
 
 export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>>;
 
-export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = PagingByUrlDeliveryRequest<
-	| SystemOrderQueryParam<keyof ContentItemPayload<DeliveryClientSchema>["system"]>
-	| ElementOrderQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>
-> &
-	QueryFilters<keyof ContentItemSystemPayload<TSchema>, NonNullable<TSchema["elementCodenames"]>[number]> &
-	QueryParameters<{
+export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
+	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ElementProperties<TSchema>>,
+	never,
+	{
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
 		 */
@@ -52,7 +47,9 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 		 * Other parameters in your query, such as limit, skip, or order, don't have an effect on it.
 		 */
 		readonly includeTotalCount?: boolean;
-	}>;
+	},
+	readonly Filter<SystemProperties, ElementProperties<TSchema>>[]
+>;
 
 export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,

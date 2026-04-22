@@ -11,7 +11,7 @@ import {
 	fetchContentTypeElementQuery,
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import { type FetchContentTypeQueryRequest, fetchContentTypeQuery } from "../queries/content-types/fetch-content-type-query.js";
-import { type ListContentTypesQueryRequest, listContentTypes } from "../queries/content-types/list-content-types-query.js";
+import { type ListContentTypesQueryRequest, listContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
 import { type ListLanguagesQueryRequest, listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
@@ -47,9 +47,9 @@ export function createDeliveryClient<const TSchema extends FullDeliveryClientSch
 ): DeliveryClient<TSchema> {
 	return {
 		config,
-		listTaxonomies: (request?: ListTaxonomiesQueryRequest<TSchema>) => listTaxonomiesQuery(config, request),
-		listLanguages: (request?: ListLanguagesQueryRequest<TSchema>) => listLanguagesQuery(config, request),
-		listContentTypes: (request?: ListContentTypesQueryRequest<TSchema>) => listContentTypes(config, request),
+		listTaxonomies: (request?: ListTaxonomiesQueryRequest) => listTaxonomiesQuery(config, request),
+		listLanguages: (request?: ListLanguagesQueryRequest) => listLanguagesQuery(config, request),
+		listContentTypes: (request?: ListContentTypesQueryRequest<TSchema>) => listContentTypesQuery(config, request),
 		fetchTaxonomy: (request: FetchTaxonomyQueryRequest<TSchema>) => fetchTaxonomyQuery(config, request),
 		fetchContentType: (request: FetchContentTypeQueryRequest<TSchema>) => fetchContentTypeQuery(config, request),
 		fetchContentTypeElement: (request: FetchContentTypeElementQueryRequest<TSchema>) => fetchContentTypeElementQuery(config, request),
@@ -59,3 +59,31 @@ export function createDeliveryClient<const TSchema extends FullDeliveryClientSch
 		itemsReferencingAsset: (request: ItemsReferencingAssetQueryRequest<TSchema>) => itemsReferencingAssetQuery(config, request),
 	};
 }
+
+// const testClient = createDeliveryClient({
+// 	apiMode: "public",
+// 	environmentId: "x",
+// 	schema: {
+// 		languageCodenames: ["en-us", "es-es"],
+// 		taxonomyCodenames: ["categories"],
+// 		contentTypeCodenames: ["article"],
+// 		elementCodenames: ["title", "content"],
+// 		collectionCodenames: ["articles"],
+// 		workflowCodenames: ["publish"],
+// 		workflowStepCodenames: ["publish"],
+// 	},
+// });
+
+// testClient.listContentItems({
+// 	filters: [
+// 		{
+// 			operator: "any",
+// 			property: "system.language",
+// 			value: "fe",
+// 		},
+// 	],
+// 	query: {
+// 		excludeElements: ["content"],
+// 		elements: ["title", "content"],
+// 	},
+// });

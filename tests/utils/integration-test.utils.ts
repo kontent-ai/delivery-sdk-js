@@ -1,4 +1,5 @@
 import {
+	type BaseUrl,
 	type FetchQuery,
 	getDefaultHttpService,
 	isPagingQuery,
@@ -148,7 +149,7 @@ function createUnitTestClient<TResponsePayload extends JsonValue>(unitTestPayloa
 	});
 }
 
-function createIntegrationTestClient(environmentId: string, deliveryBaseUrl: string | undefined): DeliveryClient<DeliveryClientSchema> {
+function createIntegrationTestClient(environmentId: string, deliveryBaseUrl: BaseUrl | undefined): DeliveryClient<DeliveryClientSchema> {
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId,
@@ -172,7 +173,7 @@ function createTestClients<TResponsePayload extends JsonValue>({
 }: {
 	readonly unitTestPayload: TResponsePayload;
 	readonly environmentId: string;
-	readonly deliveryBaseUrl: string | undefined;
+	readonly deliveryBaseUrl: BaseUrl | undefined;
 }): readonly DeliveryClient<DeliveryClientSchema>[] {
 	return [createUnitTestClient(unitTestPayload), createIntegrationTestClient(environmentId, deliveryBaseUrl)];
 }
@@ -235,7 +236,9 @@ function registerQueryStructureTests<TResponsePayload extends JsonValue>({
 	readonly client: DeliveryClient<DeliveryClientSchema>;
 }): void {
 	it(`${testName} Expect url to be correct`, () => {
-		expect(query.url).toBe(`${getDeliveryUrl({ apiMode: "public", environmentId: client.config.environmentId, path: endpoint })}`);
+		expect(query.inspect()?.data?.url).toEqual(
+			new URL(getDeliveryUrl({ apiMode: "public", environmentId: client.config.environmentId, path: endpoint })),
+		);
 	});
 	if (!isPagingQuery(query)) {
 		it(`${testName} Query should be a fetch query with expected functions`, () => {

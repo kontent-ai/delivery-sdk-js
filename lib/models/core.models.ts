@@ -69,8 +69,8 @@ export type DeliveryClientConfigWithSchema<TSchema extends DeliveryClientSchema>
 export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = {
 	readonly config: DeliveryClientConfig<TSchema>;
 
-	listLanguages(request?: ListLanguagesQueryRequest<TSchema>): ListLanguagesQuery<TSchema>;
-	listTaxonomies(request?: ListTaxonomiesQueryRequest<TSchema>): ListTaxonomiesQuery<TSchema>;
+	listLanguages(request?: ListLanguagesQueryRequest): ListLanguagesQuery<TSchema>;
+	listTaxonomies(request?: ListTaxonomiesQueryRequest): ListTaxonomiesQuery<TSchema>;
 	listContentTypes(request?: ListContentTypesQueryRequest<TSchema>): ListContentTypesQuery<TSchema>;
 	fetchTaxonomy(request: FetchTaxonomyQueryRequest<TSchema>): FetchTaxonomyQuery<TSchema>;
 	fetchContentType(request: FetchContentTypeQueryRequest<TSchema>): FetchContentTypeQuery<TSchema>;

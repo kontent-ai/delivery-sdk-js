@@ -1,4 +1,4 @@
-import { getEndpointUrl } from "@kontent-ai/core-sdk";
+import { type BaseUrl, getEndpointUrl } from "@kontent-ai/core-sdk";
 import { match } from "ts-pattern";
 import type { ApiMode, DeliveryClientConfig, DeliveryEndpoints } from "../models/core.models.js";
 import {
@@ -53,7 +53,7 @@ export function isEmptyRichtextFilter(value: unknown): value is EmptyRichtextFil
 	return emptyRichtextOperators.some((operator) => operator === value.operator);
 }
 
-function getDefaultBaseUrlForApiMode(apiMode: ApiMode): string {
+function getDefaultBaseUrlForApiMode(apiMode: ApiMode): BaseUrl {
 	if (apiMode === "preview") {
 		return "https://preview-deliver.kontent.ai";
 	}

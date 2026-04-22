@@ -32,61 +32,62 @@ describe("createDeliveryFetchQuery", () => {
 
 	it("URL matches the delivery URL for the configured endpoint", () => {
 		const endpoint = "items/my_item";
-		const query = createDeliveryFetchQuery({
+		const { inspect } = createDeliveryFetchQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: testSchema,
 			endpoint,
 		});
-		expect(query.url).toBe(getDeliveryUrl({ ...clientConfig, path: endpoint }));
+		expect(inspect().data?.url?.toString()).toEqual(new URL(getDeliveryUrl({ ...clientConfig, path: endpoint })).toString());
 	});
 
 	it("URL has no query string when request is undefined", () => {
-		const query = createDeliveryFetchQuery({
+		const { inspect } = createDeliveryFetchQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: testSchema,
 			endpoint: "items/my_item",
 		});
-		expect(query.url).not.toContain("?");
+		expect(inspect().data?.url?.toString()).not.toContain("?");
 	});
 
 	it("URL has no query string when request has neither query nor filters", () => {
-		const query = createDeliveryFetchQuery({
+		const { inspect } = createDeliveryFetchQuery({
 			config: clientConfig,
 			request: {},
 			schema: testSchema,
 			endpoint: "items/my_item",
 		});
-		expect(query.url).not.toContain("?");
+		expect(inspect().data?.url?.toString()).not.toContain("?");
 	});
 
 	it("URL includes query parameters when request.query is provided", () => {
 		const request: DeliveryRequest & QueryParameters<{ readonly language: string; readonly depth: number }> = {
 			query: { language: "en-us", depth: 2 },
 		};
-		const query = createDeliveryFetchQuery({
+		const { inspect } = createDeliveryFetchQuery({
 			config: clientConfig,
 			request,
 			schema: testSchema,
 			endpoint: "items/my_item",
 		});
-		const params = new URL(query.url).searchParams;
-		expect(params.get("language")).toBe(request.query?.language);
-		expect(params.get("depth")).toBe(request.query?.depth.toString());
+
+		const url = inspect().data?.url;
+		expect(url?.searchParams.get("language")).toBe(request.query?.language);
+		expect(url?.searchParams.get("depth")).toBe(request.query?.depth.toString());
 	});
 
 	it("URL includes filters when request.filters is provided", () => {
 		const request: DeliveryRequest & QueryFilters<string, string> = {
 			filters: [{ property: "system.type", operator: "eq", value: "article" }],
 		};
-		const query = createDeliveryFetchQuery({
+		const { inspect } = createDeliveryFetchQuery({
 			config: clientConfig,
 			request,
 			schema: testSchema,
 			endpoint: "items/my_item",
 		});
-		expect(query.url).toContain(new URLSearchParams("system.type[eq]=article").toString());
+		expect(inspect().data?.url?.toString()).toContain(new URLSearchParams("system.type[eq]=article").toString());
 	});
 });
 
@@ -103,62 +104,63 @@ describe("createDeliveryPagingByUrlQuery", () => {
 
 	it("URL matches the delivery URL for the configured endpoint", () => {
 		const endpoint = "items" as const;
-		const query = createDeliveryPagingByUrlQuery({
+		const { inspect } = createDeliveryPagingByUrlQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: paginationSchema,
 			endpoint,
 		});
-		expect(query.url).toBe(getDeliveryUrl({ ...clientConfig, path: endpoint }));
+		expect(inspect().data?.url?.toString()).toEqual(new URL(getDeliveryUrl({ ...clientConfig, path: endpoint })).toString());
 	});
 
 	it("URL has no query string when request is undefined", () => {
-		const query = createDeliveryPagingByUrlQuery({
+		const { inspect } = createDeliveryPagingByUrlQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: paginationSchema,
 			endpoint: "items",
 		});
-		expect(query.url).not.toContain("?");
+		expect(inspect().data?.url?.toString()).not.toContain("?");
 	});
 
 	it("URL has no query string when request has neither query nor filters", () => {
 		const request: DeliveryRequest = {};
-		const query = createDeliveryPagingByUrlQuery({
+		const { inspect } = createDeliveryPagingByUrlQuery({
 			config: clientConfig,
 			request,
 			schema: paginationSchema,
 			endpoint: "items",
 		});
-		expect(query.url).not.toContain("?");
+		expect(inspect().data?.url?.toString()).not.toContain("?");
 	});
 
 	it("URL includes query parameters when request.query is provided", () => {
 		const request: DeliveryRequest & QueryParameters<{ readonly skip: number; readonly limit: number }> = {
 			query: { skip: 10, limit: 5 },
 		};
-		const query = createDeliveryPagingByUrlQuery({
+		const { inspect } = createDeliveryPagingByUrlQuery({
 			config: clientConfig,
 			request,
 			schema: paginationSchema,
 			endpoint: "items",
 		});
-		const params = new URL(query.url).searchParams;
-		expect(params.get("skip")).toBe("10");
-		expect(params.get("limit")).toBe("5");
+
+		const url = inspect().data?.url;
+		expect(url?.searchParams.get("skip")).toBe("10");
+		expect(url?.searchParams.get("limit")).toBe("5");
 	});
 
 	it("URL includes filters when request.filters is provided", () => {
 		const request: DeliveryRequest & QueryFilters<string, string> = {
 			filters: [{ property: "system.type", operator: "eq", value: "movie" }],
 		};
-		const query = createDeliveryPagingByUrlQuery({
+		const { inspect } = createDeliveryPagingByUrlQuery({
 			config: clientConfig,
 			request,
 			schema: paginationSchema,
 			endpoint: "items",
 		});
-		expect(query.url).toContain(new URLSearchParams("system.type[eq]=movie").toString());
+		expect(inspect().data?.url?.toString()).toContain(new URLSearchParams("system.type[eq]=movie").toString());
 	});
 });
 
@@ -175,59 +177,59 @@ describe("createDeliveryPagingByTokenQuery", () => {
 
 	it("URL matches the delivery URL for the configured endpoint", () => {
 		const endpoint = "items-feed" as const;
-		const query = createDeliveryPagingByTokenQuery({
+		const { inspect } = createDeliveryPagingByTokenQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: testSchema,
 			endpoint,
 		});
-		expect(query.url).toBe(getDeliveryUrl({ ...clientConfig, path: endpoint }));
+		expect(inspect().data?.url?.toString()).toEqual(new URL(getDeliveryUrl({ ...clientConfig, path: endpoint })).toString());
 	});
 
 	it("URL has no query string when request is undefined", () => {
-		const query = createDeliveryPagingByTokenQuery({
+		const { inspect } = createDeliveryPagingByTokenQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: testSchema,
 			endpoint: "items-feed",
 		});
-		expect(query.url).not.toContain("?");
+		expect(inspect().data?.url.toString()).not.toContain("?");
 	});
 
 	it("URL has no query string when request has neither query nor filters", () => {
 		const request: DeliveryRequest = {};
-		const query = createDeliveryPagingByTokenQuery({
+		const { inspect } = createDeliveryPagingByTokenQuery({
 			config: clientConfig,
 			request,
 			schema: testSchema,
 			endpoint: "items-feed",
 		});
-		expect(query.url).not.toContain("?");
+		expect(inspect().data?.url.toString()).not.toContain("?");
 	});
 
 	it("URL includes query parameters when request.query is provided", () => {
 		const request: DeliveryRequest & QueryParameters<{ readonly language: string }> = {
 			query: { language: "en-us" },
 		};
-		const query = createDeliveryPagingByTokenQuery({
+		const { inspect } = createDeliveryPagingByTokenQuery({
 			config: clientConfig,
 			request,
 			schema: testSchema,
 			endpoint: "items-feed",
 		});
-		expect(new URL(query.url).searchParams.get("language")).toBe("en-us");
+		expect(inspect().data?.url?.searchParams.get("language")).toBe("en-us");
 	});
 
 	it("URL includes filters when request.filters is provided", () => {
 		const request: DeliveryRequest & QueryFilters<string, string> = {
 			filters: [{ property: "system.type", operator: "eq", value: "blog" }],
 		};
-		const query = createDeliveryPagingByTokenQuery({
+		const { inspect } = createDeliveryPagingByTokenQuery({
 			config: clientConfig,
 			request,
 			schema: testSchema,
 			endpoint: "items-feed",
 		});
-		expect(query.url).toContain(new URLSearchParams("system.type[eq]=blog").toString());
+		expect(inspect().data?.url?.toString()).toContain(new URLSearchParams("system.type[eq]=blog").toString());
 	});
 });

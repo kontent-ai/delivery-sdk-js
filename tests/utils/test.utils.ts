@@ -1,14 +1,16 @@
 import {
-	type ContinuationHeaderName,
+	type BaseUrl,
+	type ContinuationTokenHeaderName,
 	type FetchQuery,
 	type Header,
+	type JsonValue,
 	type KontentSdkError,
 	nilUuid,
 	type PagedFetchQuery,
 } from "@kontent-ai/core-sdk";
 
 export const fakeXContinuationTokenHeader: Header = {
-	name: "X-Continuation" satisfies ContinuationHeaderName,
+	name: "X-Continuation" satisfies ContinuationTokenHeaderName,
 	value: "x",
 };
 
@@ -18,13 +20,20 @@ export function getFakeUuid(): string {
 	return nilUuid;
 }
 
-export function isFetchQueryWithExpectedFunctions(query: unknown): query is FetchQuery<unknown, unknown, KontentSdkError> {
-	type ExpectedFunctions = keyof FetchQuery<unknown, unknown, KontentSdkError>;
+export function isBaseUrl(url: string | undefined): url is BaseUrl {
+	if (!url) {
+		return false;
+	}
+	return url.toLowerCase().startsWith("https://") || url.toLowerCase().startsWith("http://");
+}
+
+export function isFetchQueryWithExpectedFunctions(query: unknown): query is FetchQuery<JsonValue, unknown, KontentSdkError> {
+	type ExpectedFunctions = keyof FetchQuery<JsonValue, unknown, KontentSdkError>;
 	if (!query || typeof query !== "object") {
 		return false;
 	}
 
-	const expectedFunctions: readonly ExpectedFunctions[] = ["fetchSafe", "fetch", "schema", "url"];
+	const expectedFunctions: readonly ExpectedFunctions[] = ["fetchSafe", "fetch", "schema", "inspect"];
 
 	if (expectedFunctions.every((func) => func in query)) {
 		return true;
@@ -32,8 +41,8 @@ export function isFetchQueryWithExpectedFunctions(query: unknown): query is Fetc
 	return false;
 }
 
-export function isPagedFetchQueryWithExpectedFunctions(query: unknown): query is PagedFetchQuery<unknown, unknown, KontentSdkError> {
-	type ExpectedFunctions = keyof PagedFetchQuery<unknown, unknown, KontentSdkError>;
+export function isPagedFetchQueryWithExpectedFunctions(query: unknown): query is PagedFetchQuery<JsonValue, unknown, KontentSdkError> {
+	type ExpectedFunctions = keyof PagedFetchQuery<JsonValue, unknown, KontentSdkError>;
 	if (!query || typeof query !== "object") {
 		return false;
 	}
@@ -43,7 +52,7 @@ export function isPagedFetchQueryWithExpectedFunctions(query: unknown): query is
 		"fetchPageSafe",
 		"pages",
 		"schema",
-		"url",
+		"inspect",
 		"fetchAllPages",
 		"fetchPage",
 		"pagesSafe",

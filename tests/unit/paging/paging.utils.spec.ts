@@ -9,7 +9,7 @@ describe("Paging utils", () => {
 			meta: {
 				status: 200,
 				responseHeaders: [],
-				url: "https://domain.com",
+				url: new URL("https://domain.com"),
 				continuationToken: undefined,
 			},
 			payload: {

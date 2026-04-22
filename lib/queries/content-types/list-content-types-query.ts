@@ -1,25 +1,24 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
-import type {
-	ElementSelectionQueryParam,
-	PagingByUrlDeliveryRequest,
-	QueryFilters,
-	QueryParameters,
-	SystemOrderQueryParam,
-} from "../../models/request.models.js";
+import type { Filter } from "../../models/filter.models.js";
+import type { DeliveryRequestWithUrlPaging, ElementSelectionQueryParam, SystemOrderQueryParam } from "../../models/request.models.js";
 import { createDeliveryPagingByUrlQuery } from "../delivery-queries.js";
 import { type ContentTypePayload, type ListContentTypesPayload, listContentTypesPayload } from "./content-type.models.js";
 
+type SystemProperties = keyof ContentTypePayload<DeliveryClientSchema>["system"];
+type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
+
 export type ListContentTypesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListContentTypesPayload<TSchema>>;
 
-export type ListContentTypesQueryRequest<TSchema extends DeliveryClientSchema> = PagingByUrlDeliveryRequest<
-	SystemOrderQueryParam<keyof ContentTypePayload<DeliveryClientSchema>["system"]>
-> &
-	QueryFilters<keyof ContentTypePayload<TSchema>["system"], never> &
-	QueryParameters<{
-		readonly elements?: ElementSelectionQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
-	}>;
+export type ListContentTypesQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
+	SystemOrderQueryParam<SystemProperties>,
+	never,
+	{
+		readonly elements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
+	},
+	readonly Filter<SystemProperties, never>[]
+>;
 
-export function listContentTypes<TSchema extends DeliveryClientSchema>(
+export function listContentTypesQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ListContentTypesQueryRequest<TSchema>,
 ): ListContentTypesQuery<TSchema> {

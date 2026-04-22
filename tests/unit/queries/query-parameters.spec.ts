@@ -11,17 +11,6 @@ describe("Query parameters", () => {
 	});
 
 	it("Paging parameters should be added to the url", () => {
-		const testQuery: DeliveryPagedFetchQuery<JsonValue> = client.listLanguages({
-			query: {
-				order: "system.name[asc]",
-				skip: 5,
-				limit: 10,
-			},
-		});
-
-		void testQuery;
-		const fefefe: DeliveryPagedFetchQuery<JsonValue>[] = [testQuery];
-
 		const listingQueries: readonly DeliveryPagedFetchQuery<JsonValue>[] = [
 			client.listLanguages({
 				query: {
@@ -53,11 +42,11 @@ describe("Query parameters", () => {
 			}),
 		];
 
-		for (const { getQueryData } of listingQueries) {
-			const { success, data, error } = getQueryData();
+		for (const { inspect } of listingQueries) {
+			const { success, data, error } = inspect();
 
 			if (!success) {
-				throw new Error(`Failed to get query data: ${error}`);
+				throw new Error(`Failed to inspect query: ${error}`);
 			}
 
 			const { url } = data;
@@ -68,20 +57,18 @@ describe("Query parameters", () => {
 	});
 
 	it("Elements query parameter should be added as a comma-separated list in the url", () => {
-		const { getQueryData } = client.listContentTypes({
+		const { inspect } = client.listContentTypes({
 			query: {
 				elements: ["x", "y", "z"],
 			},
 		});
 
-		const { success, data, error } = getQueryData();
+		const { success, data, error } = inspect();
 
 		if (!success) {
-			throw new Error(`Failed to get query data: ${error}`);
+			throw new Error(`Failed to inspect query: ${error}`);
 		}
 
-		const { url } = data;
-
-		expect(url.searchParams.get("elements")).toStrictEqual("x,y,z");
+		expect(data.url.searchParams.get("elements")).toStrictEqual("x,y,z");
 	});
 });

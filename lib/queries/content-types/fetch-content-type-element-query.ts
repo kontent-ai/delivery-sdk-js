@@ -5,7 +5,7 @@ import { type ContentTypeElementPayload, contentTypeElementPayload } from "./con
 
 export type FetchContentTypeElementQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<ContentTypeElementPayload<TSchema>>;
 
-export type FetchContentTypeElementQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequest & {
+export type FetchContentTypeElementQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequest<never, never, never> & {
 	readonly elementCodename: NonNullable<TSchema["elementCodenames"]>[number];
 	readonly typeCodename: NonNullable<TSchema["contentTypeCodenames"]>[number];
 };

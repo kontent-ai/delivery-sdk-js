@@ -1,23 +1,23 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
+import type { Filter } from "../../models/filter.models.js";
 import type {
-	DeliveryRequest,
+	DeliveryRequestWithTokenPaging,
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
-	QueryFilters,
-	QueryParameters,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
 import { createDeliveryPagingByTokenQuery } from "../delivery-queries.js";
-import { type ContentItemPayload, type ContentItemSystemPayload, type ItemsFeedPayload, itemsFeedPayload } from "./content-item.models.js";
+import { type ContentItemPayload, type ItemsFeedPayload, itemsFeedPayload } from "./content-item.models.js";
+
+type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
+type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
 
 export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>>;
 
-export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequest &
-	QueryFilters<keyof ContentItemSystemPayload<TSchema>, NonNullable<TSchema["elementCodenames"]>[number]> &
-	QueryParameters<{
-		readonly order?:
-			| SystemOrderQueryParam<keyof ContentItemPayload<DeliveryClientSchema>["system"]>
-			| ElementOrderQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
+export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
+	never,
+	{
+		readonly order?: SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ElementProperties<TSchema>>;
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
 		 */
@@ -26,12 +26,12 @@ export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = Delive
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
 		 */
-		readonly elements?: ElementSelectionQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
+		readonly elements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
 
 		/**
 		 * Specifies which elements to exclude from the response. By default, no elements are excluded.
 		 */
-		readonly excludeElements?: ElementSelectionQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
+		readonly excludeElements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
 
 		/**
 		 * Determines the nesting level for linked content items that the API returns.
@@ -40,7 +40,9 @@ export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = Delive
 		 * To exclude all linked items from the response, set depth to 0.
 		 */
 		readonly depth?: number;
-	}>;
+	},
+	readonly Filter<SystemProperties, ElementProperties<TSchema>>[]
+>;
 
 export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,

@@ -1,18 +1,14 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery } from "../../models/core.models.js";
-import type {
-	DeliveryRequest,
-	ElementSelectionQueryParam,
-	QueryParameters,
-	QueryRequestWithCodename,
-} from "../../models/request.models.js";
+import type { DeliveryRequestWithCodename, ElementSelectionQueryParam } from "../../models/request.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
 import { type FetchContentItemPayload, fetchContentItemPayload } from "./content-item.models.js";
 
 export type FetchContentItemQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<FetchContentItemPayload<TSchema>>;
 
-export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequest &
-	QueryRequestWithCodename<NonNullable<TSchema["contentTypeCodenames"]>> &
-	QueryParameters<{
+export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
+	NonNullable<TSchema["contentTypeCodenames"]>,
+	never,
+	{
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
 		 */
@@ -35,7 +31,9 @@ export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> =
 		 * To exclude all linked items from the response, set depth to 0.
 		 */
 		readonly depth?: number;
-	}>;
+	},
+	never
+>;
 
 export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
