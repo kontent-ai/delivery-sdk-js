@@ -1,8 +1,8 @@
 // biome-ignore lint/performance/noBarrelFile: One barrel for the public API is fine
 export { createDeliveryClient } from "./client/delivery-client.js";
 export type {
-	ApiDeliveryClientConfig,
 	ApiMode,
+	DeliveryApiConfig as ApiDeliveryClientConfig,
 	DeliveryClient,
 	DeliveryClientConfig,
 	DeliveryClientSchema,

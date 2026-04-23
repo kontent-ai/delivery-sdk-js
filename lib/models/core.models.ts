@@ -41,8 +41,8 @@ export type DeliveryMetadata = unknown;
 
 export type ApiMode = "public" | "preview" | "secure";
 
-export type DeliveryClientConfig<TSchema extends FullDeliveryClientSchema = FullDeliveryClientSchema> = SdkConfig &
-	ApiDeliveryClientConfig & {
+export type DeliveryClientConfig<TSchema extends FullDeliveryClientSchema = FullDeliveryClientSchema> = SdkConfig<
+	DeliveryApiConfig & {
 		/**
 		 * The environment ID of your Kontent.ai project. Can be found in the Kontent.ai app.
 		 */
@@ -58,9 +58,10 @@ export type DeliveryClientConfig<TSchema extends FullDeliveryClientSchema = Full
 		 * @see https://github.com/kontent-ai/model-generator-js
 		 */
 		readonly schema?: TSchema | undefined;
-	};
+	}
+>;
 
-export type ApiDeliveryClientConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
+export type DeliveryApiConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
 
 export type DeliveryClientConfigWithSchema<TSchema extends DeliveryClientSchema> = DeliveryClientConfig<TSchema> & {
 	readonly schema: TSchema;
