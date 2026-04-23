@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import { type ItemsFeedPayload, itemsFeedPayload } from "../../../../lib/queries/content-items/content-item.models.js";
+import { type ItemsFeedPayload, itemsFeedSchema } from "../../../../lib/queries/content-items/content-item.models.js";
 import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./items-feed-query.payload.js";
 
@@ -9,6 +9,6 @@ describe("Items feed query", async () => {
 		endpoint: "items-feed",
 		unitTestPayload,
 		selectQuery: (client) => client.itemsFeed(),
-		expectedSchema: itemsFeedPayload(getIntegrationTestsSchema()),
+		expectedSchema: itemsFeedSchema(getIntegrationTestsSchema()),
 	});
 });

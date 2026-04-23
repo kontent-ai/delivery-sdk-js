@@ -1,7 +1,7 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam } from "../../models/request.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
-import { type ContentTypePayload, contentTypePayload } from "./content-type.models.js";
+import { type ContentTypePayload, contentTypeSchema } from "./content-type.models.js";
 
 type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
 
@@ -22,7 +22,7 @@ export function fetchContentTypeQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: contentTypePayload(config.schema),
+		schema: contentTypeSchema(config.schema),
 		endpoint: `types/${request.codename}`,
 	});
 }

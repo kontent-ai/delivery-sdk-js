@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import { type ListTaxonomiesPayload, listTaxonomiesPayload } from "../../../../lib/queries/taxonomies/taxonomy.models.js";
+import { type ListTaxonomiesPayload, listTaxonomiesSchema } from "../../../../lib/queries/taxonomies/taxonomy.models.js";
 import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./list-taxonomies-query.payload.js";
 
@@ -9,6 +9,6 @@ describe("List taxonomies query", async () => {
 		endpoint: "taxonomies",
 		unitTestPayload,
 		selectQuery: (client) => client.listTaxonomies(),
-		expectedSchema: listTaxonomiesPayload(getIntegrationTestsSchema()),
+		expectedSchema: listTaxonomiesSchema(getIntegrationTestsSchema()),
 	});
 });

@@ -10,7 +10,7 @@ const contentTypeElementOptionSchema = z
 	})
 	.readonly();
 
-const contentTypeElementSchema = z.discriminatedUnion("type", [
+const contentTypeElementsSchema = z.discriminatedUnion("type", [
 	z
 		.object({
 			type: z.literal("text"),
@@ -86,7 +86,7 @@ const contentTypeElementSchema = z.discriminatedUnion("type", [
 		.readonly(),
 ]);
 
-export const contentTypePayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const contentTypeSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			system: z
@@ -97,22 +97,22 @@ export const contentTypePayload = <TSchema extends DeliveryClientSchema>(schema:
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),
-			elements: z.record(getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentTypeElementSchema),
+			elements: z.record(getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentTypeElementsSchema),
 		})
 		.readonly();
 
-export const listContentTypesPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const listContentTypesSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
-			types: z.array(contentTypePayload(schema)).readonly(),
+			types: z.array(contentTypeSchema(schema)).readonly(),
 			...paginationSchema.shape,
 		})
 		.readonly();
 
-export const contentTypeElementPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const contentTypeElementSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.intersection(
-			contentTypeElementSchema,
+			contentTypeElementsSchema,
 			z
 				.object({
 					// Required only for the endpoint `types/{type}/elements/{element}`
@@ -122,10 +122,8 @@ export const contentTypeElementPayload = <TSchema extends DeliveryClientSchema>(
 		)
 		.readonly();
 
-export type ContentTypePayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentTypePayload<TSchema>>>;
+export type ContentTypePayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentTypeSchema<TSchema>>>;
 
-export type ContentTypeElementPayload<TSchema extends DeliveryClientSchema> = z.infer<
-	ReturnType<typeof contentTypeElementPayload<TSchema>>
->;
+export type ContentTypeElementPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentTypeElementSchema<TSchema>>>;
 
-export type ListContentTypesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentTypesPayload<TSchema>>>;
+export type ListContentTypesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentTypesSchema<TSchema>>>;

@@ -2,7 +2,7 @@ import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuer
 import type { Filter } from "../../models/filter.models.js";
 import type { DeliveryRequestWithUrlPaging, SystemOrderQueryParam } from "../../models/request.models.js";
 import { createDeliveryPagedByUrlQuery } from "../delivery-queries.js";
-import { type LanguagePayload, type ListLanguagesPayload, listLanguagesPayload } from "./language.models.js";
+import { type LanguagePayload, type ListLanguagesPayload, listLanguagesSchema } from "./language.models.js";
 
 export type ListLanguagesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListLanguagesPayload<TSchema>>;
 
@@ -21,7 +21,7 @@ export function listLanguagesQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: listLanguagesPayload(config.schema),
+		schema: listLanguagesSchema(config.schema),
 		endpoint: "languages",
 	});
 }

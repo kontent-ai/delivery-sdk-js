@@ -1,6 +1,6 @@
 import { describe } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import { type ListLanguagesPayload, listLanguagesPayload } from "../../../../lib/queries/languages/language.models.js";
+import { type ListLanguagesPayload, listLanguagesSchema } from "../../../../lib/queries/languages/language.models.js";
 import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./list-languages-query.payload.js";
 
@@ -9,6 +9,6 @@ describe("List languages query", async () => {
 		endpoint: "languages",
 		unitTestPayload,
 		selectQuery: (client) => client.listLanguages(),
-		expectedSchema: listLanguagesPayload(getIntegrationTestsSchema()),
+		expectedSchema: listLanguagesSchema(getIntegrationTestsSchema()),
 	});
 });

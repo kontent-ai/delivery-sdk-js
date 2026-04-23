@@ -1,7 +1,7 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery } from "../../models/core.models.js";
 import type { DeliveryRequest } from "../../models/request.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
-import { type ContentTypeElementPayload, contentTypeElementPayload } from "./content-type.models.js";
+import { type ContentTypeElementPayload, contentTypeElementSchema } from "./content-type.models.js";
 
 export type FetchContentTypeElementQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<ContentTypeElementPayload<TSchema>>;
 
@@ -17,7 +17,7 @@ export function fetchContentTypeElementQuery<TSchema extends DeliveryClientSchem
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: contentTypeElementPayload(config.schema),
+		schema: contentTypeElementSchema(config.schema),
 		endpoint: `types/${request.typeCodename}/elements/${request.elementCodename}`,
 	});
 }

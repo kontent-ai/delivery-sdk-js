@@ -3,7 +3,7 @@ import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationSchema } from "../../models/pagination.models.js";
 
-export const languagePayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const languageSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			system: z
@@ -16,14 +16,14 @@ export const languagePayload = <TSchema extends DeliveryClientSchema>(schema: TS
 		})
 		.readonly();
 
-export const listLanguagesPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const listLanguagesSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
-			languages: z.array(languagePayload(schema)).readonly(),
+			languages: z.array(languageSchema(schema)).readonly(),
 			...paginationSchema.shape,
 		})
 		.readonly();
 
-export type LanguagePayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof languagePayload<TSchema>>>;
+export type LanguagePayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof languageSchema<TSchema>>>;
 
-export type ListLanguagesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listLanguagesPayload<TSchema>>>;
+export type ListLanguagesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listLanguagesSchema<TSchema>>>;

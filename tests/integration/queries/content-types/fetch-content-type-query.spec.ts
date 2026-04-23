@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import { type ContentTypePayload, contentTypePayload } from "../../../../lib/queries/content-types/content-type.models.js";
+import { type ContentTypePayload, contentTypeSchema } from "../../../../lib/queries/content-types/content-type.models.js";
 import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./fetch-content-type-query.payload.js";
 
@@ -10,7 +10,7 @@ describe("Fetch content type query", async () => {
 		endpoint: `types/${codename}`,
 		unitTestPayload,
 		selectQuery: (client) => client.fetchContentType({ codename: codename }),
-		expectedSchema: contentTypePayload(getIntegrationTestsSchema()),
+		expectedSchema: contentTypeSchema(getIntegrationTestsSchema()),
 	});
 });
 
@@ -31,7 +31,7 @@ describe("Fetch content type query with extra field in element", async () => {
 		},
 	};
 
-	const { success } = await contentTypePayload(getIntegrationTestsSchema()).safeParseAsync(payload);
+	const { success } = await contentTypeSchema(getIntegrationTestsSchema()).safeParseAsync(payload);
 
 	it("Parsing should be successful when extra field is present in element", () => {
 		expect(success).toBeTruthy();
@@ -54,7 +54,7 @@ describe("Fetch content type query with invalid field type in element should fai
 		},
 	};
 
-	const { success } = await contentTypePayload(getIntegrationTestsSchema()).safeParseAsync(payload);
+	const { success } = await contentTypeSchema(getIntegrationTestsSchema()).safeParseAsync(payload);
 
 	it("Parsing should fail when invalid field type is present in element", () => {
 		expect(success).toBeFalsy();
@@ -76,7 +76,7 @@ describe("Fetch query with missing system field should fail", async () => {
 		},
 	};
 
-	const { success } = await contentTypePayload(getIntegrationTestsSchema()).safeParseAsync(payload);
+	const { success } = await contentTypeSchema(getIntegrationTestsSchema()).safeParseAsync(payload);
 
 	it("Parsing should fail when system field is missing", () => {
 		expect(success).toBeFalsy();

@@ -154,7 +154,7 @@ const contentItemElementSchema = z
 	])
 	.readonly();
 
-const contentItemSystemSchemaBase = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z.object({
 		id: kontentUuidSchema,
 		name: z.string(),
@@ -170,7 +170,7 @@ const contentItemSystemSchemaBase = <TSchema extends DeliveryClientSchema>(schem
 const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
-			...contentItemSystemSchemaBase(schema).shape,
+			...baseContentItemSystemSchema(schema).shape,
 			sitemap_locations: z.array(z.string()).readonly(),
 		})
 		.readonly();
@@ -185,7 +185,7 @@ const contentItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema
 		})
 		.readonly();
 
-export const listContentItemsPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const listContentItemsSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			items: z.array(contentItemSchema(schema)).readonly(),
@@ -194,7 +194,7 @@ export const listContentItemsPayload = <TSchema extends DeliveryClientSchema>(sc
 		})
 		.readonly();
 
-export const itemsFeedPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const itemsFeedSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			items: z.array(contentItemSchema(schema)).readonly(),
@@ -202,20 +202,20 @@ export const itemsFeedPayload = <TSchema extends DeliveryClientSchema>(schema: T
 		})
 		.readonly();
 
-export const itemsReferencingAssetPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const itemsReferencingAssetSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			items: z
 				.array(
 					z.object({
-						system: contentItemSystemSchemaBase(schema),
+						system: baseContentItemSystemSchema(schema),
 					}),
 				)
 				.readonly(),
 		})
 		.readonly();
 
-export const fetchContentItemPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			item: contentItemSchema(schema),
@@ -226,9 +226,9 @@ export const fetchContentItemPayload = <TSchema extends DeliveryClientSchema>(sc
 export type ContentItemSystemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSystemSchema<TSchema>>>;
 export type ContentItemElementPayload = z.infer<typeof contentItemElementSchema>;
 export type ContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSchema<TSchema>>>;
-export type ListContentItemsPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentItemsPayload<TSchema>>>;
-export type FetchContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof fetchContentItemPayload<TSchema>>>;
-export type ItemsFeedPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof itemsFeedPayload<TSchema>>>;
+export type ListContentItemsPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentItemsSchema<TSchema>>>;
+export type FetchContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof fetchContentItemSchema<TSchema>>>;
+export type ItemsFeedPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof itemsFeedSchema<TSchema>>>;
 export type ItemsReferencingAssetPayload<TSchema extends DeliveryClientSchema> = z.infer<
-	ReturnType<typeof itemsReferencingAssetPayload<TSchema>>
+	ReturnType<typeof itemsReferencingAssetSchema<TSchema>>
 >;
