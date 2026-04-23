@@ -4,18 +4,21 @@ import { loadEnvFile } from "node:process";
 import { fileURLToPath } from "node:url";
 import type { BaseUrl } from "@kontent-ai/core-sdk";
 import { getEnvironmentOptionalValue, getEnvironmentRequiredValue } from "@kontent-ai/core-sdk/devkit";
-import { isBaseUrl } from "./utils/test.utils.js";
 
 export function getIntegrationTestConfig() {
 	loadEnvironmentVariables();
-	const baseUrl = getEnvironmentOptionalValue("INTEGRATION_DELIVERY_BASE_URL");
+
+	const host = getEnvironmentOptionalValue("INTEGRATION_DELIVERY_HOST");
+	const protocol = getEnvironmentOptionalValue("INTEGRATION_DELIVERY_PROTOCOL");
+
+	const deliveryBaseUrl: BaseUrl | undefined = host ? { protocol: protocol === "http" ? "http" : "https", host } : undefined;
 
 	const integrationEnv: {
 		readonly id: string;
 		readonly deliveryBaseUrl: BaseUrl | undefined;
 	} = {
 		id: getEnvironmentRequiredValue("INTEGRATION_ENVIRONMENT_ID"),
-		deliveryBaseUrl: isBaseUrl(baseUrl) ? baseUrl : undefined,
+		deliveryBaseUrl,
 	} as const;
 
 	return {

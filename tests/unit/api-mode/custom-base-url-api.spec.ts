@@ -1,10 +1,11 @@
+import type { BaseUrl } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { describe, expect, it } from "vitest";
 import { createDeliveryClient } from "../../../lib/public_api.js";
 import { unitEnvironmentId } from "../../utils/test.utils.js";
 
 describe("Custom base URL API", async () => {
-	const customBaseUrl = "https://domain.com";
+	const customBaseUrl: BaseUrl = { protocol: "https", host: "domain.com" };
 
 	const query = createDeliveryClient({
 		apiMode: "public",
@@ -21,6 +22,6 @@ describe("Custom base URL API", async () => {
 
 	it("URL should point to custom base URL", () => {
 		const { origin } = new URL(response?.meta?.url ?? "n/a");
-		expect(origin).toEqual(customBaseUrl);
+		expect(origin).toEqual(`${customBaseUrl.protocol}://${customBaseUrl.host}`);
 	});
 });

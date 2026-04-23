@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addQueryParametersToUrl, isEmptyRichtextFilter } from "../../../lib/utils/url.utils.js";
+import { addQueryParametersToUrl, isEmptyRichTextFilter } from "../../../lib/utils/url.utils.js";
 
 describe("addQueryParametersToUrl", () => {
 	const baseUrl = "https://deliver.kontent.ai/xyz/languages";
@@ -54,26 +54,26 @@ describe("addQueryParametersToUrl", () => {
 
 describe("isEmptyRichtextFilter", () => {
 	it("returns true for object with isEmptyRichText operator", () => {
-		expect(isEmptyRichtextFilter({ property: "elements.description", operator: "isEmptyRichText" })).toBe(true);
+		expect(isEmptyRichTextFilter({ property: "elements.description", operator: "isEmptyRichText" })).toBe(true);
 	});
 
 	it("returns true for object with isNotEmptyRichText operator", () => {
-		expect(isEmptyRichtextFilter({ property: "elements.description", operator: "isNotEmptyRichText" })).toBe(true);
+		expect(isEmptyRichTextFilter({ property: "elements.description", operator: "isNotEmptyRichText" })).toBe(true);
 	});
 
 	it("returns false for object with a different operator", () => {
-		expect(isEmptyRichtextFilter({ property: "elements.description", operator: "eq", value: "test" })).toBe(false);
+		expect(isEmptyRichTextFilter({ property: "elements.description", operator: "eq", value: "test" })).toBe(false);
 	});
 
 	it("returns false for object missing operator", () => {
-		expect(isEmptyRichtextFilter({ property: "elements.description" })).toBe(false);
+		expect(isEmptyRichTextFilter({ property: "elements.description" })).toBe(false);
 	});
 
 	it("returns false for null", () => {
-		expect(isEmptyRichtextFilter(null)).toBe(false);
+		expect(isEmptyRichTextFilter(null)).toBe(false);
 	});
 
 	it("returns false for a string", () => {
-		expect(isEmptyRichtextFilter("elements.description[eq]=test")).toBe(false);
+		expect(isEmptyRichTextFilter("elements.description[eq]=test")).toBe(false);
 	});
 });

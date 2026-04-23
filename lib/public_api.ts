@@ -10,9 +10,12 @@ export type {
 	WaitForLoadingNewContentHeaderName,
 } from "./models/core.models.js";
 // Filters
-export type { EmptyRichtextFilter, Filter, ObjectFilter } from "./models/filter.models.js";
+export type { EmptyRichTextFilter as EmptyRichtextFilter, Filter, ObjectFilter } from "./models/filter.models.js";
 // Pagination
-export type { PaginationSchema, PaginationSchemaWithTotalCount } from "./models/pagination.models.js";
+export type {
+	PaginationPayload as PaginationSchema,
+	PaginationWithTotalCountPayload as PaginationSchemaWithTotalCount,
+} from "./models/pagination.models.js";
 // Request config
 export type { DeliveryRequestConfig } from "./models/request.models.js";
 // Content Items

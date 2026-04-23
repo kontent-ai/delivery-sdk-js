@@ -1,11 +1,11 @@
 import type { QueryResponse } from "@kontent-ai/core-sdk";
 import { describe, expect, it } from "vitest";
-import type { PaginationSchema } from "../../../lib/models/pagination.models.js";
+import type { PaginationPayload } from "../../../lib/models/pagination.models.js";
 import { getNextPageByUrl } from "../../../lib/utils/paging.utils.js";
 
 describe("Paging utils", () => {
 	it("Next page URL should be returned", () => {
-		const response: QueryResponse<PaginationSchema, unknown> = {
+		const response: QueryResponse<PaginationPayload, unknown> = {
 			meta: {
 				status: 200,
 				responseHeaders: [],
@@ -22,7 +22,7 @@ describe("Paging utils", () => {
 			},
 		};
 
-		const result = getNextPageByUrl<PaginationSchema, unknown>()(response);
+		const result = getNextPageByUrl<PaginationPayload, unknown>()(response);
 
 		expect(result).toEqual({
 			continuationToken: undefined,

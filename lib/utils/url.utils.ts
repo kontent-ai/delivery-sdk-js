@@ -2,8 +2,8 @@ import { type BaseUrl, getEndpointUrl } from "@kontent-ai/core-sdk";
 import { match } from "ts-pattern";
 import type { ApiMode, DeliveryClientConfig, DeliveryEndpoints } from "../models/core.models.js";
 import {
-	type EmptyRichtextFilter,
-	emptyRichtextOperators,
+	type EmptyRichTextFilter,
+	emptyRichTextOperators,
 	type Filter,
 	type ObjectFilter,
 	operatorToFilterOp,
@@ -41,26 +41,26 @@ export function addQueryParametersToUrl(
 	return `${url}${url.includes("?") ? "&" : "?"}${searchParams.toString()}`;
 }
 
-export function isEmptyRichtextFilter(value: unknown): value is EmptyRichtextFilter<string> {
+export function isEmptyRichTextFilter(value: unknown): value is EmptyRichTextFilter<string> {
 	if (typeof value !== "object" || value === null || value === undefined) {
 		return false;
 	}
 
-	if (!(("operator" satisfies keyof EmptyRichtextFilter<string>) in value)) {
+	if (!(("operator" satisfies keyof EmptyRichTextFilter<string>) in value)) {
 		return false;
 	}
 
-	return emptyRichtextOperators.some((operator) => operator === value.operator);
+	return emptyRichTextOperators.some((operator) => operator === value.operator);
 }
 
 function getDefaultBaseUrlForApiMode(apiMode: ApiMode): BaseUrl {
 	if (apiMode === "preview") {
-		return "https://preview-deliver.kontent.ai";
+		return { protocol: "https", host: "preview-deliver.kontent.ai" };
 	}
 
 	// Both "public" and "secure" modes use the same base URL.
 	// Secure mode is distinguished by the Authorization header, not a different endpoint.
-	return "https://deliver.kontent.ai";
+	return { protocol: "https", host: "deliver.kontent.ai" };
 }
 
 function getUrlSearchParams(
@@ -103,7 +103,7 @@ function getFilterParams(filters: readonly Filter<string, string>[] | undefined)
 			match(filter)
 				.returnType<readonly string[][]>()
 				// Special case for "isEmptyRichText" operator
-				.when(isEmptyRichtextFilter, (filter) => [[`${filter.property}[${operatorToFilterOp[filter.operator]}]`, "<p><br></p>"]])
+				.when(isEmptyRichTextFilter, (filter) => [[`${filter.property}[${operatorToFilterOp[filter.operator]}]`, "<p><br></p>"]])
 				.when(isQueryFilter, (filter) => {
 					if (!filterHasDefinedValue(filter)) {
 						return [];

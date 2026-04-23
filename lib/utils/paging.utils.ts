@@ -1,7 +1,7 @@
 import type { ExtractNextPageDataFn, JsonValue } from "@kontent-ai/core-sdk";
-import type { PaginationSchema } from "../models/pagination.models.js";
+import type { PaginationPayload } from "../models/pagination.models.js";
 
-export function getNextPageByUrl<TPayload extends PaginationSchema, TMeta>(): ExtractNextPageDataFn<TPayload, TMeta> {
+export function getNextPageByUrl<TPayload extends PaginationPayload, TMeta>(): ExtractNextPageDataFn<TPayload, TMeta> {
 	return (response) => {
 		return {
 			continuationToken: undefined,

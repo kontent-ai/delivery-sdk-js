@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@kontent-ai/core-sdk':
-        specifier: ^12.0.0-preview.27
-        version: 12.0.0-preview.27(ts-pattern@5.9.0)(zod@4.3.6)
+        specifier: ^12.0.0-preview.28
+        version: 12.0.0-preview.28(ts-pattern@5.9.0)(zod@4.3.6)
       ts-pattern:
         specifier: ^5
         version: 5.9.0
@@ -380,8 +380,8 @@ packages:
     peerDependencies:
       '@biomejs/biome': ^2.3.11
 
-  '@kontent-ai/core-sdk@12.0.0-preview.27':
-    resolution: {integrity: sha512-DvKLj2DZdiDpO7dmABPGYxV1aZ25MckxSvR0nTzPd0ul0MGaFq/u2sFTmp3VnPx/ZQvz1/IkiFVrKjoPUbQbkw==}
+  '@kontent-ai/core-sdk@12.0.0-preview.28':
+    resolution: {integrity: sha512-JDFBcATBeLI/Tf4hTu+9APGSlLBOJVoGQPiIoc8mRksDb8Jj9sb63hxCZk8ryOOnVLvobmDgG0A+a1xPbF0vrg==}
     engines: {node: '>=22'}
     peerDependencies:
       ts-pattern: ^5
@@ -1963,7 +1963,7 @@ snapshots:
     dependencies:
       '@biomejs/biome': 2.4.12
 
-  '@kontent-ai/core-sdk@12.0.0-preview.27(ts-pattern@5.9.0)(zod@4.3.6)':
+  '@kontent-ai/core-sdk@12.0.0-preview.28(ts-pattern@5.9.0)(zod@4.3.6)':
     dependencies:
       ts-pattern: 5.9.0
       zod: 4.3.6

@@ -77,5 +77,3 @@ export type ElementOrderQueryParam<TElementCodenames extends string> = `elements
  * `elements=title,summary,related_articles`
  */
 export type ElementSelectionQueryParam<TElementCodenames extends string> = readonly TElementCodenames[];
-
-export type ExtractString<T extends string | number> = T extends string ? (string extends T ? never : T) : never;

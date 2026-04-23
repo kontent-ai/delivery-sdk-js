@@ -20,5 +20,5 @@ export const paginationSchemaWithTotalCount = z.object({
 		.readonly(),
 });
 
-export type PaginationSchema = Readonly<z.infer<typeof paginationSchema>>;
-export type PaginationSchemaWithTotalCount = Readonly<z.infer<typeof paginationSchemaWithTotalCount>>;
+export type PaginationPayload = Readonly<z.infer<typeof paginationSchema>>;
+export type PaginationWithTotalCountPayload = Readonly<z.infer<typeof paginationSchemaWithTotalCount>>;

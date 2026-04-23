@@ -1,5 +1,4 @@
 import {
-	type BaseUrl,
 	type ContinuationTokenHeaderName,
 	type FetchQuery,
 	type Header,
@@ -18,13 +17,6 @@ export const unitEnvironmentId = "xyz";
 
 export function getFakeUuid(): string {
 	return nilUuid;
-}
-
-export function isBaseUrl(url: string | undefined): url is BaseUrl {
-	if (!url) {
-		return false;
-	}
-	return url.toLowerCase().startsWith("https://") || url.toLowerCase().startsWith("http://");
 }
 
 export function isFetchQueryWithExpectedFunctions(query: unknown): query is FetchQuery<JsonValue, unknown, KontentSdkError> {
