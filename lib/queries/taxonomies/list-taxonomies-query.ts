@@ -1,7 +1,7 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
 import type { Filter } from "../../models/filter.models.js";
 import type { DeliveryRequestWithUrlPaging, SystemOrderQueryParam } from "../../models/request.models.js";
-import { createPagedByUrlQuery } from "../delivery-queries.js";
+import { createDeliveryPagedByUrlQuery } from "../delivery-queries.js";
 import { type ListTaxonomiesPayload, listTaxonomiesPayload, type TaxonomyPayload } from "./taxonomy.models.js";
 
 export type ListTaxonomiesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListTaxonomiesPayload<TSchema>>;
@@ -18,7 +18,7 @@ export function listTaxonomiesQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ListTaxonomiesQueryRequest,
 ): ListTaxonomiesQuery<TSchema> {
-	return createPagedByUrlQuery({
+	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
 		schema: listTaxonomiesPayload(config.schema),

@@ -20,7 +20,7 @@ import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
 
 type DefaultDeliveryRequest = DeliveryRequest<QueryParameterRecord, readonly Filter<string, string>[]>;
 
-export function createPagedByUrlQuery<TPayload extends PaginationPayload>({
+export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload>({
 	config,
 	schema,
 	endpoint,
@@ -37,7 +37,7 @@ export function createPagedByUrlQuery<TPayload extends PaginationPayload>({
 	});
 }
 
-export function createPagedByTokenQuery<TPayload extends JsonValue>({
+export function createDeliveryPagedByTokenQuery<TPayload extends JsonValue>({
 	config,
 	schema,
 	endpoint,

@@ -16,9 +16,13 @@ export type {
 	PaginationPayload,
 	PaginationWithTotalCountPayload,
 } from "./models/pagination.models.js";
-// Request config
-export type { DeliveryRequestConfig } from "./models/request.models.js";
-// Content Items
+export type {
+	DeliveryRequestConfig,
+	ElementOrderQueryParam,
+	ElementSelectionQueryParam,
+	OrderDirection,
+	SystemOrderQueryParam,
+} from "./models/request.models.js";
 export {
 	type ContentItemElementPayload,
 	type ContentItemPayload,
@@ -36,22 +40,19 @@ export type {
 	ItemsReferencingAssetQueryRequest,
 } from "./queries/content-items/items-referencing-asset-query.js";
 export type { ListContentItemsQuery, ListContentItemsQueryRequest } from "./queries/content-items/list-content-items-query.js";
-// Content Types
-export {
+export type {
 	ContentTypeElementPayload,
-	type ContentTypePayload,
+	ContentTypePayload,
 	ListContentTypesPayload,
 } from "./queries/content-types/content-type.models.js";
 export type {
 	FetchContentTypeElementQuery,
 	FetchContentTypeElementQueryRequest,
 } from "./queries/content-types/fetch-content-type-element-query.js";
-export { type FetchContentTypeQuery, FetchContentTypeQueryRequest } from "./queries/content-types/fetch-content-type-query.js";
+export type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "./queries/content-types/fetch-content-type-query.js";
 export type { ListContentTypesQuery, ListContentTypesQueryRequest } from "./queries/content-types/list-content-types-query.js";
-// Languages
-export { type LanguagePayload, ListLanguagesPayload } from "./queries/languages/language.models.js";
+export type { LanguagePayload, ListLanguagesPayload } from "./queries/languages/language.models.js";
 export type { ListLanguagesQuery, ListLanguagesQueryRequest } from "./queries/languages/list-languages-query.js";
-// Taxonomies
-export { type FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "./queries/taxonomies/fetch-taxonomy-query.js";
+export type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "./queries/taxonomies/fetch-taxonomy-query.js";
 export type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "./queries/taxonomies/list-taxonomies-query.js";
 export type { ListTaxonomiesPayload, TaxonomyPayload, TaxonomyTermPayload } from "./queries/taxonomies/taxonomy.models.js";
