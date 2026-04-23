@@ -1,7 +1,7 @@
 import { getCodenameSchema, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
-import { paginationSchemaWithTotalCount } from "../../models/pagination.models.js";
+import { paginationWithTotalCountSchema } from "../../models/pagination.models.js";
 
 const multipleChoiceOptionSchema = z
 	.object({
@@ -190,7 +190,7 @@ export const listContentItemsPayload = <TSchema extends DeliveryClientSchema>(sc
 		.object({
 			items: z.array(contentItemSchema(schema)).readonly(),
 			modular_content: z.record(z.string(), contentItemSchema(schema)),
-			...paginationSchemaWithTotalCount.shape,
+			...paginationWithTotalCountSchema.shape,
 		})
 		.readonly();
 

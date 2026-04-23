@@ -1,4 +1,4 @@
-import type { DeliveryClient, DeliveryClientConfig, FullDeliveryClientSchema } from "../models/core.models.js";
+import type { DefaultDeliveryClientSchema, DeliveryClient, DeliveryClientConfig } from "../models/core.models.js";
 import { type FetchContentItemQueryRequest, fetchContentItemQuery } from "../queries/content-items/fetch-content-item-query.js";
 import { type ItemsFeedQueryRequest, itemsFeedQuery } from "../queries/content-items/items-feed-query.js";
 import {
@@ -42,7 +42,7 @@ import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries
  *   environmentId: "x",
  * });
  */
-export function createDeliveryClient<const TSchema extends FullDeliveryClientSchema = FullDeliveryClientSchema>(
+export function createDeliveryClient<const TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 ): DeliveryClient<TSchema> {
 	return {

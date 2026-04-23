@@ -2,11 +2,11 @@
 export { createDeliveryClient } from "./client/delivery-client.js";
 export type {
 	ApiMode,
+	DefaultDeliveryClientSchema as FullDeliveryClientSchema,
 	DeliveryApiConfig as ApiDeliveryClientConfig,
 	DeliveryClient,
 	DeliveryClientConfig,
 	DeliveryClientSchema,
-	FullDeliveryClientSchema,
 	WaitForLoadingNewContentHeaderName,
 } from "./models/core.models.js";
 // Filters

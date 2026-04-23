@@ -17,7 +17,7 @@ import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/t
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
 import type { DeliverySdkError } from "./error.models.js";
 
-export type FullDeliveryClientSchema = {
+export type DefaultDeliveryClientSchema = {
 	readonly languageCodenames: readonly string[];
 	readonly taxonomyCodenames: readonly string[];
 	readonly contentTypeCodenames: readonly string[];
@@ -27,7 +27,7 @@ export type FullDeliveryClientSchema = {
 	readonly workflowStepCodenames: readonly string[];
 };
 
-export type DeliveryClientSchema<TSchema extends FullDeliveryClientSchema = FullDeliveryClientSchema> = {
+export type DeliveryClientSchema<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = {
 	readonly languageCodenames: TSchema["languageCodenames"];
 	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
 	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
@@ -37,11 +37,14 @@ export type DeliveryClientSchema<TSchema extends FullDeliveryClientSchema = Full
 	readonly workflowStepCodenames: TSchema["workflowStepCodenames"];
 };
 
+/**
+ * Placeholder type if extension is needed in future
+ */
 export type DeliveryMetadata = unknown;
 
 export type ApiMode = "public" | "preview" | "secure";
 
-export type DeliveryClientConfig<TSchema extends FullDeliveryClientSchema = FullDeliveryClientSchema> = SdkConfig<
+export type DeliveryClientConfig<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = SdkConfig<
 	DeliveryApiConfig & {
 		/**
 		 * The environment ID of your Kontent.ai project. Can be found in the Kontent.ai app.
@@ -86,7 +89,7 @@ export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload
 
 export type DeliveryPagedFetchQuery<TPayload extends JsonValue> = PagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>;
 
-export type DeliveryEndpoints =
+export type DeliveryEndpoint =
 	| "languages"
 	| "items"
 	| `items/${string}`

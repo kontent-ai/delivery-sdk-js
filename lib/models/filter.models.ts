@@ -1,5 +1,5 @@
 export const emptyRichTextOperators = ["isEmptyRichText", "isNotEmptyRichText"] as const;
-export const operatorToFilterOp: Record<EmptyRichTextOperator, FilterOperator> = {
+export const emptyRichTextToFilterOperator: Record<EmptyRichTextOperator, FilterOperator> = {
 	isEmptyRichText: "eq",
 	isNotEmptyRichText: "neq",
 };

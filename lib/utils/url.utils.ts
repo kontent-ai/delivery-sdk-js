@@ -1,12 +1,12 @@
 import { type BaseUrl, getEndpointUrl } from "@kontent-ai/core-sdk";
 import { match } from "ts-pattern";
-import type { ApiMode, DeliveryClientConfig, DeliveryEndpoints } from "../models/core.models.js";
+import type { ApiMode, DeliveryClientConfig, DeliveryEndpoint } from "../models/core.models.js";
 import {
 	type EmptyRichTextFilter,
 	emptyRichTextOperators,
+	emptyRichTextToFilterOperator,
 	type Filter,
 	type ObjectFilter,
-	operatorToFilterOp,
 } from "../models/filter.models.js";
 import type { QueryParameterRecord } from "../models/request.models.js";
 
@@ -15,7 +15,7 @@ export function getDeliveryUrl({
 	path,
 	baseUrl,
 	apiMode,
-}: { readonly path: DeliveryEndpoints } & Pick<DeliveryClientConfig, "baseUrl" | "environmentId" | "apiMode">): string {
+}: { readonly path: DeliveryEndpoint } & Pick<DeliveryClientConfig, "baseUrl" | "environmentId" | "apiMode">): string {
 	return getEndpointUrl({
 		environmentId,
 		path,
@@ -103,7 +103,9 @@ function getFilterParams(filters: readonly Filter<string, string>[] | undefined)
 			match(filter)
 				.returnType<readonly string[][]>()
 				// Special case for "isEmptyRichText" operator
-				.when(isEmptyRichTextFilter, (filter) => [[`${filter.property}[${operatorToFilterOp[filter.operator]}]`, "<p><br></p>"]])
+				.when(isEmptyRichTextFilter, (filter) => [
+					[`${filter.property}[${emptyRichTextToFilterOperator[filter.operator]}]`, "<p><br></p>"],
+				])
 				.when(isQueryFilter, (filter) => {
 					if (!filterHasDefinedValue(filter)) {
 						return [];

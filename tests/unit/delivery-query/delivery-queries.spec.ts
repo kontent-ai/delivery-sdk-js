@@ -1,19 +1,15 @@
 import type { JsonValue } from "@kontent-ai/core-sdk";
 import { describe, expect, it } from "vitest";
 import { type ZodType, z } from "zod";
-import type { DeliveryClientConfig, FullDeliveryClientSchema } from "../../../lib/models/core.models.js";
+import type { DefaultDeliveryClientSchema, DeliveryClientConfig } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
 import { paginationSchema } from "../../../lib/models/pagination.models.js";
 import type { DeliveryRequest } from "../../../lib/models/request.models.js";
-import {
-	createDeliveryFetchQuery,
-	createDeliveryPagingByTokenQuery,
-	createDeliveryPagingByUrlQuery,
-} from "../../../lib/queries/delivery-queries.js";
+import { createDeliveryFetchQuery, createPagedByTokenQuery, createPagedByUrlQuery } from "../../../lib/queries/delivery-queries.js";
 import { getDeliveryUrl } from "../../../lib/utils/url.utils.js";
 import { isFetchQueryWithExpectedFunctions, isPagedFetchQueryWithExpectedFunctions, unitEnvironmentId } from "../../utils/test.utils.js";
 
-const clientConfig: DeliveryClientConfig<FullDeliveryClientSchema> = {
+const clientConfig: DeliveryClientConfig<DefaultDeliveryClientSchema> = {
 	apiMode: "public",
 	environmentId: unitEnvironmentId,
 };
@@ -94,7 +90,7 @@ describe("createDeliveryFetchQuery", () => {
 
 describe("createDeliveryPagingByUrlQuery", () => {
 	it("returns a query with PagedFetchQuery shape", () => {
-		const query = createDeliveryPagingByUrlQuery({
+		const query = createPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: paginationSchema,
@@ -105,7 +101,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 
 	it("URL matches the delivery URL for the configured endpoint", () => {
 		const endpoint = "items" as const;
-		const { inspect } = createDeliveryPagingByUrlQuery({
+		const { inspect } = createPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: paginationSchema,
@@ -115,7 +111,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 	});
 
 	it("URL has no query string when request is undefined", () => {
-		const { inspect } = createDeliveryPagingByUrlQuery({
+		const { inspect } = createPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: paginationSchema,
@@ -126,7 +122,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 
 	it("URL has no query string when request has neither query nor filters", () => {
 		const request: DeliveryRequest<never, never> = {};
-		const { inspect } = createDeliveryPagingByUrlQuery({
+		const { inspect } = createPagedByUrlQuery({
 			config: clientConfig,
 			request,
 			schema: paginationSchema,
@@ -139,7 +135,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 		const request: DeliveryRequest<{ readonly skip: number; readonly limit: number }, never> = {
 			query: { skip: 10, limit: 5 },
 		};
-		const { inspect } = createDeliveryPagingByUrlQuery({
+		const { inspect } = createPagedByUrlQuery({
 			config: clientConfig,
 			request,
 			schema: paginationSchema,
@@ -155,7 +151,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 		const request: DeliveryRequest<never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "movie" }],
 		};
-		const { inspect } = createDeliveryPagingByUrlQuery({
+		const { inspect } = createPagedByUrlQuery({
 			config: clientConfig,
 			request,
 			schema: paginationSchema,
@@ -167,7 +163,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 
 describe("createDeliveryPagingByTokenQuery", () => {
 	it("returns a query with PagedFetchQuery shape", () => {
-		const query = createDeliveryPagingByTokenQuery({
+		const query = createPagedByTokenQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: testSchema,
@@ -178,7 +174,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 
 	it("URL matches the delivery URL for the configured endpoint", () => {
 		const endpoint = "items-feed" as const;
-		const { inspect } = createDeliveryPagingByTokenQuery({
+		const { inspect } = createPagedByTokenQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: testSchema,
@@ -188,7 +184,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 	});
 
 	it("URL has no query string when request is undefined", () => {
-		const { inspect } = createDeliveryPagingByTokenQuery({
+		const { inspect } = createPagedByTokenQuery({
 			config: clientConfig,
 			request: undefined,
 			schema: testSchema,
@@ -199,7 +195,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 
 	it("URL has no query string when request has neither query nor filters", () => {
 		const request: DeliveryRequest<never, never> = {};
-		const { inspect } = createDeliveryPagingByTokenQuery({
+		const { inspect } = createPagedByTokenQuery({
 			config: clientConfig,
 			request,
 			schema: testSchema,
@@ -212,7 +208,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 		const request: DeliveryRequest<{ readonly language: string }, never> = {
 			query: { language: "en-us" },
 		};
-		const { inspect } = createDeliveryPagingByTokenQuery({
+		const { inspect } = createPagedByTokenQuery({
 			config: clientConfig,
 			request,
 			schema: testSchema,
@@ -225,7 +221,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 		const request: DeliveryRequest<never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "blog" }],
 		};
-		const { inspect } = createDeliveryPagingByTokenQuery({
+		const { inspect } = createPagedByTokenQuery({
 			config: clientConfig,
 			request,
 			schema: testSchema,

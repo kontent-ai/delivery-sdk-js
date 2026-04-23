@@ -1,7 +1,7 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
 import type { Filter } from "../../models/filter.models.js";
 import type { DeliveryRequestWithUrlPaging, ElementSelectionQueryParam, SystemOrderQueryParam } from "../../models/request.models.js";
-import { createDeliveryPagingByUrlQuery } from "../delivery-queries.js";
+import { createPagedByUrlQuery } from "../delivery-queries.js";
 import { type ContentTypePayload, type ListContentTypesPayload, listContentTypesPayload } from "./content-type.models.js";
 
 type SystemProperties = keyof ContentTypePayload<DeliveryClientSchema>["system"];
@@ -21,7 +21,7 @@ export function listContentTypesQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ListContentTypesQueryRequest<TSchema>,
 ): ListContentTypesQuery<TSchema> {
-	return createDeliveryPagingByUrlQuery({
+	return createPagedByUrlQuery({
 		config,
 		request,
 		schema: listContentTypesPayload(config.schema),

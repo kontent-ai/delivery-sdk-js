@@ -6,7 +6,7 @@ import type {
 	ElementSelectionQueryParam,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
-import { createDeliveryPagingByTokenQuery } from "../delivery-queries.js";
+import { createPagedByTokenQuery } from "../delivery-queries.js";
 import { type ContentItemPayload, type ItemsFeedPayload, itemsFeedPayload } from "./content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
@@ -47,7 +47,7 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ItemsFeedQueryRequest<TSchema>,
 ): ItemsFeedQuery<TSchema> {
-	return createDeliveryPagingByTokenQuery({
+	return createPagedByTokenQuery({
 		config,
 		request,
 		schema: itemsFeedPayload(config.schema),

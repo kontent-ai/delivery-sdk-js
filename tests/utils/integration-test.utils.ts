@@ -10,7 +10,7 @@ import {
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { expect, it } from "vitest";
 import type { ZodType } from "zod";
-import type { DeliveryClient, DeliveryClientSchema, DeliveryEndpoints } from "../../lib/models/core.models.js";
+import type { DeliveryClient, DeliveryClientSchema, DeliveryEndpoint } from "../../lib/models/core.models.js";
 import { DeliverySdkError } from "../../lib/models/error.models.js";
 import { createDeliveryClient } from "../../lib/public_api.js";
 import { getDeliveryUrl } from "../../lib/utils/url.utils.js";
@@ -42,7 +42,7 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 	expectedSchema,
 }: {
 	readonly expectedSchema: ZodType<TResponsePayload>;
-	readonly endpoint: DeliveryEndpoints;
+	readonly endpoint: DeliveryEndpoint;
 	readonly unitTestPayload: TResponsePayload;
 	readonly selectQuery: SelectQuery<TResponsePayload>;
 }): Promise<void> {
@@ -78,7 +78,7 @@ async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
 }: {
 	readonly client: DeliveryClient<DeliveryClientSchema>;
 	readonly integrationEnvironmentId: string;
-	readonly endpoint: DeliveryEndpoints;
+	readonly endpoint: DeliveryEndpoint;
 	readonly selectQuery: SelectQuery<TResponsePayload>;
 	readonly expectedSchema: ZodType<TResponsePayload>;
 	readonly unitTestPayload: TResponsePayload;
@@ -185,7 +185,7 @@ function createTestMetadata({
 }: {
 	readonly clientEnvironmentId: string;
 	readonly integrationEnvironmentId: string;
-	readonly endpoint: DeliveryEndpoints;
+	readonly endpoint: DeliveryEndpoint;
 }): {
 	readonly isIntegrationTest: boolean;
 	readonly testType: TestType;
@@ -210,7 +210,7 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 	testType,
 }: {
 	readonly testName: string;
-	readonly endpoint: DeliveryEndpoints;
+	readonly endpoint: DeliveryEndpoint;
 	readonly client: DeliveryClient<DeliveryClientSchema>;
 	readonly query: ReturnType<SelectQuery<TResponsePayload>>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
@@ -232,7 +232,7 @@ function registerQueryStructureTests<TResponsePayload extends JsonValue>({
 }: {
 	readonly testName: string;
 	readonly query: ReturnType<SelectQuery<TResponsePayload>>;
-	readonly endpoint: DeliveryEndpoints;
+	readonly endpoint: DeliveryEndpoint;
 	readonly client: DeliveryClient<DeliveryClientSchema>;
 }): void {
 	it(`${testName} Expect url to be correct`, () => {
@@ -387,7 +387,7 @@ async function runFailingClientQueryTestAsync<TResponsePayload extends JsonValue
 	endpoint,
 	selectQuery,
 }: {
-	readonly endpoint: DeliveryEndpoints;
+	readonly endpoint: DeliveryEndpoint;
 	readonly selectQuery: SelectQuery<TResponsePayload>;
 }): Promise<void> {
 	const client = createFailingUnitTestClient();

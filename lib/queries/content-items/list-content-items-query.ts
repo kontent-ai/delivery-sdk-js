@@ -6,7 +6,7 @@ import type {
 	ElementSelectionQueryParam,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
-import { createDeliveryPagingByUrlQuery } from "../delivery-queries.js";
+import { createPagedByUrlQuery } from "../delivery-queries.js";
 import { type ContentItemPayload, type ListContentItemsPayload, listContentItemsPayload } from "./content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
@@ -54,7 +54,7 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ListContentItemsQueryRequest<TSchema>,
 ): ListContentItemsQuery<TSchema> {
-	return createDeliveryPagingByUrlQuery({
+	return createPagedByUrlQuery({
 		config,
 		request,
 		schema: listContentItemsPayload(config.schema),
