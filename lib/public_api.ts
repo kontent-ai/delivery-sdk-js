@@ -2,19 +2,19 @@
 export { createDeliveryClient } from "./client/delivery-client.js";
 export type {
 	ApiMode,
-	DefaultDeliveryClientSchema as FullDeliveryClientSchema,
-	DeliveryApiConfig as ApiDeliveryClientConfig,
+	DefaultDeliveryClientSchema,
+	DeliveryApiConfig,
 	DeliveryClient,
 	DeliveryClientConfig,
 	DeliveryClientSchema,
 	WaitForLoadingNewContentHeaderName,
 } from "./models/core.models.js";
 // Filters
-export type { EmptyRichTextFilter as EmptyRichtextFilter, Filter, ObjectFilter } from "./models/filter.models.js";
+export type { EmptyRichTextFilter, Filter, ObjectFilter } from "./models/filter.models.js";
 // Pagination
 export type {
-	PaginationPayload as PaginationSchema,
-	PaginationWithTotalCountPayload as PaginationSchemaWithTotalCount,
+	PaginationPayload,
+	PaginationWithTotalCountPayload,
 } from "./models/pagination.models.js";
 // Request config
 export type { DeliveryRequestConfig } from "./models/request.models.js";
