@@ -40,7 +40,11 @@ export type DeliveryClientSchema<TSchema extends DefaultDeliveryClientSchema = D
 /**
  * Placeholder type if extension is needed in future
  */
-export type DeliveryMetadata = unknown;
+export type DeliveryMetadata = NonNullable<unknown>;
+
+export type DeliveryMetadataWithToken = {
+	readonly continuationToken: string | undefined;
+};
 
 export type ApiMode = "public" | "preview" | "secure";
 
@@ -81,9 +85,16 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	itemsReferencingAsset(request: ItemsReferencingAssetQueryRequest<TSchema>): ItemsReferencingAssetQuery<TSchema>;
 };
 
-export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>;
+export type DeliveryFetchQuery<TPayload extends JsonValue, TMeta extends DeliveryMetadata | DeliveryMetadataWithToken> = FetchQuery<
+	TPayload,
+	DeliverySdkError,
+	TMeta
+>;
 
-export type DeliveryPagedFetchQuery<TPayload extends JsonValue> = PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>;
+export type DeliveryPagedFetchQuery<
+	TPayload extends JsonValue,
+	TMeta extends DeliveryMetadata | DeliveryMetadataWithToken,
+> = PagedFetchQuery<TPayload, DeliverySdkError, TMeta>;
 
 export type DeliveryEndpoint =
 	| "languages"

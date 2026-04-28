@@ -1,6 +1,6 @@
 import type { JsonValue } from "@kontent-ai/core-sdk";
 import { describe, expect, it } from "vitest";
-import type { DeliveryPagedFetchQuery } from "../../../lib/models/core.models.js";
+import type { DeliveryMetadata, DeliveryPagedFetchQuery } from "../../../lib/models/core.models.js";
 import { createDeliveryClient } from "../../../lib/public_api.js";
 import { unitEnvironmentId } from "../../utils/test.utils.js";
 
@@ -11,7 +11,7 @@ describe("Query parameters", () => {
 	});
 
 	it("Paging parameters should be added to the url", () => {
-		const listingQueries: readonly DeliveryPagedFetchQuery<JsonValue>[] = [
+		const listingQueries: readonly DeliveryPagedFetchQuery<JsonValue, DeliveryMetadata>[] = [
 			client.listLanguages({
 				query: {
 					order: "system.name[asc]",

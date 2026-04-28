@@ -1,9 +1,12 @@
-import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery } from "../../models/core.models.js";
+import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequest } from "../../models/request.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
 import { type ContentTypeElementPayload, contentTypeElementSchema } from "./content-type.models.js";
 
-export type FetchContentTypeElementQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<ContentTypeElementPayload<TSchema>>;
+export type FetchContentTypeElementQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
+	ContentTypeElementPayload<TSchema>,
+	DeliveryMetadata
+>;
 
 export type FetchContentTypeElementQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequest<never, never> & {
 	readonly elementCodename: NonNullable<TSchema["elementCodenames"]>[number];

@@ -1,4 +1,9 @@
-import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
+import type {
+	DeliveryClientConfig,
+	DeliveryClientSchema,
+	DeliveryMetadataWithToken,
+	DeliveryPagedFetchQuery,
+} from "../../models/core.models.js";
 import type { Filter } from "../../models/filter.models.js";
 import type {
 	DeliveryRequestWithTokenPaging,
@@ -12,7 +17,10 @@ import { type ContentItemPayload, type ItemsFeedPayload, itemsFeedSchema } from 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
 
-export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>>;
+export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
+	ItemsFeedPayload<TSchema>,
+	DeliveryMetadataWithToken
+>;
 
 export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
 	{

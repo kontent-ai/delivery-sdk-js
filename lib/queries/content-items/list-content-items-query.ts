@@ -1,4 +1,4 @@
-import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
+import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryMetadata, DeliveryPagedFetchQuery } from "../../models/core.models.js";
 import type { Filter } from "../../models/filter.models.js";
 import type {
 	DeliveryRequestWithUrlPaging,
@@ -12,7 +12,10 @@ import { type ContentItemPayload, type ListContentItemsPayload, listContentItems
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
 
-export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>>;
+export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
+	ListContentItemsPayload<TSchema>,
+	DeliveryMetadata
+>;
 
 export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
 	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ElementProperties<TSchema>>,

@@ -1,11 +1,17 @@
-import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryPagedFetchQuery } from "../../models/core.models.js";
+import type {
+	DeliveryClientConfig,
+	DeliveryClientSchema,
+	DeliveryMetadataWithToken,
+	DeliveryPagedFetchQuery,
+} from "../../models/core.models.js";
 import type { Filter } from "../../models/filter.models.js";
 import type { DeliveryRequestWithTokenPaging } from "../../models/request.models.js";
 import { createDeliveryPagedByTokenQuery } from "../delivery-queries.js";
 import { type ContentItemSystemPayload, type ItemsReferencingAssetPayload, itemsReferencingAssetSchema } from "./content-item.models.js";
 
 export type ItemsReferencingAssetQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
-	ItemsReferencingAssetPayload<TSchema>
+	ItemsReferencingAssetPayload<TSchema>,
+	DeliveryMetadataWithToken
 >;
 
 export type ItemsReferencingAssetQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
