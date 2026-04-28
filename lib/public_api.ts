@@ -9,9 +9,7 @@ export type {
 	DeliveryClientSchema,
 	WaitForLoadingNewContentHeaderName,
 } from "./models/core.models.js";
-// Filters
 export type { EmptyRichTextFilter, Filter, ObjectFilter } from "./models/filter.models.js";
-// Pagination
 export type {
 	PaginationPayload,
 	PaginationWithTotalCountPayload,
@@ -31,6 +29,7 @@ export {
 	type FetchContentItemPayload,
 	type ItemsFeedPayload,
 	type ItemsReferencingAssetPayload,
+	type ItemsReferencingItemPayload,
 	type ListContentItemsPayload,
 } from "./queries/content-items/content-item.models.js";
 export type { FetchContentItemQuery, FetchContentItemQueryRequest } from "./queries/content-items/fetch-content-item-query.js";
@@ -39,6 +38,10 @@ export type {
 	ItemsReferencingAssetQuery,
 	ItemsReferencingAssetQueryRequest,
 } from "./queries/content-items/items-referencing-asset-query.js";
+export type {
+	ItemsReferencingItemQuery,
+	ItemsReferencingItemQueryRequest,
+} from "./queries/content-items/items-referencing-item.js";
 export type { ListContentItemsQuery, ListContentItemsQueryRequest } from "./queries/content-items/list-content-items-query.js";
 export type {
 	ContentTypeElementPayload,

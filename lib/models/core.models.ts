@@ -5,6 +5,7 @@ import type {
 	ItemsReferencingAssetQuery,
 	ItemsReferencingAssetQueryRequest,
 } from "../queries/content-items/items-referencing-asset-query.js";
+import type { ItemsReferencingItemQuery, ItemsReferencingItemQueryRequest } from "../queries/content-items/items-referencing-item.js";
 import type { ListContentItemsQuery, ListContentItemsQueryRequest } from "../queries/content-items/list-content-items-query.js";
 import type {
 	FetchContentTypeElementQuery,
@@ -91,6 +92,7 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	listContentItems(request?: ListContentItemsQueryRequest<TSchema>): ListContentItemsQuery<TSchema>;
 	itemsFeed(request?: ItemsFeedQueryRequest<TSchema>): ItemsFeedQuery<TSchema>;
 	itemsReferencingAsset(request: ItemsReferencingAssetQueryRequest<TSchema>): ItemsReferencingAssetQuery<TSchema>;
+	itemsReferencingItem(request: ItemsReferencingItemQueryRequest<TSchema>): ItemsReferencingItemQuery<TSchema>;
 };
 
 export type DeliveryFetchQuery<TPayload extends JsonValue, TMeta extends DeliveryMetadata | DeliveryMetadataWithToken> = FetchQuery<

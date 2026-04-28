@@ -5,6 +5,7 @@ import {
 	type ItemsReferencingAssetQueryRequest,
 	itemsReferencingAssetQuery,
 } from "../queries/content-items/items-referencing-asset-query.js";
+import { type ItemsReferencingItemQueryRequest, itemsReferencingItemQuery } from "../queries/content-items/items-referencing-item.js";
 import { type ListContentItemsQueryRequest, listContentItemsQuery } from "../queries/content-items/list-content-items-query.js";
 import {
 	type FetchContentTypeElementQueryRequest,
@@ -57,5 +58,6 @@ export function createDeliveryClient<const TSchema extends DefaultDeliveryClient
 		listContentItems: (request?: ListContentItemsQueryRequest<TSchema>) => listContentItemsQuery(config, request),
 		itemsFeed: (request?: ItemsFeedQueryRequest<TSchema>) => itemsFeedQuery(config, request),
 		itemsReferencingAsset: (request: ItemsReferencingAssetQueryRequest<TSchema>) => itemsReferencingAssetQuery(config, request),
+		itemsReferencingItem: (request: ItemsReferencingItemQueryRequest<TSchema>) => itemsReferencingItemQuery(config, request),
 	};
 }
