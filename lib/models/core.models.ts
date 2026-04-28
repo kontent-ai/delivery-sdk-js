@@ -47,11 +47,11 @@ export type DeliveryMetadataWithToken = {
 };
 
 export type TokenPagingDeliveryExtraResponseProps = {
-	readonly lastContinuationToken: string | undefined;
+	readonly nextContinuationToken: string | undefined;
 };
 
 export type UrlPagingDeliveryExtraResponseProps = {
-	readonly lastNextPageUrl: string | undefined;
+	readonly nextPageUrl: string | undefined;
 };
 
 export type ApiMode = "public" | "preview" | "secure";

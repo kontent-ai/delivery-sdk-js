@@ -43,7 +43,7 @@ export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByUrl(),
 		mapPagingExtraResponseProps: (responses) => ({
-			lastNextPageUrl: responses.at(-1)?.payload?.pagination?.next_page,
+			nextPageUrl: responses.at(-1)?.payload?.pagination?.next_page,
 		}),
 		mapMetadata: () => ({}),
 	});
@@ -64,7 +64,7 @@ export function createDeliveryPagedByTokenQuery<TPayload extends JsonValue>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByContinuationToken(),
 		mapPagingExtraResponseProps: (responses) => ({
-			lastContinuationToken: responses.at(-1)?.meta?.continuationToken,
+			nextContinuationToken: responses.at(-1)?.meta?.continuationToken,
 		}),
 		mapMetadata: (_, data) => ({
 			continuationToken: data.continuationToken,
