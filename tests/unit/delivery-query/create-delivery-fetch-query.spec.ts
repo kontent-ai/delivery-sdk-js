@@ -26,7 +26,7 @@ describe("createDeliveryFetchQuery", () => {
 		expect(isFetchQueryWithExpectedFunctions(query)).toBeTruthy();
 	});
 
-	it("URL matches the delivery URL for the configured endpoint", () => {
+	it("resolves to the delivery URL for the configured endpoint", () => {
 		const endpoint = "items/my_item";
 		const { inspect } = createDeliveryFetchQuery({
 			config: clientConfig,
@@ -37,7 +37,7 @@ describe("createDeliveryFetchQuery", () => {
 		expect(inspect().data?.url?.toString()).toEqual(new URL(getDeliveryUrl({ ...clientConfig, path: endpoint })).toString());
 	});
 
-	it("URL has no query string when request is undefined", () => {
+	it("has no query string when request is undefined", () => {
 		const { inspect } = createDeliveryFetchQuery({
 			config: clientConfig,
 			request: undefined,
@@ -47,7 +47,7 @@ describe("createDeliveryFetchQuery", () => {
 		expect(inspect().data?.url?.toString()).not.toContain("?");
 	});
 
-	it("URL has no query string when request has neither query nor filters", () => {
+	it("has no query string when request has neither query nor filters", () => {
 		const { inspect } = createDeliveryFetchQuery({
 			config: clientConfig,
 			request: {},
@@ -57,7 +57,7 @@ describe("createDeliveryFetchQuery", () => {
 		expect(inspect().data?.url?.toString()).not.toContain("?");
 	});
 
-	it("URL includes query parameters when request.query is provided", () => {
+	it("includes query parameters when request.query is provided", () => {
 		const request: DeliveryRequest<{ readonly language: string; readonly depth: number }, never> = {
 			query: { language: "en-us", depth: 2 },
 		};
@@ -73,7 +73,7 @@ describe("createDeliveryFetchQuery", () => {
 		expect(url?.searchParams.get("depth")).toBe(request.query?.depth.toString());
 	});
 
-	it("URL includes filters when request.filters is provided", () => {
+	it("includes filters when request.filters is provided", () => {
 		const request: DeliveryRequest<never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "article" }],
 		};

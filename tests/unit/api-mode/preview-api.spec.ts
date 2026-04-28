@@ -36,17 +36,17 @@ describe("Preview API", async () => {
 	// execute query so that http service is called and request headers are captured
 	const { success, error, response } = await query.fetchPageSafe();
 
-	it("Response should be successful", () => {
+	it("returns a successful response", () => {
 		expect(success).toBeTruthy();
 		expect(error).toBeUndefined();
 	});
 
-	it("Request headers should contain authorization header with delivery API key", () => {
+	it("includes an authorization header with the delivery API key", () => {
 		const authorizationHeader = requestHeaders.find((header) => header.name === ("Authorization" satisfies KnownHeaderName));
 		expect(authorizationHeader?.value).toEqual(`Bearer ${previewApiKey}`);
 	});
 
-	it("URL should point to preview API", () => {
+	it("uses the preview API URL", () => {
 		const { host } = new URL(response?.meta?.url ?? "n/a");
 		expect(host).toEqual("preview-deliver.kontent.ai");
 	});

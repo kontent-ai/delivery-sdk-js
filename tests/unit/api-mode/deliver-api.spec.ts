@@ -34,17 +34,17 @@ describe("Public deliver API", async () => {
 	// execute query so that http service is called and request headers are captured
 	const { success, error, response } = await query.fetchPageSafe();
 
-	it("Response should be successful", () => {
+	it("returns a successful response", () => {
 		expect(success).toBeTruthy();
 		expect(error).toBeUndefined();
 	});
 
-	it("Request headers should NOT contain authorization header with delivery API key", () => {
+	it("does not include an authorization header", () => {
 		const authorizationHeader = requestHeaders.find((header) => header.name === ("Authorization" satisfies KnownHeaderName));
 		expect(authorizationHeader).toBeUndefined();
 	});
 
-	it("URL should point to public deliver API", () => {
+	it("uses the public deliver API URL", () => {
 		const { host } = new URL(response?.meta?.url ?? "n/a");
 		expect(host).toEqual("deliver.kontent.ai");
 	});

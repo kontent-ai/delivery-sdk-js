@@ -17,7 +17,7 @@ const paginationPayload = (nextPageUrl: string | undefined) => ({
 	pagination: { skip: 0, limit: 10, count: 100, next_page: nextPageUrl },
 });
 
-describe("createDeliveryPagingByUrlQuery", () => {
+describe("createDeliveryPagedByUrlQuery", () => {
 	it("returns a query with PagedFetchQuery shape", () => {
 		const query = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
@@ -28,7 +28,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 		expect(isPagedFetchQueryWithExpectedFunctions(query)).toBeTruthy();
 	});
 
-	it("URL matches the delivery URL for the configured endpoint", () => {
+	it("resolves to the delivery URL for the configured endpoint", () => {
 		const endpoint = "items" as const;
 		const { inspect } = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
@@ -39,7 +39,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 		expect(inspect().data?.url?.toString()).toEqual(new URL(getDeliveryUrl({ ...clientConfig, path: endpoint })).toString());
 	});
 
-	it("URL has no query string when request is undefined", () => {
+	it("has no query string when request is undefined", () => {
 		const { inspect } = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
@@ -49,7 +49,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 		expect(inspect().data?.url?.toString()).not.toContain("?");
 	});
 
-	it("URL has no query string when request has neither query nor filters", () => {
+	it("has no query string when request has neither query nor filters", () => {
 		const request: DeliveryRequest<never, never> = {};
 		const { inspect } = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
@@ -60,7 +60,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 		expect(inspect().data?.url?.toString()).not.toContain("?");
 	});
 
-	it("URL includes query parameters when request.query is provided", () => {
+	it("includes query parameters when request.query is provided", () => {
 		const request: DeliveryRequest<{ readonly skip: number; readonly limit: number }, never> = {
 			query: { skip: 10, limit: 5 },
 		};
@@ -76,7 +76,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 		expect(url?.searchParams.get("limit")).toBe("5");
 	});
 
-	it("URL includes filters when request.filters is provided", () => {
+	it("includes filters when request.filters is provided", () => {
 		const request: DeliveryRequest<never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "movie" }],
 		};
@@ -90,7 +90,7 @@ describe("createDeliveryPagingByUrlQuery", () => {
 	});
 });
 
-describe("createDeliveryPagingByUrlQuery - nextPageUrl in fetchAllPagesSafe result", () => {
+describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPagesSafe result", () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});
@@ -125,7 +125,7 @@ describe("createDeliveryPagingByUrlQuery - nextPageUrl in fetchAllPagesSafe resu
 	});
 });
 
-describe("createDeliveryPagingByUrlQuery - nextPageUrl in fetchAllPages result", () => {
+describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPages result", () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});

@@ -20,7 +20,7 @@ describe("Custom base URL API", async () => {
 	// execute query so that http service is called and request headers are captured
 	const { response } = await query.fetchPageSafe();
 
-	it("URL should point to custom base URL", () => {
+	it("uses the custom base URL", () => {
 		const { origin } = new URL(response?.meta?.url ?? "n/a");
 		expect(origin).toEqual(`${customBaseUrl.protocol}://${customBaseUrl.host}`);
 	});

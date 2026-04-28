@@ -4,13 +4,13 @@ import type { DeliveryMetadata, DeliveryPagedFetchQuery } from "../../../lib/mod
 import { createDeliveryClient } from "../../../lib/public_api.js";
 import { unitEnvironmentId } from "../../utils/test.utils.js";
 
-describe("Query parameters", () => {
+describe("Query Parameters", () => {
 	const client = createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
 	});
 
-	it("Paging parameters should be added to the url", () => {
+	it("adds paging parameters to the URL", () => {
 		const listingQueries: readonly DeliveryPagedFetchQuery<JsonValue, DeliveryMetadata>[] = [
 			client.listLanguages({
 				query: {
@@ -57,7 +57,7 @@ describe("Query parameters", () => {
 		}
 	});
 
-	it("Elements query parameter should be added as a comma-separated list in the url", () => {
+	it("adds the elements parameter as a comma-separated list", () => {
 		const { inspect } = client.listContentTypes({
 			query: {
 				elements: ["x", "y", "z"],

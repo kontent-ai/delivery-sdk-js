@@ -5,7 +5,7 @@ import type { DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
 import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 
-describe("Schema validation", () => {
+describe("Schema Validation", () => {
 	type TestDeliveryClientTypes = DeliveryClientSchema<{
 		readonly languageCodenames: readonly ["en-US", "cs-CZ", "de-DE"];
 		readonly taxonomyCodenames: readonly [];
@@ -34,7 +34,7 @@ describe("Schema validation", () => {
 		},
 	};
 
-	test("Response should NOT be successful when response does not match defined language codenames schema", async () => {
+	test("fails when the response does not match the defined language codename schema", async () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
@@ -63,7 +63,7 @@ describe("Schema validation", () => {
 		expect(error?.details.reason).toBe("validationFailed");
 	});
 
-	test("Response should be successful when response matches defines language codenames schema", async () => {
+	test("succeeds when the response matches the defined language codename schema", async () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
@@ -88,7 +88,7 @@ describe("Schema validation", () => {
 		expect(success).toBeTruthy();
 	});
 
-	test("Response should be successful when response matches general string codename schema", async () => {
+	test("succeeds when the response matches the general string codename schema", async () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,

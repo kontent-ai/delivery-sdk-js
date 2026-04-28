@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import type { PaginationPayload } from "../../../lib/models/pagination.models.js";
 import { getNextPageByUrl } from "../../../lib/utils/paging.utils.js";
 
-describe("Paging utils", () => {
-	it("Next page URL should be returned", () => {
+describe("Paging Utils", () => {
+	it("returns the next page URL", () => {
 		const response: QueryResponse<PaginationPayload, unknown> = {
 			meta: {
 				status: 200,

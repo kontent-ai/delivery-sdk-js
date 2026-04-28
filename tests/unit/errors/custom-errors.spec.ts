@@ -5,7 +5,7 @@ import { unitEnvironmentId } from "../../utils/test.utils.js";
 
 class CustomError extends Error {}
 
-describe("Handling of custom errors", async () => {
+describe("Custom Error Handling", async () => {
 	const { success, error } = await createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
@@ -32,15 +32,15 @@ describe("Handling of custom errors", async () => {
 		.listLanguages()
 		.fetchPageSafe();
 
-	it("Success should be false", () => {
+	it("returns a failed response", () => {
 		expect(success).toBe(false);
 	});
 
-	it("Error should be adapterError", () => {
+	it("sets the error reason to adapterError", () => {
 		expect(error?.details.reason).toBe<ErrorReason>("adapterError");
 	});
 
-	it("Original error should be propagated and be of proper type", () => {
+	it("propagates the original error as a CustomError instance", () => {
 		if (error?.details.reason === "adapterError") {
 			expect(error.details.originalError).toBeInstanceOf(CustomError);
 		} else {

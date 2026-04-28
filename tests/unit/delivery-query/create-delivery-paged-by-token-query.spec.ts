@@ -16,7 +16,7 @@ const clientConfig: DeliveryClientConfig<DefaultDeliveryClientSchema> = {
 
 const testSchema: ZodType<JsonValue> = z.object({});
 
-describe("createDeliveryPagingByTokenQuery", () => {
+describe("createDeliveryPagedByTokenQuery", () => {
 	it("returns a query with PagedFetchQuery shape", () => {
 		const query = createDeliveryPagedByTokenQuery({
 			config: clientConfig,
@@ -27,7 +27,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 		expect(isPagedFetchQueryWithExpectedFunctions(query)).toBeTruthy();
 	});
 
-	it("URL matches the delivery URL for the configured endpoint", () => {
+	it("resolves to the delivery URL for the configured endpoint", () => {
 		const endpoint = "items-feed" as const;
 		const { inspect } = createDeliveryPagedByTokenQuery({
 			config: clientConfig,
@@ -38,7 +38,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 		expect(inspect().data?.url?.toString()).toEqual(new URL(getDeliveryUrl({ ...clientConfig, path: endpoint })).toString());
 	});
 
-	it("URL has no query string when request is undefined", () => {
+	it("has no query string when request is undefined", () => {
 		const { inspect } = createDeliveryPagedByTokenQuery({
 			config: clientConfig,
 			request: undefined,
@@ -48,7 +48,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 		expect(inspect().data?.url.toString()).not.toContain("?");
 	});
 
-	it("URL has no query string when request has neither query nor filters", () => {
+	it("has no query string when request has neither query nor filters", () => {
 		const request: DeliveryRequest<never, never> = {};
 		const { inspect } = createDeliveryPagedByTokenQuery({
 			config: clientConfig,
@@ -59,7 +59,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 		expect(inspect().data?.url.toString()).not.toContain("?");
 	});
 
-	it("URL includes query parameters when request.query is provided", () => {
+	it("includes query parameters when request.query is provided", () => {
 		const request: DeliveryRequest<{ readonly language: string }, never> = {
 			query: { language: "en-us" },
 		};
@@ -72,7 +72,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 		expect(inspect().data?.url?.searchParams.get("language")).toBe("en-us");
 	});
 
-	it("URL includes filters when request.filters is provided", () => {
+	it("includes filters when request.filters is provided", () => {
 		const request: DeliveryRequest<never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "blog" }],
 		};
@@ -86,7 +86,7 @@ describe("createDeliveryPagingByTokenQuery", () => {
 	});
 });
 
-describe("createDeliveryPagingByTokenQuery - continuationToken in meta", () => {
+describe("createDeliveryPagedByTokenQuery — continuationToken in meta", () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});
@@ -119,7 +119,7 @@ describe("createDeliveryPagingByTokenQuery - continuationToken in meta", () => {
 	});
 });
 
-describe("createDeliveryPagingByTokenQuery - nextContinuationToken in fetchAllPagesSafe result", () => {
+describe("createDeliveryPagedByTokenQuery — nextContinuationToken in fetchAllPagesSafe result", () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});
@@ -154,7 +154,7 @@ describe("createDeliveryPagingByTokenQuery - nextContinuationToken in fetchAllPa
 	});
 });
 
-describe("createDeliveryPagingByTokenQuery - nextContinuationToken in fetchAllPages result", () => {
+describe("createDeliveryPagedByTokenQuery — nextContinuationToken in fetchAllPages result", () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});

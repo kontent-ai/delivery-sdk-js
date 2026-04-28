@@ -52,7 +52,7 @@ describe("addQueryParametersToUrl", () => {
 	});
 });
 
-describe("isEmptyRichtextFilter", () => {
+describe("isEmptyRichTextFilter", () => {
 	it("returns true for object with isEmptyRichText operator", () => {
 		expect(isEmptyRichTextFilter({ property: "elements.description", operator: "isEmptyRichText" })).toBe(true);
 	});

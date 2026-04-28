@@ -5,7 +5,7 @@ import type { DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
 import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 
-describe("Valid schema validation with missing props", () => {
+describe("Schema Validation — Missing Properties", () => {
 	const mockPayload: Omit<ListLanguagesPayload<DeliveryClientSchema>, "pagination"> = {
 		languages: [
 			{
@@ -18,7 +18,7 @@ describe("Valid schema validation with missing props", () => {
 		],
 	};
 
-	test("Validation should fail when response is missing schema properties", async () => {
+	test("fails when the response is missing required schema properties", async () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,

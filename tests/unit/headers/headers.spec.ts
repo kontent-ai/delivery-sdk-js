@@ -52,13 +52,13 @@ describe("Delivery tracking header", async () => {
 
 	const requestHeaders = await captureRequestHeaders();
 
-	it("Request headers should contain delivery tracking header with current package info", () => {
+	it("includes the delivery tracking header with current package info", () => {
 		const syncTrackingHeader = requestHeaders.find((header) => header.name === expectedHeader.name);
 		expect(syncTrackingHeader?.value).toEqual(expectedHeader.value);
 	});
 });
 
-describe("Bypass CDN cache header should be absent by default", async () => {
+describe("Bypass CDN Cache Header", async () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});
@@ -71,7 +71,7 @@ describe("Bypass CDN cache header should be absent by default", async () => {
 
 	const requestHeaders = await captureRequestHeaders();
 
-	it("Request headers should NOT contain bypass CDN cache header", () => {
+	it("is absent by default", () => {
 		const bypassCdnCacheHeader = requestHeaders.find(
 			(header) => header.name === ("X-KC-Wait-For-Loading-New-Content" satisfies WaitForLoadingNewContentHeaderName),
 		);
@@ -79,7 +79,7 @@ describe("Bypass CDN cache header should be absent by default", async () => {
 	});
 });
 
-describe("Extra headers should be present", async () => {
+describe("Extra Request Headers", async () => {
 	const extraHeader: Header = { name: "X-Extra-Header", value: "extra" };
 
 	afterEach(() => {
@@ -94,26 +94,26 @@ describe("Extra headers should be present", async () => {
 
 	const requestHeaders = await captureRequestHeaders({ config: { customHeaders: [extraHeader] } });
 
-	it("Request headers should contain extra header", () => {
+	it("are forwarded from the request config", () => {
 		const foundHeader = requestHeaders.find((header) => header.name === extraHeader.name);
 		expect(foundHeader?.value).toEqual(extraHeader.value);
 	});
 });
 
-describe("Continuation header token should be present", async () => {
+describe("Continuation Token Header — when provided in the request", async () => {
 	const continuationTokenValue = "x";
 	const requestHeaders = await captureRequestHeaders({ headers: { "X-Continuation": continuationTokenValue } });
 
-	it("Request headers should contain continuation token header", () => {
+	it("is sent to the API", () => {
 		const foundHeader = requestHeaders.find((header) => header.name === ("X-Continuation" satisfies ContinuationTokenHeaderName));
 		expect(foundHeader?.value).toEqual(continuationTokenValue);
 	});
 });
 
-describe("Continuation header token should be absent by default", async () => {
+describe("Continuation Token Header — when not provided", async () => {
 	const requestHeaders = await captureRequestHeaders();
 
-	it("Request headers should NOT contain continuation token header", () => {
+	it("is not sent to the API", () => {
 		const foundHeader = requestHeaders.find((header) => header.name === ("X-Continuation" satisfies ContinuationTokenHeaderName));
 		expect(foundHeader).toBeUndefined();
 	});

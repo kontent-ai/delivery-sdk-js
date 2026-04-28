@@ -19,7 +19,7 @@ describe("DeliverySdkError", async () => {
 		.listLanguages()
 		.fetchPageSafe();
 
-	it("error returned from a failed query should be an instance of DeliverySdkError", () => {
+	it("returns a DeliverySdkError on failure", () => {
 		expect(error).toBeInstanceOf(DeliverySdkError);
 	});
 });

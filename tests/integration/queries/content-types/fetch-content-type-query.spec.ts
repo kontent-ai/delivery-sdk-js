@@ -14,7 +14,7 @@ describe("Fetch content type query", async () => {
 	});
 });
 
-describe("Fetch content type query with extra field in element", async () => {
+describe("Fetch Content Type Query — Extra Field in Element", async () => {
 	const payload = {
 		system: {
 			id: "445da25c-d991-4b0e-bece-c572124d91f5",
@@ -33,12 +33,12 @@ describe("Fetch content type query with extra field in element", async () => {
 
 	const { success } = await contentTypeSchema(getIntegrationTestsSchema()).safeParseAsync(payload);
 
-	it("Parsing should be successful when extra field is present in element", () => {
+	it("parses successfully when extra fields are present in an element", () => {
 		expect(success).toBeTruthy();
 	});
 });
 
-describe("Fetch content type query with invalid field type in element should fail", async () => {
+describe("Fetch Content Type Query — Invalid Field Type in Element", async () => {
 	const payload = {
 		system: {
 			id: "445da25c-d991-4b0e-bece-c572124d91f5",
@@ -56,12 +56,12 @@ describe("Fetch content type query with invalid field type in element should fai
 
 	const { success } = await contentTypeSchema(getIntegrationTestsSchema()).safeParseAsync(payload);
 
-	it("Parsing should fail when invalid field type is present in element", () => {
+	it("fails to parse when an invalid field type is present in element", () => {
 		expect(success).toBeFalsy();
 	});
 });
 
-describe("Fetch query with missing system field should fail", async () => {
+describe("Fetch Content Type Query — Missing System Field", async () => {
 	const payload = {
 		system: {
 			id: "445da25c-d991-4b0e-bece-c572124d91f5",
@@ -78,7 +78,7 @@ describe("Fetch query with missing system field should fail", async () => {
 
 	const { success } = await contentTypeSchema(getIntegrationTestsSchema()).safeParseAsync(payload);
 
-	it("Parsing should fail when system field is missing", () => {
+	it("fails to parse when the system field is missing", () => {
 		expect(success).toBeFalsy();
 	});
 });
