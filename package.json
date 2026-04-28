@@ -42,7 +42,7 @@
 		"update:version": "tsx ./scripts/update-version.ts"
 	},
 	"peerDependencies": {
-		"@kontent-ai/core-sdk": "^12.0.0-preview.29",
+		"@kontent-ai/core-sdk": "^12.0.0-preview.30",
 		"ts-pattern": "^5",
 		"zod": "^4"
 	},
@@ -50,11 +50,11 @@
 		"@kontent-ai/biome-config": "0.7.0",
 		"@kontent-ai/eslint-config": "2.4.1",
 		"eslint": "10.2.1",
-		"@biomejs/biome": "2.4.12",
+		"@biomejs/biome": "2.4.13",
 		"@types/node": "25.6.0",
 		"vitest": "4.1.5",
 		"@vitest/coverage-v8": "4.1.5",
 		"tsx": "4.21.0",
-		"@typescript/native-preview": "7.0.0-dev.20260423.1"
+		"@typescript/native-preview": "7.0.0-dev.20260428.1"
 	}
 }

@@ -10,7 +10,6 @@ describe("Paging utils", () => {
 				status: 200,
 				responseHeaders: [],
 				url: new URL("https://domain.com"),
-				continuationToken: undefined,
 			},
 			payload: {
 				pagination: {

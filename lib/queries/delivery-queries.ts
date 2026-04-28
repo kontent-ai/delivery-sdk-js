@@ -30,10 +30,11 @@ export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
-}): PagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError> {
-	return createPagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>({
+}): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata> {
+	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByUrl(),
+		mapPagingExtraResponseProps: () => {},
 	});
 }
 
@@ -47,10 +48,11 @@ export function createDeliveryPagedByTokenQuery<TPayload extends JsonValue>({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
-}): PagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError> {
-	return createPagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>({
+}): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata> {
+	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByContinuationToken(),
+		mapPagingExtraResponseProps: () => {},
 	});
 }
 
@@ -64,8 +66,8 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
-}): FetchQuery<TPayload, DeliveryMetadata, DeliverySdkError> {
-	return createFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>(
+}): FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata> {
+	return createFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>(
 		getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 	);
 }
@@ -81,8 +83,17 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	readonly endpoint: DeliveryEndpoint;
 	readonly schema: ZodType<TPayload>;
 }): Pick<
-	FetchQueryRequest<TPayload, DeliveryMetadata, DeliverySdkError>,
-	"abortSignal" | "config" | "sdkInfo" | "mapMetadata" | "authorizationApiKey" | "url" | "requestHeaders" | "zodSchema" | "mapError"
+	FetchQueryRequest<TPayload, DeliverySdkError, DeliveryMetadata>,
+	| "abortSignal"
+	| "config"
+	| "sdkInfo"
+	| "mapMetadata"
+	| "authorizationApiKey"
+	| "url"
+	| "requestHeaders"
+	| "zodSchema"
+	| "mapError"
+	| "mapExtraResponseProps"
 > {
 	return {
 		abortSignal: undefined,
@@ -91,6 +102,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 		mapMetadata: () => {
 			return {};
 		},
+		mapExtraResponseProps: () => {},
 		requestHeaders: getHeaders(request),
 		url: getUrl({ request, config, endpoint }),
 		authorizationApiKey: config.apiMode === "preview" || config.apiMode === "secure" ? config.deliveryApiKey : undefined,

@@ -1,8 +1,8 @@
 import {
 	type ContinuationTokenHeaderName,
+	createSdkIdHeader,
 	getDefaultHttpAdapter,
 	getDefaultHttpService,
-	getSdkIdHeader,
 	type Header,
 } from "@kontent-ai/core-sdk";
 import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
@@ -34,7 +34,7 @@ async function captureRequestHeaders(listConfig?: ItemsFeedQueryRequest<DefaultD
 }
 
 describe("Delivery tracking header", async () => {
-	const expectedHeader = getSdkIdHeader({
+	const expectedHeader = createSdkIdHeader({
 		name: "@kontent-ai/delivery-sdk",
 		version: "{{version}}",
 		host: "npmjs.com",

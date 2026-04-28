@@ -81,9 +81,9 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	itemsReferencingAsset(request: ItemsReferencingAssetQueryRequest<TSchema>): ItemsReferencingAssetQuery<TSchema>;
 };
 
-export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>;
+export type DeliveryFetchQuery<TPayload extends JsonValue> = FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>;
 
-export type DeliveryPagedFetchQuery<TPayload extends JsonValue> = PagedFetchQuery<TPayload, DeliveryMetadata, DeliverySdkError>;
+export type DeliveryPagedFetchQuery<TPayload extends JsonValue> = PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>;
 
 export type DeliveryEndpoint =
 	| "languages"
