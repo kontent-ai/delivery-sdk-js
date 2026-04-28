@@ -10,11 +10,11 @@ type ValidLanguageCodename = (typeof languageCodenames)[number];
 const client: DeliveryClient<{
 	languageCodenames: typeof languageCodenames;
 	taxonomyCodenames: typeof taxonomyCodenames;
-	contentTypeCodenames: string[];
-	elementCodenames: string[];
-	collectionCodenames: string[];
-	workflowCodenames: string[];
-	workflowStepCodenames: string[];
+	contentTypeCodenames: readonly string[];
+	elementCodenames: readonly string[];
+	collectionCodenames: readonly string[];
+	workflowCodenames: readonly string[];
+	workflowStepCodenames: readonly string[];
 }> = createDeliveryClient({
 	apiMode: "public",
 	environmentId: "x",
