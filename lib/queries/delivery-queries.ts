@@ -83,25 +83,6 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	});
 }
 
-export function createDeliveryFetchWithTokenQuery<TPayload extends JsonValue>({
-	config,
-	schema,
-	endpoint,
-	request,
-}: {
-	readonly request: DefaultDeliveryRequest | undefined;
-	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
-	readonly schema: ZodType<TPayload>;
-	readonly endpoint: DeliveryEndpoint;
-}): FetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken> {
-	return createFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken>({
-		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
-		mapMetadata: (_, data) => ({
-			continuationToken: data.continuationToken,
-		}),
-	});
-}
-
 function getSharedRequestData<TPayload extends JsonValue>({
 	config,
 	endpoint,
