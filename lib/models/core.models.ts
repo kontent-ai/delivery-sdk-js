@@ -46,6 +46,14 @@ export type DeliveryMetadataWithToken = {
 	readonly continuationToken: string | undefined;
 };
 
+export type TokenPagingDeliveryExtraResponseProps = {
+	readonly lastContinuationToken: string | undefined;
+};
+
+export type UrlPagingDeliveryExtraResponseProps = {
+	readonly lastNextPageUrl: string | undefined;
+};
+
 export type ApiMode = "public" | "preview" | "secure";
 
 export type DeliveryClientConfig<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = SdkConfig<

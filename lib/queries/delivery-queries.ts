@@ -15,6 +15,8 @@ import type {
 	DeliveryEndpoint,
 	DeliveryMetadata,
 	DeliveryMetadataWithToken,
+	TokenPagingDeliveryExtraResponseProps,
+	UrlPagingDeliveryExtraResponseProps,
 } from "../models/core.models.js";
 import type { DeliverySdkError } from "../models/error.models.js";
 import type { Filter } from "../models/filter.models.js";
@@ -36,11 +38,13 @@ export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
-}): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata> {
-	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>({
+}): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps> {
+	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByUrl(),
-		mapPagingExtraResponseProps: () => {},
+		mapPagingExtraResponseProps: (responses) => ({
+			lastNextPageUrl: responses.at(-1)?.payload?.pagination?.next_page,
+		}),
 		mapMetadata: () => ({}),
 	});
 }
@@ -55,11 +59,13 @@ export function createDeliveryPagedByTokenQuery<TPayload extends JsonValue>({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
-}): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken> {
-	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken>({
+}): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps> {
+	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByContinuationToken(),
-		mapPagingExtraResponseProps: () => {},
+		mapPagingExtraResponseProps: (responses) => ({
+			lastContinuationToken: responses.at(-1)?.meta?.continuationToken,
+		}),
 		mapMetadata: (_, data) => ({
 			continuationToken: data.continuationToken,
 		}),

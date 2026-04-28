@@ -118,3 +118,71 @@ describe("createDeliveryPagingByTokenQuery - continuationToken in meta", () => {
 		expect(response?.meta.continuationToken).toBeUndefined();
 	});
 });
+
+describe("createDeliveryPagingByTokenQuery - lastContinuationToken in fetchAllPagesSafe result", () => {
+	afterEach(() => {
+		vi.resetAllMocks();
+	});
+
+	it("lastContinuationToken equals the X-Continuation token of the last fetched page", async () => {
+		const token = "last-page-token";
+		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200, continuationToken: token });
+
+		const { success, lastContinuationToken } = await createDeliveryPagedByTokenQuery({
+			config: clientConfig,
+			request: undefined,
+			schema: testSchema,
+			endpoint: "items-feed",
+		}).fetchAllPagesSafe({ maxPagesCount: 1 });
+
+		expect(success).toBeTruthy();
+		expect(lastContinuationToken).toBe(token);
+	});
+
+	it("lastContinuationToken is undefined when the last page has no X-Continuation header", async () => {
+		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200 });
+
+		const { success, lastContinuationToken } = await createDeliveryPagedByTokenQuery({
+			config: clientConfig,
+			request: undefined,
+			schema: testSchema,
+			endpoint: "items-feed",
+		}).fetchAllPagesSafe();
+
+		expect(success).toBeTruthy();
+		expect(lastContinuationToken).toBeUndefined();
+	});
+});
+
+describe("createDeliveryPagingByTokenQuery - lastContinuationToken in fetchAllPages result", () => {
+	afterEach(() => {
+		vi.resetAllMocks();
+	});
+
+	it("lastContinuationToken equals the X-Continuation token of the last fetched page", async () => {
+		const token = "last-page-token";
+		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200, continuationToken: token });
+
+		const { lastContinuationToken } = await createDeliveryPagedByTokenQuery({
+			config: clientConfig,
+			request: undefined,
+			schema: testSchema,
+			endpoint: "items-feed",
+		}).fetchAllPages({ maxPagesCount: 1 });
+
+		expect(lastContinuationToken).toBe(token);
+	});
+
+	it("lastContinuationToken is undefined when the last page has no X-Continuation header", async () => {
+		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200 });
+
+		const { lastContinuationToken } = await createDeliveryPagedByTokenQuery({
+			config: clientConfig,
+			request: undefined,
+			schema: testSchema,
+			endpoint: "items-feed",
+		}).fetchAllPages();
+
+		expect(lastContinuationToken).toBeUndefined();
+	});
+});

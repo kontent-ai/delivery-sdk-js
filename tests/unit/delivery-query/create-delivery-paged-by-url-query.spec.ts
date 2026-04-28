@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import type { DefaultDeliveryClientSchema, DeliveryClientConfig } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
 import { paginationSchema } from "../../../lib/models/pagination.models.js";
@@ -11,6 +12,10 @@ const clientConfig: DeliveryClientConfig<DefaultDeliveryClientSchema> = {
 	apiMode: "public",
 	environmentId: unitEnvironmentId,
 };
+
+const paginationPayload = (nextPageUrl: string | undefined) => ({
+	pagination: { skip: 0, limit: 10, count: 100, next_page: nextPageUrl },
+});
 
 describe("createDeliveryPagingByUrlQuery", () => {
 	it("returns a query with PagedFetchQuery shape", () => {
@@ -82,5 +87,73 @@ describe("createDeliveryPagingByUrlQuery", () => {
 			endpoint: "items",
 		});
 		expect(inspect().data?.url?.toString()).toContain(new URLSearchParams("system.type[eq]=movie").toString());
+	});
+});
+
+describe("createDeliveryPagingByUrlQuery - lastNextPageUrl in fetchAllPagesSafe result", () => {
+	afterEach(() => {
+		vi.resetAllMocks();
+	});
+
+	it("lastNextPageUrl equals the next_page value of the last fetched page", async () => {
+		const nextPageUrl = "https://deliver.kontent.ai/next-page";
+		mockGlobalFetchJsonResponse({ jsonResponse: paginationPayload(nextPageUrl), statusCode: 200 });
+
+		const { success, lastNextPageUrl } = await createDeliveryPagedByUrlQuery({
+			config: clientConfig,
+			request: undefined,
+			schema: paginationSchema,
+			endpoint: "items",
+		}).fetchAllPagesSafe({ maxPagesCount: 1 });
+
+		expect(success).toBeTruthy();
+		expect(lastNextPageUrl).toBe(nextPageUrl);
+	});
+
+	it("lastNextPageUrl is an empty string when the last page has no next page", async () => {
+		mockGlobalFetchJsonResponse({ jsonResponse: paginationPayload(""), statusCode: 200 });
+
+		const { success, lastNextPageUrl } = await createDeliveryPagedByUrlQuery({
+			config: clientConfig,
+			request: undefined,
+			schema: paginationSchema,
+			endpoint: "items",
+		}).fetchAllPagesSafe();
+
+		expect(success).toBeTruthy();
+		expect(lastNextPageUrl).toBe("");
+	});
+});
+
+describe("createDeliveryPagingByUrlQuery - lastNextPageUrl in fetchAllPages result", () => {
+	afterEach(() => {
+		vi.resetAllMocks();
+	});
+
+	it("lastNextPageUrl equals the next_page value of the last fetched page", async () => {
+		const nextPageUrl = "https://deliver.kontent.ai/next-page";
+		mockGlobalFetchJsonResponse({ jsonResponse: paginationPayload(nextPageUrl), statusCode: 200 });
+
+		const { lastNextPageUrl } = await createDeliveryPagedByUrlQuery({
+			config: clientConfig,
+			request: undefined,
+			schema: paginationSchema,
+			endpoint: "items",
+		}).fetchAllPages({ maxPagesCount: 1 });
+
+		expect(lastNextPageUrl).toBe(nextPageUrl);
+	});
+
+	it("lastNextPageUrl is an empty string when the last page has no next page", async () => {
+		mockGlobalFetchJsonResponse({ jsonResponse: paginationPayload(undefined), statusCode: 200 });
+
+		const { lastNextPageUrl } = await createDeliveryPagedByUrlQuery({
+			config: clientConfig,
+			request: undefined,
+			schema: paginationSchema,
+			endpoint: "items",
+		}).fetchAllPages();
+
+		expect(lastNextPageUrl).toBe(undefined);
 	});
 });
