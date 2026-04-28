@@ -24,7 +24,7 @@ import { mapDeliveryError } from "../utils/error.utils.js";
 import { getNextPageByContinuationToken, getNextPageByUrl } from "../utils/paging.utils.js";
 import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
 
-type DefaultDeliveryRequest = DeliveryRequest<QueryParameterRecord, readonly Filter<string, string>[]>;
+type AnyDeliveryRequest = DeliveryRequest<QueryParameterRecord, readonly Filter<string, string>[]>;
 
 export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload>({
 	config,
@@ -32,7 +32,7 @@ export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload
 	endpoint,
 	request,
 }: {
-	readonly request: DefaultDeliveryRequest | undefined;
+	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
@@ -51,7 +51,7 @@ export function createDeliveryPagedByTokenQuery<TPayload extends JsonValue>({
 	endpoint,
 	request,
 }: {
-	readonly request: DefaultDeliveryRequest | undefined;
+	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
@@ -72,7 +72,7 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	endpoint,
 	request,
 }: {
-	readonly request: DefaultDeliveryRequest | undefined;
+	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: ZodType<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
@@ -89,7 +89,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	schema,
 	request,
 }: {
-	readonly request: DefaultDeliveryRequest | undefined;
+	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoint;
 	readonly schema: ZodType<TPayload>;
@@ -123,14 +123,14 @@ function getUrl({
 	config,
 	endpoint,
 }: {
-	readonly request: DefaultDeliveryRequest | undefined;
+	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoint;
 }): string {
 	return addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), request?.query, request?.filters);
 }
 
-function getHeaders(request?: DefaultDeliveryRequest): readonly Header[] {
+function getHeaders(request?: AnyDeliveryRequest): readonly Header[] {
 	if (!request) {
 		return [];
 	}

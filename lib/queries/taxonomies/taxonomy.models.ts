@@ -12,7 +12,7 @@ const taxonomyTermSchema = <TSchema extends DeliveryClientSchema>(schema: TSchem
 		},
 	});
 
-export const taxonomyPayload = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const taxonomySchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
 			system: z
@@ -30,13 +30,13 @@ export const taxonomyPayload = <TSchema extends DeliveryClientSchema>(schema: TS
 export const listTaxonomiesSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.object({
-			taxonomies: z.array(taxonomyPayload(schema)).readonly(),
+			taxonomies: z.array(taxonomySchema(schema)).readonly(),
 			...paginationSchema.shape,
 		})
 		.readonly();
 
 export type TaxonomyTermPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof taxonomyTermSchema<TSchema>>>;
 
-export type TaxonomyPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof taxonomyPayload<TSchema>>>;
+export type TaxonomyPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof taxonomySchema<TSchema>>>;
 
 export type ListTaxonomiesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listTaxonomiesSchema<TSchema>>>;

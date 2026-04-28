@@ -10,7 +10,7 @@ const contentTypeElementOptionSchema = z
 	})
 	.readonly();
 
-const contentTypeElementsSchema = z.discriminatedUnion("type", [
+const contentTypeAnyElementSchema = z.discriminatedUnion("type", [
 	z
 		.object({
 			type: z.literal("text"),
@@ -97,7 +97,10 @@ export const contentTypeSchema = <TSchema extends DeliveryClientSchema>(schema: 
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),
-			elements: z.record(getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentTypeElementsSchema),
+			elements: z.record(
+				getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames),
+				contentTypeAnyElementSchema,
+			),
 		})
 		.readonly();
 
@@ -112,7 +115,7 @@ export const listContentTypesSchema = <TSchema extends DeliveryClientSchema>(sch
 export const contentTypeElementSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z
 		.intersection(
-			contentTypeElementsSchema,
+			contentTypeAnyElementSchema,
 			z
 				.object({
 					// Required only for the endpoint `types/{type}/elements/{element}`
