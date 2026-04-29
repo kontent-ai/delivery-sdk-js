@@ -1,32 +1,41 @@
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
+import z from "zod";
 import { createDeliveryClient } from "../../lib/client/delivery-client.js";
 import type { DeliveryClient } from "../../lib/models/core.models.js";
+import { type ContentItemPayload, contentItemSystemSchema, elementSchemas } from "../../lib/queries/content-items/content-item.models.js";
 
-const languageCodenames = ["en-US", "cs-CZ"] as const;
-const taxonomyCodenames = ["categories"] as const;
+const schema = {
+	languageCodenames: ["en-us", "es-es"],
+	taxonomyCodenames: ["category", "tag"],
+	contentTypeCodenames: ["movie", "actor"],
+	elementCodenames: ["title", "first_name", "last_name"],
+	collectionCodenames: ["movies", "tv-shows"],
+	workflowCodenames: ["published", "draft"],
+	workflowStepCodenames: ["published", "draft"],
+} as const;
 
-type ValidLanguageCodename = (typeof languageCodenames)[number];
+type DeliverySchema = typeof schema;
 
-const client: DeliveryClient<{
-	languageCodenames: typeof languageCodenames;
-	taxonomyCodenames: typeof taxonomyCodenames;
-	contentTypeCodenames: readonly string[];
-	elementCodenames: readonly string[];
-	collectionCodenames: readonly string[];
-	workflowCodenames: readonly string[];
-	workflowStepCodenames: readonly string[];
-}> = createDeliveryClient({
+type TypedDeliveryClient = DeliveryClient<DeliverySchema>;
+
+const actorSchema = z
+	.object({
+		system: contentItemSystemSchema(schema),
+		elements: z
+			.object({
+				first_name: elementSchemas.text,
+				last_name: elementSchemas.text,
+			})
+			.readonly(),
+	})
+	.readonly();
+
+type Actor = z.infer<typeof actorSchema>;
+
+const client: TypedDeliveryClient = createDeliveryClient({
 	apiMode: "public",
 	environmentId: "x",
-	schema: {
-		languageCodenames,
-		taxonomyCodenames,
-		contentTypeCodenames: [],
-		elementCodenames: [],
-		collectionCodenames: [],
-		workflowCodenames: [],
-		workflowStepCodenames: [],
-	},
+	schema,
 	responseValidation: {
 		enable: false,
 	},
@@ -39,8 +48,26 @@ const client: DeliveryClient<{
 const languageResponse = await client.listLanguages().fetchPage();
 
 // Verifies that the language codenames are assignable from the response schema
-const responseLanguageCodenames: readonly ValidLanguageCodename[] = languageResponse.payload.languages.map(
+const responseLanguageCodenames: readonly (typeof schema.languageCodenames)[number][] = languageResponse.payload.languages.map(
 	(language) => language.system.codename,
 );
+
+const { payload } = await client
+	.fetchContentItem({
+		codename: "itemCodename",
+	})
+	.fetch();
+
+function isActor(item: ContentItemPayload<DeliverySchema>): item is Actor {
+	return actorSchema.safeParse(item).success;
+}
+
+if (isActor(payload.item)) {
+	const firstName: string = payload.item.elements.first_name.value;
+	const lastName: string = payload.item.elements.last_name.value;
+
+	void firstName;
+	void lastName;
+}
 
 void responseLanguageCodenames;
