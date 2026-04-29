@@ -25,12 +25,17 @@ const actorSchema = z
 			.object({
 				first_name: elementSchemas.text,
 				last_name: elementSchemas.text,
+				taxonomy: elementSchemas.taxonomy,
 			})
 			.readonly(),
 	})
 	.readonly();
 
 type Actor = z.infer<typeof actorSchema>;
+
+function isActor(item: ContentItemPayload<DeliverySchema>): item is Actor {
+	return actorSchema.safeParse(item).success;
+}
 
 const client: TypedDeliveryClient = createDeliveryClient({
 	apiMode: "public",
@@ -57,10 +62,6 @@ const { payload } = await client
 		codename: "itemCodename",
 	})
 	.fetch();
-
-function isActor(item: ContentItemPayload<DeliverySchema>): item is Actor {
-	return actorSchema.safeParse(item).success;
-}
 
 if (isActor(payload.item)) {
 	const firstName: string = payload.item.elements.first_name.value;
