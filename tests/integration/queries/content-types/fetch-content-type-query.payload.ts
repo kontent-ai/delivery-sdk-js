@@ -6,7 +6,7 @@ export default {
 		id: "445da25c-d991-4b0e-bece-c572124d91f5",
 		name: "Movie",
 		codename: "movie",
-		last_modified: "2026-02-26T14:02:39.320664Z",
+		last_modified: "2026-04-10T10:23:30.2425214Z",
 	},
 	elements: {
 		title: {
@@ -28,6 +28,10 @@ export default {
 				{
 					name: "yes",
 					codename: "yes",
+				},
+				{
+					name: "no",
+					codename: "no",
 				},
 			],
 		},
@@ -56,9 +60,9 @@ export default {
 			type: "modular_content",
 			name: "Cast",
 		},
-		customElem: {
+		custom: {
 			type: "custom",
-			name: "Custom element",
+			name: "Custom",
 			value: null,
 		},
 	},

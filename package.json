@@ -42,7 +42,7 @@
 		"update:version": "tsx ./scripts/update-version.ts"
 	},
 	"peerDependencies": {
-		"@kontent-ai/core-sdk": "^12.0.0-preview.30",
+		"@kontent-ai/core-sdk": "^12.0.0-preview.32",
 		"ts-pattern": "^5",
 		"zod": "^4"
 	},
@@ -55,6 +55,6 @@
 		"vitest": "4.1.5",
 		"@vitest/coverage-v8": "4.1.5",
 		"tsx": "4.21.0",
-		"@typescript/native-preview": "7.0.0-dev.20260428.1"
+		"@typescript/native-preview": "7.0.0-dev.20260430.1"
 	}
 }

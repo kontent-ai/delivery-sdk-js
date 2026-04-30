@@ -1,4 +1,4 @@
-import { getCodenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
+import { codenameOfWithStringFallback, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationSchema } from "../../models/pagination.models.js";
@@ -10,7 +10,7 @@ export const languageSchema = <TSchema extends DeliveryClientSchema>(schema: TSc
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema<TSchema["languageCodenames"][number]>(schema?.languageCodenames),
+					codename: codenameOfWithStringFallback<TSchema["languageCodenames"][number]>(schema?.languageCodenames),
 				})
 				.readonly(),
 		})

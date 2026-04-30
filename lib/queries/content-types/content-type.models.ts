@@ -1,4 +1,4 @@
-import { getCodenameSchema, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
+import { codenameOf, codenameSchema, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationSchema } from "../../models/pagination.models.js";
@@ -6,7 +6,7 @@ import { paginationSchema } from "../../models/pagination.models.js";
 const contentTypeElementOptionSchema = z
 	.object({
 		name: z.string(),
-		codename: z.string(),
+		codename: codenameSchema,
 	})
 	.readonly();
 
@@ -93,14 +93,11 @@ export const contentTypeSchema = <TSchema extends DeliveryClientSchema>(schema: 
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: getCodenameSchema<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
+					codename: codenameOf<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),
-			elements: z.record(
-				getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames),
-				contentTypeAnyElementSchema,
-			),
+			elements: z.record(codenameOf<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentTypeAnyElementSchema),
 		})
 		.readonly();
 
@@ -112,14 +109,14 @@ export const listContentTypesSchema = <TSchema extends DeliveryClientSchema>(sch
 		})
 		.readonly();
 
-export const contentTypeElementSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const contentTypeElementSchema = () =>
 	z
 		.intersection(
 			contentTypeAnyElementSchema,
 			z
 				.object({
 					// Required only for the endpoint `types/{type}/elements/{element}`
-					codename: getCodenameSchema<TSchema["elementCodenames"][number]>(schema?.elementCodenames),
+					codename: codenameSchema,
 				})
 				.readonly(),
 		)
@@ -127,6 +124,6 @@ export const contentTypeElementSchema = <TSchema extends DeliveryClientSchema>(s
 
 export type ContentTypePayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentTypeSchema<TSchema>>>;
 
-export type ContentTypeElementPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentTypeElementSchema<TSchema>>>;
+export type ContentTypeElementPayload = z.infer<ReturnType<typeof contentTypeElementSchema>>;
 
 export type ListContentTypesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentTypesSchema<TSchema>>>;

@@ -1,4 +1,4 @@
-import { getCodenameSchema, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
+import { codenameOf, codenameSchema, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../models/pagination.models.js";
@@ -7,7 +7,7 @@ const multipleChoiceOptionSchema = <TCodename extends string = string>(codenames
 	z
 		.object({
 			name: z.string(),
-			codename: getCodenameSchema<TCodename>(codenames),
+			codename: codenameOf<TCodename>(codenames),
 		})
 		.readonly();
 
@@ -15,7 +15,7 @@ const taxonomyTermValueSchema = <TCodename extends string = string>(codenames?: 
 	z
 		.object({
 			name: z.string(),
-			codename: getCodenameSchema<TCodename>(codenames),
+			codename: codenameOf<TCodename>(codenames),
 		})
 		.readonly();
 
@@ -46,7 +46,7 @@ const richTextImageSchema = z
 
 const richTextLinkSchema = z
 	.object({
-		codename: z.string(),
+		codename: codenameSchema,
 		type: z.string(),
 		url_slug: z.string(),
 	})
@@ -98,7 +98,7 @@ export const elementSchemas = {
 			value: z.string(),
 			images: z.record(z.string(), richTextImageSchema),
 			links: z.record(z.string(), richTextLinkSchema),
-			modular_content: z.array(z.string()).readonly(),
+			modular_content: z.array(codenameSchema).readonly(),
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
@@ -133,7 +133,7 @@ export const elementSchemas = {
 		.object({
 			type: z.literal("modular_content"),
 			name: z.string(),
-			value: z.array(z.string()).readonly(),
+			value: z.array(codenameSchema).readonly(),
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
@@ -166,13 +166,13 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schem
 	z.object({
 		id: kontentUuidSchema,
 		name: z.string(),
-		codename: getCodenameSchema<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
-		language: getCodenameSchema<TSchema["languageCodenames"][number]>(schema?.languageCodenames),
-		type: getCodenameSchema<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
-		collection: getCodenameSchema<TSchema["collectionCodenames"][number]>(schema?.collectionCodenames),
+		codename: codenameOf<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
+		language: codenameOf<TSchema["languageCodenames"][number]>(schema?.languageCodenames),
+		type: codenameOf<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
+		collection: codenameOf<TSchema["collectionCodenames"][number]>(schema?.collectionCodenames),
 		last_modified: z.iso.datetime(),
-		workflow: getCodenameSchema<TSchema["workflowCodenames"][number]>(schema?.workflowCodenames),
-		workflow_step: getCodenameSchema<TSchema["workflowStepCodenames"][number]>(schema?.workflowStepCodenames),
+		workflow: codenameOf<TSchema["workflowCodenames"][number]>(schema?.workflowCodenames),
+		workflow_step: codenameOf<TSchema["workflowStepCodenames"][number]>(schema?.workflowStepCodenames),
 	});
 
 export const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
