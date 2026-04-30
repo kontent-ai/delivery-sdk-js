@@ -25,6 +25,7 @@ const actorSchema = z
 			.object({
 				first_name: elementSchemas.text,
 				last_name: elementSchemas.text,
+				role: elementSchemas.multipleChoice(["hero", "villain", "sidekick"]),
 				category: elementSchemas.taxonomy(["action_film", "drama", "comedy"]),
 			})
 			.readonly(),
@@ -66,10 +67,12 @@ const { payload } = await client
 if (isActor(payload.item)) {
 	const firstName: string = payload.item.elements.first_name.value;
 	const lastName: string = payload.item.elements.last_name.value;
+	const roleCodename: undefined | "hero" | "villain" | "sidekick" = payload.item.elements.role.value[0]?.codename;
 	const categoryCodename: undefined | "action_film" | "drama" | "comedy" = payload.item.elements.category.value[0]?.codename;
 
 	void firstName;
 	void lastName;
+	void roleCodename;
 	void categoryCodename;
 }
 

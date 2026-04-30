@@ -3,12 +3,13 @@ import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../models/pagination.models.js";
 
-const multipleChoiceOptionSchema = z
-	.object({
-		name: z.string(),
-		codename: z.string(),
-	})
-	.readonly();
+const multipleChoiceOptionSchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+	z
+		.object({
+			name: z.string(),
+			codename: getCodenameSchema<TCodename>(codenames),
+		})
+		.readonly();
 
 const taxonomyTermValueSchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
 	z
@@ -52,6 +53,16 @@ const richTextLinkSchema = z
 	.catchall(jsonValueSchema)
 	.readonly();
 
+const multipleChoiceSchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+	z
+		.object({
+			type: z.literal("multiple_choice"),
+			name: z.string(),
+			value: z.array(multipleChoiceOptionSchema(codenames)).readonly(),
+		})
+		.catchall(jsonValueSchema)
+		.readonly();
+
 const taxonomySchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
 	z
 		.object({
@@ -91,14 +102,7 @@ export const elementSchemas = {
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	multipleChoice: z
-		.object({
-			type: z.literal("multiple_choice"),
-			name: z.string(),
-			value: z.array(multipleChoiceOptionSchema).readonly(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
+	multipleChoice: multipleChoiceSchema,
 	dateTime: z
 		.object({
 			type: z.literal("date_time"),
@@ -148,7 +152,7 @@ const contentItemElementSchema = z
 		elementSchemas.text,
 		elementSchemas.number,
 		elementSchemas.richText,
-		elementSchemas.multipleChoice,
+		elementSchemas.multipleChoice(),
 		elementSchemas.dateTime,
 		elementSchemas.asset,
 		elementSchemas.taxonomy(),
