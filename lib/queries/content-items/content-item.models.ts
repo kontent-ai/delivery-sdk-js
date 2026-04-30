@@ -10,12 +10,13 @@ const multipleChoiceOptionSchema = z
 	})
 	.readonly();
 
-const taxonomyTermValueSchema = z
-	.object({
-		name: z.string(),
-		codename: z.string(),
-	})
-	.readonly();
+const taxonomyTermValueSchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+	z
+		.object({
+			name: z.string(),
+			codename: getCodenameSchema<TCodename>(codenames),
+		})
+		.readonly();
 
 const assetValueSchema = z
 	.object({
@@ -50,6 +51,17 @@ const richTextLinkSchema = z
 	})
 	.catchall(jsonValueSchema)
 	.readonly();
+
+const taxonomySchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+	z
+		.object({
+			type: z.literal("taxonomy"),
+			name: z.string(),
+			taxonomy_group: z.string(),
+			value: z.array(taxonomyTermValueSchema(codenames)).readonly(),
+		})
+		.catchall(jsonValueSchema)
+		.readonly();
 
 export const elementSchemas = {
 	text: z
@@ -104,15 +116,7 @@ export const elementSchemas = {
 		})
 		.catchall(jsonValueSchema)
 		.readonly(),
-	taxonomy: z
-		.object({
-			type: z.literal("taxonomy"),
-			name: z.string(),
-			taxonomy_group: z.string(),
-			value: z.array(taxonomyTermValueSchema).readonly(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
+	taxonomy: taxonomySchema,
 	urlSlug: z
 		.object({
 			type: z.literal("url_slug"),
@@ -147,7 +151,7 @@ const contentItemElementSchema = z
 		elementSchemas.multipleChoice,
 		elementSchemas.dateTime,
 		elementSchemas.asset,
-		elementSchemas.taxonomy,
+		elementSchemas.taxonomy(),
 		elementSchemas.urlSlug,
 		elementSchemas.linkedItems,
 		elementSchemas.custom,

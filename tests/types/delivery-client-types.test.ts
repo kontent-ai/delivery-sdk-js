@@ -25,7 +25,7 @@ const actorSchema = z
 			.object({
 				first_name: elementSchemas.text,
 				last_name: elementSchemas.text,
-				taxonomy: elementSchemas.taxonomy,
+				category: elementSchemas.taxonomy(["action_film", "drama", "comedy"]),
 			})
 			.readonly(),
 	})
@@ -66,9 +66,11 @@ const { payload } = await client
 if (isActor(payload.item)) {
 	const firstName: string = payload.item.elements.first_name.value;
 	const lastName: string = payload.item.elements.last_name.value;
+	const categoryCodename: undefined | "action_film" | "drama" | "comedy" = payload.item.elements.category.value[0]?.codename;
 
 	void firstName;
 	void lastName;
+	void categoryCodename;
 }
 
 void responseLanguageCodenames;
