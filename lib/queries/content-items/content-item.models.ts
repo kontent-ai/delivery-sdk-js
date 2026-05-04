@@ -19,6 +19,17 @@ const taxonomyTermValueSchema = <TCodename extends string = string>(codenames?: 
 		})
 		.readonly();
 
+const renditionSchema = z
+	.object({
+		rendition_id: kontentUuidSchema,
+		preset_id: kontentUuidSchema,
+		width: z.number(),
+		height: z.number(),
+		query: z.string(),
+	})
+	.catchall(jsonValueSchema)
+	.readonly();
+
 const assetValueSchema = z
 	.object({
 		name: z.string(),
@@ -28,7 +39,7 @@ const assetValueSchema = z
 		url: z.url(),
 		width: z.number().nullable(),
 		height: z.number().nullable(),
-		renditions: z.record(z.string(), jsonValueSchema),
+		renditions: z.object({ default: renditionSchema.optional() }).readonly(),
 	})
 	.catchall(jsonValueSchema)
 	.readonly();
