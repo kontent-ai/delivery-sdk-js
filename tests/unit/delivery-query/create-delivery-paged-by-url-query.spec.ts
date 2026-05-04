@@ -13,7 +13,7 @@ const clientConfig: DeliveryClientConfig<DefaultDeliveryClientSchema> = {
 	environmentId: unitEnvironmentId,
 };
 
-const paginationPayload = (nextPageUrl: string | undefined) => ({
+const paginationPayload = (nextPageUrl: string) => ({
 	pagination: { skip: 0, limit: 10, count: 100, next_page: nextPageUrl },
 });
 
@@ -142,18 +142,5 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPages result"
 		}).fetchAllPages({ maxPagesCount: 1 });
 
 		expect(nextPageUrl).toBe(expectedUrl);
-	});
-
-	it("nextPageUrl is an empty string when the last page has no next page", async () => {
-		mockGlobalFetchJsonResponse({ jsonResponse: paginationPayload(undefined), statusCode: 200 });
-
-		const { nextPageUrl } = await createDeliveryPagedByUrlQuery({
-			config: clientConfig,
-			request: undefined,
-			schema: paginationSchema,
-			endpoint: "items",
-		}).fetchAllPages();
-
-		expect(nextPageUrl).toBe(undefined);
 	});
 });

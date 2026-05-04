@@ -501,16 +501,15 @@ v17 can validate API responses against Zod schemas at runtime, catching unexpect
 const client = createDeliveryClient({
     apiMode: "public",
     environmentId: "...",
-    responseValidation: { enable: true },
 });
 ```
 
-When enabled, a failed validation returns a `validationFailed` error reason with the underlying `ZodError`:
+When parsing fails, it returns a `parsingFailed` error reason with the underlying `ZodError`:
 
 ```typescript
 const { success, error } = await client.listLanguages().fetchPageSafe();
 
-if (!success && error?.details.reason === "validationFailed") {
+if (!success && error?.details.reason === "parsingFailed") {
     console.error(error.details.zodError);
 }
 ```

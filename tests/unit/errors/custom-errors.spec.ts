@@ -25,9 +25,6 @@ describe("Custom Error Handling", async () => {
 				},
 			},
 		}),
-		responseValidation: {
-			enable: true,
-		},
 	})
 		.listLanguages()
 		.fetchPageSafe();

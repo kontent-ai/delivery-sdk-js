@@ -3,10 +3,7 @@ import type { DeliveryRequest } from "../../models/request.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
 import { type ContentTypeElementPayload, contentTypeElementSchema } from "./content-type.models.js";
 
-export type FetchContentTypeElementQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
-	ContentTypeElementPayload<TSchema>,
-	DeliveryMetadata
->;
+export type FetchContentTypeElementQuery = DeliveryFetchQuery<ContentTypeElementPayload, DeliveryMetadata>;
 
 export type FetchContentTypeElementQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequest<never, never> & {
 	readonly elementCodename: NonNullable<TSchema["elementCodenames"]>[number];
@@ -16,11 +13,11 @@ export type FetchContentTypeElementQueryRequest<TSchema extends DeliveryClientSc
 export function fetchContentTypeElementQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request: FetchContentTypeElementQueryRequest<TSchema>,
-): FetchContentTypeElementQuery<TSchema> {
+): FetchContentTypeElementQuery {
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: contentTypeElementSchema(config.schema),
+		schema: contentTypeElementSchema(),
 		endpoint: `types/${request.typeCodename}/elements/${request.elementCodename}`,
 	});
 }

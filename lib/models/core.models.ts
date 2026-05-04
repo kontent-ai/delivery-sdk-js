@@ -87,7 +87,7 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	listContentTypes(request?: ListContentTypesQueryRequest<TSchema>): ListContentTypesQuery<TSchema>;
 	fetchTaxonomy(request: FetchTaxonomyQueryRequest<TSchema>): FetchTaxonomyQuery<TSchema>;
 	fetchContentType(request: FetchContentTypeQueryRequest<TSchema>): FetchContentTypeQuery<TSchema>;
-	fetchContentTypeElement(request: FetchContentTypeElementQueryRequest<TSchema>): FetchContentTypeElementQuery<TSchema>;
+	fetchContentTypeElement(request: FetchContentTypeElementQueryRequest<TSchema>): FetchContentTypeElementQuery;
 	fetchContentItem(request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema>;
 	listContentItems(request?: ListContentItemsQueryRequest<TSchema>): ListContentItemsQuery<TSchema>;
 	itemsFeed(request?: ItemsFeedQueryRequest<TSchema>): ItemsFeedQuery<TSchema>;

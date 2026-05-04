@@ -42,9 +42,6 @@ const client: TypedDeliveryClient = createDeliveryClient({
 	apiMode: "public",
 	environmentId: "x",
 	schema,
-	responseValidation: {
-		enable: false,
-	},
 	httpService: getTestHttpServiceWithJsonResponse({
 		jsonResponse: {},
 		statusCode: 200,

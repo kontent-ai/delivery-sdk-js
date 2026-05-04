@@ -20,6 +20,9 @@ describe("Public deliver API", async () => {
 	const query = createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
+		runtimeValidation: {
+			validateResponses: false,
+		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: async (options) => {

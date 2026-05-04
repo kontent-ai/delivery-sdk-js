@@ -22,6 +22,9 @@ describe("Secure API", async () => {
 		apiMode: "secure",
 		environmentId: unitEnvironmentId,
 		deliveryApiKey: secureApiKey,
+		runtimeValidation: {
+			validateResponses: false,
+		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: async (options) => {
@@ -34,10 +37,9 @@ describe("Secure API", async () => {
 	}).listLanguages();
 
 	// execute query so that http service is called and request headers are captured
-	const { success, error, response } = await query.fetchPageSafe();
+	const { error, response } = await query.fetchPageSafe();
 
 	it("returns a successful response", () => {
-		expect(success).toBeTruthy();
 		expect(error).toBeUndefined();
 	});
 

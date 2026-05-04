@@ -1,10 +1,12 @@
 import { z } from "zod";
 
+const nextPageSchema = z.url().nullable().or(z.literal(""));
+
 const paginationObjectSchema = z.object({
 	skip: z.number(),
 	limit: z.number(),
 	count: z.number(),
-	next_page: z.string(),
+	next_page: nextPageSchema,
 });
 
 export const paginationSchema = z.object({

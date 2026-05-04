@@ -22,6 +22,9 @@ describe("Preview API", async () => {
 		apiMode: "preview",
 		environmentId: unitEnvironmentId,
 		deliveryApiKey: previewApiKey,
+		runtimeValidation: {
+			validateResponses: false,
+		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: async (options) => {
