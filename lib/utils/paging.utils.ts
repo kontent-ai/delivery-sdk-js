@@ -3,9 +3,10 @@ import type { PaginationPayload } from "../models/pagination.models.js";
 
 export function getNextPageByUrl<TPayload extends PaginationPayload, TMeta>(): GetNextPageData<TPayload, TMeta> {
 	return (response) => {
+		const nextPageUrl = response.payload.pagination.next_page;
 		return {
 			continuationToken: undefined,
-			nextPageUrl: response.payload.pagination.next_page,
+			nextPageUrl: nextPageUrl.length ? nextPageUrl : undefined,
 		};
 	};
 }
