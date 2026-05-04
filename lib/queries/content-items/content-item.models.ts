@@ -25,7 +25,7 @@ const assetValueSchema = z
 		description: z.string().nullable(),
 		type: z.string(),
 		size: z.number(),
-		url: z.string(),
+		url: z.url(),
 		width: z.number().nullable(),
 		height: z.number().nullable(),
 		renditions: z.record(z.string(), jsonValueSchema),
@@ -37,7 +37,7 @@ const richTextImageSchema = z
 	.object({
 		image_id: z.string(),
 		description: z.string().nullable(),
-		url: z.string(),
+		url: z.url(),
 		width: z.number().nullable(),
 		height: z.number().nullable(),
 	})
