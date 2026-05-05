@@ -1,4 +1,4 @@
-import { codenameOf, codenameSchema, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
+import { codenameOf, codenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../models/pagination.models.js";
@@ -27,7 +27,6 @@ const renditionSchema = z
 		height: z.number(),
 		query: z.string(),
 	})
-	.catchall(jsonValueSchema)
 	.readonly();
 
 const assetValueSchema = z
@@ -41,7 +40,6 @@ const assetValueSchema = z
 		height: z.number().nullable(),
 		renditions: z.object({ default: renditionSchema.optional() }).readonly(),
 	})
-	.catchall(jsonValueSchema)
 	.readonly();
 
 const richTextImageSchema = z
@@ -52,7 +50,6 @@ const richTextImageSchema = z
 		width: z.number().nullable(),
 		height: z.number().nullable(),
 	})
-	.catchall(jsonValueSchema)
 	.readonly();
 
 const richTextLinkSchema = z
@@ -61,11 +58,8 @@ const richTextLinkSchema = z
 		type: z.string(),
 		url_slug: z.string(),
 	})
-	.catchall(jsonValueSchema)
 	.readonly();
 
-// Shared concrete element schemas — base shapes only, no catchall or readonly.
-// catchall and readonly are applied in elementSchemas and elementDef.
 const baseElementSchemas = {
 	text: z.object({
 		type: z.literal("text"),
@@ -129,18 +123,17 @@ const baseElementSchemas = {
 // elementSchemas — public schemas for working with standard content item elements.
 // linkedItems here is the plain API-response shape without the resolved items property.
 export const elementSchemas = {
-	text: baseElementSchemas.text.catchall(jsonValueSchema).readonly(),
-	number: baseElementSchemas.number.catchall(jsonValueSchema).readonly(),
-	richText: baseElementSchemas.richText.catchall(jsonValueSchema).readonly(),
+	text: baseElementSchemas.text.readonly(),
+	number: baseElementSchemas.number.readonly(),
+	richText: baseElementSchemas.richText.readonly(),
 	multipleChoice: <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
-		baseElementSchemas.multipleChoice(codenames).catchall(jsonValueSchema).readonly(),
-	dateTime: baseElementSchemas.dateTime.catchall(jsonValueSchema).readonly(),
-	asset: baseElementSchemas.asset.catchall(jsonValueSchema).readonly(),
-	taxonomy: <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
-		baseElementSchemas.taxonomy(codenames).catchall(jsonValueSchema).readonly(),
-	urlSlug: baseElementSchemas.urlSlug.catchall(jsonValueSchema).readonly(),
-	custom: baseElementSchemas.custom.catchall(jsonValueSchema).readonly(),
-	linkedItems: baseElementSchemas.linkedItems.catchall(jsonValueSchema).readonly(),
+		baseElementSchemas.multipleChoice(codenames).readonly(),
+	dateTime: baseElementSchemas.dateTime.readonly(),
+	asset: baseElementSchemas.asset.readonly(),
+	taxonomy: <TCodename extends string = string>(codenames?: readonly TCodename[]) => baseElementSchemas.taxonomy(codenames).readonly(),
+	urlSlug: baseElementSchemas.urlSlug.readonly(),
+	custom: baseElementSchemas.custom.readonly(),
+	linkedItems: baseElementSchemas.linkedItems.readonly(),
 } as const;
 
 // elementDef — public building blocks for constructing typed content item schemas.
@@ -162,7 +155,7 @@ export const elementDef = {
 			.readonly(),
 } as const;
 
-const contentItemElementSchema = z
+const defaultElementSchema = z
 	.discriminatedUnion("type", [
 		elementSchemas.text,
 		elementSchemas.number,
@@ -217,7 +210,7 @@ const contentItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema
 	z
 		.object({
 			system: contentItemSystemSchema(schema),
-			elements: z.record(z.string(), contentItemElementSchema),
+			elements: z.record(z.string(), defaultElementSchema),
 		})
 		.readonly();
 
@@ -273,7 +266,7 @@ export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>(sch
 		.readonly();
 
 export type ContentItemSystemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSystemSchema<TSchema>>>;
-export type ContentItemElementPayload = z.infer<typeof contentItemElementSchema>;
+export type ContentItemElementPayload = z.infer<typeof defaultElementSchema>;
 export type ContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSchema<TSchema>>>;
 export type ListContentItemsPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentItemsSchema<TSchema>>>;
 export type FetchContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof fetchContentItemSchema<TSchema>>>;
