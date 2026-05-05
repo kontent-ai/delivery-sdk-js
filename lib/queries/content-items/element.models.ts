@@ -120,8 +120,9 @@ const baseElementSchemas = {
 	}),
 } as const;
 
-// elementSchemas — public schemas for working with standard content item elements.
-// linkedItems here is the plain API-response shape without the resolved items property.
+/**
+ * Public schemas for working with standard content item elements.
+ */
 export const elementSchemas = {
 	text: baseElementSchemas.text.readonly(),
 	number: baseElementSchemas.number.readonly(),
@@ -136,10 +137,15 @@ export const elementSchemas = {
 	linkedItems: baseElementSchemas.linkedItems.readonly(),
 } as const;
 
-// elementDef — public building blocks for constructing typed content item schemas.
-// linkedItems accepts an array of content item Zod schemas; items will be typed as the union of those types.
+/**
+ * Building blocks for constructing typed content item schemas.
+ */
 export const elementDef = {
 	...elementSchemas,
+	text: ({ maxLength, isRequired }: { readonly maxLength?: number; readonly isRequired?: boolean } = {}) => {
+		const valueWithMinLength = isRequired ? z.string().min(1) : z.string();
+		return baseElementSchemas.text.extend({ value: maxLength ? valueWithMinLength.max(maxLength) : valueWithMinLength }).readonly();
+	},
 	linkedItems: <const TAllowedItemTypes extends z.ZodType = z.ZodType>(schemas: readonly TAllowedItemTypes[]) =>
 		baseElementSchemas.linkedItems
 			.extend({

@@ -28,6 +28,32 @@ const makeSystem = (): ContentItemSystemPayload<typeof schemaInput> => ({
 	sitemap_locations: [],
 });
 
+describe("elementDef.text", () => {
+	test("validates value without constraint when maxLength is omitted", () => {
+		const schema = elementDef.text();
+		expect(schema.safeParse({ type: "text", name: "Title", value: "a".repeat(1000) }).success).toBe(true);
+	});
+
+	test("rejects value exceeding maxLength", () => {
+		const schema = elementDef.text({ maxLength: 5 });
+		expect(schema.safeParse({ type: "text", name: "Title", value: "toolong" }).success).toBe(false);
+		expect(schema.safeParse({ type: "text", name: "Title", value: "ok" }).success).toBe(true);
+	});
+
+	test("rejects empty string when isRequired is true", () => {
+		const schema = elementDef.text({ isRequired: true });
+		expect(schema.safeParse({ type: "text", name: "Title", value: "" }).success).toBe(false);
+		expect(schema.safeParse({ type: "text", name: "Title", value: "x" }).success).toBe(true);
+	});
+
+	test("applies both isRequired and maxLength together", () => {
+		const schema = elementDef.text({ isRequired: true, maxLength: 5 });
+		expect(schema.safeParse({ type: "text", name: "Title", value: "" }).success).toBe(false);
+		expect(schema.safeParse({ type: "text", name: "Title", value: "toolong" }).success).toBe(false);
+		expect(schema.safeParse({ type: "text", name: "Title", value: "ok" }).success).toBe(true);
+	});
+});
+
 describe("elementDef.linkedItems", () => {
 	test("items are validated against the union when multiple schemas provided", () => {
 		const actorSchema = z

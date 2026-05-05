@@ -20,8 +20,8 @@ type DeliverySchema = typeof schema;
 type TypedDeliveryClient = DeliveryClient<DeliverySchema>;
 
 type ActorElements = {
-	first_name: typeof elementDef.text;
-	last_name: typeof elementDef.text;
+	first_name: ReturnType<typeof elementDef.text>;
+	last_name: ReturnType<typeof elementDef.text>;
 	role: ReturnType<typeof elementDef.multipleChoice<"opt1" | "opt2" | "opt3">>;
 	relatedActors: ReturnType<typeof elementDef.linkedItems<z.ZodType<ActorPayload>>>;
 };
@@ -31,7 +31,7 @@ type ActorPayload = ContentItemOf<typeof schema, "actor", ActorElements>;
 
 // Covers every element type in elementDef
 type MovieElements = {
-	title: typeof elementDef.text;
+	title: ReturnType<typeof elementDef.text>;
 	rating: typeof elementDef.number;
 	synopsis: typeof elementDef.richText;
 	genre: ReturnType<typeof elementDef.multipleChoice<"genre1" | "genre2">>;
@@ -46,8 +46,8 @@ type MovieElements = {
 type MoviePayload = ContentItemOf<typeof schema, "movie", MovieElements>;
 
 const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "actor", ActorElements>(schema, "actor", {
-	first_name: elementDef.text,
-	last_name: elementDef.text,
+	first_name: elementDef.text(),
+	last_name: elementDef.text(),
 	role: elementDef.multipleChoice(["opt1", "opt2", "opt3"]),
 	get relatedActors() {
 		return elementDef.linkedItems([actorSchema]);
@@ -55,7 +55,7 @@ const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "a
 });
 
 const movieSchema: z.ZodType<MoviePayload> = defineContentItem(schema, "movie", {
-	title: elementDef.text,
+	title: elementDef.text(),
 	rating: elementDef.number,
 	synopsis: elementDef.richText,
 	genre: elementDef.multipleChoice(["genre1", "genre2"]),
