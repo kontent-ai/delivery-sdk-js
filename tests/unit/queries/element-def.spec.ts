@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import z from "zod";
 import type { ContentItemSystemPayload, DeliveryClientSchema } from "../../../lib/public_api.js";
-import { contentItemSystemWithCodename } from "../../../lib/queries/content-items/content-item.models.js";
+import { contentItemSystemWithCodename, defineContentItem } from "../../../lib/queries/content-items/content-item.models.js";
 import { elementDef } from "../../../lib/queries/content-items/element.models.js";
 import { getFakeUuid } from "../../utils/test.utils.js";
 
@@ -26,6 +26,20 @@ const makeSystem = (): ContentItemSystemPayload<typeof schemaInput> => ({
 	workflow: "published",
 	workflow_step: "published",
 	sitemap_locations: [],
+});
+
+describe("defineContentItem", () => {
+	test("builds a schema that validates a matching content item", () => {
+		const schema = defineContentItem(schemaInput, "actor", {
+			title: elementDef.text(),
+		});
+		expect(
+			schema.safeParse({
+				system: makeSystem(),
+				elements: { title: { type: "text", name: "Title", value: "Hello" } },
+			}).success,
+		).toBe(true);
+	});
 });
 
 describe("elementDef.text", () => {
