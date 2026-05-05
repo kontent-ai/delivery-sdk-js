@@ -23,9 +23,11 @@ export type {
 } from "./models/request.models.js";
 export {
 	type ContentItemPayload,
+	type ContentItemSystem,
 	type ContentItemSystemPayload,
 	defineContentItem,
 	type FetchContentItemPayload,
+	type InferItemType,
 	type ItemsFeedPayload,
 	type ItemsReferencingAssetPayload,
 	type ItemsReferencingItemPayload,

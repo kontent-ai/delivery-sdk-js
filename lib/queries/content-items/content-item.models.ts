@@ -17,7 +17,7 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schem
 		workflow_step: codenameOf<TSchema["workflowStepCodenames"][number]>(schema?.workflowStepCodenames),
 	});
 
-export const narrowedContentItemSystemSchema = <
+export const contentItemSystemWithCodename = <
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends TSchema["contentTypeCodenames"][number],
 >(
@@ -110,10 +110,26 @@ export const defineContentItem = <
 ) =>
 	z
 		.object({
-			system: narrowedContentItemSystemSchema(schema, typeCodename),
+			system: contentItemSystemWithCodename(schema, typeCodename),
 			elements: z.object(elements).readonly(),
 		})
 		.readonly();
+
+export type ContentItemSystem<
+	TSchema extends DeliveryClientSchema,
+	TTypeCodename extends TSchema["contentTypeCodenames"][number],
+> = z.infer<ReturnType<typeof contentItemSystemWithCodename<TSchema, TTypeCodename>>>;
+
+export type InferItemType<
+	TSchema extends DeliveryClientSchema,
+	TTypeCodename extends TSchema["contentTypeCodenames"][number],
+	TElementSchemas extends z.ZodRawShape,
+> = {
+	readonly system: ContentItemSystem<TSchema, TTypeCodename>;
+	readonly elements: {
+		readonly [K in keyof TElementSchemas]: z.infer<TElementSchemas[K]>;
+	};
+};
 
 export type ContentItemSystemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSystemSchema<TSchema>>>;
 export type ContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSchema<TSchema>>>;
