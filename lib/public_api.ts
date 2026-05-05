@@ -21,17 +21,16 @@ export type {
 	OrderDirection,
 	SystemOrderQueryParam,
 } from "./models/request.models.js";
-export {
-	type ContentItemElementPayload,
-	type ContentItemPayload,
-	type ContentItemSystemPayload,
-	elementDef,
-	type FetchContentItemPayload,
-	type ItemsFeedPayload,
-	type ItemsReferencingAssetPayload,
-	type ItemsReferencingItemPayload,
-	type ListContentItemsPayload,
+export type {
+	ContentItemPayload,
+	ContentItemSystemPayload,
+	FetchContentItemPayload,
+	ItemsFeedPayload,
+	ItemsReferencingAssetPayload,
+	ItemsReferencingItemPayload,
+	ListContentItemsPayload,
 } from "./queries/content-items/content-item.models.js";
+export { type ContentItemElementPayload, elementDef } from "./queries/content-items/element.models.js";
 export type { FetchContentItemQuery, FetchContentItemQueryRequest } from "./queries/content-items/fetch-content-item-query.js";
 export type { ItemsFeedQuery, ItemsFeedQueryRequest } from "./queries/content-items/items-feed-query.js";
 export type {

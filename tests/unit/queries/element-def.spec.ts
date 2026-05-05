@@ -1,7 +1,8 @@
 import { describe, expect, test } from "vitest";
 import z from "zod";
 import type { ContentItemSystemPayload, DeliveryClientSchema } from "../../../lib/public_api.js";
-import { elementDef, specificContentItemSystemSchema } from "../../../lib/queries/content-items/content-item.models.js";
+import { specificContentItemSystemSchema } from "../../../lib/queries/content-items/content-item.models.js";
+import { elementDef } from "../../../lib/queries/content-items/element.models.js";
 import { getFakeUuid } from "../../utils/test.utils.js";
 
 const schemaInput = {

@@ -2,7 +2,8 @@ import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit
 import z from "zod";
 import { createDeliveryClient } from "../../lib/client/delivery-client.js";
 import type { DeliveryClient, DeliveryClientSchema } from "../../lib/models/core.models.js";
-import { elementDef, specificContentItemSystemSchema } from "../../lib/queries/content-items/content-item.models.js";
+import { specificContentItemSystemSchema } from "../../lib/queries/content-items/content-item.models.js";
+import { elementDef } from "../../lib/queries/content-items/element.models.js";
 
 const schema = {
 	languageCodenames: ["en-us", "es-es"],
@@ -25,7 +26,7 @@ type ActorPayload = {
 		readonly last_name: z.infer<typeof elementDef.text>;
 		readonly role: z.infer<ReturnType<typeof elementDef.multipleChoice<"opt1" | "opt2" | "opt3">>>;
 		// circular reference
-		readonly relatedActors: z.infer<ReturnType<typeof elementDef.linkedItems<typeof schema, z.ZodType<ActorPayload>>>>;
+		readonly relatedActors: z.infer<ReturnType<typeof elementDef.linkedItems<z.ZodType<ActorPayload>>>>;
 	};
 };
 
@@ -42,7 +43,7 @@ type MoviePayload = {
 		readonly categories: z.infer<ReturnType<typeof elementDef.taxonomy<"term1" | "term2">>>;
 		readonly url_slug: z.infer<typeof elementDef.urlSlug>;
 		readonly custom_id: z.infer<typeof elementDef.custom>;
-		readonly actors: z.infer<ReturnType<typeof elementDef.linkedItems<typeof schema, z.ZodType<ActorPayload>>>>;
+		readonly actors: z.infer<ReturnType<typeof elementDef.linkedItems<z.ZodType<ActorPayload>>>>;
 	};
 };
 
