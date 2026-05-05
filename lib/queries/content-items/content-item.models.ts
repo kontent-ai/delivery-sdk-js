@@ -64,99 +64,103 @@ const richTextLinkSchema = z
 	.catchall(jsonValueSchema)
 	.readonly();
 
-const multipleChoiceSchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
-	z
-		.object({
+// Shared concrete element schemas — base shapes only, no catchall or readonly.
+// catchall and readonly are applied in elementSchemas and elementDef.
+const baseElementSchemas = {
+	text: z.object({
+		type: z.literal("text"),
+		name: z.string(),
+		value: z.string(),
+	}),
+	number: z.object({
+		type: z.literal("number"),
+		name: z.string(),
+		value: z.number().nullable(),
+	}),
+	richText: z.object({
+		type: z.literal("rich_text"),
+		name: z.string(),
+		value: z.string(),
+		images: z.record(z.string(), richTextImageSchema),
+		links: z.record(z.string(), richTextLinkSchema),
+		modular_content: z.array(codenameSchema).readonly(),
+	}),
+	multipleChoice: <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+		z.object({
 			type: z.literal("multiple_choice"),
 			name: z.string(),
 			value: z.array(multipleChoiceOptionSchema(codenames)).readonly(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly();
-
-const taxonomySchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
-	z
-		.object({
+		}),
+	dateTime: z.object({
+		type: z.literal("date_time"),
+		name: z.string(),
+		value: z.string().nullable(),
+		display_timezone: z.string().nullable(),
+	}),
+	asset: z.object({
+		type: z.literal("asset"),
+		name: z.string(),
+		value: z.array(assetValueSchema).readonly(),
+	}),
+	taxonomy: <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+		z.object({
 			type: z.literal("taxonomy"),
 			name: z.string(),
 			taxonomy_group: z.string(),
 			value: z.array(taxonomyTermValueSchema(codenames)).readonly(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly();
+		}),
+	urlSlug: z.object({
+		type: z.literal("url_slug"),
+		name: z.string(),
+		value: z.string(),
+	}),
+	custom: z.object({
+		type: z.literal("custom"),
+		name: z.string(),
+		value: z.string().nullable(),
+	}),
+	linkedItems: z.object({
+		type: z.literal("modular_content"),
+		name: z.string(),
+		value: z.array(codenameSchema).readonly(),
+	}),
+} as const;
 
+// elementSchemas — public schemas for working with standard content item elements.
+// linkedItems here is the plain API-response shape without the resolved items property.
 export const elementSchemas = {
-	text: z
-		.object({
-			type: z.literal("text"),
-			name: z.string(),
-			value: z.string(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
-	number: z
-		.object({
-			type: z.literal("number"),
-			name: z.string(),
-			value: z.number().nullable(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
-	richText: z
-		.object({
-			type: z.literal("rich_text"),
-			name: z.string(),
-			value: z.string(),
-			images: z.record(z.string(), richTextImageSchema),
-			links: z.record(z.string(), richTextLinkSchema),
-			modular_content: z.array(codenameSchema).readonly(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
-	multipleChoice: multipleChoiceSchema,
-	dateTime: z
-		.object({
-			type: z.literal("date_time"),
-			name: z.string(),
-			value: z.string().nullable(),
-			display_timezone: z.string().nullable(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
-	asset: z
-		.object({
-			type: z.literal("asset"),
-			name: z.string(),
-			value: z.array(assetValueSchema).readonly(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
-	taxonomy: taxonomySchema,
-	urlSlug: z
-		.object({
-			type: z.literal("url_slug"),
-			name: z.string(),
-			value: z.string(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
-	linkedItems: z
-		.object({
-			type: z.literal("modular_content"),
-			name: z.string(),
-			value: z.array(codenameSchema).readonly(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
-	custom: z
-		.object({
-			type: z.literal("custom"),
-			name: z.string(),
-			value: z.string().nullable(),
-		})
-		.catchall(jsonValueSchema)
-		.readonly(),
-};
+	text: baseElementSchemas.text.catchall(jsonValueSchema).readonly(),
+	number: baseElementSchemas.number.catchall(jsonValueSchema).readonly(),
+	richText: baseElementSchemas.richText.catchall(jsonValueSchema).readonly(),
+	multipleChoice: <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+		baseElementSchemas.multipleChoice(codenames).catchall(jsonValueSchema).readonly(),
+	dateTime: baseElementSchemas.dateTime.catchall(jsonValueSchema).readonly(),
+	asset: baseElementSchemas.asset.catchall(jsonValueSchema).readonly(),
+	taxonomy: <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+		baseElementSchemas.taxonomy(codenames).catchall(jsonValueSchema).readonly(),
+	urlSlug: baseElementSchemas.urlSlug.catchall(jsonValueSchema).readonly(),
+	custom: baseElementSchemas.custom.catchall(jsonValueSchema).readonly(),
+	linkedItems: baseElementSchemas.linkedItems.catchall(jsonValueSchema).readonly(),
+} as const;
+
+// elementDef — public building blocks for constructing typed content item schemas.
+// linkedItems accepts an array of content item Zod schemas; items will be typed as the union of those types.
+export const elementDef = {
+	...elementSchemas,
+	linkedItems: <
+		TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+		const TAllowedItemTypes extends z.ZodType<Pick<ContentItemPayload<TSchema>, "system">> = z.ZodType<
+			Pick<ContentItemPayload<TSchema>, "system">
+		>,
+	>(
+		schemas: readonly TAllowedItemTypes[],
+	) =>
+		baseElementSchemas.linkedItems
+			.extend({
+				items: z.array(z.union(schemas)).readonly(),
+			})
+			.readonly(),
+} as const;
 
 const contentItemElementSchema = z
 	.discriminatedUnion("type", [
@@ -177,7 +181,7 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schem
 	z.object({
 		id: kontentUuidSchema,
 		name: z.string(),
-		codename: codenameOf<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
+		codename: codenameSchema,
 		language: codenameOf<TSchema["languageCodenames"][number]>(schema?.languageCodenames),
 		type: codenameOf<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
 		collection: codenameOf<TSchema["collectionCodenames"][number]>(schema?.collectionCodenames),
@@ -185,6 +189,21 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schem
 		workflow: codenameOf<TSchema["workflowCodenames"][number]>(schema?.workflowCodenames),
 		workflow_step: codenameOf<TSchema["workflowStepCodenames"][number]>(schema?.workflowStepCodenames),
 	});
+
+export const specificContentItemSystemSchema = <
+	TSchema extends DeliveryClientSchema,
+	TTypeCodename extends TSchema["contentTypeCodenames"][number],
+>(
+	schema: TSchema | undefined,
+	type: TTypeCodename,
+) =>
+	z
+		.object({
+			...baseContentItemSystemSchema(schema).shape,
+			sitemap_locations: z.array(z.string()).readonly(),
+			type: z.literal(type),
+		})
+		.readonly();
 
 export const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
 	z

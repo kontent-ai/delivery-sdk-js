@@ -25,7 +25,7 @@ export {
 	type ContentItemElementPayload,
 	type ContentItemPayload,
 	type ContentItemSystemPayload,
-	elementSchemas,
+	elementDef,
 	type FetchContentItemPayload,
 	type ItemsFeedPayload,
 	type ItemsReferencingAssetPayload,
