@@ -17,7 +17,7 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schem
 		workflow_step: codenameOf<TSchema["workflowStepCodenames"][number]>(schema?.workflowStepCodenames),
 	});
 
-export const specificContentItemSystemSchema = <
+export const narrowedContentItemSystemSchema = <
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends TSchema["contentTypeCodenames"][number],
 >(
@@ -96,6 +96,22 @@ export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>(sch
 		.object({
 			item: contentItemSchema(schema),
 			modular_content: z.record(z.string(), contentItemSchema(schema)),
+		})
+		.readonly();
+
+export const defineContentItem = <
+	TSchema extends DeliveryClientSchema,
+	TTypeCodename extends TSchema["contentTypeCodenames"][number],
+	TElementsShape extends z.ZodRawShape,
+>(
+	schema: TSchema | undefined,
+	typeCodename: TTypeCodename,
+	elements: TElementsShape,
+) =>
+	z
+		.object({
+			system: narrowedContentItemSystemSchema(schema, typeCodename),
+			elements: z.object(elements).readonly(),
 		})
 		.readonly();
 

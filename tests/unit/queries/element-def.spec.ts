@@ -1,7 +1,7 @@
 import { describe, expect, test } from "vitest";
 import z from "zod";
 import type { ContentItemSystemPayload, DeliveryClientSchema } from "../../../lib/public_api.js";
-import { specificContentItemSystemSchema } from "../../../lib/queries/content-items/content-item.models.js";
+import { narrowedContentItemSystemSchema } from "../../../lib/queries/content-items/content-item.models.js";
 import { elementDef } from "../../../lib/queries/content-items/element.models.js";
 import { getFakeUuid } from "../../utils/test.utils.js";
 
@@ -32,13 +32,13 @@ describe("elementDef.linkedItems", () => {
 	test("items are validated against the union when multiple schemas provided", () => {
 		const actorSchema = z
 			.object({
-				system: specificContentItemSystemSchema(schemaInput, "actor"),
+				system: narrowedContentItemSystemSchema(schemaInput, "actor"),
 				elements: z.record(z.string(), z.unknown()),
 			})
 			.readonly();
 		const movieSchema = z
 			.object({
-				system: specificContentItemSystemSchema(schemaInput, "movie"),
+				system: narrowedContentItemSystemSchema(schemaInput, "movie"),
 				elements: z.record(z.string(), z.unknown()),
 			})
 			.readonly();

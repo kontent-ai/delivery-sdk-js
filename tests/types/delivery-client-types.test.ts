@@ -1,8 +1,8 @@
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
-import z from "zod";
+import type z from "zod";
 import { createDeliveryClient } from "../../lib/client/delivery-client.js";
 import type { DeliveryClient, DeliveryClientSchema } from "../../lib/models/core.models.js";
-import { specificContentItemSystemSchema } from "../../lib/queries/content-items/content-item.models.js";
+import { defineContentItem, type narrowedContentItemSystemSchema } from "../../lib/queries/content-items/content-item.models.js";
 import { elementDef } from "../../lib/queries/content-items/element.models.js";
 
 const schema = {
@@ -20,7 +20,7 @@ type DeliverySchema = typeof schema;
 type TypedDeliveryClient = DeliveryClient<DeliverySchema>;
 
 type ActorPayload = {
-	readonly system: z.infer<ReturnType<typeof specificContentItemSystemSchema<typeof schema, "actor">>>;
+	readonly system: z.infer<ReturnType<typeof narrowedContentItemSystemSchema<typeof schema, "actor">>>;
 	readonly elements: {
 		readonly first_name: z.infer<typeof elementDef.text>;
 		readonly last_name: z.infer<typeof elementDef.text>;
@@ -32,7 +32,7 @@ type ActorPayload = {
 
 // Covers every element type in elementDef
 type MoviePayload = {
-	readonly system: z.infer<ReturnType<typeof specificContentItemSystemSchema<typeof schema, "movie">>>;
+	readonly system: z.infer<ReturnType<typeof narrowedContentItemSystemSchema<typeof schema, "movie">>>;
 	readonly elements: {
 		readonly title: z.infer<typeof elementDef.text>;
 		readonly rating: z.infer<typeof elementDef.number>;
@@ -47,37 +47,27 @@ type MoviePayload = {
 	};
 };
 
-const actorSchema: z.ZodType<ActorPayload> = z
-	.object({
-		system: specificContentItemSystemSchema(schema, "actor"),
-		elements: z.object({
-			first_name: elementDef.text,
-			last_name: elementDef.text,
-			role: elementDef.multipleChoice(["opt1", "opt2", "opt3"]),
-			get relatedActors() {
-				return elementDef.linkedItems([actorSchema]);
-			},
-		}),
-	})
-	.readonly();
+const actorSchema: z.ZodType<ActorPayload> = defineContentItem(schema, "actor", {
+	first_name: elementDef.text,
+	last_name: elementDef.text,
+	role: elementDef.multipleChoice(["opt1", "opt2", "opt3"]),
+	get relatedActors() {
+		return elementDef.linkedItems([actorSchema]);
+	},
+});
 
-const movieSchema: z.ZodType<MoviePayload> = z
-	.object({
-		system: specificContentItemSystemSchema(schema, "movie"),
-		elements: z.object({
-			title: elementDef.text,
-			rating: elementDef.number,
-			synopsis: elementDef.richText,
-			genre: elementDef.multipleChoice(["genre1", "genre2"]),
-			release_date: elementDef.dateTime,
-			poster: elementDef.asset,
-			categories: elementDef.taxonomy(["term1", "term2"]),
-			url_slug: elementDef.urlSlug,
-			custom_id: elementDef.custom,
-			actors: elementDef.linkedItems([actorSchema]),
-		}),
-	})
-	.readonly();
+const movieSchema: z.ZodType<MoviePayload> = defineContentItem(schema, "movie", {
+	title: elementDef.text,
+	rating: elementDef.number,
+	synopsis: elementDef.richText,
+	genre: elementDef.multipleChoice(["genre1", "genre2"]),
+	release_date: elementDef.dateTime,
+	poster: elementDef.asset,
+	categories: elementDef.taxonomy(["term1", "term2"]),
+	url_slug: elementDef.urlSlug,
+	custom_id: elementDef.custom,
+	actors: elementDef.linkedItems([actorSchema]),
+});
 
 void movieSchema;
 
