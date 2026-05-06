@@ -100,6 +100,20 @@ describe("elementDef.dateTime", () => {
 	});
 });
 
+describe("elementDef.urlSlug", () => {
+	test("accepts empty string when isRequired is omitted", () => {
+		const schema = elementDef.urlSlug();
+		expect(schema.safeParse({ type: "url_slug", name: "Slug", value: "" }).success).toBe(true);
+		expect(schema.safeParse({ type: "url_slug", name: "Slug", value: "my-slug" }).success).toBe(true);
+	});
+
+	test("rejects empty string when isRequired is true", () => {
+		const schema = elementDef.urlSlug({ isRequired: true });
+		expect(schema.safeParse({ type: "url_slug", name: "Slug", value: "" }).success).toBe(false);
+		expect(schema.safeParse({ type: "url_slug", name: "Slug", value: "my-slug" }).success).toBe(true);
+	});
+});
+
 describe("elementDef.custom", () => {
 	test("accepts null value when isRequired is omitted", () => {
 		const schema = elementDef.custom();
@@ -114,6 +128,31 @@ describe("elementDef.custom", () => {
 	});
 });
 
+describe("elementDef.asset", () => {
+	const makeAsset = () => ({
+		name: "poster.jpg",
+		description: null,
+		type: "image/jpeg",
+		size: 1024,
+		url: "https://example.com/poster.jpg",
+		width: 800,
+		height: 600,
+		renditions: {},
+	});
+
+	test("accepts empty value array when isRequired is omitted", () => {
+		const schema = elementDef.asset();
+		expect(schema.safeParse({ type: "asset", name: "Poster", value: [] }).success).toBe(true);
+		expect(schema.safeParse({ type: "asset", name: "Poster", value: [makeAsset()] }).success).toBe(true);
+	});
+
+	test("rejects empty value array when isRequired is true", () => {
+		const schema = elementDef.asset({ isRequired: true });
+		expect(schema.safeParse({ type: "asset", name: "Poster", value: [] }).success).toBe(false);
+		expect(schema.safeParse({ type: "asset", name: "Poster", value: [makeAsset()] }).success).toBe(true);
+	});
+});
+
 describe("elementDef.multipleChoice", () => {
 	test("validates options without codename constraint when codenames omitted", () => {
 		const schema = elementDef.multipleChoice();
@@ -125,6 +164,17 @@ describe("elementDef.multipleChoice", () => {
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Extra", codename: "extra" }] }).success).toBe(
 			false,
 		);
+		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
+	});
+
+	test("accepts empty value array when isRequired is omitted", () => {
+		const schema = elementDef.multipleChoice();
+		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [] }).success).toBe(true);
+	});
+
+	test("rejects empty value array when isRequired is true", () => {
+		const schema = elementDef.multipleChoice({ isRequired: true });
+		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [] }).success).toBe(false);
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
 	});
 });
@@ -190,5 +240,48 @@ describe("elementDef.linkedItems", () => {
 		expect(validActor.success).toBe(true);
 		expect(validMovie.success).toBe(true);
 		expect(invalid.success).toBe(false);
+	});
+
+	test("accepts empty value and items arrays when isRequired is omitted", () => {
+		const actorSchema = z
+			.object({
+				system: contentItemSystemWithCodename(schemaInput, "actor"),
+				elements: z.record(z.string(), z.unknown()),
+			})
+			.readonly();
+		const movieSchema = z
+			.object({
+				system: contentItemSystemWithCodename(schemaInput, "movie"),
+				elements: z.record(z.string(), z.unknown()),
+			})
+			.readonly();
+		const schema = elementDef.linkedItems([actorSchema, movieSchema]);
+		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: [], items: [] }).success).toBe(true);
+	});
+
+	test("rejects empty value or items arrays when isRequired is true", () => {
+		const actorSchema = z
+			.object({
+				system: contentItemSystemWithCodename(schemaInput, "actor"),
+				elements: z.record(z.string(), z.unknown()),
+			})
+			.readonly();
+		const movieSchema = z
+			.object({
+				system: contentItemSystemWithCodename(schemaInput, "movie"),
+				elements: z.record(z.string(), z.unknown()),
+			})
+			.readonly();
+		const schema = elementDef.linkedItems([actorSchema, movieSchema], { isRequired: true });
+		const system = makeSystem();
+
+		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: [], items: [] }).success).toBe(false);
+		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: ["x"], items: [] }).success).toBe(false);
+		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: [], items: [{ system, elements: {} }] }).success).toBe(
+			false,
+		);
+		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: ["x"], items: [{ system, elements: {} }] }).success).toBe(
+			true,
+		);
 	});
 });

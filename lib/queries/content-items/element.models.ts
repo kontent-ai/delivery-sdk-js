@@ -125,25 +125,43 @@ const baseElementSchemas = {
 export const elementDef = {
 	number: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
 		baseElementSchemas.number.extend({ value: isRequired ? z.number() : z.number().nullable() }).readonly(),
-	richText: baseElementSchemas.richText.readonly(),
+	richText: () => baseElementSchemas.richText.readonly(),
 	dateTime: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
 		baseElementSchemas.dateTime.extend({ value: isRequired ? z.string() : z.string().nullable() }).readonly(),
-	asset: baseElementSchemas.asset.readonly(),
-	urlSlug: baseElementSchemas.urlSlug.readonly(),
+	asset: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
+		baseElementSchemas.asset
+			.extend({ value: isRequired ? z.array(assetValueSchema).min(1).readonly() : z.array(assetValueSchema).readonly() })
+			.readonly(),
+	urlSlug: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
+		baseElementSchemas.urlSlug.extend({ value: isRequired ? z.string().min(1) : z.string() }).readonly(),
 	custom: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
 		baseElementSchemas.custom.extend({ value: isRequired ? z.string() : z.string().nullable() }).readonly(),
 	text: ({ maxLength, isRequired }: { readonly maxLength?: number; readonly isRequired?: boolean } = {}) => {
 		const valueWithMinLength = isRequired ? z.string().min(1) : z.string();
 		return baseElementSchemas.text.extend({ value: maxLength ? valueWithMinLength.max(maxLength) : valueWithMinLength }).readonly();
 	},
-	multipleChoice: <TCodename extends string = string>({ codenames }: { readonly codenames?: readonly TCodename[] } = {}) =>
-		baseElementSchemas.multipleChoice.extend({ value: z.array(multipleChoiceOptionSchema(codenames)).readonly() }).readonly(),
+	multipleChoice: <TCodename extends string = string>({
+		codenames,
+		isRequired,
+	}: {
+		readonly codenames?: readonly TCodename[];
+		readonly isRequired?: boolean;
+	} = {}) => {
+		const valueSchema = z.array(multipleChoiceOptionSchema(codenames));
+		return baseElementSchemas.multipleChoice
+			.extend({ value: isRequired ? valueSchema.min(1).readonly() : valueSchema.readonly() })
+			.readonly();
+	},
 	taxonomy: <TCodename extends string = string>({ codenames }: { readonly codenames?: readonly TCodename[] } = {}) =>
 		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema(codenames)).readonly() }).readonly(),
-	linkedItems: <const TAllowedItemTypes extends z.ZodType = z.ZodType>(schemas: readonly TAllowedItemTypes[]) =>
+	linkedItems: <const TAllowedItemTypes extends z.ZodType = z.ZodType>(
+		schemas: readonly TAllowedItemTypes[],
+		{ isRequired }: { readonly isRequired?: boolean } = {},
+	) =>
 		baseElementSchemas.linkedItems
 			.extend({
-				items: z.array(z.union(schemas)).readonly(),
+				value: isRequired ? z.array(codenameSchema).min(1).readonly() : z.array(codenameSchema).readonly(),
+				items: isRequired ? z.array(z.union(schemas)).min(1).readonly() : z.array(z.union(schemas)).readonly(),
 			})
 			.readonly(),
 } as const;
