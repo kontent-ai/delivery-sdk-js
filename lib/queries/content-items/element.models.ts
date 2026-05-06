@@ -1,5 +1,8 @@
 import { codenameOf, codenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
+import { match, P } from "ts-pattern";
 import { z } from "zod";
+
+export type LinkedItemsLimitType = "atLeast" | "exactly" | "atMost";
 
 const multipleChoiceOptionSchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
 	z
@@ -156,14 +159,32 @@ export const elementDef = {
 		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema(codenames)).readonly() }).readonly(),
 	linkedItems: <const TAllowedItemTypes extends z.ZodType = z.ZodType>(
 		schemas: readonly TAllowedItemTypes[],
-		{ isRequired }: { readonly isRequired?: boolean } = {},
-	) =>
-		baseElementSchemas.linkedItems
+		{
+			isRequired,
+			limitType,
+			itemsLimit,
+		}: {
+			readonly isRequired?: boolean;
+			readonly limitType?: LinkedItemsLimitType;
+			readonly itemsLimit?: number;
+		} = {},
+	) => {
+		const applyLimits = <T extends z.ZodTypeAny>(arr: z.ZodArray<T>) =>
+			match({ isRequired, limitType, itemsLimit })
+				.with({ limitType: "atLeast", itemsLimit: P.number }, ({ itemsLimit }) => arr.min(itemsLimit))
+				.with({ limitType: "atMost", itemsLimit: P.number, isRequired: true }, ({ itemsLimit }) => arr.min(1).max(itemsLimit))
+				.with({ limitType: "atMost", itemsLimit: P.number }, ({ itemsLimit }) => arr.max(itemsLimit))
+				.with({ limitType: "exactly", itemsLimit: P.number }, ({ itemsLimit }) => arr.length(itemsLimit))
+				.with({ isRequired: true }, () => arr.min(1))
+				.otherwise(() => arr);
+
+		return baseElementSchemas.linkedItems
 			.extend({
-				value: isRequired ? z.array(codenameSchema).min(1).readonly() : z.array(codenameSchema).readonly(),
-				items: isRequired ? z.array(z.union(schemas)).min(1).readonly() : z.array(z.union(schemas)).readonly(),
+				value: applyLimits(z.array(codenameSchema)).readonly(),
+				items: applyLimits(z.array(z.union(schemas))).readonly(),
 			})
-			.readonly(),
+			.readonly();
+	},
 } as const;
 
 export const contentItemElementSchema = z

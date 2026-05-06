@@ -33,7 +33,7 @@ export {
 	type ItemsReferencingItemPayload,
 	type ListContentItemsPayload,
 } from "./queries/content-items/content-item.models.js";
-export { type ContentItemElementPayload, elementDef } from "./queries/content-items/element.models.js";
+export { type ContentItemElementPayload, elementDef, type LinkedItemsLimitType } from "./queries/content-items/element.models.js";
 export type { FetchContentItemQuery, FetchContentItemQueryRequest } from "./queries/content-items/fetch-content-item-query.js";
 export type { ItemsFeedQuery, ItemsFeedQueryRequest } from "./queries/content-items/items-feed-query.js";
 export type {
