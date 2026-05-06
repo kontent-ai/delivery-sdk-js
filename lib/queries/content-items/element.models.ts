@@ -126,10 +126,12 @@ export const elementDef = {
 	number: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
 		baseElementSchemas.number.extend({ value: isRequired ? z.number() : z.number().nullable() }).readonly(),
 	richText: baseElementSchemas.richText.readonly(),
-	dateTime: baseElementSchemas.dateTime.readonly(),
+	dateTime: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
+		baseElementSchemas.dateTime.extend({ value: isRequired ? z.string() : z.string().nullable() }).readonly(),
 	asset: baseElementSchemas.asset.readonly(),
 	urlSlug: baseElementSchemas.urlSlug.readonly(),
-	custom: baseElementSchemas.custom.readonly(),
+	custom: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
+		baseElementSchemas.custom.extend({ value: isRequired ? z.string() : z.string().nullable() }).readonly(),
 	text: ({ maxLength, isRequired }: { readonly maxLength?: number; readonly isRequired?: boolean } = {}) => {
 		const valueWithMinLength = isRequired ? z.string().min(1) : z.string();
 		return baseElementSchemas.text.extend({ value: maxLength ? valueWithMinLength.max(maxLength) : valueWithMinLength }).readonly();

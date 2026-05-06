@@ -35,11 +35,11 @@ type MovieElements = {
 	rating: ReturnType<typeof elementDef.number>;
 	synopsis: typeof elementDef.richText;
 	genre: ReturnType<typeof elementDef.multipleChoice<"genre1" | "genre2">>;
-	release_date: typeof elementDef.dateTime;
+	release_date: ReturnType<typeof elementDef.dateTime>;
 	poster: typeof elementDef.asset;
 	categories: ReturnType<typeof elementDef.taxonomy<"term1" | "term2">>;
 	url_slug: typeof elementDef.urlSlug;
-	custom_id: typeof elementDef.custom;
+	custom_id: ReturnType<typeof elementDef.custom>;
 	actors: ReturnType<typeof elementDef.linkedItems<z.ZodType<ActorPayload>>>;
 };
 
@@ -59,11 +59,11 @@ const movieSchema: z.ZodType<MoviePayload> = defineContentItem(schema, "movie", 
 	rating: elementDef.number(),
 	synopsis: elementDef.richText,
 	genre: elementDef.multipleChoice({ codenames: ["genre1", "genre2"] }),
-	release_date: elementDef.dateTime,
+	release_date: elementDef.dateTime(),
 	poster: elementDef.asset,
 	categories: elementDef.taxonomy({ codenames: ["term1", "term2"] }),
 	url_slug: elementDef.urlSlug,
-	custom_id: elementDef.custom,
+	custom_id: elementDef.custom(),
 	actors: elementDef.linkedItems([actorSchema]),
 });
 

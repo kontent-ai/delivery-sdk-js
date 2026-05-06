@@ -82,6 +82,38 @@ describe("elementDef.text", () => {
 	});
 });
 
+describe("elementDef.dateTime", () => {
+	test("accepts null value when isRequired is omitted", () => {
+		const schema = elementDef.dateTime();
+		expect(schema.safeParse({ type: "date_time", name: "Release", value: null, display_timezone: null }).success).toBe(true);
+		expect(
+			schema.safeParse({ type: "date_time", name: "Release", value: "2024-01-01T00:00:00.000Z", display_timezone: null }).success,
+		).toBe(true);
+	});
+
+	test("rejects null value when isRequired is true", () => {
+		const schema = elementDef.dateTime({ isRequired: true });
+		expect(schema.safeParse({ type: "date_time", name: "Release", value: null, display_timezone: null }).success).toBe(false);
+		expect(
+			schema.safeParse({ type: "date_time", name: "Release", value: "2024-01-01T00:00:00.000Z", display_timezone: null }).success,
+		).toBe(true);
+	});
+});
+
+describe("elementDef.custom", () => {
+	test("accepts null value when isRequired is omitted", () => {
+		const schema = elementDef.custom();
+		expect(schema.safeParse({ type: "custom", name: "ID", value: null }).success).toBe(true);
+		expect(schema.safeParse({ type: "custom", name: "ID", value: "abc" }).success).toBe(true);
+	});
+
+	test("rejects null value when isRequired is true", () => {
+		const schema = elementDef.custom({ isRequired: true });
+		expect(schema.safeParse({ type: "custom", name: "ID", value: null }).success).toBe(false);
+		expect(schema.safeParse({ type: "custom", name: "ID", value: "abc" }).success).toBe(true);
+	});
+});
+
 describe("elementDef.multipleChoice", () => {
 	test("validates options without codename constraint when codenames omitted", () => {
 		const schema = elementDef.multipleChoice();
