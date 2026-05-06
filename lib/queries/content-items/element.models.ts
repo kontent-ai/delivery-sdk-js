@@ -58,8 +58,9 @@ const richTextLinkSchema = z
 	})
 	.readonly();
 
-// Shared concrete element schemas — base shapes only, no readonly.
-// readonly is applied in elementSchemas and elementDef.
+/**
+ * Base element schema as provided by Kontent.ai API
+ */
 const baseElementSchemas = {
 	text: z.object({
 		type: z.literal("text"),
@@ -79,12 +80,11 @@ const baseElementSchemas = {
 		links: z.record(z.string(), richTextLinkSchema),
 		modular_content: z.array(codenameSchema).readonly(),
 	}),
-	multipleChoice: <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
-		z.object({
-			type: z.literal("multiple_choice"),
-			name: z.string(),
-			value: z.array(multipleChoiceOptionSchema(codenames)).readonly(),
-		}),
+	multipleChoice: z.object({
+		type: z.literal("multiple_choice"),
+		name: z.string(),
+		value: z.array(multipleChoiceOptionSchema()).readonly(),
+	}),
 	dateTime: z.object({
 		type: z.literal("date_time"),
 		name: z.string(),
@@ -96,13 +96,12 @@ const baseElementSchemas = {
 		name: z.string(),
 		value: z.array(assetValueSchema).readonly(),
 	}),
-	taxonomy: <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
-		z.object({
-			type: z.literal("taxonomy"),
-			name: z.string(),
-			taxonomy_group: z.string(),
-			value: z.array(taxonomyTermValueSchema(codenames)).readonly(),
-		}),
+	taxonomy: z.object({
+		type: z.literal("taxonomy"),
+		name: z.string(),
+		taxonomy_group: z.string(),
+		value: z.array(taxonomyTermValueSchema()).readonly(),
+	}),
 	urlSlug: z.object({
 		type: z.literal("url_slug"),
 		name: z.string(),
@@ -121,31 +120,24 @@ const baseElementSchemas = {
 } as const;
 
 /**
- * Public schemas for working with standard content item elements.
- */
-export const elementSchemas = {
-	text: baseElementSchemas.text.readonly(),
-	number: baseElementSchemas.number.readonly(),
-	richText: baseElementSchemas.richText.readonly(),
-	multipleChoice: <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
-		baseElementSchemas.multipleChoice(codenames).readonly(),
-	dateTime: baseElementSchemas.dateTime.readonly(),
-	asset: baseElementSchemas.asset.readonly(),
-	taxonomy: <TCodename extends string = string>(codenames?: readonly TCodename[]) => baseElementSchemas.taxonomy(codenames).readonly(),
-	urlSlug: baseElementSchemas.urlSlug.readonly(),
-	custom: baseElementSchemas.custom.readonly(),
-	linkedItems: baseElementSchemas.linkedItems.readonly(),
-} as const;
-
-/**
  * Building blocks for constructing typed content item schemas.
  */
 export const elementDef = {
-	...elementSchemas,
+	number: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
+		baseElementSchemas.number.extend({ value: isRequired ? z.number() : z.number().nullable() }).readonly(),
+	richText: baseElementSchemas.richText.readonly(),
+	dateTime: baseElementSchemas.dateTime.readonly(),
+	asset: baseElementSchemas.asset.readonly(),
+	urlSlug: baseElementSchemas.urlSlug.readonly(),
+	custom: baseElementSchemas.custom.readonly(),
 	text: ({ maxLength, isRequired }: { readonly maxLength?: number; readonly isRequired?: boolean } = {}) => {
 		const valueWithMinLength = isRequired ? z.string().min(1) : z.string();
 		return baseElementSchemas.text.extend({ value: maxLength ? valueWithMinLength.max(maxLength) : valueWithMinLength }).readonly();
 	},
+	multipleChoice: <TCodename extends string = string>({ codenames }: { readonly codenames?: readonly TCodename[] } = {}) =>
+		baseElementSchemas.multipleChoice.extend({ value: z.array(multipleChoiceOptionSchema(codenames)).readonly() }).readonly(),
+	taxonomy: <TCodename extends string = string>({ codenames }: { readonly codenames?: readonly TCodename[] } = {}) =>
+		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema(codenames)).readonly() }).readonly(),
 	linkedItems: <const TAllowedItemTypes extends z.ZodType = z.ZodType>(schemas: readonly TAllowedItemTypes[]) =>
 		baseElementSchemas.linkedItems
 			.extend({
@@ -156,16 +148,16 @@ export const elementDef = {
 
 export const contentItemElementSchema = z
 	.discriminatedUnion("type", [
-		elementSchemas.text,
-		elementSchemas.number,
-		elementSchemas.richText,
-		elementSchemas.multipleChoice(),
-		elementSchemas.dateTime,
-		elementSchemas.asset,
-		elementSchemas.taxonomy(),
-		elementSchemas.urlSlug,
-		elementSchemas.linkedItems,
-		elementSchemas.custom,
+		baseElementSchemas.text.readonly(),
+		baseElementSchemas.number.readonly(),
+		baseElementSchemas.richText.readonly(),
+		baseElementSchemas.multipleChoice.readonly(),
+		baseElementSchemas.dateTime.readonly(),
+		baseElementSchemas.asset.readonly(),
+		baseElementSchemas.taxonomy.readonly(),
+		baseElementSchemas.urlSlug.readonly(),
+		baseElementSchemas.linkedItems.readonly(),
+		baseElementSchemas.custom.readonly(),
 	])
 	.readonly();
 

@@ -42,6 +42,20 @@ describe("defineContentItem", () => {
 	});
 });
 
+describe("elementDef.number", () => {
+	test("accepts null when isRequired is omitted", () => {
+		const schema = elementDef.number();
+		expect(schema.safeParse({ type: "number", name: "Rating", value: null }).success).toBe(true);
+		expect(schema.safeParse({ type: "number", name: "Rating", value: 5 }).success).toBe(true);
+	});
+
+	test("rejects null when isRequired is true", () => {
+		const schema = elementDef.number({ isRequired: true });
+		expect(schema.safeParse({ type: "number", name: "Rating", value: null }).success).toBe(false);
+		expect(schema.safeParse({ type: "number", name: "Rating", value: 5 }).success).toBe(true);
+	});
+});
+
 describe("elementDef.text", () => {
 	test("validates value without constraint when maxLength is omitted", () => {
 		const schema = elementDef.text();
@@ -65,6 +79,43 @@ describe("elementDef.text", () => {
 		expect(schema.safeParse({ type: "text", name: "Title", value: "" }).success).toBe(false);
 		expect(schema.safeParse({ type: "text", name: "Title", value: "toolong" }).success).toBe(false);
 		expect(schema.safeParse({ type: "text", name: "Title", value: "ok" }).success).toBe(true);
+	});
+});
+
+describe("elementDef.multipleChoice", () => {
+	test("validates options without codename constraint when codenames omitted", () => {
+		const schema = elementDef.multipleChoice();
+		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
+	});
+
+	test("rejects unknown codename when codenames provided", () => {
+		const schema = elementDef.multipleChoice({ codenames: ["lead", "supporting"] as const });
+		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Extra", codename: "extra" }] }).success).toBe(
+			false,
+		);
+		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
+	});
+});
+
+describe("elementDef.taxonomy", () => {
+	test("validates terms without codename constraint when codenames omitted", () => {
+		const schema = elementDef.taxonomy();
+		expect(
+			schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [{ name: "Action", codename: "action" }] })
+				.success,
+		).toBe(true);
+	});
+
+	test("rejects unknown codename when codenames provided", () => {
+		const schema = elementDef.taxonomy({ codenames: ["action", "drama"] as const });
+		expect(
+			schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [{ name: "Comedy", codename: "comedy" }] })
+				.success,
+		).toBe(false);
+		expect(
+			schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [{ name: "Action", codename: "action" }] })
+				.success,
+		).toBe(true);
 	});
 });
 

@@ -32,7 +32,7 @@ type ActorPayload = ContentItemOf<typeof schema, "actor", ActorElements>;
 // Covers every element type in elementDef
 type MovieElements = {
 	title: ReturnType<typeof elementDef.text>;
-	rating: typeof elementDef.number;
+	rating: ReturnType<typeof elementDef.number>;
 	synopsis: typeof elementDef.richText;
 	genre: ReturnType<typeof elementDef.multipleChoice<"genre1" | "genre2">>;
 	release_date: typeof elementDef.dateTime;
@@ -48,7 +48,7 @@ type MoviePayload = ContentItemOf<typeof schema, "movie", MovieElements>;
 const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "actor", ActorElements>(schema, "actor", {
 	first_name: elementDef.text(),
 	last_name: elementDef.text(),
-	role: elementDef.multipleChoice(["opt1", "opt2", "opt3"]),
+	role: elementDef.multipleChoice({ codenames: ["opt1", "opt2", "opt3"] }),
 	get relatedActors() {
 		return elementDef.linkedItems([actorSchema]);
 	},
@@ -56,12 +56,12 @@ const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "a
 
 const movieSchema: z.ZodType<MoviePayload> = defineContentItem(schema, "movie", {
 	title: elementDef.text(),
-	rating: elementDef.number,
+	rating: elementDef.number(),
 	synopsis: elementDef.richText,
-	genre: elementDef.multipleChoice(["genre1", "genre2"]),
+	genre: elementDef.multipleChoice({ codenames: ["genre1", "genre2"] }),
 	release_date: elementDef.dateTime,
 	poster: elementDef.asset,
-	categories: elementDef.taxonomy(["term1", "term2"]),
+	categories: elementDef.taxonomy({ codenames: ["term1", "term2"] }),
 	url_slug: elementDef.urlSlug,
 	custom_id: elementDef.custom,
 	actors: elementDef.linkedItems([actorSchema]),
