@@ -121,6 +121,11 @@ export type DeliveryEndpoint =
 
 export type WaitForLoadingNewContentHeaderName = "X-KC-Wait-For-Loading-New-Content";
 
+/**
+ * Array with at least one item.
+ */
+export type NonEmptyArray<T> = [T, ...T[]];
+
 type PublicDeliveryClientConfig = {
 	/**
 	 * The API mode of the delivery client. Public access is the default mode.

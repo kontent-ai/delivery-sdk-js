@@ -122,69 +122,75 @@ const baseElementSchemas = {
 	}),
 } as const;
 
-/**
- * Building blocks for constructing typed content item schemas.
- */
-export const elementDef = {
-	number: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
-		baseElementSchemas.number.extend({ value: isRequired ? z.number() : z.number().nullable() }).readonly(),
-	richText: () => baseElementSchemas.richText.readonly(),
-	dateTime: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
-		baseElementSchemas.dateTime.extend({ value: isRequired ? z.string() : z.string().nullable() }).readonly(),
-	asset: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
-		baseElementSchemas.asset
-			.extend({ value: isRequired ? z.array(assetValueSchema).min(1).readonly() : z.array(assetValueSchema).readonly() })
-			.readonly(),
-	urlSlug: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
-		baseElementSchemas.urlSlug.extend({ value: isRequired ? z.string().min(1) : z.string() }).readonly(),
-	custom: ({ isRequired }: { readonly isRequired?: boolean } = {}) =>
-		baseElementSchemas.custom.extend({ value: isRequired ? z.string() : z.string().nullable() }).readonly(),
-	text: ({ maxLength, isRequired }: { readonly maxLength?: number; readonly isRequired?: boolean } = {}) => {
-		const valueWithMinLength = isRequired ? z.string().min(1) : z.string();
-		return baseElementSchemas.text.extend({ value: maxLength ? valueWithMinLength.max(maxLength) : valueWithMinLength }).readonly();
-	},
-	multipleChoice: <TCodename extends string = string>({
-		codenames,
-		isRequired,
-	}: {
-		readonly codenames?: readonly TCodename[];
-		readonly isRequired?: boolean;
-	} = {}) => {
-		const valueSchema = z.array(multipleChoiceOptionSchema(codenames));
-		return baseElementSchemas.multipleChoice
-			.extend({ value: isRequired ? valueSchema.min(1).readonly() : valueSchema.readonly() })
-			.readonly();
-	},
-	taxonomy: <TCodename extends string = string>({ codenames }: { readonly codenames?: readonly TCodename[] } = {}) =>
-		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema(codenames)).readonly() }).readonly(),
-	linkedItems: <const TAllowedItemTypes extends z.ZodType = z.ZodType>(
-		schemas: readonly TAllowedItemTypes[],
-		{
-			isRequired,
-			limitType,
-			itemsLimit,
-		}: {
-			readonly isRequired?: boolean;
-			readonly limitType?: LinkedItemsLimitType;
-			readonly itemsLimit?: number;
-		} = {},
-	) => {
-		const applyLimits = <T extends z.ZodTypeAny>(arr: z.ZodArray<T>) =>
-			match({ isRequired, limitType, itemsLimit })
-				.with({ limitType: "atLeast", itemsLimit: P.number }, ({ itemsLimit }) => arr.min(itemsLimit))
-				.with({ limitType: "atMost", itemsLimit: P.number, isRequired: true }, ({ itemsLimit }) => arr.min(1).max(itemsLimit))
-				.with({ limitType: "atMost", itemsLimit: P.number }, ({ itemsLimit }) => arr.max(itemsLimit))
-				.with({ limitType: "exactly", itemsLimit: P.number }, ({ itemsLimit }) => arr.length(itemsLimit))
-				.with({ isRequired: true }, () => arr.min(1))
-				.otherwise(() => arr);
+export type TextOptions = { readonly maxLength?: number };
+export type MultipleChoiceOptions<TCodename extends string = string> = { readonly codenames?: readonly TCodename[] };
+export type TaxonomyOptions<TCodename extends string = string> = { readonly codenames?: readonly TCodename[] };
+export type LinkedItemsOptions = { readonly limitType?: LinkedItemsLimitType; readonly itemsLimit?: number };
 
+const applyLinkedItemsLimits =
+	(isRequired: boolean) =>
+	({ limitType, itemsLimit }: LinkedItemsOptions) =>
+	<T extends z.ZodTypeAny>(arr: z.ZodArray<T>) =>
+		match({ isRequired, limitType, itemsLimit })
+			.with({ limitType: "atLeast", itemsLimit: P.number }, ({ itemsLimit }) => arr.min(itemsLimit))
+			.with({ limitType: "atMost", itemsLimit: P.number, isRequired: true }, ({ itemsLimit }) => arr.min(1).max(itemsLimit))
+			.with({ limitType: "atMost", itemsLimit: P.number }, ({ itemsLimit }) => arr.max(itemsLimit))
+			.with({ limitType: "exactly", itemsLimit: P.number }, ({ itemsLimit }) => arr.length(itemsLimit))
+			.with({ isRequired: true }, () => arr.min(1))
+			.otherwise(() => arr);
+
+const buildLinkedItems =
+	(isRequired: boolean) =>
+	<const TAllowedItemTypes extends z.ZodType = z.ZodType>(schemas: readonly TAllowedItemTypes[], options: LinkedItemsOptions = {}) => {
+		const applyLimits = applyLinkedItemsLimits(isRequired)(options);
 		return baseElementSchemas.linkedItems
 			.extend({
 				value: applyLimits(z.array(codenameSchema)).readonly(),
 				items: applyLimits(z.array(z.union(schemas))).readonly(),
 			})
 			.readonly();
+	};
+
+const optionalElementDef = {
+	number: () => baseElementSchemas.number.extend({ value: z.number().nullable() }).readonly(),
+	richText: () => baseElementSchemas.richText.readonly(),
+	dateTime: () => baseElementSchemas.dateTime.extend({ value: z.string().nullable() }).readonly(),
+	asset: () => baseElementSchemas.asset.extend({ value: z.array(assetValueSchema).readonly() }).readonly(),
+	urlSlug: () => baseElementSchemas.urlSlug.extend({ value: z.string() }).readonly(),
+	custom: () => baseElementSchemas.custom.extend({ value: z.string().nullable() }).readonly(),
+	text: ({ maxLength }: TextOptions = {}) =>
+		baseElementSchemas.text.extend({ value: maxLength ? z.string().max(maxLength) : z.string() }).readonly(),
+	multipleChoice: <TCodename extends string = string>({ codenames }: MultipleChoiceOptions<TCodename> = {}) =>
+		baseElementSchemas.multipleChoice.extend({ value: z.array(multipleChoiceOptionSchema(codenames)).readonly() }).readonly(),
+	taxonomy: <TCodename extends string = string>({ codenames }: TaxonomyOptions<TCodename> = {}) =>
+		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema(codenames)).readonly() }).readonly(),
+	linkedItems: buildLinkedItems(false),
+} as const;
+
+const requiredElementDef = {
+	number: () => baseElementSchemas.number.extend({ value: z.number() }).readonly(),
+	richText: () => baseElementSchemas.richText.readonly(),
+	dateTime: () => baseElementSchemas.dateTime.extend({ value: z.string() }).readonly(),
+	asset: () => baseElementSchemas.asset.extend({ value: z.array(assetValueSchema).min(1).readonly() }).readonly(),
+	urlSlug: () => baseElementSchemas.urlSlug.extend({ value: z.string().min(1) }).readonly(),
+	custom: () => baseElementSchemas.custom.extend({ value: z.string() }).readonly(),
+	text: ({ maxLength }: TextOptions = {}) => {
+		const value = z.string().min(1);
+		return baseElementSchemas.text.extend({ value: maxLength ? value.max(maxLength) : value }).readonly();
 	},
+	multipleChoice: <TCodename extends string = string>({ codenames }: MultipleChoiceOptions<TCodename> = {}) =>
+		baseElementSchemas.multipleChoice.extend({ value: z.array(multipleChoiceOptionSchema(codenames)).min(1).readonly() }).readonly(),
+	taxonomy: <TCodename extends string = string>({ codenames }: TaxonomyOptions<TCodename> = {}) =>
+		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema(codenames)).min(1).readonly() }).readonly(),
+	linkedItems: buildLinkedItems(true),
+} as const;
+
+/**
+ * Building blocks for constructing typed content item schemas.
+ */
+export const elementDef = {
+	required: requiredElementDef,
+	optional: optionalElementDef,
 } as const;
 
 export const contentItemElementSchema = z

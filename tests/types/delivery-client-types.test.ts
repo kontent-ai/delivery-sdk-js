@@ -20,51 +20,53 @@ type DeliverySchema = typeof schema;
 type TypedDeliveryClient = DeliveryClient<DeliverySchema>;
 
 type ActorElements = {
-	first_name: ReturnType<typeof elementDef.text>;
-	last_name: ReturnType<typeof elementDef.text>;
-	role: ReturnType<typeof elementDef.multipleChoice<"opt1" | "opt2" | "opt3">>;
-	relatedActors: ReturnType<typeof elementDef.linkedItems<z.ZodType<ActorPayload>>>;
+	first_name: ReturnType<typeof elementDef.optional.text>;
+	last_name: ReturnType<typeof elementDef.optional.text>;
+	role: ReturnType<typeof elementDef.optional.multipleChoice<"opt1" | "opt2" | "opt3">>;
+	relatedActors: ReturnType<typeof elementDef.optional.linkedItems<z.ZodType<ActorPayload>>>;
 };
 
 // circular reference — relatedActors items are ActorPayload itself
 type ActorPayload = ContentItemOf<typeof schema, "actor", ActorElements>;
 
-// Covers every element type in elementDef
+// Mixes required and optional element factories to verify both branches of elementDef.
+// Required factories drop nullability on scalar values (number/dateTime/custom),
+// optional factories preserve it.
 type MovieElements = {
-	title: ReturnType<typeof elementDef.text>;
-	rating: ReturnType<typeof elementDef.number>;
-	synopsis: ReturnType<typeof elementDef.richText>;
-	genre: ReturnType<typeof elementDef.multipleChoice<"genre1" | "genre2">>;
-	release_date: ReturnType<typeof elementDef.dateTime>;
-	poster: ReturnType<typeof elementDef.asset>;
-	categories: ReturnType<typeof elementDef.taxonomy<"term1" | "term2">>;
-	url_slug: ReturnType<typeof elementDef.urlSlug>;
-	custom_id: ReturnType<typeof elementDef.custom>;
-	actors: ReturnType<typeof elementDef.linkedItems<z.ZodType<ActorPayload>>>;
+	title: ReturnType<typeof elementDef.required.text>;
+	rating: ReturnType<typeof elementDef.required.number>;
+	synopsis: ReturnType<typeof elementDef.optional.richText>;
+	genre: ReturnType<typeof elementDef.required.multipleChoice<"genre1" | "genre2">>;
+	release_date: ReturnType<typeof elementDef.required.dateTime>;
+	poster: ReturnType<typeof elementDef.optional.asset>;
+	categories: ReturnType<typeof elementDef.optional.taxonomy<"term1" | "term2">>;
+	url_slug: ReturnType<typeof elementDef.required.urlSlug>;
+	custom_id: ReturnType<typeof elementDef.required.custom>;
+	actors: ReturnType<typeof elementDef.required.linkedItems<z.ZodType<ActorPayload>>>;
 };
 
 type MoviePayload = ContentItemOf<typeof schema, "movie", MovieElements>;
 
 const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "actor", ActorElements>(schema, "actor", {
-	first_name: elementDef.text(),
-	last_name: elementDef.text(),
-	role: elementDef.multipleChoice({ codenames: ["opt1", "opt2", "opt3"] }),
+	first_name: elementDef.optional.text(),
+	last_name: elementDef.optional.text(),
+	role: elementDef.optional.multipleChoice({ codenames: ["opt1", "opt2", "opt3"] }),
 	get relatedActors() {
-		return elementDef.linkedItems([actorSchema]);
+		return elementDef.optional.linkedItems([actorSchema]);
 	},
 });
 
 const movieSchema: z.ZodType<MoviePayload> = defineContentItem(schema, "movie", {
-	title: elementDef.text(),
-	rating: elementDef.number(),
-	synopsis: elementDef.richText(),
-	genre: elementDef.multipleChoice({ codenames: ["genre1", "genre2"] }),
-	release_date: elementDef.dateTime(),
-	poster: elementDef.asset(),
-	categories: elementDef.taxonomy({ codenames: ["term1", "term2"] }),
-	url_slug: elementDef.urlSlug(),
-	custom_id: elementDef.custom(),
-	actors: elementDef.linkedItems([actorSchema]),
+	title: elementDef.required.text(),
+	rating: elementDef.required.number(),
+	synopsis: elementDef.optional.richText(),
+	genre: elementDef.required.multipleChoice({ codenames: ["genre1", "genre2"] }),
+	release_date: elementDef.required.dateTime(),
+	poster: elementDef.optional.asset(),
+	categories: elementDef.optional.taxonomy({ codenames: ["term1", "term2"] }),
+	url_slug: elementDef.required.urlSlug(),
+	custom_id: elementDef.required.custom(),
+	actors: elementDef.required.linkedItems([actorSchema]),
 });
 
 void movieSchema;
@@ -104,15 +106,15 @@ void firstRelatedActor;
 declare const movie: MoviePayload;
 
 const title: string = movie.elements.title.value;
-const rating: number | null = movie.elements.rating.value;
+const rating: number = movie.elements.rating.value;
 const synopsis: string = movie.elements.synopsis.value;
 const genreCodename: "genre1" | "genre2" | undefined = movie.elements.genre.value[0]?.codename;
-const releaseDate: string | null = movie.elements.release_date.value;
+const releaseDate: string = movie.elements.release_date.value;
 const displayTimezone: string | null = movie.elements.release_date.display_timezone;
 const posterUrl: string | undefined = movie.elements.poster.value[0]?.url;
 const categoryCodename: "term1" | "term2" | undefined = movie.elements.categories.value[0]?.codename;
 const urlSlug: string = movie.elements.url_slug.value;
-const customId: string | null = movie.elements.custom_id.value;
+const customId: string = movie.elements.custom_id.value;
 const movieActor: ActorPayload | undefined = movie.elements.actors.items[0];
 
 void title;
