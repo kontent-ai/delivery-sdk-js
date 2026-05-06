@@ -38,8 +38,8 @@ type MovieElements = {
 	synopsis: ReturnType<typeof elementDef.optional.richText>;
 	genre: ReturnType<typeof elementDef.required.multipleChoice<"genre1" | "genre2">>;
 	release_date: ReturnType<typeof elementDef.required.dateTime>;
-	poster: ReturnType<typeof elementDef.optional.asset>;
-	categories: ReturnType<typeof elementDef.optional.taxonomy<"term1" | "term2">>;
+	poster: ReturnType<typeof elementDef.required.asset>;
+	categories: ReturnType<typeof elementDef.required.taxonomy<"term1" | "term2">>;
 	url_slug: ReturnType<typeof elementDef.required.urlSlug>;
 	custom_id: ReturnType<typeof elementDef.required.custom>;
 	actors: ReturnType<typeof elementDef.required.linkedItems<z.ZodType<ActorPayload>>>;
@@ -62,8 +62,8 @@ const movieSchema: z.ZodType<MoviePayload> = defineContentItem(schema, "movie", 
 	synopsis: elementDef.optional.richText(),
 	genre: elementDef.required.multipleChoice({ codenames: ["genre1", "genre2"] }),
 	release_date: elementDef.required.dateTime(),
-	poster: elementDef.optional.asset(),
-	categories: elementDef.optional.taxonomy({ codenames: ["term1", "term2"] }),
+	poster: elementDef.required.asset(),
+	categories: elementDef.required.taxonomy({ codenames: ["term1", "term2"] }),
 	url_slug: elementDef.required.urlSlug(),
 	custom_id: elementDef.required.custom(),
 	actors: elementDef.required.linkedItems([actorSchema]),
@@ -108,14 +108,14 @@ declare const movie: MoviePayload;
 const title: string = movie.elements.title.value;
 const rating: number = movie.elements.rating.value;
 const synopsis: string = movie.elements.synopsis.value;
-const genreCodename: "genre1" | "genre2" | undefined = movie.elements.genre.value[0]?.codename;
+const genreCodename: "genre1" | "genre2" = movie.elements.genre.value[0].codename;
 const releaseDate: string = movie.elements.release_date.value;
 const displayTimezone: string | null = movie.elements.release_date.display_timezone;
-const posterUrl: string | undefined = movie.elements.poster.value[0]?.url;
-const categoryCodename: "term1" | "term2" | undefined = movie.elements.categories.value[0]?.codename;
+const posterUrl: string = movie.elements.poster.value[0].url;
+const categoryCodename: "term1" | "term2" = movie.elements.categories.value[0].codename;
 const urlSlug: string = movie.elements.url_slug.value;
 const customId: string = movie.elements.custom_id.value;
-const movieActor: ActorPayload | undefined = movie.elements.actors.items[0];
+const movieActor: ActorPayload = movie.elements.actors.items[0];
 
 void title;
 void rating;

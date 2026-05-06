@@ -122,9 +122,9 @@ export type DeliveryEndpoint =
 export type WaitForLoadingNewContentHeaderName = "X-KC-Wait-For-Loading-New-Content";
 
 /**
- * Array with at least one item.
+ * Readonly array with at least one item.
  */
-export type NonEmptyArray<T> = [T, ...T[]];
+export type NonEmptyArray<T> = readonly [T, ...T[]];
 
 type PublicDeliveryClientConfig = {
 	/**
