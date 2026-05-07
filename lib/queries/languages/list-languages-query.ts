@@ -24,7 +24,7 @@ export function listLanguagesQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: listLanguagesSchema(config.schema),
+		schema: listLanguagesSchema<TSchema>(),
 		endpoint: "languages",
 	});
 }

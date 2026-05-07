@@ -221,10 +221,10 @@ describe("elementDef.optional.multipleChoice", () => {
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
 	});
 
-	test("rejects unknown codename when codenames provided", () => {
+	test("accepts any codename at runtime when codenames provided (type-only narrowing)", () => {
 		const schema = elementDef.optional.multipleChoice({ codenames: ["lead", "supporting"] as const });
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Extra", codename: "extra" }] }).success).toBe(
-			false,
+			true,
 		);
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
 	});
@@ -237,10 +237,10 @@ describe("elementDef.required.multipleChoice", () => {
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
 	});
 
-	test("still enforces codename constraint", () => {
+	test("accepts any codename at runtime when codenames provided (type-only narrowing)", () => {
 		const schema = elementDef.required.multipleChoice({ codenames: ["lead", "supporting"] as const });
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Extra", codename: "extra" }] }).success).toBe(
-			false,
+			true,
 		);
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
 	});
@@ -256,12 +256,12 @@ describe("elementDef.optional.taxonomy", () => {
 		).toBe(true);
 	});
 
-	test("rejects unknown codename when codenames provided", () => {
+	test("accepts any codename at runtime when codenames provided (type-only narrowing)", () => {
 		const schema = elementDef.optional.taxonomy({ codenames: ["action", "drama"] as const });
 		expect(
 			schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [{ name: "Comedy", codename: "comedy" }] })
 				.success,
-		).toBe(false);
+		).toBe(true);
 		expect(
 			schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [{ name: "Action", codename: "action" }] })
 				.success,

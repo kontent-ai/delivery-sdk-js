@@ -1,4 +1,4 @@
-import { codenameOf, codenameSchema, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
+import { codenameOf, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationSchema } from "../../models/pagination.models.js";
@@ -6,7 +6,7 @@ import { paginationSchema } from "../../models/pagination.models.js";
 const contentTypeElementOptionSchema = z
 	.object({
 		name: z.string(),
-		codename: codenameSchema,
+		codename: codenameOf(),
 	})
 	.readonly();
 
@@ -86,18 +86,18 @@ const contentTypeAnyElementSchema = z.discriminatedUnion("type", [
 		.readonly(),
 ]);
 
-export const contentTypeSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const contentTypeSchema = <TSchema extends DeliveryClientSchema>(_schema: TSchema | undefined) =>
 	z
 		.object({
 			system: z
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: codenameOf<TSchema["contentTypeCodenames"][number]>(schema?.contentTypeCodenames),
+					codename: codenameOf<TSchema["contentTypeCodenames"][number]>(),
 					last_modified: z.iso.datetime(),
 				})
 				.readonly(),
-			elements: z.record(codenameOf<TSchema["elementCodenames"][number]>(schema?.elementCodenames), contentTypeAnyElementSchema),
+			elements: z.record(codenameOf<TSchema["elementCodenames"][number]>(), contentTypeAnyElementSchema),
 		})
 		.readonly();
 
@@ -116,7 +116,7 @@ export const contentTypeElementSchema = () =>
 			z
 				.object({
 					// Required only for the endpoint `types/{type}/elements/{element}`
-					codename: codenameSchema,
+					codename: codenameOf(),
 				})
 				.readonly(),
 		)

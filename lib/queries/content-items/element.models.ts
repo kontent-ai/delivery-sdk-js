@@ -1,22 +1,22 @@
-import { codenameOf, codenameSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
+import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { match, P } from "ts-pattern";
 import { z } from "zod";
 
 export type LinkedItemsLimitType = "atLeast" | "exactly" | "atMost";
 
-const multipleChoiceOptionSchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+const multipleChoiceOptionSchema = <TCodename extends string = string>() =>
 	z
 		.object({
 			name: z.string(),
-			codename: codenameOf<TCodename>(codenames),
+			codename: codenameOf<TCodename>(),
 		})
 		.readonly();
 
-const taxonomyTermValueSchema = <TCodename extends string = string>(codenames?: readonly TCodename[]) =>
+const taxonomyTermValueSchema = <TCodename extends string = string>() =>
 	z
 		.object({
 			name: z.string(),
-			codename: codenameOf<TCodename>(codenames),
+			codename: codenameOf<TCodename>(),
 		})
 		.readonly();
 
@@ -55,7 +55,7 @@ const richTextImageSchema = z
 
 const richTextLinkSchema = z
 	.object({
-		codename: codenameSchema,
+		codename: codenameOf(),
 		type: z.string(),
 		url_slug: z.string(),
 	})
@@ -81,7 +81,7 @@ const baseElementSchemas = {
 		value: z.string(),
 		images: z.record(z.string(), richTextImageSchema),
 		links: z.record(z.string(), richTextLinkSchema),
-		modular_content: z.array(codenameSchema).readonly(),
+		modular_content: z.array(codenameOf()).readonly(),
 	}),
 	multipleChoice: z.object({
 		type: z.literal("multiple_choice"),
@@ -118,7 +118,7 @@ const baseElementSchemas = {
 	linkedItems: z.object({
 		type: z.literal("modular_content"),
 		name: z.string(),
-		value: z.array(codenameSchema).readonly(),
+		value: z.array(codenameOf()).readonly(),
 	}),
 } as const;
 
@@ -160,7 +160,7 @@ const buildOptionalLinkedItems = <const TAllowedItemTypes extends z.ZodType = z.
 	const applyLimits = applyOptionalLinkedItemsLimits(options);
 	return baseElementSchemas.linkedItems
 		.extend({
-			value: applyLimits(z.array(codenameSchema)).readonly(),
+			value: applyLimits(z.array(codenameOf())).readonly(),
 			items: applyLimits(z.array(z.union(schemas))).readonly(),
 		})
 		.readonly();
@@ -173,7 +173,7 @@ const buildRequiredLinkedItems = <const TAllowedItemTypes extends z.ZodType = z.
 	const applyLimits = applyRequiredLinkedItemsLimits(options);
 	return baseElementSchemas.linkedItems
 		.extend({
-			value: applyLimits(codenameSchema).readonly(),
+			value: applyLimits(codenameOf()).readonly(),
 			items: applyLimits(z.union(schemas)).readonly(),
 		})
 		.readonly();
@@ -188,10 +188,10 @@ const optionalElementDef = {
 	custom: () => baseElementSchemas.custom.extend({ value: z.string().nullable() }).readonly(),
 	text: ({ maxLength }: TextOptions = {}) =>
 		baseElementSchemas.text.extend({ value: maxLength ? z.string().max(maxLength) : z.string() }).readonly(),
-	multipleChoice: <TCodename extends string = string>({ codenames }: MultipleChoiceOptions<TCodename> = {}) =>
-		baseElementSchemas.multipleChoice.extend({ value: z.array(multipleChoiceOptionSchema(codenames)).readonly() }).readonly(),
-	taxonomy: <TCodename extends string = string>({ codenames }: TaxonomyOptions<TCodename> = {}) =>
-		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema(codenames)).readonly() }).readonly(),
+	multipleChoice: <TCodename extends string = string>(_options: MultipleChoiceOptions<TCodename> = {}) =>
+		baseElementSchemas.multipleChoice.extend({ value: z.array(multipleChoiceOptionSchema<TCodename>()).readonly() }).readonly(),
+	taxonomy: <TCodename extends string = string>(_options: TaxonomyOptions<TCodename> = {}) =>
+		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema<TCodename>()).readonly() }).readonly(),
 	linkedItems: buildOptionalLinkedItems,
 } as const;
 
@@ -206,12 +206,12 @@ const requiredElementDef = {
 		const value = z.string().min(1);
 		return baseElementSchemas.text.extend({ value: maxLength ? value.max(maxLength) : value }).readonly();
 	},
-	multipleChoice: <TCodename extends string = string>({ codenames }: MultipleChoiceOptions<TCodename> = {}) => {
-		const item = multipleChoiceOptionSchema(codenames);
+	multipleChoice: <TCodename extends string = string>(_options: MultipleChoiceOptions<TCodename> = {}) => {
+		const item = multipleChoiceOptionSchema<TCodename>();
 		return baseElementSchemas.multipleChoice.extend({ value: z.tuple([item]).rest(item).readonly() }).readonly();
 	},
-	taxonomy: <TCodename extends string = string>({ codenames }: TaxonomyOptions<TCodename> = {}) => {
-		const item = taxonomyTermValueSchema(codenames);
+	taxonomy: <TCodename extends string = string>(_options: TaxonomyOptions<TCodename> = {}) => {
+		const item = taxonomyTermValueSchema<TCodename>();
 		return baseElementSchemas.taxonomy.extend({ value: z.tuple([item]).rest(item).readonly() }).readonly();
 	},
 	linkedItems: buildRequiredLinkedItems,

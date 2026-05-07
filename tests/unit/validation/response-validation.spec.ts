@@ -48,7 +48,7 @@ describe("Response validation", () => {
 			},
 		};
 
-		test("fails when the response contains a codename outside the defined schema", async () => {
+		test("succeeds when the response contains a codename outside the defined schema (type-only narrowing)", async () => {
 			const client = createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
@@ -72,9 +72,8 @@ describe("Response validation", () => {
 
 			const { success, error } = await client.listLanguages().fetchPageSafe();
 
-			expect(error).toBeDefined();
-			expect(success).toBeFalsy();
-			expect(error?.details.reason).toBe<ErrorReason>("parsingFailed");
+			expect(error).toBeUndefined();
+			expect(success).toBeTruthy();
 		});
 
 		test("succeeds when the response contains only codenames within the defined schema", async () => {

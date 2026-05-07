@@ -1,25 +1,25 @@
-import { codenameOfWithStringFallback, kontentUuidSchema } from "@kontent-ai/core-sdk";
+import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationSchema } from "../../models/pagination.models.js";
 
-export const languageSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const languageSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
 			system: z
 				.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: codenameOfWithStringFallback<TSchema["languageCodenames"][number]>(schema?.languageCodenames),
+					codename: codenameOf<TSchema["languageCodenames"][number]>(),
 				})
 				.readonly(),
 		})
 		.readonly();
 
-export const listLanguagesSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const listLanguagesSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
-			languages: z.array(languageSchema(schema)).readonly(),
+			languages: z.array(languageSchema<TSchema>()).readonly(),
 			...paginationSchema.shape,
 		})
 		.readonly();
