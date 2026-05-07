@@ -17,6 +17,14 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 		workflow_step: codenameOf<TSchema["workflowStepCodenames"][number]>(),
 	});
 
+const contentItemSchema = <TSchema extends DeliveryClientSchema>() =>
+	z
+		.object({
+			system: contentItemSystemSchema<TSchema>(),
+			elements: z.record(z.string(), contentItemElementSchema),
+		})
+		.readonly();
+
 export const contentItemSystemWithCodename = <
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends TSchema["contentTypeCodenames"][number],
@@ -36,14 +44,6 @@ export const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>() 
 		.object({
 			...baseContentItemSystemSchema<TSchema>().shape,
 			sitemap_locations: z.array(z.string()).readonly(),
-		})
-		.readonly();
-
-const contentItemSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
-			system: contentItemSystemSchema<TSchema>(),
-			elements: z.record(z.string(), contentItemElementSchema),
 		})
 		.readonly();
 

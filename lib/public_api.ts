@@ -32,15 +32,8 @@ export {
 	type ItemsReferencingItemPayload,
 	type ListContentItemsPayload,
 } from "./queries/content-items/content-item.models.js";
-export {
-	type ContentItemElementPayload,
-	elementDef,
-	type LinkedItemsLimitType,
-	type LinkedItemsOptions,
-	type MultipleChoiceOptions,
-	type TaxonomyOptions,
-	type TextOptions,
-} from "./queries/content-items/element.models.js";
+export { type ContentItemElementPayload, elementDef } from "./queries/content-items/element.models.js";
+export type * as ElementType from "./queries/content-items/element-types.js";
 export type { FetchContentItemQuery, FetchContentItemQueryRequest } from "./queries/content-items/fetch-content-item-query.js";
 export type { ItemsFeedQuery, ItemsFeedQueryRequest } from "./queries/content-items/items-feed-query.js";
 export type {

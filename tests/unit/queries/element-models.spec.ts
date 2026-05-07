@@ -1,7 +1,6 @@
 import { describe, expect, test } from "vitest";
-import z from "zod";
-import type { ContentItemSystemPayload, DeliveryClientSchema } from "../../../lib/public_api.js";
-import { contentItemSystemWithCodename, defineContentItem } from "../../../lib/queries/content-items/content-item.models.js";
+import type { ContentItemSystemPayload, DeliveryClientSchema, ElementType } from "../../../lib/public_api.js";
+import { defineContentItem } from "../../../lib/queries/content-items/content-item.models.js";
 import { elementDef } from "../../../lib/queries/content-items/element.models.js";
 import { getFakeUuid } from "../../utils/test.utils.js";
 
@@ -30,8 +29,8 @@ const makeSystem = (): ContentItemSystemPayload<typeof schemaInput> => ({
 
 describe("defineContentItem", () => {
 	test("builds a schema that validates a matching content item", () => {
-		const schema = defineContentItem<typeof schemaInput, "actor", { title: ReturnType<typeof elementDef.optional.text> }>("actor", {
-			title: elementDef.optional.text(),
+		const schema = defineContentItem<typeof schemaInput, "actor", { title: ElementType.Text }>("actor", {
+			title: elementDef.text,
 		});
 		expect(
 			schema.safeParse({
@@ -42,72 +41,33 @@ describe("defineContentItem", () => {
 	});
 });
 
-describe("elementDef.optional.number", () => {
+describe("elementDef.text", () => {
+	test("accepts any string", () => {
+		expect(elementDef.text.safeParse({ type: "text", name: "Title", value: "" }).success).toBe(true);
+		expect(elementDef.text.safeParse({ type: "text", name: "Title", value: "a".repeat(1000) }).success).toBe(true);
+	});
+});
+
+describe("elementDef.number", () => {
 	test("accepts null and a number", () => {
-		const schema = elementDef.optional.number();
-		expect(schema.safeParse({ type: "number", name: "Rating", value: null }).success).toBe(true);
-		expect(schema.safeParse({ type: "number", name: "Rating", value: 5 }).success).toBe(true);
+		expect(elementDef.number.safeParse({ type: "number", name: "Rating", value: null }).success).toBe(true);
+		expect(elementDef.number.safeParse({ type: "number", name: "Rating", value: 5 }).success).toBe(true);
 	});
 });
 
-describe("elementDef.required.number", () => {
-	test("rejects null", () => {
-		const schema = elementDef.required.number();
-		expect(schema.safeParse({ type: "number", name: "Rating", value: null }).success).toBe(false);
-		expect(schema.safeParse({ type: "number", name: "Rating", value: 5 }).success).toBe(true);
-	});
-});
-
-describe("elementDef.optional.text", () => {
-	test("accepts any string when maxLength is omitted", () => {
-		const schema = elementDef.optional.text();
-		expect(schema.safeParse({ type: "text", name: "Title", value: "" }).success).toBe(true);
-		expect(schema.safeParse({ type: "text", name: "Title", value: "a".repeat(1000) }).success).toBe(true);
-	});
-
-	test("rejects value exceeding maxLength", () => {
-		const schema = elementDef.optional.text({ maxLength: 5 });
-		expect(schema.safeParse({ type: "text", name: "Title", value: "toolong" }).success).toBe(false);
-		expect(schema.safeParse({ type: "text", name: "Title", value: "ok" }).success).toBe(true);
-	});
-});
-
-describe("elementDef.required.text", () => {
-	test("rejects empty string", () => {
-		const schema = elementDef.required.text();
-		expect(schema.safeParse({ type: "text", name: "Title", value: "" }).success).toBe(false);
-		expect(schema.safeParse({ type: "text", name: "Title", value: "x" }).success).toBe(true);
-	});
-
-	test("composes min(1) with maxLength", () => {
-		const schema = elementDef.required.text({ maxLength: 5 });
-		expect(schema.safeParse({ type: "text", name: "Title", value: "" }).success).toBe(false);
-		expect(schema.safeParse({ type: "text", name: "Title", value: "toolong" }).success).toBe(false);
-		expect(schema.safeParse({ type: "text", name: "Title", value: "ok" }).success).toBe(true);
-	});
-});
-
-describe("elementDef.optional.dateTime", () => {
-	test("accepts null", () => {
-		const schema = elementDef.optional.dateTime();
-		expect(schema.safeParse({ type: "date_time", name: "Release", value: null, display_timezone: null }).success).toBe(true);
+describe("elementDef.dateTime", () => {
+	test("accepts null and a string", () => {
+		expect(elementDef.dateTime.safeParse({ type: "date_time", name: "Release", value: null, display_timezone: null }).success).toBe(
+			true,
+		);
 		expect(
-			schema.safeParse({ type: "date_time", name: "Release", value: "2024-01-01T00:00:00.000Z", display_timezone: null }).success,
+			elementDef.dateTime.safeParse({ type: "date_time", name: "Release", value: "2024-01-01T00:00:00.000Z", display_timezone: null })
+				.success,
 		).toBe(true);
 	});
 });
 
-describe("elementDef.required.dateTime", () => {
-	test("rejects null", () => {
-		const schema = elementDef.required.dateTime();
-		expect(schema.safeParse({ type: "date_time", name: "Release", value: null, display_timezone: null }).success).toBe(false);
-		expect(
-			schema.safeParse({ type: "date_time", name: "Release", value: "2024-01-01T00:00:00.000Z", display_timezone: null }).success,
-		).toBe(true);
-	});
-});
-
-describe("elementDef.optional.richText / elementDef.required.richText", () => {
+describe("elementDef.richText", () => {
 	const makePayload = () => ({
 		type: "rich_text",
 		name: "Body",
@@ -131,59 +91,36 @@ describe("elementDef.optional.richText / elementDef.required.richText", () => {
 		modular_content: ["linked_item"],
 	});
 
-	test("optional validates a complete rich text payload", () => {
-		expect(elementDef.optional.richText().safeParse(makePayload()).success).toBe(true);
-	});
-
-	test("required validates a complete rich text payload", () => {
-		expect(elementDef.required.richText().safeParse(makePayload()).success).toBe(true);
+	test("validates a complete rich text payload", () => {
+		expect(elementDef.richText.safeParse(makePayload()).success).toBe(true);
 	});
 
 	test("accepts empty images, links and modular_content", () => {
 		const empty = { type: "rich_text", name: "Body", value: "", images: {}, links: {}, modular_content: [] };
-		expect(elementDef.optional.richText().safeParse(empty).success).toBe(true);
-		expect(elementDef.required.richText().safeParse(empty).success).toBe(true);
+		expect(elementDef.richText.safeParse(empty).success).toBe(true);
 	});
 
 	test("rejects payload with wrong discriminator type", () => {
-		expect(elementDef.optional.richText().safeParse({ ...makePayload(), type: "text" }).success).toBe(false);
+		expect(elementDef.richText.safeParse({ ...makePayload(), type: "text" }).success).toBe(false);
 	});
 
 	test("rejects payload missing required fields", () => {
 		const { images: _images, ...withoutImages } = makePayload();
-		expect(elementDef.optional.richText().safeParse(withoutImages).success).toBe(false);
+		expect(elementDef.richText.safeParse(withoutImages).success).toBe(false);
 	});
 });
 
-describe("elementDef.optional.urlSlug", () => {
-	test("accepts empty string", () => {
-		const schema = elementDef.optional.urlSlug();
-		expect(schema.safeParse({ type: "url_slug", name: "Slug", value: "" }).success).toBe(true);
-		expect(schema.safeParse({ type: "url_slug", name: "Slug", value: "my-slug" }).success).toBe(true);
+describe("elementDef.urlSlug", () => {
+	test("accepts any string", () => {
+		expect(elementDef.urlSlug.safeParse({ type: "url_slug", name: "Slug", value: "" }).success).toBe(true);
+		expect(elementDef.urlSlug.safeParse({ type: "url_slug", name: "Slug", value: "my-slug" }).success).toBe(true);
 	});
 });
 
-describe("elementDef.required.urlSlug", () => {
-	test("rejects empty string", () => {
-		const schema = elementDef.required.urlSlug();
-		expect(schema.safeParse({ type: "url_slug", name: "Slug", value: "" }).success).toBe(false);
-		expect(schema.safeParse({ type: "url_slug", name: "Slug", value: "my-slug" }).success).toBe(true);
-	});
-});
-
-describe("elementDef.optional.custom", () => {
-	test("accepts null", () => {
-		const schema = elementDef.optional.custom();
-		expect(schema.safeParse({ type: "custom", name: "ID", value: null }).success).toBe(true);
-		expect(schema.safeParse({ type: "custom", name: "ID", value: "abc" }).success).toBe(true);
-	});
-});
-
-describe("elementDef.required.custom", () => {
-	test("rejects null", () => {
-		const schema = elementDef.required.custom();
-		expect(schema.safeParse({ type: "custom", name: "ID", value: null }).success).toBe(false);
-		expect(schema.safeParse({ type: "custom", name: "ID", value: "abc" }).success).toBe(true);
+describe("elementDef.custom", () => {
+	test("accepts null and a string", () => {
+		expect(elementDef.custom.safeParse({ type: "custom", name: "ID", value: null }).success).toBe(true);
+		expect(elementDef.custom.safeParse({ type: "custom", name: "ID", value: "abc" }).success).toBe(true);
 	});
 });
 
@@ -198,31 +135,22 @@ const makeAsset = () => ({
 	renditions: {},
 });
 
-describe("elementDef.optional.asset", () => {
-	test("accepts empty value array", () => {
-		const schema = elementDef.optional.asset();
-		expect(schema.safeParse({ type: "asset", name: "Poster", value: [] }).success).toBe(true);
-		expect(schema.safeParse({ type: "asset", name: "Poster", value: [makeAsset()] }).success).toBe(true);
+describe("elementDef.asset", () => {
+	test("accepts empty value array and populated array", () => {
+		expect(elementDef.asset.safeParse({ type: "asset", name: "Poster", value: [] }).success).toBe(true);
+		expect(elementDef.asset.safeParse({ type: "asset", name: "Poster", value: [makeAsset()] }).success).toBe(true);
 	});
 });
 
-describe("elementDef.required.asset", () => {
-	test("rejects empty value array", () => {
-		const schema = elementDef.required.asset();
-		expect(schema.safeParse({ type: "asset", name: "Poster", value: [] }).success).toBe(false);
-		expect(schema.safeParse({ type: "asset", name: "Poster", value: [makeAsset()] }).success).toBe(true);
-	});
-});
-
-describe("elementDef.optional.multipleChoice", () => {
-	test("accepts empty value array and validates option codename when codenames omitted", () => {
-		const schema = elementDef.optional.multipleChoice();
+describe("elementDef.multipleChoice", () => {
+	test("accepts empty value array and populated array", () => {
+		const schema = elementDef.multipleChoice();
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [] }).success).toBe(true);
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
 	});
 
 	test("accepts any codename at runtime when codenames provided (type-only narrowing)", () => {
-		const schema = elementDef.optional.multipleChoice({ codenames: ["lead", "supporting"] as const });
+		const schema = elementDef.multipleChoice<"lead" | "supporting">();
 		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Extra", codename: "extra" }] }).success).toBe(
 			true,
 		);
@@ -230,25 +158,9 @@ describe("elementDef.optional.multipleChoice", () => {
 	});
 });
 
-describe("elementDef.required.multipleChoice", () => {
-	test("rejects empty value array", () => {
-		const schema = elementDef.required.multipleChoice();
-		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [] }).success).toBe(false);
-		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
-	});
-
-	test("accepts any codename at runtime when codenames provided (type-only narrowing)", () => {
-		const schema = elementDef.required.multipleChoice({ codenames: ["lead", "supporting"] as const });
-		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Extra", codename: "extra" }] }).success).toBe(
-			true,
-		);
-		expect(schema.safeParse({ type: "multiple_choice", name: "Role", value: [{ name: "Lead", codename: "lead" }] }).success).toBe(true);
-	});
-});
-
-describe("elementDef.optional.taxonomy", () => {
-	test("accepts empty value array and validates terms when codenames omitted", () => {
-		const schema = elementDef.optional.taxonomy();
+describe("elementDef.taxonomy", () => {
+	test("accepts empty value array and populated array", () => {
+		const schema = elementDef.taxonomy();
 		expect(schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [] }).success).toBe(true);
 		expect(
 			schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [{ name: "Action", codename: "action" }] })
@@ -257,7 +169,7 @@ describe("elementDef.optional.taxonomy", () => {
 	});
 
 	test("accepts any codename at runtime when codenames provided (type-only narrowing)", () => {
-		const schema = elementDef.optional.taxonomy({ codenames: ["action", "drama"] as const });
+		const schema = elementDef.taxonomy<"action" | "drama">();
 		expect(
 			schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [{ name: "Comedy", codename: "comedy" }] })
 				.success,
@@ -269,151 +181,15 @@ describe("elementDef.optional.taxonomy", () => {
 	});
 });
 
-describe("elementDef.required.taxonomy", () => {
-	test("rejects empty value array", () => {
-		const schema = elementDef.required.taxonomy();
-		expect(schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [] }).success).toBe(false);
-		expect(
-			schema.safeParse({ type: "taxonomy", name: "Genre", taxonomy_group: "genre", value: [{ name: "Action", codename: "action" }] })
-				.success,
-		).toBe(true);
-	});
-});
-
-const buildLinkedItemsSchemas = () => {
-	const actorSchema = z
-		.object({
-			system: contentItemSystemWithCodename<typeof schemaInput, "actor">("actor"),
-			elements: z.record(z.string(), z.unknown()),
-		})
-		.readonly();
-	const movieSchema = z
-		.object({
-			system: contentItemSystemWithCodename<typeof schemaInput, "movie">("movie"),
-			elements: z.record(z.string(), z.unknown()),
-		})
-		.readonly();
-	const item = { system: makeSystem(), elements: {} };
-	const make = (count: number) => ({
-		type: "modular_content" as const,
-		name: "Cast",
-		value: Array.from({ length: count }, (_, i) => `x${i}`),
-		items: Array.from({ length: count }, () => item),
-	});
-	return { actorSchema, movieSchema, make };
-};
-
-describe("elementDef.optional.linkedItems", () => {
-	test("items are validated against the union when multiple schemas provided", () => {
-		const { actorSchema, movieSchema } = buildLinkedItemsSchemas();
-		const schema = elementDef.optional.linkedItems([actorSchema, movieSchema]);
-		const system = makeSystem();
-
-		expect(
-			schema.safeParse({
-				type: "modular_content",
-				name: "Cast",
-				value: [],
-				items: [{ system, elements: {} }],
-			}).success,
-		).toBe(true);
-		expect(
-			schema.safeParse({
-				type: "modular_content",
-				name: "Cast",
-				value: [],
-				items: [{ system: { ...system, type: "movie", codename: "movie" }, elements: {} }],
-			}).success,
-		).toBe(true);
-		expect(
-			schema.safeParse({
-				type: "modular_content",
-				name: "Cast",
-				value: [],
-				items: [{ noSystemOrElements: true }],
-			}).success,
-		).toBe(false);
-	});
-
-	test("accepts empty value and items arrays", () => {
-		const { actorSchema, movieSchema } = buildLinkedItemsSchemas();
-		const schema = elementDef.optional.linkedItems([actorSchema, movieSchema]);
-		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: [], items: [] }).success).toBe(true);
-	});
-
-	test("limitType atLeast enforces minimum count", () => {
-		const { actorSchema, movieSchema, make } = buildLinkedItemsSchemas();
-		const schema = elementDef.optional.linkedItems([actorSchema, movieSchema], { limitType: "atLeast", itemsLimit: 2 });
-
-		expect(schema.safeParse(make(1)).success).toBe(false);
-		expect(schema.safeParse(make(2)).success).toBe(true);
-		expect(schema.safeParse(make(3)).success).toBe(true);
-	});
-
-	test("limitType atMost enforces maximum count", () => {
-		const { actorSchema, movieSchema, make } = buildLinkedItemsSchemas();
-		const schema = elementDef.optional.linkedItems([actorSchema, movieSchema], { limitType: "atMost", itemsLimit: 2 });
-
-		expect(schema.safeParse(make(0)).success).toBe(true);
-		expect(schema.safeParse(make(2)).success).toBe(true);
-		expect(schema.safeParse(make(3)).success).toBe(false);
-	});
-
-	test("limitType exactly enforces precise count", () => {
-		const { actorSchema, movieSchema, make } = buildLinkedItemsSchemas();
-		const schema = elementDef.optional.linkedItems([actorSchema, movieSchema], { limitType: "exactly", itemsLimit: 2 });
-
-		expect(schema.safeParse(make(1)).success).toBe(false);
-		expect(schema.safeParse(make(2)).success).toBe(true);
-		expect(schema.safeParse(make(3)).success).toBe(false);
-	});
-
-	test("itemsLimit without limitType is ignored", () => {
-		const { actorSchema, movieSchema, make } = buildLinkedItemsSchemas();
-		const schema = elementDef.optional.linkedItems([actorSchema, movieSchema], { itemsLimit: 2 });
-
-		expect(schema.safeParse(make(0)).success).toBe(true);
-		expect(schema.safeParse(make(5)).success).toBe(true);
-	});
-
-	test("limitType without itemsLimit is ignored", () => {
-		const { actorSchema, movieSchema, make } = buildLinkedItemsSchemas();
-		const schema = elementDef.optional.linkedItems([actorSchema, movieSchema], { limitType: "exactly" });
-
-		expect(schema.safeParse(make(0)).success).toBe(true);
-		expect(schema.safeParse(make(5)).success).toBe(true);
-	});
-});
-
-describe("elementDef.required.linkedItems", () => {
-	test("rejects empty value or items arrays", () => {
-		const { actorSchema, movieSchema, make } = buildLinkedItemsSchemas();
-		const schema = elementDef.required.linkedItems([actorSchema, movieSchema]);
-		const system = makeSystem();
-
-		expect(schema.safeParse(make(0)).success).toBe(false);
-		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: ["x"], items: [] }).success).toBe(false);
-		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: [], items: [{ system, elements: {} }] }).success).toBe(
-			false,
+describe("elementDef.linkedItems", () => {
+	test("accepts empty and populated value arrays", () => {
+		expect(elementDef.linkedItems.safeParse({ type: "modular_content", name: "Cast", value: [] }).success).toBe(true);
+		expect(elementDef.linkedItems.safeParse({ type: "modular_content", name: "Cast", value: ["actor_one", "actor_two"] }).success).toBe(
+			true,
 		);
-		expect(schema.safeParse(make(1)).success).toBe(true);
 	});
 
-	test("composes implicit min(1) with limitType atMost", () => {
-		const { actorSchema, movieSchema, make } = buildLinkedItemsSchemas();
-		const schema = elementDef.required.linkedItems([actorSchema, movieSchema], { limitType: "atMost", itemsLimit: 2 });
-
-		expect(schema.safeParse(make(0)).success).toBe(false);
-		expect(schema.safeParse(make(1)).success).toBe(true);
-		expect(schema.safeParse(make(2)).success).toBe(true);
-		expect(schema.safeParse(make(3)).success).toBe(false);
-	});
-
-	test("limitType atLeast already implies min(N)", () => {
-		const { actorSchema, movieSchema, make } = buildLinkedItemsSchemas();
-		const schema = elementDef.required.linkedItems([actorSchema, movieSchema], { limitType: "atLeast", itemsLimit: 3 });
-
-		expect(schema.safeParse(make(2)).success).toBe(false);
-		expect(schema.safeParse(make(3)).success).toBe(true);
+	test("rejects payload with wrong discriminator type", () => {
+		expect(elementDef.linkedItems.safeParse({ type: "text", name: "Cast", value: [] }).success).toBe(false);
 	});
 });
