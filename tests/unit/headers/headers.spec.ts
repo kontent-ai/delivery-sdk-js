@@ -8,11 +8,11 @@ import {
 import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
-import type { DefaultDeliveryClientSchema, WaitForLoadingNewContentHeaderName } from "../../../lib/models/core.models.js";
+import type { DeliveryClientSchema, WaitForLoadingNewContentHeaderName } from "../../../lib/models/core.models.js";
 import type { ItemsFeedQueryRequest } from "../../../lib/queries/content-items/items-feed-query.js";
 import { unitEnvironmentId } from "../../utils/test.utils.js";
 
-async function captureRequestHeaders(listConfig?: ItemsFeedQueryRequest<DefaultDeliveryClientSchema>): Promise<readonly Header[]> {
+async function captureRequestHeaders(listConfig?: ItemsFeedQueryRequest<DeliveryClientSchema>): Promise<readonly Header[]> {
 	let captured: readonly Header[] = [];
 
 	const client = createDeliveryClient({

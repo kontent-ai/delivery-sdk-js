@@ -5,19 +5,17 @@ import type { DeliveryClient, DeliveryClientSchema } from "../../lib/models/core
 import { type InferItemType as ContentItemOf, defineContentItem } from "../../lib/queries/content-items/content-item.models.js";
 import { elementDef } from "../../lib/queries/content-items/element.models.js";
 
-const schema = {
-	languageCodenames: ["en-us", "es-es"],
-	taxonomyCodenames: ["category", "tag"],
-	contentTypeCodenames: ["movie", "actor"],
-	elementCodenames: ["title", "first_name", "last_name"],
-	collectionCodenames: ["movies", "tv-shows"],
-	workflowCodenames: ["published", "draft"],
-	workflowStepCodenames: ["published", "draft"],
-} as const satisfies DeliveryClientSchema;
+type TypedSchema = DeliveryClientSchema<{
+	readonly languageCodenames: readonly ["en-us", "es-es"];
+	readonly taxonomyCodenames: readonly ["category", "tag"];
+	readonly contentTypeCodenames: readonly ["movie", "actor"];
+	readonly elementCodenames: readonly ["title", "first_name", "last_name"];
+	readonly collectionCodenames: readonly ["movies", "tv-shows"];
+	readonly workflowCodenames: readonly ["published", "draft"];
+	readonly workflowStepCodenames: readonly ["published", "draft"];
+}>;
 
-type DeliverySchema = typeof schema;
-
-type TypedDeliveryClient = DeliveryClient<DeliverySchema>;
+type TypedDeliveryClient = DeliveryClient<TypedSchema>;
 
 type ActorElements = {
 	first_name: ReturnType<typeof elementDef.optional.text>;
@@ -27,7 +25,7 @@ type ActorElements = {
 };
 
 // circular reference — relatedActors items are ActorPayload itself
-type ActorPayload = ContentItemOf<typeof schema, "actor", ActorElements>;
+type ActorPayload = ContentItemOf<TypedSchema, "actor", ActorElements>;
 
 // Mixes required and optional element factories to verify both branches of elementDef.
 // Required factories drop nullability on scalar values (number/dateTime/custom),
@@ -45,9 +43,9 @@ type MovieElements = {
 	actors: ReturnType<typeof elementDef.required.linkedItems<z.ZodType<ActorPayload>>>;
 };
 
-type MoviePayload = ContentItemOf<typeof schema, "movie", MovieElements>;
+type MoviePayload = ContentItemOf<TypedSchema, "movie", MovieElements>;
 
-const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "actor", ActorElements>("actor", {
+const actorSchema: z.ZodType<ActorPayload> = defineContentItem<TypedSchema, "actor", ActorElements>("actor", {
 	first_name: elementDef.optional.text(),
 	last_name: elementDef.optional.text(),
 	role: elementDef.optional.multipleChoice({ codenames: ["opt1", "opt2", "opt3"] }),
@@ -56,7 +54,7 @@ const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "a
 	},
 });
 
-const movieSchema: z.ZodType<MoviePayload> = defineContentItem<typeof schema, "movie", MovieElements>("movie", {
+const movieSchema: z.ZodType<MoviePayload> = defineContentItem<TypedSchema, "movie", MovieElements>("movie", {
 	title: elementDef.required.text(),
 	rating: elementDef.required.number(),
 	synopsis: elementDef.optional.richText(),
@@ -71,7 +69,7 @@ const movieSchema: z.ZodType<MoviePayload> = defineContentItem<typeof schema, "m
 
 void movieSchema;
 
-const client: TypedDeliveryClient = createDeliveryClient<DeliverySchema>({
+const client: TypedDeliveryClient = createDeliveryClient<TypedSchema>({
 	apiMode: "public",
 	environmentId: "x",
 	httpService: getTestHttpServiceWithJsonResponse({
@@ -83,13 +81,14 @@ const client: TypedDeliveryClient = createDeliveryClient<DeliverySchema>({
 const languageResponse = await client.listLanguages().fetchPage();
 
 // Verifies that the language codenames are assignable from the response schema
-const responseLanguageCodenames: readonly (typeof schema.languageCodenames)[number][] = languageResponse.payload.languages.map(
+const responseLanguageCodenames: readonly TypedSchema["languageCodenames"][number][] = languageResponse.payload.languages.map(
 	(language) => language.system.codename,
 );
 
 void responseLanguageCodenames;
 
-await client.fetchContentItem({ codename: "itemCodename" }).fetch();
+const item = await client.fetchContentItem({ codename: "itemCodename" }).fetch();
+void item;
 
 // Type showcase — compile-time verification of typed element access
 declare const actor: ActorPayload;

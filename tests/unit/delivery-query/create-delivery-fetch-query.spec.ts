@@ -1,14 +1,14 @@
 import type { JsonValue } from "@kontent-ai/core-sdk";
 import { describe, expect, it } from "vitest";
 import { type ZodType, z } from "zod";
-import type { DefaultDeliveryClientSchema, DeliveryClientConfig } from "../../../lib/models/core.models.js";
+import type { DeliveryClientConfig, DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
 import type { DeliveryRequest } from "../../../lib/models/request.models.js";
 import { createDeliveryFetchQuery } from "../../../lib/queries/delivery-queries.js";
 import { getDeliveryUrl } from "../../../lib/utils/url.utils.js";
 import { isFetchQueryWithExpectedFunctions, unitEnvironmentId } from "../../utils/test.utils.js";
 
-const clientConfig: DeliveryClientConfig<DefaultDeliveryClientSchema> = {
+const clientConfig: DeliveryClientConfig<DeliveryClientSchema> = {
 	apiMode: "public",
 	environmentId: unitEnvironmentId,
 };

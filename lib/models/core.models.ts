@@ -18,25 +18,17 @@ import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/t
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
 import type { DeliverySdkError } from "./error.models.js";
 
-export type DefaultDeliveryClientSchema = {
-	readonly languageCodenames: readonly string[];
-	readonly taxonomyCodenames: readonly string[];
-	readonly contentTypeCodenames: readonly string[];
-	readonly elementCodenames: readonly string[];
-	readonly collectionCodenames: readonly string[];
-	readonly workflowCodenames: readonly string[];
-	readonly workflowStepCodenames: readonly string[];
-};
-
-export type DeliveryClientSchema<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = {
-	readonly languageCodenames: TSchema["languageCodenames"];
-	readonly taxonomyCodenames: TSchema["taxonomyCodenames"];
-	readonly contentTypeCodenames: TSchema["contentTypeCodenames"];
-	readonly elementCodenames: TSchema["elementCodenames"];
-	readonly collectionCodenames: TSchema["collectionCodenames"];
-	readonly workflowCodenames: TSchema["workflowCodenames"];
-	readonly workflowStepCodenames: TSchema["workflowStepCodenames"];
-};
+export type DeliveryClientSchema<
+	TSchema extends DeliveryClientSchema = {
+		readonly languageCodenames: readonly string[];
+		readonly taxonomyCodenames: readonly string[];
+		readonly contentTypeCodenames: readonly string[];
+		readonly elementCodenames: readonly string[];
+		readonly collectionCodenames: readonly string[];
+		readonly workflowCodenames: readonly string[];
+		readonly workflowStepCodenames: readonly string[];
+	},
+> = TSchema;
 
 /**
  * Placeholder type if extension is needed in future
@@ -59,7 +51,7 @@ export type ApiMode = "public" | "preview" | "secure";
 
 declare const schemaPhantom: unique symbol;
 
-export type DeliveryClientConfig<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = SdkConfig<
+export type DeliveryClientConfig<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = SdkConfig<
 	DeliveryApiConfig & {
 		/**
 		 * The environment ID of your Kontent.ai project. Can be found in the Kontent.ai app.

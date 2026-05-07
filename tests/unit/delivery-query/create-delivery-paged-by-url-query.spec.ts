@@ -1,6 +1,6 @@
 import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { DefaultDeliveryClientSchema, DeliveryClientConfig } from "../../../lib/models/core.models.js";
+import type { DeliveryClientConfig, DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
 import { paginationSchema } from "../../../lib/models/pagination.models.js";
 import type { DeliveryRequest } from "../../../lib/models/request.models.js";
@@ -8,7 +8,7 @@ import { createDeliveryPagedByUrlQuery } from "../../../lib/queries/delivery-que
 import { getDeliveryUrl } from "../../../lib/utils/url.utils.js";
 import { isPagedFetchQueryWithExpectedFunctions, unitEnvironmentId } from "../../utils/test.utils.js";
 
-const clientConfig: DeliveryClientConfig<DefaultDeliveryClientSchema> = {
+const clientConfig: DeliveryClientConfig<DeliveryClientSchema> = {
 	apiMode: "public",
 	environmentId: unitEnvironmentId,
 };
