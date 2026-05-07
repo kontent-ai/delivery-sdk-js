@@ -86,7 +86,7 @@ const contentTypeAnyElementSchema = z.discriminatedUnion("type", [
 		.readonly(),
 ]);
 
-export const contentTypeSchema = <TSchema extends DeliveryClientSchema>(_schema: TSchema | undefined) =>
+export const contentTypeSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
 			system: z
@@ -101,10 +101,10 @@ export const contentTypeSchema = <TSchema extends DeliveryClientSchema>(_schema:
 		})
 		.readonly();
 
-export const listContentTypesSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const listContentTypesSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
-			types: z.array(contentTypeSchema(schema)).readonly(),
+			types: z.array(contentTypeSchema<TSchema>()).readonly(),
 			...paginationSchema.shape,
 		})
 		.readonly();

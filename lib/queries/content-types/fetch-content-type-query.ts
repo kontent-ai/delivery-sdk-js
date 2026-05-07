@@ -22,7 +22,7 @@ export function fetchContentTypeQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: contentTypeSchema(config.schema),
+		schema: contentTypeSchema<TSchema>(),
 		endpoint: `types/${request.codename}`,
 	});
 }

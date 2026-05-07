@@ -110,15 +110,6 @@ function createFailingUnitTestClient(): DeliveryClient<DeliveryClientSchema> {
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
-		schema: {
-			languageCodenames: [],
-			taxonomyCodenames: [],
-			contentTypeCodenames: [],
-			elementCodenames: [],
-			collectionCodenames: [],
-			workflowCodenames: [],
-			workflowStepCodenames: [],
-		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: () => {
@@ -133,15 +124,6 @@ function createUnitTestClient<TResponsePayload extends JsonValue>(unitTestPayloa
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
-		schema: {
-			languageCodenames: [],
-			taxonomyCodenames: [],
-			contentTypeCodenames: [],
-			elementCodenames: [],
-			collectionCodenames: [],
-			workflowCodenames: [],
-			workflowStepCodenames: [],
-		},
 		httpService: getTestHttpServiceWithJsonResponse({
 			jsonResponse: unitTestPayload,
 			statusCode: 200,
@@ -153,15 +135,6 @@ function createIntegrationTestClient(environmentId: string, deliveryBaseUrl: Bas
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId,
-		schema: {
-			languageCodenames: [],
-			taxonomyCodenames: [],
-			contentTypeCodenames: [],
-			elementCodenames: [],
-			collectionCodenames: [],
-			workflowCodenames: [],
-			workflowStepCodenames: [],
-		},
 		...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
 	});
 }

@@ -75,7 +75,7 @@ The following v16 config properties have no v17 equivalent and should be removed
 
 ## TypeScript schema (replaces `ClientTypes` generic)
 
-v16 used a generic type parameter to narrow codenames. v17 passes a `schema` object in the config instead.
+v16 used a generic type parameter to narrow codenames. v17 keeps a generic type parameter, but the shape is provided through `DeliveryClientSchema<...>`.
 
 **v16**
 ```typescript
@@ -108,20 +108,13 @@ type MySchema = DeliveryClientSchema<{
     readonly elementCodenames: readonly ["title", "summary"];
 }>;
 
-const client = createDeliveryClient({
+const client = createDeliveryClient<MySchema>({
     apiMode: "public",
     environmentId: "...",
-    schema: {
-        languageCodenames: ["en-US", "cs-CZ"],
-        contentTypeCodenames: ["article", "movie"],
-        collectionCodenames: ["default"],
-        workflowCodenames: ["default"],
-        workflowStepCodenames: ["published", "draft"],
-        taxonomyCodenames: ["genre"],
-        elementCodenames: ["title", "summary"],
-    },
 });
 ```
+
+The schema is type-only — it narrows codenames at compile time and is not passed as a runtime value.
 
 ---
 

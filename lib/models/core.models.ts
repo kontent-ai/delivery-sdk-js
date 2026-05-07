@@ -57,25 +57,18 @@ export type UrlPagingDeliveryExtraResponseProps = {
 
 export type ApiMode = "public" | "preview" | "secure";
 
+declare const schemaPhantom: unique symbol;
+
 export type DeliveryClientConfig<TSchema extends DefaultDeliveryClientSchema = DefaultDeliveryClientSchema> = SdkConfig<
 	DeliveryApiConfig & {
 		/**
 		 * The environment ID of your Kontent.ai project. Can be found in the Kontent.ai app.
 		 */
 		readonly environmentId: string;
-
-		/**
-		 * Schema for the delivery client.
-		 *
-		 * If you provide schema, you can get stronger type safety by enabling the response validation.
-		 *
-		 * Generate using the `@kontent-ai/model-generator` npm package.
-		 *
-		 * @see https://github.com/kontent-ai/model-generator-js
-		 */
-		readonly schema?: TSchema | undefined;
 	}
->;
+> & {
+	readonly [schemaPhantom]?: TSchema;
+};
 
 export type DeliveryApiConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
 

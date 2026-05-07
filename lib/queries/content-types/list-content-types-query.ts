@@ -27,7 +27,7 @@ export function listContentTypesQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: listContentTypesSchema(config.schema),
+		schema: listContentTypesSchema<TSchema>(),
 		endpoint: "types",
 	});
 }

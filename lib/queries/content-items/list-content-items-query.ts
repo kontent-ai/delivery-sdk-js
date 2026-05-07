@@ -60,7 +60,7 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: listContentItemsSchema(config.schema),
+		schema: listContentItemsSchema<TSchema>(),
 		endpoint: "items",
 	});
 }

@@ -24,7 +24,7 @@ export function listTaxonomiesQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: listTaxonomiesSchema(config.schema),
+		schema: listTaxonomiesSchema<TSchema>(),
 		endpoint: "taxonomies",
 	});
 }

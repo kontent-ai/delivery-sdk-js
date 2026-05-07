@@ -4,7 +4,7 @@ import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../models/pagination.models.js";
 import { contentItemElementSchema } from "./element.models.js";
 
-const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>(_schema: TSchema | undefined) =>
+const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z.object({
 		id: kontentUuidSchema,
 		name: z.string(),
@@ -21,81 +21,80 @@ export const contentItemSystemWithCodename = <
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends TSchema["contentTypeCodenames"][number],
 >(
-	schema: TSchema | undefined,
 	type: TTypeCodename,
 ) =>
 	z
 		.object({
-			...baseContentItemSystemSchema(schema).shape,
+			...baseContentItemSystemSchema<TSchema>().shape,
 			sitemap_locations: z.array(z.string()).readonly(),
 			type: z.literal(type),
 		})
 		.readonly();
 
-export const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
-			...baseContentItemSystemSchema(schema).shape,
+			...baseContentItemSystemSchema<TSchema>().shape,
 			sitemap_locations: z.array(z.string()).readonly(),
 		})
 		.readonly();
 
-const contentItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+const contentItemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
-			system: contentItemSystemSchema(schema),
+			system: contentItemSystemSchema<TSchema>(),
 			elements: z.record(z.string(), contentItemElementSchema),
 		})
 		.readonly();
 
-export const listContentItemsSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const listContentItemsSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
-			items: z.array(contentItemSchema(schema)).readonly(),
-			modular_content: z.record(z.string(), contentItemSchema(schema)),
+			items: z.array(contentItemSchema<TSchema>()).readonly(),
+			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
 			...paginationWithTotalCountSchema.shape,
 		})
 		.readonly();
 
-export const itemsFeedSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const itemsFeedSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
-			items: z.array(contentItemSchema(schema)).readonly(),
-			modular_content: z.record(z.string(), contentItemSchema(schema)),
+			items: z.array(contentItemSchema<TSchema>()).readonly(),
+			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
 		})
 		.readonly();
 
-export const itemsReferencingAssetSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const itemsReferencingAssetSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
 			items: z
 				.array(
 					z.object({
-						system: baseContentItemSystemSchema(schema),
+						system: baseContentItemSystemSchema<TSchema>(),
 					}),
 				)
 				.readonly(),
 		})
 		.readonly();
 
-export const itemsReferencingItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const itemsReferencingItemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
 			items: z
 				.array(
 					z.object({
-						system: baseContentItemSystemSchema(schema),
+						system: baseContentItemSystemSchema<TSchema>(),
 					}),
 				)
 				.readonly(),
 		})
 		.readonly();
 
-export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>(schema: TSchema | undefined) =>
+export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
-			item: contentItemSchema(schema),
-			modular_content: z.record(z.string(), contentItemSchema(schema)),
+			item: contentItemSchema<TSchema>(),
+			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
 		})
 		.readonly();
 
@@ -104,13 +103,12 @@ export const defineContentItem = <
 	TTypeCodename extends TSchema["contentTypeCodenames"][number],
 	TElementsShape extends z.ZodRawShape,
 >(
-	schema: TSchema | undefined,
 	typeCodename: TTypeCodename,
 	elements: TElementsShape,
 ) =>
 	z
 		.object({
-			system: contentItemSystemWithCodename(schema, typeCodename),
+			system: contentItemSystemWithCodename<TSchema, TTypeCodename>(typeCodename),
 			elements: z.object(elements).readonly(),
 		})
 		.readonly();

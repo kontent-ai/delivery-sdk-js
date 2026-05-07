@@ -30,7 +30,7 @@ const makeSystem = (): ContentItemSystemPayload<typeof schemaInput> => ({
 
 describe("defineContentItem", () => {
 	test("builds a schema that validates a matching content item", () => {
-		const schema = defineContentItem(schemaInput, "actor", {
+		const schema = defineContentItem<typeof schemaInput, "actor", { title: ReturnType<typeof elementDef.optional.text> }>("actor", {
 			title: elementDef.optional.text(),
 		});
 		expect(
@@ -283,13 +283,13 @@ describe("elementDef.required.taxonomy", () => {
 const buildLinkedItemsSchemas = () => {
 	const actorSchema = z
 		.object({
-			system: contentItemSystemWithCodename(schemaInput, "actor"),
+			system: contentItemSystemWithCodename<typeof schemaInput, "actor">("actor"),
 			elements: z.record(z.string(), z.unknown()),
 		})
 		.readonly();
 	const movieSchema = z
 		.object({
-			system: contentItemSystemWithCodename(schemaInput, "movie"),
+			system: contentItemSystemWithCodename<typeof schemaInput, "movie">("movie"),
 			elements: z.record(z.string(), z.unknown()),
 		})
 		.readonly();

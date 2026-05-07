@@ -8,16 +8,6 @@ import type { PaginationPayload } from "../../../lib/public_api.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
 import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 
-const baseSchema = {
-	languageCodenames: [],
-	taxonomyCodenames: [],
-	contentTypeCodenames: [],
-	elementCodenames: [],
-	collectionCodenames: [],
-	workflowCodenames: [],
-	workflowStepCodenames: [],
-} as const satisfies DeliveryClientSchema;
-
 describe("Response validation", () => {
 	describe("Codename narrowing", () => {
 		type TestSchema = DeliveryClientSchema<{
@@ -48,19 +38,20 @@ describe("Response validation", () => {
 			},
 		};
 
+		type NarrowSchema = DeliveryClientSchema<{
+			readonly languageCodenames: readonly ["en-US", "cs-CZ"];
+			readonly taxonomyCodenames: readonly [];
+			readonly contentTypeCodenames: readonly [];
+			readonly elementCodenames: readonly [];
+			readonly collectionCodenames: readonly [];
+			readonly workflowCodenames: readonly [];
+			readonly workflowStepCodenames: readonly [];
+		}>;
+
 		test("succeeds when the response contains a codename outside the defined schema (type-only narrowing)", async () => {
-			const client = createDeliveryClient({
+			const client = createDeliveryClient<NarrowSchema>({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				schema: {
-					languageCodenames: ["en-US", "cs-CZ"],
-					taxonomyCodenames: [],
-					contentTypeCodenames: [],
-					elementCodenames: [],
-					collectionCodenames: [],
-					workflowCodenames: [],
-					workflowStepCodenames: [],
-				},
 				runtimeValidation: {
 					validateResponses: true,
 				},
@@ -77,18 +68,9 @@ describe("Response validation", () => {
 		});
 
 		test("succeeds when the response contains only codenames within the defined schema", async () => {
-			const client = createDeliveryClient({
+			const client = createDeliveryClient<TestSchema>({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				schema: {
-					languageCodenames: ["en-US", "cs-CZ", "de-DE"],
-					taxonomyCodenames: [],
-					contentTypeCodenames: [],
-					elementCodenames: [],
-					collectionCodenames: [],
-					workflowCodenames: [],
-					workflowStepCodenames: [],
-				},
 				runtimeValidation: {
 					validateResponses: true,
 				},
@@ -108,7 +90,6 @@ describe("Response validation", () => {
 			const client = createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				schema: baseSchema,
 				runtimeValidation: {
 					validateResponses: true,
 				},
@@ -151,7 +132,6 @@ describe("Response validation", () => {
 			const client = createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				schema: baseSchema,
 				runtimeValidation: {
 					validateResponses: true,
 				},
@@ -185,7 +165,6 @@ describe("Response validation", () => {
 			const client = createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				schema: baseSchema,
 				runtimeValidation: {
 					validateResponses: true,
 				},
@@ -208,7 +187,6 @@ describe("Response validation", () => {
 			const query = createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				schema: baseSchema,
 				runtimeValidation: {
 					validateResponses: true,
 				},

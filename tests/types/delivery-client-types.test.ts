@@ -47,7 +47,7 @@ type MovieElements = {
 
 type MoviePayload = ContentItemOf<typeof schema, "movie", MovieElements>;
 
-const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "actor", ActorElements>(schema, "actor", {
+const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "actor", ActorElements>("actor", {
 	first_name: elementDef.optional.text(),
 	last_name: elementDef.optional.text(),
 	role: elementDef.optional.multipleChoice({ codenames: ["opt1", "opt2", "opt3"] }),
@@ -56,7 +56,7 @@ const actorSchema: z.ZodType<ActorPayload> = defineContentItem<typeof schema, "a
 	},
 });
 
-const movieSchema: z.ZodType<MoviePayload> = defineContentItem(schema, "movie", {
+const movieSchema: z.ZodType<MoviePayload> = defineContentItem<typeof schema, "movie", MovieElements>("movie", {
 	title: elementDef.required.text(),
 	rating: elementDef.required.number(),
 	synopsis: elementDef.optional.richText(),
@@ -71,10 +71,9 @@ const movieSchema: z.ZodType<MoviePayload> = defineContentItem(schema, "movie", 
 
 void movieSchema;
 
-const client: TypedDeliveryClient = createDeliveryClient({
+const client: TypedDeliveryClient = createDeliveryClient<DeliverySchema>({
 	apiMode: "public",
 	environmentId: "x",
-	schema,
 	httpService: getTestHttpServiceWithJsonResponse({
 		jsonResponse: {},
 		statusCode: 200,

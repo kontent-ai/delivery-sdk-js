@@ -31,7 +31,7 @@ export function itemsReferencingItemQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByTokenQuery({
 		config,
 		request,
-		schema: itemsReferencingItemSchema(config.schema),
+		schema: itemsReferencingItemSchema<TSchema>(),
 		endpoint: `items/${request.codename}/used-in`,
 	});
 }

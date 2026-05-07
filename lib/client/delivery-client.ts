@@ -18,25 +18,26 @@ import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/t
 import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
 
 /**
- * Creates a delivery client. When you provide a schema, codenames are inferred for type safety.
- * When schema is omitted or undefined, codenames are generic strings.
+ * Creates a delivery client. When you supply a `TSchema` type argument, codenames are narrowed for type safety.
+ * Without a type argument, codenames fall back to generic strings.
  *
- * We highly recommend generating the schema using the `@kontent-ai/model-generator` npm package.
- * and passing it here for full compile-time safety.
+ * We highly recommend generating the schema type using the `@kontent-ai/model-generator` npm package
+ * and passing it as the type argument for full compile-time safety.
  *
- * By enabling the response validation, you can also achieve a run-time type safety.
+ * By enabling the response validation, you can also achieve run-time type safety.
  *
  * @example
  * With schema – narrow codename types
  *
- * const client = createDeliveryClient({
+ * type MySchema = DeliveryClientSchema<{ readonly languageCodenames: readonly ["en-us", "es-es"]; ... }>;
+ *
+ * const client = createDeliveryClient<MySchema>({
  *   apiMode: "public",
  *   environmentId: "x",
- *   schema: { languageCodenames: ["en-us", "es-es"] },
  * });
  *
  * @example
- * Without schema – schema optional, codenames are string
+ * Without schema – codenames are string
  *
  * const client = createDeliveryClient({
  *   apiMode: "public",

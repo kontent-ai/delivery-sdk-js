@@ -9,15 +9,6 @@ describe("Custom Error Handling", async () => {
 	const { success, error } = await createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
-		schema: {
-			languageCodenames: [],
-			taxonomyCodenames: [],
-			contentTypeCodenames: [],
-			elementCodenames: [],
-			collectionCodenames: [],
-			workflowCodenames: [],
-			workflowStepCodenames: [],
-		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: () => {

@@ -58,7 +58,7 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByTokenQuery({
 		config,
 		request,
-		schema: itemsFeedSchema(config.schema),
+		schema: itemsFeedSchema<TSchema>(),
 		endpoint: "items-feed",
 	});
 }

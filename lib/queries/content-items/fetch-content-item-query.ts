@@ -44,7 +44,7 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: fetchContentItemSchema(config.schema),
+		schema: fetchContentItemSchema<TSchema>(),
 		endpoint: `items/${request.codename}`,
 	});
 }
