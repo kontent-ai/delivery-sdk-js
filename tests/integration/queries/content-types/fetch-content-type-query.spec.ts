@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { ContentTypePayload } from "../../../../lib/queries/content-types/models/content-type.models.js";
 import { contentTypeSchema } from "../../../../lib/queries/content-types/schemas/content-type.schemas.js";
-import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
+import { runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./fetch-content-type-query.payload.js";
 
 describe("Fetch content type query", async () => {
@@ -11,7 +11,7 @@ describe("Fetch content type query", async () => {
 		endpoint: `types/${codename}`,
 		unitTestPayload,
 		selectQuery: (client) => client.fetchContentType({ codename: codename }),
-		expectedSchema: contentTypeSchema(getIntegrationTestsSchema()),
+		expectedSchema: contentTypeSchema(),
 	});
 });
 
@@ -32,7 +32,7 @@ describe("Fetch Content Type Query — Extra Field in Element", async () => {
 		},
 	};
 
-	const { success } = await contentTypeSchema(getIntegrationTestsSchema()).safeParseAsync(payload);
+	const { success } = await contentTypeSchema().safeParseAsync(payload);
 
 	it("parses successfully when extra fields are present in an element", () => {
 		expect(success).toBeTruthy();
@@ -55,7 +55,7 @@ describe("Fetch Content Type Query — Invalid Field Type in Element", async () 
 		},
 	};
 
-	const { success } = await contentTypeSchema(getIntegrationTestsSchema()).safeParseAsync(payload);
+	const { success } = await contentTypeSchema().safeParseAsync(payload);
 
 	it("fails to parse when an invalid field type is present in element", () => {
 		expect(success).toBeFalsy();
@@ -77,7 +77,7 @@ describe("Fetch Content Type Query — Missing System Field", async () => {
 		},
 	};
 
-	const { success } = await contentTypeSchema(getIntegrationTestsSchema()).safeParseAsync(payload);
+	const { success } = await contentTypeSchema().safeParseAsync(payload);
 
 	it("fails to parse when the system field is missing", () => {
 		expect(success).toBeFalsy();

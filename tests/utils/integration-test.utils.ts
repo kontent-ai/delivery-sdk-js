@@ -23,18 +23,6 @@ type SelectQuery<TResponsePayload extends JsonValue> = (
 	client: DeliveryClient<DeliveryClientSchema>,
 ) => FetchQuery<TResponsePayload, KontentSdkError, unknown> | PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 
-export function getIntegrationTestsSchema(): DeliveryClientSchema {
-	return {
-		languageCodenames: [],
-		taxonomyCodenames: [],
-		contentTypeCodenames: [],
-		elementCodenames: [],
-		collectionCodenames: [],
-		workflowCodenames: [],
-		workflowStepCodenames: [],
-	};
-}
-
 export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 	endpoint,
 	unitTestPayload,
@@ -124,6 +112,9 @@ function createUnitTestClient<TResponsePayload extends JsonValue>(unitTestPayloa
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
+		runtimeValidation: {
+			validateResponses: true,
+		},
 		httpService: getTestHttpServiceWithJsonResponse({
 			jsonResponse: unitTestPayload,
 			statusCode: 200,
@@ -135,6 +126,9 @@ function createIntegrationTestClient(environmentId: string, deliveryBaseUrl: Bas
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId,
+		runtimeValidation: {
+			validateResponses: true,
+		},
 		...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
 	});
 }

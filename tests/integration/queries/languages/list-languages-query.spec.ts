@@ -2,7 +2,7 @@ import { describe } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../../lib/queries/languages/models/language.models.js";
 import { listLanguagesSchema } from "../../../../lib/queries/languages/schemas/language.schemas.js";
-import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
+import { runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./list-languages-query.payload.js";
 
 describe("List languages query", async () => {
@@ -10,6 +10,6 @@ describe("List languages query", async () => {
 		endpoint: "languages",
 		unitTestPayload,
 		selectQuery: (client) => client.listLanguages(),
-		expectedSchema: listLanguagesSchema(getIntegrationTestsSchema()),
+		expectedSchema: listLanguagesSchema(),
 	});
 });

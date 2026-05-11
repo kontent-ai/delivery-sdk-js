@@ -1,4 +1,3 @@
-import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { ContentTypeElementPayload } from "../../../../lib/queries/content-types/models/content-type.models.js";
 
 export default [
@@ -59,4 +58,4 @@ export default [
 		name: "Cast",
 		codename: "cast",
 	},
-] satisfies readonly ContentTypeElementPayload<DeliveryClientSchema>[];
+] satisfies readonly ContentTypeElementPayload[];
