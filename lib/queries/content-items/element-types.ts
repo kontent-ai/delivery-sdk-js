@@ -1,3 +1,5 @@
+import type { DeliveryClientSchema } from "../../models/core.models.js";
+import type { ContentItemPayload } from "./content-item.models.js";
 import type { elementDef } from "./element.models.js";
 
 export type Text = typeof elementDef.text;
@@ -9,4 +11,6 @@ export type Asset = typeof elementDef.asset;
 export type Taxonomy<TCodename extends string = string> = ReturnType<typeof elementDef.taxonomy<TCodename>>;
 export type UrlSlug = typeof elementDef.urlSlug;
 export type Custom = typeof elementDef.custom;
-export type LinkedItems = typeof elementDef.linkedItems;
+export type LinkedItems<TItem extends ContentItemPayload<DeliveryClientSchema> = ContentItemPayload<DeliveryClientSchema>> = ReturnType<
+	typeof elementDef.linkedItems<TItem>
+>;

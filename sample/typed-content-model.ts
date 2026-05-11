@@ -59,13 +59,15 @@ export const actorSchema: z.ZodType<Actor> = defineContentItem<SampleProjectSche
 	first_name: elementDef.text,
 	last_name: elementDef.text,
 	role: elementDef.multipleChoice<"opt1" | "opt2" | "opt3">(),
-	relatedActors: elementDef.linkedItems,
+	relatedActors: elementDef.linkedItems(),
 });
 
 /**
  * 3. Content type: Movie
  *
- * Movie exercises every element type the SDK supports.
+ * Movie exercises every element type the SDK supports. `LinkedItems<Actor>`
+ * tells the SDK that the resolved `items[i]` of `actors` should be typed as
+ * `Actor`, so consumers get full element narrowing on referenced items.
  */
 export type MovieElements = {
 	readonly title: ElementType.Text;
@@ -77,7 +79,7 @@ export type MovieElements = {
 	readonly categories: ElementType.Taxonomy<"term1" | "term2">;
 	readonly url_slug: ElementType.UrlSlug;
 	readonly custom_id: ElementType.Custom;
-	readonly actors: ElementType.LinkedItems;
+	readonly actors: ElementType.LinkedItems<Actor>;
 };
 
 // Fully-typed Movie item payload.
@@ -93,7 +95,7 @@ export const movieSchema: z.ZodType<Movie> = defineContentItem<SampleProjectSche
 	categories: elementDef.taxonomy<"term1" | "term2">(),
 	url_slug: elementDef.urlSlug,
 	custom_id: elementDef.custom,
-	actors: elementDef.linkedItems,
+	actors: elementDef.linkedItems<Actor>(),
 });
 
 /**
@@ -155,4 +157,7 @@ export function demonstrateMovieAccess(movie: Movie): void {
 	const urlSlug: string = movie.elements.url_slug.value;
 	const customId: string | null = movie.elements.custom_id.value;
 	const movieActorCodename: string | undefined = movie.elements.actors.value[0];
+
+	// `LinkedItems<Actor>` types `items[i]` as `Actor` - full element narrowing on referenced items.
+	const firstMovieActor: Actor | undefined = movie.elements.actors.items[0];
 }

@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+import type z from "zod";
 import type { ContentItemSystemPayload, DeliveryClientSchema, ElementType } from "../../../lib/public_api.js";
 import { defineContentItem } from "../../../lib/queries/content-items/content-item.models.js";
 import { elementDef } from "../../../lib/queries/content-items/element.models.js";
@@ -124,7 +125,7 @@ describe("elementDef.custom", () => {
 	});
 });
 
-const makeAsset = () => ({
+const makeAsset = (): ElementType.Asset => ({
 	name: "poster.jpg",
 	description: null,
 	type: "image/jpeg",
@@ -183,13 +184,22 @@ describe("elementDef.taxonomy", () => {
 
 describe("elementDef.linkedItems", () => {
 	test("accepts empty and populated value arrays", () => {
-		expect(elementDef.linkedItems.safeParse({ type: "modular_content", name: "Cast", value: [] }).success).toBe(true);
-		expect(elementDef.linkedItems.safeParse({ type: "modular_content", name: "Cast", value: ["actor_one", "actor_two"] }).success).toBe(
+		const schema = elementDef.linkedItems();
+		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: [], items: [] }).success).toBe(true);
+		expect(schema.safeParse({ type: "modular_content", name: "Cast", value: ["actor_one", "actor_two"], items: [] }).success).toBe(
 			true,
 		);
 	});
 
 	test("rejects payload with wrong discriminator type", () => {
-		expect(elementDef.linkedItems.safeParse({ type: "text", name: "Cast", value: [] }).success).toBe(false);
+		const schema = elementDef.linkedItems();
+		expect(schema.safeParse({ type: "text", name: "Cast", value: [], items: [] }).success).toBe(false);
+	});
+
+	test("items is typed as the generic argument at the TypeScript level", () => {
+		type TaggedItem = { readonly tag: "movie" };
+		type ItemsOf<T> = z.infer<ReturnType<typeof elementDef.linkedItems<T>>>["items"];
+		const items: ItemsOf<TaggedItem> = [{ tag: "movie" }];
+		expect(items.length).toBe(1);
 	});
 });

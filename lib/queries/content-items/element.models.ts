@@ -1,5 +1,7 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
+import type { DeliveryClientSchema } from "../../models/core.models.js";
+import { type ContentItemPayload, contentItemSchema } from "./content-item.models.js";
 
 const multipleChoiceOptionSchema = <TCodename extends string = string>() =>
 	z
@@ -134,7 +136,18 @@ export const elementDef = {
 		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema<TCodename>()).readonly() }).readonly(),
 	urlSlug: baseElementSchemas.urlSlug.readonly(),
 	custom: baseElementSchemas.custom.readonly(),
-	linkedItems: baseElementSchemas.linkedItems.readonly(),
+	linkedItems: <TAllowedItemTypes extends ContentItemPayload<DeliveryClientSchema> = ContentItemPayload<DeliveryClientSchema>>() =>
+		baseElementSchemas.linkedItems
+			.extend({
+				items: z
+					.array(
+						z.custom<TAllowedItemTypes>((item) => contentItemSchema().safeParse(item).success, {
+							error: "Invalid referenced linked item",
+						}),
+					)
+					.readonly(),
+			})
+			.readonly(),
 } as const;
 
 export const contentItemElementSchema = z

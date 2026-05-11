@@ -17,7 +17,7 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 		workflow_step: codenameOf<TSchema["workflowStepCodenames"][number]>(),
 	});
 
-const contentItemSchema = <TSchema extends DeliveryClientSchema>() =>
+export const contentItemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z
 		.object({
 			system: contentItemSystemSchema<TSchema>(),
