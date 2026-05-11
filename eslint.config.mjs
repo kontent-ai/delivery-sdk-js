@@ -8,7 +8,7 @@ export default defineConfig(
 	},
 	{
 		extends: [kontentAiConfig],
-		files: ["lib/**/*.ts", "tests/**/*.ts", "scripts/**/*.ts"],
+		files: ["lib/**/*.ts", "tests/**/*.ts", "scripts/**/*.ts", "sample/**/*.ts"],
 		rules: {
 			"no-unused-vars": "off",
 		},

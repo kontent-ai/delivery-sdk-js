@@ -34,7 +34,7 @@
 		"test": "vitest run --config=vitest.config.ts --coverage",
 		"test:unit": "vitest run --config=vitest-unit.config.ts",
 		"test:integration": "vitest run --config=vitest-integration.config.ts",
-		"test:types": "tsgo -p tests/types/tsconfig.json",
+		"test:types": "tsgo -p sample/tsconfig.json",
 		"biome:check": "biome check",
 		"biome:fix": "biome check --write",
 		"biome:fix:unsafe": "biome check --write --unsafe",

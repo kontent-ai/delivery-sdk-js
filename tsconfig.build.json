@@ -6,5 +6,5 @@
 		"rootDir": "./lib"
 	},
 	"include": ["lib/**/*"],
-	"exclude": ["tests/**/*", "scripts/**/*"]
+	"exclude": ["tests/**/*", "scripts/**/*", "sample/**/*"]
 }
