@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import type z from "zod";
 import type { ContentItemSystemPayload, DeliveryClientSchema, ElementType } from "../../../lib/public_api.js";
 import { defineContentItem } from "../../../lib/queries/content-items/content-item.models.js";
-import { elementDef } from "../../../lib/queries/content-items/element.models.js";
+import { type Asset, elementDef } from "../../../lib/queries/content-items/element.models.js";
 import { getFakeUuid } from "../../utils/test.utils.js";
 
 const schemaInput = {
@@ -125,7 +125,7 @@ describe("elementDef.custom", () => {
 	});
 });
 
-const makeAsset = (): ElementType.Asset => ({
+const makeAsset = (): Asset => ({
 	name: "poster.jpg",
 	description: null,
 	type: "image/jpeg",

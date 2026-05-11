@@ -1,16 +1,17 @@
+import type z from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import type { ContentItemPayload } from "./content-item.models.js";
 import type { elementDef } from "./element.models.js";
 
-export type Text = typeof elementDef.text;
-export type Number = typeof elementDef.number;
-export type RichText = typeof elementDef.richText;
-export type MultipleChoice<TCodename extends string = string> = ReturnType<typeof elementDef.multipleChoice<TCodename>>;
-export type DateTime = typeof elementDef.dateTime;
-export type Asset = typeof elementDef.asset;
-export type Taxonomy<TCodename extends string = string> = ReturnType<typeof elementDef.taxonomy<TCodename>>;
-export type UrlSlug = typeof elementDef.urlSlug;
-export type Custom = typeof elementDef.custom;
-export type LinkedItems<TItem extends ContentItemPayload<DeliveryClientSchema> = ContentItemPayload<DeliveryClientSchema>> = ReturnType<
-	typeof elementDef.linkedItems<TItem>
+export type Text = z.infer<typeof elementDef.text>;
+export type Number = z.infer<typeof elementDef.number>;
+export type RichText = z.infer<typeof elementDef.richText>;
+export type MultipleChoice<TCodename extends string = string> = z.infer<ReturnType<typeof elementDef.multipleChoice<TCodename>>>;
+export type DateTime = z.infer<typeof elementDef.dateTime>;
+export type Asset = z.infer<typeof elementDef.asset>;
+export type Taxonomy<TCodename extends string = string> = z.infer<ReturnType<typeof elementDef.taxonomy<TCodename>>>;
+export type UrlSlug = z.infer<typeof elementDef.urlSlug>;
+export type Custom = z.infer<typeof elementDef.custom>;
+export type LinkedItems<TItem extends ContentItemPayload<DeliveryClientSchema> = ContentItemPayload<DeliveryClientSchema>> = z.infer<
+	ReturnType<typeof elementDef.linkedItems<TItem>>
 >;

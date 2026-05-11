@@ -2,7 +2,15 @@ import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../models/pagination.models.js";
-import { contentItemElementSchema } from "./element.models.js";
+import { type ContentItemElementPayload, contentItemElementSchema } from "./element.models.js";
+
+/** A consumer-facing element shape: each key holds an element's payload type, not its Zod schema. */
+type ContentItemElementShape = Record<string, ContentItemElementPayload>;
+
+/** Maps a payload-shaped element record to the Zod-schema-shaped record `z.object(...)` expects. */
+type ElementSchemasOf<TElements extends ContentItemElementShape> = {
+	readonly [K in keyof TElements]: z.ZodType<TElements[K]>;
+};
 
 const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z.object({
@@ -101,10 +109,10 @@ export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>() =
 export const defineContentItem = <
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends TSchema["contentTypeCodenames"][number],
-	TElementsShape extends z.ZodRawShape,
+	TElements extends ContentItemElementShape,
 >(
 	typeCodename: TTypeCodename,
-	elements: TElementsShape,
+	elements: ElementSchemasOf<TElements>,
 ) =>
 	z
 		.object({
@@ -121,12 +129,10 @@ export type ContentItemSystem<
 export type InferItemType<
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends TSchema["contentTypeCodenames"][number],
-	TElementSchemas extends z.ZodRawShape,
+	TElements extends ContentItemElementShape,
 > = {
 	readonly system: ContentItemSystem<TSchema, TTypeCodename>;
-	readonly elements: {
-		readonly [K in keyof TElementSchemas]: z.infer<TElementSchemas[K]>;
-	};
+	readonly elements: TElements;
 };
 
 export type ContentItemSystemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSystemSchema<TSchema>>>;

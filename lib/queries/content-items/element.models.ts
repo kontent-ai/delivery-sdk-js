@@ -165,4 +165,6 @@ export const contentItemElementSchema = z
 	])
 	.readonly();
 
+export type Asset = z.infer<typeof assetValueSchema>;
+
 export type ContentItemElementPayload = z.infer<typeof contentItemElementSchema>;
