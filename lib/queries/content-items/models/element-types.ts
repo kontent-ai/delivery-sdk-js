@@ -1,7 +1,7 @@
 import type z from "zod";
-import type { DeliveryClientSchema } from "../../models/core.models.js";
+import type { DeliveryClientSchema } from "../../../models/core.models.js";
+import type { elementDef } from "../schemas/element.schemas.js";
 import type { ContentItemPayload } from "./content-item.models.js";
-import type { elementDef } from "./element.schemas.js";
 
 export type Text = z.infer<typeof elementDef.text>;
 export type Number = z.infer<typeof elementDef.number>;

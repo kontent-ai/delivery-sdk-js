@@ -1,7 +1,7 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
-import type { DeliveryClientSchema } from "../../models/core.models.js";
-import type { ContentItemPayload } from "./content-item.models.js";
+import type { DeliveryClientSchema } from "../../../models/core.models.js";
+import type { ContentItemPayload } from "../models/content-item.models.js";
 import { contentItemSchema } from "./content-item.schemas.js";
 
 const multipleChoiceOptionSchema = <TCodename extends string = string>() =>

@@ -1,7 +1,7 @@
 import { codenameOf, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
-import type { DeliveryClientSchema } from "../../models/core.models.js";
-import { paginationSchema } from "../../models/pagination.schemas.js";
+import type { DeliveryClientSchema } from "../../../models/core.models.js";
+import { paginationSchema } from "../../../models/pagination.schemas.js";
 
 const contentTypeElementOptionSchema = z
 	.object({

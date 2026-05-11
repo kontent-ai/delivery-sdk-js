@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import type { ContentTypePayload } from "../../../../lib/queries/content-types/content-type.models.js";
-import { contentTypeSchema } from "../../../../lib/queries/content-types/content-type.schemas.js";
+import type { ContentTypePayload } from "../../../../lib/queries/content-types/models/content-type.models.js";
+import { contentTypeSchema } from "../../../../lib/queries/content-types/schemas/content-type.schemas.js";
 import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./fetch-content-type-query.payload.js";
 

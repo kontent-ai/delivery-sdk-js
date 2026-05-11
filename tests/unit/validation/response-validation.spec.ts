@@ -5,7 +5,7 @@ import { ZodError } from "zod";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import type { DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { PaginationPayload } from "../../../lib/public_api.js";
-import type { ListLanguagesPayload } from "../../../lib/queries/languages/language.models.js";
+import type { ListLanguagesPayload } from "../../../lib/queries/languages/models/language.models.js";
 import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 
 describe("Response validation", () => {

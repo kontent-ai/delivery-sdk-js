@@ -1,5 +1,5 @@
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import type { ContentTypeElementPayload } from "../../../../lib/queries/content-types/content-type.models.js";
+import type { ContentTypeElementPayload } from "../../../../lib/queries/content-types/models/content-type.models.js";
 
 export default [
 	{

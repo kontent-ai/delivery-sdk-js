@@ -1,5 +1,5 @@
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import type { ListLanguagesPayload } from "../../../../lib/queries/languages/language.models.js";
+import type { ListLanguagesPayload } from "../../../../lib/queries/languages/models/language.models.js";
 
 export default {
 	languages: [

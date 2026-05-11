@@ -20,19 +20,6 @@ export type {
 	OrderDirection,
 	SystemOrderQueryParam,
 } from "./models/request.models.js";
-export type {
-	ContentItemPayload,
-	ContentItemSystem,
-	ContentItemSystemPayload,
-	FetchContentItemPayload,
-	InferItemType,
-	ItemsFeedPayload,
-	ItemsReferencingAssetPayload,
-	ItemsReferencingItemPayload,
-	ListContentItemsPayload,
-} from "./queries/content-items/content-item.models.js";
-export type { ContentItemElementPayload } from "./queries/content-items/element.models.js";
-export type * as ElementType from "./queries/content-items/element-types.js";
 export type { FetchContentItemQuery, FetchContentItemQueryRequest } from "./queries/content-items/fetch-content-item-query.js";
 export type { ItemsFeedQuery, ItemsFeedQueryRequest } from "./queries/content-items/items-feed-query.js";
 export type {
@@ -45,18 +32,31 @@ export type {
 } from "./queries/content-items/items-referencing-item.js";
 export type { ListContentItemsQuery, ListContentItemsQueryRequest } from "./queries/content-items/list-content-items-query.js";
 export type {
-	ContentTypeElementPayload,
-	ContentTypePayload,
-	ListContentTypesPayload,
-} from "./queries/content-types/content-type.models.js";
+	ContentItemOf,
+	ContentItemPayload,
+	ContentItemSystem,
+	ContentItemSystemPayload,
+	FetchContentItemPayload,
+	ItemsFeedPayload,
+	ItemsReferencingAssetPayload,
+	ItemsReferencingItemPayload,
+	ListContentItemsPayload,
+} from "./queries/content-items/models/content-item.models.js";
+export type { ContentItemElementPayload } from "./queries/content-items/models/element.models.js";
+export type * as ElementType from "./queries/content-items/models/element-types.js";
 export type {
 	FetchContentTypeElementQuery,
 	FetchContentTypeElementQueryRequest,
 } from "./queries/content-types/fetch-content-type-element-query.js";
 export type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "./queries/content-types/fetch-content-type-query.js";
 export type { ListContentTypesQuery, ListContentTypesQueryRequest } from "./queries/content-types/list-content-types-query.js";
-export type { LanguagePayload, ListLanguagesPayload } from "./queries/languages/language.models.js";
+export type {
+	ContentTypeElementPayload,
+	ContentTypePayload,
+	ListContentTypesPayload,
+} from "./queries/content-types/models/content-type.models.js";
 export type { ListLanguagesQuery, ListLanguagesQueryRequest } from "./queries/languages/list-languages-query.js";
+export type { LanguagePayload, ListLanguagesPayload } from "./queries/languages/models/language.models.js";
 export type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "./queries/taxonomies/fetch-taxonomy-query.js";
 export type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "./queries/taxonomies/list-taxonomies-query.js";
-export type { ListTaxonomiesPayload, TaxonomyPayload, TaxonomyTermPayload } from "./queries/taxonomies/taxonomy.models.js";
+export type { ListTaxonomiesPayload, TaxonomyPayload, TaxonomyTermPayload } from "./queries/taxonomies/models/taxonomy.models.js";

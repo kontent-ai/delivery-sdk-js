@@ -16,7 +16,7 @@
 
 import type z from "zod";
 import { createDeliveryClient } from "../lib/client/delivery-client.js";
-import type { DeliveryClient, DeliveryClientSchema, ElementType, InferItemType } from "../lib/public_api.js";
+import type { ContentItemOf, DeliveryClient, DeliveryClientSchema, ElementType } from "../lib/public_api.js";
 import { defineContentItem, elementDef } from "../lib/public_typed_items.js";
 
 /**
@@ -51,7 +51,7 @@ export type ActorElements = {
 };
 
 // Fully-typed Actor item payload (system metadata + elements).
-export type Actor = InferItemType<SampleProjectSchema, "actor", ActorElements>;
+export type Actor = ContentItemOf<SampleProjectSchema, "actor", ActorElements>;
 
 // Runtime Zod schema for parsing Actor items into the typed `Actor` payload.
 export const actorSchema: z.ZodType<Actor> = defineContentItem<SampleProjectSchema, "actor", ActorElements>("actor", {
@@ -82,7 +82,7 @@ export type MovieElements = {
 };
 
 // Fully-typed Movie item payload.
-export type Movie = InferItemType<SampleProjectSchema, "movie", MovieElements>;
+export type Movie = ContentItemOf<SampleProjectSchema, "movie", MovieElements>;
 
 export const movieSchema: z.ZodType<Movie> = defineContentItem<SampleProjectSchema, "movie", MovieElements>("movie", {
 	title: elementDef.text,

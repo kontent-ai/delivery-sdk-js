@@ -1,7 +1,7 @@
 import { describe } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import type { ListTaxonomiesPayload } from "../../../../lib/queries/taxonomies/taxonomy.models.js";
-import { listTaxonomiesSchema } from "../../../../lib/queries/taxonomies/taxonomy.schemas.js";
+import type { ListTaxonomiesPayload } from "../../../../lib/queries/taxonomies/models/taxonomy.models.js";
+import { listTaxonomiesSchema } from "../../../../lib/queries/taxonomies/schemas/taxonomy.schemas.js";
 import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./list-taxonomies-query.payload.js";
 

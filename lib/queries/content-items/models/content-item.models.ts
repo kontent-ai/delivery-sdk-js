@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import type { DeliveryClientSchema } from "../../models/core.models.js";
+import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import type {
 	contentItemSchema,
 	contentItemSystemSchema,
@@ -9,7 +9,7 @@ import type {
 	itemsReferencingAssetSchema,
 	itemsReferencingItemSchema,
 	listContentItemsSchema,
-} from "./content-item.schemas.js";
+} from "../schemas/content-item.schemas.js";
 import type { ContentItemElementPayload } from "./element.models.js";
 
 export type ContentItemElementShape = Record<string, ContentItemElementPayload>;
@@ -19,7 +19,7 @@ export type ContentItemSystem<
 	TTypeCodename extends TSchema["contentTypeCodenames"][number],
 > = z.infer<ReturnType<typeof contentItemSystemWithCodename<TSchema, TTypeCodename>>>;
 
-export type InferItemType<
+export type ContentItemOf<
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends TSchema["contentTypeCodenames"][number],
 	TElements extends ContentItemElementShape,

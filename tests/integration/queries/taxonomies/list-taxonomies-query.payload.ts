@@ -1,5 +1,5 @@
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import type { ListTaxonomiesPayload } from "../../../../lib/queries/taxonomies/taxonomy.models.js";
+import type { ListTaxonomiesPayload } from "../../../../lib/queries/taxonomies/models/taxonomy.models.js";
 
 export default {
 	taxonomies: [

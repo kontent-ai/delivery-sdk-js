@@ -1,8 +1,8 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import { z } from "zod";
-import type { DeliveryClientSchema } from "../../models/core.models.js";
-import { paginationWithTotalCountSchema } from "../../models/pagination.schemas.js";
-import type { ContentItemElementShape } from "./content-item.models.js";
+import type { DeliveryClientSchema } from "../../../models/core.models.js";
+import { paginationWithTotalCountSchema } from "../../../models/pagination.schemas.js";
+import type { ContentItemElementShape } from "../models/content-item.models.js";
 import { contentItemElementSchema } from "./element.schemas.js";
 
 type ElementSchemasOf<TElements extends ContentItemElementShape> = {

@@ -1,6 +1,6 @@
 import type { z } from "zod";
-import type { DeliveryClientSchema } from "../../models/core.models.js";
-import type { contentTypeElementSchema, contentTypeSchema, listContentTypesSchema } from "./content-type.schemas.js";
+import type { DeliveryClientSchema } from "../../../models/core.models.js";
+import type { contentTypeElementSchema, contentTypeSchema, listContentTypesSchema } from "../schemas/content-type.schemas.js";
 
 export type ContentTypePayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentTypeSchema<TSchema>>>;
 

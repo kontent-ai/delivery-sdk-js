@@ -1,5 +1,5 @@
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import type { FetchContentItemPayload } from "../../../../lib/queries/content-items/content-item.models.js";
+import type { FetchContentItemPayload } from "../../../../lib/queries/content-items/models/content-item.models.js";
 
 export default {
 	item: {

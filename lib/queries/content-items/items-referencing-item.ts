@@ -7,7 +7,7 @@ import type {
 import type { Filter } from "../../models/filter.models.js";
 import type { DeliveryRequestWithTokenPaging } from "../../models/request.models.js";
 import { createDeliveryPagedByTokenQuery } from "../delivery-queries.js";
-import type { ContentItemSystemPayload, ItemsReferencingItemPayload } from "./content-item.models.js";
+import type { ContentItemSystemPayload, ItemsReferencingItemPayload } from "./models/content-item.models.js";
 
 export type ItemsReferencingItemQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
 	ItemsReferencingItemPayload<TSchema>,
@@ -31,7 +31,7 @@ export function itemsReferencingItemQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByTokenQuery({
 		config,
 		request,
-		schema: async () => (await import("./content-item.schemas.js")).itemsReferencingItemSchema<TSchema>(),
+		schema: async () => (await import("./schemas/content-item.schemas.js")).itemsReferencingItemSchema<TSchema>(),
 		endpoint: `items/${request.codename}/used-in`,
 	});
 }

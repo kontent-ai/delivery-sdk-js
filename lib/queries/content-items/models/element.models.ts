@@ -1,5 +1,5 @@
 import type { z } from "zod";
-import type { assetValueSchema, contentItemElementSchema } from "./element.schemas.js";
+import type { assetValueSchema, contentItemElementSchema } from "../schemas/element.schemas.js";
 
 export type Asset = z.infer<typeof assetValueSchema>;
 

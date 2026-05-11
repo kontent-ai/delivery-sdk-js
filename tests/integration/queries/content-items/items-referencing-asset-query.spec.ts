@@ -1,7 +1,7 @@
 import { describe } from "vitest";
 import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import type { ItemsReferencingAssetPayload } from "../../../../lib/queries/content-items/content-item.models.js";
-import { itemsReferencingAssetSchema } from "../../../../lib/queries/content-items/content-item.schemas.js";
+import type { ItemsReferencingAssetPayload } from "../../../../lib/queries/content-items/models/content-item.models.js";
+import { itemsReferencingAssetSchema } from "../../../../lib/queries/content-items/schemas/content-item.schemas.js";
 import { getIntegrationTestsSchema, runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./itesm-referencing-asset-query.payload.js";
 
