@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/noUnusedVariables: Disabled for clarity of the sample  */
 /**
  * Sample: defining a strongly typed Kontent.ai delivery model.
  *
@@ -12,7 +13,6 @@
  * `@kontent-ai/delivery-sdk`. This sample lives in the SDK repo,
  * so it imports from the in-tree source instead.
  */
-/** biome-ignore-all lint/correctness/noUnusedVariables: Disabled for clarity of the sample  */
 
 import type z from "zod";
 import { createDeliveryClient } from "../lib/client/delivery-client.js";
