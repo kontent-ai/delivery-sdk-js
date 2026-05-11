@@ -7,7 +7,7 @@ import type {
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
 import { createDeliveryPagedByUrlQuery } from "../delivery-queries.js";
-import { type ContentItemPayload, type ListContentItemsPayload, listContentItemsSchema } from "./content-item.models.js";
+import type { ContentItemPayload, ListContentItemsPayload } from "./content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
@@ -60,7 +60,7 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: listContentItemsSchema<TSchema>(),
+		schema: async () => (await import("./content-item.schemas.js")).listContentItemsSchema<TSchema>(),
 		endpoint: "items",
 	});
 }

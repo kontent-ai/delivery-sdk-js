@@ -36,7 +36,7 @@ export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
-	readonly schema: ZodType<TPayload>;
+	readonly schema: () => Promise<ZodType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
 }): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps> {
 	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps>({
@@ -57,7 +57,7 @@ export function createDeliveryPagedByTokenQuery<TPayload extends JsonValue>({
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
-	readonly schema: ZodType<TPayload>;
+	readonly schema: () => Promise<ZodType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
 }): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps> {
 	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps>({
@@ -80,7 +80,7 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
-	readonly schema: ZodType<TPayload>;
+	readonly schema: () => Promise<ZodType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
 }): FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata> {
 	return createFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>({
@@ -98,7 +98,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoint;
-	readonly schema: ZodType<TPayload>;
+	readonly schema: () => Promise<ZodType<TPayload>>;
 }): Pick<
 	FetchQueryRequest<TPayload, DeliverySdkError>,
 	| "abortSignal"

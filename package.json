@@ -22,7 +22,16 @@
 	"engines": {
 		"node": ">= 22"
 	},
-	"exports": "./dist/public_api.js",
+	"exports": {
+		".": {
+			"types": "./dist/public_api.d.ts",
+			"default": "./dist/public_api.js"
+		},
+		"./typed-items": {
+			"types": "./dist/public_typed_items.d.ts",
+			"default": "./dist/public_typed_items.js"
+		}
+	},
 	"types": "./dist/public_api.d.ts",
 	"type": "module",
 	"scripts": {
@@ -42,7 +51,7 @@
 		"update:version": "tsx ./scripts/update-version.ts"
 	},
 	"peerDependencies": {
-		"@kontent-ai/core-sdk": "^12.0.0-preview.35",
+		"@kontent-ai/core-sdk": "^12.0.0-preview.36",
 		"ts-pattern": "^5",
 		"zod": "^4"
 	},
@@ -50,11 +59,11 @@
 		"@kontent-ai/biome-config": "0.7.0",
 		"@kontent-ai/eslint-config": "2.4.1",
 		"eslint": "10.3.0",
-		"@biomejs/biome": "2.4.14",
-		"@types/node": "25.6.0",
+		"@biomejs/biome": "2.4.15",
+		"@types/node": "25.6.2",
 		"vitest": "4.1.5",
 		"@vitest/coverage-v8": "4.1.5",
 		"tsx": "4.21.0",
-		"@typescript/native-preview": "7.0.0-dev.20260507.1"
+		"@typescript/native-preview": "7.0.0-dev.20260511.1"
 	}
 }

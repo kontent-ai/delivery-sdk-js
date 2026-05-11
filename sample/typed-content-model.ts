@@ -16,9 +16,8 @@
 
 import type z from "zod";
 import { createDeliveryClient } from "../lib/client/delivery-client.js";
-import type { DeliveryClient, DeliveryClientSchema, ElementType } from "../lib/public_api.js";
-import { defineContentItem, type InferItemType } from "../lib/queries/content-items/content-item.models.js";
-import { elementDef } from "../lib/queries/content-items/element.models.js";
+import type { DeliveryClient, DeliveryClientSchema, ElementType, InferItemType } from "../lib/public_api.js";
+import { defineContentItem, elementDef } from "../lib/public_typed_items.js";
 
 /**
  * 1. Schema declaration

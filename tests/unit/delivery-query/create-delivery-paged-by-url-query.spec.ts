@@ -2,7 +2,7 @@ import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { DeliveryClientConfig, DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
-import { paginationSchema } from "../../../lib/models/pagination.models.js";
+import { paginationSchema } from "../../../lib/models/pagination.schemas.js";
 import type { DeliveryRequest } from "../../../lib/models/request.models.js";
 import { createDeliveryPagedByUrlQuery } from "../../../lib/queries/delivery-queries.js";
 import { getDeliveryUrl } from "../../../lib/utils/url.utils.js";
@@ -22,7 +22,7 @@ describe("createDeliveryPagedByUrlQuery", () => {
 		const query = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
-			schema: paginationSchema,
+			schema: async () => paginationSchema,
 			endpoint: "items",
 		});
 		expect(isPagedFetchQueryWithExpectedFunctions(query)).toBeTruthy();
@@ -33,7 +33,7 @@ describe("createDeliveryPagedByUrlQuery", () => {
 		const { inspect } = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
-			schema: paginationSchema,
+			schema: async () => paginationSchema,
 			endpoint,
 		});
 		expect(inspect().data?.url?.toString()).toEqual(new URL(getDeliveryUrl({ ...clientConfig, path: endpoint })).toString());
@@ -43,7 +43,7 @@ describe("createDeliveryPagedByUrlQuery", () => {
 		const { inspect } = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
-			schema: paginationSchema,
+			schema: async () => paginationSchema,
 			endpoint: "items",
 		});
 		expect(inspect().data?.url?.toString()).not.toContain("?");
@@ -54,7 +54,7 @@ describe("createDeliveryPagedByUrlQuery", () => {
 		const { inspect } = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request,
-			schema: paginationSchema,
+			schema: async () => paginationSchema,
 			endpoint: "items",
 		});
 		expect(inspect().data?.url?.toString()).not.toContain("?");
@@ -67,7 +67,7 @@ describe("createDeliveryPagedByUrlQuery", () => {
 		const { inspect } = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request,
-			schema: paginationSchema,
+			schema: async () => paginationSchema,
 			endpoint: "items",
 		});
 
@@ -83,7 +83,7 @@ describe("createDeliveryPagedByUrlQuery", () => {
 		const { inspect } = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request,
-			schema: paginationSchema,
+			schema: async () => paginationSchema,
 			endpoint: "items",
 		});
 		expect(inspect().data?.url?.toString()).toContain(new URLSearchParams("system.type[eq]=movie").toString());
@@ -102,7 +102,7 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPagesSafe res
 		const { success, nextPageUrl } = await createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
-			schema: paginationSchema,
+			schema: async () => paginationSchema,
 			endpoint: "items",
 		}).fetchAllPagesSafe({ maxPagesCount: 1 });
 
@@ -116,7 +116,7 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPagesSafe res
 		const { success, nextPageUrl } = await createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
-			schema: paginationSchema,
+			schema: async () => paginationSchema,
 			endpoint: "items",
 		}).fetchAllPagesSafe();
 
@@ -137,7 +137,7 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPages result"
 		const { nextPageUrl } = await createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request: undefined,
-			schema: paginationSchema,
+			schema: async () => paginationSchema,
 			endpoint: "items",
 		}).fetchAllPages({ maxPagesCount: 1 });
 

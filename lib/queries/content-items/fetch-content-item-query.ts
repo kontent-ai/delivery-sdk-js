@@ -1,7 +1,7 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam } from "../../models/request.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
-import { type FetchContentItemPayload, fetchContentItemSchema } from "./content-item.models.js";
+import type { FetchContentItemPayload } from "./content-item.models.js";
 
 export type FetchContentItemQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
 	FetchContentItemPayload<TSchema>,
@@ -44,7 +44,7 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: fetchContentItemSchema<TSchema>(),
+		schema: async () => (await import("./content-item.schemas.js")).fetchContentItemSchema<TSchema>(),
 		endpoint: `items/${request.codename}`,
 	});
 }

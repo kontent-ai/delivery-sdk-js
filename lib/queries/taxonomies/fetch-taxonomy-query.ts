@@ -1,7 +1,7 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename } from "../../models/request.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
-import { type TaxonomyPayload, taxonomySchema } from "./taxonomy.models.js";
+import type { TaxonomyPayload } from "./taxonomy.models.js";
 
 export type FetchTaxonomyQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<TaxonomyPayload<TSchema>, DeliveryMetadata>;
 
@@ -18,7 +18,7 @@ export function fetchTaxonomyQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: taxonomySchema<TSchema>(),
+		schema: async () => (await import("./taxonomy.schemas.js")).taxonomySchema<TSchema>(),
 		endpoint: `taxonomies/${request.codename}`,
 	});
 }

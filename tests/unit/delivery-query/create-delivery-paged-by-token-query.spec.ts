@@ -14,7 +14,7 @@ const clientConfig: DeliveryClientConfig<DeliveryClientSchema> = {
 	environmentId: unitEnvironmentId,
 };
 
-const testSchema: ZodType<JsonValue> = z.object({});
+const testSchema: () => Promise<ZodType<JsonValue>> = async () => z.object({});
 
 describe("createDeliveryPagedByTokenQuery", () => {
 	it("returns a query with PagedFetchQuery shape", () => {

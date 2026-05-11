@@ -1,39 +1,6 @@
-import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
-import { z } from "zod";
+import type { z } from "zod";
 import type { DeliveryClientSchema } from "../../models/core.models.js";
-import { paginationSchema } from "../../models/pagination.models.js";
-
-const taxonomyTermSchema = <TSchema extends DeliveryClientSchema>() =>
-	z.object({
-		name: z.string(),
-		codename: codenameOf<TSchema["taxonomyCodenames"][number]>(),
-		get terms() {
-			return z.array(taxonomyTermSchema<TSchema>()).readonly();
-		},
-	});
-
-export const taxonomySchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
-			system: z
-				.object({
-					id: kontentUuidSchema,
-					name: z.string(),
-					codename: codenameOf<TSchema["taxonomyCodenames"][number]>(),
-					last_modified: z.iso.datetime(),
-				})
-				.readonly(),
-			terms: z.array(taxonomyTermSchema<TSchema>()).readonly(),
-		})
-		.readonly();
-
-export const listTaxonomiesSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
-			taxonomies: z.array(taxonomySchema<TSchema>()).readonly(),
-			...paginationSchema.shape,
-		})
-		.readonly();
+import type { listTaxonomiesSchema, taxonomySchema, taxonomyTermSchema } from "./taxonomy.schemas.js";
 
 export type TaxonomyTermPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof taxonomyTermSchema<TSchema>>>;
 

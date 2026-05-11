@@ -13,7 +13,7 @@ const clientConfig: DeliveryClientConfig<DeliveryClientSchema> = {
 	environmentId: unitEnvironmentId,
 };
 
-const testSchema: ZodType<JsonValue> = z.object({});
+const testSchema: () => Promise<ZodType<JsonValue>> = async () => z.object({});
 
 describe("createDeliveryFetchQuery", () => {
 	it("returns a query with FetchQuery shape", () => {
