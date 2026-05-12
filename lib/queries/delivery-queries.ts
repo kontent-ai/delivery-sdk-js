@@ -82,8 +82,8 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly schema: () => Promise<ZodType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
-}): FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata> {
-	return createFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata>({
+}): FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown> {
+	return createFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		mapMetadata: () => ({}),
 	});

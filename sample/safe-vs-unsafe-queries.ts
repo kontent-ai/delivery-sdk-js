@@ -88,8 +88,6 @@ export async function listAllLanguagesSafe(): Promise<void> {
 	if (result.success) {
 		const totalLanguages = result.responses.flatMap((page) => page.payload.languages).length;
 	} else {
-		// Partial progress is preserved on failure - useful for resilient paging.
-		const recoveredLanguages = result.partialResponses.flatMap((page) => page.payload.languages);
-		console.error("listLanguages paging failed after", recoveredLanguages.length, "languages:", result.error);
+		console.error("listLanguages paging failed", result.error);
 	}
 }

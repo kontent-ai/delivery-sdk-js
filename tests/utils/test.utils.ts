@@ -25,7 +25,7 @@ export function isFetchQueryWithExpectedFunctions(query: unknown): query is Fetc
 		return false;
 	}
 
-	const expectedFunctions: readonly ExpectedFunctions[] = ["fetchSafe", "fetch", "schema", "inspect"];
+	const expectedFunctions: readonly ExpectedFunctions[] = ["fetchSafe", "fetch", "inspect"];
 
 	if (expectedFunctions.every((func) => func in query)) {
 		return true;
@@ -43,7 +43,6 @@ export function isPagedFetchQueryWithExpectedFunctions(query: unknown): query is
 		"fetchAllPagesSafe",
 		"fetchPageSafe",
 		"pages",
-		"schema",
 		"inspect",
 		"fetchAllPages",
 		"fetchPage",

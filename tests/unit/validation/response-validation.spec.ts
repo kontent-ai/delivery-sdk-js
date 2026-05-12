@@ -207,7 +207,7 @@ describe("Response validation", () => {
 			if (error?.details.reason === "parsingFailed") {
 				expect(error.details.url).toStrictEqual(query.inspect().data?.url);
 				expect(error.details.zodError).toBeInstanceOf(ZodError);
-				expect(error.details.response).toBeDefined();
+				expect(error.details.payload).toBeDefined();
 			} else {
 				throw new Error(`Unexpected error reason '${error?.details.reason}'`);
 			}

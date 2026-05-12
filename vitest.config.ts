@@ -4,7 +4,6 @@ export default defineConfig({
 	root: ".",
 	test: {
 		dir: "tests",
-		exclude: ["types/**"],
 		globals: true,
 		environment: "node",
 		coverage: {
@@ -12,6 +11,7 @@ export default defineConfig({
 			reporter: ["text"],
 			thresholds: { lines: 100, functions: 100, branches: 100 },
 			exclude: ["**/tests/**", "**/types/**"],
+			include: ["lib/**"],
 		},
 	},
 	build: {
