@@ -1,10 +1,11 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam } from "../../models/request.models.js";
-import { createDeliveryFetchQuery } from "../delivery-queries.js";
-import type { FetchContentItemPayload } from "./models/content-item.models.js";
+import { resolveExtendedItems } from "../../transforms/content-item-transforms.js";
+import { createDeliveryFetchQuery, transformDeliveryFetchQuery } from "../delivery-queries.js";
+import type { FetchContentItemPayloadExtended } from "./models/content-item.models.js";
 
 export type FetchContentItemQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
-	FetchContentItemPayload<TSchema>,
+	FetchContentItemPayloadExtended<TSchema>,
 	DeliveryMetadata
 >;
 
@@ -41,10 +42,31 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request: FetchContentItemQueryRequest<TSchema>,
 ): FetchContentItemQuery<TSchema> {
-	return createDeliveryFetchQuery({
+	return transformDeliveryFetchQuery({
 		config,
-		request,
-		schema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchema<TSchema>(),
-		endpoint: `items/${request.codename}`,
+		query: createDeliveryFetchQuery({
+			config,
+			request,
+			schema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchema<TSchema>(),
+			endpoint: `items/${request.codename}`,
+		}),
+		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchemaExtended<TSchema>(),
+		transform: (payload) => {
+			const { extendedItems, extendedModularContent } = resolveExtendedItems({
+				modular_content: payload.modular_content,
+				inputItems: [payload.item],
+			});
+
+			const extendedItem = extendedItems[0];
+
+			if (!extendedItem) {
+				throw new Error("Could not resolve extended item. This is a SDK related issue. Please, report it to the developers.");
+			}
+
+			return {
+				item: extendedItem,
+				modular_content: extendedModularContent,
+			};
+		},
 	});
 }

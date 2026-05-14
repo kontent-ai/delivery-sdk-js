@@ -6,6 +6,7 @@ import {
 	type Header,
 	type JsonValue,
 	type PagedFetchQuery,
+	transformFetchQuery,
 } from "@kontent-ai/core-sdk";
 import type { ZodMiniType } from "zod/mini";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
@@ -86,6 +87,26 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	return createFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown>({
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		mapMetadata: () => ({}),
+	});
+}
+
+export function transformDeliveryFetchQuery<TPayload extends JsonValue, TTransformedPayload extends TPayload>({
+	config,
+	query,
+	transform,
+	transformSchema,
+}: {
+	readonly query: FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown>;
+} & Pick<
+	Parameters<typeof transformFetchQuery<TPayload, TTransformedPayload, DeliverySdkError, DeliveryMetadata, unknown>>[0],
+	"transform" | "transformSchema" | "config"
+>): FetchQuery<TTransformedPayload, DeliverySdkError, DeliveryMetadata, unknown> {
+	return transformFetchQuery({
+		query,
+		transform,
+		transformSchema,
+		mapError: mapDeliveryError,
+		config,
 	});
 }
 

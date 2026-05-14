@@ -128,7 +128,18 @@ const baseElementSchemas = {
 export const elementDef = {
 	text: z.readonly(baseElementSchemas.text),
 	number: z.readonly(baseElementSchemas.number),
-	richText: z.readonly(baseElementSchemas.richText),
+	richText: <TAllowedItemTypes extends ContentItemPayload<DeliveryClientSchema> = ContentItemPayload<DeliveryClientSchema>>() =>
+		z.readonly(
+			z.extend(baseElementSchemas.richText, {
+				items: z.readonly(
+					z.array(
+						z.custom<TAllowedItemTypes>((item) => contentItemSchema().safeParse(item).success, {
+							error: "Invalid referenced linked item",
+						}),
+					),
+				),
+			}),
+		),
 	multipleChoice: <TCodename extends string = string>() =>
 		z.readonly(
 			z.extend(baseElementSchemas.multipleChoice, {
@@ -171,5 +182,20 @@ export const contentItemElementSchema = z.readonly(
 		z.readonly(baseElementSchemas.urlSlug),
 		z.readonly(baseElementSchemas.linkedItems),
 		z.readonly(baseElementSchemas.custom),
+	]),
+);
+
+export const contentItemElementSchemaExtended = z.readonly(
+	z.discriminatedUnion("type", [
+		elementDef.text,
+		elementDef.number,
+		elementDef.richText(),
+		elementDef.multipleChoice(),
+		elementDef.dateTime,
+		elementDef.asset,
+		elementDef.taxonomy(),
+		elementDef.urlSlug,
+		elementDef.linkedItems(),
+		elementDef.custom,
 	]),
 );

@@ -2,7 +2,7 @@ import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../../models/pagination.schemas.js";
-import { contentItemElementSchema } from "./element.schemas.js";
+import { contentItemElementSchema, contentItemElementSchemaExtended } from "./element.schemas.js";
 
 const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z.object({
@@ -95,5 +95,38 @@ export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>() =
 		z.object({
 			item: contentItemSchema<TSchema>(),
 			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
+		}),
+	);
+
+export const contentItemSchemaExtended = <TSchema extends DeliveryClientSchema>() =>
+	z.readonly(
+		z.object({
+			system: contentItemSystemSchema<TSchema>(),
+			elements: z.record(z.string(), contentItemElementSchemaExtended),
+		}),
+	);
+
+export const listContentItemsSchemaExtended = <TSchema extends DeliveryClientSchema>() =>
+	z.readonly(
+		z.object({
+			items: z.readonly(z.array(contentItemSchemaExtended<TSchema>())),
+			modular_content: z.record(z.string(), contentItemSchemaExtended<TSchema>()),
+			...paginationWithTotalCountSchema.shape,
+		}),
+	);
+
+export const itemsFeedSchemaExtended = <TSchema extends DeliveryClientSchema>() =>
+	z.readonly(
+		z.object({
+			items: z.readonly(z.array(contentItemSchemaExtended<TSchema>())),
+			modular_content: z.record(z.string(), contentItemSchemaExtended<TSchema>()),
+		}),
+	);
+
+export const fetchContentItemSchemaExtended = <TSchema extends DeliveryClientSchema>() =>
+	z.readonly(
+		z.object({
+			item: contentItemSchemaExtended<TSchema>(),
+			modular_content: z.record(z.string(), contentItemSchemaExtended<TSchema>()),
 		}),
 	);

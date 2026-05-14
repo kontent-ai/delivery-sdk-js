@@ -5,7 +5,9 @@ import type { ContentItemPayload } from "./content-item.models.js";
 
 export type Text = z.infer<typeof elementDef.text>;
 export type Number = z.infer<typeof elementDef.number>;
-export type RichText = z.infer<typeof elementDef.richText>;
+export type RichText<TItem extends ContentItemPayload<DeliveryClientSchema> = ContentItemPayload<DeliveryClientSchema>> = z.infer<
+	ReturnType<typeof elementDef.richText<TItem>>
+>;
 export type MultipleChoice<TCodename extends string = string> = z.infer<ReturnType<typeof elementDef.multipleChoice<TCodename>>>;
 export type DateTime = z.infer<typeof elementDef.dateTime>;
 export type Asset = z.infer<typeof elementDef.asset>;

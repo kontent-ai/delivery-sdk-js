@@ -2,13 +2,17 @@ import type * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import type {
 	contentItemSchema,
+	contentItemSchemaExtended,
 	contentItemSystemSchema,
 	contentItemSystemWithCodename,
 	fetchContentItemSchema,
+	fetchContentItemSchemaExtended,
 	itemsFeedSchema,
+	itemsFeedSchemaExtended,
 	itemsReferencingAssetSchema,
 	itemsReferencingItemSchema,
 	listContentItemsSchema,
+	listContentItemsSchemaExtended,
 } from "../schemas/content-item.schemas.js";
 import type { ContentItemElementPayload } from "./element.models.js";
 
@@ -39,3 +43,14 @@ export type ItemsReferencingAssetPayload<TSchema extends DeliveryClientSchema> =
 export type ItemsReferencingItemPayload<TSchema extends DeliveryClientSchema> = z.infer<
 	ReturnType<typeof itemsReferencingItemSchema<TSchema>>
 >;
+
+export type ContentItemPayloadExtended<TSchema extends DeliveryClientSchema> = z.infer<
+	ReturnType<typeof contentItemSchemaExtended<TSchema>>
+>;
+export type FetchContentItemPayloadExtended<TSchema extends DeliveryClientSchema> = z.infer<
+	ReturnType<typeof fetchContentItemSchemaExtended<TSchema>>
+>;
+export type ListContentItemsPayloadExtended<TSchema extends DeliveryClientSchema> = z.infer<
+	ReturnType<typeof listContentItemsSchemaExtended<TSchema>>
+>;
+export type ItemsFeedPayloadExtended<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof itemsFeedSchemaExtended<TSchema>>>;

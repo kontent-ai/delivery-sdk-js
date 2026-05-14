@@ -100,7 +100,7 @@ export async function demonstrateQueries(): Promise<void> {
 	);
 
 	// `fetchContentItem` returns a fully typed item payload.
-	const item = await client.fetchContentItem({ codename: "itemCodename" }).fetch();
+	const response = await client.fetchContentItem({ codename: "itemCodename" }).fetch();
 }
 
 /**
@@ -135,4 +135,6 @@ export function demonstrateMovieAccess(movie: Movie): void {
 
 	// `LinkedItems<Actor>` types `items[i]` as `Actor` - full element narrowing on referenced items.
 	const firstMovieActor: Actor | undefined = movie.elements.actors.items[0];
+
+	const actors: readonly Actor[] = movie.elements.actors.items;
 }
