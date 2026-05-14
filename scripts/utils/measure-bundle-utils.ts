@@ -1,3 +1,4 @@
+import { mkdir, writeFile } from "node:fs/promises";
 import { brotliCompressSync, gzipSync } from "node:zlib";
 import { build } from "esbuild";
 
@@ -77,6 +78,35 @@ export const measureScenarios = async <TName extends string>(
 			};
 		}),
 	);
+
+const toSafeFileName = (name: string): string =>
+	name
+		.replaceAll(/[^a-z0-9]+/gi, "-")
+		.replace(/^-+|-+$/g, "")
+		.toLowerCase();
+
+export type WrittenBundle<TName extends string> = {
+	readonly scenario: TName;
+	readonly path: string;
+	readonly bytes: number;
+};
+
+export const writeBundles = async <TName extends string>(
+	scenarios: readonly Scenario<TName>[],
+	options: { readonly resolveDir: string; readonly outDir: string; readonly minify?: boolean },
+): Promise<readonly WrittenBundle<TName>[]> => {
+	await mkdir(options.outDir, { recursive: true });
+	const minify = options.minify ?? true;
+	return Promise.all(
+		scenarios.map(async (scenario): Promise<WrittenBundle<TName>> => {
+			const bytes = await bundleScenario(scenario, { resolveDir: options.resolveDir, minify });
+			const suffix = minify ? ".min.js" : ".js";
+			const path = `${options.outDir}/${toSafeFileName(scenario.name)}${suffix}`;
+			await writeFile(path, bytes);
+			return { scenario: scenario.name, path, bytes: bytes.byteLength };
+		}),
+	);
+};
 
 export const formatBytes = (n: number): string => {
 	if (n < 1024) {

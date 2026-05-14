@@ -5,7 +5,6 @@
  * Top to bottom:
  *  1. Declare your project's codename schema.
  *  2. Define content-type element shapes and their payload types.
- *  3. Build Zod schemas with `defineContentItem`.
  *  4. Create a typed delivery client.
  *  5. See how response values narrow at the call site.
  *
@@ -14,10 +13,8 @@
  * so it imports from the in-tree source instead.
  */
 
-import type * as z from "zod/mini";
 import { createDeliveryClient } from "../lib/client/delivery-client.js";
 import type { ContentItemOf, DeliveryClient, DeliveryClientSchema, ElementType } from "../lib/public_api.js";
-import { defineContentItem, elementDef } from "../lib/public_typed_items.js";
 
 /**
  * 1. Schema declaration
@@ -53,14 +50,6 @@ export type ActorElements = {
 // Fully-typed Actor item payload (system metadata + elements).
 export type Actor = ContentItemOf<SampleProjectSchema, "actor", ActorElements>;
 
-// Runtime Zod schema for parsing Actor items into the typed `Actor` payload.
-export const actorSchema: z.ZodMiniType<Actor> = defineContentItem<SampleProjectSchema, "actor", ActorElements>("actor", {
-	first_name: elementDef.text,
-	last_name: elementDef.text,
-	role: elementDef.multipleChoice<"opt1" | "opt2" | "opt3">(),
-	relatedActors: elementDef.linkedItems(),
-});
-
 /**
  * 3. Content type: Movie
  *
@@ -83,19 +72,6 @@ export type MovieElements = {
 
 // Fully-typed Movie item payload.
 export type Movie = ContentItemOf<SampleProjectSchema, "movie", MovieElements>;
-
-export const movieSchema: z.ZodMiniType<Movie> = defineContentItem<SampleProjectSchema, "movie", MovieElements>("movie", {
-	title: elementDef.text,
-	rating: elementDef.number,
-	synopsis: elementDef.richText,
-	genre: elementDef.multipleChoice<"genre1" | "genre2">(),
-	release_date: elementDef.dateTime,
-	poster: elementDef.asset,
-	categories: elementDef.taxonomy<"term1" | "term2">(),
-	url_slug: elementDef.urlSlug,
-	custom_id: elementDef.custom,
-	actors: elementDef.linkedItems<Actor>(),
-});
 
 /**
  * 4. Typed delivery client

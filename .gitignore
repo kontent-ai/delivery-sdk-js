@@ -8,6 +8,7 @@
 # compiled output
 /definitions
 /dist
+/bundles
 /tmp
 /coverage
 /out-tsc

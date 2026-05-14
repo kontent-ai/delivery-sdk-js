@@ -1,14 +1,8 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
-import type { ZodMiniType } from "zod/mini";
 import * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../../models/pagination.schemas.js";
-import type { ContentItemElementShape } from "../models/content-item.models.js";
 import { contentItemElementSchema } from "./element.schemas.js";
-
-type ElementSchemasOf<TElements extends ContentItemElementShape> = {
-	readonly [K in keyof TElements]: ZodMiniType<TElements[K]>;
-};
 
 const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z.object({
@@ -101,20 +95,5 @@ export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>() =
 		z.object({
 			item: contentItemSchema<TSchema>(),
 			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
-		}),
-	);
-
-export const defineContentItem = <
-	TSchema extends DeliveryClientSchema,
-	TTypeCodename extends TSchema["contentTypeCodenames"][number],
-	TElements extends ContentItemElementShape,
->(
-	typeCodename: TTypeCodename,
-	elements: ElementSchemasOf<TElements>,
-) =>
-	z.readonly(
-		z.object({
-			system: contentItemSystemWithCodename<TSchema, TTypeCodename>(typeCodename),
-			elements: z.readonly(z.object(elements)),
 		}),
 	);
