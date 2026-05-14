@@ -27,9 +27,9 @@
 			"types": "./dist/public_api.d.ts",
 			"default": "./dist/public_api.js"
 		},
-		"./typed-items": {
-			"types": "./dist/public_typed_items.d.ts",
-			"default": "./dist/public_typed_items.js"
+		"./schemas": {
+			"types": "./dist/public_schemas.d.ts",
+			"default": "./dist/public_schemas.js"
 		}
 	},
 	"types": "./dist/public_api.d.ts",

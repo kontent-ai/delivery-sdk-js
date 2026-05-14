@@ -16,7 +16,7 @@ export type SizeResult<TName extends string> = {
 	readonly brotli: number;
 };
 
-export type ScenarioName = "public_api (full)" | "public_typed_items (full)";
+export type ScenarioName = "public_api (full)" | "public_schemas (full)";
 
 export const scenarios: readonly Scenario<ScenarioName>[] = [
 	{
@@ -25,9 +25,9 @@ export const scenarios: readonly Scenario<ScenarioName>[] = [
 		thresholdKb: 20,
 	},
 	{
-		name: "public_typed_items (full)",
-		entryContents: `export * from "./lib/public_typed_items.ts";`,
-		thresholdKb: 9,
+		name: "public_schemas (full)",
+		entryContents: `export * from "./lib/public_schemas.ts";`,
+		thresholdKb: 11,
 	},
 ];
 
