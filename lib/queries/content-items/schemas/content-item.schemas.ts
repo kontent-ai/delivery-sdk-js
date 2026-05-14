@@ -1,12 +1,13 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
-import { z } from "zod";
+import type { ZodMiniType } from "zod/mini";
+import * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../../models/pagination.schemas.js";
 import type { ContentItemElementShape } from "../models/content-item.models.js";
 import { contentItemElementSchema } from "./element.schemas.js";
 
 type ElementSchemasOf<TElements extends ContentItemElementShape> = {
-	readonly [K in keyof TElements]: z.ZodType<TElements[K]>;
+	readonly [K in keyof TElements]: ZodMiniType<TElements[K]>;
 };
 
 const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
@@ -23,12 +24,12 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 	});
 
 export const contentItemSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
+	z.readonly(
+		z.object({
 			system: contentItemSystemSchema<TSchema>(),
 			elements: z.record(z.string(), contentItemElementSchema),
-		})
-		.readonly();
+		}),
+	);
 
 export const contentItemSystemWithCodename = <
 	TSchema extends DeliveryClientSchema,
@@ -36,72 +37,72 @@ export const contentItemSystemWithCodename = <
 >(
 	type: TTypeCodename,
 ) =>
-	z
-		.object({
+	z.readonly(
+		z.object({
 			...baseContentItemSystemSchema<TSchema>().shape,
-			sitemap_locations: z.array(z.string()).readonly(),
+			sitemap_locations: z.readonly(z.array(z.string())),
 			type: z.literal(type),
-		})
-		.readonly();
+		}),
+	);
 
 export const contentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
+	z.readonly(
+		z.object({
 			...baseContentItemSystemSchema<TSchema>().shape,
-			sitemap_locations: z.array(z.string()).readonly(),
-		})
-		.readonly();
+			sitemap_locations: z.readonly(z.array(z.string())),
+		}),
+	);
 
 export const listContentItemsSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
-			items: z.array(contentItemSchema<TSchema>()).readonly(),
+	z.readonly(
+		z.object({
+			items: z.readonly(z.array(contentItemSchema<TSchema>())),
 			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
 			...paginationWithTotalCountSchema.shape,
-		})
-		.readonly();
+		}),
+	);
 
 export const itemsFeedSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
-			items: z.array(contentItemSchema<TSchema>()).readonly(),
+	z.readonly(
+		z.object({
+			items: z.readonly(z.array(contentItemSchema<TSchema>())),
 			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
-		})
-		.readonly();
+		}),
+	);
 
 export const itemsReferencingAssetSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
-			items: z
-				.array(
+	z.readonly(
+		z.object({
+			items: z.readonly(
+				z.array(
 					z.object({
 						system: baseContentItemSystemSchema<TSchema>(),
 					}),
-				)
-				.readonly(),
-		})
-		.readonly();
+				),
+			),
+		}),
+	);
 
 export const itemsReferencingItemSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
-			items: z
-				.array(
+	z.readonly(
+		z.object({
+			items: z.readonly(
+				z.array(
 					z.object({
 						system: baseContentItemSystemSchema<TSchema>(),
 					}),
-				)
-				.readonly(),
-		})
-		.readonly();
+				),
+			),
+		}),
+	);
 
 export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
+	z.readonly(
+		z.object({
 			item: contentItemSchema<TSchema>(),
 			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
-		})
-		.readonly();
+		}),
+	);
 
 export const defineContentItem = <
 	TSchema extends DeliveryClientSchema,
@@ -111,9 +112,9 @@ export const defineContentItem = <
 	typeCodename: TTypeCodename,
 	elements: ElementSchemasOf<TElements>,
 ) =>
-	z
-		.object({
+	z.readonly(
+		z.object({
 			system: contentItemSystemWithCodename<TSchema, TTypeCodename>(typeCodename),
-			elements: z.object(elements).readonly(),
-		})
-		.readonly();
+			elements: z.readonly(z.object(elements)),
+		}),
+	);

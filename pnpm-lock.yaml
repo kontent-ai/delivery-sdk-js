@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@kontent-ai/core-sdk':
-        specifier: ^12.0.0-preview.38
-        version: 12.0.0-preview.38(ts-pattern@5.9.0)(zod@4.3.6)
+        specifier: ^12.0.0-preview.39
+        version: 12.0.0-preview.39(ts-pattern@5.9.0)(zod@4.3.6)
       ts-pattern:
         specifier: ^5
         version: 5.9.0
@@ -36,6 +36,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: 4.1.6
         version: 4.1.6(vitest@4.1.6)
+      esbuild:
+        specifier: 0.27.7
+        version: 0.27.7
       eslint:
         specifier: 10.3.0
         version: 10.3.0
@@ -384,8 +387,8 @@ packages:
     peerDependencies:
       '@biomejs/biome': ^2.3.11
 
-  '@kontent-ai/core-sdk@12.0.0-preview.38':
-    resolution: {integrity: sha512-18QxlL6s5AN35oJurDHNl01ZzTWB5exAbNFbT2dyPbBE3OS3YV2hZPhGr+ygPMvvlGtRdZONMkyyLznnShxpqQ==}
+  '@kontent-ai/core-sdk@12.0.0-preview.39':
+    resolution: {integrity: sha512-khSpvc8nWeOg/5r70tdj98YO4zQQiJuPM0Be2f+UDG0YCKv4NaRkOU4fHkt6lQrp+skkriy7uSpgfcaujp/opg==}
     engines: {node: '>=22'}
     peerDependencies:
       ts-pattern: ^5
@@ -2019,7 +2022,7 @@ snapshots:
     dependencies:
       '@biomejs/biome': 2.4.15
 
-  '@kontent-ai/core-sdk@12.0.0-preview.38(ts-pattern@5.9.0)(zod@4.3.6)':
+  '@kontent-ai/core-sdk@12.0.0-preview.39(ts-pattern@5.9.0)(zod@4.3.6)':
     dependencies:
       ts-pattern: 5.9.0
       zod: 4.3.6

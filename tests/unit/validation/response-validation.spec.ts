@@ -1,7 +1,7 @@
 import type { ErrorReason } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { describe, expect, test } from "vitest";
-import { ZodError } from "zod";
+import * as z from "zod/mini";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import type { DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { PaginationPayload } from "../../../lib/public_api.js";
@@ -206,7 +206,7 @@ describe("Response validation", () => {
 
 			if (error?.details.reason === "parsingFailed") {
 				expect(error.details.url).toStrictEqual(query.inspect().data?.url);
-				expect(error.details.zodError).toBeInstanceOf(ZodError);
+				expect(error.details.zodError).toBeInstanceOf(z.core.$ZodError);
 				expect(error.details.payload).toBeDefined();
 			} else {
 				throw new Error(`Unexpected error reason '${error?.details.reason}'`);

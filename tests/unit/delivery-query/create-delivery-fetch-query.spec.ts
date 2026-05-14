@@ -1,6 +1,7 @@
 import type { JsonValue } from "@kontent-ai/core-sdk";
 import { describe, expect, it } from "vitest";
-import { type ZodType, z } from "zod";
+import type { ZodMiniType } from "zod/mini";
+import * as z from "zod/mini";
 import type { DeliveryClientConfig, DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
 import type { DeliveryRequest } from "../../../lib/models/request.models.js";
@@ -13,7 +14,7 @@ const clientConfig: DeliveryClientConfig<DeliveryClientSchema> = {
 	environmentId: unitEnvironmentId,
 };
 
-const testSchema: () => Promise<ZodType<JsonValue>> = async () => z.object({});
+const testSchema: () => Promise<ZodMiniType<JsonValue>> = async () => z.object({});
 
 describe("createDeliveryFetchQuery", () => {
 	it("returns a query with FetchQuery shape", () => {

@@ -1,65 +1,65 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
-import { z } from "zod";
+import * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import type { ContentItemPayload } from "../models/content-item.models.js";
 import { contentItemSchema } from "./content-item.schemas.js";
 
 const multipleChoiceOptionSchema = <TCodename extends string = string>() =>
-	z
-		.object({
+	z.readonly(
+		z.object({
 			name: z.string(),
 			codename: codenameOf<TCodename>(),
-		})
-		.readonly();
+		}),
+	);
 
 const taxonomyTermValueSchema = <TCodename extends string = string>() =>
-	z
-		.object({
+	z.readonly(
+		z.object({
 			name: z.string(),
 			codename: codenameOf<TCodename>(),
-		})
-		.readonly();
+		}),
+	);
 
-const renditionSchema = z
-	.object({
+const renditionSchema = z.readonly(
+	z.object({
 		rendition_id: kontentUuidSchema,
 		preset_id: kontentUuidSchema,
 		width: z.number(),
 		height: z.number(),
 		query: z.string(),
-	})
-	.readonly();
+	}),
+);
 
-export const assetValueSchema = z
-	.object({
+export const assetValueSchema = z.readonly(
+	z.object({
 		name: z.string(),
-		description: z.string().nullable(),
+		description: z.nullable(z.string()),
 		type: z.string(),
 		size: z.number(),
 		url: z.url(),
-		width: z.number().nullable(),
-		height: z.number().nullable(),
-		renditions: z.object({ default: renditionSchema.optional() }).readonly(),
-	})
-	.readonly();
+		width: z.nullable(z.number()),
+		height: z.nullable(z.number()),
+		renditions: z.readonly(z.object({ default: z.optional(renditionSchema) })),
+	}),
+);
 
-const richTextImageSchema = z
-	.object({
+const richTextImageSchema = z.readonly(
+	z.object({
 		image_id: z.string(),
-		description: z.string().nullable(),
+		description: z.nullable(z.string()),
 		url: z.url(),
-		width: z.number().nullable(),
-		height: z.number().nullable(),
-	})
-	.readonly();
+		width: z.nullable(z.number()),
+		height: z.nullable(z.number()),
+	}),
+);
 
-const richTextLinkSchema = z
-	.object({
+const richTextLinkSchema = z.readonly(
+	z.object({
 		codename: codenameOf(),
 		type: z.string(),
 		url_slug: z.string(),
-	})
-	.readonly();
+	}),
+);
 
 /**
  * Base element schema as provided by Kontent.ai API
@@ -73,7 +73,7 @@ const baseElementSchemas = {
 	number: z.object({
 		type: z.literal("number"),
 		name: z.string(),
-		value: z.number().nullable(),
+		value: z.nullable(z.number()),
 	}),
 	richText: z.object({
 		type: z.literal("rich_text"),
@@ -81,29 +81,29 @@ const baseElementSchemas = {
 		value: z.string(),
 		images: z.record(z.string(), richTextImageSchema),
 		links: z.record(z.string(), richTextLinkSchema),
-		modular_content: z.array(codenameOf()).readonly(),
+		modular_content: z.readonly(z.array(codenameOf())),
 	}),
 	multipleChoice: z.object({
 		type: z.literal("multiple_choice"),
 		name: z.string(),
-		value: z.array(multipleChoiceOptionSchema()).readonly(),
+		value: z.readonly(z.array(multipleChoiceOptionSchema())),
 	}),
 	dateTime: z.object({
 		type: z.literal("date_time"),
 		name: z.string(),
-		value: z.string().nullable(),
-		display_timezone: z.string().nullable(),
+		value: z.nullable(z.string()),
+		display_timezone: z.nullable(z.string()),
 	}),
 	asset: z.object({
 		type: z.literal("asset"),
 		name: z.string(),
-		value: z.array(assetValueSchema).readonly(),
+		value: z.readonly(z.array(assetValueSchema)),
 	}),
 	taxonomy: z.object({
 		type: z.literal("taxonomy"),
 		name: z.string(),
 		taxonomy_group: z.string(),
-		value: z.array(taxonomyTermValueSchema()).readonly(),
+		value: z.readonly(z.array(taxonomyTermValueSchema())),
 	}),
 	urlSlug: z.object({
 		type: z.literal("url_slug"),
@@ -113,12 +113,12 @@ const baseElementSchemas = {
 	custom: z.object({
 		type: z.literal("custom"),
 		name: z.string(),
-		value: z.string().nullable(),
+		value: z.nullable(z.string()),
 	}),
 	linkedItems: z.object({
 		type: z.literal("modular_content"),
 		name: z.string(),
-		value: z.array(codenameOf()).readonly(),
+		value: z.readonly(z.array(codenameOf())),
 	}),
 } as const;
 
@@ -126,42 +126,50 @@ const baseElementSchemas = {
  * Building blocks for constructing typed content item schemas.
  */
 export const elementDef = {
-	text: baseElementSchemas.text.readonly(),
-	number: baseElementSchemas.number.readonly(),
-	richText: baseElementSchemas.richText.readonly(),
+	text: z.readonly(baseElementSchemas.text),
+	number: z.readonly(baseElementSchemas.number),
+	richText: z.readonly(baseElementSchemas.richText),
 	multipleChoice: <TCodename extends string = string>() =>
-		baseElementSchemas.multipleChoice.extend({ value: z.array(multipleChoiceOptionSchema<TCodename>()).readonly() }).readonly(),
-	dateTime: baseElementSchemas.dateTime.readonly(),
-	asset: baseElementSchemas.asset.readonly(),
+		z.readonly(
+			z.extend(baseElementSchemas.multipleChoice, {
+				value: z.readonly(z.array(multipleChoiceOptionSchema<TCodename>())),
+			}),
+		),
+	dateTime: z.readonly(baseElementSchemas.dateTime),
+	asset: z.readonly(baseElementSchemas.asset),
 	taxonomy: <TCodename extends string = string>() =>
-		baseElementSchemas.taxonomy.extend({ value: z.array(taxonomyTermValueSchema<TCodename>()).readonly() }).readonly(),
-	urlSlug: baseElementSchemas.urlSlug.readonly(),
-	custom: baseElementSchemas.custom.readonly(),
+		z.readonly(
+			z.extend(baseElementSchemas.taxonomy, {
+				value: z.readonly(z.array(taxonomyTermValueSchema<TCodename>())),
+			}),
+		),
+	urlSlug: z.readonly(baseElementSchemas.urlSlug),
+	custom: z.readonly(baseElementSchemas.custom),
 	linkedItems: <TAllowedItemTypes extends ContentItemPayload<DeliveryClientSchema> = ContentItemPayload<DeliveryClientSchema>>() =>
-		baseElementSchemas.linkedItems
-			.extend({
-				items: z
-					.array(
+		z.readonly(
+			z.extend(baseElementSchemas.linkedItems, {
+				items: z.readonly(
+					z.array(
 						z.custom<TAllowedItemTypes>((item) => contentItemSchema().safeParse(item).success, {
 							error: "Invalid referenced linked item",
 						}),
-					)
-					.readonly(),
-			})
-			.readonly(),
+					),
+				),
+			}),
+		),
 } as const;
 
-export const contentItemElementSchema = z
-	.discriminatedUnion("type", [
-		baseElementSchemas.text.readonly(),
-		baseElementSchemas.number.readonly(),
-		baseElementSchemas.richText.readonly(),
-		baseElementSchemas.multipleChoice.readonly(),
-		baseElementSchemas.dateTime.readonly(),
-		baseElementSchemas.asset.readonly(),
-		baseElementSchemas.taxonomy.readonly(),
-		baseElementSchemas.urlSlug.readonly(),
-		baseElementSchemas.linkedItems.readonly(),
-		baseElementSchemas.custom.readonly(),
-	])
-	.readonly();
+export const contentItemElementSchema = z.readonly(
+	z.discriminatedUnion("type", [
+		z.readonly(baseElementSchemas.text),
+		z.readonly(baseElementSchemas.number),
+		z.readonly(baseElementSchemas.richText),
+		z.readonly(baseElementSchemas.multipleChoice),
+		z.readonly(baseElementSchemas.dateTime),
+		z.readonly(baseElementSchemas.asset),
+		z.readonly(baseElementSchemas.taxonomy),
+		z.readonly(baseElementSchemas.urlSlug),
+		z.readonly(baseElementSchemas.linkedItems),
+		z.readonly(baseElementSchemas.custom),
+	]),
+);

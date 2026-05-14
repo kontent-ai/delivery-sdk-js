@@ -7,7 +7,7 @@ import {
 	type JsonValue,
 	type PagedFetchQuery,
 } from "@kontent-ai/core-sdk";
-import type { ZodType } from "zod";
+import type { ZodMiniType } from "zod/mini";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
 import type {
 	DeliveryClientConfig,
@@ -36,7 +36,7 @@ export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
-	readonly schema: () => Promise<ZodType<TPayload>>;
+	readonly schema: () => Promise<ZodMiniType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
 }): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps> {
 	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps>({
@@ -57,7 +57,7 @@ export function createDeliveryPagedByTokenQuery<TPayload extends JsonValue>({
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
-	readonly schema: () => Promise<ZodType<TPayload>>;
+	readonly schema: () => Promise<ZodMiniType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
 }): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps> {
 	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps>({
@@ -80,7 +80,7 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
-	readonly schema: () => Promise<ZodType<TPayload>>;
+	readonly schema: () => Promise<ZodMiniType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
 }): FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown> {
 	return createFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown>({
@@ -98,7 +98,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
 	readonly endpoint: DeliveryEndpoint;
-	readonly schema: () => Promise<ZodType<TPayload>>;
+	readonly schema: () => Promise<ZodMiniType<TPayload>>;
 }): Pick<
 	FetchQueryRequest<TPayload, DeliverySdkError>,
 	| "abortSignal"
@@ -107,7 +107,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	| "authorizationApiKey"
 	| "url"
 	| "requestHeaders"
-	| "zodSchema"
+	| "schema"
 	| "mapError"
 	| "mapExtraResponseProps"
 > {
@@ -119,7 +119,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 		requestHeaders: getHeaders(request),
 		url: getUrl({ request, config, endpoint }),
 		authorizationApiKey: config.apiMode === "preview" || config.apiMode === "secure" ? config.deliveryApiKey : undefined,
-		zodSchema: schema,
+		schema,
 		mapError: mapDeliveryError,
 	};
 }

@@ -1,5 +1,5 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
-import { z } from "zod";
+import * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationSchema } from "../../../models/pagination.schemas.js";
 
@@ -8,29 +8,29 @@ export const taxonomyTermSchema = <TSchema extends DeliveryClientSchema>() =>
 		name: z.string(),
 		codename: codenameOf<TSchema["taxonomyCodenames"][number]>(),
 		get terms() {
-			return z.array(taxonomyTermSchema<TSchema>()).readonly();
+			return z.readonly(z.array(taxonomyTermSchema<TSchema>()));
 		},
 	});
 
 export const taxonomySchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
-			system: z
-				.object({
+	z.readonly(
+		z.object({
+			system: z.readonly(
+				z.object({
 					id: kontentUuidSchema,
 					name: z.string(),
 					codename: codenameOf<TSchema["taxonomyCodenames"][number]>(),
 					last_modified: z.iso.datetime(),
-				})
-				.readonly(),
-			terms: z.array(taxonomyTermSchema<TSchema>()).readonly(),
-		})
-		.readonly();
+				}),
+			),
+			terms: z.readonly(z.array(taxonomyTermSchema<TSchema>())),
+		}),
+	);
 
 export const listTaxonomiesSchema = <TSchema extends DeliveryClientSchema>() =>
-	z
-		.object({
-			taxonomies: z.array(taxonomySchema<TSchema>()).readonly(),
+	z.readonly(
+		z.object({
+			taxonomies: z.readonly(z.array(taxonomySchema<TSchema>())),
 			...paginationSchema.shape,
-		})
-		.readonly();
+		}),
+	);

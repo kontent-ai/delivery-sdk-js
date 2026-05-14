@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import type z from "zod";
+import type * as z from "zod/mini";
 import type { ContentItemSystemPayload, DeliveryClientSchema, ElementType } from "../../../lib/public_api.js";
 import type { Asset } from "../../../lib/queries/content-items/models/element.models.js";
 import { defineContentItem } from "../../../lib/queries/content-items/schemas/content-item.schemas.js";

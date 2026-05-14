@@ -14,7 +14,7 @@
  * so it imports from the in-tree source instead.
  */
 
-import type z from "zod";
+import type * as z from "zod/mini";
 import { createDeliveryClient } from "../lib/client/delivery-client.js";
 import type { ContentItemOf, DeliveryClient, DeliveryClientSchema, ElementType } from "../lib/public_api.js";
 import { defineContentItem, elementDef } from "../lib/public_typed_items.js";
@@ -54,7 +54,7 @@ export type ActorElements = {
 export type Actor = ContentItemOf<SampleProjectSchema, "actor", ActorElements>;
 
 // Runtime Zod schema for parsing Actor items into the typed `Actor` payload.
-export const actorSchema: z.ZodType<Actor> = defineContentItem<SampleProjectSchema, "actor", ActorElements>("actor", {
+export const actorSchema: z.ZodMiniType<Actor> = defineContentItem<SampleProjectSchema, "actor", ActorElements>("actor", {
 	first_name: elementDef.text,
 	last_name: elementDef.text,
 	role: elementDef.multipleChoice<"opt1" | "opt2" | "opt3">(),
@@ -84,7 +84,7 @@ export type MovieElements = {
 // Fully-typed Movie item payload.
 export type Movie = ContentItemOf<SampleProjectSchema, "movie", MovieElements>;
 
-export const movieSchema: z.ZodType<Movie> = defineContentItem<SampleProjectSchema, "movie", MovieElements>("movie", {
+export const movieSchema: z.ZodMiniType<Movie> = defineContentItem<SampleProjectSchema, "movie", MovieElements>("movie", {
 	title: elementDef.text,
 	rating: elementDef.number,
 	synopsis: elementDef.richText,

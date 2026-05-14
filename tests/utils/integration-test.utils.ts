@@ -9,7 +9,7 @@ import {
 } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { expect, it } from "vitest";
-import type { ZodType } from "zod";
+import type { ZodMiniType } from "zod/mini";
 import type { DeliveryClient, DeliveryClientSchema, DeliveryEndpoint } from "../../lib/models/core.models.js";
 import { DeliverySdkError } from "../../lib/models/error.models.js";
 import { createDeliveryClient } from "../../lib/public_api.js";
@@ -29,7 +29,7 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 	selectQuery,
 	expectedSchema,
 }: {
-	readonly expectedSchema: ZodType<TResponsePayload>;
+	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly endpoint: DeliveryEndpoint;
 	readonly unitTestPayload: TResponsePayload;
 	readonly selectQuery: SelectQuery<TResponsePayload>;
@@ -68,7 +68,7 @@ async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
 	readonly integrationEnvironmentId: string;
 	readonly endpoint: DeliveryEndpoint;
 	readonly selectQuery: SelectQuery<TResponsePayload>;
-	readonly expectedSchema: ZodType<TResponsePayload>;
+	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly unitTestPayload: TResponsePayload;
 }): Promise<void> {
 	const { testType, testName } = createTestMetadata({
@@ -183,7 +183,7 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly success: boolean;
 	readonly error: unknown;
-	readonly expectedSchema: ZodType<TResponsePayload>;
+	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly unitTestPayload: TResponsePayload;
 	readonly testType: TestType;
 }): void {
@@ -226,7 +226,7 @@ function registerResponseValidationTests<TResponsePayload extends JsonValue>({
 	readonly testName: string;
 	readonly success: boolean;
 	readonly error: unknown;
-	readonly expectedSchema: ZodType<TResponsePayload>;
+	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly testType: TestType;
 	readonly unitTestPayload: TResponsePayload;
@@ -264,7 +264,7 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	readonly testName: string;
 	readonly testType: TestType;
 	readonly unitTestPayload: TResponsePayload;
-	readonly expectedSchema: ZodType<TResponsePayload>;
+	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly pagingResponses: readonly { readonly payload: TResponsePayload }[] | undefined;
 	readonly pagingSuccess: boolean;
@@ -298,7 +298,7 @@ function registerPagingResponseTests<TResponsePayload extends JsonValue>({
 	readonly testName: string;
 	readonly pagingSuccess: boolean;
 	readonly pagingError: unknown;
-	readonly expectedSchema: ZodType<TResponsePayload>;
+	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly testType: TestType;
 	readonly pagingResponses: readonly { readonly payload: TResponsePayload }[] | undefined;

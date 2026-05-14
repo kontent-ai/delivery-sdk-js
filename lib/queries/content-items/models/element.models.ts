@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import type * as z from "zod/mini";
 import type { assetValueSchema, contentItemElementSchema } from "../schemas/element.schemas.js";
 
 export type Asset = z.infer<typeof assetValueSchema>;

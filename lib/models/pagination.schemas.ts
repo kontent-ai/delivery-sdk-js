@@ -1,6 +1,6 @@
-import { z } from "zod";
+import * as z from "zod/mini";
 
-const nextPageSchema = z.url().or(z.literal(""));
+const nextPageSchema = z.union([z.url(), z.literal("")]);
 
 const paginationObjectSchema = z.object({
 	skip: z.number(),
@@ -10,14 +10,14 @@ const paginationObjectSchema = z.object({
 });
 
 export const paginationSchema = z.object({
-	pagination: paginationObjectSchema.readonly(),
+	pagination: z.readonly(paginationObjectSchema),
 });
 
 export const paginationWithTotalCountSchema = z.object({
-	pagination: z
-		.object({
+	pagination: z.readonly(
+		z.object({
 			...paginationObjectSchema.shape,
-			total_count: z.number().optional(),
-		})
-		.readonly(),
+			total_count: z.optional(z.number()),
+		}),
+	),
 });

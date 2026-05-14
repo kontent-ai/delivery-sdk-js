@@ -1,4 +1,4 @@
-import type { z } from "zod";
+import type * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import type { listTaxonomiesSchema, taxonomySchema, taxonomyTermSchema } from "../schemas/taxonomy.schemas.js";
 
