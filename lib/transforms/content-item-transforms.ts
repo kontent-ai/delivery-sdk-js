@@ -24,17 +24,17 @@ function extractToMapByCodename<TSchema extends DeliveryClientSchema>({
 
 export function resolveExtendedItems<TSchema extends DeliveryClientSchema>({
 	inputItems,
-	modular_content,
+	modularContent,
 }: {
 	readonly inputItems: readonly ContentItemPayload<TSchema>[];
-	readonly modular_content: Readonly<Record<string, ContentItemPayload<TSchema>>>;
+	readonly modularContent: Readonly<Record<string, ContentItemPayload<TSchema>>>;
 }): {
 	readonly extendedItems: readonly ContentItemPayloadExtended<TSchema>[];
 	readonly extendedModularContent: Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
 } {
 	const allInputItems = extractToMapByCodename({
 		items: inputItems,
-		modular_content,
+		modular_content: modularContent,
 	});
 	const preparedItems = new Map<string, ContentItemPayloadExtended<TSchema>>(
 		allInputItems.entries().map(([codename, item]) => [codename, { system: item.system, elements: {} }]),
@@ -68,6 +68,7 @@ export function resolveExtendedItems<TSchema extends DeliveryClientSchema>({
 
 	return {
 		extendedItems: inputItems.map((item) => preparedItems.get(item.system.codename)).filter(isDefined),
-		extendedModularContent: Object.fromEntries(preparedItems.entries()),
+		// filter only items that were initially present in the modular_content
+		extendedModularContent: Object.fromEntries(preparedItems.entries().filter(([key]) => modularContent[key])),
 	};
 }

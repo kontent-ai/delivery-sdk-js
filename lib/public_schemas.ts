@@ -1,15 +1,24 @@
 // biome-ignore lint/performance/noBarrelFile: One barrel for the schemas subpath is fine
 export {
 	contentItemSchema,
+	contentItemSchemaExtended,
 	contentItemSystemSchema,
 	contentItemSystemWithCodename,
 	fetchContentItemSchema,
+	fetchContentItemSchemaExtended,
 	itemsFeedSchema,
+	itemsFeedSchemaExtended,
 	itemsReferencingAssetSchema,
 	itemsReferencingItemSchema,
 	listContentItemsSchema,
+	listContentItemsSchemaExtended,
 } from "./queries/content-items/schemas/content-item.schemas.js";
-export { assetValueSchema, contentItemElementSchema, elementDef } from "./queries/content-items/schemas/element.schemas.js";
+export {
+	assetValueSchema,
+	contentItemElementSchema,
+	contentItemElementSchemaExtended,
+	elementDef,
+} from "./queries/content-items/schemas/element.schemas.js";
 export {
 	contentTypeElementSchema,
 	contentTypeSchema,

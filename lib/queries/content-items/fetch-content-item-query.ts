@@ -53,7 +53,7 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchemaExtended<TSchema>(),
 		transform: (payload) => {
 			const { extendedItems, extendedModularContent } = resolveExtendedItems({
-				modular_content: payload.modular_content,
+				modularContent: payload.modular_content,
 				inputItems: [payload.item],
 			});
 
