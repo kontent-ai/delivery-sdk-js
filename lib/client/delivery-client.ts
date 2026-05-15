@@ -23,26 +23,6 @@ import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries
  *
  * We highly recommend generating the schema type using the `@kontent-ai/model-generator` npm package
  * and passing it as the type argument for full compile-time safety.
- *
- * By enabling the response validation, you can also achieve run-time type safety.
- *
- * @example
- * With schema – narrow codename types
- *
- * type MySchema = DeliveryClientSchema<{ readonly languageCodenames: readonly ["en-us", "es-es"]; ... }>;
- *
- * const client = createDeliveryClient<MySchema>({
- *   apiMode: "public",
- *   environmentId: "x",
- * });
- *
- * @example
- * Without schema – codenames are string
- *
- * const client = createDeliveryClient({
- *   apiMode: "public",
- *   environmentId: "x",
- * });
  */
 export function createDeliveryClient<const TSchema extends DeliveryClientSchema = DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
