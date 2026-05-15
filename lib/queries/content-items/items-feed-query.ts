@@ -11,14 +11,15 @@ import type {
 	ElementSelectionQueryParam,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
-import { createDeliveryPagedByTokenQuery } from "../delivery-queries.js";
-import type { ContentItemPayload, ItemsFeedPayload } from "./models/content-item.models.js";
+import { resolveExtendedItemsArray } from "../../transforms/content-item-transforms.js";
+import { createDeliveryPagedByTokenQuery, transformDeliveryPagedByTokenQuery } from "../delivery-queries.js";
+import type { ContentItemPayload, ItemsFeedPayloadExtended } from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
 
 export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
-	ItemsFeedPayload<TSchema>,
+	ItemsFeedPayloadExtended<TSchema>,
 	DeliveryMetadataWithToken
 >;
 
@@ -55,10 +56,24 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ItemsFeedQueryRequest<TSchema>,
 ): ItemsFeedQuery<TSchema> {
-	return createDeliveryPagedByTokenQuery({
+	return transformDeliveryPagedByTokenQuery({
 		config,
-		request,
-		schema: async () => (await import("./schemas/content-item.schemas.js")).itemsFeedSchema<TSchema>(),
-		endpoint: "items-feed",
+		query: createDeliveryPagedByTokenQuery({
+			config,
+			request,
+			schema: async () => (await import("./schemas/content-item.schemas.js")).itemsFeedSchema<TSchema>(),
+			endpoint: "items-feed",
+		}),
+		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).itemsFeedSchemaExtended<TSchema>(),
+		transform: (payload) => {
+			const { extendedItems, extendedModularContent } = resolveExtendedItemsArray({
+				modularContent: payload.modular_content,
+				inputItems: payload.items,
+			});
+			return {
+				items: extendedItems,
+				modular_content: extendedModularContent,
+			};
+		},
 	});
 }

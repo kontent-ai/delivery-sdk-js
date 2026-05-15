@@ -140,6 +140,35 @@ export function transformDeliveryPagedByUrlQuery<TPayload extends PaginationPayl
 	});
 }
 
+export function transformDeliveryPagedByTokenQuery<TPayload extends JsonValue, TTransformedPayload extends TPayload>({
+	config,
+	query,
+	transform,
+	transformSchema,
+}: {
+	readonly query: PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps>;
+} & Pick<
+	Parameters<
+		typeof transformPagedFetchQuery<
+			TPayload,
+			TTransformedPayload,
+			DeliverySdkError,
+			DeliveryMetadataWithToken,
+			unknown,
+			TokenPagingDeliveryExtraResponseProps
+		>
+	>[0],
+	"transform" | "transformSchema" | "config"
+>): PagedFetchQuery<TTransformedPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps> {
+	return transformPagedFetchQuery({
+		query,
+		transform,
+		transformSchema,
+		mapError: mapDeliveryError,
+		config,
+	});
+}
+
 function getSharedRequestData<TPayload extends JsonValue>({
 	config,
 	endpoint,
