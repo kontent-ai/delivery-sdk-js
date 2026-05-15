@@ -10,10 +10,11 @@ import type {
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
 	SystemOrderQueryParam,
+	WithRaw,
 } from "../../models/request.models.js";
 import { resolveExtendedItemsArray } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByTokenQuery, transformDeliveryPagedByTokenQuery } from "../delivery-queries.js";
-import type { ContentItemPayload, ItemsFeedPayloadExtended } from "./models/content-item.models.js";
+import type { ContentItemPayload, ItemsFeedPayload, ItemsFeedPayloadExtended } from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
@@ -21,7 +22,8 @@ type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSche
 export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
 	ItemsFeedPayloadExtended<TSchema>,
 	DeliveryMetadataWithToken
->;
+> &
+	WithRaw<DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>, DeliveryMetadataWithToken>>;
 
 export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
 	{
@@ -56,14 +58,15 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ItemsFeedQueryRequest<TSchema>,
 ): ItemsFeedQuery<TSchema> {
-	return transformDeliveryPagedByTokenQuery({
+	const rawQuery = createDeliveryPagedByTokenQuery<ItemsFeedPayload<TSchema>>({
 		config,
-		query: createDeliveryPagedByTokenQuery({
-			config,
-			request,
-			schema: async () => (await import("./schemas/content-item.schemas.js")).itemsFeedSchema<TSchema>(),
-			endpoint: "items-feed",
-		}),
+		request,
+		schema: async () => (await import("./schemas/content-item.schemas.js")).itemsFeedSchema<TSchema>(),
+		endpoint: "items-feed",
+	});
+	const extendedQuery = transformDeliveryPagedByTokenQuery({
+		config,
+		query: rawQuery,
 		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).itemsFeedSchemaExtended<TSchema>(),
 		transform: (payload) => {
 			const { extendedItems, extendedModularContent } = resolveExtendedItemsArray({
@@ -76,4 +79,5 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 			};
 		},
 	});
+	return { ...extendedQuery, raw: () => rawQuery };
 }

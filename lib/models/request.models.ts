@@ -40,6 +40,10 @@ export type DeliveryRequestWithCodename<
 
 export type QueryParameterRecord = Record<string, string | number | boolean | undefined | readonly string[]>;
 
+export type WithRaw<TRawQuery> = {
+	readonly raw: () => TRawQuery;
+};
+
 export type DeliveryRequestConfig = {
 	/**
 	 * Additional headers to be added to the request.

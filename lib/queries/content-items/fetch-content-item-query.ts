@@ -1,13 +1,14 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
-import type { DeliveryRequestWithCodename, ElementSelectionQueryParam } from "../../models/request.models.js";
+import type { DeliveryRequestWithCodename, ElementSelectionQueryParam, WithRaw } from "../../models/request.models.js";
 import { resolveExtendedItem } from "../../transforms/content-item-transforms.js";
 import { createDeliveryFetchQuery, transformDeliveryFetchQuery } from "../delivery-queries.js";
-import type { FetchContentItemPayloadExtended } from "./models/content-item.models.js";
+import type { FetchContentItemPayload, FetchContentItemPayloadExtended } from "./models/content-item.models.js";
 
 export type FetchContentItemQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
 	FetchContentItemPayloadExtended<TSchema>,
 	DeliveryMetadata
->;
+> &
+	WithRaw<DeliveryFetchQuery<FetchContentItemPayload<TSchema>, DeliveryMetadata>>;
 
 export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
 	readonly string[],
@@ -42,14 +43,15 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request: FetchContentItemQueryRequest<TSchema>,
 ): FetchContentItemQuery<TSchema> {
-	return transformDeliveryFetchQuery({
+	const rawQuery = createDeliveryFetchQuery<FetchContentItemPayload<TSchema>>({
 		config,
-		query: createDeliveryFetchQuery({
-			config,
-			request,
-			schema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchema<TSchema>(),
-			endpoint: `items/${request.codename}`,
-		}),
+		request,
+		schema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchema<TSchema>(),
+		endpoint: `items/${request.codename}`,
+	});
+	const extendedQuery = transformDeliveryFetchQuery({
+		config,
+		query: rawQuery,
 		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchemaExtended<TSchema>(),
 		transform: (payload) => {
 			const { extendedItem, extendedModularContent } = resolveExtendedItem({
@@ -63,4 +65,5 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 			};
 		},
 	});
+	return { ...extendedQuery, raw: () => rawQuery };
 }

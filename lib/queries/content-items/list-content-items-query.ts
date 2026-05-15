@@ -5,10 +5,11 @@ import type {
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
 	SystemOrderQueryParam,
+	WithRaw,
 } from "../../models/request.models.js";
 import { resolveExtendedItemsArray } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByUrlQuery, transformDeliveryPagedByUrlQuery } from "../delivery-queries.js";
-import type { ContentItemPayload, ListContentItemsPayloadExtended } from "./models/content-item.models.js";
+import type { ContentItemPayload, ListContentItemsPayload, ListContentItemsPayloadExtended } from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
@@ -16,7 +17,8 @@ type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSche
 export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
 	ListContentItemsPayloadExtended<TSchema>,
 	DeliveryMetadata
->;
+> &
+	WithRaw<DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>, DeliveryMetadata>>;
 
 export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
 	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ElementProperties<TSchema>>,
@@ -58,14 +60,15 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ListContentItemsQueryRequest<TSchema>,
 ): ListContentItemsQuery<TSchema> {
-	return transformDeliveryPagedByUrlQuery({
+	const rawQuery = createDeliveryPagedByUrlQuery<ListContentItemsPayload<TSchema>>({
 		config,
-		query: createDeliveryPagedByUrlQuery({
-			config,
-			request,
-			schema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchema<TSchema>(),
-			endpoint: "items",
-		}),
+		request,
+		schema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchema<TSchema>(),
+		endpoint: "items",
+	});
+	const extendedQuery = transformDeliveryPagedByUrlQuery({
+		config,
+		query: rawQuery,
 		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchemaExtended<TSchema>(),
 		transform: (payload) => {
 			const { extendedItems, extendedModularContent } = resolveExtendedItemsArray({
@@ -79,4 +82,5 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 			};
 		},
 	});
+	return { ...extendedQuery, raw: () => rawQuery };
 }
