@@ -7,6 +7,7 @@ import {
 	type JsonValue,
 	type PagedFetchQuery,
 	transformFetchQuery,
+	transformPagedFetchQuery,
 } from "@kontent-ai/core-sdk";
 import type { ZodMiniType } from "zod/mini";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
@@ -102,6 +103,35 @@ export function transformDeliveryFetchQuery<TPayload extends JsonValue, TTransfo
 	"transform" | "transformSchema" | "config"
 >): FetchQuery<TTransformedPayload, DeliverySdkError, DeliveryMetadata, unknown> {
 	return transformFetchQuery({
+		query,
+		transform,
+		transformSchema,
+		mapError: mapDeliveryError,
+		config,
+	});
+}
+
+export function transformDeliveryPagedByUrlQuery<TPayload extends PaginationPayload, TTransformedPayload extends TPayload>({
+	config,
+	query,
+	transform,
+	transformSchema,
+}: {
+	readonly query: PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps>;
+} & Pick<
+	Parameters<
+		typeof transformPagedFetchQuery<
+			TPayload,
+			TTransformedPayload,
+			DeliverySdkError,
+			DeliveryMetadata,
+			unknown,
+			UrlPagingDeliveryExtraResponseProps
+		>
+	>[0],
+	"transform" | "transformSchema" | "config"
+>): PagedFetchQuery<TTransformedPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps> {
+	return transformPagedFetchQuery({
 		query,
 		transform,
 		transformSchema,

@@ -1,6 +1,6 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam } from "../../models/request.models.js";
-import { resolveExtendedItems } from "../../transforms/content-item-transforms.js";
+import { resolveExtendedItem } from "../../transforms/content-item-transforms.js";
 import { createDeliveryFetchQuery, transformDeliveryFetchQuery } from "../delivery-queries.js";
 import type { FetchContentItemPayloadExtended } from "./models/content-item.models.js";
 
@@ -52,16 +52,10 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 		}),
 		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchemaExtended<TSchema>(),
 		transform: (payload) => {
-			const { extendedItems, extendedModularContent } = resolveExtendedItems({
+			const { extendedItem, extendedModularContent } = resolveExtendedItem({
 				modularContent: payload.modular_content,
-				inputItems: [payload.item],
+				inputItem: payload.item,
 			});
-
-			const extendedItem = extendedItems[0];
-
-			if (!extendedItem) {
-				throw new Error("Could not resolve extended item. This is a SDK related issue. Please, report it to the developers.");
-			}
 
 			return {
 				item: extendedItem,

@@ -6,14 +6,15 @@ import type {
 	ElementSelectionQueryParam,
 	SystemOrderQueryParam,
 } from "../../models/request.models.js";
-import { createDeliveryPagedByUrlQuery } from "../delivery-queries.js";
-import type { ContentItemPayload, ListContentItemsPayload } from "./models/content-item.models.js";
+import { resolveExtendedItemsArray } from "../../transforms/content-item-transforms.js";
+import { createDeliveryPagedByUrlQuery, transformDeliveryPagedByUrlQuery } from "../delivery-queries.js";
+import type { ContentItemPayload, ListContentItemsPayloadExtended } from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
 
 export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
-	ListContentItemsPayload<TSchema>,
+	ListContentItemsPayloadExtended<TSchema>,
 	DeliveryMetadata
 >;
 
@@ -57,10 +58,25 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig<TSchema>,
 	request?: ListContentItemsQueryRequest<TSchema>,
 ): ListContentItemsQuery<TSchema> {
-	return createDeliveryPagedByUrlQuery({
+	return transformDeliveryPagedByUrlQuery({
 		config,
-		request,
-		schema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchema<TSchema>(),
-		endpoint: "items",
+		query: createDeliveryPagedByUrlQuery({
+			config,
+			request,
+			schema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchema<TSchema>(),
+			endpoint: "items",
+		}),
+		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchemaExtended<TSchema>(),
+		transform: (payload) => {
+			const { extendedItems, extendedModularContent } = resolveExtendedItemsArray({
+				modularContent: payload.modular_content,
+				inputItems: payload.items,
+			});
+			return {
+				items: extendedItems,
+				modular_content: extendedModularContent,
+				pagination: payload.pagination,
+			};
+		},
 	});
 }

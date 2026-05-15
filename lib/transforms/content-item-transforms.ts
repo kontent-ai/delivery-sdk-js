@@ -59,7 +59,7 @@ function resolveExtendedElement<TSchema extends DeliveryClientSchema>(
 		.otherwise((element) => element);
 }
 
-export function resolveExtendedItems<TSchema extends DeliveryClientSchema>({
+function resolveExtendedItems<TSchema extends DeliveryClientSchema>({
 	inputItems,
 	modularContent,
 }: {
@@ -100,4 +100,34 @@ export function resolveExtendedItems<TSchema extends DeliveryClientSchema>({
 			{},
 		),
 	};
+}
+
+export function resolveExtendedItemsArray<TSchema extends DeliveryClientSchema>(params: {
+	readonly inputItems: readonly ContentItemPayload<TSchema>[];
+	readonly modularContent: Readonly<Record<string, ContentItemPayload<TSchema>>>;
+}): {
+	readonly extendedItems: readonly ContentItemPayloadExtended<TSchema>[];
+	readonly extendedModularContent: Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
+} {
+	return resolveExtendedItems(params);
+}
+
+export function resolveExtendedItem<TSchema extends DeliveryClientSchema>({
+	inputItem,
+	modularContent,
+}: {
+	readonly inputItem: ContentItemPayload<TSchema>;
+	readonly modularContent: Readonly<Record<string, ContentItemPayload<TSchema>>>;
+}): {
+	readonly extendedItem: ContentItemPayloadExtended<TSchema>;
+	readonly extendedModularContent: Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
+} {
+	const { extendedItems, extendedModularContent } = resolveExtendedItems({
+		inputItems: [inputItem],
+		modularContent,
+	});
+	// We wrapped a single item; the internal helper preserves order and length,
+	// so extendedItems[0] is guaranteed defined here by construction.
+	const [extendedItem] = extendedItems as readonly [ContentItemPayloadExtended<TSchema>];
+	return { extendedItem, extendedModularContent };
 }
