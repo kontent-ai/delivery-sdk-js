@@ -6,7 +6,7 @@ import { runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
 import unitTestPayload from "./fetch-content-item-query.payload.js";
 
 describe("Fetch content item query", async () => {
-	const codename = "brad_pitt";
+	const codename = unitTestPayload.item.system.codename;
 	await runQueryTestsAsync<FetchContentItemPayload<DeliveryClientSchema>>({
 		endpoint: `items/${codename}`,
 		unitTestPayload,

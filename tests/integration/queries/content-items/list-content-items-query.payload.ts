@@ -348,6 +348,6 @@ export default {
 		skip: 0,
 		limit: 2,
 		count: 2,
-		next_page: "https://deliver.kontent.ai/6bdd84fc-f71e-01a0-0ba6-79ce07af7f9b/items?system.type=movie&limit=2&skip=2",
+		next_page: "",
 	},
 } satisfies ListContentItemsPayload<DeliveryClientSchema>;
