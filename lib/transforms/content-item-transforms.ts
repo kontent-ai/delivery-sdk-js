@@ -29,22 +29,23 @@ function getIntermediateMap<TSchema extends DeliveryClientSchema>({
 	);
 }
 
+function resolveCodenamesToPreparedItems<TSchema extends DeliveryClientSchema>(
+	codenames: readonly string[],
+	intermediateRecords: Readonly<Map<string, IntermediateRecord<TSchema>>>,
+): readonly ContentItemPayloadExtended<TSchema>[] {
+	return codenames.reduce<ContentItemPayloadExtended<TSchema>[]>((preparedItems, codename) => {
+		const record = intermediateRecords.get(codename);
+		if (record) {
+			preparedItems.push(record.preparedItem);
+		}
+		return preparedItems;
+	}, []);
+}
+
 function resolveExtendedElement<TSchema extends DeliveryClientSchema>(
 	element: ContentItemElementPayload,
 	intermediateRecords: Readonly<Map<string, IntermediateRecord<TSchema>>>,
 ): ContentItemElementPayloadExtended {
-	const resolveCodenamesToPreparedItems = <TSchema extends DeliveryClientSchema>(
-		codenames: readonly string[],
-		intermediateRecords: Readonly<Map<string, IntermediateRecord<TSchema>>>,
-	): readonly ContentItemPayloadExtended<TSchema>[] =>
-		codenames.reduce<ContentItemPayloadExtended<TSchema>[]>((preparedItems, codename) => {
-			const record = intermediateRecords.get(codename);
-			if (record) {
-				preparedItems.push(record.preparedItem);
-			}
-			return preparedItems;
-		}, []);
-
 	return match(element)
 		.returnType<ContentItemElementPayloadExtended>()
 		.with({ type: "modular_content" }, (linkedItemElement) => ({
