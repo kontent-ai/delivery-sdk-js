@@ -8,8 +8,12 @@ import unitTestPayload from "./items-feed-query.payload.js";
 describe("Items feed query", async () => {
 	await runQueryTestsAsync<ItemsFeedPayload<DeliveryClientSchema>>({
 		endpoint: "items-feed",
-		unitTestPayload,
+		rawPayload: unitTestPayload,
 		selectQuery: (client) => client.itemsFeed().raw(),
 		expectedSchema: itemsFeedSchema(),
+		extendedQuery: {
+			selectQuery: (client) => client.itemsFeed(),
+			expectedSchema: itemsFeedSchema(),
+		},
 	});
 });

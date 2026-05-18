@@ -3,13 +3,13 @@ import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js
 import type { ContentTypePayload } from "../../../../lib/queries/content-types/models/content-type.models.js";
 import { contentTypeSchema } from "../../../../lib/queries/content-types/schemas/content-type.schemas.js";
 import { runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
-import unitTestPayload from "./fetch-content-type-query.payload.js";
+import rawPayload from "./fetch-content-type-query.payload.js";
 
 describe("Fetch content type query", async () => {
 	const codename = "movie";
 	await runQueryTestsAsync<ContentTypePayload<DeliveryClientSchema>>({
 		endpoint: `types/${codename}`,
-		unitTestPayload,
+		rawPayload,
 		selectQuery: (client) => client.fetchContentType({ codename: codename }),
 		expectedSchema: contentTypeSchema(),
 	});

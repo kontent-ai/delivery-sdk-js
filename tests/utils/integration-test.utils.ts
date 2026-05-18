@@ -25,19 +25,24 @@ type SelectQuery<TResponsePayload extends JsonValue> = (
 
 export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 	endpoint,
-	unitTestPayload,
+	rawPayload,
 	selectQuery,
 	expectedSchema,
+	extendedQuery,
 }: {
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly endpoint: DeliveryEndpoint;
-	readonly unitTestPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload | undefined;
 	readonly selectQuery: SelectQuery<TResponsePayload>;
+	readonly extendedQuery?: {
+		readonly expectedSchema: ZodMiniType<JsonValue>;
+		readonly selectQuery: SelectQuery<JsonValue>;
+	};
 }): Promise<void> {
 	const integrationTestConfig = getIntegrationTestConfig();
 
 	const clients = createTestClients({
-		unitTestPayload,
+		rawPayload,
 		environmentId: integrationTestConfig.env.id,
 		deliveryBaseUrl: integrationTestConfig.env.deliveryBaseUrl,
 	});
@@ -49,11 +54,44 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 			endpoint,
 			selectQuery,
 			expectedSchema,
-			unitTestPayload,
+			rawPayload,
+		});
+	}
+
+	if (extendedQuery) {
+		await runExtendedQueryTestsAsync({
+			expectedSchema: extendedQuery.expectedSchema,
+			selectQuery: extendedQuery.selectQuery,
+			environmentId: integrationTestConfig.env.id,
+			deliveryBaseUrl: integrationTestConfig.env.deliveryBaseUrl,
+			endpoint,
 		});
 	}
 
 	await runFailingClientQueryTestAsync({ endpoint, selectQuery });
+}
+
+async function runExtendedQueryTestsAsync({
+	expectedSchema,
+	selectQuery,
+	environmentId,
+	deliveryBaseUrl,
+	endpoint,
+}: {
+	readonly endpoint: DeliveryEndpoint;
+	readonly expectedSchema: ZodMiniType<JsonValue>;
+	readonly selectQuery: SelectQuery<JsonValue>;
+	readonly environmentId: string;
+	readonly deliveryBaseUrl: BaseUrl | undefined;
+}): Promise<void> {
+	await runClientQueryTestsAsync({
+		client: createIntegrationTestClient(environmentId, deliveryBaseUrl),
+		integrationEnvironmentId: environmentId,
+		endpoint,
+		selectQuery,
+		expectedSchema,
+		rawPayload: undefined,
+	});
 }
 
 async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
@@ -62,14 +100,14 @@ async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
 	endpoint,
 	selectQuery,
 	expectedSchema,
-	unitTestPayload,
+	rawPayload,
 }: {
 	readonly client: DeliveryClient<DeliveryClientSchema>;
 	readonly integrationEnvironmentId: string;
 	readonly endpoint: DeliveryEndpoint;
 	readonly selectQuery: SelectQuery<TResponsePayload>;
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
-	readonly unitTestPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload;
 }): Promise<void> {
 	const { testType, testName } = createTestMetadata({
 		clientEnvironmentId: client.config.environmentId,
@@ -79,14 +117,14 @@ async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
 
 	const { query, response, success, error } = await executeDefaultQueryAsync({ client, selectQuery });
 
-	registerBaseTests({ testName, endpoint, client, query, response, success, error, expectedSchema, unitTestPayload, testType });
+	registerBaseTests({ testName, endpoint, client, query, response, success, error, expectedSchema, rawPayload, testType });
 
 	if (isPagingQuery(query)) {
 		registerPagingTests({
 			query,
 			testName,
 			testType,
-			unitTestPayload,
+			rawPayload,
 			expectedSchema,
 			response,
 			...(await executePagingQueryAsync<TResponsePayload>({ query })),
@@ -108,7 +146,7 @@ function createFailingUnitTestClient(): DeliveryClient<DeliveryClientSchema> {
 	});
 }
 
-function createUnitTestClient<TResponsePayload extends JsonValue>(unitTestPayload: TResponsePayload): DeliveryClient<DeliveryClientSchema> {
+function createUnitTestClient<TResponsePayload extends JsonValue>(rawPayload: TResponsePayload): DeliveryClient<DeliveryClientSchema> {
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
@@ -116,7 +154,7 @@ function createUnitTestClient<TResponsePayload extends JsonValue>(unitTestPayloa
 			validateResponses: true,
 		},
 		httpService: getTestHttpServiceWithJsonResponse({
-			jsonResponse: unitTestPayload,
+			jsonResponse: rawPayload,
 			statusCode: 200,
 		}),
 	});
@@ -134,15 +172,15 @@ function createIntegrationTestClient(environmentId: string, deliveryBaseUrl: Bas
 }
 
 function createTestClients<TResponsePayload extends JsonValue>({
-	unitTestPayload,
+	rawPayload,
 	environmentId,
 	deliveryBaseUrl,
 }: {
-	readonly unitTestPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload;
 	readonly environmentId: string;
 	readonly deliveryBaseUrl: BaseUrl | undefined;
 }): readonly DeliveryClient<DeliveryClientSchema>[] {
-	return [createUnitTestClient(unitTestPayload), createIntegrationTestClient(environmentId, deliveryBaseUrl)];
+	return [createUnitTestClient(rawPayload), createIntegrationTestClient(environmentId, deliveryBaseUrl)];
 }
 
 function createTestMetadata({
@@ -173,7 +211,7 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 	success,
 	error,
 	expectedSchema,
-	unitTestPayload,
+	rawPayload,
 	testType,
 }: {
 	readonly testName: string;
@@ -184,11 +222,11 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 	readonly success: boolean;
 	readonly error: unknown;
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
-	readonly unitTestPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload;
 	readonly testType: TestType;
 }): void {
 	registerQueryStructureTests({ testName, query, endpoint, client });
-	registerResponseValidationTests({ testName, success, error, expectedSchema, response, testType, unitTestPayload });
+	registerResponseValidationTests({ testName, success, error, expectedSchema, response, testType, rawPayload });
 }
 
 function registerQueryStructureTests<TResponsePayload extends JsonValue>({
@@ -221,7 +259,7 @@ function registerResponseValidationTests<TResponsePayload extends JsonValue>({
 	expectedSchema,
 	response,
 	testType,
-	unitTestPayload,
+	rawPayload,
 }: {
 	readonly testName: string;
 	readonly success: boolean;
@@ -229,7 +267,7 @@ function registerResponseValidationTests<TResponsePayload extends JsonValue>({
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly testType: TestType;
-	readonly unitTestPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload;
 }): void {
 	it(`${testName} Response should be successful`, () => {
 		expect(error).toBeUndefined();
@@ -240,9 +278,9 @@ function registerResponseValidationTests<TResponsePayload extends JsonValue>({
 		expect(parseError).toBeUndefined();
 		expect(parseSuccess).toBeTruthy();
 	});
-	if (testType === "Unit") {
+	if (testType === "Unit" && rawPayload) {
 		it(`${testName} Payload should be equal to unit test payload`, () => {
-			expect(response?.payload).toEqual(unitTestPayload);
+			expect(response?.payload).toEqual(rawPayload);
 		});
 	}
 }
@@ -251,7 +289,7 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	query,
 	testName,
 	testType,
-	unitTestPayload,
+	rawPayload,
 	expectedSchema,
 	response,
 	pagingResponses,
@@ -263,7 +301,7 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	readonly query: PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 	readonly testName: string;
 	readonly testType: TestType;
-	readonly unitTestPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload;
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly pagingResponses: readonly { readonly payload: TResponsePayload }[] | undefined;
@@ -280,9 +318,9 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 		response,
 		testType,
 		pagingResponses,
-		unitTestPayload,
+		rawPayload,
 	});
-	registerPagingIteratorTests({ testName, query, iteratorPayloads, maxPagesCount, testType, unitTestPayload });
+	registerPagingIteratorTests({ testName, query, iteratorPayloads, maxPagesCount, testType, rawPayload });
 }
 
 function registerPagingResponseTests<TResponsePayload extends JsonValue>({
@@ -293,7 +331,7 @@ function registerPagingResponseTests<TResponsePayload extends JsonValue>({
 	response,
 	testType,
 	pagingResponses,
-	unitTestPayload,
+	rawPayload,
 }: {
 	readonly testName: string;
 	readonly pagingSuccess: boolean;
@@ -302,7 +340,7 @@ function registerPagingResponseTests<TResponsePayload extends JsonValue>({
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly testType: TestType;
 	readonly pagingResponses: readonly { readonly payload: TResponsePayload }[] | undefined;
-	readonly unitTestPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload;
 }): void {
 	it(`${testName} Response should be successful`, () => {
 		expect(pagingError).toBeUndefined();
@@ -316,7 +354,7 @@ function registerPagingResponseTests<TResponsePayload extends JsonValue>({
 	if (testType === "Unit") {
 		const firstResponse = pagingResponses?.[0];
 		it(`${testName} First paging response payload should match unit test payload`, () => {
-			expect(firstResponse?.payload).toEqual(unitTestPayload);
+			expect(firstResponse?.payload).toEqual(rawPayload);
 		});
 	}
 }
@@ -327,14 +365,14 @@ function registerPagingIteratorTests<TResponsePayload extends JsonValue>({
 	iteratorPayloads,
 	maxPagesCount,
 	testType,
-	unitTestPayload,
+	rawPayload,
 }: {
 	readonly testName: string;
 	readonly query: PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 	readonly iteratorPayloads: readonly TResponsePayload[];
 	readonly maxPagesCount: number;
 	readonly testType: TestType;
-	readonly unitTestPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload;
 }): void {
 	it(`${testName} Iterator responses should be equal to paging responses`, () => {
 		expect(iteratorPayloads.length).toEqual(maxPagesCount);
@@ -345,7 +383,7 @@ function registerPagingIteratorTests<TResponsePayload extends JsonValue>({
 	if (testType === "Unit") {
 		const firstIteratorResponse = iteratorPayloads?.[0];
 		it(`${testName} First iterator response payload should match schema`, () => {
-			expect(firstIteratorResponse).toEqual(unitTestPayload);
+			expect(firstIteratorResponse).toEqual(rawPayload);
 		});
 	}
 }
