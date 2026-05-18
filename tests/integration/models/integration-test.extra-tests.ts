@@ -1,9 +1,9 @@
 import { expect, it } from "vitest";
-import type { ContentItemPayload } from "../../../lib/public_api.js";
+import type { ContentItemPayloadExtended } from "../../../lib/queries/content-items/models/content-item.models.js";
 import { contentItemSchemaExtended } from "../../../lib/queries/content-items/schemas/content-item.schemas.js";
 import { type IntegrationTestProjectSchema, isMovie } from "./integration-test.schema.js";
 
-export function registerMovieCastExtraTests(items: readonly ContentItemPayload<IntegrationTestProjectSchema>[]): void {
+export function registerMovieCastExtraTests(items: readonly ContentItemPayloadExtended<IntegrationTestProjectSchema>[]): void {
 	it("There should be > 0 items", () => {
 		expect(items.length).toBeGreaterThan(0);
 	});
