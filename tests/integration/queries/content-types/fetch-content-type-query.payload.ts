@@ -1,5 +1,5 @@
-import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { ContentTypePayload } from "../../../../lib/queries/content-types/models/content-type.models.js";
+import type { IntegrationTestProjectSchema } from "../../models/integration-test.schema.js";
 
 export default {
 	system: {
@@ -66,4 +66,4 @@ export default {
 			value: null,
 		},
 	},
-} satisfies ContentTypePayload<DeliveryClientSchema>;
+} satisfies ContentTypePayload<IntegrationTestProjectSchema>;

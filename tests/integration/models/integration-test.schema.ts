@@ -17,6 +17,7 @@ export type IntegrationTestProjectSchema = DeliveryClientSchema<{
 		"cast",
 		"firstname",
 		"lastname",
+		"custom",
 	];
 	readonly collectionCodenames: readonly ["default"];
 	readonly workflowCodenames: readonly ["default"];
@@ -52,3 +53,5 @@ export function isMovie(item: ContentItemPayload<IntegrationTestProjectSchema>):
 export function isStar(item: ContentItemPayload<IntegrationTestProjectSchema>): item is Star {
 	return item.system.type === "star";
 }
+
+export type MovieTaxonomyTerms = "action" | "comedy" | "drama" | "thriller" | "sitcom" | "stand_up";

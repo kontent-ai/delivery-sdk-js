@@ -1,5 +1,5 @@
-import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { ListContentItemsPayload } from "../../../../lib/queries/content-items/models/content-item.models.js";
+import type { IntegrationTestProjectSchema } from "../../models/integration-test.schema.js";
 
 export default {
 	items: [
@@ -350,4 +350,4 @@ export default {
 		count: 2,
 		next_page: "",
 	},
-} satisfies ListContentItemsPayload<DeliveryClientSchema>;
+} satisfies ListContentItemsPayload<IntegrationTestProjectSchema>;

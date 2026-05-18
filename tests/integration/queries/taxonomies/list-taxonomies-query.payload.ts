@@ -1,5 +1,5 @@
-import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { ListTaxonomiesPayload } from "../../../../lib/queries/taxonomies/models/taxonomy.models.js";
+import type { IntegrationTestProjectSchema, MovieTaxonomyTerms } from "../../models/integration-test.schema.js";
 
 export default {
 	taxonomies: [
@@ -46,4 +46,4 @@ export default {
 		count: 1,
 		next_page: "",
 	},
-} satisfies ListTaxonomiesPayload<DeliveryClientSchema>;
+} satisfies ListTaxonomiesPayload<IntegrationTestProjectSchema, MovieTaxonomyTerms>;

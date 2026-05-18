@@ -1,5 +1,5 @@
-import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { ItemsFeedPayload } from "../../../../lib/queries/content-items/models/content-item.models.js";
+import type { IntegrationTestProjectSchema } from "../../models/integration-test.schema.js";
 
 export default {
 	items: [
@@ -3156,4 +3156,4 @@ export default {
 		},
 	],
 	modular_content: {},
-} satisfies ItemsFeedPayload<DeliveryClientSchema>;
+} satisfies ItemsFeedPayload<IntegrationTestProjectSchema>;

@@ -1,5 +1,5 @@
-import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { ListLanguagesPayload } from "../../../../lib/queries/languages/models/language.models.js";
+import type { IntegrationTestProjectSchema } from "../../models/integration-test.schema.js";
 
 export default {
 	languages: [
@@ -17,4 +17,4 @@ export default {
 		count: 1,
 		next_page: "",
 	},
-} satisfies ListLanguagesPayload<DeliveryClientSchema>;
+} satisfies ListLanguagesPayload<IntegrationTestProjectSchema>;

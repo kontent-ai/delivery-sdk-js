@@ -1,5 +1,5 @@
-import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { ItemsReferencingItemPayload } from "../../../../lib/queries/content-items/models/content-item.models.js";
+import type { IntegrationTestProjectSchema } from "../../models/integration-test.schema.js";
 
 export default {
 	items: [
@@ -17,4 +17,4 @@ export default {
 			},
 		},
 	],
-} satisfies ItemsReferencingItemPayload<DeliveryClientSchema>;
+} satisfies ItemsReferencingItemPayload<IntegrationTestProjectSchema>;
