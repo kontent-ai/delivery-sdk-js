@@ -2,7 +2,7 @@ import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import type { ContentItemPayload } from "../models/content-item.models.js";
-import { contentItemSchema } from "./content-item.schemas.js";
+import { contentItemSchemaExtended } from "./content-item.schemas.js";
 
 const multipleChoiceOptionSchema = <TCodename extends string = string>() =>
 	z.readonly(
@@ -133,7 +133,7 @@ export const elementDef = {
 			z.extend(baseElementSchemas.richText, {
 				items: z.readonly(
 					z.array(
-						z.custom<TAllowedItemTypes>((item) => contentItemSchema().safeParse(item).success, {
+						z.custom<TAllowedItemTypes>((item: unknown): boolean => contentItemSchemaExtended().safeParse(item).success, {
 							error: "Invalid referenced linked item",
 						}),
 					),
@@ -161,7 +161,7 @@ export const elementDef = {
 			z.extend(baseElementSchemas.linkedItems, {
 				items: z.readonly(
 					z.array(
-						z.custom<TAllowedItemTypes>((item) => contentItemSchema().safeParse(item).success, {
+						z.custom<TAllowedItemTypes>((item: unknown): boolean => contentItemSchemaExtended().safeParse(item).success, {
 							error: "Invalid referenced linked item",
 						}),
 					),
