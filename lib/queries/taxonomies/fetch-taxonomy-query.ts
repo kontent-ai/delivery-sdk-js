@@ -3,7 +3,10 @@ import type { DeliveryRequestWithCodename } from "../../models/request.models.js
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
 import type { TaxonomyPayload } from "./models/taxonomy.models.js";
 
-export type FetchTaxonomyQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<TaxonomyPayload<TSchema>, DeliveryMetadata>;
+export type FetchTaxonomyQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
+	TaxonomyPayload<TSchema, string>,
+	DeliveryMetadata
+>;
 
 export type FetchTaxonomyQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
 	NonNullable<TSchema["taxonomyCodenames"]>,
@@ -18,7 +21,7 @@ export function fetchTaxonomyQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: async () => (await import("./schemas/taxonomy.schemas.js")).taxonomySchema<TSchema>(),
+		schema: async () => (await import("./schemas/taxonomy.schemas.js")).taxonomySchema<TSchema, string>(),
 		endpoint: `taxonomies/${request.codename}`,
 	});
 }

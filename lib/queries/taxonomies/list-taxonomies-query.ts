@@ -5,11 +5,11 @@ import { createDeliveryPagedByUrlQuery } from "../delivery-queries.js";
 import type { ListTaxonomiesPayload, TaxonomyPayload } from "./models/taxonomy.models.js";
 
 export type ListTaxonomiesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
-	ListTaxonomiesPayload<TSchema>,
+	ListTaxonomiesPayload<TSchema, string>,
 	DeliveryMetadata
 >;
 
-type SystemProperties = keyof TaxonomyPayload<DeliveryClientSchema>["system"];
+type SystemProperties = keyof TaxonomyPayload<DeliveryClientSchema, string>["system"];
 
 export type ListTaxonomiesQueryRequest = DeliveryRequestWithUrlPaging<
 	SystemOrderQueryParam<SystemProperties>,
@@ -24,7 +24,7 @@ export function listTaxonomiesQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: async () => (await import("./schemas/taxonomy.schemas.js")).listTaxonomiesSchema<TSchema>(),
+		schema: async () => (await import("./schemas/taxonomy.schemas.js")).listTaxonomiesSchema<TSchema, string>(),
 		endpoint: "taxonomies",
 	});
 }
