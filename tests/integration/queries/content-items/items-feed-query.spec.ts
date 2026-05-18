@@ -11,9 +11,14 @@ describe("Items feed query", async () => {
 		rawPayload: unitTestPayload,
 		selectQuery: (client) => client.itemsFeed().raw(),
 		expectedSchema: itemsFeedSchema(),
-		extendedQuery: {
-			selectQuery: (client) => client.itemsFeed(),
-			expectedSchema: itemsFeedSchema(),
-		},
+	});
+});
+
+describe("Items feed query - extended", async () => {
+	await runQueryTestsAsync({
+		endpoint: "items-feed",
+		rawPayload: undefined,
+		selectQuery: (client) => client.itemsFeed(),
+		expectedSchema: itemsFeedSchema(),
 	});
 });

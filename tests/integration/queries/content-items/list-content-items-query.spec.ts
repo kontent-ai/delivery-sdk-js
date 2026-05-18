@@ -11,9 +11,14 @@ describe("List content items query", async () => {
 		rawPayload,
 		selectQuery: (client) => client.listContentItems().raw(),
 		expectedSchema: listContentItemsSchema(),
-		extendedQuery: {
-			selectQuery: (client) => client.listContentItems(),
-			expectedSchema: listContentItemsSchema(),
-		},
+	});
+});
+
+describe("List content items query - extended", async () => {
+	await runQueryTestsAsync({
+		endpoint: "items",
+		rawPayload: undefined,
+		selectQuery: (client) => client.listContentItems(),
+		expectedSchema: listContentItemsSchema(),
 	});
 });

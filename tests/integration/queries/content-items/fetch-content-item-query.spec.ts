@@ -17,10 +17,6 @@ describe("Fetch content item query", async () => {
 		rawPayload,
 		selectQuery: (client) => client.fetchContentItem({ codename }).raw(),
 		expectedSchema: fetchContentItemSchema(),
-		extendedQuery: {
-			expectedSchema: fetchContentItemSchemaExtended(),
-			selectQuery: (client) => client.fetchContentItem({ codename }),
-		},
 	});
 
 	const client = createDeliveryClient({ apiMode: "public", environmentId: getIntegrationTestConfig().env.id });
@@ -29,4 +25,14 @@ describe("Fetch content item query", async () => {
 	if (payload.item.elements.cast?.type === "modular_content") {
 		console.log(payload.item.elements.cast.items);
 	}
+});
+
+describe("Fetch content item query - extended", async () => {
+	const codename = rawPayload.item.system.codename;
+	await runQueryTestsAsync({
+		endpoint: `items/${codename}`,
+		rawPayload: undefined,
+		selectQuery: (client) => client.fetchContentItem({ codename }),
+		expectedSchema: fetchContentItemSchemaExtended(),
+	});
 });

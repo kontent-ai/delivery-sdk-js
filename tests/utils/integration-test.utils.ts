@@ -28,16 +28,11 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 	rawPayload,
 	selectQuery,
 	expectedSchema,
-	extendedQuery,
 }: {
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly endpoint: DeliveryEndpoint;
 	readonly rawPayload: TResponsePayload | undefined;
 	readonly selectQuery: SelectQuery<TResponsePayload>;
-	readonly extendedQuery?: {
-		readonly expectedSchema: ZodMiniType<JsonValue>;
-		readonly selectQuery: SelectQuery<JsonValue>;
-	};
 }): Promise<void> {
 	const integrationTestConfig = getIntegrationTestConfig();
 
@@ -58,40 +53,7 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 		});
 	}
 
-	if (extendedQuery) {
-		await runExtendedQueryTestsAsync({
-			expectedSchema: extendedQuery.expectedSchema,
-			selectQuery: extendedQuery.selectQuery,
-			environmentId: integrationTestConfig.env.id,
-			deliveryBaseUrl: integrationTestConfig.env.deliveryBaseUrl,
-			endpoint,
-		});
-	}
-
 	await runFailingClientQueryTestAsync({ endpoint, selectQuery });
-}
-
-async function runExtendedQueryTestsAsync({
-	expectedSchema,
-	selectQuery,
-	environmentId,
-	deliveryBaseUrl,
-	endpoint,
-}: {
-	readonly endpoint: DeliveryEndpoint;
-	readonly expectedSchema: ZodMiniType<JsonValue>;
-	readonly selectQuery: SelectQuery<JsonValue>;
-	readonly environmentId: string;
-	readonly deliveryBaseUrl: BaseUrl | undefined;
-}): Promise<void> {
-	await runClientQueryTestsAsync({
-		client: createIntegrationTestClient(environmentId, deliveryBaseUrl),
-		integrationEnvironmentId: environmentId,
-		endpoint,
-		selectQuery,
-		expectedSchema,
-		rawPayload: undefined,
-	});
 }
 
 async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
@@ -176,11 +138,12 @@ function createTestClients<TResponsePayload extends JsonValue>({
 	environmentId,
 	deliveryBaseUrl,
 }: {
-	readonly rawPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload | undefined;
 	readonly environmentId: string;
 	readonly deliveryBaseUrl: BaseUrl | undefined;
 }): readonly DeliveryClient<DeliveryClientSchema>[] {
-	return [createUnitTestClient(rawPayload), createIntegrationTestClient(environmentId, deliveryBaseUrl)];
+	const integrationClient = createIntegrationTestClient(environmentId, deliveryBaseUrl);
+	return rawPayload === undefined ? [integrationClient] : [createUnitTestClient(rawPayload), integrationClient];
 }
 
 function createTestMetadata({
