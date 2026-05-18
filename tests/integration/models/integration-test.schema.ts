@@ -1,4 +1,4 @@
-import type { ContentItemOf, DeliveryClientSchema, ElementType } from "../../../lib/public_api.js";
+import type { ContentItemOf, ContentItemPayload, DeliveryClientSchema, ElementType } from "../../../lib/public_api.js";
 
 export type IntegrationTestProjectSchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["default"];
@@ -44,3 +44,11 @@ export type MovieElements = {
 };
 
 export type Movie = ContentItemOf<IntegrationTestProjectSchema, "movie", MovieElements>;
+
+export function isMovie(item: ContentItemPayload<IntegrationTestProjectSchema>): item is Movie {
+	return item.system.type === "movie";
+}
+
+export function isStar(item: ContentItemPayload<IntegrationTestProjectSchema>): item is Star {
+	return item.system.type === "star";
+}

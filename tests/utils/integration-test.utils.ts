@@ -19,24 +19,26 @@ import { isFetchQueryWithExpectedFunctions, isPagedFetchQueryWithExpectedFunctio
 
 type TestType = "Integration" | "Unit";
 
-type SelectQuery<TResponsePayload extends JsonValue> = (
-	client: DeliveryClient<DeliveryClientSchema>,
+type SelectQuery<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema> = (
+	client: DeliveryClient<TSchema>,
 ) => FetchQuery<TResponsePayload, KontentSdkError, unknown> | PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 
-export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
+export async function runQueryTestsAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
 	endpoint,
 	rawPayload,
 	selectQuery,
 	expectedSchema,
+	extraTests,
 }: {
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly endpoint: DeliveryEndpoint;
 	readonly rawPayload: TResponsePayload | undefined;
-	readonly selectQuery: SelectQuery<TResponsePayload>;
+	readonly selectQuery: SelectQuery<TResponsePayload, TSchema>;
+	readonly extraTests?: ((response: TResponsePayload) => void) | undefined;
 }): Promise<void> {
 	const integrationTestConfig = getIntegrationTestConfig();
 
-	const clients = createTestClients({
+	const clients = createTestClients<TResponsePayload, TSchema>({
 		rawPayload,
 		environmentId: integrationTestConfig.env.id,
 		deliveryBaseUrl: integrationTestConfig.env.deliveryBaseUrl,
@@ -50,26 +52,29 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue>({
 			selectQuery,
 			expectedSchema,
 			rawPayload,
+			extraTests,
 		});
 	}
 
 	await runFailingClientQueryTestAsync({ endpoint, selectQuery });
 }
 
-async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
+async function runClientQueryTestsAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
 	client,
 	integrationEnvironmentId,
 	endpoint,
 	selectQuery,
 	expectedSchema,
 	rawPayload,
+	extraTests,
 }: {
-	readonly client: DeliveryClient<DeliveryClientSchema>;
+	readonly client: DeliveryClient<TSchema>;
 	readonly integrationEnvironmentId: string;
 	readonly endpoint: DeliveryEndpoint;
-	readonly selectQuery: SelectQuery<TResponsePayload>;
+	readonly selectQuery: SelectQuery<TResponsePayload, TSchema>;
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
-	readonly rawPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload | undefined;
+	readonly extraTests?: ((response: TResponsePayload) => void) | undefined;
 }): Promise<void> {
 	const { testType, testName } = createTestMetadata({
 		clientEnvironmentId: client.config.environmentId,
@@ -82,6 +87,7 @@ async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
 	registerBaseTests({ testName, endpoint, client, query, response, success, error, expectedSchema, rawPayload, testType });
 
 	if (isPagingQuery(query)) {
+		const pagingResult = await executePagingQueryAsync<TResponsePayload>({ query });
 		registerPagingTests({
 			query,
 			testName,
@@ -89,12 +95,20 @@ async function runClientQueryTestsAsync<TResponsePayload extends JsonValue>({
 			rawPayload,
 			expectedSchema,
 			response,
-			...(await executePagingQueryAsync<TResponsePayload>({ query })),
+			...pagingResult,
 		});
+
+		if (extraTests) {
+			for (const pagingResponse of pagingResult.pagingResponses ?? []) {
+				extraTests(pagingResponse.payload);
+			}
+		}
+	} else if (extraTests && response) {
+		extraTests(response.payload);
 	}
 }
 
-function createFailingUnitTestClient(): DeliveryClient<DeliveryClientSchema> {
+function createFailingUnitTestClient<TSchema extends DeliveryClientSchema>(): DeliveryClient<TSchema> {
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
@@ -108,7 +122,9 @@ function createFailingUnitTestClient(): DeliveryClient<DeliveryClientSchema> {
 	});
 }
 
-function createUnitTestClient<TResponsePayload extends JsonValue>(rawPayload: TResponsePayload): DeliveryClient<DeliveryClientSchema> {
+function createUnitTestClient<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>(
+	rawPayload: TResponsePayload,
+): DeliveryClient<TSchema> {
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
@@ -122,7 +138,10 @@ function createUnitTestClient<TResponsePayload extends JsonValue>(rawPayload: TR
 	});
 }
 
-function createIntegrationTestClient(environmentId: string, deliveryBaseUrl: BaseUrl | undefined): DeliveryClient<DeliveryClientSchema> {
+function createIntegrationTestClient<TSchema extends DeliveryClientSchema>(
+	environmentId: string,
+	deliveryBaseUrl: BaseUrl | undefined,
+): DeliveryClient<TSchema> {
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId,
@@ -133,7 +152,7 @@ function createIntegrationTestClient(environmentId: string, deliveryBaseUrl: Bas
 	});
 }
 
-function createTestClients<TResponsePayload extends JsonValue>({
+function createTestClients<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
 	rawPayload,
 	environmentId,
 	deliveryBaseUrl,
@@ -141,9 +160,11 @@ function createTestClients<TResponsePayload extends JsonValue>({
 	readonly rawPayload: TResponsePayload | undefined;
 	readonly environmentId: string;
 	readonly deliveryBaseUrl: BaseUrl | undefined;
-}): readonly DeliveryClient<DeliveryClientSchema>[] {
-	const integrationClient = createIntegrationTestClient(environmentId, deliveryBaseUrl);
-	return rawPayload === undefined ? [integrationClient] : [createUnitTestClient(rawPayload), integrationClient];
+}): readonly DeliveryClient<TSchema>[] {
+	const integrationClient = createIntegrationTestClient<TSchema>(environmentId, deliveryBaseUrl);
+	return rawPayload === undefined
+		? [integrationClient]
+		: [createUnitTestClient<TResponsePayload, TSchema>(rawPayload), integrationClient];
 }
 
 function createTestMetadata({
@@ -165,7 +186,7 @@ function createTestMetadata({
 	return { isIntegrationTest, testType, testName };
 }
 
-function registerBaseTests<TResponsePayload extends JsonValue>({
+function registerBaseTests<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
 	testName,
 	endpoint,
 	client,
@@ -179,8 +200,8 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 }: {
 	readonly testName: string;
 	readonly endpoint: DeliveryEndpoint;
-	readonly client: DeliveryClient<DeliveryClientSchema>;
-	readonly query: ReturnType<SelectQuery<TResponsePayload>>;
+	readonly client: DeliveryClient<TSchema>;
+	readonly query: ReturnType<SelectQuery<TResponsePayload, TSchema>>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly success: boolean;
 	readonly error: unknown;
@@ -192,16 +213,16 @@ function registerBaseTests<TResponsePayload extends JsonValue>({
 	registerResponseValidationTests({ testName, success, error, expectedSchema, response, testType, rawPayload });
 }
 
-function registerQueryStructureTests<TResponsePayload extends JsonValue>({
+function registerQueryStructureTests<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
 	testName,
 	query,
 	endpoint,
 	client,
 }: {
 	readonly testName: string;
-	readonly query: ReturnType<SelectQuery<TResponsePayload>>;
+	readonly query: ReturnType<SelectQuery<TResponsePayload, TSchema>>;
 	readonly endpoint: DeliveryEndpoint;
-	readonly client: DeliveryClient<DeliveryClientSchema>;
+	readonly client: DeliveryClient<TSchema>;
 }): void {
 	it(`${testName} Expect url to be correct`, () => {
 		expect(query.inspect()?.data?.url).toEqual(
@@ -351,14 +372,14 @@ function registerPagingIteratorTests<TResponsePayload extends JsonValue>({
 	}
 }
 
-async function runFailingClientQueryTestAsync<TResponsePayload extends JsonValue>({
+async function runFailingClientQueryTestAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
 	endpoint,
 	selectQuery,
 }: {
 	readonly endpoint: DeliveryEndpoint;
-	readonly selectQuery: SelectQuery<TResponsePayload>;
+	readonly selectQuery: SelectQuery<TResponsePayload, TSchema>;
 }): Promise<void> {
-	const client = createFailingUnitTestClient();
+	const client = createFailingUnitTestClient<TSchema>();
 	const query = selectQuery(client);
 	const { error } = isPagingQuery(query) ? await query.fetchPageSafe() : await query.fetchSafe();
 	const testName = `Unit[${endpoint}]: `;
@@ -368,14 +389,14 @@ async function runFailingClientQueryTestAsync<TResponsePayload extends JsonValue
 	});
 }
 
-async function executeDefaultQueryAsync<TResponsePayload extends JsonValue>({
+async function executeDefaultQueryAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
 	client,
 	selectQuery,
 }: {
-	readonly client: DeliveryClient<DeliveryClientSchema>;
-	readonly selectQuery: SelectQuery<TResponsePayload>;
+	readonly client: DeliveryClient<TSchema>;
+	readonly selectQuery: SelectQuery<TResponsePayload, TSchema>;
 }): Promise<{
-	readonly query: ReturnType<SelectQuery<TResponsePayload>>;
+	readonly query: ReturnType<SelectQuery<TResponsePayload, TSchema>>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly success: boolean;
 	readonly error: unknown;

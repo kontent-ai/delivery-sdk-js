@@ -1,5 +1,5 @@
-import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
 import type { FetchContentItemPayload } from "../../../../lib/queries/content-items/models/content-item.models.js";
+import type { IntegrationTestProjectSchema } from "../../models/integration-test.schema.js";
 
 export default {
 	item: {
@@ -166,4 +166,4 @@ export default {
 			},
 		},
 	},
-} satisfies FetchContentItemPayload<DeliveryClientSchema>;
+} satisfies FetchContentItemPayload<IntegrationTestProjectSchema>;
