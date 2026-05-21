@@ -11,7 +11,8 @@ export function mapToExtendedItem<TSchema extends DeliveryClientSchema>({
 	readonly item: ContentItemPayload<TSchema>;
 }): ContentItemPayloadExtended<TSchema> {
 	for (const [key, element] of Object.entries(item.elements)) {
-		item.elements[key] = resolveExtendedElement(element, allItems);
+		// the item.elements is readonly, but we do want to mutate it here rather then creating new object
+		(item.elements as Record<string, ContentItemElementPayloadExtended>)[key] = resolveExtendedElement(element, allItems);
 	}
 
 	// we know that for each element we have it's extended version
@@ -19,20 +20,20 @@ export function mapToExtendedItem<TSchema extends DeliveryClientSchema>({
 }
 
 export function mapToExtendedModularContent<TSchema extends DeliveryClientSchema>({
-	modularContent,
+	modularContents,
 	allItems,
 }: {
-	modularContent: Readonly<Record<string, ContentItemPayload<TSchema>>>;
+	modularContents: Readonly<Record<string, ContentItemPayload<TSchema>>>;
 	allItems: Readonly<Record<string, ContentItemPayload<TSchema>>>;
 }): {
 	[key: string]: ContentItemPayloadExtended<TSchema>;
 } {
-	for (const item of Object.values(modularContent)) {
-		mapToExtendedItem({ allItems, item });
+	for (const modularContent of Object.values(modularContents)) {
+		mapToExtendedItem({ allItems, item: modularContent });
 	}
 
 	// We know that for each item we have its extended version
-	return modularContent as Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
+	return modularContents as Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
 }
 
 export function joinItems<TSchema extends DeliveryClientSchema>({

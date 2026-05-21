@@ -86,7 +86,7 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 					payload: {
 						...m.payload,
 						items: m.payload.items.map<ContentItemPayloadExtended<TSchema>>((item) => mapToExtendedItem({ allItems, item })),
-						modular_content: mapToExtendedModularContent({ allItems, modularContent: m.payload.modular_content }),
+						modular_content: mapToExtendedModularContent({ allItems, modularContents: m.payload.modular_content }),
 					},
 				};
 			});

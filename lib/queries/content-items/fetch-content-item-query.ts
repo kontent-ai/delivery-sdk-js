@@ -65,7 +65,7 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 				payload: {
 					...response.payload,
 					item: mapToExtendedItem({ allItems, item: response.payload.item }),
-					modular_content: mapToExtendedModularContent({ allItems, modularContent: response.payload.modular_content }),
+					modular_content: mapToExtendedModularContent({ allItems, modularContents: response.payload.modular_content }),
 				},
 			};
 		},

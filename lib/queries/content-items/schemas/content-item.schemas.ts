@@ -21,7 +21,7 @@ export const contentItemSchema = <TSchema extends DeliveryClientSchema>() =>
 	z.readonly(
 		z.object({
 			system: contentItemSystemSchema<TSchema>(),
-			elements: z.record(z.string(), contentItemElementSchema),
+			elements: z.readonly(z.record(z.string(), contentItemElementSchema)),
 		}),
 	);
 
