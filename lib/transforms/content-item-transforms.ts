@@ -1,4 +1,3 @@
-import { match } from "ts-pattern";
 import type { DeliveryClientSchema } from "../models/core.models.js";
 import type { ContentItemPayload, ContentItemPayloadExtended } from "../queries/content-items/models/content-item.models.js";
 import type { ContentItemElementPayload, ContentItemElementPayloadExtended } from "../queries/content-items/models/element.models.js";
@@ -68,23 +67,27 @@ function resolveCodenamesToItems<TSchema extends DeliveryClientSchema>(
 	}, []);
 }
 
+/**
+ * We intentionally mutate element here rather then creating new object
+ */
 function resolveExtendedElement<TSchema extends DeliveryClientSchema>(
 	element: ContentItemElementPayload,
 	allItems: Readonly<Record<string, ContentItemPayload<TSchema>>>,
 ): ContentItemElementPayloadExtended {
-	return match(element)
-		.returnType<ContentItemElementPayloadExtended>()
-		.with({ type: "modular_content" }, (linkedItemElement) => {
+	switch (element.type) {
+		case "modular_content": {
 			return {
-				...linkedItemElement,
-				items: resolveCodenamesToItems(linkedItemElement.value, allItems),
+				...element,
+				items: resolveCodenamesToItems(element.value, allItems),
 			};
-		})
-		.with({ type: "rich_text" }, (richTextElement) => {
+		}
+		case "rich_text": {
 			return {
-				...richTextElement,
-				items: resolveCodenamesToItems(richTextElement.modular_content, allItems),
+				...element,
+				items: resolveCodenamesToItems(element.modular_content, allItems),
 			};
-		})
-		.otherwise((element) => element);
+		}
+		default:
+			return element;
+	}
 }
