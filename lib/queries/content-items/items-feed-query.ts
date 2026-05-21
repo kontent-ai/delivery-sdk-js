@@ -12,7 +12,7 @@ import type {
 	SystemOrderQueryParam,
 	WithRaw,
 } from "../../models/request.models.js";
-import { resolveExtendedItemsArray } from "../../transforms/content-item-transforms.js";
+import { mapExtendedItems, resolveExtendedItems } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByTokenQuery, transformDeliveryPagedByTokenQuery } from "../delivery-queries.js";
 import type { ContentItemPayload, ItemsFeedPayload, ItemsFeedPayloadExtended } from "./models/content-item.models.js";
 
@@ -68,15 +68,27 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 		config,
 		query: rawQuery,
 		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).itemsFeedSchemaExtended<TSchema>(),
-		transform: (payload) => {
-			const { extendedItems, extendedModularContent } = resolveExtendedItemsArray({
-				modularContent: payload.modular_content,
-				inputItems: payload.items,
+		transform: (responses) => {
+			const resolvedItems = resolveExtendedItems({
+				inputItems: responses.flatMap((m) => m.payload.items),
+				modularContent: responses.map((m) => m.payload.modular_content),
 			});
-			return {
-				items: extendedItems,
-				modular_content: extendedModularContent,
-			};
+
+			return responses.map((m) => {
+				const { items: extendedItems, modularContent: extendedModularContent } = mapExtendedItems({
+					resolvedItems: resolvedItems,
+					originalItems: m.payload.items,
+					originalModularContent: m.payload.modular_content,
+				});
+				return {
+					...m,
+					payload: {
+						...m.payload,
+						items: extendedItems,
+						modular_content: extendedModularContent,
+					},
+				};
+			});
 		},
 	});
 	return { ...extendedQuery, raw: () => rawQuery };

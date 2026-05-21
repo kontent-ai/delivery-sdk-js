@@ -3,12 +3,17 @@ import type { ContentItemPayloadExtended } from "../../../lib/queries/content-it
 import { contentItemSchemaExtended } from "../../../lib/queries/content-items/schemas/content-item.schemas.js";
 import { type IntegrationTestProjectSchema, isMovie } from "./integration-test.schema.js";
 
-export function registerMovieCastExtraTests(items: readonly ContentItemPayloadExtended<IntegrationTestProjectSchema>[]): void {
+export function registerExtendedItemsTests(
+	items: readonly ContentItemPayloadExtended<IntegrationTestProjectSchema>[],
+	modularContent: Readonly<Record<string, ContentItemPayloadExtended<IntegrationTestProjectSchema>>>,
+): void {
+	const allItems = [...items, ...Object.values(modularContent)];
+
 	it("There should be > 0 items", () => {
-		expect(items.length).toBeGreaterThan(0);
+		expect(allItems.length).toBeGreaterThan(0);
 	});
 
-	for (const item of items) {
+	for (const item of allItems) {
 		if (isMovie(item)) {
 			it(`Movie item with codename "${item.system.codename}" has resolved cast items matching extended content-item schema`, () => {
 				for (const linkedItem of item.elements.cast.items) {

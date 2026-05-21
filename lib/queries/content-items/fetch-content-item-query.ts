@@ -1,6 +1,6 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam, WithRaw } from "../../models/request.models.js";
-import { resolveExtendedItem } from "../../transforms/content-item-transforms.js";
+import { mapExtendedItem, resolveExtendedItems } from "../../transforms/content-item-transforms.js";
 import { createDeliveryFetchQuery, transformDeliveryFetchQuery } from "../delivery-queries.js";
 import type { FetchContentItemPayload, FetchContentItemPayloadExtended } from "./models/content-item.models.js";
 
@@ -53,15 +53,26 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 		config,
 		query: rawQuery,
 		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchemaExtended<TSchema>(),
-		transform: (payload) => {
-			const { extendedItem, extendedModularContent } = resolveExtendedItem({
-				modularContent: payload.modular_content,
-				inputItem: payload.item,
+		transform: (response) => {
+			const extendedItems = resolveExtendedItems({
+				modularContent: [response.payload.modular_content],
+				inputItems: [response.payload.item],
+			});
+
+			const { item: extendedItem, modularContent: extendedModularContent } = mapExtendedItem({
+				resolvedItems: extendedItems,
+				originalItem: response.payload.item,
+				originalModularContent: response.payload.modular_content,
 			});
 
 			return {
-				item: extendedItem,
-				modular_content: extendedModularContent,
+				...response,
+				meta: response.meta,
+				payload: {
+					...response.payload,
+					item: extendedItem,
+					modular_content: extendedModularContent,
+				},
 			};
 		},
 	});

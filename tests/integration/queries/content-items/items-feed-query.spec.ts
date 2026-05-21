@@ -2,7 +2,7 @@ import { describe } from "vitest";
 import type { ItemsFeedPayloadExtended } from "../../../../lib/queries/content-items/models/content-item.models.js";
 import { itemsFeedSchema, itemsFeedSchemaExtended } from "../../../../lib/queries/content-items/schemas/content-item.schemas.js";
 import { runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
-import { registerMovieCastExtraTests } from "../../models/integration-test.extra-tests.js";
+import { registerExtendedItemsTests } from "../../models/integration-test.extra-tests.js";
 import type { IntegrationTestProjectSchema } from "../../models/integration-test.schema.js";
 import unitTestPayload from "./items-feed-query.payload.js";
 
@@ -21,6 +21,8 @@ describe("Items feed query - extended", async () => {
 		rawPayload: undefined,
 		selectQuery: (client) => client.itemsFeed(),
 		expectedSchema: itemsFeedSchemaExtended<IntegrationTestProjectSchema>(),
-		extraTests: (response) => registerMovieCastExtraTests(response.items),
+		extraTests: (payload) => {
+			registerExtendedItemsTests(payload.items, payload.modular_content);
+		},
 	});
 });

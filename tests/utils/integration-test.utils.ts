@@ -280,7 +280,6 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	pagingSuccess,
 	pagingError,
 	iteratorPayloads,
-	maxPagesCount,
 }: {
 	readonly query: PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 	readonly testName: string;
@@ -292,7 +291,6 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	readonly pagingSuccess: boolean;
 	readonly pagingError: unknown;
 	readonly iteratorPayloads: readonly TResponsePayload[];
-	readonly maxPagesCount: number;
 }): void {
 	registerPagingResponseTests({
 		testName,
@@ -304,7 +302,7 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 		pagingResponses,
 		rawPayload,
 	});
-	registerPagingIteratorTests({ testName, query, iteratorPayloads, maxPagesCount, testType, rawPayload });
+	registerPagingIteratorTests({ testName, query, iteratorPayloads, testType, rawPayload });
 }
 
 function registerPagingResponseTests<TResponsePayload extends JsonValue>({
@@ -330,12 +328,21 @@ function registerPagingResponseTests<TResponsePayload extends JsonValue>({
 		expect(pagingError).toBeUndefined();
 		expect(pagingSuccess).toBeTruthy();
 	});
-	it(`${testName} First paging response payload should match schema`, async () => {
+	it(`${testName} Response payload should match schema`, async () => {
 		const { error: parseError, success: parseSuccess } = await expectedSchema.safeParseAsync(response?.payload);
 		expect(parseError).toBeUndefined();
 		expect(parseSuccess).toBeTruthy();
 	});
-	if (testType === "Unit") {
+
+	for (const pagingResponse of pagingResponses ?? []) {
+		it(`${testName} Paging Response payload should match schema`, async () => {
+			const { error: parseError, success: parseSuccess } = await expectedSchema.safeParseAsync(pagingResponse?.payload);
+			expect(parseError).toBeUndefined();
+			expect(parseSuccess).toBeTruthy();
+		});
+	}
+
+	if (testType === "Unit" && rawPayload) {
 		const firstResponse = pagingResponses?.[0];
 		it(`${testName} First paging response payload should match unit test payload`, () => {
 			expect(firstResponse?.payload).toEqual(rawPayload);
@@ -347,20 +354,15 @@ function registerPagingIteratorTests<TResponsePayload extends JsonValue>({
 	testName,
 	query,
 	iteratorPayloads,
-	maxPagesCount,
 	testType,
 	rawPayload,
 }: {
 	readonly testName: string;
 	readonly query: PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 	readonly iteratorPayloads: readonly TResponsePayload[];
-	readonly maxPagesCount: number;
 	readonly testType: TestType;
 	readonly rawPayload: TResponsePayload;
 }): void {
-	it(`${testName} Iterator responses should be equal to paging responses`, () => {
-		expect(iteratorPayloads.length).toEqual(maxPagesCount);
-	});
 	it(`${testName} Query should be a paged fetch query with expected functions`, () => {
 		expect(isPagedFetchQueryWithExpectedFunctions(query)).toBeTruthy();
 	});
@@ -419,12 +421,10 @@ async function executePagingQueryAsync<TResponsePayload extends JsonValue>({
 	readonly pagingSuccess: boolean;
 	readonly pagingError: unknown;
 	readonly iteratorPayloads: readonly TResponsePayload[];
-	readonly maxPagesCount: number;
 }> {
 	const { responses: pagingResponses, success: pagingSuccess, error: pagingError } = await query.fetchAllPagesSafe();
 	const iteratorPayloads: TResponsePayload[] = [];
-	const maxPagesCount = 1;
-	for await (const pageResponse of query.pages({ maxPagesCount })) {
+	for await (const pageResponse of query.pages()) {
 		iteratorPayloads.push(pageResponse?.payload);
 	}
 	return {
@@ -432,6 +432,5 @@ async function executePagingQueryAsync<TResponsePayload extends JsonValue>({
 		pagingSuccess,
 		pagingError,
 		iteratorPayloads,
-		maxPagesCount,
 	};
 }

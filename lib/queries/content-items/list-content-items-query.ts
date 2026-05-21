@@ -1,3 +1,4 @@
+import type { QueryResponse } from "@kontent-ai/core-sdk";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryMetadata, DeliveryPagedFetchQuery } from "../../models/core.models.js";
 import type { Filter } from "../../models/filter.models.js";
 import type {
@@ -7,7 +8,7 @@ import type {
 	SystemOrderQueryParam,
 	WithRaw,
 } from "../../models/request.models.js";
-import { resolveExtendedItemsArray } from "../../transforms/content-item-transforms.js";
+import { mapExtendedItems, resolveExtendedItems } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByUrlQuery, transformDeliveryPagedByUrlQuery } from "../delivery-queries.js";
 import type { ContentItemPayload, ListContentItemsPayload, ListContentItemsPayloadExtended } from "./models/content-item.models.js";
 
@@ -70,16 +71,27 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 		config,
 		query: rawQuery,
 		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchemaExtended<TSchema>(),
-		transform: (payload) => {
-			const { extendedItems, extendedModularContent } = resolveExtendedItemsArray({
-				modularContent: payload.modular_content,
-				inputItems: payload.items,
+		transform: (responses) => {
+			const resolvedItems = resolveExtendedItems({
+				inputItems: responses.flatMap((m) => m.payload.items),
+				modularContent: responses.map((m) => m.payload.modular_content),
 			});
-			return {
-				items: extendedItems,
-				modular_content: extendedModularContent,
-				pagination: payload.pagination,
-			};
+
+			return responses.map<QueryResponse<ListContentItemsPayloadExtended<TSchema>, DeliveryMetadata>>((m) => {
+				const { items: extendedItems, modularContent: extendedModularContent } = mapExtendedItems({
+					resolvedItems: resolvedItems,
+					originalItems: m.payload.items,
+					originalModularContent: m.payload.modular_content,
+				});
+				return {
+					...m,
+					payload: {
+						...m.payload,
+						items: extendedItems,
+						modular_content: extendedModularContent,
+					},
+				};
+			});
 		},
 	});
 	return { ...extendedQuery, raw: () => rawQuery };

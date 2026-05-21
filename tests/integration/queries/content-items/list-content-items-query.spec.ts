@@ -8,7 +8,7 @@ import {
 	listContentItemsSchemaExtended,
 } from "../../../../lib/queries/content-items/schemas/content-item.schemas.js";
 import { runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
-import { registerMovieCastExtraTests } from "../../models/integration-test.extra-tests.js";
+import { registerExtendedItemsTests } from "../../models/integration-test.extra-tests.js";
 import type { IntegrationTestProjectSchema } from "../../models/integration-test.schema.js";
 import rawPayload from "./list-content-items-query.payload.js";
 
@@ -27,6 +27,8 @@ describe("List content items query - extended", async () => {
 		rawPayload: undefined,
 		selectQuery: (client) => client.listContentItems(),
 		expectedSchema: listContentItemsSchemaExtended<IntegrationTestProjectSchema>(),
-		extraTests: (response) => registerMovieCastExtraTests(response.items),
+		extraTests: (response) => {
+			registerExtendedItemsTests(response.items, response.modular_content);
+		},
 	});
 });
