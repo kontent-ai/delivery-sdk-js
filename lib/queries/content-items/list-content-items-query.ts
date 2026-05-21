@@ -8,9 +8,14 @@ import type {
 	SystemOrderQueryParam,
 	WithRaw,
 } from "../../models/request.models.js";
-import { mapExtendedItems, resolveExtendedItems } from "../../transforms/content-item-transforms.js";
+import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByUrlQuery, transformDeliveryPagedByUrlQuery } from "../delivery-queries.js";
-import type { ContentItemPayload, ListContentItemsPayload, ListContentItemsPayloadExtended } from "./models/content-item.models.js";
+import type {
+	ContentItemPayload,
+	ContentItemPayloadExtended,
+	ListContentItemsPayload,
+	ListContentItemsPayloadExtended,
+} from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
@@ -72,23 +77,18 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 		query: rawQuery,
 		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchemaExtended<TSchema>(),
 		transform: (responses) => {
-			const resolvedItems = resolveExtendedItems({
-				inputItems: responses.flatMap((m) => m.payload.items),
+			const allItems = joinItems({
+				items: responses.flatMap((m) => m.payload.items),
 				modularContent: responses.map((m) => m.payload.modular_content),
 			});
 
 			return responses.map<QueryResponse<ListContentItemsPayloadExtended<TSchema>, DeliveryMetadata>>((m) => {
-				const { items: extendedItems, modularContent: extendedModularContent } = mapExtendedItems({
-					resolvedItems: resolvedItems,
-					originalItems: m.payload.items,
-					originalModularContent: m.payload.modular_content,
-				});
 				return {
 					...m,
 					payload: {
 						...m.payload,
-						items: extendedItems,
-						modular_content: extendedModularContent,
+						items: m.payload.items.map<ContentItemPayloadExtended<TSchema>>((item) => mapToExtendedItem({ allItems, item })),
+						modular_content: mapToExtendedModularContent({ allItems, modularContent: m.payload.modular_content }),
 					},
 				};
 			});

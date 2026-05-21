@@ -1,161 +1,99 @@
-import { isDefined } from "@kontent-ai/core-sdk";
 import { match } from "ts-pattern";
 import type { DeliveryClientSchema } from "../models/core.models.js";
 import type { ContentItemPayload, ContentItemPayloadExtended } from "../queries/content-items/models/content-item.models.js";
 import type { ContentItemElementPayload, ContentItemElementPayloadExtended } from "../queries/content-items/models/element.models.js";
+import type { LinkedItems, RichText } from "../queries/content-items/models/element-types.js";
 
-type IntermediateItem<TSchema extends DeliveryClientSchema> = ContentItemPayloadExtended<TSchema> & {
-	$rawElements?: Readonly<Record<string, ContentItemElementPayload>>;
-};
+export function mapToExtendedItem<TSchema extends DeliveryClientSchema>({
+	allItems,
+	item,
+}: {
+	readonly allItems: Readonly<Record<string, ContentItemPayload<TSchema>>>;
+	readonly item: ContentItemPayload<TSchema>;
+}): ContentItemPayloadExtended<TSchema> {
+	// biome-ignore lint/nursery/noForIn: We intentionally want to use "in" for getting properties of elements (perf. reasons)
+	for (const key in item.elements) {
+		// biome-ignore lint/style/noNonNullAssertion: The element exists as we iterating through keys of it
+		item.elements[key] = resolveExtendedElement(item.elements[key]!, allItems);
+	}
 
-function joinToIntermediateItems<TSchema extends DeliveryClientSchema>({
+	return item as ContentItemPayloadExtended<TSchema>;
+}
+
+export function mapToExtendedModularContent<TSchema extends DeliveryClientSchema>({
+	modularContent,
+	allItems,
+}: {
+	modularContent: Readonly<Record<string, ContentItemPayload<TSchema>>>;
+	allItems: Readonly<Record<string, ContentItemPayload<TSchema>>>;
+}): {
+	[key: string]: ContentItemPayloadExtended<TSchema>;
+} {
+	// biome-ignore lint/nursery/noForIn: We intentionally want to use "in" for getting properties of elements (perf. reasons)
+	for (const key in modularContent) {
+		// biome-ignore lint/style/noNonNullAssertion: Item is guaranteed to be here as we iterate over keys in the condition above
+		mapToExtendedItem({ allItems, item: modularContent[key]! });
+	}
+
+	return modularContent as Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
+}
+
+export function joinItems<TSchema extends DeliveryClientSchema>({
 	items,
-	modular_content,
+	modularContent,
 }: {
 	readonly items: readonly ContentItemPayload<TSchema>[];
-	readonly modular_content: readonly Readonly<Record<string, ContentItemPayload<TSchema>>>[];
-}): Record<string, IntermediateItem<TSchema>> {
-	const createIntermediateRecord = <TSchema extends DeliveryClientSchema>(
-		item: ContentItemPayload<TSchema>,
-	): IntermediateItem<TSchema> => ({
-		system: item.system,
-		$rawElements: item.elements,
-		elements: {},
-	});
+	readonly modularContent: readonly Readonly<Record<string, ContentItemPayload<TSchema>>>[];
+}): Readonly<Record<string, ContentItemPayload<TSchema>>> {
+	const joinedItems: Record<string, ContentItemPayload<TSchema>> = {};
+	for (const content of modularContent) {
+		Object.assign(joinedItems, content);
+	}
 
-	// first prepare map from modular content
-	const modularContentRecords = modular_content.reduce<Record<string, IntermediateItem<TSchema>>>((records, content) => {
-		Object.entries(content).forEach(([key, item]) => {
-			records[key] = createIntermediateRecord(item);
-		});
-		return records;
-	}, {});
+	for (const item of items) {
+		joinedItems[item.system.codename] = item;
+	}
 
-	// then merge input items into the map
-	return items.reduce<Record<string, IntermediateItem<TSchema>>>((records, item) => {
-		records[item.system.codename] = createIntermediateRecord(item);
-		return records;
-	}, modularContentRecords);
+	return joinedItems;
 }
 
-function resolveCodenamesToPreparedItems<TSchema extends DeliveryClientSchema>(
+function resolveCodenamesToItems<TSchema extends DeliveryClientSchema>(
 	codenames: readonly string[],
-	intermediateRecords: Readonly<Record<string, IntermediateItem<TSchema>>>,
-): readonly ContentItemPayloadExtended<TSchema>[] {
-	return codenames.reduce<ContentItemPayloadExtended<TSchema>[]>((preparedItems, codename) => {
-		const record = intermediateRecords[codename];
+	allItems: Readonly<Record<string, ContentItemPayload<TSchema>>>,
+): readonly ContentItemPayload<TSchema>[] {
+	const result: ContentItemPayload<TSchema>[] = [];
+	for (const codename of codenames) {
+		const record = allItems[codename];
 		if (record) {
-			preparedItems.push(record);
+			result.push(record);
 		}
-		return preparedItems;
-	}, []);
+	}
+
+	return result;
 }
 
+/**
+ * We intentionally use type assertion & mutation here as to avoid immutability overhead by copying values across elements
+ */
 function resolveExtendedElement<TSchema extends DeliveryClientSchema>(
 	element: ContentItemElementPayload,
-	intermediateRecords: Readonly<Record<string, IntermediateItem<TSchema>>>,
+	allItems: Readonly<Record<string, ContentItemPayload<TSchema>>>,
 ): ContentItemElementPayloadExtended {
 	return match(element)
 		.returnType<ContentItemElementPayloadExtended>()
-		.with({ type: "modular_content" }, (linkedItemElement) => ({
-			...linkedItemElement,
-			items: resolveCodenamesToPreparedItems(linkedItemElement.value, intermediateRecords),
-		}))
-		.with({ type: "rich_text" }, (richTextElement) => ({
-			...richTextElement,
-			items: resolveCodenamesToPreparedItems(richTextElement.modular_content, intermediateRecords),
-		}))
+		.with({ type: "modular_content" }, (linkedItemElement) => {
+			(linkedItemElement as LinkedItems & { items: readonly ContentItemPayload<TSchema>[] }).items = resolveCodenamesToItems(
+				linkedItemElement.value,
+				allItems,
+			);
+			return linkedItemElement as LinkedItems;
+		})
+		.with({ type: "rich_text" }, (richTextElement) => {
+			(richTextElement as RichText & { items: readonly ContentItemPayload<TSchema>[] }).items = resolveCodenamesToItems(
+				richTextElement.modular_content,
+				allItems,
+			);
+			return richTextElement as RichText;
+		})
 		.otherwise((element) => element);
-}
-
-export function mapExtendedItems<TSchema extends DeliveryClientSchema>({
-	resolvedItems,
-	originalItems,
-	originalModularContent,
-}: {
-	readonly resolvedItems: Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
-	readonly originalItems: readonly ContentItemPayload<TSchema>[];
-	readonly originalModularContent: Readonly<Record<string, ContentItemPayload<TSchema>>>;
-}): {
-	readonly modularContent: Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
-	readonly items: readonly ContentItemPayloadExtended<TSchema>[];
-} {
-	return {
-		items: originalItems
-			.map<ContentItemPayloadExtended<TSchema> | undefined>((originalItem) => {
-				return resolvedItems[originalItem.system.codename];
-			})
-			.filter(isDefined),
-		modularContent: Object.keys(originalModularContent).reduce<Record<string, ContentItemPayloadExtended<TSchema>>>(
-			(resolvedModularContent, codename) => {
-				const extendedItem = resolvedItems[codename];
-
-				if (!extendedItem) {
-					throw new Error(`Item with codename "${codename}" not found in resolved items`);
-				}
-				resolvedModularContent[codename] = extendedItem;
-				return resolvedModularContent;
-			},
-			{},
-		),
-	};
-}
-
-export function mapExtendedItem<TSchema extends DeliveryClientSchema>({
-	resolvedItems,
-	originalItem,
-	originalModularContent,
-}: {
-	readonly resolvedItems: Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
-	readonly originalItem: ContentItemPayload<TSchema>;
-	readonly originalModularContent: Readonly<Record<string, ContentItemPayload<TSchema>>>;
-}): {
-	readonly modularContent: Readonly<Record<string, ContentItemPayloadExtended<TSchema>>>;
-	readonly item: ContentItemPayloadExtended<TSchema>;
-} {
-	const extendedItem = resolvedItems[originalItem.system.codename];
-
-	if (!extendedItem) {
-		throw new Error(`Item with codename "${originalItem.system.codename}" not found in resolved items`);
-	}
-
-	return {
-		item: extendedItem,
-		modularContent: Object.keys(originalModularContent).reduce<Record<string, ContentItemPayloadExtended<TSchema>>>(
-			(resolvedModularContent, codename) => {
-				const extendedItem = resolvedItems[codename];
-
-				if (!extendedItem) {
-					throw new Error(`Item with codename "${codename}" not found in resolved items`);
-				}
-				resolvedModularContent[codename] = extendedItem;
-				return resolvedModularContent;
-			},
-			{},
-		),
-	};
-}
-
-export function resolveExtendedItems<TSchema extends DeliveryClientSchema>({
-	inputItems,
-	modularContent,
-}: {
-	readonly inputItems: readonly ContentItemPayload<TSchema>[];
-	readonly modularContent: readonly Readonly<Record<string, ContentItemPayload<TSchema>>>[];
-}): Readonly<Record<string, ContentItemPayloadExtended<TSchema>>> {
-	const intermediateRecords = joinToIntermediateItems({
-		items: inputItems,
-		modular_content: modularContent,
-	});
-
-	for (const intermediateRecord of Object.values(intermediateRecords)) {
-		for (const [key, element] of Object.entries(intermediateRecord.$rawElements ?? {})) {
-			intermediateRecord.elements[key] = resolveExtendedElement(element, intermediateRecords);
-		}
-
-		// delete $rawElement which was used to map extended elements
-		delete intermediateRecord.$rawElements;
-	}
-
-	return intermediateRecords;
 }
