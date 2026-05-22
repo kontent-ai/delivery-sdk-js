@@ -49,6 +49,7 @@ export type DeliveryRequestConfig = {
 	 * Additional headers to be added to the request.
 	 */
 	readonly customHeaders?: readonly Header[];
+	readonly abortSignal?: AbortSignal;
 };
 
 export type OrderDirection = "asc" | "desc";

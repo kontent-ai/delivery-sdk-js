@@ -192,7 +192,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	| "mapExtraResponseProps"
 > {
 	return {
-		abortSignal: undefined,
+		abortSignal: request?.config?.abortSignal,
 		config,
 		sdkInfo: deliverySdkInfo,
 		mapExtraResponseProps: () => {},
