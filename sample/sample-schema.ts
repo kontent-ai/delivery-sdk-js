@@ -44,7 +44,7 @@ export type ActorElements = {
 	readonly first_name: ElementType.Text;
 	readonly last_name: ElementType.Text;
 	readonly role: ElementType.MultipleChoice<"opt1" | "opt2" | "opt3">;
-	readonly relatedActors: ElementType.LinkedItems;
+	readonly relatedActors: ElementType.LinkedItems<Actor>;
 };
 
 // Fully-typed Actor item payload (system metadata + elements).
@@ -133,9 +133,6 @@ export function demonstrateMovieAccess(movie: Movie): void {
 	const urlSlug: string = movie.elements.url_slug.value;
 	const customId: string | null = movie.elements.custom_id.value;
 	const movieActorCodename: string | undefined = movie.elements.actors.value[0];
-
-	// `LinkedItems<Actor>` types `items[i]` as `Actor` - full element narrowing on referenced items.
 	const firstMovieActor: Actor | undefined = movie.elements.actors.items[0];
-
 	const actors: readonly Actor[] = movie.elements.actors.items;
 }
