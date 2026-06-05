@@ -5,7 +5,7 @@ import type {
 	ItemsReferencingAssetQuery,
 	ItemsReferencingAssetQueryRequest,
 } from "../queries/content-items/items-referencing-asset-query.js";
-import type { ItemsReferencingItemQuery, ItemsReferencingItemQueryRequest } from "../queries/content-items/items-referencing-item.js";
+import type { ItemsReferencingItemQuery, ItemsReferencingItemQueryRequest } from "../queries/content-items/items-referencing-item-query.js";
 import type { ListContentItemsQuery, ListContentItemsQueryRequest } from "../queries/content-items/list-content-items-query.js";
 import type {
 	FetchContentTypeElementQuery,
@@ -33,7 +33,7 @@ export type DeliveryClientSchema<
 /**
  * Placeholder type if extension is needed in future
  */
-export type DeliveryMetadata = NonNullable<unknown>;
+export type DeliveryMetadata = Record<string, never>;
 
 export type DeliveryMetadataWithToken = {
 	readonly continuationToken: string | undefined;

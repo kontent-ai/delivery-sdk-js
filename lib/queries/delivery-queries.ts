@@ -224,7 +224,7 @@ function getHeaders(request?: AnyDeliveryRequest): readonly Header[] {
 	const configHeaders: readonly Header[] = request.config?.customHeaders ?? [];
 	const requestHeaders: readonly Header[] = Object.entries(request.headers ?? {}).map<Header>(([name, value]) => ({
 		name,
-		value: value.toString(),
+		value: value?.toString(),
 	}));
 
 	return [...configHeaders, ...requestHeaders];

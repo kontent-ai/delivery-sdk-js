@@ -29,7 +29,7 @@ export type {
 export type {
 	ItemsReferencingItemQuery,
 	ItemsReferencingItemQueryRequest,
-} from "./queries/content-items/items-referencing-item.js";
+} from "./queries/content-items/items-referencing-item-query.js";
 export type { ListContentItemsQuery, ListContentItemsQueryRequest } from "./queries/content-items/list-content-items-query.js";
 export type {
 	ContentItemOf,

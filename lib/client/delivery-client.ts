@@ -5,7 +5,7 @@ import {
 	type ItemsReferencingAssetQueryRequest,
 	itemsReferencingAssetQuery,
 } from "../queries/content-items/items-referencing-asset-query.js";
-import { type ItemsReferencingItemQueryRequest, itemsReferencingItemQuery } from "../queries/content-items/items-referencing-item.js";
+import { type ItemsReferencingItemQueryRequest, itemsReferencingItemQuery } from "../queries/content-items/items-referencing-item-query.js";
 import { type ListContentItemsQueryRequest, listContentItemsQuery } from "../queries/content-items/list-content-items-query.js";
 import {
 	type FetchContentTypeElementQueryRequest,
