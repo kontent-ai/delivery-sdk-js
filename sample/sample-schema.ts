@@ -60,7 +60,7 @@ export type Actor = ContentItemOf<SampleProjectSchema, "actor", ActorElements>;
 export type MovieElements = {
 	readonly title: ElementType.Text;
 	readonly rating: ElementType.Number;
-	readonly synopsis: ElementType.RichText;
+	readonly synopsis: ElementType.RichText<Actor>;
 	readonly genre: ElementType.MultipleChoice<"genre1" | "genre2">;
 	readonly release_date: ElementType.DateTime;
 	readonly poster: ElementType.Asset;
@@ -124,6 +124,7 @@ export function demonstrateMovieAccess(movie: Movie): void {
 	const title: string = movie.elements.title.value;
 	const rating: number | null = movie.elements.rating.value;
 	const synopsis: string = movie.elements.synopsis.value;
+	const synopsisActors: readonly Actor[] = movie.elements.synopsis.items;
 	const genreCodename: "genre1" | "genre2" | undefined = movie.elements.genre.value[0]?.codename;
 	const releaseDate: string | null = movie.elements.release_date.value;
 	const displayTimezone: string | null = movie.elements.release_date.display_timezone;
