@@ -3,16 +3,16 @@ import * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationSchema } from "../../../models/pagination.schemas.js";
 
-export const taxonomyTermSchema = <TCodename extends string>() =>
+export const taxonomyTermSchema = <TTermCodenames extends string>() =>
 	z.object({
 		name: z.string(),
-		codename: codenameOf<TCodename>(),
+		codename: codenameOf<TTermCodenames>(),
 		get terms() {
-			return z.readonly(z.array(taxonomyTermSchema<TCodename>()));
+			return z.readonly(z.array(taxonomyTermSchema<TTermCodenames>()));
 		},
 	});
 
-export const taxonomySchema = <TSchema extends DeliveryClientSchema, TCodename extends string>() =>
+export const taxonomySchema = <TSchema extends DeliveryClientSchema, TTermCodenames extends string>() =>
 	z.readonly(
 		z.object({
 			system: z.readonly(
@@ -23,14 +23,14 @@ export const taxonomySchema = <TSchema extends DeliveryClientSchema, TCodename e
 					last_modified: z.iso.datetime(),
 				}),
 			),
-			terms: z.readonly(z.array(taxonomyTermSchema<TCodename>())),
+			terms: z.readonly(z.array(taxonomyTermSchema<TTermCodenames>())),
 		}),
 	);
 
-export const listTaxonomiesSchema = <TSchema extends DeliveryClientSchema, TCodename extends string>() =>
+export const listTaxonomiesSchema = <TSchema extends DeliveryClientSchema, TTermCodenames extends string>() =>
 	z.readonly(
 		z.object({
-			taxonomies: z.readonly(z.array(taxonomySchema<TSchema, TCodename>())),
+			taxonomies: z.readonly(z.array(taxonomySchema<TSchema, TTermCodenames>())),
 			...paginationSchema.shape,
 		}),
 	);
