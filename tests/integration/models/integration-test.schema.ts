@@ -1,9 +1,11 @@
-import type { ContentItemOf, DeliveryClientSchema, ElementType } from "../../../lib/public_api.js";
+import type { ContentItemOf, DeliveryClientSchema, ElementType, TaxonomyTermCodenamesOf } from "../../../lib/public_api.js";
 import type { ContentItemPayloadExtended } from "../../../lib/queries/content-items/models/content-item.models.js";
 
 export type IntegrationTestProjectSchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["default"];
-	readonly taxonomyCodenames: readonly ["movie_type"];
+	readonly taxonomies: {
+		readonly movie_type: readonly ["drama", "comedy", "sitcom", "stand_up", "action"];
+	};
 	readonly contentTypeCodenames: readonly ["movie", "star"];
 	readonly elementCodenames: readonly [
 		"title",
@@ -55,4 +57,4 @@ export function isStar(item: ContentItemPayloadExtended<IntegrationTestProjectSc
 	return item.system.type === "star";
 }
 
-export type MovieTaxonomyTerms = "action" | "comedy" | "drama" | "thriller" | "sitcom" | "stand_up";
+export type MovieTaxonomyTerms = TaxonomyTermCodenamesOf<IntegrationTestProjectSchema, "movie_type">;

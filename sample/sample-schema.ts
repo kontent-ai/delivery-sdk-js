@@ -13,8 +13,10 @@
  * so it imports from the in-tree source instead.
  */
 
+import type { QueryResponse } from "@kontent-ai/core-sdk";
 import { createDeliveryClient } from "../lib/client/delivery-client.js";
-import type { ContentItemOf, DeliveryClient, DeliveryClientSchema, ElementType } from "../lib/public_api.js";
+import type { DeliveryMetadata } from "../lib/models/core.models.js";
+import type { ContentItemOf, DeliveryClient, DeliveryClientSchema, ElementType, TaxonomyPayload } from "../lib/public_api.js";
 
 /**
  * 1. Schema declaration
@@ -24,7 +26,10 @@ import type { ContentItemOf, DeliveryClient, DeliveryClientSchema, ElementType }
  */
 export type SampleProjectSchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["en-us", "es-es"];
-	readonly taxonomyCodenames: readonly ["category", "tag"];
+	readonly taxonomies: {
+		readonly category: readonly ["term1", "term2"];
+		readonly tag: readonly ["news", "featured"];
+	};
 	readonly contentTypeCodenames: readonly ["movie", "actor"];
 	readonly elementCodenames: readonly ["title", "first_name", "last_name"];
 	readonly collectionCodenames: readonly ["movies", "tv-shows"];
@@ -91,7 +96,7 @@ export const client: SampleDeliveryClient = createDeliveryClient<SampleProjectSc
  *
  * Each annotated `const` shows what the SDK narrows a response value to.
  */
-export async function demonstrateQueries(): Promise<void> {
+export async function queries(): Promise<void> {
 	const languageResponse = await client.listLanguages().fetchPage();
 
 	// Languages are typed to the schema codenames.
@@ -110,7 +115,7 @@ export async function demonstrateQueries(): Promise<void> {
  * produce a compile error if the public types drift. Narrowed codenames are
  * TypeScript hints; the runtime value can be any string the API returns.
  */
-export function demonstrateActorAccess(actor: Actor): void {
+export function typedActor(actor: Actor): void {
 	const firstName: string = actor.elements.first_name.value;
 
 	// `value[0]?.codename` is narrowed to one of the declared literals (or undefined when empty).
@@ -120,7 +125,7 @@ export function demonstrateActorAccess(actor: Actor): void {
 	const firstRelatedActorCodename: string | undefined = actor.elements.relatedActors.value[0];
 }
 
-export function demonstrateMovieAccess(movie: Movie): void {
+export function typedMovie(movie: Movie): void {
 	const title: string = movie.elements.title.value;
 	const rating: number | null = movie.elements.rating.value;
 	const synopsis: string = movie.elements.synopsis.value;
@@ -135,4 +140,20 @@ export function demonstrateMovieAccess(movie: Movie): void {
 	const movieActorCodename: string | undefined = movie.elements.actors.value[0];
 	const firstMovieActor: Actor | undefined = movie.elements.actors.items[0];
 	const actors: readonly Actor[] = movie.elements.actors.items;
+}
+
+export async function typedTaxonomy(): Promise<void> {
+	const categoryTaxonomy: QueryResponse<TaxonomyPayload<SampleProjectSchema, "term1" | "term2">, DeliveryMetadata> = await client
+		.fetchTaxonomy({ codename: "category" })
+		.fetch();
+
+	// Term codenames are narrowed to the terms declared for the "category" taxonomy in the schema.
+	const termCodename: "term1" | "term2" | undefined = categoryTaxonomy.payload.terms[0]?.codename;
+
+	// Narrowing applies at every nesting level (the term tree shares one flat codename union).
+	const nestedTermCodename: "term1" | "term2" | undefined = categoryTaxonomy.payload.terms[0]?.terms[0]?.codename;
+
+	// A different taxonomy narrows to its own terms.
+	const tagTaxonomy = await client.fetchTaxonomy({ codename: "tag" }).fetch();
+	const tagCodename: "news" | "featured" | undefined = tagTaxonomy.payload.terms[0]?.codename;
 }

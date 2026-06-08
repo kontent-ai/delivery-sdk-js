@@ -104,7 +104,9 @@ type MySchema = DeliveryClientSchema<{
     readonly collectionCodenames: readonly ["default"];
     readonly workflowCodenames: readonly ["default"];
     readonly workflowStepCodenames: readonly ["published", "draft"];
-    readonly taxonomyCodenames: readonly ["genre"];
+    readonly taxonomies: {
+        readonly genre: readonly ["action", "comedy", "drama"];
+    };
     readonly elementCodenames: readonly ["title", "summary"];
 }>;
 
@@ -115,6 +117,14 @@ const client = createDeliveryClient<MySchema>({
 ```
 
 The schema is type-only — it narrows codenames at compile time and is not passed as a runtime value.
+
+> **Note:** `taxonomyCodenames` is replaced by a `taxonomies` map. Each key is a taxonomy
+> codename; its value lists that taxonomy's term codenames. This lets `fetchTaxonomy` narrow the
+> returned term codenames to the queried taxonomy — e.g. `client.fetchTaxonomy({ codename: "genre" })`
+> types its `terms[].codename` as `"action" | "comedy" | "drama"` at every nesting level. The list of
+> taxonomy codenames is derived from the map's keys (`TaxonomyCodenameOf<MySchema>`), so no separate
+> `taxonomyCodenames` field is needed. Generated schemas from `@kontent-ai/model-generator` will emit
+> this shape.
 
 ---
 

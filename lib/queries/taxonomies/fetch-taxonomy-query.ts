@@ -1,27 +1,27 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename } from "../../models/request.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
-import type { TaxonomyPayload } from "./models/taxonomy.models.js";
+import type { TaxonomyCodenameOf, TaxonomyPayload, TaxonomyTermCodenamesOf } from "./models/taxonomy.models.js";
 
-export type FetchTaxonomyQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
-	TaxonomyPayload<TSchema, string>,
-	DeliveryMetadata
->;
+export type FetchTaxonomyQuery<
+	TSchema extends DeliveryClientSchema,
+	TCodename extends string = TaxonomyCodenameOf<TSchema>,
+> = DeliveryFetchQuery<TaxonomyPayload<TSchema, TaxonomyTermCodenamesOf<TSchema, TCodename>>, DeliveryMetadata>;
 
-export type FetchTaxonomyQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
-	NonNullable<TSchema["taxonomyCodenames"]>,
-	never,
-	never
->;
+export type FetchTaxonomyQueryRequest<
+	TSchema extends DeliveryClientSchema,
+	TCodename extends TaxonomyCodenameOf<TSchema> = TaxonomyCodenameOf<TSchema>,
+> = DeliveryRequestWithCodename<readonly [TCodename], never, never>;
 
-export function fetchTaxonomyQuery<TSchema extends DeliveryClientSchema>(
+export function fetchTaxonomyQuery<TSchema extends DeliveryClientSchema, const TCodename extends TaxonomyCodenameOf<TSchema>>(
 	config: DeliveryClientConfig<TSchema>,
-	request: FetchTaxonomyQueryRequest<TSchema>,
-): FetchTaxonomyQuery<TSchema> {
+	request: FetchTaxonomyQueryRequest<TSchema, TCodename>,
+): FetchTaxonomyQuery<TSchema, TCodename> {
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: async () => (await import("./schemas/taxonomy.schemas.js")).taxonomySchema<TSchema, string>(),
+		schema: async () =>
+			(await import("./schemas/taxonomy.schemas.js")).taxonomySchema<TSchema, TaxonomyTermCodenamesOf<TSchema, TCodename>>(),
 		endpoint: `taxonomies/${request.codename}`,
 	});
 }

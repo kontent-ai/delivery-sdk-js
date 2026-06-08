@@ -6,7 +6,7 @@ import { getFakeUuid } from "../../utils/test.utils.js";
 
 type TestSchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["default"];
-	readonly taxonomyCodenames: readonly [];
+	readonly taxonomies: Record<string, never>;
 	readonly contentTypeCodenames: readonly ["movie", "star"];
 	readonly elementCodenames: readonly [];
 	readonly collectionCodenames: readonly ["default"];

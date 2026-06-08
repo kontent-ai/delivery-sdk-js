@@ -16,12 +16,13 @@ import type { ListContentTypesQuery, ListContentTypesQueryRequest } from "../que
 import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
+import type { TaxonomyCodenameOf } from "../queries/taxonomies/models/taxonomy.models.js";
 import type { DeliverySdkError } from "./error.models.js";
 
 export type DeliveryClientSchema<
 	TSchema extends DeliveryClientSchema = {
 		readonly languageCodenames: readonly string[];
-		readonly taxonomyCodenames: readonly string[];
+		readonly taxonomies: { readonly [taxonomyCodename: string]: readonly string[] };
 		readonly contentTypeCodenames: readonly string[];
 		readonly elementCodenames: readonly string[];
 		readonly collectionCodenames: readonly string[];
@@ -70,7 +71,9 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	listLanguages(request?: ListLanguagesQueryRequest): ListLanguagesQuery<TSchema>;
 	listTaxonomies(request?: ListTaxonomiesQueryRequest): ListTaxonomiesQuery<TSchema>;
 	listContentTypes(request?: ListContentTypesQueryRequest<TSchema>): ListContentTypesQuery<TSchema>;
-	fetchTaxonomy(request: FetchTaxonomyQueryRequest<TSchema>): FetchTaxonomyQuery<TSchema>;
+	fetchTaxonomy<const TCodename extends TaxonomyCodenameOf<TSchema>>(
+		request: FetchTaxonomyQueryRequest<TSchema, TCodename>,
+	): FetchTaxonomyQuery<TSchema, TCodename>;
 	fetchContentType(request: FetchContentTypeQueryRequest<TSchema>): FetchContentTypeQuery<TSchema>;
 	fetchContentTypeElement(request: FetchContentTypeElementQueryRequest<TSchema>): FetchContentTypeElementQuery;
 	fetchContentItem(request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema>;

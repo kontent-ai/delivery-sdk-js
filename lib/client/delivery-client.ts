@@ -16,6 +16,7 @@ import { type ListContentTypesQueryRequest, listContentTypesQuery } from "../que
 import { type ListLanguagesQueryRequest, listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
+import type { TaxonomyCodenameOf } from "../queries/taxonomies/models/taxonomy.models.js";
 
 /**
  * Creates a delivery client. When you supply a `TSchema` type argument, codenames are narrowed for type safety.
@@ -32,7 +33,8 @@ export function createDeliveryClient<const TSchema extends DeliveryClientSchema 
 		listTaxonomies: (request?: ListTaxonomiesQueryRequest) => listTaxonomiesQuery(config, request),
 		listLanguages: (request?: ListLanguagesQueryRequest) => listLanguagesQuery(config, request),
 		listContentTypes: (request?: ListContentTypesQueryRequest<TSchema>) => listContentTypesQuery(config, request),
-		fetchTaxonomy: (request: FetchTaxonomyQueryRequest<TSchema>) => fetchTaxonomyQuery(config, request),
+		fetchTaxonomy: <const TCodename extends TaxonomyCodenameOf<TSchema>>(request: FetchTaxonomyQueryRequest<TSchema, TCodename>) =>
+			fetchTaxonomyQuery(config, request),
 		fetchContentType: (request: FetchContentTypeQueryRequest<TSchema>) => fetchContentTypeQuery(config, request),
 		fetchContentTypeElement: (request: FetchContentTypeElementQueryRequest<TSchema>) => fetchContentTypeElementQuery(config, request),
 		fetchContentItem: (request: FetchContentItemQueryRequest<TSchema>) => fetchContentItemQuery(config, request),
