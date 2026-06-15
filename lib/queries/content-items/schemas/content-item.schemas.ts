@@ -49,7 +49,7 @@ export const listContentItemsSchema = <TSchema extends DeliveryClientSchema>() =
 	z.readonly(
 		z.object({
 			items: z.readonly(z.array(contentItemSchema<TSchema>())),
-			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
+			modular_content: z.readonly(z.record(z.string(), contentItemSchema<TSchema>())),
 			...paginationWithTotalCountSchema.shape,
 		}),
 	);
@@ -58,7 +58,7 @@ export const itemsFeedSchema = <TSchema extends DeliveryClientSchema>() =>
 	z.readonly(
 		z.object({
 			items: z.readonly(z.array(contentItemSchema<TSchema>())),
-			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
+			modular_content: z.readonly(z.record(z.string(), contentItemSchema<TSchema>())),
 		}),
 	);
 
@@ -92,7 +92,7 @@ export const fetchContentItemSchema = <TSchema extends DeliveryClientSchema>() =
 	z.readonly(
 		z.object({
 			item: contentItemSchema<TSchema>(),
-			modular_content: z.record(z.string(), contentItemSchema<TSchema>()),
+			modular_content: z.readonly(z.record(z.string(), contentItemSchema<TSchema>())),
 		}),
 	);
 

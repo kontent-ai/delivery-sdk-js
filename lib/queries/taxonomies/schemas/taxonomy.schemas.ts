@@ -6,7 +6,7 @@ import type { TaxonomyCodenameOf } from "../models/taxonomy.models.js";
 
 export const taxonomyTermSchema = <TTermCodenames extends string>() =>
 	z.object({
-		name: z.string(),
+		name: z.readonly(z.string()),
 		codename: codenameOf<TTermCodenames>(),
 		get terms() {
 			return z.readonly(z.array(taxonomyTermSchema<TTermCodenames>()));

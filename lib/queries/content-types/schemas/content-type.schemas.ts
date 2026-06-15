@@ -117,7 +117,7 @@ export const contentTypeSchema = <TSchema extends DeliveryClientSchema>() =>
 					last_modified: z.iso.datetime(),
 				}),
 			),
-			elements: z.record(z.string(), contentTypeAnyElementSchema),
+			elements: z.readonly(z.record(z.string(), contentTypeAnyElementSchema)),
 		}),
 	);
 
