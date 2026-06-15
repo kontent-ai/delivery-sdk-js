@@ -100,7 +100,7 @@ export const contentItemSchemaExtended = <TSchema extends DeliveryClientSchema>(
 	z.readonly(
 		z.object({
 			system: contentItemSystemSchema<TSchema>(),
-			elements: z.record(z.string(), contentItemElementSchemaExtended),
+			elements: z.readonly(z.record(z.string(), contentItemElementSchemaExtended)),
 		}),
 	);
 
@@ -108,7 +108,7 @@ export const listContentItemsSchemaExtended = <TSchema extends DeliveryClientSch
 	z.readonly(
 		z.object({
 			items: z.readonly(z.array(contentItemSchemaExtended<TSchema>())),
-			modular_content: z.record(z.string(), contentItemSchemaExtended<TSchema>()),
+			modular_content: z.readonly(z.record(z.string(), contentItemSchemaExtended<TSchema>())),
 			...paginationWithTotalCountSchema.shape,
 		}),
 	);
@@ -117,7 +117,7 @@ export const itemsFeedSchemaExtended = <TSchema extends DeliveryClientSchema>() 
 	z.readonly(
 		z.object({
 			items: z.readonly(z.array(contentItemSchemaExtended<TSchema>())),
-			modular_content: z.record(z.string(), contentItemSchemaExtended<TSchema>()),
+			modular_content: z.readonly(z.record(z.string(), contentItemSchemaExtended<TSchema>())),
 		}),
 	);
 
@@ -125,6 +125,6 @@ export const fetchContentItemSchemaExtended = <TSchema extends DeliveryClientSch
 	z.readonly(
 		z.object({
 			item: contentItemSchemaExtended<TSchema>(),
-			modular_content: z.record(z.string(), contentItemSchemaExtended<TSchema>()),
+			modular_content: z.readonly(z.record(z.string(), contentItemSchemaExtended<TSchema>())),
 		}),
 	);
