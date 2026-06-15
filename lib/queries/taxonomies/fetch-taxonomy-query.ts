@@ -1,12 +1,18 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename } from "../../models/request.models.js";
+import type { DeliveryResponse } from "../../models/response.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
 import type { TaxonomyCodenameOf, TaxonomyPayload, TaxonomyTermCodenamesOf } from "./models/taxonomy.models.js";
+
+export type FetchTaxonomyResponse<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TCodename extends string = TaxonomyCodenameOf<TSchema>,
+> = DeliveryResponse<TaxonomyPayload<TSchema, TaxonomyTermCodenamesOf<TSchema, TCodename>>, DeliveryMetadata>;
 
 export type FetchTaxonomyQuery<
 	TSchema extends DeliveryClientSchema,
 	TCodename extends string = TaxonomyCodenameOf<TSchema>,
-> = DeliveryFetchQuery<TaxonomyPayload<TSchema, TaxonomyTermCodenamesOf<TSchema, TCodename>>, DeliveryMetadata>;
+> = DeliveryFetchQuery<FetchTaxonomyResponse<TSchema, TCodename>["payload"], FetchTaxonomyResponse<TSchema, TCodename>["meta"]>;
 
 export type FetchTaxonomyQueryRequest<
 	TSchema extends DeliveryClientSchema,

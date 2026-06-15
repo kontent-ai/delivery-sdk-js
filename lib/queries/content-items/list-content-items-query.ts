@@ -8,6 +8,7 @@ import type {
 	SystemOrderQueryParam,
 	WithRaw,
 } from "../../models/request.models.js";
+import type { DeliveryResponse } from "../../models/response.models.js";
 import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
 import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByUrlQuery, transformDeliveryPagedByUrlQuery } from "../delivery-queries.js";
@@ -21,11 +22,16 @@ import type {
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
 
-export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
+export type ListContentItemsResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
 	ListContentItemsPayloadExtended<TSchema>,
 	DeliveryMetadata
+>;
+
+export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
+	ListContentItemsResponse<TSchema>["payload"],
+	ListContentItemsResponse<TSchema>["meta"]
 > &
-	WithRaw<DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>, DeliveryMetadata>>;
+	WithRaw<DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>, ListContentItemsResponse<TSchema>["meta"]>>;
 
 export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
 	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ElementProperties<TSchema>>,

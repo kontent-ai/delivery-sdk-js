@@ -1,15 +1,21 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam, WithRaw } from "../../models/request.models.js";
+import type { DeliveryResponse } from "../../models/response.models.js";
 import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
 import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../transforms/content-item-transforms.js";
 import { createDeliveryFetchQuery, transformDeliveryFetchQuery } from "../delivery-queries.js";
 import type { FetchContentItemPayload, FetchContentItemPayloadExtended } from "./models/content-item.models.js";
 
-export type FetchContentItemQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
+export type FetchContentItemResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
 	FetchContentItemPayloadExtended<TSchema>,
 	DeliveryMetadata
+>;
+
+export type FetchContentItemQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
+	FetchContentItemResponse<TSchema>["payload"],
+	FetchContentItemResponse<TSchema>["meta"]
 > &
-	WithRaw<DeliveryFetchQuery<FetchContentItemPayload<TSchema>, DeliveryMetadata>>;
+	WithRaw<DeliveryFetchQuery<FetchContentItemPayload<TSchema>, FetchContentItemResponse<TSchema>["meta"]>>;
 
 export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
 	readonly string[],

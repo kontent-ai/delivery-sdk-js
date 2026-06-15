@@ -20,17 +20,27 @@ export type {
 	OrderDirection,
 	SystemOrderQueryParam,
 } from "./models/request.models.js";
-export type { FetchContentItemQuery, FetchContentItemQueryRequest } from "./queries/content-items/fetch-content-item-query.js";
-export type { ItemsFeedQuery, ItemsFeedQueryRequest } from "./queries/content-items/items-feed-query.js";
+export type {
+	FetchContentItemQuery,
+	FetchContentItemQueryRequest,
+	FetchContentItemResponse,
+} from "./queries/content-items/fetch-content-item-query.js";
+export type { ItemsFeedQuery, ItemsFeedQueryRequest, ItemsFeedResponse } from "./queries/content-items/items-feed-query.js";
 export type {
 	ItemsReferencingAssetQuery,
 	ItemsReferencingAssetQueryRequest,
+	ItemsReferencingAssetResponse,
 } from "./queries/content-items/items-referencing-asset-query.js";
 export type {
 	ItemsReferencingItemQuery,
 	ItemsReferencingItemQueryRequest,
+	ItemsReferencingItemResponse,
 } from "./queries/content-items/items-referencing-item-query.js";
-export type { ListContentItemsQuery, ListContentItemsQueryRequest } from "./queries/content-items/list-content-items-query.js";
+export type {
+	ListContentItemsQuery,
+	ListContentItemsQueryRequest,
+	ListContentItemsResponse,
+} from "./queries/content-items/list-content-items-query.js";
 export type {
 	ContentItemOf,
 	ContentItemPayload,
@@ -47,9 +57,18 @@ export type * as ElementType from "./queries/content-items/models/element-types.
 export type {
 	FetchContentTypeElementQuery,
 	FetchContentTypeElementQueryRequest,
+	FetchContentTypeElementResponse,
 } from "./queries/content-types/fetch-content-type-element-query.js";
-export type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "./queries/content-types/fetch-content-type-query.js";
-export type { ListContentTypesQuery, ListContentTypesQueryRequest } from "./queries/content-types/list-content-types-query.js";
+export type {
+	FetchContentTypeQuery,
+	FetchContentTypeQueryRequest,
+	FetchContentTypeResponse,
+} from "./queries/content-types/fetch-content-type-query.js";
+export type {
+	ListContentTypesQuery,
+	ListContentTypesQueryRequest,
+	ListContentTypesResponse,
+} from "./queries/content-types/list-content-types-query.js";
 export type {
 	AllElementCodenamesOf,
 	ContentTypeCodenameOf,
@@ -58,10 +77,18 @@ export type {
 	ElementCodenamesOf,
 	ListContentTypesPayload,
 } from "./queries/content-types/models/content-type.models.js";
-export type { ListLanguagesQuery, ListLanguagesQueryRequest } from "./queries/languages/list-languages-query.js";
+export type {
+	ListLanguagesQuery,
+	ListLanguagesQueryRequest,
+	ListLanguagesResponse,
+} from "./queries/languages/list-languages-query.js";
 export type { LanguagePayload, ListLanguagesPayload } from "./queries/languages/models/language.models.js";
-export type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "./queries/taxonomies/fetch-taxonomy-query.js";
-export type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "./queries/taxonomies/list-taxonomies-query.js";
+export type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest, FetchTaxonomyResponse } from "./queries/taxonomies/fetch-taxonomy-query.js";
+export type {
+	ListTaxonomiesQuery,
+	ListTaxonomiesQueryRequest,
+	ListTaxonomiesResponse,
+} from "./queries/taxonomies/list-taxonomies-query.js";
 export type {
 	ListTaxonomiesPayload,
 	TaxonomyCodenameOf,

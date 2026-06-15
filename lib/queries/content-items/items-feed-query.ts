@@ -13,6 +13,7 @@ import type {
 	SystemOrderQueryParam,
 	WithRaw,
 } from "../../models/request.models.js";
+import type { DeliveryResponse } from "../../models/response.models.js";
 import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
 import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByTokenQuery, transformDeliveryPagedByTokenQuery } from "../delivery-queries.js";
@@ -26,11 +27,16 @@ import type {
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type ElementProperties<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
 
-export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
+export type ItemsFeedResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
 	ItemsFeedPayloadExtended<TSchema>,
 	DeliveryMetadataWithToken
+>;
+
+export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
+	ItemsFeedResponse<TSchema>["payload"],
+	ItemsFeedResponse<TSchema>["meta"]
 > &
-	WithRaw<DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>, DeliveryMetadataWithToken>>;
+	WithRaw<DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>, ItemsFeedResponse<TSchema>["meta"]>>;
 
 export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
 	{

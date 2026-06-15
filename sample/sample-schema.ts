@@ -23,6 +23,7 @@ import type {
 	DeliveryClientSchema,
 	ElementCodenamesOf,
 	ElementType,
+	FetchContentItemResponse,
 	TaxonomyPayload,
 } from "../lib/public_api.js";
 
@@ -141,8 +142,9 @@ export async function queries(): Promise<void> {
 		(language) => language.system.codename,
 	);
 
-	// `fetchContentItem` returns a fully typed item payload.
-	const response = await client.fetchContentItem({ codename: "itemCodename" }).fetch();
+	// `fetchContentItem` returns a fully typed item payload. Annotate it with `FetchContentItemResponse`
+	// instead of hand-assembling the response type from `@kontent-ai/core-sdk`.
+	const response: FetchContentItemResponse<SampleProjectSchema> = await client.fetchContentItem({ codename: "itemCodename" }).fetch();
 
 	const movieItem = response.payload.item;
 	if (isMovie(movieItem)) {
