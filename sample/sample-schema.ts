@@ -105,6 +105,16 @@ export type MovieElements = {
 export type Movie = ContentItemOf<SampleProjectSchema, "movie", MovieElements>;
 
 /**
+ * The element shape is validated against the schema: every key must be an element codename declared
+ * for the content type. You may type a subset of the type's elements, but unknown codenames are rejected.
+ */
+// @ts-expect-error "titel" is not an element codename declared for "movie" in the schema.
+export type BadMovie = ContentItemOf<SampleProjectSchema, "movie", { readonly titel: ElementType.Text }>;
+
+// A partial shape (only some of the type's elements) is still allowed.
+export type PartialMovie = ContentItemOf<SampleProjectSchema, "movie", { readonly title: ElementType.Text }>;
+
+/**
  * 4. Typed delivery client
  *
  * Pass `SampleProjectSchema` as the generic to `createDeliveryClient` and
