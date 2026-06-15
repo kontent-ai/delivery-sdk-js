@@ -21,7 +21,7 @@ export type ListContentTypesQueryRequest<TSchema extends DeliveryClientSchema> =
 >;
 
 export function listContentTypesQuery<TSchema extends DeliveryClientSchema>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 	request?: ListContentTypesQueryRequest<TSchema>,
 ): ListContentTypesQuery<TSchema> {
 	return createDeliveryPagedByUrlQuery({

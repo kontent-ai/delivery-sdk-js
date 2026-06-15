@@ -64,7 +64,7 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 >;
 
 export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 	request?: ListContentItemsQueryRequest<TSchema>,
 ): ListContentItemsQuery<TSchema> {
 	const rawQuery = createDeliveryPagedByUrlQuery<ListContentItemsPayload<TSchema>>({

@@ -18,6 +18,7 @@ import { createDeliveryClient } from "../lib/client/delivery-client.js";
 import type { DeliveryMetadata } from "../lib/models/core.models.js";
 import type {
 	ContentItemOf,
+	ContentItemPayload,
 	DeliveryClient,
 	DeliveryClientSchema,
 	ElementCodenamesOf,
@@ -142,6 +143,13 @@ export async function queries(): Promise<void> {
 
 	// `fetchContentItem` returns a fully typed item payload.
 	const response = await client.fetchContentItem({ codename: "itemCodename" }).fetch();
+
+	const movieItem = response.payload.item;
+	if (isMovie(movieItem)) {
+		const title: string = movieItem.elements.title.value;
+		const releaseDate: string | null = movieItem.elements.release_date.value;
+		const actors: readonly Actor[] = movieItem.elements.actors.items;
+	}
 }
 
 /**
@@ -216,4 +224,8 @@ export async function typedContentTypeElement(): Promise<void> {
 
 	// The element codenames of a single type can be derived directly from the schema.
 	const movieElement: ElementCodenamesOf<SampleProjectSchema, "movie"> = "synopsis";
+}
+
+function isMovie(item: ContentItemPayload<SampleProjectSchema>): item is Movie {
+	return item.system.codename === ("movie" as keyof SampleProjectSchema["contentTypes"]);
 }

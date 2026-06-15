@@ -50,23 +50,19 @@ export type UrlPagingDeliveryExtraResponseProps = {
 
 export type ApiMode = "public" | "preview" | "secure";
 
-declare const schemaPhantom: unique symbol;
-
-export type DeliveryClientConfig<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = SdkConfig<
+export type DeliveryClientConfig = SdkConfig<
 	DeliveryApiConfig & {
 		/**
 		 * The environment ID of your Kontent.ai project. Can be found in the Kontent.ai app.
 		 */
 		readonly environmentId: string;
 	}
-> & {
-	readonly [schemaPhantom]?: TSchema;
-};
+>;
 
 export type DeliveryApiConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
 
 export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = {
-	readonly config: DeliveryClientConfig<TSchema>;
+	readonly config: DeliveryClientConfig;
 
 	listLanguages(request?: ListLanguagesQueryRequest): ListLanguagesQuery<TSchema>;
 	listTaxonomies(request?: ListTaxonomiesQueryRequest): ListTaxonomiesQuery<TSchema>;
@@ -112,11 +108,6 @@ export type DeliveryEndpoint =
 	| `types/${string}/elements/${string}`;
 
 export type WaitForLoadingNewContentHeaderName = "X-KC-Wait-For-Loading-New-Content";
-
-/**
- * Readonly array with at least one item.
- */
-export type NonEmptyArray<T> = readonly [T, ...T[]];
 
 type PublicDeliveryClientConfig = {
 	/**

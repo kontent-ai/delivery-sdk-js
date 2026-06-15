@@ -27,7 +27,7 @@ import type { TaxonomyCodenameOf } from "../queries/taxonomies/models/taxonomy.m
  * and passing it as the type argument for full compile-time safety.
  */
 export function createDeliveryClient<const TSchema extends DeliveryClientSchema = DeliveryClientSchema>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 ): DeliveryClient<TSchema> {
 	return {
 		config,

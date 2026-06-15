@@ -17,7 +17,7 @@ export type FetchContentTypeQueryRequest<
 >;
 
 export function fetchContentTypeQuery<TSchema extends DeliveryClientSchema, const TCodename extends ContentTypeCodenameOf<TSchema>>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 	request: FetchContentTypeQueryRequest<TSchema, TCodename>,
 ): FetchContentTypeQuery<TSchema> {
 	return createDeliveryFetchQuery({

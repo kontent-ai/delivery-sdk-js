@@ -41,7 +41,7 @@ export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> =
 >;
 
 export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 	request: FetchContentItemQueryRequest<TSchema>,
 ): FetchContentItemQuery<TSchema> {
 	const rawQuery = createDeliveryFetchQuery<FetchContentItemPayload<TSchema>>({

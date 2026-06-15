@@ -18,7 +18,7 @@ export type ListLanguagesQueryRequest = DeliveryRequestWithUrlPaging<
 >;
 
 export function listLanguagesQuery<TSchema extends DeliveryClientSchema>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 	request?: ListLanguagesQueryRequest,
 ): ListLanguagesQuery<TSchema> {
 	return createDeliveryPagedByUrlQuery({

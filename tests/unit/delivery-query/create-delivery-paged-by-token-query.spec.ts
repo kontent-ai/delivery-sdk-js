@@ -3,14 +3,14 @@ import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ZodMiniType } from "zod/mini";
 import * as z from "zod/mini";
-import type { DeliveryClientConfig, DeliveryClientSchema } from "../../../lib/models/core.models.js";
+import type { DeliveryClientConfig } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
 import type { DeliveryRequest } from "../../../lib/models/request.models.js";
 import { createDeliveryPagedByTokenQuery } from "../../../lib/queries/delivery-queries.js";
 import { getDeliveryUrl } from "../../../lib/utils/url.utils.js";
 import { isPagedFetchQueryWithExpectedFunctions, unitEnvironmentId } from "../../utils/test.utils.js";
 
-const clientConfig: DeliveryClientConfig<DeliveryClientSchema> = {
+const clientConfig: DeliveryClientConfig = {
 	apiMode: "public",
 	environmentId: unitEnvironmentId,
 };

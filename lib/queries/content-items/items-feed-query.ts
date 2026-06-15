@@ -62,7 +62,7 @@ export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = Delive
 >;
 
 export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 	request?: ItemsFeedQueryRequest<TSchema>,
 ): ItemsFeedQuery<TSchema> {
 	const rawQuery = createDeliveryPagedByTokenQuery<ItemsFeedPayload<TSchema>>({

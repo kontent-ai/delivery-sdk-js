@@ -14,7 +14,7 @@ export type FetchTaxonomyQueryRequest<
 > = DeliveryRequestWithCodename<readonly [TCodename], never, never>;
 
 export function fetchTaxonomyQuery<TSchema extends DeliveryClientSchema, const TCodename extends TaxonomyCodenameOf<TSchema>>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 	request: FetchTaxonomyQueryRequest<TSchema, TCodename>,
 ): FetchTaxonomyQuery<TSchema, TCodename> {
 	return createDeliveryFetchQuery({

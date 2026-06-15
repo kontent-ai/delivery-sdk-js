@@ -25,7 +25,7 @@ export type ItemsReferencingAssetQueryRequest<TSchema extends DeliveryClientSche
 };
 
 export function itemsReferencingAssetQuery<TSchema extends DeliveryClientSchema>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 	request: ItemsReferencingAssetQueryRequest<TSchema>,
 ): ItemsReferencingAssetQuery<TSchema> {
 	return createDeliveryPagedByTokenQuery({

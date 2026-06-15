@@ -13,7 +13,6 @@ import type { ZodMiniType } from "zod/mini";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
 import type {
 	DeliveryClientConfig,
-	DeliveryClientSchema,
 	DeliveryEndpoint,
 	DeliveryMetadata,
 	DeliveryMetadataWithToken,
@@ -37,7 +36,7 @@ export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload
 	request,
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
-	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
+	readonly config: DeliveryClientConfig;
 	readonly schema: () => Promise<ZodMiniType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
 }): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps> {
@@ -58,7 +57,7 @@ export function createDeliveryPagedByTokenQuery<TPayload extends JsonValue>({
 	request,
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
-	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
+	readonly config: DeliveryClientConfig;
 	readonly schema: () => Promise<ZodMiniType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
 }): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps> {
@@ -81,7 +80,7 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 	request,
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
-	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
+	readonly config: DeliveryClientConfig;
 	readonly schema: () => Promise<ZodMiniType<TPayload>>;
 	readonly endpoint: DeliveryEndpoint;
 }): FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown> {
@@ -176,7 +175,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	request,
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
-	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
+	readonly config: DeliveryClientConfig;
 	readonly endpoint: DeliveryEndpoint;
 	readonly schema: () => Promise<ZodMiniType<TPayload>>;
 }): Pick<
@@ -210,7 +209,7 @@ function getUrl({
 	endpoint,
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
-	readonly config: DeliveryClientConfig<DeliveryClientSchema>;
+	readonly config: DeliveryClientConfig;
 	readonly endpoint: DeliveryEndpoint;
 }): string {
 	return addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), request?.query, request?.filters);

@@ -18,7 +18,7 @@ export type ListTaxonomiesQueryRequest = DeliveryRequestWithUrlPaging<
 >;
 
 export function listTaxonomiesQuery<TSchema extends DeliveryClientSchema>(
-	config: DeliveryClientConfig<TSchema>,
+	config: DeliveryClientConfig,
 	request?: ListTaxonomiesQueryRequest,
 ): ListTaxonomiesQuery<TSchema> {
 	return createDeliveryPagedByUrlQuery({
