@@ -9,19 +9,21 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
 
-      - run: npm ci
-      
-      - run: npm publish --access=public
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm publish --access=public --no-git-checks
         if: ${{!github.event.release.prerelease}}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
-      - run: npm publish --tag prerelease
+      - run: pnpm publish --tag prerelease --no-git-checks
         if: ${{github.event.release.prerelease}}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
