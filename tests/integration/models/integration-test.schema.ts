@@ -6,22 +6,22 @@ export type IntegrationTestProjectSchema = DeliveryClientSchema<{
 	readonly taxonomies: {
 		readonly movie_type: readonly ["drama", "comedy", "sitcom", "stand_up", "action"];
 	};
-	readonly contentTypeCodenames: readonly ["movie", "star"];
-	readonly elementCodenames: readonly [
-		"title",
-		"length_in_minutes",
-		"description",
-		"is_blockbuster",
-		"release_date",
-		"cover",
-		"category",
-		"url",
-		"metadata__metadata_description",
-		"cast",
-		"firstname",
-		"lastname",
-		"custom",
-	];
+	readonly contentTypes: {
+		readonly movie: readonly [
+			"title",
+			"length_in_minutes",
+			"description",
+			"is_blockbuster",
+			"release_date",
+			"cover",
+			"category",
+			"url",
+			"metadata__metadata_description",
+			"cast",
+			"custom",
+		];
+		readonly star: readonly ["firstname", "lastname"];
+	};
 	readonly collectionCodenames: readonly ["default"];
 	readonly workflowCodenames: readonly ["default"];
 	readonly workflowStepCodenames: readonly ["published", "draft"];

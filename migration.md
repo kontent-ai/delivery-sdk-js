@@ -100,14 +100,16 @@ import { createDeliveryClient, type DeliveryClientSchema } from "@kontent-ai/del
 
 type MySchema = DeliveryClientSchema<{
     readonly languageCodenames: readonly ["en-US", "cs-CZ"];
-    readonly contentTypeCodenames: readonly ["article", "movie"];
     readonly collectionCodenames: readonly ["default"];
     readonly workflowCodenames: readonly ["default"];
     readonly workflowStepCodenames: readonly ["published", "draft"];
     readonly taxonomies: {
         readonly genre: readonly ["action", "comedy", "drama"];
     };
-    readonly elementCodenames: readonly ["title", "summary"];
+    readonly contentTypes: {
+        readonly article: readonly ["title", "summary"];
+        readonly movie: readonly ["title", "release_date"];
+    };
 }>;
 
 const client = createDeliveryClient<MySchema>({
@@ -125,6 +127,17 @@ The schema is type-only — it narrows codenames at compile time and is not pass
 > taxonomy codenames is derived from the map's keys (`TaxonomyCodenameOf<MySchema>`), so no separate
 > `taxonomyCodenames` field is needed. Generated schemas from `@kontent-ai/model-generator` will emit
 > this shape.
+
+> **Note:** `contentTypeCodenames` and `elementCodenames` are replaced by a single `contentTypes` map.
+> Each key is a content type codename; its value lists that type's element codenames. This connects
+> elements to the type they belong to and lets single-type queries narrow elements to the queried type —
+> e.g. `client.fetchContentTypeElement({ typeCodename: "article", elementCodename: "title" })` accepts only
+> `article`'s element codenames, and `client.fetchContentType({ codename: "article" })` narrows its
+> `elements` selection the same way. Cross-type queries (`listContentItems`, `itemsFeed`,
+> `fetchContentItem`, `listContentTypes`) accept any element codename across all types. The list of
+> content type codenames is derived from the map's keys (`ContentTypeCodenameOf<MySchema>`), so no separate
+> `contentTypeCodenames` or `elementCodenames` field is needed. Generated schemas from
+> `@kontent-ai/model-generator` will emit this shape.
 
 ---
 

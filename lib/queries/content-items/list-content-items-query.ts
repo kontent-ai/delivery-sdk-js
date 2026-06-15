@@ -8,6 +8,7 @@ import type {
 	SystemOrderQueryParam,
 	WithRaw,
 } from "../../models/request.models.js";
+import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
 import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByUrlQuery, transformDeliveryPagedByUrlQuery } from "../delivery-queries.js";
 import type {
@@ -18,7 +19,7 @@ import type {
 } from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
-type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
+type ElementProperties<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
 
 export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
 	ListContentItemsPayloadExtended<TSchema>,

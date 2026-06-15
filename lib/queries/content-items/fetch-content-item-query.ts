@@ -1,5 +1,6 @@
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam, WithRaw } from "../../models/request.models.js";
+import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
 import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../transforms/content-item-transforms.js";
 import { createDeliveryFetchQuery, transformDeliveryFetchQuery } from "../delivery-queries.js";
 import type { FetchContentItemPayload, FetchContentItemPayloadExtended } from "./models/content-item.models.js";
@@ -21,12 +22,12 @@ export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> =
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
 		 */
-		readonly elements?: ElementSelectionQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
+		readonly elements?: ElementSelectionQueryParam<AllElementCodenamesOf<TSchema>>;
 
 		/**
 		 * Specifies which elements to exclude from the response. By default, no elements are excluded.
 		 */
-		readonly excludeElements?: ElementSelectionQueryParam<NonNullable<TSchema["elementCodenames"]>[number]>;
+		readonly excludeElements?: ElementSelectionQueryParam<AllElementCodenamesOf<TSchema>>;
 
 		/**
 		 * Determines the nesting level for linked content items that the API returns.

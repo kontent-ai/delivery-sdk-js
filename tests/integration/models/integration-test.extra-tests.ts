@@ -1,4 +1,5 @@
 import { expect, it } from "vitest";
+import type { ContentTypeCodenameOf } from "../../../lib/public_api.js";
 import type { ContentItemPayloadExtended } from "../../../lib/queries/content-items/models/content-item.models.js";
 import { contentItemSchemaExtended } from "../../../lib/queries/content-items/schemas/content-item.schemas.js";
 import { type IntegrationTestProjectSchema, isMovie } from "./integration-test.schema.js";
@@ -19,7 +20,7 @@ export function registerExtendedItemsTests(
 				for (const linkedItem of item.elements.cast.items) {
 					const { success, error } = contentItemSchemaExtended<IntegrationTestProjectSchema>().safeParse(linkedItem);
 					expect(success, error?.message).toBe(true);
-					expect(linkedItem.system.type).toBe<IntegrationTestProjectSchema["contentTypeCodenames"][number]>("star");
+					expect(linkedItem.system.type).toBe<ContentTypeCodenameOf<IntegrationTestProjectSchema>>("star");
 				}
 			});
 

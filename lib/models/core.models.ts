@@ -13,6 +13,7 @@ import type {
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "../queries/content-types/fetch-content-type-query.js";
 import type { ListContentTypesQuery, ListContentTypesQueryRequest } from "../queries/content-types/list-content-types-query.js";
+import type { ContentTypeCodenameOf } from "../queries/content-types/models/content-type.models.js";
 import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
@@ -23,8 +24,7 @@ export type DeliveryClientSchema<
 	TSchema extends DeliveryClientSchema = {
 		readonly languageCodenames: readonly string[];
 		readonly taxonomies: { readonly [taxonomyCodename: string]: readonly string[] };
-		readonly contentTypeCodenames: readonly string[];
-		readonly elementCodenames: readonly string[];
+		readonly contentTypes: { readonly [contentTypeCodename: string]: readonly string[] };
 		readonly collectionCodenames: readonly string[];
 		readonly workflowCodenames: readonly string[];
 		readonly workflowStepCodenames: readonly string[];
@@ -74,8 +74,12 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	fetchTaxonomy<const TCodename extends TaxonomyCodenameOf<TSchema>>(
 		request: FetchTaxonomyQueryRequest<TSchema, TCodename>,
 	): FetchTaxonomyQuery<TSchema, TCodename>;
-	fetchContentType(request: FetchContentTypeQueryRequest<TSchema>): FetchContentTypeQuery<TSchema>;
-	fetchContentTypeElement(request: FetchContentTypeElementQueryRequest<TSchema>): FetchContentTypeElementQuery;
+	fetchContentType<const TCodename extends ContentTypeCodenameOf<TSchema>>(
+		request: FetchContentTypeQueryRequest<TSchema, TCodename>,
+	): FetchContentTypeQuery<TSchema>;
+	fetchContentTypeElement<const TCodename extends ContentTypeCodenameOf<TSchema>>(
+		request: FetchContentTypeElementQueryRequest<TSchema, TCodename>,
+	): FetchContentTypeElementQuery;
 	fetchContentItem(request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema>;
 	listContentItems(request?: ListContentItemsQueryRequest<TSchema>): ListContentItemsQuery<TSchema>;
 	itemsFeed(request?: ItemsFeedQueryRequest<TSchema>): ItemsFeedQuery<TSchema>;

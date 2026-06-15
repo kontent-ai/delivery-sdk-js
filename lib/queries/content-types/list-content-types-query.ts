@@ -2,10 +2,10 @@ import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryMetadata, Deli
 import type { Filter } from "../../models/filter.models.js";
 import type { DeliveryRequestWithUrlPaging, ElementSelectionQueryParam, SystemOrderQueryParam } from "../../models/request.models.js";
 import { createDeliveryPagedByUrlQuery } from "../delivery-queries.js";
-import type { ContentTypePayload, ListContentTypesPayload } from "./models/content-type.models.js";
+import type { AllElementCodenamesOf, ContentTypePayload, ListContentTypesPayload } from "./models/content-type.models.js";
 
 type SystemProperties = keyof ContentTypePayload<DeliveryClientSchema>["system"];
-type ElementProperties<TSchema extends DeliveryClientSchema> = NonNullable<TSchema["elementCodenames"]>[number];
+type ElementProperties<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
 
 export type ListContentTypesQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
 	ListContentTypesPayload<TSchema>,

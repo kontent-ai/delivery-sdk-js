@@ -16,13 +16,26 @@
 import type { QueryResponse } from "@kontent-ai/core-sdk";
 import { createDeliveryClient } from "../lib/client/delivery-client.js";
 import type { DeliveryMetadata } from "../lib/models/core.models.js";
-import type { ContentItemOf, DeliveryClient, DeliveryClientSchema, ElementType, TaxonomyPayload } from "../lib/public_api.js";
+import type {
+	ContentItemOf,
+	DeliveryClient,
+	DeliveryClientSchema,
+	ElementCodenamesOf,
+	ElementType,
+	TaxonomyPayload,
+} from "../lib/public_api.js";
 
 /**
  * 1. Schema declaration
  *
  * `DeliveryClientSchema` lists every codename your project uses so queries,
  * payloads, and element accessors are checked against it.
+ *
+ * `contentTypes` is a map: each key is a content type codename, and its value
+ * lists that type's element codenames. Elements therefore belong to a type,
+ * which lets single-type queries narrow elements to the queried type (see
+ * `typedContentTypeElement` below). `taxonomies` follows the same shape, with
+ * each taxonomy mapping to its term codenames.
  */
 export type SampleProjectSchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["en-us", "es-es"];
@@ -30,8 +43,21 @@ export type SampleProjectSchema = DeliveryClientSchema<{
 		readonly category: readonly ["term1", "term2"];
 		readonly tag: readonly ["news", "featured"];
 	};
-	readonly contentTypeCodenames: readonly ["movie", "actor"];
-	readonly elementCodenames: readonly ["title", "first_name", "last_name"];
+	readonly contentTypes: {
+		readonly movie: readonly [
+			"title",
+			"rating",
+			"synopsis",
+			"genre",
+			"release_date",
+			"poster",
+			"categories",
+			"url_slug",
+			"custom_id",
+			"actors",
+		];
+		readonly actor: readonly ["first_name", "last_name", "role", "relatedActors"];
+	};
 	readonly collectionCodenames: readonly ["movies", "tv-shows"];
 	readonly workflowCodenames: readonly ["published", "draft"];
 	readonly workflowStepCodenames: readonly ["published", "draft"];
@@ -156,4 +182,28 @@ export async function typedTaxonomy(): Promise<void> {
 	// A different taxonomy narrows to its own terms.
 	const tagTaxonomy = await client.fetchTaxonomy({ codename: "tag" }).fetch();
 	const tagCodename: "news" | "featured" | undefined = tagTaxonomy.payload.terms[0]?.codename;
+}
+
+/**
+ * 7. Demonstration: per-content-type element codenames
+ *
+ * Because elements live under their content type in the schema, single-type
+ * queries narrow element codenames to the queried type — exactly how
+ * `fetchTaxonomy` narrows term codenames to the queried taxonomy.
+ */
+export async function typedContentTypeElement(): Promise<void> {
+	// `elementCodename` is narrowed to the elements declared for the "movie" type.
+	await client.fetchContentTypeElement({ typeCodename: "movie", elementCodename: "title" }).fetch();
+
+	// A different type narrows to its own elements.
+	await client.fetchContentTypeElement({ typeCodename: "actor", elementCodename: "first_name" }).fetch();
+
+	// @ts-expect-error "first_name" belongs to "actor", not "movie".
+	await client.fetchContentTypeElement({ typeCodename: "movie", elementCodename: "first_name" }).fetch();
+
+	// `fetchContentType` narrows its element selection to the queried type too.
+	await client.fetchContentType({ codename: "movie", query: { elements: ["title", "rating"] } }).fetch();
+
+	// The element codenames of a single type can be derived directly from the schema.
+	const movieElement: ElementCodenamesOf<SampleProjectSchema, "movie"> = "synopsis";
 }

@@ -2,6 +2,7 @@ import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../../models/pagination.schemas.js";
+import type { ContentTypeCodenameOf } from "../../content-types/models/content-type.models.js";
 import { contentItemElementSchema, contentItemElementSchemaExtended } from "./element.schemas.js";
 
 const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
@@ -10,7 +11,7 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 		name: z.string(),
 		codename: codenameOf(),
 		language: codenameOf<TSchema["languageCodenames"][number]>(),
-		type: codenameOf<TSchema["contentTypeCodenames"][number]>(),
+		type: codenameOf<ContentTypeCodenameOf<TSchema>>(),
 		collection: codenameOf<TSchema["collectionCodenames"][number]>(),
 		last_modified: z.iso.datetime(),
 		workflow: codenameOf<TSchema["workflowCodenames"][number]>(),
@@ -25,10 +26,7 @@ export const contentItemSchema = <TSchema extends DeliveryClientSchema>() =>
 		}),
 	);
 
-export const contentItemSystemWithCodename = <
-	TSchema extends DeliveryClientSchema,
-	TTypeCodename extends TSchema["contentTypeCodenames"][number],
->(
+export const contentItemSystemWithCodename = <TSchema extends DeliveryClientSchema, TTypeCodename extends ContentTypeCodenameOf<TSchema>>(
 	type: TTypeCodename,
 ) =>
 	z.readonly(

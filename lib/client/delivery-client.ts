@@ -13,6 +13,7 @@ import {
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import { type FetchContentTypeQueryRequest, fetchContentTypeQuery } from "../queries/content-types/fetch-content-type-query.js";
 import { type ListContentTypesQueryRequest, listContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
+import type { ContentTypeCodenameOf } from "../queries/content-types/models/content-type.models.js";
 import { type ListLanguagesQueryRequest, listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
@@ -35,8 +36,12 @@ export function createDeliveryClient<const TSchema extends DeliveryClientSchema 
 		listContentTypes: (request?: ListContentTypesQueryRequest<TSchema>) => listContentTypesQuery(config, request),
 		fetchTaxonomy: <const TCodename extends TaxonomyCodenameOf<TSchema>>(request: FetchTaxonomyQueryRequest<TSchema, TCodename>) =>
 			fetchTaxonomyQuery(config, request),
-		fetchContentType: (request: FetchContentTypeQueryRequest<TSchema>) => fetchContentTypeQuery(config, request),
-		fetchContentTypeElement: (request: FetchContentTypeElementQueryRequest<TSchema>) => fetchContentTypeElementQuery(config, request),
+		fetchContentType: <const TCodename extends ContentTypeCodenameOf<TSchema>>(
+			request: FetchContentTypeQueryRequest<TSchema, TCodename>,
+		) => fetchContentTypeQuery(config, request),
+		fetchContentTypeElement: <const TCodename extends ContentTypeCodenameOf<TSchema>>(
+			request: FetchContentTypeElementQueryRequest<TSchema, TCodename>,
+		) => fetchContentTypeElementQuery(config, request),
 		fetchContentItem: (request: FetchContentItemQueryRequest<TSchema>) => fetchContentItemQuery(config, request),
 		listContentItems: (request?: ListContentItemsQueryRequest<TSchema>) => listContentItemsQuery(config, request),
 		itemsFeed: (request?: ItemsFeedQueryRequest<TSchema>) => itemsFeedQuery(config, request),

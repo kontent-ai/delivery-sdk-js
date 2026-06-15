@@ -7,8 +7,10 @@ import { getFakeUuid } from "../../utils/test.utils.js";
 type TestSchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["default"];
 	readonly taxonomies: Record<string, never>;
-	readonly contentTypeCodenames: readonly ["movie", "star"];
-	readonly elementCodenames: readonly [];
+	readonly contentTypes: {
+		readonly movie: readonly [];
+		readonly star: readonly [];
+	};
 	readonly collectionCodenames: readonly ["default"];
 	readonly workflowCodenames: readonly ["default"];
 	readonly workflowStepCodenames: readonly ["published"];

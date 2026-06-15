@@ -13,8 +13,7 @@ describe("Response validation", () => {
 		type TestSchema = DeliveryClientSchema<{
 			readonly languageCodenames: readonly ["en-US", "cs-CZ", "de-DE"];
 			readonly taxonomies: Record<string, never>;
-			readonly contentTypeCodenames: readonly [];
-			readonly elementCodenames: readonly [];
+			readonly contentTypes: Record<string, never>;
 			readonly collectionCodenames: readonly [];
 			readonly workflowCodenames: readonly [];
 			readonly workflowStepCodenames: readonly [];
@@ -41,8 +40,7 @@ describe("Response validation", () => {
 		type NarrowSchema = DeliveryClientSchema<{
 			readonly languageCodenames: readonly ["en-US", "cs-CZ"];
 			readonly taxonomies: Record<string, never>;
-			readonly contentTypeCodenames: readonly [];
-			readonly elementCodenames: readonly [];
+			readonly contentTypes: Record<string, never>;
 			readonly collectionCodenames: readonly [];
 			readonly workflowCodenames: readonly [];
 			readonly workflowStepCodenames: readonly [];

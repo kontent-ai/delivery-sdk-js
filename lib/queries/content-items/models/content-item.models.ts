@@ -1,5 +1,6 @@
 import type * as z from "zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
+import type { ContentTypeCodenameOf } from "../../content-types/models/content-type.models.js";
 import type {
 	contentItemSchema,
 	contentItemSchemaExtended,
@@ -18,14 +19,13 @@ import type { ContentItemElementPayload } from "./element.models.js";
 
 export type ContentItemElementShape = Record<string, ContentItemElementPayload>;
 
-export type ContentItemSystem<
-	TSchema extends DeliveryClientSchema,
-	TTypeCodename extends TSchema["contentTypeCodenames"][number],
-> = z.infer<ReturnType<typeof contentItemSystemWithCodename<TSchema, TTypeCodename>>>;
+export type ContentItemSystem<TSchema extends DeliveryClientSchema, TTypeCodename extends ContentTypeCodenameOf<TSchema>> = z.infer<
+	ReturnType<typeof contentItemSystemWithCodename<TSchema, TTypeCodename>>
+>;
 
 export type ContentItemOf<
 	TSchema extends DeliveryClientSchema,
-	TTypeCodename extends TSchema["contentTypeCodenames"][number],
+	TTypeCodename extends ContentTypeCodenameOf<TSchema>,
 	TElements extends ContentItemElementShape,
 > = {
 	readonly system: ContentItemSystem<TSchema, TTypeCodename>;

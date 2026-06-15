@@ -51,12 +51,21 @@ export type {
 export type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "./queries/content-types/fetch-content-type-query.js";
 export type { ListContentTypesQuery, ListContentTypesQueryRequest } from "./queries/content-types/list-content-types-query.js";
 export type {
+	AllElementCodenamesOf,
+	ContentTypeCodenameOf,
 	ContentTypeElementPayload,
 	ContentTypePayload,
+	ElementCodenamesOf,
 	ListContentTypesPayload,
 } from "./queries/content-types/models/content-type.models.js";
 export type { ListLanguagesQuery, ListLanguagesQueryRequest } from "./queries/languages/list-languages-query.js";
 export type { LanguagePayload, ListLanguagesPayload } from "./queries/languages/models/language.models.js";
 export type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "./queries/taxonomies/fetch-taxonomy-query.js";
 export type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "./queries/taxonomies/list-taxonomies-query.js";
-export type { ListTaxonomiesPayload, TaxonomyPayload, TaxonomyTermPayload } from "./queries/taxonomies/models/taxonomy.models.js";
+export type {
+	ListTaxonomiesPayload,
+	TaxonomyCodenameOf,
+	TaxonomyPayload,
+	TaxonomyTermCodenamesOf,
+	TaxonomyTermPayload,
+} from "./queries/taxonomies/models/taxonomy.models.js";
