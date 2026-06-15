@@ -3,11 +3,19 @@ allowBuilds:
 ignoredBuiltDependencies:
   - esbuild
 minimumReleaseAgeExclude:
-  - '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260604.1'
-  - '@typescript/native-preview-darwin-x64@7.0.0-dev.20260604.1'
-  - '@typescript/native-preview-linux-arm64@7.0.0-dev.20260604.1'
-  - '@typescript/native-preview-linux-arm@7.0.0-dev.20260604.1'
-  - '@typescript/native-preview-linux-x64@7.0.0-dev.20260604.1'
-  - '@typescript/native-preview-win32-arm64@7.0.0-dev.20260604.1'
-  - '@typescript/native-preview-win32-x64@7.0.0-dev.20260604.1'
-  - '@typescript/native-preview@7.0.0-dev.20260604.1'
+  - '@typescript/native-preview-darwin-arm64@7.0.0-dev.20260614.1'
+  - '@typescript/native-preview-darwin-x64@7.0.0-dev.20260614.1'
+  - '@typescript/native-preview-linux-arm64@7.0.0-dev.20260614.1'
+  - '@typescript/native-preview-linux-arm@7.0.0-dev.20260614.1'
+  - '@typescript/native-preview-linux-x64@7.0.0-dev.20260614.1'
+  - '@typescript/native-preview-win32-arm64@7.0.0-dev.20260614.1'
+  - '@typescript/native-preview-win32-x64@7.0.0-dev.20260614.1'
+  - '@typescript/native-preview@7.0.0-dev.20260614.1'
+  - '@vitest/expect@4.1.9'
+  - '@vitest/mocker@4.1.9'
+  - '@vitest/pretty-format@4.1.9'
+  - '@vitest/runner@4.1.9'
+  - '@vitest/snapshot@4.1.9'
+  - '@vitest/spy@4.1.9'
+  - '@vitest/utils@4.1.9'
+  - vitest@4.1.9
