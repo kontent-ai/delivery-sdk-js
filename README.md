@@ -226,6 +226,36 @@ import { listContentItemsSchema } from "@kontent-ai/delivery-sdk/schemas";
 const result = await listContentItemsSchema<MySchema>().safeParseAsync(storedJson);
 ```
 
+## Resolved linked items & serialization
+
+By default, content-item queries (`fetchContentItem`, `listContentItems`, `itemsFeed`) return an
+**extended** response: every rich-text and linked-items (modular content) element is augmented with a
+mapped `items` property holding the fully-resolved referenced items. This lets you traverse the content
+tree directly instead of looking codenames up in `modular_content` yourself — `element.value` still holds
+the referenced codenames, while `element.items` holds the resolved items.
+
+```typescript
+const { response } = await client.listContentItems().fetchPageSafe();
+const movie = response?.payload.items[0];
+
+const starCodenames = movie?.elements.stars.value; // string[] of codenames
+const stars = movie?.elements.stars.items;          // resolved items
+```
+
+Because resolved items can reference one another — possibly in a **circular** way — the extended response
+is **not** safe to `JSON.stringify`. When you need to serialize the response (caching, SSR payloads,
+sending it over the wire), use the query's `raw()` variant. It returns the plain API payload with **no**
+resolved `items`; linked items remain referenced by codename in `modular_content`.
+
+```typescript
+// Raw payload — safe to serialize (no resolved `items`, so no circular references)
+const { response } = await client.listContentItems().raw().fetchPageSafe();
+
+const json = JSON.stringify(response?.payload); // safe
+
+// In the raw payload, resolve linked items yourself from `payload.modular_content` when needed.
+```
+
 ## License
 
 MIT
