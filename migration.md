@@ -21,7 +21,7 @@ v17 is a ground-up rewrite. The biggest conceptual shifts:
 | Create client | `createDeliveryClient({ environmentId, previewApiKey })` | `createDeliveryClient({ apiMode, environmentId, deliveryApiKey })` |
 | List items | `client.items().type("movie").toPromise()` | `client.listContentItems({ filters: [...] }).fetchPageSafe()` |
 | Single item | `client.item("x").toPromise()` | `client.fetchContentItem({ codename: "x" }).fetchSafe()` |
-| Strong typing | `ClientTypes` generic + `IContentItem<{...Elements.*}>` | `DeliveryClientSchema` + `ContentItemOf<S,"type",{...ElementType.*}>` |
+| Strong typing | `ClientTypes` generic + `IContentItem<{...Elements.*}>` | `DeliveryClientSchema` + `ContentItemOf<S,"type",{...Elements.*}>` |
 | Response data | `response.data.items` | `response.payload.items` |
 | Linked items | `element.linkedItems` | `element.items` (resolved) |
 | Errors | `try/catch` (`DeliveryError`) | `{ success, error }` (`DeliverySdkError`) |
@@ -170,7 +170,7 @@ The schema is type-only — it narrows codenames at compile time and is not pass
 ## Typed content models
 
 v16 modeled an item with `IContentItem<{...}>` and the `Elements.*` wrapper types. v17 uses
-`ContentItemOf<TSchema, TTypeCodename, TElements>` with the `ElementType.*` namespace. The element shape's
+`ContentItemOf<TSchema, TTypeCodename, TElements>` with the `Elements.*` namespace. The element shape's
 keys are validated against the type's element codenames in your schema.
 
 **v16**
@@ -197,23 +197,23 @@ type Movie = IContentItem<{
 
 **v17**
 ```typescript
-import type { ContentItemOf, ElementType } from "@kontent-ai/delivery-sdk";
+import type { ContentItemOf, Elements } from "@kontent-ai/delivery-sdk";
 
 type Actor = ContentItemOf<MySchema, "actor", {
-    readonly first_name: ElementType.Text;
-    readonly last_name: ElementType.Text;
+    readonly first_name: Elements.Text;
+    readonly last_name: Elements.Text;
 }>;
 
 type Movie = ContentItemOf<MySchema, "movie", {
-    readonly title: ElementType.Text;
-    readonly plot: ElementType.RichText<Actor>;
-    readonly released: ElementType.DateTime;
-    readonly length: ElementType.Number;
-    readonly poster: ElementType.Asset;
-    readonly category: ElementType.MultipleChoice<"action" | "drama">;
-    readonly stars: ElementType.LinkedItems<Actor>;
-    readonly seoname: ElementType.UrlSlug;
-    readonly releasecategory: ElementType.Taxonomy<"action" | "comedy" | "drama">;
+    readonly title: Elements.Text;
+    readonly plot: Elements.RichText<Actor>;
+    readonly released: Elements.DateTime;
+    readonly length: Elements.Number;
+    readonly poster: Elements.Asset;
+    readonly category: Elements.MultipleChoice<"action" | "drama">;
+    readonly stars: Elements.LinkedItems<Actor>;
+    readonly seoname: Elements.UrlSlug;
+    readonly releasecategory: Elements.Taxonomy<"action" | "comedy" | "drama">;
 }>;
 ```
 
@@ -221,16 +221,16 @@ type Movie = ContentItemOf<MySchema, "movie", {
 
 | v16 | v17 |
 |---|---|
-| `Elements.TextElement` | `ElementType.Text` |
-| `Elements.NumberElement` | `ElementType.Number` |
-| `Elements.RichTextElement` | `ElementType.RichText<TLinkedItem>` |
-| `Elements.MultipleChoiceElement` | `ElementType.MultipleChoice<TOptionCodename>` |
-| `Elements.DateTimeElement` | `ElementType.DateTime` |
-| `Elements.AssetsElement` | `ElementType.Asset` |
-| `Elements.TaxonomyElement` | `ElementType.Taxonomy<TTermCodename>` |
-| `Elements.UrlSlugElement` | `ElementType.UrlSlug` |
-| `Elements.CustomElement` | `ElementType.Custom` |
-| `Elements.LinkedItemsElement<T>` | `ElementType.LinkedItems<T>` |
+| `Elements.TextElement` | `Elements.Text` |
+| `Elements.NumberElement` | `Elements.Number` |
+| `Elements.RichTextElement` | `Elements.RichText<TLinkedItem>` |
+| `Elements.MultipleChoiceElement` | `Elements.MultipleChoice<TOptionCodename>` |
+| `Elements.DateTimeElement` | `Elements.DateTime` |
+| `Elements.AssetsElement` | `Elements.Asset` |
+| `Elements.TaxonomyElement` | `Elements.Taxonomy<TTermCodename>` |
+| `Elements.UrlSlugElement` | `Elements.UrlSlug` |
+| `Elements.CustomElement` | `Elements.Custom` |
+| `Elements.LinkedItemsElement<T>` | `Elements.LinkedItems<T>` |
 
 The generic arguments (`<Actor>`, `<"action" | "drama">`, …) are compile-time hints that power
 autocomplete and narrowing; at runtime the value is whatever the API returns.
@@ -403,6 +403,40 @@ const raw = await client.fetchContentItem({ codename: "warrior" }).raw().fetch()
 
 > v17 does **not** ship a rich-text-to-HTML resolver or portable-text transformer. `element.value` is the
 > raw HTML the API returns; resolve embedded components/links yourself from `modular_content` / `links`.
+
+---
+
+## Content item type guards
+
+When a query returns items of mixed types (e.g. `listContentItems`), narrow each item to its typed model
+with a type guard on `system.type`. This replaces v16's `response.item as Movie` casting and gives you
+fully-typed `elements` inside the branch.
+
+```typescript
+import type { ContentItemPayload } from "@kontent-ai/delivery-sdk";
+
+function isMovie(item: ContentItemPayload<MySchema>): item is Movie {
+    return item.system.type === "movie";
+}
+
+function isActor(item: ContentItemPayload<MySchema>): item is Actor {
+    return item.system.type === "actor";
+}
+
+const { response } = await client.listContentItems().fetchPageSafe();
+
+for (const item of response?.payload.items ?? []) {
+    if (isMovie(item)) {
+        const title: string = item.elements.title.value;
+        const stars = item.elements.stars.items; // resolved Actor[]
+    } else if (isActor(item)) {
+        const name: string = item.elements.first_name.value;
+    }
+}
+```
+
+> You don't need to write these by hand — `@kontent-ai/model-generator` emits a type guard
+> (`isMovie`, `isActor`, …) for every content type alongside the typed models and schema.
 
 ---
 

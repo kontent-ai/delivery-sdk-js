@@ -22,7 +22,7 @@ import type {
 	DeliveryClient,
 	DeliveryClientSchema,
 	ElementCodenamesOf,
-	ElementType,
+	Elements,
 	FetchContentItemResponse,
 	TaxonomyPayload,
 } from "../lib/public_api.js";
@@ -74,10 +74,10 @@ export type SampleProjectSchema = DeliveryClientSchema<{
  * still accepts any string codename the API returns.
  */
 export type ActorElements = {
-	readonly first_name: ElementType.Text;
-	readonly last_name: ElementType.Text;
-	readonly role: ElementType.MultipleChoice<"opt1" | "opt2" | "opt3">;
-	readonly relatedActors: ElementType.LinkedItems<Actor>;
+	readonly first_name: Elements.Text;
+	readonly last_name: Elements.Text;
+	readonly role: Elements.MultipleChoice<"opt1" | "opt2" | "opt3">;
+	readonly relatedActors: Elements.LinkedItems<Actor>;
 };
 
 // Fully-typed Actor item payload (system metadata + elements).
@@ -91,16 +91,16 @@ export type Actor = ContentItemOf<SampleProjectSchema, "actor", ActorElements>;
  * `Actor`, so consumers get full element narrowing on referenced items.
  */
 export type MovieElements = {
-	readonly title: ElementType.Text;
-	readonly rating: ElementType.Number;
-	readonly synopsis: ElementType.RichText<Actor>;
-	readonly genre: ElementType.MultipleChoice<"genre1" | "genre2">;
-	readonly release_date: ElementType.DateTime;
-	readonly poster: ElementType.Asset;
-	readonly categories: ElementType.Taxonomy<"term1" | "term2">;
-	readonly url_slug: ElementType.UrlSlug;
-	readonly custom_id: ElementType.Custom;
-	readonly actors: ElementType.LinkedItems<Actor>;
+	readonly title: Elements.Text;
+	readonly rating: Elements.Number;
+	readonly synopsis: Elements.RichText<Actor>;
+	readonly genre: Elements.MultipleChoice<"genre1" | "genre2">;
+	readonly release_date: Elements.DateTime;
+	readonly poster: Elements.Asset;
+	readonly categories: Elements.Taxonomy<"term1" | "term2">;
+	readonly url_slug: Elements.UrlSlug;
+	readonly custom_id: Elements.Custom;
+	readonly actors: Elements.LinkedItems<Actor>;
 };
 
 // Fully-typed Movie item payload.
@@ -111,10 +111,10 @@ export type Movie = ContentItemOf<SampleProjectSchema, "movie", MovieElements>;
  * for the content type. You may type a subset of the type's elements, but unknown codenames are rejected.
  */
 // @ts-expect-error "titel" is not an element codename declared for "movie" in the schema.
-export type BadMovie = ContentItemOf<SampleProjectSchema, "movie", { readonly titel: ElementType.Text }>;
+export type BadMovie = ContentItemOf<SampleProjectSchema, "movie", { readonly titel: Elements.Text }>;
 
 // A partial shape (only some of the type's elements) is still allowed.
-export type PartialMovie = ContentItemOf<SampleProjectSchema, "movie", { readonly title: ElementType.Text }>;
+export type PartialMovie = ContentItemOf<SampleProjectSchema, "movie", { readonly title: Elements.Text }>;
 
 /**
  * 4. Typed delivery client

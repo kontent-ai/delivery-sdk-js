@@ -53,7 +53,7 @@ export type {
 	ListContentItemsPayload,
 } from "./queries/content-items/models/content-item.models.js";
 export type { ContentItemElementPayload } from "./queries/content-items/models/element.models.js";
-export type * as ElementType from "./queries/content-items/models/element-types.js";
+export type * as Elements from "./queries/content-items/models/element-types.js";
 export type {
 	FetchContentTypeElementQuery,
 	FetchContentTypeElementQueryRequest,

@@ -1,4 +1,4 @@
-import type { ContentItemOf, DeliveryClientSchema, ElementType, TaxonomyTermCodenamesOf } from "../../../lib/public_api.js";
+import type { ContentItemOf, DeliveryClientSchema, Elements, TaxonomyTermCodenamesOf } from "../../../lib/public_api.js";
 import type { ContentItemPayloadExtended } from "../../../lib/queries/content-items/models/content-item.models.js";
 
 export type IntegrationTestProjectSchema = DeliveryClientSchema<{
@@ -28,23 +28,23 @@ export type IntegrationTestProjectSchema = DeliveryClientSchema<{
 }>;
 
 export type StarElements = {
-	readonly firstname: ElementType.Text;
-	readonly lastname: ElementType.Text;
+	readonly firstname: Elements.Text;
+	readonly lastname: Elements.Text;
 };
 
 export type Star = ContentItemOf<IntegrationTestProjectSchema, "star", StarElements>;
 
 export type MovieElements = {
-	readonly title: ElementType.Text;
-	readonly length_in_minutes: ElementType.Number;
-	readonly description: ElementType.RichText;
-	readonly is_blockbuster: ElementType.MultipleChoice<"yes">;
-	readonly release_date: ElementType.DateTime;
-	readonly cover: ElementType.Asset;
-	readonly category: ElementType.Taxonomy;
-	readonly url: ElementType.UrlSlug;
-	readonly metadata__metadata_description: ElementType.Text;
-	readonly cast: ElementType.LinkedItems<Star>;
+	readonly title: Elements.Text;
+	readonly length_in_minutes: Elements.Number;
+	readonly description: Elements.RichText;
+	readonly is_blockbuster: Elements.MultipleChoice<"yes">;
+	readonly release_date: Elements.DateTime;
+	readonly cover: Elements.Asset;
+	readonly category: Elements.Taxonomy;
+	readonly url: Elements.UrlSlug;
+	readonly metadata__metadata_description: Elements.Text;
+	readonly cast: Elements.LinkedItems<Star>;
 };
 
 export type Movie = ContentItemOf<IntegrationTestProjectSchema, "movie", MovieElements>;
