@@ -2,6 +2,14 @@ on:
   release:
     types: [published]
 
+permissions:
+  # Required for OIDC publishing
+  id-token: write
+  contents: read
+
+env:
+    INTEGRATION_ENVIRONMENT_ID: ${{ secrets.INTEGRATION_ENVIRONMENT_ID }}
+
 name: publish-to-npm
 jobs:
   publish:
@@ -18,12 +26,10 @@ jobs:
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+      - run: pnpm run test
 
       - run: pnpm publish --access=public --no-git-checks
         if: ${{!github.event.release.prerelease}}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
-      - run: pnpm publish --tag prerelease --no-git-checks
+      - run: pnpm publish --tag prerelease --access=public --no-git-checks
         if: ${{github.event.release.prerelease}}
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_API_KEY }}
