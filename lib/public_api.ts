@@ -51,6 +51,7 @@ export type {
 	ItemsReferencingAssetPayload,
 	ItemsReferencingItemPayload,
 	ListContentItemsPayload,
+	SnippetOf,
 } from "./queries/content-items/models/content-item.models.js";
 export type { ContentItemElementPayload } from "./queries/content-items/models/element.models.js";
 export type * as Elements from "./queries/content-items/models/element-types.js";
