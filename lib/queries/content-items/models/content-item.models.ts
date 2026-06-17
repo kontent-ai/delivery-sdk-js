@@ -21,6 +21,16 @@ export type ContentItemSystem<TSchema extends DeliveryClientSchema, TTypeCodenam
 	ReturnType<typeof contentItemSystemWithCodename<TSchema, TTypeCodename>>
 >;
 
+export type SnippetOf<
+	TSchema extends DeliveryClientSchema,
+	TTypeCodename extends ContentTypeCodenameOf<TSchema>,
+	TElements extends {
+		readonly [Codename in keyof TElements]: Codename extends ElementCodenamesOf<TSchema, TTypeCodename>
+			? ContentItemElementPayload
+			: never;
+	},
+> = ContentItemOf<TSchema, TTypeCodename, TElements>;
+
 export type ContentItemOf<
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends ContentTypeCodenameOf<TSchema>,

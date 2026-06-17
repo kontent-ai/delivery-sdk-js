@@ -22,7 +22,7 @@
 	"engines": {
 		"node": ">= 22"
 	},
-	"packageManager": "pnpm@11.5.1",
+	"packageManager": "pnpm@11.7.0",
 	"exports": {
 		".": {
 			"types": "./dist/public_api.d.ts",

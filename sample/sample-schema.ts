@@ -26,6 +26,7 @@ import type {
 	FetchContentItemResponse,
 	TaxonomyPayload,
 } from "../lib/public_api.js";
+import type { SnippetOf } from "../lib/queries/content-items/models/content-item.models.js";
 
 /**
  * 1. Schema declaration
@@ -57,13 +58,18 @@ export type SampleProjectSchema = DeliveryClientSchema<{
 			"url_slug",
 			"custom_id",
 			"actors",
+			"metadata__internal_id",
 		];
-		readonly actor: readonly ["first_name", "last_name", "role", "relatedActors"];
+		readonly actor: readonly ["first_name", "last_name", "role", "relatedActors", "metadata__internal_id"];
 	};
 	readonly collectionCodenames: readonly ["movies", "tv-shows"];
 	readonly workflowCodenames: readonly ["published", "draft"];
 	readonly workflowStepCodenames: readonly ["published", "draft"];
 }>;
+
+export type MetadataElements = {
+	readonly metadata__internal_id: Elements.Text;
+};
 
 /**
  * 2. Content type: Actor
@@ -78,7 +84,7 @@ export type ActorElements = {
 	readonly last_name: Elements.Text;
 	readonly role: Elements.MultipleChoice<"opt1" | "opt2" | "opt3">;
 	readonly relatedActors: Elements.LinkedItems<Actor>;
-};
+} & MetadataElements;
 
 // Fully-typed Actor item payload (system metadata + elements).
 export type Actor = ContentItemOf<SampleProjectSchema, "actor", ActorElements>;
@@ -101,7 +107,7 @@ export type MovieElements = {
 	readonly url_slug: Elements.UrlSlug;
 	readonly custom_id: Elements.Custom;
 	readonly actors: Elements.LinkedItems<Actor>;
-};
+} & MetadataElements;
 
 // Fully-typed Movie item payload.
 export type Movie = ContentItemOf<SampleProjectSchema, "movie", MovieElements>;
@@ -230,4 +236,10 @@ export async function typedContentTypeElement(): Promise<void> {
 
 function isMovie(item: ContentItemPayload<SampleProjectSchema>): item is Movie {
 	return item.system.codename === ("movie" as keyof SampleProjectSchema["contentTypes"]);
+}
+
+function isMetadata(
+	item: ContentItemPayload<SampleProjectSchema>,
+): item is SnippetOf<SampleProjectSchema, "movie" | "actor", MetadataElements> {
+	return ["actor", "movie"].includes(item.system.type);
 }
