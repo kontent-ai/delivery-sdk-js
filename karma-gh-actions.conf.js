@@ -14,7 +14,7 @@ module.exports = function (config) {
         preprocessors: {
             'test/browser/**/*.ts': ['webpack', 'sourcemap']
         },
-        reporters: ['kjhtml', 'progress'],
+        reporters: ['progress'],
         browsers: ['Chrome'],
         webpack: {
             mode: 'development',
@@ -55,7 +55,7 @@ module.exports = function (config) {
         autoWatch: false,
         singleRun: true,
         client: {
-            clearContext: false // leave Jasmine Spec Runner output visible in browser
+            clearContext: true
         },
         logLevel: config.DEBUG,
         browserDisconnectTolerance: 2,

@@ -14,7 +14,7 @@ module.exports = function (config) {
         preprocessors: {
             'test/browser/**/*.ts': ['webpack', 'sourcemap']
         },
-        reporters: ['kjhtml', 'progress'],
+        reporters: ['progress'],
         browsers: ['Chrome'],
         webpack: {
             mode: 'development',
