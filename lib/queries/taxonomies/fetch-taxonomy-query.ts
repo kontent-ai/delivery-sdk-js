@@ -28,6 +28,6 @@ export function fetchTaxonomyQuery<TSchema extends DeliveryClientSchema, const T
 		request,
 		schema: async () =>
 			(await import("./schemas/taxonomy.schemas.js")).taxonomySchema<TSchema, TaxonomyTermCodenamesOf<TSchema, TCodename>>(),
-		endpoint: `taxonomies/${request.codename}`,
+		endpoint: `taxonomies/${encodeURIComponent(request.codename)}`,
 	});
 }

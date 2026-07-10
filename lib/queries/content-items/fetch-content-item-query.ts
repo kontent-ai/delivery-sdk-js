@@ -54,7 +54,7 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 		config,
 		request,
 		schema: async () => (await import("./schemas/content-item.schemas.js")).fetchContentItemSchema<TSchema>(),
-		endpoint: `items/${request.codename}`,
+		endpoint: `items/${encodeURIComponent(request.codename)}`,
 	});
 	const extendedQuery = transformDeliveryFetchQuery({
 		config,

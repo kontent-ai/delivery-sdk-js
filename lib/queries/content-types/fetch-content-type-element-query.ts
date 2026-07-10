@@ -27,6 +27,6 @@ export function fetchContentTypeElementQuery<TSchema extends DeliveryClientSchem
 		config,
 		request,
 		schema: async () => (await import("./schemas/content-type.schemas.js")).contentTypeElementSchema(),
-		endpoint: `types/${request.typeCodename}/elements/${request.elementCodename}`,
+		endpoint: `types/${encodeURIComponent(request.typeCodename)}/elements/${encodeURIComponent(request.elementCodename)}`,
 	});
 }

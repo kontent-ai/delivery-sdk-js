@@ -33,6 +33,6 @@ export function fetchContentTypeQuery<TSchema extends DeliveryClientSchema, cons
 		config,
 		request,
 		schema: async () => (await import("./schemas/content-type.schemas.js")).contentTypeSchema<TSchema>(),
-		endpoint: `types/${request.codename}`,
+		endpoint: `types/${encodeURIComponent(request.codename)}`,
 	});
 }

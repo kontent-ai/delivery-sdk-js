@@ -38,6 +38,6 @@ export function itemsReferencingItemQuery<TSchema extends DeliveryClientSchema>(
 		config,
 		request,
 		schema: async () => (await import("./schemas/content-item.schemas.js")).itemsReferencingItemSchema<TSchema>(),
-		endpoint: `items/${request.codename}/used-in`,
+		endpoint: `items/${encodeURIComponent(request.codename)}/used-in`,
 	});
 }
