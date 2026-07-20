@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [16.4.5](https://github.com/kontent-ai/delivery-sdk-js/compare/v16.4.4...v16.4.5) (2026-07-20)
+
+
+### Bug Fixes
+
+* use encodeURIComponent for path parameters ([052e76b](https://github.com/kontent-ai/delivery-sdk-js/commit/052e76b368084dabfeb315344d8c569ea23d13be))
+
 ### [16.4.4](https://github.com/kontent-ai/delivery-sdk-js/compare/v16.4.3...v16.4.4) (2026-07-03)
 
 ### [16.4.3](https://github.com/kontent-ai/delivery-sdk-js/compare/v16.4.2...v16.4.3) (2026-05-14)
