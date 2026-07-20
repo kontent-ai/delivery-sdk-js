@@ -89,7 +89,7 @@ export class SingleItemQuery<
     }
 
     getUrl(): string {
-        const action = '/items/' + this.codename;
+        const action = '/items/' + encodeURIComponent(this.codename);
 
         // add default language is necessry
         this.processDefaultLanguageParameter();

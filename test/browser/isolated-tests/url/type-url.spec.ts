@@ -14,6 +14,12 @@ describe('Type url', () => {
         expect(url).toContain(`/types/movie`);
     });
 
+    it(`type url should encode path traversal in codename`, () => {
+        const url = context.deliveryClient.type('../items').getUrl();
+        expect(url).toContain(`/types/..%2Fitems`);
+        expect(url).not.toContain(`/types/../items`);
+    });
+
     it(`type url for all types should end with 'types'`, () => {
         const url = context.deliveryClient.types().getUrl();
         expect(url).toContain(`/types`);

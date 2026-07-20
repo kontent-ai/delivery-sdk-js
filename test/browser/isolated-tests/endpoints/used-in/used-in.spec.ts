@@ -38,6 +38,18 @@ describe('Used in', () => {
         );
     });
 
+    it(`Encodes path traversal in item used in codename`, () => {
+        expect(getTestDeliveryClient().itemUsedIn('../../types').getUrl()).toEqual(
+            'https://deliver.kontent.ai/delivery-environment-id/items/..%2F..%2Ftypes/used-in'
+        );
+    });
+
+    it(`Encodes path traversal in asset used in codename`, () => {
+        expect(getTestDeliveryClient().assetUsedIn('../../types').getUrl()).toEqual(
+            'https://deliver.kontent.ai/delivery-environment-id/assets/..%2F..%2Ftypes/used-in'
+        );
+    });
+
     it(`Continuation token should be set`, () => {
         expect(response.xContinuationToken).toEqual('TokenX');
     });

@@ -34,7 +34,7 @@ export class SingleTypeQuery<TClientTypes extends ClientTypes> extends BaseQuery
     }
 
     getUrl(): string {
-        const action = '/types/' + this.typeCodename;
+        const action = '/types/' + encodeURIComponent(this.typeCodename);
 
         return super.resolveUrlInternal(action);
     }

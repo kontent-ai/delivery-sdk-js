@@ -22,5 +22,17 @@ describe('Item URL', () => {
         const url = new URL(context.deliveryClient.item('arnold').getUrl());
         expect(url.toString()).toContain(`/items/arnold`);
     });
+
+    it(`item url should encode path traversal in codename and not redirect the endpoint`, () => {
+        const url = context.deliveryClient.item('../types').getUrl();
+        expect(url).toContain(`/items/..%2Ftypes`);
+        expect(url).not.toContain(`/items/../types`);
+    });
+
+    it(`item url should encode query-injection characters in codename`, () => {
+        const url = context.deliveryClient.item('a?x=1&y=2#z').getUrl();
+        expect(url).toContain(`/items/a%3Fx%3D1%26y%3D2%23z`);
+        expect(url).not.toContain(`/items/a?x=1&y=2`);
+    });
 });
 

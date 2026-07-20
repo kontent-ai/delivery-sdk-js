@@ -39,7 +39,7 @@ export class TaxonomyQuery<TClientTypes extends ClientTypes> extends BaseQuery<
     }
 
     getUrl(): string {
-        const action = '/' + this.taxonomiesEndpoint + '/' + this.taxonomyCodename;
+        const action = '/' + this.taxonomiesEndpoint + '/' + encodeURIComponent(this.taxonomyCodename);
 
         return super.resolveUrlInternal(action);
     }

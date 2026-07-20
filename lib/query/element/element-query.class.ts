@@ -36,7 +36,9 @@ export class ElementQuery<TClientTypes extends ClientTypes> extends BaseQuery<
     }
 
     getUrl(): string {
-        return super.resolveUrlInternal(`/types/${this.typeCodename}/elements/${this.elementCodename}`);
+        return super.resolveUrlInternal(
+            `/types/${encodeURIComponent(this.typeCodename)}/elements/${encodeURIComponent(this.elementCodename)}`
+        );
     }
 
     map(json: any): Responses.IViewContentTypeElementResponse {
