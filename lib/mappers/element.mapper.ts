@@ -437,11 +437,8 @@ export class ElementMapper<TContentItemType extends IContentItem> {
     private getRichTextHtml(richTextHtml: string, richTextImageRecords: IRichTextImageUrlRecord[]): string {
         for (const richTextImageRecord of richTextImageRecords) {
             // replace rich text image url if it differs
-            if (richTextImageRecord.newUrl !== richTextImageRecord.originalUrl) {
-                richTextHtml = richTextHtml.replace(
-                    new RegExp(richTextImageRecord.originalUrl, 'g'),
-                    richTextImageRecord.newUrl
-                );
+          if (richTextImageRecord.newUrl !== richTextImageRecord.originalUrl) {
+              richTextHtml = richTextHtml.replaceAll(richTextImageRecord.originalUrl, richTextImageRecord.newUrl);
             }
         }
 
