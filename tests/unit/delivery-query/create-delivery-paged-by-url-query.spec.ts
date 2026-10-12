@@ -1,4 +1,3 @@
-import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { DeliveryClientConfig } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
@@ -6,7 +5,7 @@ import { paginationSchema } from "../../../lib/models/pagination.schemas.js";
 import type { DeliveryRequest } from "../../../lib/models/request.models.js";
 import { createDeliveryPagedByUrlQuery } from "../../../lib/queries/delivery-queries.js";
 import { getDeliveryUrl } from "../../../lib/utils/url.utils.js";
-import { isPagedFetchQueryWithExpectedFunctions, unitEnvironmentId } from "../../utils/test.utils.js";
+import { isPagedFetchQueryWithExpectedFunctions, stubFetchWithJsonResponse, unitEnvironmentId } from "../../utils/test.utils.js";
 
 const clientConfig: DeliveryClientConfig = {
 	apiMode: "public",
@@ -97,7 +96,7 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPagesSafe res
 
 	it("nextPageUrl equals the next_page value of the last fetched page", async () => {
 		const expectedUrl = "https://deliver.kontent.ai/next-page";
-		mockGlobalFetchJsonResponse({ jsonResponse: paginationPayload(expectedUrl), statusCode: 200 });
+		stubFetchWithJsonResponse({ jsonResponse: paginationPayload(expectedUrl), statusCode: 200 });
 
 		const { success, nextPageUrl } = await createDeliveryPagedByUrlQuery({
 			config: clientConfig,
@@ -111,7 +110,7 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPagesSafe res
 	});
 
 	it("nextPageUrl is an empty string when the last page has no next page", async () => {
-		mockGlobalFetchJsonResponse({ jsonResponse: paginationPayload(""), statusCode: 200 });
+		stubFetchWithJsonResponse({ jsonResponse: paginationPayload(""), statusCode: 200 });
 
 		const { success, nextPageUrl } = await createDeliveryPagedByUrlQuery({
 			config: clientConfig,
@@ -132,7 +131,7 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPages result"
 
 	it("nextPageUrl equals the next_page value of the last fetched page", async () => {
 		const expectedUrl = "https://deliver.kontent.ai/next-page";
-		mockGlobalFetchJsonResponse({ jsonResponse: paginationPayload(expectedUrl), statusCode: 200 });
+		stubFetchWithJsonResponse({ jsonResponse: paginationPayload(expectedUrl), statusCode: 200 });
 
 		const { nextPageUrl } = await createDeliveryPagedByUrlQuery({
 			config: clientConfig,

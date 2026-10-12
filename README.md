@@ -107,7 +107,7 @@ const { success, error } = await client.fetchContentItem({ codename: "missing" }
 
 if (!success) {
     console.error(error.message);
-    console.error(error.details.reason); // e.g. "parsingFailed"
+    console.error(error.details.reason); // e.g. "schemaMismatch"
 }
 ```
 

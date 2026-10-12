@@ -5,6 +5,7 @@ import {
 	type FetchQueryRequest,
 	type Header,
 	type JsonValue,
+	type KnownHeaderName,
 	type PagedFetchQuery,
 	transformFetchQuery,
 	transformPagedFetchQuery,
@@ -180,24 +181,15 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	readonly schema: () => Promise<ZodMiniType<TPayload>>;
 }): Pick<
 	FetchQueryRequest<TPayload, DeliverySdkError>,
-	| "abortSignal"
-	| "config"
-	| "sdkInfo"
-	| "authorizationApiKey"
-	| "url"
-	| "requestHeaders"
-	| "schema"
-	| "mapError"
-	| "mapExtraResponseProps"
+	"abortSignal" | "config" | "sdkInfo" | "url" | "requestHeaders" | "schema" | "mapError" | "mapExtraResponseProps"
 > {
 	return {
 		abortSignal: request?.config?.abortSignal,
 		config,
 		sdkInfo: deliverySdkInfo,
 		mapExtraResponseProps: () => {},
-		requestHeaders: getHeaders(request),
+		requestHeaders: getHeaders({ request, config }),
 		url: getUrl({ request, config, endpoint }),
-		authorizationApiKey: config.apiMode === "preview" || config.apiMode === "secure" ? config.deliveryApiKey : undefined,
 		schema,
 		mapError: mapDeliveryError,
 	};
@@ -215,7 +207,18 @@ function getUrl({
 	return addQueryParametersToUrl(getDeliveryUrl({ path: endpoint, ...config }), request?.query, request?.filters);
 }
 
-function getHeaders(request?: AnyDeliveryRequest): readonly Header[] {
+function getHeaders({
+	request,
+	config,
+}: {
+	readonly request: AnyDeliveryRequest | undefined;
+	readonly config: DeliveryClientConfig;
+}): readonly Header[] {
+	// The authorization header goes last so it takes precedence over custom headers with the same name.
+	return [...getRequestHeaders(request), ...getAuthorizationHeaders(config)];
+}
+
+function getRequestHeaders(request: AnyDeliveryRequest | undefined): readonly Header[] {
 	if (!request) {
 		return [];
 	}
@@ -227,4 +230,10 @@ function getHeaders(request?: AnyDeliveryRequest): readonly Header[] {
 	}));
 
 	return [...configHeaders, ...requestHeaders];
+}
+
+function getAuthorizationHeaders(config: DeliveryClientConfig): readonly Header[] {
+	return config.apiMode === "preview" || config.apiMode === "secure"
+		? [{ name: "Authorization" satisfies KnownHeaderName, value: `Bearer ${config.deliveryApiKey}` }]
+		: [];
 }

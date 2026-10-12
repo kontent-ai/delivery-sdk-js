@@ -343,7 +343,7 @@ const { success, response, error } = await client.fetchContentItem({ codename: "
 
 if (!success) {
     console.error(error.message);
-    console.error(error.details.reason); // e.g. "parsingFailed"
+    console.error(error.details.reason); // e.g. "schemaMismatch"
     return;
 }
 
@@ -585,13 +585,13 @@ const client = createDeliveryClient({
 });
 ```
 
-When validation fails, the safe result carries a `parsingFailed` error reason with the underlying
+When validation fails, the safe result carries a `schemaMismatch` error reason with the underlying
 `ZodError`:
 
 ```typescript
 const { success, error } = await client.listLanguages().fetchPageSafe();
 
-if (!success && error.details.reason === "parsingFailed") {
+if (!success && error.details.reason === "schemaMismatch") {
     console.error(error.details.zodError);
 }
 ```

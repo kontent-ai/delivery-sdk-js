@@ -1,15 +1,14 @@
 import { getDefaultHttpAdapter, getDefaultHttpService, type Header, type KnownHeaderName } from "@kontent-ai/core-sdk";
-import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDeliveryClient } from "../../../lib/public_api.js";
-import { unitEnvironmentId } from "../../utils/test.utils.js";
+import { stubFetchWithJsonResponse, unitEnvironmentId } from "../../utils/test.utils.js";
 
 describe("Public deliver API", async () => {
 	afterEach(() => {
 		vi.resetAllMocks();
 	});
 
-	mockGlobalFetchJsonResponse({
+	stubFetchWithJsonResponse({
 		jsonResponse: {},
 		statusCode: 200,
 		continuationToken: "x",

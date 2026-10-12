@@ -23,7 +23,7 @@ type SelectQuery<TResponsePayload extends JsonValue, TSchema extends DeliveryCli
 	client: DeliveryClient<TSchema>,
 ) => FetchQuery<TResponsePayload, KontentSdkError, unknown> | PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 
-export async function runQueryTestsAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
+export async function runQueryTestsAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema = DeliveryClientSchema>({
 	endpoint,
 	rawPayload,
 	selectQuery,
@@ -206,7 +206,7 @@ function registerBaseTests<TResponsePayload extends JsonValue, TSchema extends D
 	readonly success: boolean;
 	readonly error: unknown;
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
-	readonly rawPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload | undefined;
 	readonly testType: TestType;
 }): void {
 	registerQueryStructureTests({ testName, query, endpoint, client });
@@ -251,7 +251,7 @@ function registerResponseValidationTests<TResponsePayload extends JsonValue>({
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly testType: TestType;
-	readonly rawPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload | undefined;
 }): void {
 	it(`${testName} Response should be successful`, () => {
 		expect(error).toBeUndefined();
@@ -284,7 +284,7 @@ function registerPagingTests<TResponsePayload extends JsonValue>({
 	readonly query: PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 	readonly testName: string;
 	readonly testType: TestType;
-	readonly rawPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload | undefined;
 	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly pagingResponses: readonly { readonly payload: TResponsePayload }[] | undefined;
@@ -322,7 +322,7 @@ function registerPagingResponseTests<TResponsePayload extends JsonValue>({
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly testType: TestType;
 	readonly pagingResponses: readonly { readonly payload: TResponsePayload }[] | undefined;
-	readonly rawPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload | undefined;
 }): void {
 	it(`${testName} Response should be successful`, () => {
 		expect(pagingError).toBeUndefined();
@@ -361,7 +361,7 @@ function registerPagingIteratorTests<TResponsePayload extends JsonValue>({
 	readonly query: PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 	readonly iteratorPayloads: readonly TResponsePayload[];
 	readonly testType: TestType;
-	readonly rawPayload: TResponsePayload;
+	readonly rawPayload: TResponsePayload | undefined;
 }): void {
 	it(`${testName} Query should be a paged fetch query with expected functions`, () => {
 		expect(isPagedFetchQueryWithExpectedFunctions(query)).toBeTruthy();

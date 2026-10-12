@@ -6,9 +6,9 @@ import { type IntegrationTestProjectSchema, isMovie } from "./integration-test.s
 
 export function registerExtendedItemsTests(
 	items: readonly ContentItemPayloadExtended<IntegrationTestProjectSchema>[],
-	modularContent: Readonly<Record<string, ContentItemPayloadExtended<IntegrationTestProjectSchema>>>,
+	modularContent: Readonly<Record<string, ContentItemPayloadExtended<IntegrationTestProjectSchema> | undefined>>,
 ): void {
-	const allItems = [...items, ...Object.values(modularContent)];
+	const allItems = [...items, ...Object.values(modularContent).filter((item) => item !== undefined)];
 
 	it("There should be > 0 items", () => {
 		expect(allItems.length).toBeGreaterThan(0);

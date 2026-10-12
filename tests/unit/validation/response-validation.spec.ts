@@ -176,7 +176,7 @@ describe("Response validation", () => {
 
 			expect(error).toBeDefined();
 			expect(success).toBeFalsy();
-			expect(error?.details.reason).toBe<ErrorReason>("parsingFailed");
+			expect(error?.details.reason).toBe<ErrorReason>("schemaMismatch");
 		});
 	});
 
@@ -200,9 +200,9 @@ describe("Response validation", () => {
 
 			expect(success).toBe(false);
 			expect(error).toBeDefined();
-			expect(error?.details.reason).toStrictEqual<ErrorReason>("parsingFailed");
+			expect(error?.details.reason).toStrictEqual<ErrorReason>("schemaMismatch");
 
-			if (error?.details.reason === "parsingFailed") {
+			if (error?.details.reason === "schemaMismatch") {
 				expect(error.details.url).toStrictEqual(query.inspect().data?.url);
 				expect(error.details.zodError).toBeInstanceOf(z.core.$ZodError);
 				expect(error.details.payload).toBeDefined();

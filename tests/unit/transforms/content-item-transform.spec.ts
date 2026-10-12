@@ -159,7 +159,7 @@ describe("mapToExtendedModularContent", () => {
 		const result = mapToExtendedModularContent({ allItems, modularContents });
 
 		expect(Object.keys(result)).toHaveLength(Object.keys(modularContents).length);
-		expect(Object.keys(result).sort()).toEqual(["movie_a", "movie_b"]);
+		expect(Object.keys(result).toSorted((a, b) => a.localeCompare(b))).toEqual(["movie_a", "movie_b"]);
 
 		const movieARichText = result.movie_a?.elements.description;
 		const movieALinkedItems = result.movie_a?.elements.cast;
@@ -241,7 +241,7 @@ describe("joinItems", () => {
 
 		expect(Object.keys(result).length).toBeLessThan(sourceSize);
 		expect(Object.keys(result)).toHaveLength(3);
-		expect(Object.keys(result).sort()).toEqual(["shared", "unique_item", "unique_modular"]);
+		expect(Object.keys(result).toSorted((a, b) => a.localeCompare(b))).toEqual(["shared", "unique_item", "unique_modular"]);
 		expect(result.shared).toBe(sharedFromItems);
 		expect(result.unique_item).toBe(uniqueItem);
 		expect(result.unique_modular).toBe(uniqueModular);

@@ -5,12 +5,11 @@ import {
 	getDefaultHttpService,
 	type Header,
 } from "@kontent-ai/core-sdk";
-import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import type { DeliveryClientSchema, WaitForLoadingNewContentHeaderName } from "../../../lib/models/core.models.js";
 import type { ItemsFeedQueryRequest } from "../../../lib/queries/content-items/items-feed-query.js";
-import { unitEnvironmentId } from "../../utils/test.utils.js";
+import { stubFetchWithJsonResponse, unitEnvironmentId } from "../../utils/test.utils.js";
 
 async function captureRequestHeaders(listConfig?: ItemsFeedQueryRequest<DeliveryClientSchema>): Promise<readonly Header[]> {
 	let captured: readonly Header[] = [];
@@ -44,7 +43,7 @@ describe("Delivery tracking header", async () => {
 		vi.resetAllMocks();
 	});
 
-	mockGlobalFetchJsonResponse({
+	stubFetchWithJsonResponse({
 		jsonResponse: {},
 		statusCode: 200,
 		continuationToken: "x",
@@ -63,7 +62,7 @@ describe("Bypass CDN Cache Header", async () => {
 		vi.resetAllMocks();
 	});
 
-	mockGlobalFetchJsonResponse({
+	stubFetchWithJsonResponse({
 		jsonResponse: {},
 		statusCode: 200,
 		continuationToken: "x",
@@ -86,7 +85,7 @@ describe("Extra Request Headers", async () => {
 		vi.resetAllMocks();
 	});
 
-	mockGlobalFetchJsonResponse({
+	stubFetchWithJsonResponse({
 		jsonResponse: {},
 		statusCode: 200,
 		continuationToken: "x",

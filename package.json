@@ -22,7 +22,7 @@
 	"engines": {
 		"node": ">= 22"
 	},
-	"packageManager": "pnpm@11.7.0",
+	"packageManager": "pnpm@12.11.2",
 	"exports": {
 		".": {
 			"types": "./dist/public_api.d.ts",
@@ -37,38 +37,41 @@
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
-		"prepublishOnly": "pnpm run build",
-		"eslint": "eslint -c eslint.config.mjs .",
-		"lint": "pnpm run biome:check && pnpm run eslint",
+		"prepublishOnly": "pnpm run build && pnpm run test",
 		"build": "pnpm run lint && pnpm run clean && pnpm run build:ts && pnpm run update:version",
-		"build:ts": "tsgo -p tsconfig.build.json",
+		"build:ts": "tsc -p tsconfig.build.json",
 		"test": "vitest run --config=vitest.config.ts --coverage",
 		"test:unit": "vitest run --config=vitest-unit.config.ts",
 		"test:integration": "vitest run --config=vitest-integration.config.ts",
-		"test:types": "tsgo -p sample/tsconfig.json",
+		"test:types": "tsc -p sample/tsconfig.json",
+		"lint": "pnpm run biome:check && pnpm run oxlint",
+		"oxlint": "oxlint --type-aware --type-check --deny-warnings lib tests scripts sample",
 		"biome:check": "biome check",
 		"biome:fix": "biome check --write",
 		"biome:fix:unsafe": "biome check --write --unsafe",
-		"clean": "tsx scripts/clean.ts",
+		"clean": "tsx ./scripts/clean.ts",
 		"update:version": "tsx ./scripts/update-version.ts",
 		"bundle:size": "tsx scripts/measure-bundle.ts",
-		"bundle:create": "tsx scripts/create-bundles.ts"
+		"bundle:create": "tsx scripts/create-bundles.ts",
+		"bump:patch": "pnpm run build && npm version patch -m \"v%s\" && pnpm run build:ts && git push --follow-tags",
+		"bump:minor": "pnpm run build && npm version minor -m \"v%s\" && pnpm run build:ts && git push --follow-tags",
+		"bump:major": "pnpm run build && npm version major -m \"v%s\" && pnpm run build:ts && git push --follow-tags"
 	},
 	"peerDependencies": {
-		"@kontent-ai/core-sdk": "^12.0.0-preview.40",
+		"@kontent-ai/core-sdk": "^12.0.0-preview.44",
 		"ts-pattern": "^5",
 		"zod": "^4"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "2.5.15",
 		"@kontent-ai/biome-config": "0.7.3",
-		"@kontent-ai/eslint-config": "2.4.1",
-		"eslint": "10.6.0",
-		"@biomejs/biome": "2.5.3",
-		"@types/node": "26.1.1",
-		"vitest": "4.1.10",
-		"@vitest/coverage-v8": "4.1.10",
-		"tsx": "4.23.0",
-		"@typescript/native-preview": "7.0.0-dev.20260707.2",
-		"esbuild": "0.28.1"
+		"@types/node": "26.6.5",
+		"@vitest/coverage-v8": "5.0.3",
+		"esbuild": "0.28.2",
+		"oxlint": "1.87.0",
+		"oxlint-tsgolint": "7.0.2004",
+		"tsx": "4.23.15",
+		"typescript": "7.0.2",
+		"vitest": "5.0.3"
 	}
 }

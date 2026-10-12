@@ -7,6 +7,7 @@ import {
 	nilUuid,
 	type PagedFetchQuery,
 } from "@kontent-ai/core-sdk";
+import { stubFetchWithResponse } from "@kontent-ai/core-sdk/testkit";
 
 export const fakeXContinuationTokenHeader: Header = {
 	name: "X-Continuation" satisfies ContinuationTokenHeaderName,
@@ -15,12 +16,33 @@ export const fakeXContinuationTokenHeader: Header = {
 
 export const unitEnvironmentId = "xyz";
 
+export function stubFetchWithJsonResponse({
+	jsonResponse,
+	statusCode,
+	continuationToken,
+}: {
+	readonly jsonResponse: JsonValue;
+	readonly statusCode: number;
+	readonly continuationToken?: string;
+}): void {
+	stubFetchWithResponse(
+		() =>
+			new Response(JSON.stringify(jsonResponse), {
+				status: statusCode,
+				headers: {
+					"Content-Type": "application/json",
+					...(continuationToken ? { [fakeXContinuationTokenHeader.name]: continuationToken } : {}),
+				},
+			}),
+	);
+}
+
 export function getFakeUuid(): string {
 	return nilUuid;
 }
 
-export function isFetchQueryWithExpectedFunctions(query: unknown): query is FetchQuery<JsonValue, unknown, KontentSdkError> {
-	type ExpectedFunctions = keyof FetchQuery<JsonValue, unknown, KontentSdkError>;
+export function isFetchQueryWithExpectedFunctions(query: unknown): query is FetchQuery<JsonValue, KontentSdkError> {
+	type ExpectedFunctions = keyof FetchQuery<JsonValue, KontentSdkError>;
 	if (!query || typeof query !== "object") {
 		return false;
 	}
@@ -33,8 +55,8 @@ export function isFetchQueryWithExpectedFunctions(query: unknown): query is Fetc
 	return false;
 }
 
-export function isPagedFetchQueryWithExpectedFunctions(query: unknown): query is PagedFetchQuery<JsonValue, unknown, KontentSdkError> {
-	type ExpectedFunctions = keyof PagedFetchQuery<JsonValue, unknown, KontentSdkError>;
+export function isPagedFetchQueryWithExpectedFunctions(query: unknown): query is PagedFetchQuery<JsonValue, KontentSdkError> {
+	type ExpectedFunctions = keyof PagedFetchQuery<JsonValue, KontentSdkError>;
 	if (!query || typeof query !== "object") {
 		return false;
 	}

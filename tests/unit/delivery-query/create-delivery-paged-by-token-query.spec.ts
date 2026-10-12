@@ -1,5 +1,4 @@
 import type { JsonValue } from "@kontent-ai/core-sdk";
-import { mockGlobalFetchJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { ZodMiniType } from "zod/mini";
 import * as z from "zod/mini";
@@ -8,7 +7,7 @@ import type { Filter } from "../../../lib/models/filter.models.js";
 import type { DeliveryRequest } from "../../../lib/models/request.models.js";
 import { createDeliveryPagedByTokenQuery } from "../../../lib/queries/delivery-queries.js";
 import { getDeliveryUrl } from "../../../lib/utils/url.utils.js";
-import { isPagedFetchQueryWithExpectedFunctions, unitEnvironmentId } from "../../utils/test.utils.js";
+import { isPagedFetchQueryWithExpectedFunctions, stubFetchWithJsonResponse, unitEnvironmentId } from "../../utils/test.utils.js";
 
 const clientConfig: DeliveryClientConfig = {
 	apiMode: "public",
@@ -94,7 +93,7 @@ describe("createDeliveryPagedByTokenQuery — continuationToken in meta", () => 
 
 	it("meta.continuationToken equals the X-Continuation response header value", async () => {
 		const token = "abc-continuation-token";
-		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200, continuationToken: token });
+		stubFetchWithJsonResponse({ jsonResponse: {}, statusCode: 200, continuationToken: token });
 
 		const { response } = await createDeliveryPagedByTokenQuery({
 			config: clientConfig,
@@ -107,7 +106,7 @@ describe("createDeliveryPagedByTokenQuery — continuationToken in meta", () => 
 	});
 
 	it("meta.continuationToken is undefined when the X-Continuation response header is absent", async () => {
-		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200 });
+		stubFetchWithJsonResponse({ jsonResponse: {}, statusCode: 200 });
 
 		const { response } = await createDeliveryPagedByTokenQuery({
 			config: clientConfig,
@@ -127,7 +126,7 @@ describe("createDeliveryPagedByTokenQuery — nextContinuationToken in fetchAllP
 
 	it("nextContinuationToken equals the X-Continuation token of the last fetched page", async () => {
 		const token = "last-page-token";
-		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200, continuationToken: token });
+		stubFetchWithJsonResponse({ jsonResponse: {}, statusCode: 200, continuationToken: token });
 
 		const { success, nextContinuationToken } = await createDeliveryPagedByTokenQuery({
 			config: clientConfig,
@@ -141,7 +140,7 @@ describe("createDeliveryPagedByTokenQuery — nextContinuationToken in fetchAllP
 	});
 
 	it("nextContinuationToken is undefined when the last page has no X-Continuation header", async () => {
-		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200 });
+		stubFetchWithJsonResponse({ jsonResponse: {}, statusCode: 200 });
 
 		const { success, nextContinuationToken } = await createDeliveryPagedByTokenQuery({
 			config: clientConfig,
@@ -162,7 +161,7 @@ describe("createDeliveryPagedByTokenQuery — nextContinuationToken in fetchAllP
 
 	it("nextContinuationToken equals the X-Continuation token of the last fetched page", async () => {
 		const token = "last-page-token";
-		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200, continuationToken: token });
+		stubFetchWithJsonResponse({ jsonResponse: {}, statusCode: 200, continuationToken: token });
 
 		const { nextContinuationToken } = await createDeliveryPagedByTokenQuery({
 			config: clientConfig,
@@ -175,7 +174,7 @@ describe("createDeliveryPagedByTokenQuery — nextContinuationToken in fetchAllP
 	});
 
 	it("nextContinuationToken is undefined when the last page has no X-Continuation header", async () => {
-		mockGlobalFetchJsonResponse({ jsonResponse: {}, statusCode: 200 });
+		stubFetchWithJsonResponse({ jsonResponse: {}, statusCode: 200 });
 
 		const { nextContinuationToken } = await createDeliveryPagedByTokenQuery({
 			config: clientConfig,
