@@ -163,7 +163,7 @@ The schema is type-only — it narrows codenames at compile time and is not pass
 > `elements` selection the same way. Cross-type queries (`listContentItems`, `itemsFeed`,
 > `fetchContentItem`, `listContentTypes`) accept any element codename across all types.
 
-> Generated schemas from `@kontent-ai/model-generator` emit this shape, so you normally won't hand-write it.
+> Generated schemas from [`@kontent-ai/model-generator`](https://github.com/kontent-ai/model-generator-js) emit this shape, so you normally won't hand-write it.
 
 ---
 
@@ -402,7 +402,8 @@ const raw = await client.fetchContentItem({ codename: "warrior" }).raw().fetch()
 ```
 
 > v17 does **not** ship a rich-text-to-HTML resolver or portable-text transformer. `element.value` is the
-> raw HTML the API returns; resolve embedded components/links yourself from `modular_content` / `links`.
+> raw HTML the API returns; resolve embedded components/links yourself from `modular_content` / `links`, or use
+> [`@kontent-ai/rich-text-resolver`](https://github.com/kontent-ai/rich-text-resolver-js).
 
 ---
 
