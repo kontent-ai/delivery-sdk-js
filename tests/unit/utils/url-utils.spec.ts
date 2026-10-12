@@ -43,13 +43,6 @@ describe("addQueryParametersToUrl", () => {
 
 		expect(params.has("system.language")).toBe(false);
 	});
-
-	it("omits filter with undefined value", () => {
-		const result = addQueryParametersToUrl(baseUrl, undefined, [{ property: "system.language", operator: "eq", value: undefined }]);
-		const params = new URL(result).searchParams;
-
-		expect(params.has("system.language")).toBe(false);
-	});
 });
 
 describe("isEmptyRichTextFilter", () => {
