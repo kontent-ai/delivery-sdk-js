@@ -1,4 +1,4 @@
-import type * as z from "zod/mini";
+import type * as z from "@zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../../content-types/models/content-type.models.js";
 import type {

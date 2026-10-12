@@ -1,7 +1,7 @@
 import type { JsonValue } from "@kontent-ai/core-sdk";
+import type { ZodMiniType } from "@zod/mini";
+import * as z from "@zod/mini";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import type { ZodMiniType } from "zod/mini";
-import * as z from "zod/mini";
 import type { DeliveryClientConfig } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
 import type { DeliveryRequest } from "../../../lib/models/request.models.js";

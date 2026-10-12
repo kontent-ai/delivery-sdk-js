@@ -1,7 +1,7 @@
 import type { ErrorReason } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
+import * as z from "@zod/mini";
 import { describe, expect, test } from "vitest";
-import * as z from "zod/mini";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import type { DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { PaginationPayload } from "../../../lib/public_api.js";

@@ -10,7 +10,7 @@ import {
 	transformFetchQuery,
 	transformPagedFetchQuery,
 } from "@kontent-ai/core-sdk";
-import type { ZodMiniType } from "zod/mini";
+import type { ZodMiniType } from "@zod/mini";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
 import type {
 	DeliveryClientConfig,

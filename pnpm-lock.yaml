@@ -192,14 +192,14 @@ importers:
   .:
     dependencies:
       '@kontent-ai/core-sdk':
-        specifier: ^12.0.0-preview.44
-        version: 12.0.0-preview.44(oxlint@1.87.0(oxlint-tsgolint@7.0.2004))(ts-pattern@5.9.0)(vitest@5.0.3)(zod@4.6.5)
+        specifier: ^12.0.0-preview.45
+        version: 12.0.0-preview.45(@zod/mini@4.6.6(zod@4.6.5))(oxlint@1.87.0(oxlint-tsgolint@7.0.2004))(ts-pattern@5.9.0)(vitest@5.0.3)
+      '@zod/mini':
+        specifier: ^4
+        version: 4.6.6(zod@4.6.5)
       ts-pattern:
         specifier: ^5
         version: 5.9.0
-      zod:
-        specifier: ^4
-        version: 4.6.5
     devDependencies:
       '@biomejs/biome':
         specifier: 2.5.15
@@ -483,14 +483,14 @@ packages:
     peerDependencies:
       '@biomejs/biome': ^2.5.0
 
-  '@kontent-ai/core-sdk@12.0.0-preview.44':
-    resolution: {integrity: sha512-EKu/Ht9GSnlVYTdwab7SGbBQ7oKB8M5mo9A4RcwalwMqfd/AfNRwiS3JWncXRJG2TGl65I3hae7K671qO67/PQ==}
+  '@kontent-ai/core-sdk@12.0.0-preview.45':
+    resolution: {integrity: sha512-iKCMkbfJ1RW7T5DA54/QtNyCOpPnPQFBiAHeIW6ocFEKAZy52//sQ5keXJn0hd2/IWu+0JkpVjxqE6DHlX5ANw==}
     engines: {node: '>=22'}
     peerDependencies:
+      '@zod/mini': ^4.6.6
       oxlint: ^1
       ts-pattern: ^5
       vitest: ^5
-      zod: ^4
     peerDependenciesMeta:
       oxlint:
         optional: true
@@ -913,6 +913,11 @@ packages:
 
   '@vitest/spy@5.0.3':
     resolution: {integrity: sha512-XhFysQTB8AZ+P4gMi+Lpo99vg2AZi0qKpaB9yXQl37+CaMEAPO3iH/wGVnSyL5MPERiLezpqTVtrR6UZH5GCXg==}
+
+  '@zod/mini@4.6.6':
+    resolution: {integrity: sha512-SekYu5pzEuOFuyZGCfdcwAI56gi7fjMLlMiiJsk2W6sIOuSuk+1IRfPFpf/Raj2UR8+19zdmSbrOD0D+uwbr4A==}
+    peerDependencies:
+      zod: ^4.6.0
 
   assertion-error@2.0.1:
     resolution: {integrity: sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA==}
@@ -1357,10 +1362,10 @@ snapshots:
     dependencies:
       '@biomejs/biome': 2.5.15
 
-  '@kontent-ai/core-sdk@12.0.0-preview.44(oxlint@1.87.0(oxlint-tsgolint@7.0.2004))(ts-pattern@5.9.0)(vitest@5.0.3)(zod@4.6.5)':
+  '@kontent-ai/core-sdk@12.0.0-preview.45(@zod/mini@4.6.6(zod@4.6.5))(oxlint@1.87.0(oxlint-tsgolint@7.0.2004))(ts-pattern@5.9.0)(vitest@5.0.3)':
     dependencies:
+      '@zod/mini': 4.6.6(zod@4.6.5)
       ts-pattern: 5.9.0
-      zod: 4.6.5
     optionalDependencies:
       oxlint: 1.87.0(oxlint-tsgolint@7.0.2004)
       vitest: 5.0.3(@types/node@26.6.5)(@vitest/coverage-v8@5.0.3)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(tsx@4.23.15))
@@ -1590,6 +1595,10 @@ snapshots:
       vite: 8.3.4(@types/node@26.6.5)(esbuild@0.28.2)(tsx@4.23.15)
 
   '@vitest/spy@5.0.3': {}
+
+  '@zod/mini@4.6.6(zod@4.6.5)':
+    dependencies:
+      zod: 4.6.5
 
   assertion-error@2.0.1: {}
 

@@ -33,14 +33,6 @@
 		// Types
 		"types": ["node"]
 	},
-	"include": [
-		"lib/**/*",
-		"tests/**/*",
-		"oxlint.config.ts",
-		"delivery.oxlint-plugin.ts",
-		"vitest.config.ts",
-		"sample/**/*",
-		"scripts/**/*"
-	],
+	"include": ["lib/**/*", "tests/**/*", "oxlint.config.ts", "vitest.config.ts", "sample/**/*", "scripts/**/*"],
 	"exclude": ["node_modules", "_legacy"]
 }

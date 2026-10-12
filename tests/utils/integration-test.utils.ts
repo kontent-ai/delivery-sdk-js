@@ -8,8 +8,8 @@ import {
 	type PagedFetchQuery,
 } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
+import type { ZodMiniType } from "@zod/mini";
 import { expect, it } from "vitest";
-import type { ZodMiniType } from "zod/mini";
 import type { DeliveryClient, DeliveryClientSchema, DeliveryEndpoint } from "../../lib/models/core.models.js";
 import { DeliverySdkError } from "../../lib/models/error.models.js";
 import { createDeliveryClient } from "../../lib/public_api.js";

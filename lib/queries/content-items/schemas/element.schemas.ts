@@ -1,5 +1,5 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
-import * as z from "zod/mini";
+import * as z from "@zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import type { ContentItemPayload } from "../models/content-item.models.js";
 import { contentItemSchemaExtended } from "./content-item.schemas.js";

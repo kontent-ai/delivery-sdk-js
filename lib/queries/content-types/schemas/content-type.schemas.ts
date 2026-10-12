@@ -1,5 +1,5 @@
 import { codenameOf, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk";
-import * as z from "zod/mini";
+import * as z from "@zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationSchema } from "../../../models/pagination.schemas.js";
 import type { ContentTypeCodenameOf } from "../models/content-type.models.js";
