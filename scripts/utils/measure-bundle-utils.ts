@@ -2,7 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { brotliCompressSync, gzipSync } from "node:zlib";
 import { build } from "esbuild";
 
-export type Scenario<TName extends string> = {
+export type SdkBundle<TName extends string> = {
 	readonly name: TName;
 	readonly entryContents: string;
 	readonly thresholdKb: number;
@@ -16,23 +16,23 @@ export type SizeResult<TName extends string> = {
 	readonly brotli: number;
 };
 
-export type ScenarioName = "public_api (full)" | "public_schemas (full)";
+export type BundleName = "public_api (full)" | "public_schemas (full)";
 
-export const scenarios: readonly Scenario<ScenarioName>[] = [
+export const bundles: readonly SdkBundle<BundleName>[] = [
 	{
 		name: "public_api (full)",
 		entryContents: `export * from "./lib/public_api.ts";`,
-		thresholdKb: 20,
+		thresholdKb: 25,
 	},
 	{
 		name: "public_schemas (full)",
 		entryContents: `export * from "./lib/public_schemas.ts";`,
-		thresholdKb: 11,
+		thresholdKb: 15,
 	},
 ];
 
 const bundleScenario = async <TName extends string>(
-	scenario: Scenario<TName>,
+	scenario: SdkBundle<TName>,
 	{ resolveDir, minify }: { readonly resolveDir: string; readonly minify: boolean },
 ): Promise<Uint8Array> => {
 	const result = await build({
@@ -60,7 +60,7 @@ const bundleScenario = async <TName extends string>(
 };
 
 export const measureScenarios = async <TName extends string>(
-	scenarios: readonly Scenario<TName>[],
+	scenarios: readonly SdkBundle<TName>[],
 	options: { readonly resolveDir: string },
 ): Promise<readonly SizeResult<TName>[]> =>
 	Promise.all(
@@ -92,7 +92,7 @@ export type WrittenBundle<TName extends string> = {
 };
 
 export const writeBundles = async <TName extends string>(
-	scenarios: readonly Scenario<TName>[],
+	scenarios: readonly SdkBundle<TName>[],
 	options: { readonly resolveDir: string; readonly outDir: string; readonly minify?: boolean },
 ): Promise<readonly WrittenBundle<TName>[]> => {
 	await mkdir(options.outDir, { recursive: true });

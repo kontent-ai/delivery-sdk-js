@@ -1,13 +1,13 @@
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { formatBytes, measureScenarios, scenarios } from "../../../scripts/utils/measure-bundle-utils.js";
+import { bundles, formatBytes, measureScenarios } from "../../../scripts/utils/measure-bundle-utils.js";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
 
 describe("bundle size", () => {
-	const resultsPromise = measureScenarios(scenarios, { resolveDir: repoRoot });
+	const resultsPromise = measureScenarios(bundles, { resolveDir: repoRoot });
 
-	for (const scenario of scenarios) {
+	for (const scenario of bundles) {
 		it(`${scenario.name} stays under ${scenario.thresholdKb} kB gzipped`, async () => {
 			const results = await resultsPromise;
 			const result = results.find((r) => r.scenario === scenario.name);
