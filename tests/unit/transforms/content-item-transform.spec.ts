@@ -194,12 +194,15 @@ describe("joinItems", () => {
 		const modularA = createItem("modular_a");
 		const modularB = createItem("modular_b");
 
+		const itemsSource = [itemA, itemB];
+		const modularContentSource = { modular_a: modularA, modular_b: modularB };
+
 		const result = joinItems({
-			items: [itemA, itemB],
-			modularContent: [{ modular_a: modularA, modular_b: modularB }],
+			items: itemsSource,
+			modularContent: [modularContentSource],
 		});
 
-		const sourceSize = 2 + Object.keys({ modular_a: modularA, modular_b: modularB }).length;
+		const sourceSize = itemsSource.length + Object.keys(modularContentSource).length;
 
 		expect(Object.keys(result)).toHaveLength(sourceSize);
 		expect(result.item_a).toBe(itemA);
@@ -233,14 +236,11 @@ describe("joinItems", () => {
 		const modularRecord = { shared: sharedFromModular, unique_modular: uniqueModular };
 		const items = [sharedFromItems, uniqueItem];
 
-		const sourceSize = items.length + Object.keys(modularRecord).length;
-
 		const result = joinItems({
 			items,
 			modularContent: [modularRecord],
 		});
 
-		expect(Object.keys(result).length).toBeLessThan(sourceSize);
 		expect(Object.keys(result)).toHaveLength(3);
 		expect(Object.keys(result).toSorted((a, b) => a.localeCompare(b))).toEqual(["shared", "unique_item", "unique_modular"]);
 		expect(result.shared).toBe(sharedFromItems);

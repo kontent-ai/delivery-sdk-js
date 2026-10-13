@@ -10,51 +10,32 @@ describe("Query Parameters", () => {
 		environmentId: unitEnvironmentId,
 	});
 
-	it("adds paging parameters to the URL", () => {
-		const listingQueries: readonly DeliveryPagedFetchQuery<JsonValue, DeliveryMetadata>[] = [
-			client.listLanguages({
-				query: {
-					order: "system.name[asc]",
-					skip: 5,
-					limit: 10,
-				},
-			}),
-			client.listTaxonomies({
-				query: {
-					order: "system.name[asc]",
-					skip: 5,
-					limit: 10,
-				},
-			}),
-			client.listContentTypes({
-				query: {
-					order: "system.name[asc]",
-					skip: 5,
-					limit: 10,
-				},
-			}),
-			client.listContentItems({
-				query: {
-					order: "system.name[asc]",
-					skip: 5,
-					limit: 10,
-					depth: 4,
-				},
-			}),
-		];
+	const pagingQuery = { order: "system.name[asc]", skip: 5, limit: 10 } as const;
+	const expectedPagingParams = { order: "system.name[asc]", skip: "5", limit: "10" };
 
-		for (const { inspect } of listingQueries) {
-			const { success, data, error } = inspect();
+	const pagingCases: readonly {
+		readonly name: string;
+		readonly query: DeliveryPagedFetchQuery<JsonValue, DeliveryMetadata>;
+		readonly expectedParams: Readonly<Record<string, string>>;
+	}[] = [
+		{ name: "listLanguages", query: client.listLanguages({ query: pagingQuery }), expectedParams: expectedPagingParams },
+		{ name: "listTaxonomies", query: client.listTaxonomies({ query: pagingQuery }), expectedParams: expectedPagingParams },
+		{ name: "listContentTypes", query: client.listContentTypes({ query: pagingQuery }), expectedParams: expectedPagingParams },
+		{
+			name: "listContentItems",
+			query: client.listContentItems({ query: { ...pagingQuery, depth: 4 } }),
+			expectedParams: { ...expectedPagingParams, depth: "4" },
+		},
+	];
 
-			if (!success) {
-				throw new Error(`Failed to inspect query: ${error}`);
-			}
+	it.each(pagingCases)("adds paging parameters to the URL: $name", ({ query, expectedParams }) => {
+		const { success, data, error } = query.inspect();
 
-			const { url } = data;
-			expect(url.searchParams.get("skip")).toStrictEqual("5");
-			expect(url.searchParams.get("limit")).toStrictEqual("10");
-			expect(url.searchParams.get("order")).toStrictEqual("system.name[asc]");
+		if (!success) {
+			throw new Error(`Failed to inspect query: ${error}`);
 		}
+
+		expect(Object.fromEntries(data.url.searchParams)).toStrictEqual(expectedParams);
 	});
 
 	it("adds the elements parameter as a comma-separated list", () => {

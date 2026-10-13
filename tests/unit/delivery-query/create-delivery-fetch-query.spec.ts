@@ -58,7 +58,7 @@ describe("createDeliveryFetchQuery", () => {
 		expect(inspect().data?.url?.toString()).not.toContain("?");
 	});
 
-	it("includes query parameters when request.query is provided", () => {
+	it("includes query parameters when request.query is provided and nothing extra", () => {
 		const request: DeliveryRequest<{ readonly language: string; readonly depth: number }, never> = {
 			query: { language: "en-us", depth: 2 },
 		};
@@ -70,8 +70,11 @@ describe("createDeliveryFetchQuery", () => {
 		});
 
 		const url = inspect().data?.url;
-		expect(url?.searchParams.get("language")).toBe(request.query?.language);
-		expect(url?.searchParams.get("depth")).toBe(request.query?.depth.toString());
+
+		expect(Object.fromEntries(url?.searchParams ?? [])).toEqual({
+			language: request.query?.language,
+			depth: request.query?.depth.toString(),
+		});
 	});
 
 	it("includes filters when request.filters is provided", () => {
