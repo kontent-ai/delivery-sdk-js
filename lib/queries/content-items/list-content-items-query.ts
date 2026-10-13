@@ -10,17 +10,12 @@ import type {
 } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
 import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
-import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../transforms/content-item-transforms.js";
+import { extendItemsInPlace, extendModularContentInPlace, joinItems } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByUrlQuery, transformDeliveryPagedByUrlQuery } from "../delivery-queries.js";
-import type {
-	ContentItemPayload,
-	ContentItemPayloadExtended,
-	ListContentItemsPayload,
-	ListContentItemsPayloadExtended,
-} from "./models/content-item.models.js";
+import type { ContentItemPayload, ListContentItemsPayload, ListContentItemsPayloadExtended } from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
-type ElementProperties<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
+type AllElementCodenames<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
 
 export type ListContentItemsResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
 	ListContentItemsPayloadExtended<TSchema>,
@@ -34,7 +29,7 @@ export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = Delive
 	WithRaw<DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>, ListContentItemsResponse<TSchema>["meta"]>>;
 
 export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
-	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ElementProperties<TSchema>>,
+	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<AllElementCodenames<TSchema>>,
 	{
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
@@ -44,12 +39,12 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
 		 */
-		readonly elements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
+		readonly elements?: ElementSelectionQueryParam<AllElementCodenames<TSchema>>;
 
 		/**
 		 * Specifies which elements to exclude from the response. By default, no elements are excluded.
 		 */
-		readonly excludeElements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
+		readonly excludeElements?: ElementSelectionQueryParam<AllElementCodenames<TSchema>>;
 
 		/**
 		 * Determines the nesting level for linked content items that the API returns.
@@ -66,7 +61,7 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 		 */
 		readonly includeTotalCount?: boolean;
 	},
-	readonly Filter<SystemProperties, ElementProperties<TSchema>>[]
+	readonly Filter<SystemProperties, AllElementCodenames<TSchema>>[]
 >;
 
 export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
@@ -90,12 +85,16 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 			});
 
 			return responses.map<QueryResponse<ListContentItemsPayloadExtended<TSchema>, DeliveryMetadata>>((m) => {
+				const { items, modular_content } = m.payload;
+				extendItemsInPlace(items, allItems);
+				extendModularContentInPlace(modular_content, allItems);
+
 				return {
 					...m,
 					payload: {
 						...m.payload,
-						items: m.payload.items.map<ContentItemPayloadExtended<TSchema>>((item) => mapToExtendedItem({ allItems, item })),
-						modular_content: mapToExtendedModularContent({ allItems, modularContents: m.payload.modular_content }),
+						items,
+						modular_content,
 					},
 				};
 			});

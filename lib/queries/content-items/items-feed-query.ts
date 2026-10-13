@@ -15,17 +15,12 @@ import type {
 } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
 import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
-import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../transforms/content-item-transforms.js";
+import { extendItemsInPlace, extendModularContentInPlace, joinItems } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByTokenQuery, transformDeliveryPagedByTokenQuery } from "../delivery-queries.js";
-import type {
-	ContentItemPayload,
-	ContentItemPayloadExtended,
-	ItemsFeedPayload,
-	ItemsFeedPayloadExtended,
-} from "./models/content-item.models.js";
+import type { ContentItemPayload, ItemsFeedPayload, ItemsFeedPayloadExtended } from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
-type ElementProperties<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
+type AllElementCodenames<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
 
 export type ItemsFeedResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
 	ItemsFeedPayloadExtended<TSchema>,
@@ -40,7 +35,7 @@ export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPaged
 
 export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
 	{
-		readonly order?: SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ElementProperties<TSchema>>;
+		readonly order?: SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<AllElementCodenames<TSchema>>;
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
 		 */
@@ -49,12 +44,12 @@ export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = Delive
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
 		 */
-		readonly elements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
+		readonly elements?: ElementSelectionQueryParam<AllElementCodenames<TSchema>>;
 
 		/**
 		 * Specifies which elements to exclude from the response. By default, no elements are excluded.
 		 */
-		readonly excludeElements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
+		readonly excludeElements?: ElementSelectionQueryParam<AllElementCodenames<TSchema>>;
 
 		/**
 		 * Determines the nesting level for linked content items that the API returns.
@@ -64,7 +59,7 @@ export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = Delive
 		 */
 		readonly depth?: number;
 	},
-	readonly Filter<SystemProperties, ElementProperties<TSchema>>[]
+	readonly Filter<SystemProperties, AllElementCodenames<TSchema>>[]
 >;
 
 export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
@@ -88,12 +83,16 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 			});
 
 			return responses.map<QueryResponse<ItemsFeedPayloadExtended<TSchema>, DeliveryMetadataWithToken>>((m) => {
+				const { items, modular_content } = m.payload;
+				extendItemsInPlace(items, allItems);
+				extendModularContentInPlace(modular_content, allItems);
+
 				return {
 					...m,
 					payload: {
 						...m.payload,
-						items: m.payload.items.map<ContentItemPayloadExtended<TSchema>>((item) => mapToExtendedItem({ allItems, item })),
-						modular_content: mapToExtendedModularContent({ allItems, modularContents: m.payload.modular_content }),
+						items,
+						modular_content,
 					},
 				};
 			});

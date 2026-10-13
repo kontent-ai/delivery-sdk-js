@@ -40,7 +40,20 @@ export type DeliveryRequestWithCodename<
 
 export type QueryParameterRecord = Record<string, string | number | boolean | undefined | readonly string[]>;
 
+/**
+ * Adds access to the untransformed version of a query.
+ *
+ * By default, queries transform the Delivery API response for convenience. For example, `rich_text` and
+ * `modular_content` elements get an extra `items` property with the linked items resolved from `modular_content`.
+ *
+ * Resolved items are shared object references, so items that link to each other create circular references
+ * and the transformed response may not be serializable (e.g. with `JSON.stringify`). Use `raw()` when you need
+ * a serializable response.
+ */
 export type WithRaw<TRawQuery> = {
+	/**
+	 * Returns the same query without transformations, so its response has the same shape as the Delivery API response and is always serializable.
+	 */
 	readonly raw: () => TRawQuery;
 };
 

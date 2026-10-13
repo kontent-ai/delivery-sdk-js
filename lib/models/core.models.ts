@@ -59,8 +59,6 @@ export type DeliveryClientConfig = SdkConfig<
 	}
 >;
 
-export type DeliveryApiConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
-
 export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = {
 	readonly config: DeliveryClientConfig;
 
@@ -108,6 +106,8 @@ export type DeliveryEndpoint =
 	| `types/${string}/elements/${string}`;
 
 export type WaitForLoadingNewContentHeaderName = "X-KC-Wait-For-Loading-New-Content";
+
+export type DeliveryApiConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
 
 type PublicDeliveryClientConfig = {
 	/**

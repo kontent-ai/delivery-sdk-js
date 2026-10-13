@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { ContentItemPayload } from "../../../lib/queries/content-items/models/content-item.models.js";
-import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../../lib/transforms/content-item-transforms.js";
+import { extendItemInPlace, extendModularContentInPlace, joinItems } from "../../../lib/transforms/content-item-transforms.js";
 import { getFakeUuid } from "../../utils/test.utils.js";
 
 type TestSchema = DeliveryClientSchema<{
@@ -72,7 +72,7 @@ const createItemWithReferences = (
 	},
 });
 
-describe("mapToExtendedItem", () => {
+describe("extendItemInPlace", () => {
 	it("populates rich text and linked items elements with referenced items from allItems", () => {
 		const christianBale = createItem("christian_bale");
 		const garyOldman = createItem("gary_oldman");
@@ -86,10 +86,10 @@ describe("mapToExtendedItem", () => {
 
 		const item = createItemWithReferences("the_dark_knight", ["heath_ledger"], ["christian_bale", "gary_oldman"]);
 
-		const result = mapToExtendedItem({ allItems, item });
+		extendItemInPlace(item, allItems);
 
-		const richText = result.elements.description;
-		const linkedItems = result.elements.cast;
+		const richText = item.elements.description;
+		const linkedItems = item.elements.cast;
 
 		if (richText?.type !== "rich_text") {
 			throw new Error("Expected rich_text element");
@@ -112,10 +112,10 @@ describe("mapToExtendedItem", () => {
 
 		const item = createItemWithReferences("the_dark_knight", ["missing_codename"], ["christian_bale", "another_missing"]);
 
-		const result = mapToExtendedItem({ allItems, item });
+		extendItemInPlace(item, allItems);
 
-		const richText = result.elements.description;
-		const linkedItems = result.elements.cast;
+		const richText = item.elements.description;
+		const linkedItems = item.elements.cast;
 
 		if (richText?.type !== "rich_text" || linkedItems?.type !== "modular_content") {
 			throw new Error("Unexpected element types");
@@ -128,9 +128,9 @@ describe("mapToExtendedItem", () => {
 
 	it("leaves non-referencing elements unchanged", () => {
 		const item = createItem("plain_star");
-		const result = mapToExtendedItem({ allItems: {}, item });
+		extendItemInPlace(item, {});
 
-		const firstname = result.elements.firstname;
+		const firstname = item.elements.firstname;
 		if (firstname?.type !== "text") {
 			throw new Error("Expected text element");
 		}
@@ -138,7 +138,7 @@ describe("mapToExtendedItem", () => {
 	});
 });
 
-describe("mapToExtendedModularContent", () => {
+describe("extendModularContentInPlace", () => {
 	it("maps every record in modularContents and resolves their referenced items", () => {
 		const christianBale = createItem("christian_bale");
 		const garyOldman = createItem("gary_oldman");
@@ -147,7 +147,7 @@ describe("mapToExtendedModularContent", () => {
 		const movieA = createItemWithReferences("movie_a", ["heath_ledger"], ["christian_bale"]);
 		const movieB = createItemWithReferences("movie_b", ["christian_bale"], ["gary_oldman", "heath_ledger"]);
 
-		const modularContents = { movie_a: movieA, movie_b: movieB };
+		const modularContents: Readonly<Record<string, typeof movieA | undefined>> = { movie_a: movieA, movie_b: movieB };
 		const allItems = {
 			christian_bale: christianBale,
 			gary_oldman: garyOldman,
@@ -156,15 +156,15 @@ describe("mapToExtendedModularContent", () => {
 			movie_b: movieB,
 		};
 
-		const result = mapToExtendedModularContent({ allItems, modularContents });
+		extendModularContentInPlace(modularContents, allItems);
 
-		expect(Object.keys(result)).toHaveLength(Object.keys(modularContents).length);
-		expect(Object.keys(result).toSorted((a, b) => a.localeCompare(b))).toEqual(["movie_a", "movie_b"]);
+		expect(Object.keys(modularContents)).toHaveLength(2);
+		expect(Object.keys(modularContents).toSorted((a, b) => a.localeCompare(b))).toEqual(["movie_a", "movie_b"]);
 
-		const movieARichText = result.movie_a?.elements.description;
-		const movieALinkedItems = result.movie_a?.elements.cast;
-		const movieBRichText = result.movie_b?.elements.description;
-		const movieBLinkedItems = result.movie_b?.elements.cast;
+		const movieARichText = modularContents.movie_a?.elements.description;
+		const movieALinkedItems = modularContents.movie_a?.elements.cast;
+		const movieBRichText = modularContents.movie_b?.elements.description;
+		const movieBLinkedItems = modularContents.movie_b?.elements.cast;
 
 		if (movieARichText?.type !== "rich_text" || movieALinkedItems?.type !== "modular_content") {
 			throw new Error("movie_a has unexpected element types");
@@ -180,9 +180,10 @@ describe("mapToExtendedModularContent", () => {
 		expect(movieBLinkedItems.items).toEqual([garyOldman, heathLedger]);
 	});
 
-	it("returns an empty record when modularContents is empty", () => {
-		const result = mapToExtendedModularContent({ allItems: {}, modularContents: {} });
-		expect(Object.keys(result)).toHaveLength(0);
+	it("leaves an empty record empty", () => {
+		const modularContents = {};
+		extendModularContentInPlace(modularContents, {});
+		expect(Object.keys(modularContents)).toHaveLength(0);
 	});
 });
 

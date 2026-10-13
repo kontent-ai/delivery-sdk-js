@@ -2,7 +2,7 @@ import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, De
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam, WithRaw } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
 import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
-import { joinItems, mapToExtendedItem, mapToExtendedModularContent } from "../../transforms/content-item-transforms.js";
+import { extendItemInPlace, extendModularContentInPlace, joinItems } from "../../transforms/content-item-transforms.js";
 import { createDeliveryFetchQuery, transformDeliveryFetchQuery } from "../delivery-queries.js";
 import type { FetchContentItemPayload, FetchContentItemPayloadExtended } from "./models/content-item.models.js";
 
@@ -66,13 +66,17 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 				items: [response.payload.item],
 			});
 
+			const { item, modular_content } = response.payload;
+			extendItemInPlace(item, allItems);
+			extendModularContentInPlace(modular_content, allItems);
+
 			return {
 				...response,
 				meta: response.meta,
 				payload: {
 					...response.payload,
-					item: mapToExtendedItem({ allItems, item: response.payload.item }),
-					modular_content: mapToExtendedModularContent({ allItems, modularContents: response.payload.modular_content }),
+					item,
+					modular_content,
 				},
 			};
 		},
