@@ -53,7 +53,7 @@ export function isEmptyRichTextFilter(value: unknown): value is EmptyRichTextFil
 	return emptyRichTextOperators.some((operator) => operator === value.operator);
 }
 
-function getDefaultBaseUrlForApiMode(apiMode: ApiMode): BaseUrl {
+function getDefaultBaseUrlForApiMode(apiMode: ApiMode | undefined): BaseUrl {
 	if (apiMode === "preview") {
 		return { protocol: "https", host: "preview-deliver.kontent.ai" };
 	}

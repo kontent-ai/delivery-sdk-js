@@ -107,7 +107,11 @@ export type DeliveryEndpoint =
 
 export type WaitForLoadingNewContentHeaderName = "X-KC-Wait-For-Loading-New-Content";
 
-export type DeliveryApiConfig = PublicDeliveryClientConfig | PreviewDeliveryClientConfig | SecureDeliveryClientConfig;
+export type DeliveryApiConfig =
+	| PublicDeliveryClientConfig
+	| PreviewDeliveryClientConfig
+	| SecureDeliveryClientConfig
+	| CustomDeliveryClientConfig;
 
 type PublicDeliveryClientConfig = {
 	/**
@@ -115,6 +119,11 @@ type PublicDeliveryClientConfig = {
 	 */
 	readonly apiMode: PickStringLiteral<ApiMode, "public">;
 };
+
+type CustomDeliveryClientConfig = {
+	readonly deliveryApiKey?: string;
+	readonly apiMode?: never;
+} & Required<Pick<SdkConfig, "baseUrl">>;
 
 type PreviewDeliveryClientConfig = {
 	/**

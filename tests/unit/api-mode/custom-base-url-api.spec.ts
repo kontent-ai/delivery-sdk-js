@@ -8,7 +8,6 @@ describe("Custom base URL API", async () => {
 	const customBaseUrl: BaseUrl = { protocol: "https", host: "domain.com" };
 
 	const query = createDeliveryClient({
-		apiMode: "public",
 		environmentId: unitEnvironmentId,
 		httpService: getTestHttpServiceWithJsonResponse({
 			jsonResponse: {},
