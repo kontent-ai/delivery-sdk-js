@@ -30,19 +30,10 @@ v17 is a ground-up rewrite. The biggest conceptual shifts:
 
 ## Installation
 
-v17 requires Node.js ≥ 22 and has three peer dependencies that were previously bundled:
-`@kontent-ai/core-sdk`, `zod`, and `ts-pattern`.
-
-**npm** installs peer dependencies automatically:
+v17 requires Node.js ≥ 22. Install as before:
 
 ```bash
 npm install @kontent-ai/delivery-sdk
-```
-
-**pnpm** does not, so install them explicitly alongside the package:
-
-```bash
-pnpm add @kontent-ai/delivery-sdk @kontent-ai/core-sdk zod ts-pattern
 ```
 
 ---

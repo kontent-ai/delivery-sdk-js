@@ -16,14 +16,10 @@ runtime validation.
 
 ## Installation
 
-The SDK has three peer dependencies: `@kontent-ai/core-sdk`, `zod`, and `ts-pattern`.
-
 ```bash
-# npm installs peer dependencies automatically
 npm install @kontent-ai/delivery-sdk
-
-# pnpm needs them listed explicitly
-pnpm add @kontent-ai/delivery-sdk @kontent-ai/core-sdk zod ts-pattern
+# or
+pnpm add @kontent-ai/delivery-sdk
 ```
 
 Requires Node.js ≥ 22.
