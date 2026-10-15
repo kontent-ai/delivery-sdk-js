@@ -41,6 +41,7 @@ export function addQueryParametersToUrl(
 	return `${url}${url.includes("?") ? "&" : "?"}${searchParams.toString()}`;
 }
 
+/** @internal exported for unit tests */
 export function isEmptyRichTextFilter(value: unknown): value is EmptyRichTextFilter<string> {
 	if (typeof value !== "object" || value === null || value === undefined) {
 		return false;

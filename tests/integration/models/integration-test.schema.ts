@@ -27,14 +27,14 @@ export type IntegrationTestProjectSchema = DeliveryClientSchema<{
 	readonly workflowStepCodenames: readonly ["published", "draft"];
 }>;
 
-export type StarElements = {
+type StarElements = {
 	readonly firstname: Elements.Text;
 	readonly lastname: Elements.Text;
 };
 
 export type Star = ContentItemOf<IntegrationTestProjectSchema, "star", StarElements>;
 
-export type MovieElements = {
+type MovieElements = {
 	readonly title: Elements.Text;
 	readonly length_in_minutes: Elements.Number;
 	readonly description: Elements.RichText;

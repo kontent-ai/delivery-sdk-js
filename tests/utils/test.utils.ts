@@ -9,7 +9,7 @@ import {
 } from "@kontent-ai/core-sdk";
 import { stubFetchWithResponse } from "@kontent-ai/core-sdk/testkit";
 
-export const fakeXContinuationTokenHeader: Header = {
+const fakeXContinuationTokenHeader: Header = {
 	name: "X-Continuation" satisfies ContinuationTokenHeaderName,
 	value: "x",
 };
