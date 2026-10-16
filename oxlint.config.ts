@@ -1,4 +1,4 @@
-import { kontentOxlintConfig } from "@kontent-ai/core-sdk/devkit";
+import { kontentOxlintConfig } from "@kontent-ai/oxlint-config";
 import { defineConfig } from "oxlint";
 
 export default defineConfig({

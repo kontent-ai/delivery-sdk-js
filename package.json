@@ -60,21 +60,22 @@
 		"bump:major": "pnpm run build && npm version major -m \"v%s\" && pnpm run build:ts && git push --follow-tags"
 	},
 	"dependencies": {
-		"@kontent-ai/core-sdk": "^12.0.0-preview.45",
+		"@kontent-ai/core-sdk": "^12.0.0-preview.46",
 		"@zod/mini": "^4",
 		"ts-pattern": "^5"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.5.15",
 		"@kontent-ai/biome-config": "0.7.3",
+		"@kontent-ai/oxlint-config": "0.0.1",
 		"@types/node": "26.6.5",
-		"@vitest/coverage-v8": "5.0.4",
+		"@vitest/coverage-v8": "5.0.5",
 		"esbuild": "0.28.2",
 		"knip": "6.41.0",
 		"oxlint": "1.88.0",
 		"oxlint-tsgolint": "7.0.2004",
 		"tsx": "4.23.15",
 		"typescript": "7.0.2",
-		"vitest": "5.0.4"
+		"vitest": "5.0.5"
 	}
 }
