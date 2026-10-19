@@ -233,7 +233,7 @@ function getRequestHeaders(request: AnyDeliveryRequest | undefined): readonly He
 }
 
 function getAuthorizationHeaders(config: DeliveryClientConfig): readonly Header[] {
-	return config.apiMode === "preview" || config.apiMode === "secure"
+	return config.apiMode === "preview" || config.apiMode === "secure" || !config.apiMode
 		? [{ name: "Authorization" satisfies KnownHeaderName, value: `Bearer ${config.deliveryApiKey}` }]
 		: [];
 }

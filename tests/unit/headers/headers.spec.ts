@@ -99,7 +99,7 @@ describe("Extra Request Headers", async () => {
 	});
 });
 
-describe("Continuation Token Header — when provided in the request", async () => {
+describe("Continuation Token Header - when provided in the request", async () => {
 	const continuationTokenValue = "x";
 	const requestHeaders = await captureRequestHeaders({ headers: { "X-Continuation": continuationTokenValue } });
 
@@ -109,7 +109,7 @@ describe("Continuation Token Header — when provided in the request", async () 
 	});
 });
 
-describe("Continuation Token Header — when not provided", async () => {
+describe("Continuation Token Header - when not provided", async () => {
 	const requestHeaders = await captureRequestHeaders();
 
 	it("is not sent to the API", () => {
