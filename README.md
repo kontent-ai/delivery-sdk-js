@@ -22,7 +22,7 @@ npm install @kontent-ai/delivery-sdk
 pnpm add @kontent-ai/delivery-sdk
 ```
 
-Requires Node.js ≥ 22.
+Requires Node.js ≥ 24.
 
 ## Quick start
 

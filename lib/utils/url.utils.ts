@@ -86,7 +86,7 @@ function isQueryFilter(value: unknown): value is ObjectFilter<string, string> {
 	return typeof value === "object" && value !== null && "property" in value && "operator" in value && "value" in value;
 }
 
-function getQueryParams(query: QueryParameterRecord | undefined): readonly string[][] {
+function getQueryParams(query: QueryParameterRecord | undefined): readonly [string, string][] {
 	if (!query) {
 		return [];
 	}
@@ -95,14 +95,14 @@ function getQueryParams(query: QueryParameterRecord | undefined): readonly strin
 		.map(([key, value]) => [key, value.toString()]);
 }
 
-function getFilterParams(filters: readonly Filter<string, string>[] | undefined): readonly string[][] {
+function getFilterParams(filters: readonly Filter<string, string>[] | undefined): readonly [string, string][] {
 	if (!filters) {
 		return [];
 	}
 	return filters.flatMap((filter) => {
 		return (
 			match(filter)
-				.returnType<readonly string[][]>()
+				.returnType<readonly [string, string][]>()
 				// Special case for "isEmptyRichText" operator
 				.when(isEmptyRichTextFilter, (filter) => [
 					[`${filter.property}[${emptyRichTextToFilterOperator[filter.operator]}]`, "<p><br></p>"],

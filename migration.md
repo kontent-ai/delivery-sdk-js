@@ -30,7 +30,7 @@ v17 is a ground-up rewrite. The biggest conceptual shifts:
 
 ## Installation
 
-v17 requires Node.js ≥ 22. Install as before:
+v17 requires Node.js ≥ 24. Install as before:
 
 ```bash
 npm install @kontent-ai/delivery-sdk
