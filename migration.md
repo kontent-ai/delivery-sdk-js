@@ -59,17 +59,17 @@ const client = createDeliveryClient({
 import { createDeliveryClient } from "@kontent-ai/delivery-sdk";
 
 // Public
-const client = createDeliveryClient({ apiMode: "public", environmentId: "<environment-id>" });
+const publicClient = createDeliveryClient({ apiMode: "public", environmentId: "<environment-id>" });
 
 // Preview
-const client = createDeliveryClient({
+const previewClient = createDeliveryClient({
     apiMode: "preview",
     environmentId: "<environment-id>",
     deliveryApiKey: "<preview-key>",
 });
 
 // Secure
-const client = createDeliveryClient({
+const secureClient = createDeliveryClient({
     apiMode: "secure",
     environmentId: "<environment-id>",
     deliveryApiKey: "<secure-key>",
@@ -86,11 +86,32 @@ const client = createDeliveryClient({
 | `defaultQueryConfig` (`usePreviewMode` / `useSecuredMode`) | Decided by `apiMode` at client creation |
 | `elementResolver` | Removed — elements are returned as typed discriminated-union values, not remapped |
 | `linkedItemsReferenceHandler` | Removed — linked items are resolved onto `element.items` (see [Linked items](#linked-items--rich-text)) |
-| `proxy` / `basePreviewUrl` | Use `baseUrl` from the `@kontent-ai/core-sdk` config |
-| `globalHeaders` | Pass headers per request (`config.customHeaders`) |
+| `proxy` / `basePreviewUrl` | `baseUrl: { protocol, host }`; for a proxy, omit `apiMode` (custom mode, `deliveryApiKey` optional) |
+| `globalHeaders` | `httpService: getDefaultHttpService({ requestHeaders })`, or per request via `config.customHeaders` |
 | `defaultLanguage` | Pass `query.language` per request |
-| `retryStrategy` | Configured in `@kontent-ai/core-sdk` |
-| `httpService` | Still supported (from `@kontent-ai/core-sdk`) |
+| `retryStrategy` | `httpService: getDefaultHttpService({ retryStrategy })` |
+| `httpService` | Still supported (`HttpService` from `@kontent-ai/core-sdk`) |
+| `defaultQueryConfig.waitForLoadingNewContent` | Per request: `headers: { "X-KC-Wait-For-Loading-New-Content": true }` |
+
+```typescript
+import { getDefaultHttpService } from "@kontent-ai/core-sdk";
+
+// Proxy / custom host
+const proxiedClient = createDeliveryClient({
+    environmentId: "<environment-id>",
+    baseUrl: { protocol: "https", host: "delivery-proxy.example.com" },
+});
+
+// Retry strategy and global headers
+const retryingClient = createDeliveryClient({
+    apiMode: "public",
+    environmentId: "<environment-id>",
+    httpService: getDefaultHttpService({
+        retryStrategy: { maxRetries: 5 },
+        requestHeaders: [{ name: "X-Custom-Header", value: "value" }],
+    }),
+});
+```
 | `assetsDomain` / `defaultRenditionPreset` | Removed |
 | `excludeArchivedItems` | Removed |
 
@@ -132,7 +153,10 @@ type MySchema = DeliveryClientSchema<{
     };
     readonly contentTypes: {
         readonly article: readonly ["title", "summary"];
-        readonly movie: readonly ["title", "release_date"];
+        readonly movie: readonly [
+            "title", "plot", "released", "length", "poster", "category", "stars", "seoname", "releasecategory", "genre",
+        ];
+        readonly actor: readonly ["first_name", "last_name"];
     };
 }>;
 
@@ -296,6 +320,9 @@ console.log(response?.payload.items);
 | `.elementsParameter([...])` / `.excludeElementsParameter([...])` | `query.elements` / `query.excludeElements` |
 | `.includeTotalCountParameter()` | `query.includeTotalCount: true` |
 | `.orderByAscending(x)` / `.orderByDescending(x)` / `.orderParameter(x, dir)` | `query.order: "<x>[asc|desc]"` |
+| `.withHeaders([...])` | `config: { customHeaders: [...] }` |
+| `.queryConfig({ waitForLoadingNewContent: true })` | `headers: { "X-KC-Wait-For-Loading-New-Content": true }` |
+| `.withParameter()` / `.withCustomParameter()` | No generic equivalent: use `query`, or a raw-string filter (`"system.*[op]=..."` / `"elements.*[op]=..."`) |
 
 ### Execution methods
 
@@ -330,16 +357,31 @@ try {
 
 **v17**
 ```typescript
+import { DeliverySdkError } from "@kontent-ai/delivery-sdk";
+
+// Safe
 const { success, response, error } = await client.fetchContentItem({ codename: "invalid" }).fetchSafe();
 
-if (!success) {
+if (success) {
+    console.log(response.payload.item);
+} else {
     console.error(error.message);
-    console.error(error.details.reason); // e.g. "schemaMismatch"
-    return;
+    console.error(error.details.reason); // "notFound"
 }
 
-console.log(response.payload.item);
+// Throwing
+try {
+    const thrownResponse = await client.fetchContentItem({ codename: "invalid" }).fetch();
+    console.log(thrownResponse.payload.item);
+} catch (thrownError) {
+    if (thrownError instanceof DeliverySdkError) {
+        console.error(thrownError.message, thrownError.details.reason);
+    }
+}
 ```
+
+`error.details.reason` replaces v16's `errorCode`; common values are `notFound`, `unauthorized`,
+`invalidResponse`, `schemaMismatch` and `aborted`.
 
 Every query exports a matching response type for annotating results:
 `FetchContentItemResponse`, `ListContentItemsResponse`, `ItemsFeedResponse`, `FetchContentTypeResponse`,
@@ -442,7 +484,7 @@ const response = await client
     .items<Movie>()
     .equalsFilter("system.type", "movie")
     .allFilter("elements.genre", ["action", "drama"])
-    .greaterThanOrEqualFilter("elements.release_date", "2020-01-01")
+    .greaterThanOrEqualFilter("elements.released", "2020-01-01")
     .toPromise();
 ```
 
@@ -453,7 +495,7 @@ const { response } = await client
         filters: [
             { property: "system.type", operator: "eq", value: "movie" },
             { property: "elements.genre", operator: "all", value: ["action", "drama"] },
-            { property: "elements.release_date", operator: "gte", value: "2020-01-01" },
+            { property: "elements.released", operator: "gte", value: "2020-01-01" },
         ],
     })
     .fetchPageSafe();
@@ -485,14 +527,14 @@ Filters may also be raw query strings: `filters: ["system.type[eq]=movie", "elem
 **v16**
 ```typescript
 client.items().orderByAscending("system.name").toPromise();
-client.items().orderByDescending("elements.release_date").toPromise();
+client.items().orderByDescending("elements.released").toPromise();
 client.items().orderParameter("elements.title", "desc").toPromise();
 ```
 
 **v17**
 ```typescript
 client.listContentItems({ query: { order: "system.name[asc]" } }).fetchPageSafe();
-client.listContentItems({ query: { order: "elements.release_date[desc]" } }).fetchPageSafe();
+client.listContentItems({ query: { order: "elements.released[desc]" } }).fetchPageSafe();
 ```
 
 ---
@@ -551,7 +593,7 @@ console.log(response.data.items);
 
 **v17**
 ```typescript
-const { success, responses } = await client.listContentItems({ query: { limit: 5 } }).fetchAllPagesSafe();
+const { success, responses } = await client.listContentItems({ query: { limit: 5 } }).fetchAllPagesSafe({ maxPagesCount: 3 });
 if (success) {
     const allItems = responses.flatMap((r) => r.payload.items);
 }
@@ -614,7 +656,15 @@ parameters directly, or a third-party image URL builder.
 ### `.getUrl()` / `.withUrl()`
 
 Query URL inspection/override builder methods are removed. Inspect a query's request via `query.inspect()`,
-set a custom host through the `baseUrl` config, and express ad-hoc query strings via raw-string `filters`.
+set a custom host through the `baseUrl` config, and express ad-hoc filters via raw-string `filters`.
+
+```typescript
+const inspection = client.listContentItems({ query: { limit: 10 } }).inspect();
+
+if (inspection.success) {
+    console.log(inspection.data.url.toString()); // also: requestHeaders, method, body
+}
+```
 
 ### Sync API
 

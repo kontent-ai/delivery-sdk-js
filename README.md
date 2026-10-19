@@ -35,11 +35,15 @@ const client = createDeliveryClient({
 });
 
 // Fetch a single content item
-const { response } = await client.fetchContentItem({ codename: "my_article" }).fetchSafe();
+const { success, response } = await client.fetchContentItem({ codename: "my_article" }).fetchSafe();
+
+if (success) {
+    console.log(response.payload.item.elements);
+}
 ```
 
-Every query returns `{ payload, meta }`. The `payload` is the raw API response (content lives in
-`payload.items` / `payload.item`); `meta` holds response metadata such as the continuation token.
+Every successful response has the shape `{ payload, meta }`. The `payload` is the API response (content
+lives in `payload.items` / `payload.item`); `meta` holds response metadata such as the continuation token.
 
 ## Configuration
 
@@ -61,50 +65,105 @@ createDeliveryClient({ apiMode: "secure", environmentId: "<id>", deliveryApiKey:
 | `apiMode` | yes | `"public"`, `"preview"`, or `"secure"` |
 | `environmentId` | yes | Your Kontent.ai environment ID |
 | `deliveryApiKey` | for preview/secure | The preview or secure access API key |
-| `baseUrl`, `httpService`, `retryStrategy` | no | Advanced options from [`@kontent-ai/core-sdk`](https://github.com/kontent-ai/core-sdk-js) |
+| `baseUrl` | no | Custom host as `{ protocol, host }`, overrides the default Delivery API URL |
+| `httpService` | no | Custom HTTP service from [`@kontent-ai/core-sdk`](https://github.com/kontent-ai/core-sdk-js) (retry strategy, global headers, adapter) |
 | `runtimeValidation` | no | Opt-in Zod validation of responses (see [Runtime validation](#runtime-validation)) |
+
+### Custom host (proxy)
+
+To route requests through your own proxy, omit `apiMode` and provide `baseUrl`. `deliveryApiKey` is
+optional in this mode.
+
+```typescript
+createDeliveryClient({
+    environmentId: "<id>",
+    baseUrl: { protocol: "https", host: "delivery-proxy.example.com" },
+});
+```
+
+### Retry strategy and global headers
+
+Retries and headers sent with every request are configured on the HTTP service:
+
+```typescript
+import { getDefaultHttpService } from "@kontent-ai/core-sdk";
+
+createDeliveryClient({
+    apiMode: "public",
+    environmentId: "<id>",
+    httpService: getDefaultHttpService({
+        retryStrategy: { maxRetries: 5 },
+        requestHeaders: [{ name: "X-Custom-Header", value: "value" }],
+    }),
+});
+```
 
 ## Safe vs. throwing queries
 
 Every query offers two execution styles:
 
-- **Safe** (`fetchSafe` / `fetchPageSafe` / `fetchAllPagesSafe`) — never throws; returns
-  `{ success, response, error }`.
-- **Throwing** (`fetch` / `fetchPage` / `fetchAllPages`) — returns the response directly and throws on
-  failure.
+- **Safe** (`fetchSafe` / `fetchPageSafe` / `fetchAllPagesSafe` / `pagesSafe`): never throws; returns
+  `{ success, response, error }` (`{ success, responses, error }` for `fetchAllPagesSafe`).
+- **Throwing** (`fetch` / `fetchPage` / `fetchAllPages` / `pages`): returns the response directly and
+  throws a `DeliverySdkError` on failure.
 
 ```typescript
-// Safe — handle the result object
+import { DeliverySdkError } from "@kontent-ai/delivery-sdk";
+
+// Safe: handle the result object
 const { success, response, error } = await client.listContentItems().fetchPageSafe();
 if (success) {
     console.log(response.payload.items);
 }
 
-// Throwing — use try/catch
+// Throwing: use try/catch
 try {
     const response = await client.listContentItems().fetchPage();
     console.log(response.payload.items);
 } catch (error) {
-    // error is a DeliverySdkError
+    if (error instanceof DeliverySdkError) {
+        console.error(error.details.reason);
+    }
 }
 ```
 
 Use single-item queries with `fetch` / `fetchSafe`; paged queries (`listContentItems`, `listContentTypes`,
-`listTaxonomies`, `listLanguages`, `itemsFeed`, …) with `fetchPage` / `fetchPageSafe` /
-`fetchAllPages` / `fetchAllPagesSafe`.
+`listTaxonomies`, `listLanguages`, `itemsFeed`, `itemsReferencingAsset`, `itemsReferencingItem`) with
+`fetchPage` / `fetchPageSafe` / `fetchAllPages` / `fetchAllPagesSafe` / `pages` / `pagesSafe`.
 
 ## Error handling
 
 Failures are reported as a `DeliverySdkError`. With safe queries, inspect `error` on the result; with
-throwing queries, catch it.
+throwing queries, catch it and check `instanceof DeliverySdkError`.
 
 ```typescript
 const { success, error } = await client.fetchContentItem({ codename: "missing" }).fetchSafe();
 
 if (!success) {
     console.error(error.message);
-    console.error(error.details.reason); // e.g. "schemaMismatch"
+    console.error(error.details.reason); // "notFound"
 }
+```
+
+`error.details.reason` tells you what went wrong, for example `notFound`, `unauthorized`,
+`invalidResponse`, `schemaMismatch` (with [runtime validation](#runtime-validation)) or `aborted`.
+
+## Request options
+
+Every query accepts per-request options alongside its `query` and `filters`:
+
+```typescript
+const controller = new AbortController();
+
+await client
+    .listContentItems({
+        headers: { "X-KC-Wait-For-Loading-New-Content": true },
+        config: {
+            customHeaders: [{ name: "X-Custom-Header", value: "value" }],
+            abortSignal: controller.signal,
+        },
+    })
+    .fetchPageSafe();
 ```
 
 ## Paging
@@ -117,8 +176,8 @@ const { response } = await client
 
 console.log(response?.payload.items);
 
-// All pages at once
-const { success, responses } = await client.listContentItems().fetchAllPagesSafe();
+// All pages at once (optionally capped with `maxPagesCount`)
+const { success, responses } = await client.listContentItems().fetchAllPagesSafe({ maxPagesCount: 5 });
 if (success) {
     const allItems = responses.flatMap((r) => r.payload.items);
 }
@@ -129,8 +188,9 @@ for await (const page of client.listContentItems().pages()) {
 }
 ```
 
-The `itemsFeed` query pages with a continuation token instead of skip/limit — pass it via the request
-headers and read the next token from `response.meta.continuationToken`:
+The `itemsFeed`, `itemsReferencingAsset` and `itemsReferencingItem` queries page with a continuation
+token instead of skip/limit. Pass it via the request headers and read the next token from
+`response.meta.continuationToken`:
 
 ```typescript
 const { response } = await client
@@ -157,7 +217,7 @@ type MySchema = DeliveryClientSchema<{
     readonly workflowStepCodenames: readonly ["published"];
     readonly taxonomies: { readonly genre: readonly ["action", "comedy"] };
     readonly contentTypes: {
-        readonly movie: readonly ["title", "stars"];
+        readonly movie: readonly ["title", "stars", "genre"];
         readonly actor: readonly ["first_name"];
     };
 }>;
@@ -271,11 +331,13 @@ tree directly instead of looking codenames up in `modular_content` yourself — 
 the referenced codenames, while `element.items` holds the resolved items.
 
 ```typescript
-const { response } = await client.listContentItems().fetchPageSafe();
-const movie = response?.payload.items[0];
+const { response } = await client.fetchContentItem({ codename: "my_movie" }).fetchSafe();
+const item = response?.payload.item;
 
-const starCodenames = movie?.elements.stars.value; // string[] of codenames
-const stars = movie?.elements.stars.items;          // resolved items
+if (item && isMovie(item)) {
+    const starCodenames = item.elements.stars.value; // codenames
+    const stars = item.elements.stars.items;          // resolved Actor[]
+}
 ```
 
 Because resolved items can reference one another — possibly in a **circular** way — the extended response
