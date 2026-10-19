@@ -46,7 +46,12 @@ export function joinItems<TSchema extends DeliveryClientSchema>({
 }): Readonly<Record<string, ContentItemPayload<TSchema>>> {
 	const joinedItems: Record<string, ContentItemPayload<TSchema>> = {};
 	for (const content of modularContent) {
-		Object.assign(joinedItems, content);
+		for (const [codename, item] of Object.entries(content)) {
+			// skip undefined entries so they neither appear in the result nor override an item from another page
+			if (item) {
+				joinedItems[codename] = item;
+			}
+		}
 	}
 
 	for (const item of items) {
@@ -60,13 +65,7 @@ function resolveCodenamesToItems<TSchema extends DeliveryClientSchema>(
 	codenames: readonly string[],
 	allItems: Readonly<Record<string, ContentItemPayload<TSchema> | undefined>>,
 ): readonly ContentItemPayload<TSchema>[] {
-	const preparedItems: (ContentItemPayload<TSchema> | undefined)[] = [];
-
-	for (const codename of codenames) {
-		preparedItems.push(allItems[codename]);
-	}
-
-	return preparedItems.filter(isDefined);
+	return codenames.map((codename) => allItems[codename]).filter(isDefined);
 }
 
 /**

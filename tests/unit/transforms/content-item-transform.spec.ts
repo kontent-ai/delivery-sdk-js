@@ -247,4 +247,16 @@ describe("joinItems", () => {
 		expect(result.unique_item).toBe(uniqueItem);
 		expect(result.unique_modular).toBe(uniqueModular);
 	});
+
+	it("skips undefined modularContent entries, so they do not override an item from another record", () => {
+		const modularA = createItem("modular_a");
+
+		const result = joinItems({
+			items: [],
+			modularContent: [{ modular_a: modularA }, { modular_a: undefined, missing: undefined }],
+		});
+
+		expect(Object.keys(result)).toEqual(["modular_a"]);
+		expect(result.modular_a).toBe(modularA);
+	});
 });
