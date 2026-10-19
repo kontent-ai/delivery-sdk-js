@@ -71,9 +71,10 @@ export type OrderDirection = "asc" | "desc";
  * Matches the format of the order parameter in the Delivery API.
  *
  * @example
- * ```ts
- * `order=system.name[asc]`
- * `order=system.name[desc]`
+ * ```text
+ * order=system.name[asc]
+ * order=system.name[desc]
+ * ```
  */
 export type SystemOrderQueryParam<TSortableProperties extends string> = `system.${TSortableProperties}[${OrderDirection}]`;
 
@@ -81,9 +82,10 @@ export type SystemOrderQueryParam<TSortableProperties extends string> = `system.
  * Matches the format of the order parameter in the Delivery API.
  *
  * @example
- * ```ts
- * `order=elements.description[asc]`
- * `order=elements.description[desc]`
+ * ```text
+ * order=elements.description[asc]
+ * order=elements.description[desc]
+ * ```
  */
 export type ElementOrderQueryParam<TElementCodenames extends string> = `elements.${TElementCodenames}[${OrderDirection}]`;
 
@@ -91,7 +93,8 @@ export type ElementOrderQueryParam<TElementCodenames extends string> = `elements
  * Array of element codenames that will get transformed into a comma-separated list used in the elements parameter.
  *
  * @example
- * ```ts
- * `elements=title,summary,related_articles`
+ * ```text
+ * elements=title,summary,related_articles
+ * ```
  */
 export type ElementSelectionQueryParam<TElementCodenames extends string> = readonly TElementCodenames[];
