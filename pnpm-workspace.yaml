@@ -24,3 +24,4 @@ minimumReleaseAgeExclude:
   - '@kontent-ai/core-sdk@12.0.0-preview.45 || 12.0.0-preview.46'
   - '@zod/mini@4.6.6'
   - '@kontent-ai/oxlint-config@0.0.1'
+  - knip@6.42.0
