@@ -68,7 +68,7 @@
 		"@biomejs/biome": "2.5.15",
 		"@kontent-ai/biome-config": "0.7.3",
 		"@kontent-ai/oxlint-config": "0.0.1",
-		"@types/node": "24.19.2",
+		"@types/node": "26.6.5",
 		"@vitest/coverage-v8": "5.0.5",
 		"esbuild": "0.28.2",
 		"knip": "6.42.0",
