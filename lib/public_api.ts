@@ -8,6 +8,7 @@ export type {
 	DeliveryClientSchema,
 	WaitForLoadingNewContentHeaderName,
 } from "./models/core.models.js";
+export { DeliverySdkError } from "./models/error.models.js";
 export type { Filter, FilterWithoutValue, FilterWithValue } from "./models/filter.models.js";
 export type {
 	PaginationPayload,
