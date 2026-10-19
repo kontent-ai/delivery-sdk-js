@@ -109,7 +109,7 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPagesSafe res
 		expect(nextPageUrl).toBe(expectedUrl);
 	});
 
-	it("nextPageUrl is an empty string when the last page has no next page", async () => {
+	it("nextPageUrl is undefined when the last page has no next page", async () => {
 		stubFetchWithJsonResponse({ jsonResponse: paginationPayload(""), statusCode: 200 });
 
 		const { success, nextPageUrl } = await createDeliveryPagedByUrlQuery({
@@ -120,7 +120,7 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPagesSafe res
 		}).fetchAllPagesSafe();
 
 		expect(success).toBeTruthy();
-		expect(nextPageUrl).toBe("");
+		expect(nextPageUrl).toBeUndefined();
 	});
 });
 
@@ -141,5 +141,18 @@ describe("createDeliveryPagedByUrlQuery — nextPageUrl in fetchAllPages result"
 		}).fetchAllPages({ maxPagesCount: 1 });
 
 		expect(nextPageUrl).toBe(expectedUrl);
+	});
+
+	it("nextPageUrl is undefined when the last page has no next page", async () => {
+		stubFetchWithJsonResponse({ jsonResponse: paginationPayload(""), statusCode: 200 });
+
+		const { nextPageUrl } = await createDeliveryPagedByUrlQuery({
+			config: clientConfig,
+			request: undefined,
+			schema: async () => paginationSchema,
+			endpoint: "items",
+		}).fetchAllPages();
+
+		expect(nextPageUrl).toBeUndefined();
 	});
 });

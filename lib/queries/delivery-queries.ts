@@ -25,7 +25,7 @@ import type { Filter } from "../models/filter.models.js";
 import type { PaginationPayload } from "../models/pagination.models.js";
 import type { DeliveryRequest, QueryParameterRecord } from "../models/request.models.js";
 import { mapDeliveryError } from "../utils/error.utils.js";
-import { getNextPageByContinuationToken, getNextPageByUrl } from "../utils/paging.utils.js";
+import { getNextPageByContinuationToken, getNextPageByUrl, getNextPageUrl } from "../utils/paging.utils.js";
 import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
 
 type AnyDeliveryRequest = DeliveryRequest<QueryParameterRecord, readonly Filter<string, string>[]>;
@@ -45,7 +45,7 @@ export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload
 		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
 		getNextPageData: getNextPageByUrl(),
 		mapPagingExtraResponseProps: (responses) => ({
-			nextPageUrl: responses.at(-1)?.payload?.pagination?.next_page,
+			nextPageUrl: getNextPageUrl(responses.at(-1)?.payload),
 		}),
 		mapMetadata: () => ({}),
 	});

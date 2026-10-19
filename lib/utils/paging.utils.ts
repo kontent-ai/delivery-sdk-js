@@ -2,13 +2,18 @@ import { extractContinuationToken, type GetNextPageData, type JsonValue } from "
 import type { PaginationPayload } from "../models/pagination.models.js";
 
 export function getNextPageByUrl<TPayload extends PaginationPayload, TMeta>(): GetNextPageData<TPayload, TMeta> {
-	return (response) => {
-		const nextPageUrl = response.payload.pagination.next_page;
-		return {
-			continuationToken: undefined,
-			nextPageUrl: nextPageUrl.length ? nextPageUrl : undefined,
-		};
-	};
+	return (response) => ({
+		continuationToken: undefined,
+		nextPageUrl: getNextPageUrl(response.payload),
+	});
+}
+
+/**
+ * The API returns an empty string as `next_page` on the last page, which is normalized to `undefined`.
+ */
+export function getNextPageUrl(payload: PaginationPayload | undefined): string | undefined {
+	const nextPageUrl = payload?.pagination.next_page;
+	return nextPageUrl?.length ? nextPageUrl : undefined;
 }
 
 export function getNextPageByContinuationToken<TPayload extends JsonValue, TMeta>(): GetNextPageData<TPayload, TMeta> {
