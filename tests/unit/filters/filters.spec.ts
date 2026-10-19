@@ -123,4 +123,55 @@ describe("Filters", () => {
 		expect(data?.url.toString()).toContain(new URLSearchParams("system.language[eq]=default").toString());
 		expect(data?.url.toString()).toContain(new URLSearchParams("system.type[eq]=movie").toString());
 	});
+
+	it("Filters with undefined values should not be dropped from response", () => {
+		const { data } = client
+			.listContentItems({
+				filters: [
+					{
+						property: "system.language",
+						operator: "empty",
+					},
+					"system.type[empty]",
+				],
+			})
+			.inspect();
+
+		expect(data?.url.toString()).toContain(new URLSearchParams("system.language[empty]").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("system.type[empty]").toString());
+	});
+
+	it("adds [nempty] without a value for element properties", () => {
+		const { data } = client
+			.listContentItems({
+				filters: [
+					{
+						property: "elements.title",
+						operator: "nempty",
+					},
+					"elements.author[nempty]",
+				],
+			})
+			.inspect();
+
+		expect(data?.url.toString()).toContain(new URLSearchParams("elements.title[nempty]").toString());
+		expect(data?.url.toString()).toContain(new URLSearchParams("elements.author[nempty]").toString());
+	});
+
+	it("rejects invalid filters at the type level", () => {
+		const { data } = client
+			.listContentItems({
+				filters: [
+					// @ts-expect-error - "empty" operator does not accept a value
+					{ property: "system.language", operator: "empty", value: "default" },
+					// @ts-expect-error - rich text operators are only allowed on element properties
+					{ property: "system.name", operator: "isEmptyRichText" },
+					// @ts-expect-error - operators that require a value must include "=" in string filters
+					"system.type[eq]",
+				],
+			})
+			.inspect();
+
+		expect(data).toBeDefined();
+	});
 });

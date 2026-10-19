@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addQueryParametersToUrl, isEmptyRichTextFilter } from "../../../lib/utils/url.utils.js";
+import { addQueryParametersToUrl, isFilterWithoutValue } from "../../../lib/utils/url.utils.js";
 
 describe("addQueryParametersToUrl", () => {
 	const baseUrl = "https://deliver.kontent.ai/xyz/languages";
@@ -45,28 +45,36 @@ describe("addQueryParametersToUrl", () => {
 	});
 });
 
-describe("isEmptyRichTextFilter", () => {
+describe("isFilterWithoutValue", () => {
 	it("returns true for object with isEmptyRichText operator", () => {
-		expect(isEmptyRichTextFilter({ property: "elements.description", operator: "isEmptyRichText" })).toBe(true);
+		expect(isFilterWithoutValue({ property: "elements.description", operator: "isEmptyRichText" })).toBe(true);
 	});
 
 	it("returns true for object with isNotEmptyRichText operator", () => {
-		expect(isEmptyRichTextFilter({ property: "elements.description", operator: "isNotEmptyRichText" })).toBe(true);
+		expect(isFilterWithoutValue({ property: "elements.description", operator: "isNotEmptyRichText" })).toBe(true);
+	});
+
+	it("returns true for object with empty operator", () => {
+		expect(isFilterWithoutValue({ property: "elements.title", operator: "empty" })).toBe(true);
+	});
+
+	it("returns true for object with nempty operator", () => {
+		expect(isFilterWithoutValue({ property: "system.name", operator: "nempty" })).toBe(true);
 	});
 
 	it("returns false for object with a different operator", () => {
-		expect(isEmptyRichTextFilter({ property: "elements.description", operator: "eq", value: "test" })).toBe(false);
+		expect(isFilterWithoutValue({ property: "elements.description", operator: "eq", value: "test" })).toBe(false);
 	});
 
 	it("returns false for object missing operator", () => {
-		expect(isEmptyRichTextFilter({ property: "elements.description" })).toBe(false);
+		expect(isFilterWithoutValue({ property: "elements.description" })).toBe(false);
 	});
 
 	it("returns false for null", () => {
-		expect(isEmptyRichTextFilter(null)).toBe(false);
+		expect(isFilterWithoutValue(null)).toBe(false);
 	});
 
 	it("returns false for a string", () => {
-		expect(isEmptyRichTextFilter("elements.description[eq]=test")).toBe(false);
+		expect(isFilterWithoutValue("elements.description[eq]=test")).toBe(false);
 	});
 });

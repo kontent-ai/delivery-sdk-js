@@ -180,23 +180,25 @@ array (e.g. `movie.elements.stars.items` is `Actor[]`).
 ## Filters
 
 Pass content filters to `listContentItems` and `itemsFeed` through the `filters` array. Each filter has a
-`property` (`system.*` or `elements.*`), an `operator` and a `value`:
+`property` (`system.*` or `elements.*`), an `operator` and, for most operators, a `value`:
 
 ```typescript
 const { response } = await client
     .listContentItems({
         filters: [
             { property: "system.type", operator: "eq", value: "movie" },
-            { property: "elements.title", operator: "contains", value: "Matrix" },
+            { property: "elements.genre", operator: "contains", value: "action" },
             { property: "system.collection", operator: "in", value: ["default"] },
+            { property: "elements.title", operator: "nempty" },
         ],
     })
     .fetchPageSafe();
 ```
 
-Operators: `eq`, `neq`, `lt`, `lte`, `gt`, `gte`, `range`, `in`, `nin`, `contains`, `any`, `all`, `empty`,
-`nempty`. Rich text elements also support `isEmptyRichText` and `isNotEmptyRichText`, which take no `value`.
-A filter may also be a raw query string, e.g. `"system.type[eq]=movie"`.
+Operators that take a `value`: `eq` (or `=`), `neq` (or `!=`), `lt`, `lte`, `gt`, `gte`, `range`, `in`, `nin`,
+`contains`, `any`, `all`. Operators that take no `value`: `empty`, `nempty`, plus `isEmptyRichText` and
+`isNotEmptyRichText` for rich text elements (the API does not support `empty` on rich text).
+A filter may also be a raw query string, e.g. `"system.type[eq]=movie"` or `"elements.title[empty]"`.
 
 With a schema, `property` is checked against the system properties and the schema's element codenames.
 To declare a filter array outside the query call, type it with `ContentItemFilter`:
@@ -206,7 +208,7 @@ import type { ContentItemFilter } from "@kontent-ai/delivery-sdk";
 
 const filters: readonly ContentItemFilter<MySchema>[] = [
     { property: "system.type", operator: "eq", value: "movie" },
-    { property: "elements.title", operator: "contains", value: "Matrix" },
+    { property: "elements.genre", operator: "contains", value: "action" },
 ];
 
 await client.listContentItems({ filters }).fetchPageSafe();

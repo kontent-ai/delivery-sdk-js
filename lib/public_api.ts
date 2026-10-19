@@ -8,7 +8,7 @@ export type {
 	DeliveryClientSchema,
 	WaitForLoadingNewContentHeaderName,
 } from "./models/core.models.js";
-export type { EmptyRichTextFilter, Filter, ObjectFilter } from "./models/filter.models.js";
+export type { Filter, FilterWithoutValue, FilterWithValue } from "./models/filter.models.js";
 export type {
 	PaginationPayload,
 	PaginationWithTotalCountPayload,

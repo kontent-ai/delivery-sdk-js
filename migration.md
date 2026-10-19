@@ -465,8 +465,8 @@ Filters may also be raw query strings: `filters: ["system.type[eq]=movie", "elem
 |---|---|
 | `equalsFilter` | `"eq"` |
 | `notEqualsFilter` | `"neq"` |
-| `emptyFilter` | `"empty"` |
-| `notEmptyFilter` | `"nempty"` |
+| `emptyFilter` | `"empty"` (no `value`) |
+| `notEmptyFilter` | `"nempty"` (no `value`) |
 | `greaterThanFilter` | `"gt"` |
 | `greaterThanOrEqualFilter` | `"gte"` |
 | `lessThanFilter` | `"lt"` |
