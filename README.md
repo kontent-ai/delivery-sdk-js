@@ -177,6 +177,44 @@ const client = createDeliveryClient<MySchema>({ apiMode: "public", environmentId
 Codenames are now checked at compile time, and linked items are resolved onto each element's `items`
 array (e.g. `movie.elements.stars.items` is `Actor[]`).
 
+## Filters
+
+Pass content filters to `listContentItems` and `itemsFeed` through the `filters` array. Each filter has a
+`property` (`system.*` or `elements.*`), an `operator` and a `value`:
+
+```typescript
+const { response } = await client
+    .listContentItems({
+        filters: [
+            { property: "system.type", operator: "eq", value: "movie" },
+            { property: "elements.title", operator: "contains", value: "Matrix" },
+            { property: "system.collection", operator: "in", value: ["default"] },
+        ],
+    })
+    .fetchPageSafe();
+```
+
+Operators: `eq`, `neq`, `lt`, `lte`, `gt`, `gte`, `range`, `in`, `nin`, `contains`, `any`, `all`, `empty`,
+`nempty`. Rich text elements also support `isEmptyRichText` and `isNotEmptyRichText`, which take no `value`.
+A filter may also be a raw query string, e.g. `"system.type[eq]=movie"`.
+
+With a schema, `property` is checked against the system properties and the schema's element codenames.
+To declare a filter array outside the query call, type it with `ContentItemFilter`:
+
+```typescript
+import type { ContentItemFilter } from "@kontent-ai/delivery-sdk";
+
+const filters: readonly ContentItemFilter<MySchema>[] = [
+    { property: "system.type", operator: "eq", value: "movie" },
+    { property: "elements.title", operator: "contains", value: "Matrix" },
+];
+
+await client.listContentItems({ filters }).fetchPageSafe();
+```
+
+Other list queries (`listContentTypes`, `listTaxonomies`, `listLanguages`) accept filters on system
+properties only. Pass those inline.
+
 ## Type guards
 
 When a query returns items of mixed types, narrow each one to its typed model with a guard on

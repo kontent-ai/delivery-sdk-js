@@ -1,6 +1,5 @@
 import type { QueryResponse } from "@kontent-ai/core-sdk";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryMetadata, DeliveryPagedFetchQuery } from "../../models/core.models.js";
-import type { Filter } from "../../models/filter.models.js";
 import type {
 	DeliveryRequestWithUrlPaging,
 	ElementOrderQueryParam,
@@ -12,7 +11,12 @@ import type { DeliveryResponse } from "../../models/response.models.js";
 import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
 import { extendItemsInPlace, extendModularContentInPlace, joinItems } from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByUrlQuery, transformDeliveryPagedByUrlQuery } from "../delivery-queries.js";
-import type { ContentItemPayload, ListContentItemsPayload, ListContentItemsPayloadExtended } from "./models/content-item.models.js";
+import type {
+	ContentItemFilter,
+	ContentItemPayload,
+	ListContentItemsPayload,
+	ListContentItemsPayloadExtended,
+} from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type AllElementCodenames<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
@@ -61,7 +65,7 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 		 */
 		readonly includeTotalCount?: boolean;
 	},
-	readonly Filter<SystemProperties, AllElementCodenames<TSchema>>[]
+	readonly ContentItemFilter<TSchema>[]
 >;
 
 export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(

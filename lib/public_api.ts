@@ -42,6 +42,7 @@ export type {
 	ListContentItemsResponse,
 } from "./queries/content-items/list-content-items-query.js";
 export type {
+	ContentItemFilter,
 	ContentItemOf,
 	ContentItemPayload,
 	ContentItemSystem,

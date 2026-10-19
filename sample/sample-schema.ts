@@ -7,6 +7,7 @@
  *  2. Define content-type element shapes and their payload types.
  *  4. Create a typed delivery client.
  *  5. See how response values narrow at the call site.
+ *  8. Filter content items, including standalone typed filter arrays.
  *
  * In a real consumer project, imports below would come from
  * `@kontent-ai/delivery-sdk`. This sample lives in the SDK repo,
@@ -17,6 +18,7 @@ import type { QueryResponse } from "@kontent-ai/core-sdk";
 import { createDeliveryClient } from "../lib/client/delivery-client.js";
 import type { DeliveryMetadata } from "../lib/models/core.models.js";
 import type {
+	ContentItemFilter,
 	ContentItemOf,
 	ContentItemPayload,
 	DeliveryClient,
@@ -24,6 +26,7 @@ import type {
 	ElementCodenamesOf,
 	Elements,
 	FetchContentItemResponse,
+	Filter,
 	TaxonomyPayload,
 } from "../lib/public_api.js";
 import type { SnippetOf } from "../lib/queries/content-items/models/content-item.models.js";
@@ -232,6 +235,40 @@ export async function typedContentTypeElement(): Promise<void> {
 
 	// The element codenames of a single type can be derived directly from the schema.
 	const movieElement: ElementCodenamesOf<SampleProjectSchema, "movie"> = "synopsis";
+}
+
+/**
+ * 8. Demonstration: filters
+ *
+ * Filters are checked against the schema: `property` must be a system property or an element codename
+ * declared in the schema. To type a filter array declared outside the query call, use `ContentItemFilter`.
+ */
+export async function typedFilters(): Promise<void> {
+	// Inline: property and element codenames are checked and autocompleted.
+	await client.listContentItems({ filters: [{ property: "elements.title", operator: "eq", value: "Matrix" }] }).fetchPage();
+
+	// `as const`: literals are preserved, so a standalone array works without an annotation.
+	const constFilters = [{ property: "system.type", operator: "eq", value: "movie" }] as const;
+	await client.listContentItems({ filters: constFilters }).fetchPage();
+
+	// `ContentItemFilter` binds system properties and the schema's element codenames, for standalone filter arrays.
+	const filters: readonly ContentItemFilter<SampleProjectSchema>[] = [
+		{ property: "system.type", operator: "eq", value: "movie" },
+		{ property: "elements.rating", operator: "gte", value: 8 },
+		{ property: "elements.synopsis", operator: "isNotEmptyRichText" },
+		"elements.genre[any]=genre1,genre2",
+	];
+	await client.listContentItems({ filters }).fetchPage();
+	await client.itemsFeed({ filters }).fetchPage();
+
+	// @ts-expect-error "titel" is not an element codename declared in the schema.
+	const badFilters: readonly ContentItemFilter<SampleProjectSchema>[] = [{ property: "elements.titel", operator: "eq", value: "Matrix" }];
+
+	// The generic `Filter<string, string>` is too wide for content item queries: `system.${string}` is not
+	// assignable to the accepted system properties. Use `ContentItemFilter` instead.
+	const looseFilters: readonly Filter<string, string>[] = [{ property: "system.type", operator: "eq", value: "movie" }];
+	// @ts-expect-error `system.${string}` is wider than the accepted system properties.
+	await client.listContentItems({ filters: looseFilters }).fetchPage();
 }
 
 function isMovie(item: ContentItemPayload<SampleProjectSchema>): item is Movie {

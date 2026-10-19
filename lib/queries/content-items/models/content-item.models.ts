@@ -1,6 +1,7 @@
 import type * as z from "@zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
-import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../../content-types/models/content-type.models.js";
+import type { Filter } from "../../../models/filter.models.js";
+import type { AllElementCodenamesOf, ContentTypeCodenameOf, ElementCodenamesOf } from "../../content-types/models/content-type.models.js";
 import type {
 	contentItemSchema,
 	contentItemSchemaExtended,
@@ -45,6 +46,14 @@ export type ContentItemOf<
 };
 
 export type ContentItemSystemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSystemSchema<TSchema>>>;
+/**
+ * A filter for content item queries (`listContentItems`, `itemsFeed`), with system properties and element
+ * codenames bound to the schema. Use it to type a filter array declared outside the query call.
+ */
+export type ContentItemFilter<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = Filter<
+	keyof ContentItemSystemPayload<DeliveryClientSchema>,
+	AllElementCodenamesOf<TSchema>
+>;
 export type ContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentItemSchema<TSchema>>>;
 export type ListContentItemsPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentItemsSchema<TSchema>>>;
 export type FetchContentItemPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof fetchContentItemSchema<TSchema>>>;
