@@ -6,8 +6,8 @@ export type DeliveryRequest<TQuery extends QueryParameterRecord, TFilters extend
 	readonly headers?: {
 		readonly "X-KC-Wait-For-Loading-New-Content"?: boolean;
 	};
-} & ([TQuery] extends [never] ? object : { readonly query?: TQuery }) &
-	([TFilters] extends [never] ? object : { readonly filters?: TFilters });
+} & (readonly [TQuery] extends readonly [never] ? object : { readonly query?: TQuery }) &
+	(readonly [TFilters] extends readonly [never] ? object : { readonly filters?: TFilters });
 
 export type DeliveryRequestWithUrlPaging<
 	TSortableProperties extends string,

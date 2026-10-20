@@ -23,7 +23,7 @@ export type ElementCodenamesOf<
 	TSchema extends DeliveryClientSchema,
 	TCodename extends string,
 > = TCodename extends keyof TSchema["contentTypes"]
-	? [Extract<NonNullable<TSchema["contentTypes"][TCodename]>[number], string>] extends [never]
+	? readonly [Extract<NonNullable<TSchema["contentTypes"][TCodename]>[number], string>] extends readonly [never]
 		? string
 		: Extract<NonNullable<TSchema["contentTypes"][TCodename]>[number], string>
 	: string;

@@ -27,7 +27,7 @@ export type TaxonomyTermCodenamesOf<
 	TSchema extends DeliveryClientSchema,
 	TCodename extends string,
 > = TCodename extends keyof TSchema["taxonomies"]
-	? [Extract<NonNullable<TSchema["taxonomies"][TCodename]>[number], string>] extends [never]
+	? readonly [Extract<NonNullable<TSchema["taxonomies"][TCodename]>[number], string>] extends readonly [never]
 		? string
 		: Extract<NonNullable<TSchema["taxonomies"][TCodename]>[number], string>
 	: string;
