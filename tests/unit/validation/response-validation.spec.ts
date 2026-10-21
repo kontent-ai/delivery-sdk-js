@@ -1,4 +1,4 @@
-import type { ErrorReason } from "@kontent-ai/core-sdk";
+import type { ErrorReason, JsonValue } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
 import * as z from "@zod/mini";
 import { describe, expect, test } from "vitest";
@@ -177,6 +177,84 @@ describe("Response validation", () => {
 			expect(error).toBeDefined();
 			expect(success).toBeFalsy();
 			expect(error?.details.reason).toBe<ErrorReason>("schemaMismatch");
+		});
+	});
+
+	describe("Circular linked items", () => {
+		const createItem = (codename: string, linkedCodenames: readonly string[]) => ({
+			system: {
+				id: getFakeUuid(),
+				name: codename,
+				codename,
+				language: "default",
+				type: "movie",
+				collection: "default",
+				last_modified: "2026-05-04T10:30:48.5100633Z",
+				workflow: "default",
+				workflow_step: "published",
+				sitemap_locations: [],
+			},
+			elements: {
+				related: {
+					type: "modular_content",
+					name: "Related",
+					value: linkedCodenames,
+				},
+			},
+		});
+
+		const createClient = (jsonResponse: JsonValue) =>
+			createDeliveryClient({
+				apiMode: "public",
+				environmentId: unitEnvironmentId,
+				runtimeValidation: {
+					validateResponses: true,
+				},
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse,
+					statusCode: 200,
+				}),
+			});
+
+		test("fetchContentItem succeeds when items reference each other", async () => {
+			const client = createClient({
+				item: createItem("a", ["b"]),
+				modular_content: { b: createItem("b", ["a"]) },
+			});
+
+			const { success, error, response } = await client.fetchContentItem({ codename: "a" }).fetchSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBe(true);
+			expect(
+				response?.payload.item.elements.related?.type === "modular_content" &&
+					response.payload.item.elements.related.items[0]?.system.codename,
+			).toBe("b");
+		});
+
+		test("fetchContentItem succeeds when an item references itself", async () => {
+			const client = createClient({
+				item: createItem("a", ["a"]),
+				modular_content: {},
+			});
+
+			const { success, error } = await client.fetchContentItem({ codename: "a" }).fetchSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBe(true);
+		});
+
+		test("listContentItems succeeds when items reference each other", async () => {
+			const client = createClient({
+				items: [createItem("a", ["b"]), createItem("b", ["a"])],
+				modular_content: {},
+				pagination: { skip: 0, limit: 0, count: 2, next_page: "" },
+			});
+
+			const { success, error } = await client.listContentItems().fetchPageSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBe(true);
 		});
 	});
 

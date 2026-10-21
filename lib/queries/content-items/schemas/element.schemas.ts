@@ -2,7 +2,21 @@ import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk";
 import * as z from "@zod/mini";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import type { ContentItemPayload } from "../models/content-item.models.js";
-import { contentItemSchemaExtended } from "./content-item.schemas.js";
+
+/**
+ * Shallow check of a resolved linked item. It intentionally does not descend into the item's elements, because
+ * resolved items are shared references that can be circular (e.g. two items linking each other). Every linked item
+ * is also a top-level `items` / `modular_content` entry of the response, so it is fully validated there.
+ */
+const resolvedLinkedItemSchema = z.object({
+	system: z.object({
+		codename: z.string(),
+		type: z.string(),
+	}),
+	elements: z.record(z.string(), z.unknown()),
+});
+
+const isResolvedLinkedItem = (item: unknown): boolean => resolvedLinkedItemSchema.safeParse(item).success;
 
 const multipleChoiceOptionSchema = <TCodename extends string = string>() =>
 	z.readonly(
@@ -133,7 +147,7 @@ export const elementDef = {
 			z.extend(baseElementSchemas.richText, {
 				items: z.readonly(
 					z.array(
-						z.custom<TAllowedItemTypes>((item: unknown): boolean => contentItemSchemaExtended().safeParse(item).success, {
+						z.custom<TAllowedItemTypes>(isResolvedLinkedItem, {
 							error: "Invalid referenced linked item",
 						}),
 					),
@@ -161,7 +175,7 @@ export const elementDef = {
 			z.extend(baseElementSchemas.linkedItems, {
 				items: z.readonly(
 					z.array(
-						z.custom<TAllowedItemTypes>((item: unknown): boolean => contentItemSchemaExtended().safeParse(item).success, {
+						z.custom<TAllowedItemTypes>(isResolvedLinkedItem, {
 							error: "Invalid referenced linked item",
 						}),
 					),
