@@ -1,0 +1,148 @@
+import type { FetchQuery, JsonValue, PagedFetchQuery, PickStringLiteral, SdkConfig } from "@kontent-ai/core-sdk";
+import type { FetchContentItemQuery, FetchContentItemQueryRequest } from "../queries/content-items/fetch-content-item-query.js";
+import type { ItemsFeedQuery, ItemsFeedQueryRequest } from "../queries/content-items/items-feed-query.js";
+import type {
+	ItemsReferencingAssetQuery,
+	ItemsReferencingAssetQueryRequest,
+} from "../queries/content-items/items-referencing-asset-query.js";
+import type { ItemsReferencingItemQuery, ItemsReferencingItemQueryRequest } from "../queries/content-items/items-referencing-item-query.js";
+import type { ListContentItemsQuery, ListContentItemsQueryRequest } from "../queries/content-items/list-content-items-query.js";
+import type {
+	FetchContentTypeElementQuery,
+	FetchContentTypeElementQueryRequest,
+} from "../queries/content-types/fetch-content-type-element-query.js";
+import type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "../queries/content-types/fetch-content-type-query.js";
+import type { ListContentTypesQuery, ListContentTypesQueryRequest } from "../queries/content-types/list-content-types-query.js";
+import type { ContentTypeCodenameOf } from "../queries/content-types/models/content-type.models.js";
+import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
+import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
+import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
+import type { TaxonomyCodenameOf } from "../queries/taxonomies/models/taxonomy.models.js";
+import type { DeliverySdkError } from "./error.models.js";
+
+export type DeliveryClientSchema<
+	TSchema extends DeliveryClientSchema = {
+		readonly languageCodenames: readonly string[];
+		readonly taxonomies: { readonly [taxonomyCodename: string]: readonly string[] };
+		readonly contentTypes: { readonly [contentTypeCodename: string]: readonly string[] };
+		readonly collectionCodenames: readonly string[];
+		readonly workflowCodenames: readonly string[];
+		readonly workflowStepCodenames: readonly string[];
+	},
+> = TSchema;
+
+/**
+ * Placeholder type if extension is needed in future
+ */
+export type DeliveryMetadata = Record<string, never>;
+
+export type DeliveryMetadataWithToken = {
+	readonly continuationToken: string | undefined;
+};
+
+export type TokenPagingDeliveryExtraResponseProps = {
+	readonly nextContinuationToken: string | undefined;
+};
+
+export type UrlPagingDeliveryExtraResponseProps = {
+	readonly nextPageUrl: string | undefined;
+};
+
+export type ApiMode = "public" | "preview" | "secure";
+
+export type DeliveryClientConfig = SdkConfig<
+	DeliveryApiConfig & {
+		/**
+		 * The environment ID of your Kontent.ai project. Can be found in the Kontent.ai app.
+		 */
+		readonly environmentId: string;
+	}
+>;
+
+export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = {
+	readonly config: DeliveryClientConfig;
+
+	listLanguages(request?: ListLanguagesQueryRequest): ListLanguagesQuery<TSchema>;
+	listTaxonomies(request?: ListTaxonomiesQueryRequest): ListTaxonomiesQuery<TSchema>;
+	listContentTypes(request?: ListContentTypesQueryRequest<TSchema>): ListContentTypesQuery<TSchema>;
+	fetchTaxonomy<const TCodename extends TaxonomyCodenameOf<TSchema>>(
+		request: FetchTaxonomyQueryRequest<TSchema, TCodename>,
+	): FetchTaxonomyQuery<TSchema, TCodename>;
+	fetchContentType<const TCodename extends ContentTypeCodenameOf<TSchema>>(
+		request: FetchContentTypeQueryRequest<TSchema, TCodename>,
+	): FetchContentTypeQuery<TSchema>;
+	fetchContentTypeElement<const TCodename extends ContentTypeCodenameOf<TSchema>>(
+		request: FetchContentTypeElementQueryRequest<TSchema, TCodename>,
+	): FetchContentTypeElementQuery;
+	fetchContentItem(request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema>;
+	listContentItems(request?: ListContentItemsQueryRequest<TSchema>): ListContentItemsQuery<TSchema>;
+	itemsFeed(request?: ItemsFeedQueryRequest<TSchema>): ItemsFeedQuery<TSchema>;
+	itemsReferencingAsset(request: ItemsReferencingAssetQueryRequest<TSchema>): ItemsReferencingAssetQuery<TSchema>;
+	itemsReferencingItem(request: ItemsReferencingItemQueryRequest<TSchema>): ItemsReferencingItemQuery<TSchema>;
+};
+
+export type DeliveryFetchQuery<TPayload extends JsonValue, TMeta extends DeliveryMetadata | DeliveryMetadataWithToken> = FetchQuery<
+	TPayload,
+	DeliverySdkError,
+	TMeta
+>;
+
+export type DeliveryPagedFetchQuery<
+	TPayload extends JsonValue,
+	TMeta extends DeliveryMetadata | DeliveryMetadataWithToken,
+> = PagedFetchQuery<TPayload, DeliverySdkError, TMeta>;
+
+export type DeliveryEndpoint =
+	| "languages"
+	| "items"
+	| `items/${string}`
+	| "items-feed"
+	| `assets/${string}/used-in`
+	| `items/${string}/used-in`
+	| "taxonomies"
+	| `taxonomies/${string}`
+	| "types"
+	| `types/${string}`
+	| `types/${string}/elements/${string}`;
+
+export type WaitForLoadingNewContentHeaderName = "X-KC-Wait-For-Loading-New-Content";
+
+export type DeliveryApiConfig =
+	| PublicDeliveryClientConfig
+	| PreviewDeliveryClientConfig
+	| SecureDeliveryClientConfig
+	| CustomDeliveryClientConfig;
+
+type PublicDeliveryClientConfig = {
+	/**
+	 * The API mode of the delivery client. Public access is the default mode.
+	 */
+	readonly apiMode: PickStringLiteral<ApiMode, "public">;
+};
+
+type CustomDeliveryClientConfig = {
+	readonly deliveryApiKey?: string;
+	readonly apiMode?: never;
+} & Required<Pick<SdkConfig, "baseUrl">>;
+
+type PreviewDeliveryClientConfig = {
+	/**
+	 * The API mode of the delivery client.
+	 */
+	readonly apiMode: PickStringLiteral<ApiMode, "preview">;
+	/**
+	 * The delivery API key of your Kontent.ai project with preview access enabled.
+	 */
+	readonly deliveryApiKey: string;
+};
+
+type SecureDeliveryClientConfig = {
+	/**
+	 * The API mode of the delivery client.
+	 */
+	readonly apiMode: PickStringLiteral<ApiMode, "secure">;
+	/**
+	 * The delivery API key of your Kontent.ai project with secure access enabled.
+	 */
+	readonly deliveryApiKey: string;
+};

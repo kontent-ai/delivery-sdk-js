@@ -1,0 +1,292 @@
+import type { ErrorReason, JsonValue } from "@kontent-ai/core-sdk";
+import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
+import * as z from "@zod/mini";
+import { describe, expect, test } from "vitest";
+import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
+import type { DeliveryClientSchema } from "../../../lib/models/core.models.js";
+import type { PaginationPayload } from "../../../lib/public_api.js";
+import type { ListLanguagesPayload } from "../../../lib/queries/languages/models/language.models.js";
+import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
+
+describe("Response validation", () => {
+	describe("Codename narrowing", () => {
+		type TestSchema = DeliveryClientSchema<{
+			readonly languageCodenames: readonly ["en-US", "cs-CZ", "de-DE"];
+			readonly taxonomies: Record<string, never>;
+			readonly contentTypes: Record<string, never>;
+			readonly collectionCodenames: readonly [];
+			readonly workflowCodenames: readonly [];
+			readonly workflowStepCodenames: readonly [];
+		}>;
+
+		const mockPayload: ListLanguagesPayload<TestSchema> = {
+			languages: [
+				{
+					system: {
+						id: getFakeUuid(),
+						codename: "de-DE",
+						name: "German",
+					},
+				},
+			],
+			pagination: {
+				skip: 0,
+				limit: 0,
+				count: 1,
+				next_page: "",
+			},
+		};
+
+		type NarrowSchema = DeliveryClientSchema<{
+			readonly languageCodenames: readonly ["en-US", "cs-CZ"];
+			readonly taxonomies: Record<string, never>;
+			readonly contentTypes: Record<string, never>;
+			readonly collectionCodenames: readonly [];
+			readonly workflowCodenames: readonly [];
+			readonly workflowStepCodenames: readonly [];
+		}>;
+
+		test("succeeds when the response contains a codename outside the defined schema (type-only narrowing)", async () => {
+			const client = createDeliveryClient<NarrowSchema>({
+				apiMode: "public",
+				environmentId: unitEnvironmentId,
+				runtimeValidation: {
+					validateResponses: true,
+				},
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse: mockPayload,
+					statusCode: 200,
+				}),
+			});
+
+			const { success, error } = await client.listLanguages().fetchPageSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBeTruthy();
+		});
+
+		test("succeeds when the response contains only codenames within the defined schema", async () => {
+			const client = createDeliveryClient<TestSchema>({
+				apiMode: "public",
+				environmentId: unitEnvironmentId,
+				runtimeValidation: {
+					validateResponses: true,
+				},
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse: mockPayload,
+					statusCode: 200,
+				}),
+			});
+
+			const { success, error } = await client.listLanguages().fetchPageSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBeTruthy();
+		});
+
+		test("succeeds when the schema has no codename constraints", async () => {
+			const client = createDeliveryClient({
+				apiMode: "public",
+				environmentId: unitEnvironmentId,
+				runtimeValidation: {
+					validateResponses: true,
+				},
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse: mockPayload,
+					statusCode: 200,
+				}),
+			});
+
+			const { success, error } = await client.listLanguages().fetchPageSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBeTruthy();
+		});
+	});
+
+	describe("Extra properties", () => {
+		const mockPayload: ListLanguagesPayload<DeliveryClientSchema> & { readonly extraProperty: string } = {
+			languages: [
+				{
+					system: {
+						id: getFakeUuid(),
+						codename: "de-DE",
+						name: "German",
+						extraSystemProperty: "extra",
+					} as ListLanguagesPayload<DeliveryClientSchema>["languages"][0]["system"] & { readonly extraSystemProperty: string },
+				},
+			],
+			extraProperty: "extra",
+			pagination: {
+				skip: 0,
+				limit: 0,
+				count: 1,
+				next_page: "",
+				extraPaginationProperty: "extra",
+			} as PaginationPayload["pagination"] & { readonly extraPaginationProperty: string },
+		};
+
+		test("succeeds when the response includes unrecognised properties", async () => {
+			const client = createDeliveryClient({
+				apiMode: "public",
+				environmentId: unitEnvironmentId,
+				runtimeValidation: {
+					validateResponses: true,
+				},
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse: mockPayload,
+					statusCode: 200,
+				}),
+			});
+
+			const { success, error } = await client.listLanguages().fetchPageSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBeTruthy();
+		});
+	});
+
+	describe("Missing required properties", () => {
+		const mockPayload: Omit<ListLanguagesPayload<DeliveryClientSchema>, "pagination"> = {
+			languages: [
+				{
+					system: {
+						id: getFakeUuid(),
+						codename: "de-DE",
+						name: "German",
+					},
+				},
+			],
+		};
+
+		test("fails when the response is missing a required property", async () => {
+			const client = createDeliveryClient({
+				apiMode: "public",
+				environmentId: unitEnvironmentId,
+				runtimeValidation: {
+					validateResponses: true,
+				},
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse: mockPayload,
+					statusCode: 200,
+				}),
+			});
+
+			const { success, error } = await client.listLanguages().fetchPageSafe();
+
+			expect(error).toBeDefined();
+			expect(success).toBeFalsy();
+			expect(error?.details.reason).toBe<ErrorReason>("schemaMismatch");
+		});
+	});
+
+	describe("Circular linked items", () => {
+		const createItem = (codename: string, linkedCodenames: readonly string[]) => ({
+			system: {
+				id: getFakeUuid(),
+				name: codename,
+				codename,
+				language: "default",
+				type: "movie",
+				collection: "default",
+				last_modified: "2026-05-04T10:30:48.5100633Z",
+				workflow: "default",
+				workflow_step: "published",
+				sitemap_locations: [],
+			},
+			elements: {
+				related: {
+					type: "modular_content",
+					name: "Related",
+					value: linkedCodenames,
+				},
+			},
+		});
+
+		const createClient = (jsonResponse: JsonValue) =>
+			createDeliveryClient({
+				apiMode: "public",
+				environmentId: unitEnvironmentId,
+				runtimeValidation: {
+					validateResponses: true,
+				},
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse,
+					statusCode: 200,
+				}),
+			});
+
+		test("fetchContentItem succeeds when items reference each other", async () => {
+			const client = createClient({
+				item: createItem("a", ["b"]),
+				modular_content: { b: createItem("b", ["a"]) },
+			});
+
+			const { success, error, response } = await client.fetchContentItem({ codename: "a" }).fetchSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBe(true);
+			expect(
+				response?.payload.item.elements.related?.type === "modular_content" &&
+					response.payload.item.elements.related.items[0]?.system.codename,
+			).toBe("b");
+		});
+
+		test("fetchContentItem succeeds when an item references itself", async () => {
+			const client = createClient({
+				item: createItem("a", ["a"]),
+				modular_content: {},
+			});
+
+			const { success, error } = await client.fetchContentItem({ codename: "a" }).fetchSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBe(true);
+		});
+
+		test("listContentItems succeeds when items reference each other", async () => {
+			const client = createClient({
+				items: [createItem("a", ["b"]), createItem("b", ["a"])],
+				modular_content: {},
+				pagination: { skip: 0, limit: 0, count: 2, next_page: "" },
+			});
+
+			const { success, error } = await client.listContentItems().fetchPageSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBe(true);
+		});
+	});
+
+	describe("Error details", () => {
+		test("populates url, zodError and response on a parsing failure", async ({ expect }) => {
+			const query = createDeliveryClient({
+				apiMode: "public",
+				environmentId: unitEnvironmentId,
+				runtimeValidation: {
+					validateResponses: true,
+				},
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse: {
+						result: "invalidValue",
+					},
+					statusCode: 200,
+				}),
+			}).listLanguages();
+
+			const { success, error } = await query.fetchPageSafe();
+
+			expect(success).toBe(false);
+			expect(error).toBeDefined();
+			expect(error?.details.reason).toStrictEqual<ErrorReason>("schemaMismatch");
+
+			if (error?.details.reason === "schemaMismatch") {
+				expect(error.details.url).toStrictEqual(query.inspect().data?.url);
+				expect(error.details.zodError).toBeInstanceOf(z.core.$ZodError);
+				expect(error.details.payload).toBeDefined();
+			} else {
+				throw new Error(`Unexpected error reason '${error?.details.reason}'`);
+			}
+		});
+	});
+});

@@ -1,96 +1,81 @@
 {
-    "name": "@kontent-ai/delivery-sdk",
-    "version": "16.4.8",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/kontent-ai/delivery-sdk-js"
-    },
-    "private": false,
-    "author": "richard sustek",
-    "license": "MIT",
-    "description": "Official Kontent.AI Delivery API SDK",
-    "keywords": [
-        "Kontent",
-        "Kontent.ai",
-        "Kontent SDK",
-        "Kontent API",
-        "Kontent Delivery",
-        "Kontent Javascript",
-        "Kontent Node.js",
-        "Kontent Typescript"
-    ],
-    "engines": {
-        "node": ">= 20"
-    },
-    "main": "./dist/cjs/index.js",
-    "module": "./dist/es6/index.js",
-    "es2015": "./dist/es6/index.js",
-    "types": "./dist/cjs/index.d.ts",
-    "standard-version": {
-        "scripts": {
-            "postchangelog": "npm run set-sdk-version"
-        }
-    },
-    "scripts": {
-        "release": "npm run lint:check && standard-version",
-        "release:major": "npm run lint:check && standard-version --release-as major",
-        "release:major:beta": "npm run lint:check && standard-version --prerelease --release-as major",
-        "release:beta": "standard-version --prerelease",
-        "lint:check": "npx eslint lib",
-        "test:browser": "karma start karma.conf.js",
-        "test:gh-actions": "karma start karma-gh-actions.conf.js",
-        "test:node": "npm run build:commonjs && npx mocha  --timeout 15s -- \"test/node/**/*.js\"",
-        "test:all": "npm run test:node && npm run test:gh-actions",
-        "new-patch": "npm version patch && npm run set-sdk-version && npm run check-version ",
-        "new-minor": "npm version minor && npm run set-sdk-version && npm run check-version ",
-        "new-major": "npm version major && npm run set-sdk-version && npm run check-version ",
-        "prepublishOnly": "npm run lint:check && npm run check-version  && npm run build:all && npm run test:all && npm run push:tags",
-        "set-sdk-version": "tsx ./misc/set-sdk-version.ts",
-        "check-version": "tsx ./misc/verify-sdk-version.ts",
-        "webpack:dev": "webpack -- --mode development --config webpack.config.js --progress",
-        "webpack:prod": "webpack -- --mode production --config webpack.config.js --progress",
-        "publish:beta": "npm publish --tag=next",
-        "build:umd": "npm run webpack:dev && npm run webpack:prod",
-        "build:es6": "tsc -m es6 --outDir dist/es6 --p tsconfig.prod.json",
-        "build:esnext": "tsc -m esnext --outDir dist/esnext --p tsconfig.prod.json",
-        "build:commonjs": "tsc -m commonjs --outDir dist/cjs --p tsconfig.prod.json",
-        "build:all": "npm run clean && npm run lint:check && npm run build:umd && npm run build:es6 && npm run build:esnext && npm run build:commonjs",
-        "bundle-stats:min": "npm run build:umd && webpack-bundle-analyzer dist/bundles/stats.min.json",
-        "bundle-stats": "npm run build:umd && webpack-bundle-analyzer dist/bundles/stats.json",
-        "push:tags": "git push --tags",
-        "clean": "tsx clean.ts"
-    },
-    "dependencies": {
-        "@kontent-ai/core-sdk": "10.12.11"
-    },
-    "devDependencies": {
-        "@types/jasmine": "5.1.12",
-        "@types/node": "24.10.0",
-        "colors": "1.4.0",
-        "jasmine-core": "5.12.1",
-        "jasmine-spec-reporter": "7.0.0",
-        "karma": "6.4.4",
-        "karma-chrome-launcher": "3.2.0",
-        "karma-cli": "2.0.0",
-        "karma-coverage-istanbul-reporter": "3.0.3",
-        "karma-jasmine": "5.1.0",
-        "karma-jasmine-html-reporter": "2.1.0",
-        "karma-sourcemap-loader": "0.4.0",
-        "karma-typescript": "5.5.4",
-        "karma-typescript-es6-transform": "5.5.4",
-        "karma-webpack": "5.0.1",
-        "lcov-parse": "1.0.0",
-        "mocha": "11.7.5",
-        "standard-version": "9.5.0",
-        "ts-loader": "9.5.4",
-        "tsx": "4.20.6",
-        "@typescript-eslint/eslint-plugin": "8.39.0",
-        "@typescript-eslint/parser": "8.39.0",
-        "eslint": "9.32.0",
-        "typescript": "5.2.2",
-        "webpack": "5.108.3",
-        "webpack-bundle-analyzer": "4.10.2",
-        "webpack-cli": "6.0.1",
-        "typescript-eslint": "8.39.0"
-    }
+	"name": "@kontent-ai/delivery-sdk",
+	"version": "17.0.0-preview.2",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kontent-ai/delivery-sdk-js"
+	},
+	"private": false,
+	"author": "richard sustek",
+	"license": "MIT",
+	"description": "Official Kontent.AI Delivery API SDK",
+	"keywords": [
+		"Kontent",
+		"Kontent.ai",
+		"Kontent SDK",
+		"Kontent API",
+		"Kontent Delivery",
+		"Kontent Javascript",
+		"Kontent Node.js",
+		"Kontent Typescript"
+	],
+	"engines": {
+		"node": ">= 24"
+	},
+	"packageManager": "pnpm@12.11.2",
+	"exports": {
+		".": {
+			"types": "./dist/public_api.d.ts",
+			"default": "./dist/public_api.js"
+		},
+		"./schemas": {
+			"types": "./dist/public_schemas.d.ts",
+			"default": "./dist/public_schemas.js"
+		}
+	},
+	"types": "./dist/public_api.d.ts",
+	"type": "module",
+	"sideEffects": false,
+	"scripts": {
+		"prepublishOnly": "pnpm run build && pnpm run test",
+		"build": "pnpm run lint && pnpm run clean && pnpm run build:ts && pnpm run update:version",
+		"build:ts": "tsc -p tsconfig.build.json",
+		"test": "vitest run --config=vitest.config.ts --coverage && pnpm run test:types",
+		"test:unit": "vitest run --config=vitest-unit.config.ts",
+		"test:integration": "vitest run --config=vitest-integration.config.ts",
+		"test:types": "tsc -p sample/tsconfig.json && echo \"Types check successful\"",
+		"lint": "pnpm run knip && pnpm run biome:check && pnpm run oxlint",
+		"knip": "knip",
+		"knip:production": "knip --production",
+		"oxlint": "oxlint --type-aware --type-check --deny-warnings lib tests scripts sample",
+		"biome:check": "biome check",
+		"biome:fix": "biome check --write",
+		"biome:fix:unsafe": "biome check --write --unsafe",
+		"clean": "tsx ./scripts/clean.ts",
+		"update:version": "tsx ./scripts/update-version.ts",
+		"bundle:size": "tsx scripts/measure-bundle.ts",
+		"bundle:create": "tsx scripts/create-bundles.ts",
+		"bump:patch": "pnpm run build && npm version patch -m \"v%s\" && pnpm run build && git push --follow-tags",
+		"bump:minor": "pnpm run build && npm version minor -m \"v%s\" && pnpm run build && git push --follow-tags",
+		"bump:major": "pnpm run build && npm version major -m \"v%s\" && pnpm run build && git push --follow-tags"
+	},
+	"dependencies": {
+		"@kontent-ai/core-sdk": "^12.0.0-preview.46",
+		"@zod/mini": "^4",
+		"ts-pattern": "^5"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.5.15",
+		"@kontent-ai/biome-config": "0.7.3",
+		"@kontent-ai/oxlint-config": "0.0.4",
+		"@types/node": "26.6.5",
+		"@vitest/coverage-v8": "5.0.5",
+		"esbuild": "0.28.2",
+		"knip": "6.42.1",
+		"oxlint": "1.89.0",
+		"oxlint-tsgolint": "7.0.2004",
+		"tsx": "4.23.15",
+		"typescript": "7.0.2",
+		"vitest": "5.0.5"
+	}
 }
