@@ -1,16 +1,68 @@
-import { describe } from "vitest";
-import type { DeliveryClientSchema } from "../../../../lib/models/core.models.js";
-import type { ItemsReferencingItemPayload } from "../../../../lib/queries/content-items/models/content-item.models.js";
+import { describe, expect, it } from "vitest";
+import { DeliverySdkError } from "../../../../lib/models/error.models.js";
 import { itemsReferencingItemSchema } from "../../../../lib/queries/content-items/schemas/content-item.schemas.js";
-import { runQueryTestsAsync } from "../../../utils/integration-test.utils.js";
+import {
+	createFailingClient,
+	createIntegrationClient,
+	createMockedClient,
+	expectToMatchSchema,
+	getExpectedUrl,
+} from "../../../utils/integration-test.utils.js";
+import { isPagedFetchQueryWithExpectedFunctions } from "../../../utils/test.utils.js";
 import rawPayload from "./items-referencing-item-query.payload.js";
 
-describe("Items referencing item query", async () => {
+describe("Items referencing item query", () => {
 	const itemCodename = "the_dark_knight";
-	await runQueryTestsAsync<ItemsReferencingItemPayload<DeliveryClientSchema>>({
-		endpoint: `items/${itemCodename}/used-in`,
-		rawPayload: rawPayload,
-		selectQuery: (client, schema) => client.itemsReferencingItem({ codename: itemCodename, config: { schema } }),
-		expectedSchema: itemsReferencingItemSchema(),
+	const schema = itemsReferencingItemSchema();
+
+	describe("with mocked response", () => {
+		const client = createMockedClient(rawPayload);
+		const query = client.itemsReferencingItem({ codename: itemCodename, config: { schema } });
+
+		it(`requests the 'items/${itemCodename}/used-in' endpoint`, () => {
+			expect(query.inspect().data?.url).toEqual(getExpectedUrl(client, `items/${itemCodename}/used-in`));
+		});
+
+		it("is a paged fetch query", () => {
+			expect(isPagedFetchQueryWithExpectedFunctions(query)).toBe(true);
+		});
+
+		it("fetchPage returns the mocked payload", async () => {
+			const { payload } = await query.fetchPage();
+			expect(payload).toEqual(rawPayload);
+		});
+
+		it("fetchAllPages returns the mocked payload as the first page", async () => {
+			const { responses } = await query.fetchAllPages();
+			expect(responses[0]?.payload).toEqual(rawPayload);
+		});
+
+		it("pages() yields the mocked payload as the first page", async () => {
+			const { value } = await query.pages().next();
+			expect(value?.payload).toEqual(rawPayload);
+		});
+	});
+
+	describe("against integration environment", () => {
+		const client = createIntegrationClient();
+		const query = client.itemsReferencingItem({ codename: itemCodename, config: { schema } });
+
+		it("fetchPage returns a payload matching the schema", async () => {
+			const { payload } = await query.fetchPage();
+			await expectToMatchSchema(schema, payload);
+		});
+
+		it("fetchAllPages returns pages that all match the schema", async () => {
+			const { responses } = await query.fetchAllPages();
+			expect(responses.length).toBeGreaterThan(0);
+			for (const { payload } of responses) {
+				await expectToMatchSchema(schema, payload);
+			}
+		});
+	});
+
+	it("wraps request failures in DeliverySdkError", async () => {
+		const { error } = await createFailingClient().itemsReferencingItem({ codename: itemCodename }).fetchPageSafe();
+		expect(error).toBeInstanceOf(DeliverySdkError);
 	});
 });
