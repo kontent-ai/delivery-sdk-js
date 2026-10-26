@@ -25,5 +25,10 @@
 		"JSONC": {
 			"formatter": { "language_server": { "name": "biome" } }
 		}
+	},
+	"lsp": {
+		"oxlint": {
+			"initialization_options": { "settings": { "typeAware": true } }
+		}
 	}
 }
