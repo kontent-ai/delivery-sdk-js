@@ -10,7 +10,7 @@ describe("Items referencing item query", async () => {
 	await runQueryTestsAsync<ItemsReferencingItemPayload<DeliveryClientSchema>>({
 		endpoint: `items/${itemCodename}/used-in`,
 		rawPayload: rawPayload,
-		selectQuery: (client) => client.itemsReferencingItem({ codename: itemCodename }),
+		selectQuery: (client, schema) => client.itemsReferencingItem({ codename: itemCodename, config: { schema } }),
 		expectedSchema: itemsReferencingItemSchema(),
 	});
 });

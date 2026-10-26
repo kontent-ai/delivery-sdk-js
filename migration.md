@@ -608,25 +608,17 @@ for await (const page of client.itemsFeed().pages()) {
 
 ## Runtime validation (new in v17)
 
-v17 can validate API responses against the Zod schemas the types are derived from, catching unexpected
-payload shapes immediately. It is opt-in:
+v17 can validate API responses per query. Pass a schema in `config.schema` (or to `raw({ schema })` for
+the raw payload). Any [Standard Schema](https://standardschema.dev) works, and the SDK's Zod schemas are
+exported from `@kontent-ai/delivery-sdk/schemas`. Responses are not validated by default:
 
 ```typescript
-const client = createDeliveryClient({
-    apiMode: "public",
-    environmentId: "...",
-    runtimeValidation: { validateResponses: true },
-});
-```
+import { listLanguagesSchema } from "@kontent-ai/delivery-sdk/schemas";
 
-When validation fails, the safe result carries a `schemaMismatch` error reason with the underlying
-`ZodError`:
-
-```typescript
-const { success, error } = await client.listLanguages().fetchPageSafe();
+const { success, error } = await client.listLanguages({ config: { schema: listLanguagesSchema() } }).fetchPageSafe();
 
 if (!success && error.details.reason === "schemaMismatch") {
-    console.error(error.details.zodError);
+    console.error(error.details.issues);
 }
 ```
 

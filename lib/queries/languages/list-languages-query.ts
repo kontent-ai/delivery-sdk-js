@@ -17,7 +17,8 @@ export type ListLanguagesQuery<TSchema extends DeliveryClientSchema> = DeliveryP
 
 type SystemProperties = keyof LanguagePayload<DeliveryClientSchema>["system"];
 
-export type ListLanguagesQueryRequest = DeliveryRequestWithUrlPaging<
+export type ListLanguagesQueryRequest<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
+	ListLanguagesPayload<TSchema>,
 	SystemOrderQueryParam<SystemProperties>,
 	never,
 	readonly Filter<SystemProperties, never>[]
@@ -25,12 +26,12 @@ export type ListLanguagesQueryRequest = DeliveryRequestWithUrlPaging<
 
 export function listLanguagesQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig,
-	request?: ListLanguagesQueryRequest,
+	request?: ListLanguagesQueryRequest<TSchema>,
 ): ListLanguagesQuery<TSchema> {
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: async () => (await import("./schemas/language.schemas.js")).listLanguagesSchema<TSchema>(),
+		schema: request?.config?.schema,
 		endpoint: "languages",
 	});
 }

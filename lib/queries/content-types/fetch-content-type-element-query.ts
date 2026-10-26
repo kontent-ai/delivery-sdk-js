@@ -14,7 +14,7 @@ export type FetchContentTypeElementQuery = DeliveryFetchQuery<
 export type FetchContentTypeElementQueryRequest<
 	TSchema extends DeliveryClientSchema,
 	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
-> = DeliveryRequest<never, never> & {
+> = DeliveryRequest<ContentTypeElementPayload, never, never> & {
 	readonly typeCodename: TCodename;
 	readonly elementCodename: ElementCodenamesOf<TSchema, TCodename>;
 };
@@ -26,7 +26,7 @@ export function fetchContentTypeElementQuery<TSchema extends DeliveryClientSchem
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: async () => (await import("./schemas/content-type.schemas.js")).contentTypeElementSchema(),
+		schema: request?.config?.schema,
 		endpoint: `types/${encodeURIComponent(request.typeCodename)}/elements/${encodeURIComponent(request.elementCodename)}`,
 	});
 }

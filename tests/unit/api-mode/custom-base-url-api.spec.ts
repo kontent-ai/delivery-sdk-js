@@ -13,9 +13,6 @@ describe("Custom base URL API", async () => {
 			jsonResponse: {},
 			statusCode: 200,
 		}),
-		runtimeValidation: {
-			validateResponses: false,
-		},
 		baseUrl: customBaseUrl,
 	}).listLanguages();
 

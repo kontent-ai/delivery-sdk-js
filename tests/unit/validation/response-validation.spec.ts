@@ -1,11 +1,16 @@
 import type { ErrorReason, JsonValue } from "@kontent-ai/core-sdk";
 import { getTestHttpServiceWithJsonResponse } from "@kontent-ai/core-sdk/testkit";
-import * as z from "@zod/mini";
 import { describe, expect, test } from "vitest";
 import { createDeliveryClient } from "../../../lib/client/delivery-client.js";
 import type { DeliveryClientSchema } from "../../../lib/models/core.models.js";
 import type { PaginationPayload } from "../../../lib/public_api.js";
+import {
+	fetchContentItemSchema,
+	fetchContentItemSchemaExtended,
+	listContentItemsSchemaExtended,
+} from "../../../lib/queries/content-items/schemas/content-item.schemas.js";
 import type { ListLanguagesPayload } from "../../../lib/queries/languages/models/language.models.js";
+import { listLanguagesSchema } from "../../../lib/queries/languages/schemas/language.schemas.js";
 import { getFakeUuid, unitEnvironmentId } from "../../utils/test.utils.js";
 
 describe("Response validation", () => {
@@ -50,16 +55,15 @@ describe("Response validation", () => {
 			const client = createDeliveryClient<NarrowSchema>({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				runtimeValidation: {
-					validateResponses: true,
-				},
 				httpService: getTestHttpServiceWithJsonResponse({
 					jsonResponse: mockPayload,
 					statusCode: 200,
 				}),
 			});
 
-			const { success, error } = await client.listLanguages().fetchPageSafe();
+			const { success, error } = await client
+				.listLanguages({ config: { schema: listLanguagesSchema<NarrowSchema>() } })
+				.fetchPageSafe();
 
 			expect(error).toBeUndefined();
 			expect(success).toBeTruthy();
@@ -69,16 +73,15 @@ describe("Response validation", () => {
 			const client = createDeliveryClient<TestSchema>({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				runtimeValidation: {
-					validateResponses: true,
-				},
 				httpService: getTestHttpServiceWithJsonResponse({
 					jsonResponse: mockPayload,
 					statusCode: 200,
 				}),
 			});
 
-			const { success, error } = await client.listLanguages().fetchPageSafe();
+			const { success, error } = await client
+				.listLanguages({ config: { schema: listLanguagesSchema<TestSchema>() } })
+				.fetchPageSafe();
 
 			expect(error).toBeUndefined();
 			expect(success).toBeTruthy();
@@ -88,16 +91,13 @@ describe("Response validation", () => {
 			const client = createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				runtimeValidation: {
-					validateResponses: true,
-				},
 				httpService: getTestHttpServiceWithJsonResponse({
 					jsonResponse: mockPayload,
 					statusCode: 200,
 				}),
 			});
 
-			const { success, error } = await client.listLanguages().fetchPageSafe();
+			const { success, error } = await client.listLanguages({ config: { schema: listLanguagesSchema() } }).fetchPageSafe();
 
 			expect(error).toBeUndefined();
 			expect(success).toBeTruthy();
@@ -130,16 +130,13 @@ describe("Response validation", () => {
 			const client = createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				runtimeValidation: {
-					validateResponses: true,
-				},
 				httpService: getTestHttpServiceWithJsonResponse({
 					jsonResponse: mockPayload,
 					statusCode: 200,
 				}),
 			});
 
-			const { success, error } = await client.listLanguages().fetchPageSafe();
+			const { success, error } = await client.listLanguages({ config: { schema: listLanguagesSchema() } }).fetchPageSafe();
 
 			expect(error).toBeUndefined();
 			expect(success).toBeTruthy();
@@ -163,20 +160,34 @@ describe("Response validation", () => {
 			const client = createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				runtimeValidation: {
-					validateResponses: true,
-				},
 				httpService: getTestHttpServiceWithJsonResponse({
 					jsonResponse: mockPayload,
 					statusCode: 200,
 				}),
 			});
 
-			const { success, error } = await client.listLanguages().fetchPageSafe();
+			const { success, error } = await client.listLanguages({ config: { schema: listLanguagesSchema() } }).fetchPageSafe();
 
 			expect(error).toBeDefined();
 			expect(success).toBeFalsy();
 			expect(error?.details.reason).toBe<ErrorReason>("schemaMismatch");
+		});
+
+		test("does not validate when no schema is provided", async () => {
+			const client = createDeliveryClient({
+				apiMode: "public",
+				environmentId: unitEnvironmentId,
+				httpService: getTestHttpServiceWithJsonResponse({
+					jsonResponse: mockPayload,
+					statusCode: 200,
+				}),
+			});
+
+			const { success, error, response } = await client.listLanguages().fetchPageSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBe(true);
+			expect(response?.payload).toStrictEqual(mockPayload);
 		});
 	});
 
@@ -207,9 +218,6 @@ describe("Response validation", () => {
 			createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				runtimeValidation: {
-					validateResponses: true,
-				},
 				httpService: getTestHttpServiceWithJsonResponse({
 					jsonResponse,
 					statusCode: 200,
@@ -222,7 +230,9 @@ describe("Response validation", () => {
 				modular_content: { b: createItem("b", ["a"]) },
 			});
 
-			const { success, error, response } = await client.fetchContentItem({ codename: "a" }).fetchSafe();
+			const { success, error, response } = await client
+				.fetchContentItem({ codename: "a", config: { schema: fetchContentItemSchemaExtended() } })
+				.fetchSafe();
 
 			expect(error).toBeUndefined();
 			expect(success).toBe(true);
@@ -238,10 +248,39 @@ describe("Response validation", () => {
 				modular_content: {},
 			});
 
-			const { success, error } = await client.fetchContentItem({ codename: "a" }).fetchSafe();
+			const { success, error } = await client
+				.fetchContentItem({ codename: "a", config: { schema: fetchContentItemSchemaExtended() } })
+				.fetchSafe();
 
 			expect(error).toBeUndefined();
 			expect(success).toBe(true);
+		});
+
+		test("raw query validates the raw payload with the schema passed to raw()", async () => {
+			const client = createClient({
+				item: createItem("a", ["b"]),
+				modular_content: { b: createItem("b", ["a"]) },
+			});
+
+			const { success, error } = await client
+				.fetchContentItem({ codename: "a" })
+				.raw({ schema: fetchContentItemSchema() })
+				.fetchSafe();
+
+			expect(error).toBeUndefined();
+			expect(success).toBe(true);
+		});
+
+		test("raw query fails validation when the raw payload does not match the schema", async () => {
+			const client = createClient({ item: createItem("a", []) });
+
+			const { success, error } = await client
+				.fetchContentItem({ codename: "a" })
+				.raw({ schema: fetchContentItemSchema() })
+				.fetchSafe();
+
+			expect(success).toBe(false);
+			expect(error?.details.reason).toBe<ErrorReason>("schemaMismatch");
 		});
 
 		test("listContentItems succeeds when items reference each other", async () => {
@@ -251,7 +290,9 @@ describe("Response validation", () => {
 				pagination: { skip: 0, limit: 0, count: 2, next_page: "" },
 			});
 
-			const { success, error } = await client.listContentItems().fetchPageSafe();
+			const { success, error } = await client
+				.listContentItems({ config: { schema: listContentItemsSchemaExtended() } })
+				.fetchPageSafe();
 
 			expect(error).toBeUndefined();
 			expect(success).toBe(true);
@@ -259,20 +300,17 @@ describe("Response validation", () => {
 	});
 
 	describe("Error details", () => {
-		test("populates url, zodError and response on a parsing failure", async ({ expect }) => {
+		test("populates url, issues and payload on a parsing failure", async ({ expect }) => {
 			const query = createDeliveryClient({
 				apiMode: "public",
 				environmentId: unitEnvironmentId,
-				runtimeValidation: {
-					validateResponses: true,
-				},
 				httpService: getTestHttpServiceWithJsonResponse({
 					jsonResponse: {
 						result: "invalidValue",
 					},
 					statusCode: 200,
 				}),
-			}).listLanguages();
+			}).listLanguages({ config: { schema: listLanguagesSchema() } });
 
 			const { success, error } = await query.fetchPageSafe();
 
@@ -282,7 +320,7 @@ describe("Response validation", () => {
 
 			if (error?.details.reason === "schemaMismatch") {
 				expect(error.details.url).toStrictEqual(query.inspect().data?.url);
-				expect(error.details.zodError).toBeInstanceOf(z.core.$ZodError);
+				expect(error.details.issues.length).toBeGreaterThan(0);
 				expect(error.details.payload).toBeDefined();
 			} else {
 				throw new Error(`Unexpected error reason '${error?.details.reason}'`);

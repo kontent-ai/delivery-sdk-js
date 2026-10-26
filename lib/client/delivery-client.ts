@@ -31,8 +31,8 @@ export function createDeliveryClient<const TSchema extends DeliveryClientSchema 
 ): DeliveryClient<TSchema> {
 	return {
 		config,
-		listTaxonomies: (request?: ListTaxonomiesQueryRequest) => listTaxonomiesQuery(config, request),
-		listLanguages: (request?: ListLanguagesQueryRequest) => listLanguagesQuery(config, request),
+		listTaxonomies: (request?: ListTaxonomiesQueryRequest<TSchema>) => listTaxonomiesQuery(config, request),
+		listLanguages: (request?: ListLanguagesQueryRequest<TSchema>) => listLanguagesQuery(config, request),
 		listContentTypes: (request?: ListContentTypesQueryRequest<TSchema>) => listContentTypesQuery(config, request),
 		fetchTaxonomy: <const TCodename extends TaxonomyCodenameOf<TSchema>>(request: FetchTaxonomyQueryRequest<TSchema, TCodename>) =>
 			fetchTaxonomyQuery(config, request),

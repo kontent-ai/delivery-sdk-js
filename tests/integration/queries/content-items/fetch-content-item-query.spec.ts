@@ -16,7 +16,7 @@ describe("Fetch content item query", async () => {
 	await runQueryTestsAsync<FetchContentItemPayload<IntegrationTestProjectSchema>, IntegrationTestProjectSchema>({
 		endpoint: `items/${codename}`,
 		rawPayload,
-		selectQuery: (client) => client.fetchContentItem({ codename }).raw(),
+		selectQuery: (client, schema) => client.fetchContentItem({ codename }).raw({ schema }),
 		expectedSchema: fetchContentItemSchema<IntegrationTestProjectSchema>(),
 	});
 });
@@ -26,7 +26,7 @@ describe("Fetch content item query - extended", async () => {
 	await runQueryTestsAsync<FetchContentItemPayloadExtended<IntegrationTestProjectSchema>, IntegrationTestProjectSchema>({
 		endpoint: `items/${codename}`,
 		rawPayload: undefined,
-		selectQuery: (client) => client.fetchContentItem({ codename }),
+		selectQuery: (client, schema) => client.fetchContentItem({ codename, config: { schema } }),
 		expectedSchema: fetchContentItemSchemaExtended<IntegrationTestProjectSchema>(),
 		extraTests: (response) => {
 			const item = response.item;

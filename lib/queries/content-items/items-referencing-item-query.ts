@@ -21,6 +21,7 @@ export type ItemsReferencingItemQuery<TSchema extends DeliveryClientSchema> = De
 >;
 
 export type ItemsReferencingItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
+	ItemsReferencingItemPayload<TSchema>,
 	never,
 	readonly Filter<keyof ContentItemSystemPayload<TSchema>, never>[]
 > & {
@@ -37,7 +38,7 @@ export function itemsReferencingItemQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByTokenQuery({
 		config,
 		request,
-		schema: async () => (await import("./schemas/content-item.schemas.js")).itemsReferencingItemSchema<TSchema>(),
+		schema: request?.config?.schema,
 		endpoint: `items/${encodeURIComponent(request.codename)}/used-in`,
 	});
 }

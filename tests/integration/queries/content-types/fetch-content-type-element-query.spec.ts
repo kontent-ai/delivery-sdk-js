@@ -11,7 +11,8 @@ describe("Fetch content type element query", async () => {
 		runQueryTestsAsync<ContentTypeElementPayload>({
 			endpoint: `types/${typeCodename}/elements/${payload.codename}`,
 			rawPayload: payload,
-			selectQuery: (client) => client.fetchContentTypeElement({ typeCodename, elementCodename: payload.codename }),
+			selectQuery: (client, schema) =>
+				client.fetchContentTypeElement({ typeCodename, elementCodename: payload.codename, config: { schema } }),
 			expectedSchema: contentTypeElementSchema(),
 		}),
 	);

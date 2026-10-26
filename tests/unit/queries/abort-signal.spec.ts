@@ -8,9 +8,6 @@ describe("Query cancellation via abortSignal", () => {
 		const client = createDeliveryClient({
 			apiMode: "public",
 			environmentId: unitEnvironmentId,
-			runtimeValidation: {
-				validateResponses: false,
-			},
 		});
 
 		const controller = new AbortController();

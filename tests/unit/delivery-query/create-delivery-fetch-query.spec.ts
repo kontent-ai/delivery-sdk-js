@@ -59,7 +59,7 @@ describe("createDeliveryFetchQuery", () => {
 	});
 
 	it("includes query parameters when request.query is provided and nothing extra", () => {
-		const request: DeliveryRequest<{ readonly language: string; readonly depth: number }, never> = {
+		const request: DeliveryRequest<JsonValue, { readonly language: string; readonly depth: number }, never> = {
 			query: { language: "en-us", depth: 2 },
 		};
 		const { inspect } = createDeliveryFetchQuery({
@@ -78,7 +78,7 @@ describe("createDeliveryFetchQuery", () => {
 	});
 
 	it("includes filters when request.filters is provided", () => {
-		const request: DeliveryRequest<never, readonly Filter<string, string>[]> = {
+		const request: DeliveryRequest<JsonValue, never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "article" }],
 		};
 		const { inspect } = createDeliveryFetchQuery({

@@ -9,7 +9,7 @@ describe("List taxonomies query", async () => {
 	await runQueryTestsAsync<ListTaxonomiesPayload<DeliveryClientSchema>>({
 		endpoint: "taxonomies",
 		rawPayload,
-		selectQuery: (client) => client.listTaxonomies(),
+		selectQuery: (client, schema) => client.listTaxonomies({ config: { schema } }),
 		expectedSchema: listTaxonomiesSchema(),
 	});
 });

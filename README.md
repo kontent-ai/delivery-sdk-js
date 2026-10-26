@@ -67,7 +67,6 @@ createDeliveryClient({ apiMode: "secure", environmentId: "<id>", deliveryApiKey:
 | `deliveryApiKey` | for preview/secure | The preview or secure access API key |
 | `baseUrl` | no | Custom host as `{ protocol, host }`, overrides the default Delivery API URL |
 | `httpService` | no | Custom HTTP service from [`@kontent-ai/core-sdk`](https://github.com/kontent-ai/core-sdk-js) (retry strategy, global headers, adapter) |
-| `runtimeValidation` | no | Opt-in Zod validation of responses (see [Runtime validation](#runtime-validation)) |
 
 ### Custom host (proxy)
 
@@ -303,22 +302,28 @@ for (const item of response?.payload.items ?? []) {
 
 ## Runtime validation
 
-Optionally validate responses against the SDK's Zod schemas at runtime — handy for catching unexpected
-payload shapes early:
+Responses are not validated by default. To validate a response, pass a schema in the query's
+`config.schema`. Any [Standard Schema](https://standardschema.dev) works, and the SDK's own Zod schemas
+are exported from the `@kontent-ai/delivery-sdk/schemas` subpath:
 
 ```typescript
-const client = createDeliveryClient({
-    apiMode: "public",
-    environmentId: "<id>",
-    runtimeValidation: { validateResponses: true },
-});
+import { listContentItemsSchema, listContentItemsSchemaExtended, listLanguagesSchema } from "@kontent-ai/delivery-sdk/schemas";
+
+const languages = await client.listLanguages({ config: { schema: listLanguagesSchema<MySchema>() } }).fetchPage();
+
+// content-item queries return the extended payload, so they take the extended schema
+const items = await client.listContentItems({ config: { schema: listContentItemsSchemaExtended<MySchema>() } }).fetchPage();
+
+// raw() takes the schema of the raw API payload
+const rawItems = await client.listContentItems().raw({ schema: listContentItemsSchema<MySchema>() }).fetchPage();
 ```
 
-The schemas are also exported on their own subpath for standalone use:
+Zod is only loaded when you import the `schemas` subpath, so it is not part of your bundle unless you
+validate with it. A failed validation returns a `schemaMismatch` error with the validation `issues`.
+
+The schemas can also be used on their own, e.g. to parse stored JSON:
 
 ```typescript
-import { listContentItemsSchema } from "@kontent-ai/delivery-sdk/schemas";
-
 const result = await listContentItemsSchema<MySchema>().safeParseAsync(storedJson);
 ```
 

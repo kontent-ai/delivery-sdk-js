@@ -18,6 +18,7 @@ export type FetchContentTypeQueryRequest<
 	TSchema extends DeliveryClientSchema,
 	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
 > = DeliveryRequestWithCodename<
+	ContentTypePayload<TSchema>,
 	readonly TCodename[],
 	{
 		readonly elements?: ElementSelectionQueryParam<ElementCodenamesOf<TSchema, TCodename>>;
@@ -32,7 +33,7 @@ export function fetchContentTypeQuery<TSchema extends DeliveryClientSchema, cons
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: async () => (await import("./schemas/content-type.schemas.js")).contentTypeSchema<TSchema>(),
+		schema: request?.config?.schema,
 		endpoint: `types/${encodeURIComponent(request.codename)}`,
 	});
 }

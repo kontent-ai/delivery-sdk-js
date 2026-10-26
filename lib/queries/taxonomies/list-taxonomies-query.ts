@@ -17,7 +17,8 @@ export type ListTaxonomiesQuery<TSchema extends DeliveryClientSchema> = Delivery
 
 type SystemProperties = keyof TaxonomyPayload<DeliveryClientSchema, string>["system"];
 
-export type ListTaxonomiesQueryRequest = DeliveryRequestWithUrlPaging<
+export type ListTaxonomiesQueryRequest<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
+	ListTaxonomiesPayload<TSchema, string>,
 	SystemOrderQueryParam<SystemProperties>,
 	never,
 	readonly Filter<SystemProperties, never>[]
@@ -25,12 +26,12 @@ export type ListTaxonomiesQueryRequest = DeliveryRequestWithUrlPaging<
 
 export function listTaxonomiesQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig,
-	request?: ListTaxonomiesQueryRequest,
+	request?: ListTaxonomiesQueryRequest<TSchema>,
 ): ListTaxonomiesQuery<TSchema> {
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: async () => (await import("./schemas/taxonomy.schemas.js")).listTaxonomiesSchema<TSchema, string>(),
+		schema: request?.config?.schema,
 		endpoint: "taxonomies",
 	});
 }

@@ -1,4 +1,4 @@
-import type { QueryResponse } from "@kontent-ai/core-sdk";
+import type { QueryResponse, SchemaInput } from "@kontent-ai/core-sdk";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryMetadata, DeliveryPagedFetchQuery } from "../../models/core.models.js";
 import type {
 	DeliveryRequestWithUrlPaging,
@@ -30,9 +30,13 @@ export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = Delive
 	ListContentItemsResponse<TSchema>["payload"],
 	ListContentItemsResponse<TSchema>["meta"]
 > &
-	WithRaw<DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>, ListContentItemsResponse<TSchema>["meta"]>>;
+	WithRaw<
+		DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>, ListContentItemsResponse<TSchema>["meta"]>,
+		ListContentItemsPayload<TSchema>
+	>;
 
 export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
+	ListContentItemsPayloadExtended<TSchema>,
 	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<AllElementCodenames<TSchema>>,
 	{
 		/**
@@ -72,16 +76,16 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig,
 	request?: ListContentItemsQueryRequest<TSchema>,
 ): ListContentItemsQuery<TSchema> {
-	const rawQuery = createDeliveryPagedByUrlQuery<ListContentItemsPayload<TSchema>>({
-		config,
-		request,
-		schema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchema<TSchema>(),
-		endpoint: "items",
-	});
+	const createRawQuery = (schema: SchemaInput<ListContentItemsPayload<TSchema>>) =>
+		createDeliveryPagedByUrlQuery<ListContentItemsPayload<TSchema>>({
+			config,
+			request,
+			schema,
+			endpoint: "items",
+		});
 	const extendedQuery = transformDeliveryPagedByUrlQuery({
-		config,
-		query: rawQuery,
-		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).listContentItemsSchemaExtended<TSchema>(),
+		query: createRawQuery(undefined),
+		transformSchema: request?.config?.schema,
 		transform: (responses) => {
 			const allItems = joinItems({
 				items: responses.flatMap((m) => m.payload.items),
@@ -104,5 +108,5 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 			});
 		},
 	});
-	return { ...extendedQuery, raw: () => rawQuery };
+	return { ...extendedQuery, raw: (options) => createRawQuery(options?.schema) };
 }

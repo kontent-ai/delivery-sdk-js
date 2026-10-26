@@ -9,7 +9,7 @@ describe("List languages query", async () => {
 	await runQueryTestsAsync<ListLanguagesPayload<DeliveryClientSchema>>({
 		endpoint: "languages",
 		rawPayload,
-		selectQuery: (client) => client.listLanguages(),
+		selectQuery: (client, schema) => client.listLanguages({ config: { schema } }),
 		expectedSchema: listLanguagesSchema(),
 	});
 });

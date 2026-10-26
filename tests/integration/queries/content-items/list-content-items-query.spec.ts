@@ -16,7 +16,7 @@ describe("List content items query", async () => {
 	await runQueryTestsAsync<ListContentItemsPayload<IntegrationTestProjectSchema>, IntegrationTestProjectSchema>({
 		endpoint: "items",
 		rawPayload,
-		selectQuery: (client) => client.listContentItems().raw(),
+		selectQuery: (client, schema) => client.listContentItems().raw({ schema }),
 		expectedSchema: listContentItemsSchema<IntegrationTestProjectSchema>(),
 	});
 });
@@ -25,7 +25,7 @@ describe("List content items query - extended", async () => {
 	await runQueryTestsAsync<ListContentItemsPayloadExtended<IntegrationTestProjectSchema>, IntegrationTestProjectSchema>({
 		endpoint: "items",
 		rawPayload: undefined,
-		selectQuery: (client) => client.listContentItems(),
+		selectQuery: (client, schema) => client.listContentItems({ config: { schema } }),
 		expectedSchema: listContentItemsSchemaExtended<IntegrationTestProjectSchema>(),
 		extraTests: (response) => {
 			registerExtendedItemsTests(response.items, response.modular_content);

@@ -19,6 +19,7 @@ export type {
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
 	OrderDirection,
+	RawQueryOptions,
 	SystemOrderQueryParam,
 } from "./models/request.models.js";
 export type {

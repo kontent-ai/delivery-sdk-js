@@ -7,10 +7,10 @@ import {
 	type JsonValue,
 	type KnownHeaderName,
 	type PagedFetchQuery,
+	type SchemaInput,
 	transformFetchQuery,
 	transformPagedFetchQuery,
 } from "@kontent-ai/core-sdk";
-import type { ZodMiniType } from "@zod/mini";
 import { deliverySdkInfo } from "../delivery-sdk-info.js";
 import type {
 	DeliveryClientConfig,
@@ -28,7 +28,7 @@ import { mapDeliveryError } from "../utils/error.utils.js";
 import { getNextPageByContinuationToken, getNextPageByUrl, getNextPageUrl } from "../utils/paging.utils.js";
 import { addQueryParametersToUrl, getDeliveryUrl } from "../utils/url.utils.js";
 
-type AnyDeliveryRequest = DeliveryRequest<QueryParameterRecord, readonly Filter<string, string>[]>;
+type AnyDeliveryRequest = DeliveryRequest<JsonValue, QueryParameterRecord, readonly Filter<string, string>[]>;
 
 export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload>({
 	config,
@@ -38,11 +38,11 @@ export function createDeliveryPagedByUrlQuery<TPayload extends PaginationPayload
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig;
-	readonly schema: () => Promise<ZodMiniType<TPayload>>;
+	readonly schema: SchemaInput<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
 }): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps> {
 	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps>({
-		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
+		...getSharedRequestData<TPayload>({ config, endpoint, schema, request }),
 		getNextPageData: getNextPageByUrl(),
 		mapPagingExtraResponseProps: (responses) => ({
 			nextPageUrl: getNextPageUrl(responses.at(-1)?.payload),
@@ -59,11 +59,11 @@ export function createDeliveryPagedByTokenQuery<TPayload extends JsonValue>({
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig;
-	readonly schema: () => Promise<ZodMiniType<TPayload>>;
+	readonly schema: SchemaInput<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
 }): PagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps> {
 	return createPagedFetchQuery<TPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps>({
-		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
+		...getSharedRequestData<TPayload>({ config, endpoint, schema, request }),
 		getNextPageData: getNextPageByContinuationToken(),
 		mapPagingExtraResponseProps: (responses) => ({
 			nextContinuationToken: responses.at(-1)?.meta?.continuationToken,
@@ -82,17 +82,16 @@ export function createDeliveryFetchQuery<TPayload extends JsonValue>({
 }: {
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig;
-	readonly schema: () => Promise<ZodMiniType<TPayload>>;
+	readonly schema: SchemaInput<TPayload>;
 	readonly endpoint: DeliveryEndpoint;
 }): FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown> {
 	return createFetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown>({
-		...getSharedRequestData<TPayload>({ config, endpoint, schema: schema, request }),
+		...getSharedRequestData<TPayload>({ config, endpoint, schema, request }),
 		mapMetadata: () => ({}),
 	});
 }
 
 export function transformDeliveryFetchQuery<TPayload extends JsonValue, TTransformedPayload extends TPayload>({
-	config,
 	query,
 	transform,
 	transformSchema,
@@ -100,19 +99,17 @@ export function transformDeliveryFetchQuery<TPayload extends JsonValue, TTransfo
 	readonly query: FetchQuery<TPayload, DeliverySdkError, DeliveryMetadata, unknown>;
 } & Pick<
 	Parameters<typeof transformFetchQuery<TPayload, TTransformedPayload, DeliverySdkError, DeliveryMetadata, unknown>>[0],
-	"transform" | "transformSchema" | "config"
+	"transform" | "transformSchema"
 >): FetchQuery<TTransformedPayload, DeliverySdkError, DeliveryMetadata, unknown> {
 	return transformFetchQuery({
 		query,
 		transform,
 		transformSchema,
 		mapError: mapDeliveryError,
-		config,
 	});
 }
 
 export function transformDeliveryPagedByUrlQuery<TPayload extends PaginationPayload, TTransformedPayload extends TPayload>({
-	config,
 	query,
 	transform,
 	transformSchema,
@@ -129,19 +126,17 @@ export function transformDeliveryPagedByUrlQuery<TPayload extends PaginationPayl
 			UrlPagingDeliveryExtraResponseProps
 		>
 	>[0],
-	"transform" | "transformSchema" | "config"
+	"transform" | "transformSchema"
 >): PagedFetchQuery<TTransformedPayload, DeliverySdkError, DeliveryMetadata, unknown, UrlPagingDeliveryExtraResponseProps> {
 	return transformPagedFetchQuery({
 		query,
 		transform,
 		transformSchema,
 		mapError: mapDeliveryError,
-		config,
 	});
 }
 
 export function transformDeliveryPagedByTokenQuery<TPayload extends JsonValue, TTransformedPayload extends TPayload>({
-	config,
 	query,
 	transform,
 	transformSchema,
@@ -158,14 +153,13 @@ export function transformDeliveryPagedByTokenQuery<TPayload extends JsonValue, T
 			TokenPagingDeliveryExtraResponseProps
 		>
 	>[0],
-	"transform" | "transformSchema" | "config"
+	"transform" | "transformSchema"
 >): PagedFetchQuery<TTransformedPayload, DeliverySdkError, DeliveryMetadataWithToken, unknown, TokenPagingDeliveryExtraResponseProps> {
 	return transformPagedFetchQuery({
 		query,
 		transform,
 		transformSchema,
 		mapError: mapDeliveryError,
-		config,
 	});
 }
 
@@ -178,7 +172,7 @@ function getSharedRequestData<TPayload extends JsonValue>({
 	readonly request: AnyDeliveryRequest | undefined;
 	readonly config: DeliveryClientConfig;
 	readonly endpoint: DeliveryEndpoint;
-	readonly schema: () => Promise<ZodMiniType<TPayload>>;
+	readonly schema: SchemaInput<TPayload>;
 }): Pick<
 	FetchQueryRequest<TPayload, DeliverySdkError>,
 	"abortSignal" | "config" | "sdkInfo" | "url" | "requestHeaders" | "schema" | "mapError" | "mapExtraResponseProps"

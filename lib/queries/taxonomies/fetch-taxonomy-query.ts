@@ -17,7 +17,7 @@ export type FetchTaxonomyQuery<
 export type FetchTaxonomyQueryRequest<
 	TSchema extends DeliveryClientSchema,
 	TCodename extends TaxonomyCodenameOf<TSchema> = TaxonomyCodenameOf<TSchema>,
-> = DeliveryRequestWithCodename<readonly [TCodename], never, never>;
+> = DeliveryRequestWithCodename<FetchTaxonomyResponse<TSchema, TCodename>["payload"], readonly [TCodename], never, never>;
 
 export function fetchTaxonomyQuery<TSchema extends DeliveryClientSchema, const TCodename extends TaxonomyCodenameOf<TSchema>>(
 	config: DeliveryClientConfig,
@@ -26,8 +26,7 @@ export function fetchTaxonomyQuery<TSchema extends DeliveryClientSchema, const T
 	return createDeliveryFetchQuery({
 		config,
 		request,
-		schema: async () =>
-			(await import("./schemas/taxonomy.schemas.js")).taxonomySchema<TSchema, TaxonomyTermCodenamesOf<TSchema, TCodename>>(),
+		schema: request?.config?.schema,
 		endpoint: `taxonomies/${encodeURIComponent(request.codename)}`,
 	});
 }

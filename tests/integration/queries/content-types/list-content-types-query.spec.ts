@@ -9,7 +9,7 @@ describe("List content types query", async () => {
 	await runQueryTestsAsync<ListContentTypesPayload<DeliveryClientSchema>>({
 		endpoint: "types",
 		rawPayload,
-		selectQuery: (client) => client.listContentTypes(),
+		selectQuery: (client, schema) => client.listContentTypes({ config: { schema } }),
 		expectedSchema: listContentTypesSchema(),
 	});
 });

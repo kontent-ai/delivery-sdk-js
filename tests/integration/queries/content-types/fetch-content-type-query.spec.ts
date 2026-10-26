@@ -8,7 +8,7 @@ describe("Fetch content type query", async () => {
 	await runQueryTestsAsync({
 		endpoint: `types/${codename}`,
 		rawPayload,
-		selectQuery: (client) => client.fetchContentType({ codename: codename }),
+		selectQuery: (client, schema) => client.fetchContentType({ codename: codename, config: { schema } }),
 		expectedSchema: contentTypeSchema(),
 	});
 });

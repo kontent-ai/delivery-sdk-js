@@ -1,4 +1,4 @@
-import type { QueryResponse } from "@kontent-ai/core-sdk";
+import type { QueryResponse, SchemaInput } from "@kontent-ai/core-sdk";
 import type {
 	DeliveryClientConfig,
 	DeliveryClientSchema,
@@ -30,9 +30,10 @@ export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPaged
 	ItemsFeedResponse<TSchema>["payload"],
 	ItemsFeedResponse<TSchema>["meta"]
 > &
-	WithRaw<DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>, ItemsFeedResponse<TSchema>["meta"]>>;
+	WithRaw<DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>, ItemsFeedResponse<TSchema>["meta"]>, ItemsFeedPayload<TSchema>>;
 
 export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
+	ItemsFeedPayloadExtended<TSchema>,
 	{
 		readonly order?: SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<AllElementCodenames<TSchema>>;
 		/**
@@ -65,16 +66,16 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 	config: DeliveryClientConfig,
 	request?: ItemsFeedQueryRequest<TSchema>,
 ): ItemsFeedQuery<TSchema> {
-	const rawQuery = createDeliveryPagedByTokenQuery<ItemsFeedPayload<TSchema>>({
-		config,
-		request,
-		schema: async () => (await import("./schemas/content-item.schemas.js")).itemsFeedSchema<TSchema>(),
-		endpoint: "items-feed",
-	});
+	const createRawQuery = (schema: SchemaInput<ItemsFeedPayload<TSchema>>) =>
+		createDeliveryPagedByTokenQuery<ItemsFeedPayload<TSchema>>({
+			config,
+			request,
+			schema,
+			endpoint: "items-feed",
+		});
 	const extendedQuery = transformDeliveryPagedByTokenQuery({
-		config,
-		query: rawQuery,
-		transformSchema: async () => (await import("./schemas/content-item.schemas.js")).itemsFeedSchemaExtended<TSchema>(),
+		query: createRawQuery(undefined),
+		transformSchema: request?.config?.schema,
 		transform: (responses) => {
 			const allItems = joinItems({
 				items: responses.flatMap((m) => m.payload.items),
@@ -97,5 +98,5 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 			});
 		},
 	});
-	return { ...extendedQuery, raw: () => rawQuery };
+	return { ...extendedQuery, raw: (options) => createRawQuery(options?.schema) };
 }

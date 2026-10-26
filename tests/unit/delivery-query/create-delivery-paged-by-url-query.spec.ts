@@ -1,3 +1,4 @@
+import type { JsonValue } from "@kontent-ai/core-sdk";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import type { DeliveryClientConfig } from "../../../lib/models/core.models.js";
 import type { Filter } from "../../../lib/models/filter.models.js";
@@ -49,7 +50,7 @@ describe("createDeliveryPagedByUrlQuery", () => {
 	});
 
 	it("has no query string when request has neither query nor filters", () => {
-		const request: DeliveryRequest<never, never> = {};
+		const request: DeliveryRequest<JsonValue, never, never> = {};
 		const { inspect } = createDeliveryPagedByUrlQuery({
 			config: clientConfig,
 			request,
@@ -60,7 +61,7 @@ describe("createDeliveryPagedByUrlQuery", () => {
 	});
 
 	it("includes query parameters when request.query is provided", () => {
-		const request: DeliveryRequest<{ readonly skip: number; readonly limit: number }, never> = {
+		const request: DeliveryRequest<JsonValue, { readonly skip: number; readonly limit: number }, never> = {
 			query: { skip: 10, limit: 5 },
 		};
 		const { inspect } = createDeliveryPagedByUrlQuery({
@@ -76,7 +77,7 @@ describe("createDeliveryPagedByUrlQuery", () => {
 	});
 
 	it("includes filters when request.filters is provided", () => {
-		const request: DeliveryRequest<never, readonly Filter<string, string>[]> = {
+		const request: DeliveryRequest<JsonValue, never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "movie" }],
 		};
 		const { inspect } = createDeliveryPagedByUrlQuery({

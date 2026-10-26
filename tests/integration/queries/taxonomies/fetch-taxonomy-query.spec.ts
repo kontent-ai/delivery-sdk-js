@@ -10,7 +10,7 @@ describe("Fetch taxonomy query", async () => {
 	await runQueryTestsAsync<TaxonomyPayload<DeliveryClientSchema>>({
 		endpoint: `taxonomies/${codename}`,
 		rawPayload,
-		selectQuery: (client) => client.fetchTaxonomy({ codename: codename }),
+		selectQuery: (client, schema) => client.fetchTaxonomy({ codename: codename, config: { schema } }),
 		expectedSchema: taxonomySchema(),
 	});
 });

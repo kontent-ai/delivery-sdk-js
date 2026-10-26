@@ -19,8 +19,13 @@ import { isFetchQueryWithExpectedFunctions, isPagedFetchQueryWithExpectedFunctio
 
 type TestType = "Integration" | "Unit";
 
+/**
+ * Creates the query under test. The query must validate its response with the given schema
+ * (via `config: { schema }` or `raw({ schema })`), so that the response is checked at query level.
+ */
 type SelectQuery<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema> = (
 	client: DeliveryClient<TSchema>,
+	schema: ZodMiniType<TResponsePayload>,
 ) => FetchQuery<TResponsePayload, KontentSdkError, unknown> | PagedFetchQuery<TResponsePayload, KontentSdkError, unknown>;
 
 export async function runQueryTestsAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema = DeliveryClientSchema>({
@@ -56,7 +61,7 @@ export async function runQueryTestsAsync<TResponsePayload extends JsonValue, TSc
 		});
 	}
 
-	await runFailingClientQueryTestAsync({ endpoint, selectQuery });
+	await runFailingClientQueryTestAsync({ endpoint, selectQuery, expectedSchema });
 }
 
 async function runClientQueryTestsAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
@@ -82,7 +87,7 @@ async function runClientQueryTestsAsync<TResponsePayload extends JsonValue, TSch
 		endpoint,
 	});
 
-	const { query, response, success, error } = await executeDefaultQueryAsync({ client, selectQuery });
+	const { query, response, success, error } = await executeDefaultQueryAsync({ client, selectQuery, expectedSchema });
 
 	registerBaseTests({ testName, endpoint, client, query, response, success, error, expectedSchema, rawPayload, testType });
 
@@ -128,9 +133,6 @@ function createUnitTestClient<TResponsePayload extends JsonValue, TSchema extend
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId: unitEnvironmentId,
-		runtimeValidation: {
-			validateResponses: true,
-		},
 		httpService: getTestHttpServiceWithJsonResponse({
 			jsonResponse: rawPayload,
 			statusCode: 200,
@@ -145,9 +147,6 @@ function createIntegrationTestClient<TSchema extends DeliveryClientSchema>(
 	return createDeliveryClient({
 		apiMode: "public",
 		environmentId,
-		runtimeValidation: {
-			validateResponses: true,
-		},
 		...(deliveryBaseUrl ? { baseUrl: deliveryBaseUrl } : {}),
 	});
 }
@@ -377,12 +376,14 @@ function registerPagingIteratorTests<TResponsePayload extends JsonValue>({
 async function runFailingClientQueryTestAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
 	endpoint,
 	selectQuery,
+	expectedSchema,
 }: {
 	readonly endpoint: DeliveryEndpoint;
 	readonly selectQuery: SelectQuery<TResponsePayload, TSchema>;
+	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 }): Promise<void> {
 	const client = createFailingUnitTestClient<TSchema>();
-	const query = selectQuery(client);
+	const query = selectQuery(client, expectedSchema);
 	const { error } = isPagingQuery(query) ? await query.fetchPageSafe() : await query.fetchSafe();
 	const testName = `Unit[${endpoint}]: `;
 
@@ -394,16 +395,18 @@ async function runFailingClientQueryTestAsync<TResponsePayload extends JsonValue
 async function executeDefaultQueryAsync<TResponsePayload extends JsonValue, TSchema extends DeliveryClientSchema>({
 	client,
 	selectQuery,
+	expectedSchema,
 }: {
 	readonly client: DeliveryClient<TSchema>;
 	readonly selectQuery: SelectQuery<TResponsePayload, TSchema>;
+	readonly expectedSchema: ZodMiniType<TResponsePayload>;
 }): Promise<{
 	readonly query: ReturnType<SelectQuery<TResponsePayload, TSchema>>;
 	readonly response: { readonly payload: TResponsePayload } | undefined;
 	readonly success: boolean;
 	readonly error: unknown;
 }> {
-	const query = selectQuery(client);
+	const query = selectQuery(client, expectedSchema);
 	if (isPagingQuery(query)) {
 		const { response, success, error } = await query.fetchPageSafe();
 		return { query, response, success, error };

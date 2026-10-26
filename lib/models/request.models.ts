@@ -1,8 +1,12 @@
-import type { Header } from "@kontent-ai/core-sdk";
+import type { Header, JsonValue, SchemaInput } from "@kontent-ai/core-sdk";
 import type { Filter } from "./filter.models.js";
 
-export type DeliveryRequest<TQuery extends QueryParameterRecord, TFilters extends readonly Filter<string, string>[]> = {
-	readonly config?: DeliveryRequestConfig;
+export type DeliveryRequest<
+	TPayload extends JsonValue,
+	TQuery extends QueryParameterRecord,
+	TFilters extends readonly Filter<string, string>[],
+> = {
+	readonly config?: DeliveryRequestConfig<TPayload>;
 	readonly headers?: {
 		readonly "X-KC-Wait-For-Loading-New-Content"?: boolean;
 	};
@@ -10,10 +14,11 @@ export type DeliveryRequest<TQuery extends QueryParameterRecord, TFilters extend
 	(readonly [TFilters] extends readonly [never] ? object : { readonly filters?: TFilters });
 
 export type DeliveryRequestWithUrlPaging<
+	TPayload extends JsonValue,
 	TSortableProperties extends string,
 	TQuery extends QueryParameterRecord,
 	TFilters extends readonly Filter<string, string>[],
-> = DeliveryRequest<TQuery, TFilters> & {
+> = DeliveryRequest<TPayload, TQuery, TFilters> & {
 	readonly query?: {
 		readonly skip?: number;
 		readonly limit?: number;
@@ -22,19 +27,21 @@ export type DeliveryRequestWithUrlPaging<
 };
 
 export type DeliveryRequestWithTokenPaging<
+	TPayload extends JsonValue,
 	TQuery extends QueryParameterRecord,
 	TFilters extends readonly Filter<string, string>[],
-> = DeliveryRequest<TQuery, TFilters> & {
+> = DeliveryRequest<TPayload, TQuery, TFilters> & {
 	readonly headers?: {
 		readonly "X-Continuation"?: string;
 	};
 };
 
 export type DeliveryRequestWithCodename<
+	TPayload extends JsonValue,
 	TCodenames extends readonly string[],
 	TQuery extends QueryParameterRecord,
 	TFilters extends readonly Filter<string, string>[],
-> = DeliveryRequest<TQuery, TFilters> & {
+> = DeliveryRequest<TPayload, TQuery, TFilters> & {
 	readonly codename: TCodenames[number];
 };
 
@@ -50,19 +57,32 @@ export type QueryParameterRecord = Record<string, string | number | boolean | un
  * and the transformed response may not be serializable (e.g. with `JSON.stringify`). Use `raw()` when you need
  * a serializable response.
  */
-export type WithRaw<TRawQuery> = {
+export type WithRaw<TRawQuery, TRawPayload extends JsonValue> = {
 	/**
 	 * Returns the same query without transformations, so its response has the same shape as the Delivery API response and is always serializable.
+	 *
+	 * The `schema` option validates the raw payload (see `DeliveryRequestConfig.schema`).
 	 */
-	readonly raw: () => TRawQuery;
+	readonly raw: (options?: RawQueryOptions<TRawPayload>) => TRawQuery;
 };
 
-export type DeliveryRequestConfig = {
+export type RawQueryOptions<TRawPayload extends JsonValue> = {
+	readonly schema?: SchemaInput<TRawPayload>;
+};
+
+export type DeliveryRequestConfig<TPayload extends JsonValue = JsonValue> = {
 	/**
 	 * Additional headers to be added to the request.
 	 */
 	readonly customHeaders?: readonly Header[];
 	readonly abortSignal?: AbortSignal;
+	/**
+	 * Optional Standard Schema used to validate the response payload. A failed validation returns a `schemaMismatch` error.
+	 *
+	 * Responses are not validated by default. Schemas for all queries are exported from `@kontent-ai/delivery-sdk/schemas`,
+	 * e.g. `{ schema: listLanguagesSchema() }`, or pass a lazy `() => Promise<schema>` factory to load it on demand.
+	 */
+	readonly schema?: SchemaInput<TPayload>;
 };
 
 export type OrderDirection = "asc" | "desc";

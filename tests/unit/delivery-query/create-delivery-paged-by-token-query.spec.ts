@@ -49,7 +49,7 @@ describe("createDeliveryPagedByTokenQuery", () => {
 	});
 
 	it("has no query string when request has neither query nor filters", () => {
-		const request: DeliveryRequest<never, never> = {};
+		const request: DeliveryRequest<JsonValue, never, never> = {};
 		const { inspect } = createDeliveryPagedByTokenQuery({
 			config: clientConfig,
 			request,
@@ -60,7 +60,7 @@ describe("createDeliveryPagedByTokenQuery", () => {
 	});
 
 	it("includes query parameters when request.query is provided", () => {
-		const request: DeliveryRequest<{ readonly language: string }, never> = {
+		const request: DeliveryRequest<JsonValue, { readonly language: string }, never> = {
 			query: { language: "en-us" },
 		};
 		const { inspect } = createDeliveryPagedByTokenQuery({
@@ -73,7 +73,7 @@ describe("createDeliveryPagedByTokenQuery", () => {
 	});
 
 	it("includes filters when request.filters is provided", () => {
-		const request: DeliveryRequest<never, readonly Filter<string, string>[]> = {
+		const request: DeliveryRequest<JsonValue, never, readonly Filter<string, string>[]> = {
 			filters: [{ property: "system.type", operator: "eq", value: "blog" }],
 		};
 		const { inspect } = createDeliveryPagedByTokenQuery({

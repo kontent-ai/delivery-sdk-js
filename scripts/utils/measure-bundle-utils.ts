@@ -5,7 +5,6 @@ import { build } from "esbuild";
 export type SdkBundle<TName extends string> = {
 	readonly name: TName;
 	readonly entryContents: string;
-	readonly thresholdKb: number;
 };
 
 export type SizeResult<TName extends string> = {
@@ -16,19 +15,12 @@ export type SizeResult<TName extends string> = {
 	readonly brotli: number;
 };
 
-export type BundleName = "public_api (full)" | "public_schemas (full)";
-
-export const bundles: readonly SdkBundle<BundleName>[] = [
-	{
-		name: "public_api (full)",
-		entryContents: `export * from "./lib/public_api.ts";`,
-		thresholdKb: 25,
-	},
-	{
-		name: "public_schemas (full)",
-		entryContents: `export * from "./lib/public_schemas.ts";`,
-		thresholdKb: 15,
-	},
+/**
+ * Bundles measured and written by the `bundle:size` and `bundle:create` scripts.
+ */
+export const sdkBundles: readonly SdkBundle<string>[] = [
+	{ name: "public_api (full)", entryContents: `export * from "./lib/public_api.ts";` },
+	{ name: "public_schemas (full)", entryContents: `export * from "./lib/public_schemas.ts";` },
 ];
 
 const bundleScenario = async <TName extends string>(
@@ -57,6 +49,31 @@ const bundleScenario = async <TName extends string>(
 		throw new Error(`esbuild produced no output for scenario "${scenario.name}"`);
 	}
 	return output.contents;
+};
+
+/**
+ * Returns the paths of all modules that end up in the bundle of the given scenario.
+ */
+export const getBundledInputs = async <TName extends string>(
+	scenario: SdkBundle<TName>,
+	{ resolveDir }: { readonly resolveDir: string },
+): Promise<readonly string[]> => {
+	const { metafile } = await build({
+		stdin: {
+			contents: scenario.entryContents,
+			resolveDir,
+			loader: "ts",
+		},
+		bundle: true,
+		format: "esm",
+		platform: "neutral",
+		target: "es2022",
+		treeShaking: true,
+		write: false,
+		metafile: true,
+		logLevel: "silent",
+	});
+	return Object.keys(metafile.inputs);
 };
 
 export const measureScenarios = async <TName extends string>(

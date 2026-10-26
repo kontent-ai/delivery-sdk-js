@@ -1,12 +1,12 @@
 import { fileURLToPath } from "node:url";
-import { bundles, formatBytes, writeBundles } from "./utils/measure-bundle-utils.js";
+import { formatBytes, sdkBundles, writeBundles } from "./utils/measure-bundle-utils.js";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 const outDir = `${repoRoot}bundles`;
 
 const [minified, unminified] = await Promise.all([
-	writeBundles(bundles, { resolveDir: repoRoot, outDir, minify: true }),
-	writeBundles(bundles, { resolveDir: repoRoot, outDir, minify: false }),
+	writeBundles(sdkBundles, { resolveDir: repoRoot, outDir, minify: true }),
+	writeBundles(sdkBundles, { resolveDir: repoRoot, outDir, minify: false }),
 ]);
 
 console.log(`Wrote ${minified.length + unminified.length} bundles to ${outDir}:`);

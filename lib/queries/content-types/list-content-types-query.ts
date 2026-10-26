@@ -19,6 +19,7 @@ export type ListContentTypesQuery<TSchema extends DeliveryClientSchema> = Delive
 >;
 
 export type ListContentTypesQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
+	ListContentTypesPayload<TSchema>,
 	SystemOrderQueryParam<SystemProperties>,
 	{
 		readonly elements?: ElementSelectionQueryParam<ElementProperties<TSchema>>;
@@ -33,7 +34,7 @@ export function listContentTypesQuery<TSchema extends DeliveryClientSchema>(
 	return createDeliveryPagedByUrlQuery({
 		config,
 		request,
-		schema: async () => (await import("./schemas/content-type.schemas.js")).listContentTypesSchema<TSchema>(),
+		schema: request?.config?.schema,
 		endpoint: "types",
 	});
 }

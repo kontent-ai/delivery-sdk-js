@@ -10,7 +10,7 @@ describe("Items referencing asset query", async () => {
 	await runQueryTestsAsync<ItemsReferencingAssetPayload<DeliveryClientSchema>>({
 		endpoint: `assets/${assetCodename}/used-in`,
 		rawPayload,
-		selectQuery: (client) => client.itemsReferencingAsset({ codename: assetCodename }),
+		selectQuery: (client, schema) => client.itemsReferencingAsset({ codename: assetCodename, config: { schema } }),
 		expectedSchema: itemsReferencingAssetSchema(),
 	});
 });

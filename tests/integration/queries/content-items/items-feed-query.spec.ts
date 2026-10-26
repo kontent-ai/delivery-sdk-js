@@ -10,7 +10,7 @@ describe("Items feed query", async () => {
 	await runQueryTestsAsync({
 		endpoint: "items-feed",
 		rawPayload: unitTestPayload,
-		selectQuery: (client) => client.itemsFeed().raw(),
+		selectQuery: (client, schema) => client.itemsFeed().raw({ schema }),
 		expectedSchema: itemsFeedSchema(),
 	});
 });
@@ -19,7 +19,7 @@ describe("Items feed query - extended", async () => {
 	await runQueryTestsAsync<ItemsFeedPayloadExtended<IntegrationTestProjectSchema>, IntegrationTestProjectSchema>({
 		endpoint: "items-feed",
 		rawPayload: undefined,
-		selectQuery: (client) => client.itemsFeed(),
+		selectQuery: (client, schema) => client.itemsFeed({ config: { schema } }),
 		expectedSchema: itemsFeedSchemaExtended<IntegrationTestProjectSchema>(),
 		extraTests: (payload) => {
 			registerExtendedItemsTests(payload.items, payload.modular_content);

@@ -21,9 +21,6 @@ describe("Secure API", async () => {
 		apiMode: "secure",
 		environmentId: unitEnvironmentId,
 		deliveryApiKey: secureApiKey,
-		runtimeValidation: {
-			validateResponses: false,
-		},
 		httpService: getDefaultHttpService({
 			adapter: {
 				executeRequest: async (options) => {
