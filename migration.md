@@ -374,7 +374,7 @@ try {
 
 **v17**
 ```typescript
-import { DeliverySdkError } from "@kontent-ai/delivery-sdk";
+import { isDeliverySdkError } from "@kontent-ai/delivery-sdk";
 
 // Safe
 const { success, response, error } = await client.fetchContentItem({ codename: "invalid" }).fetchSafe();
@@ -391,7 +391,7 @@ try {
 	const thrownResponse = await client.fetchContentItem({ codename: "invalid" }).fetch();
 	console.log(thrownResponse.payload.item);
 } catch (thrownError) {
-	if (thrownError instanceof DeliverySdkError) {
+	if (isDeliverySdkError(thrownError)) {
 		console.error(thrownError.message, thrownError.details.reason);
 	}
 }

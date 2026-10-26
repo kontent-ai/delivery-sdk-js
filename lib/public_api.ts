@@ -8,7 +8,7 @@ export type {
 	DeliveryClientSchema,
 	WaitForLoadingNewContentHeaderName,
 } from "./models/core.models.js";
-export { DeliverySdkError } from "./models/error.models.js";
+export { DeliverySdkError, deliverySdkErrorBrands } from "./models/error.models.js";
 export type { Filter, FilterWithoutValue, FilterWithValue } from "./models/filter.models.js";
 export type {
 	PaginationPayload,
@@ -100,3 +100,4 @@ export type {
 	TaxonomyTermCodenamesOf,
 	TaxonomyTermPayload,
 } from "./queries/taxonomies/models/taxonomy.models.js";
+export { isDeliverySdkError } from "./utils/error.utils.js";

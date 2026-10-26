@@ -107,7 +107,7 @@ Every query offers two execution styles:
   throws a `DeliverySdkError` on failure.
 
 ```typescript
-import { DeliverySdkError } from "@kontent-ai/delivery-sdk";
+import { isDeliverySdkError } from "@kontent-ai/delivery-sdk";
 
 // Safe: handle the result object
 const { success, response, error } = await client.listContentItems().fetchPageSafe();
@@ -120,7 +120,7 @@ try {
 	const response = await client.listContentItems().fetchPage();
 	console.log(response.payload.items);
 } catch (error) {
-	if (error instanceof DeliverySdkError) {
+	if (isDeliverySdkError(error)) {
 		console.error(error.details.reason);
 	}
 }
@@ -133,7 +133,8 @@ Use single-item queries with `fetch` / `fetchSafe`; paged queries (`listContentI
 ## Error handling
 
 Failures are reported as a `DeliverySdkError`. With safe queries, inspect `error` on the result; with
-throwing queries, catch it and check `instanceof DeliverySdkError`.
+throwing queries, catch it and check it with `isDeliverySdkError(error)`. Prefer the type guard over
+`instanceof`, which fails when the error comes from a different copy of the package.
 
 ```typescript
 const { success, error } = await client.fetchContentItem({ codename: "missing" }).fetchSafe();
