@@ -58,7 +58,8 @@
 		"bundle:create": "tsx scripts/create-bundles.ts",
 		"bump:patch": "pnpm run build && npm version patch -m \"v%s\" && pnpm run build && git push --follow-tags",
 		"bump:minor": "pnpm run build && npm version minor -m \"v%s\" && pnpm run build && git push --follow-tags",
-		"bump:major": "pnpm run build && npm version major -m \"v%s\" && pnpm run build && git push --follow-tags"
+		"bump:major": "pnpm run build && npm version major -m \"v%s\" && pnpm run build && git push --follow-tags",
+		"publish:prerelease": "npm publish --tag prerelease"
 	},
 	"dependencies": {
 		"@kontent-ai/core-sdk": "^12.0.0-preview.49",
