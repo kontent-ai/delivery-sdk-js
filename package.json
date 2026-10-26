@@ -61,7 +61,7 @@
 		"bump:major": "pnpm run build && npm version major -m \"v%s\" && pnpm run build && git push --follow-tags"
 	},
 	"dependencies": {
-		"@kontent-ai/core-sdk": "^12.0.0-preview.48",
+		"@kontent-ai/core-sdk": "^12.0.0-preview.49",
 		"@standard-schema/spec": "^1.1.0",
 		"@zod/mini": "^4",
 		"ts-pattern": "^5"

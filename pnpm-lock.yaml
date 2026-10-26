@@ -188,8 +188,8 @@ importers:
     .:
         dependencies:
             "@kontent-ai/core-sdk":
-                specifier: ^12.0.0-preview.48
-                version: 12.0.0-preview.48(@standard-schema/spec@1.1.0)(@zod/mini@4.6.6(zod@4.6.5))(ts-pattern@5.9.0)(vitest@5.0.5)
+                specifier: ^12.0.0-preview.49
+                version: 12.0.0-preview.49(@standard-schema/spec@1.1.0)(@zod/mini@4.6.6(zod@4.6.5))(ts-pattern@5.9.0)(vitest@5.0.5)
             "@standard-schema/spec":
                 specifier: ^1.1.0
                 version: 1.1.0
@@ -508,8 +508,8 @@ packages:
         peerDependencies:
             "@biomejs/biome": ^2.5.0
 
-    "@kontent-ai/core-sdk@12.0.0-preview.48":
-        resolution: { integrity: sha512-28mdA+UF1q8iP69Nv6t7DnEuPz4vLMYGBtcFSHur2XwNyGhksktl8+qy8WLKEwNoo1fyyX/5RJboMsikEEjlbg== }
+    "@kontent-ai/core-sdk@12.0.0-preview.49":
+        resolution: { integrity: sha512-FAuhxwG/Ra0slwLkyeCVt7MDXOVVIT08JRwf50sa2HJt6kAKTrkm3FYUL7wixeWdk2soMsykh8PyWWJ+t44BUg== }
         engines: { node: ">=24" }
         peerDependencies:
             "@standard-schema/spec": ^1
@@ -1718,7 +1718,7 @@ snapshots:
         dependencies:
             "@biomejs/biome": 2.6.3
 
-    "@kontent-ai/core-sdk@12.0.0-preview.48(@standard-schema/spec@1.1.0)(@zod/mini@4.6.6(zod@4.6.5))(ts-pattern@5.9.0)(vitest@5.0.5)":
+    "@kontent-ai/core-sdk@12.0.0-preview.49(@standard-schema/spec@1.1.0)(@zod/mini@4.6.6(zod@4.6.5))(ts-pattern@5.9.0)(vitest@5.0.5)":
         dependencies:
             "@standard-schema/spec": 1.1.0
             ts-pattern: 5.9.0
