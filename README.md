@@ -30,15 +30,15 @@ Requires Node.js ≥ 24.
 import { createDeliveryClient } from "@kontent-ai/delivery-sdk";
 
 const client = createDeliveryClient({
-    apiMode: "public",
-    environmentId: "<your-environment-id>",
+	apiMode: "public",
+	environmentId: "<your-environment-id>",
 });
 
 // Fetch a single content item
 const { success, response } = await client.fetchContentItem({ codename: "my_article" }).fetchSafe();
 
 if (success) {
-    console.log(response.payload.item.elements);
+	console.log(response.payload.item.elements);
 }
 ```
 
@@ -60,13 +60,13 @@ createDeliveryClient({ apiMode: "preview", environmentId: "<id>", deliveryApiKey
 createDeliveryClient({ apiMode: "secure", environmentId: "<id>", deliveryApiKey: "<secure-key>" });
 ```
 
-| Option | Required | Description |
-|---|---|---|
-| `apiMode` | yes | `"public"`, `"preview"`, or `"secure"` |
-| `environmentId` | yes | Your Kontent.ai environment ID |
-| `deliveryApiKey` | for preview/secure | The preview or secure access API key |
-| `baseUrl` | no | Custom host as `{ protocol, host }`, overrides the default Delivery API URL |
-| `httpService` | no | Custom HTTP service from [`@kontent-ai/core-sdk`](https://github.com/kontent-ai/core-sdk-js) (retry strategy, global headers, adapter) |
+| Option           | Required           | Description                                                                                                                            |
+| ---------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `apiMode`        | yes                | `"public"`, `"preview"`, or `"secure"`                                                                                                 |
+| `environmentId`  | yes                | Your Kontent.ai environment ID                                                                                                         |
+| `deliveryApiKey` | for preview/secure | The preview or secure access API key                                                                                                   |
+| `baseUrl`        | no                 | Custom host as `{ protocol, host }`, overrides the default Delivery API URL                                                            |
+| `httpService`    | no                 | Custom HTTP service from [`@kontent-ai/core-sdk`](https://github.com/kontent-ai/core-sdk-js) (retry strategy, global headers, adapter) |
 
 ### Custom host (proxy)
 
@@ -75,8 +75,8 @@ optional in this mode.
 
 ```typescript
 createDeliveryClient({
-    environmentId: "<id>",
-    baseUrl: { protocol: "https", host: "delivery-proxy.example.com" },
+	environmentId: "<id>",
+	baseUrl: { protocol: "https", host: "delivery-proxy.example.com" },
 });
 ```
 
@@ -88,12 +88,12 @@ Retries and headers sent with every request are configured on the HTTP service:
 import { getDefaultHttpService } from "@kontent-ai/core-sdk";
 
 createDeliveryClient({
-    apiMode: "public",
-    environmentId: "<id>",
-    httpService: getDefaultHttpService({
-        retryStrategy: { maxRetries: 5 },
-        requestHeaders: [{ name: "X-Custom-Header", value: "value" }],
-    }),
+	apiMode: "public",
+	environmentId: "<id>",
+	httpService: getDefaultHttpService({
+		retryStrategy: { maxRetries: 5 },
+		requestHeaders: [{ name: "X-Custom-Header", value: "value" }],
+	}),
 });
 ```
 
@@ -112,17 +112,17 @@ import { DeliverySdkError } from "@kontent-ai/delivery-sdk";
 // Safe: handle the result object
 const { success, response, error } = await client.listContentItems().fetchPageSafe();
 if (success) {
-    console.log(response.payload.items);
+	console.log(response.payload.items);
 }
 
 // Throwing: use try/catch
 try {
-    const response = await client.listContentItems().fetchPage();
-    console.log(response.payload.items);
+	const response = await client.listContentItems().fetchPage();
+	console.log(response.payload.items);
 } catch (error) {
-    if (error instanceof DeliverySdkError) {
-        console.error(error.details.reason);
-    }
+	if (error instanceof DeliverySdkError) {
+		console.error(error.details.reason);
+	}
 }
 ```
 
@@ -139,8 +139,8 @@ throwing queries, catch it and check `instanceof DeliverySdkError`.
 const { success, error } = await client.fetchContentItem({ codename: "missing" }).fetchSafe();
 
 if (!success) {
-    console.error(error.message);
-    console.error(error.details.reason); // "notFound"
+	console.error(error.message);
+	console.error(error.details.reason); // "notFound"
 }
 ```
 
@@ -155,35 +155,33 @@ Every query accepts per-request options alongside its `query` and `filters`:
 const controller = new AbortController();
 
 await client
-    .listContentItems({
-        headers: { "X-KC-Wait-For-Loading-New-Content": true },
-        config: {
-            customHeaders: [{ name: "X-Custom-Header", value: "value" }],
-            abortSignal: controller.signal,
-        },
-    })
-    .fetchPageSafe();
+	.listContentItems({
+		headers: { "X-KC-Wait-For-Loading-New-Content": true },
+		config: {
+			customHeaders: [{ name: "X-Custom-Header", value: "value" }],
+			abortSignal: controller.signal,
+		},
+	})
+	.fetchPageSafe();
 ```
 
 ## Paging
 
 ```typescript
 // One page
-const { response } = await client
-    .listContentItems({ query: { limit: 10, skip: 0 } })
-    .fetchPageSafe();
+const { response } = await client.listContentItems({ query: { limit: 10, skip: 0 } }).fetchPageSafe();
 
 console.log(response?.payload.items);
 
 // All pages at once (optionally capped with `maxPagesCount`)
 const { success, responses } = await client.listContentItems().fetchAllPagesSafe({ maxPagesCount: 5 });
 if (success) {
-    const allItems = responses.flatMap((r) => r.payload.items);
+	const allItems = responses.flatMap((r) => r.payload.items);
 }
 
 // Or iterate page-by-page
 for await (const page of client.listContentItems().pages()) {
-    console.log(page.payload.items.length);
+	console.log(page.payload.items.length);
 }
 ```
 
@@ -192,9 +190,7 @@ token instead of skip/limit. Pass it via the request headers and read the next t
 `response.meta.continuationToken`:
 
 ```typescript
-const { response } = await client
-    .itemsFeed({ headers: { "X-Continuation": "<token>" } })
-    .fetchPageSafe();
+const { response } = await client.itemsFeed({ headers: { "X-Continuation": "<token>" } }).fetchPageSafe();
 
 console.log(response?.meta.continuationToken);
 ```
@@ -210,25 +206,33 @@ by hand.)
 import { createDeliveryClient, type ContentItemOf, type DeliveryClientSchema, type Elements } from "@kontent-ai/delivery-sdk";
 
 type MySchema = DeliveryClientSchema<{
-    readonly languageCodenames: readonly ["en-US"];
-    readonly collectionCodenames: readonly ["default"];
-    readonly workflowCodenames: readonly ["default"];
-    readonly workflowStepCodenames: readonly ["published"];
-    readonly taxonomies: { readonly genre: readonly ["action", "comedy"] };
-    readonly contentTypes: {
-        readonly movie: readonly ["title", "stars", "genre"];
-        readonly actor: readonly ["first_name"];
-    };
+	readonly languageCodenames: readonly ["en-US"];
+	readonly collectionCodenames: readonly ["default"];
+	readonly workflowCodenames: readonly ["default"];
+	readonly workflowStepCodenames: readonly ["published"];
+	readonly taxonomies: { readonly genre: readonly ["action", "comedy"] };
+	readonly contentTypes: {
+		readonly movie: readonly ["title", "stars", "genre"];
+		readonly actor: readonly ["first_name"];
+	};
 }>;
 
-type Actor = ContentItemOf<MySchema, "actor", {
-    readonly first_name: Elements.Text;
-}>;
+type Actor = ContentItemOf<
+	MySchema,
+	"actor",
+	{
+		readonly first_name: Elements.Text;
+	}
+>;
 
-type Movie = ContentItemOf<MySchema, "movie", {
-    readonly title: Elements.Text;
-    readonly stars: Elements.LinkedItems<Actor>;
-}>;
+type Movie = ContentItemOf<
+	MySchema,
+	"movie",
+	{
+		readonly title: Elements.Text;
+		readonly stars: Elements.LinkedItems<Actor>;
+	}
+>;
 
 const client = createDeliveryClient<MySchema>({ apiMode: "public", environmentId: "<id>" });
 ```
@@ -243,15 +247,15 @@ Pass content filters to `listContentItems` and `itemsFeed` through the `filters`
 
 ```typescript
 const { response } = await client
-    .listContentItems({
-        filters: [
-            { property: "system.type", operator: "eq", value: "movie" },
-            { property: "elements.genre", operator: "contains", value: "action" },
-            { property: "system.collection", operator: "in", value: ["default"] },
-            { property: "elements.title", operator: "nempty" },
-        ],
-    })
-    .fetchPageSafe();
+	.listContentItems({
+		filters: [
+			{ property: "system.type", operator: "eq", value: "movie" },
+			{ property: "elements.genre", operator: "contains", value: "action" },
+			{ property: "system.collection", operator: "in", value: ["default"] },
+			{ property: "elements.title", operator: "nempty" },
+		],
+	})
+	.fetchPageSafe();
 ```
 
 Operators that take a `value`: `eq` (or `=`), `neq` (or `!=`), `lt`, `lte`, `gt`, `gte`, `range`, `in`, `nin`,
@@ -266,8 +270,8 @@ To declare a filter array outside the query call, type it with `ContentItemFilte
 import type { ContentItemFilter } from "@kontent-ai/delivery-sdk";
 
 const filters: readonly ContentItemFilter<MySchema>[] = [
-    { property: "system.type", operator: "eq", value: "movie" },
-    { property: "elements.genre", operator: "contains", value: "action" },
+	{ property: "system.type", operator: "eq", value: "movie" },
+	{ property: "elements.genre", operator: "contains", value: "action" },
 ];
 
 await client.listContentItems({ filters }).fetchPageSafe();
@@ -285,16 +289,16 @@ When a query returns items of mixed types, narrow each one to its typed model wi
 import type { ContentItemPayload } from "@kontent-ai/delivery-sdk";
 
 function isMovie(item: ContentItemPayload<MySchema>): item is Movie {
-    return item.system.type === "movie";
+	return item.system.type === "movie";
 }
 
 const { response } = await client.listContentItems().fetchPageSafe();
 
 for (const item of response?.payload.items ?? []) {
-    if (isMovie(item)) {
-        console.log(item.elements.title.value);     // typed as string
-        const stars = item.elements.stars.items;     // resolved Actor[]
-    }
+	if (isMovie(item)) {
+		console.log(item.elements.title.value); // typed as string
+		const stars = item.elements.stars.items; // resolved Actor[]
+	}
 }
 ```
 
@@ -340,8 +344,8 @@ const { response } = await client.fetchContentItem({ codename: "my_movie" }).fet
 const item = response?.payload.item;
 
 if (item && isMovie(item)) {
-    const starCodenames = item.elements.stars.value; // codenames
-    const stars = item.elements.stars.items;          // resolved Actor[]
+	const starCodenames = item.elements.stars.value; // codenames
+	const stars = item.elements.stars.items; // resolved Actor[]
 }
 ```
 

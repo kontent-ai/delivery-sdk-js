@@ -37,6 +37,7 @@
 	"type": "module",
 	"sideEffects": false,
 	"scripts": {
+		"prepare": "pnpm run biome:fix",
 		"prepublishOnly": "pnpm run build && pnpm run test",
 		"build": "pnpm run lint && pnpm run clean && pnpm run build:ts && pnpm run update:version",
 		"build:ts": "tsc -p tsconfig.build.json",
@@ -66,7 +67,7 @@
 		"ts-pattern": "^5"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.5.15",
+		"@biomejs/biome": "2.6.3",
 		"@kontent-ai/biome-config": "0.7.3",
 		"@kontent-ai/oxlint-config": "0.0.4",
 		"@types/node": "26.6.5",

@@ -1,35 +1,35 @@
 on:
-  release:
-    types: [published]
+    release:
+        types: [published]
 
 permissions:
-  # Required for OIDC publishing
-  id-token: write
-  contents: read
+    # Required for OIDC publishing
+    id-token: write
+    contents: read
 
 env:
     INTEGRATION_ENVIRONMENT_ID: ${{ secrets.INTEGRATION_ENVIRONMENT_ID }}
 
 name: publish-to-npm
 jobs:
-  publish:
-    runs-on: ubuntu-latest
+    publish:
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v7
-      - uses: pnpm/action-setup@v6
-      - name: Use Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version-file: '.nvmrc'
-          registry-url: 'https://registry.npmjs.org'
-          cache: 'pnpm'
+        steps:
+            - uses: actions/checkout@v7
+            - uses: pnpm/action-setup@v6
+            - name: Use Node.js
+              uses: actions/setup-node@v7
+              with:
+                  node-version-file: ".nvmrc"
+                  registry-url: "https://registry.npmjs.org"
+                  cache: "pnpm"
 
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm run build
-      - run: pnpm run test
+            - run: pnpm install --frozen-lockfile
+            - run: pnpm run build
+            - run: pnpm run test
 
-      - run: pnpm publish --access=public --no-git-checks
-        if: ${{!github.event.release.prerelease}}
-      - run: pnpm publish --tag prerelease --access=public --no-git-checks
-        if: ${{github.event.release.prerelease}}
+            - run: pnpm publish --access=public --no-git-checks
+              if: ${{!github.event.release.prerelease}}
+            - run: pnpm publish --tag prerelease --access=public --no-git-checks
+              if: ${{github.event.release.prerelease}}
