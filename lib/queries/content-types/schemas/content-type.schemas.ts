@@ -11,7 +11,7 @@ const contentTypeElementOptionSchema = z.readonly(
 	}),
 );
 
-const contentTypeAnyElementSchema = z.discriminatedUnion("type", [
+export const contentTypeAnyElementSchema = z.discriminatedUnion("type", [
 	z.readonly(
 		z.catchall(
 			z.object({
@@ -106,14 +106,17 @@ const contentTypeAnyElementSchema = z.discriminatedUnion("type", [
 	),
 ]);
 
-export const contentTypeSchema = <TSchema extends DeliveryClientSchema>() =>
+export const contentTypeSchema = <
+	TSchema extends DeliveryClientSchema,
+	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+>() =>
 	z.readonly(
 		z.object({
 			system: z.readonly(
 				z.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: codenameOf<ContentTypeCodenameOf<TSchema>>(),
+					codename: codenameOf<TCodename>(),
 					last_modified: z.iso.datetime(),
 				}),
 			),

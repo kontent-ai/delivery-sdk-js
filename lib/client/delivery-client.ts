@@ -7,13 +7,14 @@ import {
 } from "../queries/content-items/items-referencing-asset-query.js";
 import { type ItemsReferencingItemQueryRequest, itemsReferencingItemQuery } from "../queries/content-items/items-referencing-item-query.js";
 import { type ListContentItemsQueryRequest, listContentItemsQuery } from "../queries/content-items/list-content-items-query.js";
+import type { ContentItemPayloadExtended } from "../queries/content-items/models/content-item.models.js";
 import {
 	type FetchContentTypeElementQueryRequest,
 	fetchContentTypeElementQuery,
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import { type FetchContentTypeQueryRequest, fetchContentTypeQuery } from "../queries/content-types/fetch-content-type-query.js";
 import { type ListContentTypesQueryRequest, listContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
-import type { ContentTypeCodenameOf } from "../queries/content-types/models/content-type.models.js";
+import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../queries/content-types/models/content-type.models.js";
 import { type ListLanguagesQueryRequest, listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
@@ -21,14 +22,21 @@ import type { TaxonomyCodenameOf } from "../queries/taxonomies/models/taxonomy.m
 
 /**
  * Creates a delivery client. When you supply a `TSchema` type argument, codenames are narrowed for type safety.
- * Without a type argument, codenames fall back to generic strings.
+ * When you also supply `TItem` (the union of your content item models), content item responses are typed as that union.
+ * Without type arguments, codenames fall back to generic strings.
  *
- * We highly recommend generating the schema type using the `@kontent-ai/model-generator` npm package
- * and passing it as the type argument for full compile-time safety.
+ * We highly recommend generating both types using the `@kontent-ai/model-generator` npm package
+ * for full compile-time safety.
+ *
+ * @example
+ * ```ts
+ * const client = createDeliveryClient<CoreClientSchema, CoreItem>({ environmentId, apiMode: "public" });
+ * ```
  */
-export function createDeliveryClient<const TSchema extends DeliveryClientSchema = DeliveryClientSchema>(
-	config: DeliveryClientConfig,
-): DeliveryClient<TSchema> {
+export function createDeliveryClient<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+>(config: DeliveryClientConfig): DeliveryClient<TSchema, TItem> {
 	return {
 		config,
 		listTaxonomies: (request?: ListTaxonomiesQueryRequest<TSchema>) => listTaxonomiesQuery(config, request),
@@ -39,12 +47,19 @@ export function createDeliveryClient<const TSchema extends DeliveryClientSchema 
 		fetchContentType: <const TCodename extends ContentTypeCodenameOf<TSchema>>(
 			request: FetchContentTypeQueryRequest<TSchema, TCodename>,
 		) => fetchContentTypeQuery(config, request),
-		fetchContentTypeElement: <const TCodename extends ContentTypeCodenameOf<TSchema>>(
-			request: FetchContentTypeElementQueryRequest<TSchema, TCodename>,
+		fetchContentTypeElement: <
+			const TCodename extends ContentTypeCodenameOf<TSchema>,
+			const TElement extends ElementCodenamesOf<TSchema, TCodename>,
+		>(
+			request: FetchContentTypeElementQueryRequest<TSchema, TCodename, TElement>,
 		) => fetchContentTypeElementQuery(config, request),
-		fetchContentItem: (request: FetchContentItemQueryRequest<TSchema>) => fetchContentItemQuery(config, request),
-		listContentItems: (request?: ListContentItemsQueryRequest<TSchema>) => listContentItemsQuery(config, request),
-		itemsFeed: (request?: ItemsFeedQueryRequest<TSchema>) => itemsFeedQuery(config, request),
+		fetchContentItem: (request: FetchContentItemQueryRequest<TSchema, TItem>) => fetchContentItemQuery(config, request),
+		listContentItems: <const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
+			request?: ListContentItemsQueryRequest<TSchema, TTypeCodename, TItem>,
+		) => listContentItemsQuery<TSchema, TItem, TTypeCodename>(config, request),
+		itemsFeed: <const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
+			request?: ItemsFeedQueryRequest<TSchema, TTypeCodename, TItem>,
+		) => itemsFeedQuery<TSchema, TItem, TTypeCodename>(config, request),
 		itemsReferencingAsset: (request: ItemsReferencingAssetQueryRequest<TSchema>) => itemsReferencingAssetQuery(config, request),
 		itemsReferencingItem: (request: ItemsReferencingItemQueryRequest<TSchema>) => itemsReferencingItemQuery(config, request),
 	};

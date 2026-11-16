@@ -1,30 +1,40 @@
-import type { ContentItemOf, DeliveryClientSchema, Elements, TaxonomyTermCodenamesOf } from "../../../lib/public_api.js";
-import type { ContentItemPayloadExtended } from "../../../lib/queries/content-items/models/content-item.models.js";
+import type {
+	ContentItemOf,
+	ContentItemPayloadExtended,
+	DeliveryClientSchema,
+	Elements,
+	TaxonomyTermCodenamesOf,
+} from "../../../lib/public_api.js";
 
 export type IntegrationTestProjectSchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["default"];
+	readonly collectionCodenames: readonly ["default"];
 	readonly taxonomies: {
 		readonly movie_type: readonly ["drama", "comedy", "sitcom", "stand_up", "action"];
 	};
-	readonly contentTypes: {
-		readonly movie: readonly [
-			"title",
-			"length_in_minutes",
-			"description",
-			"is_blockbuster",
-			"release_date",
-			"cover",
-			"category",
-			"url",
-			"metadata__metadata_description",
-			"cast",
-			"custom",
-		];
-		readonly star: readonly ["firstname", "lastname"];
+	readonly workflows: {
+		readonly default: readonly ["published", "draft"];
 	};
-	readonly collectionCodenames: readonly ["default"];
-	readonly workflowCodenames: readonly ["default"];
-	readonly workflowStepCodenames: readonly ["published", "draft"];
+	readonly contentTypes: {
+		readonly movie: {
+			readonly just_a_number_and_required: { readonly type: "number" };
+			readonly title: { readonly type: "text" };
+			readonly length_in_minutes: { readonly type: "number" };
+			readonly description: { readonly type: "rich_text" };
+			readonly is_blockbuster: { readonly type: "multiple_choice"; readonly options: readonly ["yes"] };
+			readonly release_date: { readonly type: "date_time" };
+			readonly cover: { readonly type: "asset" };
+			readonly category: { readonly type: "taxonomy"; readonly taxonomyGroup: "movie_type" };
+			readonly url: { readonly type: "url_slug" };
+			readonly metadata__metadata_description: { readonly type: "text" };
+			readonly cast: { readonly type: "modular_content" };
+			readonly custom: { readonly type: "custom" };
+		};
+		readonly star: {
+			readonly firstname: { readonly type: "text" };
+			readonly lastname: { readonly type: "text" };
+		};
+	};
 }>;
 
 type StarElements = {
@@ -41,7 +51,7 @@ type MovieElements = {
 	readonly is_blockbuster: Elements.MultipleChoice<"yes">;
 	readonly release_date: Elements.DateTime;
 	readonly cover: Elements.Asset;
-	readonly category: Elements.Taxonomy;
+	readonly category: Elements.Taxonomy<MovieTaxonomyTerms, "movie_type">;
 	readonly url: Elements.UrlSlug;
 	readonly metadata__metadata_description: Elements.Text;
 	readonly cast: Elements.LinkedItems<Star>;

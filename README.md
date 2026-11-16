@@ -198,10 +198,16 @@ console.log(response?.meta.continuationToken);
 
 ## Strong typing
 
-Pass a `DeliveryClientSchema` to `createDeliveryClient` to narrow every codename, then describe each
-content type with `ContentItemOf` and the `Elements` namespace. (We recommend generating both with
-[`@kontent-ai/model-generator`](https://github.com/kontent-ai/model-generator-js) rather than writing them
-by hand.)
+Two type arguments to `createDeliveryClient` make the client strongly typed:
+
+- `TSchema` (a `DeliveryClientSchema`) lists the codenames of your environment: languages, collections,
+  taxonomies with their terms, workflows with their steps, and content types with their elements. Each element
+  declares its `type`, multiple choice elements list their `options` and taxonomy elements name their `taxonomyGroup`.
+- `TItem` is the union of your content item models, described with `ContentItemOf` and the `Elements` namespace.
+  Content item responses (`items`, `item`, `modular_content`) are typed as this union.
+
+We recommend generating both with [`@kontent-ai/model-generator`](https://github.com/kontent-ai/model-generator-js)
+rather than writing them by hand.
 
 ```typescript
 import { createDeliveryClient, type ContentItemOf, type DeliveryClientSchema, type Elements } from "@kontent-ai/delivery-sdk";
@@ -209,37 +215,47 @@ import { createDeliveryClient, type ContentItemOf, type DeliveryClientSchema, ty
 type MySchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["en-US"];
 	readonly collectionCodenames: readonly ["default"];
-	readonly workflowCodenames: readonly ["default"];
-	readonly workflowStepCodenames: readonly ["published"];
+	readonly workflows: { readonly default: readonly ["draft", "published"] };
 	readonly taxonomies: { readonly genre: readonly ["action", "comedy"] };
 	readonly contentTypes: {
-		readonly movie: readonly ["title", "stars", "genre"];
-		readonly actor: readonly ["first_name"];
+		readonly movie: {
+			readonly title: { readonly type: "text" };
+			readonly rating: { readonly type: "number" };
+			readonly stars: { readonly type: "modular_content" };
+			readonly genre: { readonly type: "taxonomy"; readonly taxonomyGroup: "genre" };
+		};
+		readonly actor: {
+			readonly first_name: { readonly type: "text" };
+		};
 	};
 }>;
 
-type Actor = ContentItemOf<
-	MySchema,
-	"actor",
-	{
-		readonly first_name: Elements.Text;
-	}
->;
+type Actor = ContentItemOf<MySchema, "actor", { readonly first_name: Elements.Text }>;
 
 type Movie = ContentItemOf<
 	MySchema,
 	"movie",
 	{
 		readonly title: Elements.Text;
+		readonly rating: Elements.Number;
 		readonly stars: Elements.LinkedItems<Actor>;
+		readonly genre: Elements.Taxonomy<"action" | "comedy", "genre">;
 	}
 >;
 
-const client = createDeliveryClient<MySchema>({ apiMode: "public", environmentId: "<id>" });
+type MyItem = Movie | Actor;
+
+const client = createDeliveryClient<MySchema, MyItem>({ apiMode: "public", environmentId: "<id>" });
 ```
 
-Codenames are now checked at compile time, and linked items are resolved onto each element's `items`
-array (e.g. `movie.elements.stars.items` is `Actor[]`).
+Codenames are checked at compile time. `ContentItemOf` also checks the element models against the schema: an unknown
+element codename, a wrong element type (e.g. `Elements.Number` for a text element), an undeclared multiple choice option
+or a term of another taxonomy is a compile error. Linked items are resolved onto each element's `items` array
+(e.g. `movie.elements.stars.items` is `Actor[]`).
+
+Other responses are narrowed too: `fetchTaxonomy` and `listTaxonomies` type term codenames per taxonomy,
+`fetchContentType` keeps the codename of the requested type and keys `elements` by its element codenames,
+`fetchContentTypeElement` narrows the element `type`, and `system.workflow_step` narrows once `system.workflow` is checked.
 
 ## Filters
 
@@ -252,6 +268,7 @@ const { response } = await client
 		filters: [
 			{ property: "system.type", operator: "eq", value: "movie" },
 			{ property: "elements.genre", operator: "contains", value: "action" },
+			{ property: "elements.rating", operator: "range", value: [7, 10] },
 			{ property: "system.collection", operator: "in", value: ["default"] },
 			{ property: "elements.title", operator: "nempty" },
 		],
@@ -259,13 +276,16 @@ const { response } = await client
 	.fetchPageSafe();
 ```
 
-Operators that take a `value`: `eq` (or `=`), `neq` (or `!=`), `lt`, `lte`, `gt`, `gte`, `range`, `in`, `nin`,
-`contains`, `any`, `all`. Operators that take no `value`: `empty`, `nempty`, plus `isEmptyRichText` and
-`isNotEmptyRichText` for rich text elements (the API does not support `empty` on rich text).
-A filter may also be a raw query string, e.g. `"system.type[eq]=movie"` or `"elements.title[empty]"`.
+Operators that take a `value`: `eq` (or `=`), `neq` (or `!=`), `lt`, `lte`, `gt`, `gte`, `range`, `in`, `nin`
+for single value properties, and `contains`, `any`, `all` for array properties (linked items, multiple choice,
+taxonomy and custom elements storing a JSON array). Operators that take no `value`: `empty`, `nempty`, plus
+`isEmptyRichText` and `isNotEmptyRichText` for rich text elements (the API does not support `empty` on rich text).
 
-With a schema, `property` is checked against the system properties and the schema's element codenames.
-To declare a filter array outside the query call, type it with `ContentItemFilter`:
+With a schema, filters are fully checked: `system.type` accepts content type codenames, `system.language`,
+`system.collection`, `system.workflow` and `system.workflow_step` accept their codenames, number elements accept
+numbers, multiple choice and taxonomy elements accept their option and term codenames with the array operators,
+and asset elements accept only `empty` / `nempty`. To declare a filter array outside the query call, type it with
+`ContentItemFilter`:
 
 ```typescript
 import type { ContentItemFilter } from "@kontent-ai/delivery-sdk";
@@ -278,32 +298,41 @@ const filters: readonly ContentItemFilter<MySchema>[] = [
 await client.listContentItems({ filters }).fetchPageSafe();
 ```
 
+A filter may also be a raw query string, e.g. `"system.type[eq]=movie"` or `"elements.title[empty]"`. Only the
+property of a raw string filter is checked, so prefer filter objects.
+
 Other list queries (`listContentTypes`, `listTaxonomies`, `listLanguages`) accept filters on system
 properties only. Pass those inline.
 
-## Type guards
+## Narrowing items by content type
 
-When a query returns items of mixed types, narrow each one to its typed model with a guard on
-`system.type`:
+Use the `contentTypes` parameter of `listContentItems` and `itemsFeed` to get items of specific content types. It is
+sent as a `system.type[in]` filter and narrows the returned items to the matching models:
 
 ```typescript
-import type { ContentItemPayload } from "@kontent-ai/delivery-sdk";
+const { response } = await client.listContentItems({ contentTypes: ["movie"] }).fetchPageSafe();
 
-function isMovie(item: ContentItemPayload<MySchema>): item is Movie {
-	return item.system.type === "movie";
-}
+const movies = response?.payload.items; // readonly Movie[]
+```
+
+When a response holds items of several types, narrow each item with `isContentItemOfType`. (TypeScript can't narrow
+an item by the nested `item.system.type === "movie"` check, so use the guard instead.)
+
+```typescript
+import { isContentItemOfType } from "@kontent-ai/delivery-sdk";
 
 const { response } = await client.listContentItems().fetchPageSafe();
 
 for (const item of response?.payload.items ?? []) {
-	if (isMovie(item)) {
+	if (isContentItemOfType(item, "movie")) {
 		console.log(item.elements.title.value); // typed as string
 		const stars = item.elements.stars.items; // resolved Actor[]
 	}
 }
 ```
 
-`@kontent-ai/model-generator` generates one of these guards (`isMovie`, `isActor`, …) per content type.
+The types are a compile-time contract: the SDK trusts that your schema and item models match your environment.
+Regenerate them with `@kontent-ai/model-generator` whenever your content model changes.
 
 ## Runtime validation
 

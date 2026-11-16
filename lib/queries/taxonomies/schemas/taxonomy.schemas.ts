@@ -27,14 +27,18 @@ export const taxonomyTermSchema = <TTermCodenames extends string>(): z.ZodMiniTy
 		}),
 	);
 
-export const taxonomySchema = <TSchema extends DeliveryClientSchema, TTermCodenames extends string>() =>
+export const taxonomySchema = <
+	TSchema extends DeliveryClientSchema,
+	TTermCodenames extends string,
+	TCodename extends TaxonomyCodenameOf<TSchema> = TaxonomyCodenameOf<TSchema>,
+>() =>
 	z.readonly(
 		z.object({
 			system: z.readonly(
 				z.object({
 					id: kontentUuidSchema,
 					name: z.string(),
-					codename: codenameOf<TaxonomyCodenameOf<TSchema>>(),
+					codename: codenameOf<TCodename>(),
 					last_modified: z.iso.datetime(),
 				}),
 			),

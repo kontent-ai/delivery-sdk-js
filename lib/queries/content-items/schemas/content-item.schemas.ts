@@ -1,6 +1,12 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk/schema";
 import * as z from "@zod/mini";
-import type { DeliveryClientSchema } from "../../../models/core.models.js";
+import type {
+	CollectionCodenameOf,
+	DeliveryClientSchema,
+	LanguageCodenameOf,
+	WorkflowCodenameOf,
+	WorkflowStepCodenameOf,
+} from "../../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../../models/pagination.schemas.js";
 import type { ContentTypeCodenameOf } from "../../content-types/models/content-type.models.js";
 import { contentItemElementSchema, contentItemElementSchemaExtended } from "./element.schemas.js";
@@ -14,12 +20,12 @@ const baseContentItemSystemSchema = <TSchema extends DeliveryClientSchema>() =>
 		id: kontentUuidSchema,
 		name: z.string(),
 		codename: codenameOf(),
-		language: codenameOf<TSchema["languageCodenames"][number]>(),
+		language: codenameOf<LanguageCodenameOf<TSchema>>(),
 		type: codenameOf<ContentTypeCodenameOf<TSchema>>(),
-		collection: codenameOf<TSchema["collectionCodenames"][number]>(),
+		collection: codenameOf<CollectionCodenameOf<TSchema>>(),
 		last_modified: z.iso.datetime(),
-		workflow: codenameOf<TSchema["workflowCodenames"][number]>(),
-		workflow_step: codenameOf<TSchema["workflowStepCodenames"][number]>(),
+		workflow: codenameOf<WorkflowCodenameOf<TSchema>>(),
+		workflow_step: codenameOf<WorkflowStepCodenameOf<TSchema>>(),
 	});
 
 export const contentItemSchema = <TSchema extends DeliveryClientSchema>() =>

@@ -11,11 +11,10 @@ type TestSchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["default"];
 	readonly taxonomies: Record<string, never>;
 	readonly contentTypes: {
-		readonly movie: readonly [];
+		readonly movie: Record<string, never>;
 	};
 	readonly collectionCodenames: readonly ["default"];
-	readonly workflowCodenames: readonly ["default"];
-	readonly workflowStepCodenames: readonly ["published"];
+	readonly workflows: { readonly default: readonly ["published"] };
 }>;
 
 describe("contentItemSystemWithCodename", () => {

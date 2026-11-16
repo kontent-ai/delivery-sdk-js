@@ -2,19 +2,40 @@
 export { createDeliveryClient } from "./client/delivery-client.js";
 export type {
 	ApiMode,
+	CollectionCodenameOf,
 	DeliveryApiConfig,
 	DeliveryClient,
 	DeliveryClientConfig,
 	DeliveryClientSchema,
+	DeliveryElementSchema,
+	DeliveryElementType,
+	DeliveryMetadata,
+	DeliveryMetadataWithToken,
+	LanguageCodenameOf,
 	WaitForLoadingNewContentHeaderName,
+	WorkflowCodenameOf,
+	WorkflowStepCodenameOf,
 } from "./models/core.models.js";
 export { DeliverySdkError, deliverySdkErrorBrands } from "./models/error.models.js";
-export type { Filter, FilterWithoutValue, FilterWithValue } from "./models/filter.models.js";
+export type {
+	ArrayFilter,
+	ArrayFilterOperator,
+	EmptyFilter,
+	EmptyRichTextFilter,
+	Filter,
+	FilterValue,
+	FilterWithoutValue,
+	FilterWithValue,
+	ScalarFilter,
+	ScalarFilterOperator,
+	SystemPropertyFilter,
+} from "./models/filter.models.js";
 export type {
 	PaginationPayload,
 	PaginationWithTotalCountPayload,
 } from "./models/pagination.models.js";
 export type {
+	ContentTypesRequestParam,
 	DeliveryRequestConfig,
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
@@ -45,18 +66,28 @@ export type {
 } from "./queries/content-items/list-content-items-query.js";
 export type {
 	ContentItemFilter,
+	ContentItemLike,
 	ContentItemOf,
+	ContentItemOfType,
 	ContentItemPayload,
+	ContentItemPayloadExtended,
 	ContentItemSystem,
+	ContentItemSystemFilter,
+	ContentItemSystemFilterValues,
 	ContentItemSystemPayload,
+	ElementConstraintOf,
+	ElementsOf,
 	FetchContentItemPayload,
+	FetchContentItemPayloadExtended,
 	ItemsFeedPayload,
+	ItemsFeedPayloadExtended,
 	ItemsReferencingAssetPayload,
 	ItemsReferencingItemPayload,
 	ListContentItemsPayload,
+	ListContentItemsPayloadExtended,
 	SnippetOf,
 } from "./queries/content-items/models/content-item.models.js";
-export type { ContentItemElementPayload } from "./queries/content-items/models/element.models.js";
+export type { ContentItemElementPayload, ContentItemElementPayloadExtended } from "./queries/content-items/models/element.models.js";
 export type * as Elements from "./queries/content-items/models/element-types.js";
 export type {
 	FetchContentTypeElementQuery,
@@ -76,9 +107,11 @@ export type {
 export type {
 	AllElementCodenamesOf,
 	ContentTypeCodenameOf,
+	ContentTypeElementDefinitionPayload,
 	ContentTypeElementPayload,
 	ContentTypePayload,
 	ElementCodenamesOf,
+	ElementSchemaOf,
 	ListContentTypesPayload,
 } from "./queries/content-types/models/content-type.models.js";
 export type {
@@ -94,10 +127,12 @@ export type {
 	ListTaxonomiesResponse,
 } from "./queries/taxonomies/list-taxonomies-query.js";
 export type {
+	AnyTaxonomyPayload,
 	ListTaxonomiesPayload,
 	TaxonomyCodenameOf,
 	TaxonomyPayload,
 	TaxonomyTermCodenamesOf,
 	TaxonomyTermPayload,
 } from "./queries/taxonomies/models/taxonomy.models.js";
+export { isContentItemOfType } from "./utils/content-item.utils.js";
 export { isDeliverySdkError } from "./utils/error.utils.js";

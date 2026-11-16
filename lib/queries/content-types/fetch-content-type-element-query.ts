@@ -4,25 +4,38 @@ import type { DeliveryResponse } from "../../models/response.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
 import type { ContentTypeCodenameOf, ContentTypeElementPayload, ElementCodenamesOf } from "./models/content-type.models.js";
 
-export type FetchContentTypeElementResponse = DeliveryResponse<ContentTypeElementPayload, DeliveryMetadata>;
+export type FetchContentTypeElementResponse<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+	TElement extends ElementCodenamesOf<TSchema, TCodename> = ElementCodenamesOf<TSchema, TCodename>,
+> = DeliveryResponse<ContentTypeElementPayload<TSchema, TCodename, TElement>, DeliveryMetadata>;
 
-export type FetchContentTypeElementQuery = DeliveryFetchQuery<
-	FetchContentTypeElementResponse["payload"],
-	FetchContentTypeElementResponse["meta"]
+export type FetchContentTypeElementQuery<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+	TElement extends ElementCodenamesOf<TSchema, TCodename> = ElementCodenamesOf<TSchema, TCodename>,
+> = DeliveryFetchQuery<
+	FetchContentTypeElementResponse<TSchema, TCodename, TElement>["payload"],
+	FetchContentTypeElementResponse<TSchema, TCodename, TElement>["meta"]
 >;
 
 export type FetchContentTypeElementQueryRequest<
 	TSchema extends DeliveryClientSchema,
 	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
-> = DeliveryRequest<ContentTypeElementPayload, never, never> & {
+	TElement extends ElementCodenamesOf<TSchema, TCodename> = ElementCodenamesOf<TSchema, TCodename>,
+> = DeliveryRequest<ContentTypeElementPayload<TSchema, TCodename, TElement>, never, never> & {
 	readonly typeCodename: TCodename;
-	readonly elementCodename: ElementCodenamesOf<TSchema, TCodename>;
+	readonly elementCodename: TElement;
 };
 
-export function fetchContentTypeElementQuery<TSchema extends DeliveryClientSchema, const TCodename extends ContentTypeCodenameOf<TSchema>>(
+export function fetchContentTypeElementQuery<
+	TSchema extends DeliveryClientSchema,
+	const TCodename extends ContentTypeCodenameOf<TSchema>,
+	const TElement extends ElementCodenamesOf<TSchema, TCodename>,
+>(
 	config: DeliveryClientConfig,
-	request: FetchContentTypeElementQueryRequest<TSchema, TCodename>,
-): FetchContentTypeElementQuery {
+	request: FetchContentTypeElementQueryRequest<TSchema, TCodename, TElement>,
+): FetchContentTypeElementQuery<TSchema, TCodename, TElement> {
 	return createDeliveryFetchQuery({
 		config,
 		request,

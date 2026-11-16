@@ -6,7 +6,7 @@ import { createDeliveryPagedByUrlQuery } from "../delivery-queries.js";
 import type { ListTaxonomiesPayload, TaxonomyPayload } from "./models/taxonomy.models.js";
 
 export type ListTaxonomiesResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
-	ListTaxonomiesPayload<TSchema, string>,
+	ListTaxonomiesPayload<TSchema>,
 	DeliveryMetadata
 >;
 
@@ -18,7 +18,7 @@ export type ListTaxonomiesQuery<TSchema extends DeliveryClientSchema> = Delivery
 type SystemProperties = keyof TaxonomyPayload<DeliveryClientSchema, string>["system"];
 
 export type ListTaxonomiesQueryRequest<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
-	ListTaxonomiesPayload<TSchema, string>,
+	ListTaxonomiesPayload<TSchema>,
 	SystemOrderQueryParam<SystemProperties>,
 	never,
 	readonly Filter<SystemProperties, never>[]

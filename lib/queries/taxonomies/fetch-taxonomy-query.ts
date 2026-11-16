@@ -6,12 +6,12 @@ import type { TaxonomyCodenameOf, TaxonomyPayload, TaxonomyTermCodenamesOf } fro
 
 export type FetchTaxonomyResponse<
 	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
-	TCodename extends string = TaxonomyCodenameOf<TSchema>,
-> = DeliveryResponse<TaxonomyPayload<TSchema, TaxonomyTermCodenamesOf<TSchema, TCodename>>, DeliveryMetadata>;
+	TCodename extends TaxonomyCodenameOf<TSchema> = TaxonomyCodenameOf<TSchema>,
+> = DeliveryResponse<TaxonomyPayload<TSchema, TaxonomyTermCodenamesOf<TSchema, TCodename>, TCodename>, DeliveryMetadata>;
 
 export type FetchTaxonomyQuery<
 	TSchema extends DeliveryClientSchema,
-	TCodename extends string = TaxonomyCodenameOf<TSchema>,
+	TCodename extends TaxonomyCodenameOf<TSchema> = TaxonomyCodenameOf<TSchema>,
 > = DeliveryFetchQuery<FetchTaxonomyResponse<TSchema, TCodename>["payload"], FetchTaxonomyResponse<TSchema, TCodename>["meta"]>;
 
 export type FetchTaxonomyQueryRequest<

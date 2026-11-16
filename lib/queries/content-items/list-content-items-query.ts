@@ -1,6 +1,13 @@
 import type { QueryResponse, SchemaInput } from "@kontent-ai/core-sdk";
-import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryMetadata, DeliveryPagedFetchQuery } from "../../models/core.models.js";
 import type {
+	DeliveryClientConfig,
+	DeliveryClientSchema,
+	DeliveryMetadata,
+	DeliveryPagedFetchQuery,
+	LanguageCodenameOf,
+} from "../../models/core.models.js";
+import type {
+	ContentTypesRequestParam,
 	DeliveryRequestWithUrlPaging,
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
@@ -8,12 +15,21 @@ import type {
 	WithRaw,
 } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
-import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
-import { extendItemsInPlace, extendModularContentInPlace, joinItems } from "../../transforms/content-item-transforms.js";
+import type { AllElementCodenamesOf, ContentTypeCodenameOf } from "../../queries/content-types/models/content-type.models.js";
+import {
+	asTypedItems,
+	asTypedModularContent,
+	extendItemsInPlace,
+	extendModularContentInPlace,
+	joinItems,
+	withContentTypesFilter,
+} from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByUrlQuery, transformDeliveryPagedByUrlQuery } from "../delivery-queries.js";
 import type {
 	ContentItemFilter,
+	ContentItemOfType,
 	ContentItemPayload,
+	ContentItemPayloadExtended,
 	ListContentItemsPayload,
 	ListContentItemsPayloadExtended,
 } from "./models/content-item.models.js";
@@ -21,28 +37,37 @@ import type {
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type AllElementCodenames<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
 
-export type ListContentItemsResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
-	ListContentItemsPayloadExtended<TSchema>,
-	DeliveryMetadata
->;
+export type ListContentItemsResponse<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+	TResponseItem extends TItem = TItem,
+> = DeliveryResponse<ListContentItemsPayloadExtended<TSchema, TItem, TResponseItem>, DeliveryMetadata>;
 
-export type ListContentItemsQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
-	ListContentItemsResponse<TSchema>["payload"],
-	ListContentItemsResponse<TSchema>["meta"]
+export type ListContentItemsQuery<
+	TSchema extends DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+	TResponseItem extends TItem = TItem,
+> = DeliveryPagedFetchQuery<
+	ListContentItemsResponse<TSchema, TItem, TResponseItem>["payload"],
+	ListContentItemsResponse<TSchema, TItem, TResponseItem>["meta"]
 > &
 	WithRaw<
 		DeliveryPagedFetchQuery<ListContentItemsPayload<TSchema>, ListContentItemsResponse<TSchema>["meta"]>,
 		ListContentItemsPayload<TSchema>
 	>;
 
-export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithUrlPaging<
-	ListContentItemsPayloadExtended<TSchema>,
+export type ListContentItemsQueryRequest<
+	TSchema extends DeliveryClientSchema,
+	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+> = DeliveryRequestWithUrlPaging<
+	ListContentItemsPayloadExtended<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>,
 	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<AllElementCodenames<TSchema>>,
 	{
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
 		 */
-		readonly language?: NonNullable<TSchema["languageCodenames"]>[number];
+		readonly language?: LanguageCodenameOf<TSchema>;
 
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
@@ -70,16 +95,21 @@ export type ListContentItemsQueryRequest<TSchema extends DeliveryClientSchema> =
 		readonly includeTotalCount?: boolean;
 	},
 	readonly ContentItemFilter<TSchema>[]
->;
+> &
+	ContentTypesRequestParam<TTypeCodename>;
 
-export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
+export function listContentItemsQuery<
+	TSchema extends DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+>(
 	config: DeliveryClientConfig,
-	request?: ListContentItemsQueryRequest<TSchema>,
-): ListContentItemsQuery<TSchema> {
+	request?: ListContentItemsQueryRequest<TSchema, TTypeCodename, TItem>,
+): ListContentItemsQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>> {
 	const createRawQuery = (schema: SchemaInput<ListContentItemsPayload<TSchema>>) =>
 		createDeliveryPagedByUrlQuery<ListContentItemsPayload<TSchema>>({
 			config,
-			request,
+			request: withContentTypesFilter(request),
 			schema,
 			endpoint: "items",
 		});
@@ -92,7 +122,9 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 				modularContent: responses.map((m) => m.payload.modular_content),
 			});
 
-			return responses.map<QueryResponse<ListContentItemsPayloadExtended<TSchema>, DeliveryMetadata>>((m) => {
+			return responses.map<
+				QueryResponse<ListContentItemsPayloadExtended<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>, DeliveryMetadata>
+			>((m) => {
 				const { items, modular_content } = m.payload;
 				extendItemsInPlace(items, allItems);
 				extendModularContentInPlace(modular_content, allItems);
@@ -101,8 +133,8 @@ export function listContentItemsQuery<TSchema extends DeliveryClientSchema>(
 					...m,
 					payload: {
 						...m.payload,
-						items,
-						modular_content,
+						items: asTypedItems<TSchema, ContentItemOfType<TItem, TTypeCodename>>(items),
+						modular_content: asTypedModularContent<TSchema, TItem>(modular_content),
 					},
 				};
 			});

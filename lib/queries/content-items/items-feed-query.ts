@@ -4,8 +4,10 @@ import type {
 	DeliveryClientSchema,
 	DeliveryMetadataWithToken,
 	DeliveryPagedFetchQuery,
+	LanguageCodenameOf,
 } from "../../models/core.models.js";
 import type {
+	ContentTypesRequestParam,
 	DeliveryRequestWithTokenPaging,
 	ElementOrderQueryParam,
 	ElementSelectionQueryParam,
@@ -13,33 +15,56 @@ import type {
 	WithRaw,
 } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
-import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
-import { extendItemsInPlace, extendModularContentInPlace, joinItems } from "../../transforms/content-item-transforms.js";
+import type { AllElementCodenamesOf, ContentTypeCodenameOf } from "../../queries/content-types/models/content-type.models.js";
+import {
+	asTypedItems,
+	asTypedModularContent,
+	extendItemsInPlace,
+	extendModularContentInPlace,
+	joinItems,
+	withContentTypesFilter,
+} from "../../transforms/content-item-transforms.js";
 import { createDeliveryPagedByTokenQuery, transformDeliveryPagedByTokenQuery } from "../delivery-queries.js";
-import type { ContentItemFilter, ContentItemPayload, ItemsFeedPayload, ItemsFeedPayloadExtended } from "./models/content-item.models.js";
+import type {
+	ContentItemFilter,
+	ContentItemOfType,
+	ContentItemPayload,
+	ContentItemPayloadExtended,
+	ItemsFeedPayload,
+	ItemsFeedPayloadExtended,
+} from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
 type AllElementCodenames<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
 
-export type ItemsFeedResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
-	ItemsFeedPayloadExtended<TSchema>,
-	DeliveryMetadataWithToken
->;
+export type ItemsFeedResponse<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+	TResponseItem extends TItem = TItem,
+> = DeliveryResponse<ItemsFeedPayloadExtended<TSchema, TItem, TResponseItem>, DeliveryMetadataWithToken>;
 
-export type ItemsFeedQuery<TSchema extends DeliveryClientSchema> = DeliveryPagedFetchQuery<
-	ItemsFeedResponse<TSchema>["payload"],
-	ItemsFeedResponse<TSchema>["meta"]
+export type ItemsFeedQuery<
+	TSchema extends DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+	TResponseItem extends TItem = TItem,
+> = DeliveryPagedFetchQuery<
+	ItemsFeedResponse<TSchema, TItem, TResponseItem>["payload"],
+	ItemsFeedResponse<TSchema, TItem, TResponseItem>["meta"]
 > &
 	WithRaw<DeliveryPagedFetchQuery<ItemsFeedPayload<TSchema>, ItemsFeedResponse<TSchema>["meta"]>, ItemsFeedPayload<TSchema>>;
 
-export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
-	ItemsFeedPayloadExtended<TSchema>,
+export type ItemsFeedQueryRequest<
+	TSchema extends DeliveryClientSchema,
+	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+> = DeliveryRequestWithTokenPaging<
+	ItemsFeedPayloadExtended<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>,
 	{
 		readonly order?: SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<AllElementCodenames<TSchema>>;
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
 		 */
-		readonly language?: NonNullable<TSchema["languageCodenames"]>[number];
+		readonly language?: LanguageCodenameOf<TSchema>;
 
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
@@ -60,16 +85,21 @@ export type ItemsFeedQueryRequest<TSchema extends DeliveryClientSchema> = Delive
 		readonly depth?: number;
 	},
 	readonly ContentItemFilter<TSchema>[]
->;
+> &
+	ContentTypesRequestParam<TTypeCodename>;
 
-export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
+export function itemsFeedQuery<
+	TSchema extends DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+>(
 	config: DeliveryClientConfig,
-	request?: ItemsFeedQueryRequest<TSchema>,
-): ItemsFeedQuery<TSchema> {
+	request?: ItemsFeedQueryRequest<TSchema, TTypeCodename, TItem>,
+): ItemsFeedQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>> {
 	const createRawQuery = (schema: SchemaInput<ItemsFeedPayload<TSchema>>) =>
 		createDeliveryPagedByTokenQuery<ItemsFeedPayload<TSchema>>({
 			config,
-			request,
+			request: withContentTypesFilter(request),
 			schema,
 			endpoint: "items-feed",
 		});
@@ -82,7 +112,9 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 				modularContent: responses.map((m) => m.payload.modular_content),
 			});
 
-			return responses.map<QueryResponse<ItemsFeedPayloadExtended<TSchema>, DeliveryMetadataWithToken>>((m) => {
+			return responses.map<
+				QueryResponse<ItemsFeedPayloadExtended<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>, DeliveryMetadataWithToken>
+			>((m) => {
 				const { items, modular_content } = m.payload;
 				extendItemsInPlace(items, allItems);
 				extendModularContentInPlace(modular_content, allItems);
@@ -91,8 +123,8 @@ export function itemsFeedQuery<TSchema extends DeliveryClientSchema>(
 					...m,
 					payload: {
 						...m.payload,
-						items,
-						modular_content,
+						items: asTypedItems<TSchema, ContentItemOfType<TItem, TTypeCodename>>(items),
+						modular_content: asTypedModularContent<TSchema, TItem>(modular_content),
 					},
 				};
 			});

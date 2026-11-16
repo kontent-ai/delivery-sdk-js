@@ -1,5 +1,5 @@
 import type { ListTaxonomiesPayload } from "../../../../lib/queries/taxonomies/models/taxonomy.models.js";
-import type { IntegrationTestProjectSchema, MovieTaxonomyTerms } from "../../models/integration-test.schema.js";
+import type { IntegrationTestProjectSchema } from "../../models/integration-test.schema.js";
 
 export default {
 	taxonomies: [
@@ -46,4 +46,4 @@ export default {
 		count: 1,
 		next_page: "",
 	},
-} satisfies ListTaxonomiesPayload<IntegrationTestProjectSchema, MovieTaxonomyTerms>;
+} satisfies ListTaxonomiesPayload<IntegrationTestProjectSchema>;

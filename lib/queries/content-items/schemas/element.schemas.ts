@@ -67,13 +67,14 @@ const richTextImageSchema = z.readonly(
 	}),
 );
 
-const richTextLinkSchema = z.readonly(
-	z.object({
-		codename: codenameOf(),
-		type: z.string(),
-		url_slug: z.string(),
-	}),
-);
+const richTextLinkSchema = <TLinkType extends string = string>() =>
+	z.readonly(
+		z.object({
+			codename: codenameOf(),
+			type: codenameOf<TLinkType>(),
+			url_slug: z.string(),
+		}),
+	);
 
 /**
  * Base element schema as provided by Kontent.ai API
@@ -94,7 +95,7 @@ const baseElementSchemas = {
 		name: z.string(),
 		value: z.string(),
 		images: z.record(z.string(), richTextImageSchema),
-		links: z.record(z.string(), richTextLinkSchema),
+		links: z.record(z.string(), richTextLinkSchema()),
 		modular_content: z.readonly(z.array(codenameOf())),
 	}),
 	multipleChoice: z.object({
@@ -142,9 +143,13 @@ const baseElementSchemas = {
 export const elementDef = {
 	text: z.readonly(baseElementSchemas.text),
 	number: z.readonly(baseElementSchemas.number),
-	richText: <TAllowedItemTypes extends ContentItemPayload<DeliveryClientSchema> = ContentItemPayload<DeliveryClientSchema>>() =>
+	richText: <
+		TAllowedItemTypes extends ContentItemPayload<DeliveryClientSchema> = ContentItemPayload<DeliveryClientSchema>,
+		TLinkType extends string = string,
+	>() =>
 		z.readonly(
 			z.extend(baseElementSchemas.richText, {
+				links: z.record(z.string(), richTextLinkSchema<TLinkType>()),
 				items: z.readonly(
 					z.array(
 						z.custom<TAllowedItemTypes>(isResolvedLinkedItem, {
@@ -162,9 +167,10 @@ export const elementDef = {
 		),
 	dateTime: z.readonly(baseElementSchemas.dateTime),
 	asset: z.readonly(baseElementSchemas.asset),
-	taxonomy: <TCodename extends string = string>() =>
+	taxonomy: <TCodename extends string = string, TTaxonomyGroup extends string = string>() =>
 		z.readonly(
 			z.extend(baseElementSchemas.taxonomy, {
+				taxonomy_group: codenameOf<TTaxonomyGroup>(),
 				value: z.readonly(z.array(taxonomyTermValueSchema<TCodename>())),
 			}),
 		),

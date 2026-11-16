@@ -146,46 +146,58 @@ import { createDeliveryClient, type DeliveryClientSchema } from "@kontent-ai/del
 type MySchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["en-US", "cs-CZ"];
 	readonly collectionCodenames: readonly ["default"];
-	readonly workflowCodenames: readonly ["default"];
-	readonly workflowStepCodenames: readonly ["published", "draft"];
+	readonly workflows: {
+		readonly default: readonly ["draft", "published"];
+	};
 	readonly taxonomies: {
 		readonly genre: readonly ["action", "comedy", "drama"];
 	};
 	readonly contentTypes: {
-		readonly article: readonly ["title", "summary"];
-		readonly movie: readonly [
-			"title",
-			"plot",
-			"released",
-			"length",
-			"poster",
-			"category",
-			"stars",
-			"seoname",
-			"releasecategory",
-			"genre",
-		];
-		readonly actor: readonly ["first_name", "last_name"];
+		readonly article: {
+			readonly title: { readonly type: "text" };
+			readonly summary: { readonly type: "rich_text" };
+		};
+		readonly movie: {
+			readonly title: { readonly type: "text" };
+			readonly plot: { readonly type: "rich_text" };
+			readonly released: { readonly type: "date_time" };
+			readonly length: { readonly type: "number" };
+			readonly poster: { readonly type: "asset" };
+			readonly category: { readonly type: "multiple_choice"; readonly options: readonly ["action", "drama"] };
+			readonly stars: { readonly type: "modular_content" };
+			readonly seoname: { readonly type: "url_slug" };
+			readonly releasecategory: { readonly type: "taxonomy"; readonly taxonomyGroup: "genre" };
+		};
+		readonly actor: {
+			readonly first_name: { readonly type: "text" };
+			readonly last_name: { readonly type: "text" };
+		};
 	};
 }>;
 
-const client = createDeliveryClient<MySchema>({ apiMode: "public", environmentId: "..." });
+const client = createDeliveryClient<MySchema, Movie | Actor>({ apiMode: "public", environmentId: "..." });
 ```
 
-The schema is type-only — it narrows codenames at compile time and is not passed as a runtime value.
+The schema and the item union are type-only: they narrow codenames and responses at compile time and are not
+passed as runtime values.
 
 > **`taxonomyCodenames` → `taxonomies` map.** Each key is a taxonomy codename; its value lists that
-> taxonomy's term codenames. This lets `fetchTaxonomy` narrow the returned term codenames to the queried
-> taxonomy — `client.fetchTaxonomy({ codename: "genre" })` types `terms[].codename` as
-> `"action" | "comedy" | "drama"` at every nesting level. The taxonomy codenames are derived from the map's
-> keys, so no separate `taxonomyCodenames` field is needed.
+> taxonomy's term codenames. `client.fetchTaxonomy({ codename: "genre" })` types `terms[].codename` as
+> `"action" | "comedy" | "drama"` at every nesting level, and `listTaxonomies` returns a union of taxonomies,
+> each with its own terms.
 
 > **`contentTypeCodenames` + `elementCodenames` → `contentTypes` map.** Each key is a content type
-> codename; its value lists that type's element codenames. Single-type queries narrow elements to the
-> queried type — `client.fetchContentTypeElement({ typeCodename: "article", elementCodename: "title" })`
-> accepts only `article`'s elements, and `client.fetchContentType({ codename: "article" })` narrows its
-> `elements` selection the same way. Cross-type queries (`listContentItems`, `itemsFeed`,
-> `fetchContentItem`, `listContentTypes`) accept any element codename across all types.
+> codename; its value maps the type's element codenames to their element `type` (as returned by the Delivery API).
+> Multiple choice elements list their `options` and taxonomy elements name their `taxonomyGroup`. This lets the SDK
+> check your item models, type filter values per element, and narrow `fetchContentType` /
+> `fetchContentTypeElement` responses. Cross-type queries (`listContentItems`, `itemsFeed`, `fetchContentItem`,
+> `listContentTypes`) accept any element codename across all types.
+
+> **`workflowCodenames` + `workflowStepCodenames` → `workflows` map.** Each key is a workflow codename; its value
+> lists that workflow's step codenames, so `system.workflow_step` narrows once `system.workflow` is checked.
+
+> **Item union (second type argument).** Pass the union of your item models as the second type argument. Content
+> item responses (`items`, `item`, `modular_content`) are typed as this union, replacing v16's `items<Movie>()`.
 
 > Generated schemas from [`@kontent-ai/model-generator`](https://github.com/kontent-ai/model-generator-js) emit this shape, so you normally won't hand-write it.
 
@@ -194,8 +206,9 @@ The schema is type-only — it narrows codenames at compile time and is not pass
 ## Typed content models
 
 v16 modeled an item with `IContentItem<{...}>` and the `Elements.*` wrapper types. v17 uses
-`ContentItemOf<TSchema, TTypeCodename, TElements>` with the `Elements.*` namespace. The element shape's
-keys are validated against the type's element codenames in your schema.
+`ContentItemOf<TSchema, TTypeCodename, TElements>` with the `Elements.*` namespace. The element shape is
+validated against your schema: keys must be element codenames of the type, element models must match the element
+`type`, and multiple choice options and taxonomy terms must be declared in the schema.
 
 **v16**
 ```typescript
@@ -244,25 +257,25 @@ type Movie = ContentItemOf<
 		readonly category: Elements.MultipleChoice<"action" | "drama">;
 		readonly stars: Elements.LinkedItems<Actor>;
 		readonly seoname: Elements.UrlSlug;
-		readonly releasecategory: Elements.Taxonomy<"action" | "comedy" | "drama">;
+		readonly releasecategory: Elements.Taxonomy<"action" | "comedy" | "drama", "genre">;
 	}
 >;
 ```
 
 ### Element type mapping
 
-| v16                              | v17                                        |
-| -------------------------------- | ------------------------------------------ |
-| `Elements.TextElement`           | `Elements.Text`                            |
-| `Elements.NumberElement`         | `Elements.Number`                          |
-| `Elements.RichTextElement`       | `Elements.RichText<TLinkedItem>`           |
-| `Elements.MultipleChoiceElement` | `Elements.MultipleChoice<TOptionCodename>` |
-| `Elements.DateTimeElement`       | `Elements.DateTime`                        |
-| `Elements.AssetsElement`         | `Elements.Asset`                           |
-| `Elements.TaxonomyElement`       | `Elements.Taxonomy<TTermCodename>`         |
-| `Elements.UrlSlugElement`        | `Elements.UrlSlug`                         |
-| `Elements.CustomElement`         | `Elements.Custom`                          |
-| `Elements.LinkedItemsElement<T>` | `Elements.LinkedItems<T>`                  |
+| v16                              | v17                                         |
+| -------------------------------- | ------------------------------------------- |
+| `Elements.TextElement`           | `Elements.Text`                             |
+| `Elements.NumberElement`         | `Elements.Number`                           |
+| `Elements.RichTextElement`       | `Elements.RichText<TLinkedItem, TLinkType>` |
+| `Elements.MultipleChoiceElement` | `Elements.MultipleChoice<TOptionCodename>`  |
+| `Elements.DateTimeElement`       | `Elements.DateTime`                         |
+| `Elements.AssetsElement`         | `Elements.Asset`                            |
+| `Elements.TaxonomyElement`       | `Elements.Taxonomy<TTermCodename, TGroup>`  |
+| `Elements.UrlSlugElement`        | `Elements.UrlSlug`                          |
+| `Elements.CustomElement`         | `Elements.Custom`                           |
+| `Elements.LinkedItemsElement<T>` | `Elements.LinkedItems<T>`                   |
 
 The generic arguments (`<Actor>`, `<"action" | "drama">`, …) are compile-time hints that power
 autocomplete and narrowing; at runtime the value is whatever the API returns.
@@ -459,35 +472,30 @@ const raw = await client.fetchContentItem({ codename: "warrior" }).raw().fetch()
 
 ## Content item type guards
 
-When a query returns items of mixed types (e.g. `listContentItems`), narrow each item to its typed model
-with a type guard on `system.type`. This replaces v16's `response.item as Movie` casting and gives you
-fully-typed `elements` inside the branch.
+v16 cast responses with `items<Movie>()`. In v17, responses are typed as the item union passed to
+`createDeliveryClient`. Narrow them by content type in one of two ways:
 
 ```typescript
-import type { ContentItemPayload } from "@kontent-ai/delivery-sdk";
+import { isContentItemOfType } from "@kontent-ai/delivery-sdk";
 
-function isMovie(item: ContentItemPayload<MySchema>): item is Movie {
-	return item.system.type === "movie";
-}
+// 1. Ask only for the types you need: items are typed as Movie[]
+const { response: movies } = await client.listContentItems({ contentTypes: ["movie"] }).fetchPageSafe();
 
-function isActor(item: ContentItemPayload<MySchema>): item is Actor {
-	return item.system.type === "actor";
-}
-
+// 2. Narrow items of mixed types with a guard
 const { response } = await client.listContentItems().fetchPageSafe();
 
 for (const item of response?.payload.items ?? []) {
-	if (isMovie(item)) {
+	if (isContentItemOfType(item, "movie")) {
 		const title: string = item.elements.title.value;
 		const stars = item.elements.stars.items; // resolved Actor[]
-	} else if (isActor(item)) {
+	} else if (isContentItemOfType(item, "actor")) {
 		const name: string = item.elements.first_name.value;
 	}
 }
 ```
 
-> You don't need to write these by hand — `@kontent-ai/model-generator` emits a type guard
-> (`isMovie`, `isActor`, …) for every content type alongside the typed models and schema.
+> TypeScript can't narrow an item by the nested `item.system.type === "movie"` check, so use `isContentItemOfType`
+> (or the per-type guards such as `isMovieItem` emitted by `@kontent-ai/model-generator`).
 
 ---
 
@@ -511,14 +519,19 @@ const { response } = await client
 	.listContentItems({
 		filters: [
 			{ property: "system.type", operator: "eq", value: "movie" },
-			{ property: "elements.genre", operator: "all", value: ["action", "drama"] },
+			{ property: "elements.category", operator: "all", value: ["action", "drama"] },
 			{ property: "elements.released", operator: "gte", value: "2020-01-01" },
 		],
 	})
 	.fetchPageSafe();
 ```
 
+With a schema, values and operators are checked per property: `system.type` accepts content type codenames, number
+elements accept numbers, multiple choice and taxonomy elements accept their codenames with the array operators
+(`contains`, `any`, `all`), and so on.
+
 Filters may also be raw query strings: `filters: ["system.type[eq]=movie", "elements.genre[all]=action,drama"]`.
+Only the property of a raw string filter is checked.
 
 | v16 method                 | v17 operator            |
 | -------------------------- | ----------------------- |

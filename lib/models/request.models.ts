@@ -118,3 +118,11 @@ export type ElementOrderQueryParam<TElementCodenames extends string> = `elements
  * ```
  */
 export type ElementSelectionQueryParam<TElementCodenames extends string> = readonly TElementCodenames[];
+
+/**
+ * Limits the query to content items of the given content types (sent as a `system.type[in]` filter) and narrows
+ * the returned items to the matching item models.
+ */
+export type ContentTypesRequestParam<TTypeCodename extends string> = {
+	readonly ofContentTypes?: readonly TTypeCodename[];
+};

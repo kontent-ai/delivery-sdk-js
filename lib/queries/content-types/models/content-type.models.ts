@@ -1,10 +1,46 @@
 import type * as z from "@zod/mini";
-import type { DeliveryClientSchema } from "../../../models/core.models.js";
-import type { contentTypeElementSchema, contentTypeSchema, listContentTypesSchema } from "../schemas/content-type.schemas.js";
+import type { DeliveryClientSchema, DeliveryElementSchema } from "../../../models/core.models.js";
+import type {
+	contentTypeAnyElementSchema,
+	contentTypeElementSchema,
+	contentTypeSchema,
+	listContentTypesSchema,
+} from "../schemas/content-type.schemas.js";
 
-export type ContentTypePayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof contentTypeSchema<TSchema>>>;
+/**
+ * A content type. For a single type (`TCodename`), `system.codename` and the element codenames are narrowed to it.
+ */
+export type ContentTypePayload<
+	TSchema extends DeliveryClientSchema,
+	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+> = Readonly<
+	Omit<z.infer<ReturnType<typeof contentTypeSchema<TSchema, TCodename>>>, "elements"> & {
+		readonly elements: Readonly<Partial<Record<ElementCodenamesOf<TSchema, TCodename>, ContentTypeElementDefinitionPayload>>>;
+	}
+>;
 
-export type ContentTypeElementPayload = z.infer<ReturnType<typeof contentTypeElementSchema>>;
+/**
+ * Definition of a content type element as returned within a content type.
+ */
+export type ContentTypeElementDefinitionPayload = z.infer<typeof contentTypeAnyElementSchema>;
+
+/**
+ * A single content type element. For a known element, `type` and `codename` are narrowed to the schema definition.
+ */
+export type ContentTypeElementPayload<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+	TElement extends ElementCodenamesOf<TSchema, TCodename> = ElementCodenamesOf<TSchema, TCodename>,
+> = ContentTypeElementOfType<ElementSchemaOf<TSchema, TCodename, TElement>["type"]> & {
+	readonly codename: TElement;
+};
+
+/**
+ * Distributes over the element type first, so the payload union is filtered only once the element type is known.
+ */
+type ContentTypeElementOfType<TType extends DeliveryElementSchema["type"]> = TType extends DeliveryElementSchema["type"]
+	? Extract<z.infer<ReturnType<typeof contentTypeElementSchema>>, { readonly type: TType }>
+	: never;
 
 export type ListContentTypesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentTypesSchema<TSchema>>>;
 
@@ -16,16 +52,16 @@ export type ContentTypeCodenameOf<TSchema extends DeliveryClientSchema> = keyof 
 
 /**
  * The element codenames belonging to the content type identified by `TCodename`, derived from the
- * schema's `contentTypes` map. Falls back to `string` when the codename is unknown, the type declares
- * no elements, or the schema is the generic default.
+ * schema's `contentTypes` map. Distributes over a union of content types. Falls back to `string` when the
+ * codename is unknown, the type declares no elements, or the schema is the generic default.
  */
 export type ElementCodenamesOf<
 	TSchema extends DeliveryClientSchema,
 	TCodename extends string,
 > = TCodename extends keyof TSchema["contentTypes"]
-	? readonly [Extract<NonNullable<TSchema["contentTypes"][TCodename]>[number], string>] extends readonly [never]
+	? readonly [keyof NonNullable<TSchema["contentTypes"][TCodename]> & string] extends readonly [never]
 		? string
-		: Extract<NonNullable<TSchema["contentTypes"][TCodename]>[number], string>
+		: keyof NonNullable<TSchema["contentTypes"][TCodename]> & string
 	: string;
 
 /**
@@ -34,3 +70,24 @@ export type ElementCodenamesOf<
  * Falls back to `string` for the generic default.
  */
 export type AllElementCodenamesOf<TSchema extends DeliveryClientSchema> = ElementCodenamesOf<TSchema, ContentTypeCodenameOf<TSchema>>;
+
+/**
+ * The {@link DeliveryElementSchema} of element `TElement` in the content type(s) `TCodename`.
+ * Distributes over a union of content types, so an element shared by several types yields the union of its definitions.
+ * Falls back to {@link DeliveryElementSchema} when the element is unknown (e.g. for the generic default schema).
+ */
+export type ElementSchemaOf<TSchema extends DeliveryClientSchema, TCodename extends string, TElement extends string> = readonly [
+	ElementSchemaLookup<TSchema, TCodename, TElement>,
+] extends readonly [never]
+	? DeliveryElementSchema
+	: ElementSchemaLookup<TSchema, TCodename, TElement>;
+
+type ElementSchemaLookup<
+	TSchema extends DeliveryClientSchema,
+	TCodename extends string,
+	TElement extends string,
+> = TCodename extends keyof TSchema["contentTypes"]
+	? TElement extends keyof NonNullable<TSchema["contentTypes"][TCodename]>
+		? Extract<NonNullable<TSchema["contentTypes"][TCodename]>[TElement], DeliveryElementSchema>
+		: never
+	: never;

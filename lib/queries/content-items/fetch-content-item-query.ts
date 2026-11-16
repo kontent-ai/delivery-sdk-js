@@ -1,34 +1,49 @@
 import type { SchemaInput } from "@kontent-ai/core-sdk";
-import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
+import type {
+	DeliveryClientConfig,
+	DeliveryClientSchema,
+	DeliveryFetchQuery,
+	DeliveryMetadata,
+	LanguageCodenameOf,
+} from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam, WithRaw } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
 import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
-import { extendItemInPlace, extendModularContentInPlace, joinItems } from "../../transforms/content-item-transforms.js";
+import {
+	asTypedItem,
+	asTypedModularContent,
+	extendItemInPlace,
+	extendModularContentInPlace,
+	joinItems,
+} from "../../transforms/content-item-transforms.js";
 import { createDeliveryFetchQuery, transformDeliveryFetchQuery } from "../delivery-queries.js";
-import type { FetchContentItemPayload, FetchContentItemPayloadExtended } from "./models/content-item.models.js";
+import type { ContentItemPayloadExtended, FetchContentItemPayload, FetchContentItemPayloadExtended } from "./models/content-item.models.js";
 
-export type FetchContentItemResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
-	FetchContentItemPayloadExtended<TSchema>,
-	DeliveryMetadata
->;
+export type FetchContentItemResponse<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+> = DeliveryResponse<FetchContentItemPayloadExtended<TSchema, TItem>, DeliveryMetadata>;
 
-export type FetchContentItemQuery<TSchema extends DeliveryClientSchema> = DeliveryFetchQuery<
-	FetchContentItemResponse<TSchema>["payload"],
-	FetchContentItemResponse<TSchema>["meta"]
-> &
+export type FetchContentItemQuery<
+	TSchema extends DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+> = DeliveryFetchQuery<FetchContentItemResponse<TSchema, TItem>["payload"], FetchContentItemResponse<TSchema, TItem>["meta"]> &
 	WithRaw<
 		DeliveryFetchQuery<FetchContentItemPayload<TSchema>, FetchContentItemResponse<TSchema>["meta"]>,
 		FetchContentItemPayload<TSchema>
 	>;
 
-export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
-	FetchContentItemPayloadExtended<TSchema>,
+export type FetchContentItemQueryRequest<
+	TSchema extends DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+> = DeliveryRequestWithCodename<
+	FetchContentItemPayloadExtended<TSchema, TItem>,
 	readonly string[],
 	{
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
 		 */
-		readonly language?: NonNullable<TSchema["languageCodenames"]>[number];
+		readonly language?: LanguageCodenameOf<TSchema>;
 
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
@@ -51,10 +66,10 @@ export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> =
 	never
 >;
 
-export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
-	config: DeliveryClientConfig,
-	request: FetchContentItemQueryRequest<TSchema>,
-): FetchContentItemQuery<TSchema> {
+export function fetchContentItemQuery<
+	TSchema extends DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+>(config: DeliveryClientConfig, request: FetchContentItemQueryRequest<TSchema, TItem>): FetchContentItemQuery<TSchema, TItem> {
 	const createRawQuery = (schema: SchemaInput<FetchContentItemPayload<TSchema>>) =>
 		createDeliveryFetchQuery<FetchContentItemPayload<TSchema>>({
 			config,
@@ -80,8 +95,8 @@ export function fetchContentItemQuery<TSchema extends DeliveryClientSchema>(
 				meta: response.meta,
 				payload: {
 					...response.payload,
-					item,
-					modular_content,
+					item: asTypedItem<TSchema, TItem>(item),
+					modular_content: asTypedModularContent<TSchema, TItem>(modular_content),
 				},
 			};
 		},

@@ -20,8 +20,7 @@ describe("Response validation", () => {
 			readonly taxonomies: Record<string, never>;
 			readonly contentTypes: Record<string, never>;
 			readonly collectionCodenames: readonly [];
-			readonly workflowCodenames: readonly [];
-			readonly workflowStepCodenames: readonly [];
+			readonly workflows: Record<string, never>;
 		}>;
 
 		const mockPayload: ListLanguagesPayload<TestSchema> = {
@@ -47,8 +46,7 @@ describe("Response validation", () => {
 			readonly taxonomies: Record<string, never>;
 			readonly contentTypes: Record<string, never>;
 			readonly collectionCodenames: readonly [];
-			readonly workflowCodenames: readonly [];
-			readonly workflowStepCodenames: readonly [];
+			readonly workflows: Record<string, never>;
 		}>;
 
 		test("succeeds when the response contains a codename outside the defined schema (type-only narrowing)", async () => {

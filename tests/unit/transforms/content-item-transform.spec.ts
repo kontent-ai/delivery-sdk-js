@@ -8,12 +8,11 @@ type TestSchema = DeliveryClientSchema<{
 	readonly languageCodenames: readonly ["default"];
 	readonly taxonomies: Record<string, never>;
 	readonly contentTypes: {
-		readonly movie: readonly [];
-		readonly star: readonly [];
+		readonly movie: Record<string, never>;
+		readonly star: Record<string, never>;
 	};
 	readonly collectionCodenames: readonly ["default"];
-	readonly workflowCodenames: readonly ["default"];
-	readonly workflowStepCodenames: readonly ["published"];
+	readonly workflows: { readonly default: readonly ["published"] };
 }>;
 
 const createItem = (codename: string, type: "movie" | "star" = "star"): ContentItemPayload<TestSchema> => ({

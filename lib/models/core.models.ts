@@ -7,29 +7,90 @@ import type {
 } from "../queries/content-items/items-referencing-asset-query.js";
 import type { ItemsReferencingItemQuery, ItemsReferencingItemQueryRequest } from "../queries/content-items/items-referencing-item-query.js";
 import type { ListContentItemsQuery, ListContentItemsQueryRequest } from "../queries/content-items/list-content-items-query.js";
+import type { ContentItemOfType, ContentItemPayloadExtended } from "../queries/content-items/models/content-item.models.js";
 import type {
 	FetchContentTypeElementQuery,
 	FetchContentTypeElementQueryRequest,
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "../queries/content-types/fetch-content-type-query.js";
 import type { ListContentTypesQuery, ListContentTypesQueryRequest } from "../queries/content-types/list-content-types-query.js";
-import type { ContentTypeCodenameOf } from "../queries/content-types/models/content-type.models.js";
+import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../queries/content-types/models/content-type.models.js";
 import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
 import type { TaxonomyCodenameOf } from "../queries/taxonomies/models/taxonomy.models.js";
 import type { DeliverySdkError } from "./error.models.js";
 
+/**
+ * Describes a single element of a content type in {@link DeliveryClientSchema}.
+ *
+ * `type` matches the element `type` returned by the Delivery API. Multiple choice elements list their option
+ * codenames and taxonomy elements name the taxonomy group they use, so element values and filters can be narrowed.
+ */
+export type DeliveryElementSchema =
+	| { readonly type: "text" }
+	| { readonly type: "number" }
+	| { readonly type: "rich_text" }
+	| { readonly type: "date_time" }
+	| { readonly type: "asset" }
+	| { readonly type: "url_slug" }
+	| { readonly type: "custom" }
+	| { readonly type: "modular_content" }
+	| {
+			readonly type: "multiple_choice";
+			readonly options: readonly string[];
+	  }
+	| {
+			readonly type: "taxonomy";
+			readonly taxonomyGroup: string;
+	  };
+
+/**
+ * Element type literals as returned by the Delivery API.
+ */
+export type DeliveryElementType = DeliveryElementSchema["type"];
+
+/**
+ * Describes the codenames of a Kontent.ai environment. Generate it with `@kontent-ai/model-generator`.
+ *
+ * - `contentTypes` maps each content type codename to its elements (element codename to {@link DeliveryElementSchema}).
+ * - `taxonomies` maps each taxonomy codename to its term codenames (all nesting levels).
+ * - `workflows` maps each workflow codename to its step codenames.
+ */
 export type DeliveryClientSchema<
 	TSchema extends DeliveryClientSchema = {
 		readonly languageCodenames: readonly string[];
-		readonly taxonomies: { readonly [taxonomyCodename: string]: readonly string[] };
-		readonly contentTypes: { readonly [contentTypeCodename: string]: readonly string[] };
 		readonly collectionCodenames: readonly string[];
-		readonly workflowCodenames: readonly string[];
-		readonly workflowStepCodenames: readonly string[];
+		readonly taxonomies: { readonly [taxonomyCodename: string]: readonly string[] };
+		readonly workflows: { readonly [workflowCodename: string]: readonly string[] };
+		readonly contentTypes: {
+			readonly [contentTypeCodename: string]: { readonly [elementCodename: string]: DeliveryElementSchema };
+		};
 	},
 > = TSchema;
+
+/**
+ * The language codenames declared in the schema.
+ */
+export type LanguageCodenameOf<TSchema extends DeliveryClientSchema> = TSchema["languageCodenames"][number];
+
+/**
+ * The collection codenames declared in the schema.
+ */
+export type CollectionCodenameOf<TSchema extends DeliveryClientSchema> = TSchema["collectionCodenames"][number];
+
+/**
+ * The workflow codenames declared in the schema (the keys of the `workflows` map).
+ */
+export type WorkflowCodenameOf<TSchema extends DeliveryClientSchema> = keyof TSchema["workflows"] & string;
+
+/**
+ * The workflow step codenames of the workflow identified by `TWorkflow` (all workflows by default).
+ */
+export type WorkflowStepCodenameOf<
+	TSchema extends DeliveryClientSchema,
+	TWorkflow extends WorkflowCodenameOf<TSchema> = WorkflowCodenameOf<TSchema>,
+> = TWorkflow extends keyof TSchema["workflows"] ? NonNullable<TSchema["workflows"][TWorkflow]>[number] : never;
 
 /**
  * Placeholder type if extension is needed in future
@@ -59,7 +120,17 @@ export type DeliveryClientConfig = SdkConfig<
 	}
 >;
 
-export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = {
+/**
+ * A delivery client.
+ *
+ * - `TSchema` narrows codenames (languages, content types, elements, taxonomies, collections, workflows).
+ * - `TItem` is the union of your content item models (e.g. `CoreItem` generated by `@kontent-ai/model-generator`).
+ *   Content item responses (`items`, `item`, `modular_content`) are typed as this union.
+ */
+export type DeliveryClient<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
+> = {
 	readonly config: DeliveryClientConfig;
 
 	listLanguages(request?: ListLanguagesQueryRequest<TSchema>): ListLanguagesQuery<TSchema>;
@@ -70,13 +141,20 @@ export type DeliveryClient<TSchema extends DeliveryClientSchema = DeliveryClient
 	): FetchTaxonomyQuery<TSchema, TCodename>;
 	fetchContentType<const TCodename extends ContentTypeCodenameOf<TSchema>>(
 		request: FetchContentTypeQueryRequest<TSchema, TCodename>,
-	): FetchContentTypeQuery<TSchema>;
-	fetchContentTypeElement<const TCodename extends ContentTypeCodenameOf<TSchema>>(
-		request: FetchContentTypeElementQueryRequest<TSchema, TCodename>,
-	): FetchContentTypeElementQuery;
-	fetchContentItem(request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema>;
-	listContentItems(request?: ListContentItemsQueryRequest<TSchema>): ListContentItemsQuery<TSchema>;
-	itemsFeed(request?: ItemsFeedQueryRequest<TSchema>): ItemsFeedQuery<TSchema>;
+	): FetchContentTypeQuery<TSchema, TCodename>;
+	fetchContentTypeElement<
+		const TCodename extends ContentTypeCodenameOf<TSchema>,
+		const TElement extends ElementCodenamesOf<TSchema, TCodename>,
+	>(
+		request: FetchContentTypeElementQueryRequest<TSchema, TCodename, TElement>,
+	): FetchContentTypeElementQuery<TSchema, TCodename, TElement>;
+	fetchContentItem(request: FetchContentItemQueryRequest<TSchema, TItem>): FetchContentItemQuery<TSchema, TItem>;
+	listContentItems<const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
+		request?: ListContentItemsQueryRequest<TSchema, TTypeCodename, TItem>,
+	): ListContentItemsQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>;
+	itemsFeed<const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
+		request?: ItemsFeedQueryRequest<TSchema, TTypeCodename, TItem>,
+	): ItemsFeedQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>;
 	itemsReferencingAsset(request: ItemsReferencingAssetQueryRequest<TSchema>): ItemsReferencingAssetQuery<TSchema>;
 	itemsReferencingItem(request: ItemsReferencingItemQueryRequest<TSchema>): ItemsReferencingItemQuery<TSchema>;
 };

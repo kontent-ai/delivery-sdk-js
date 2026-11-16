@@ -1,6 +1,5 @@
 import { expect } from "vitest";
-import type { ContentTypeCodenameOf } from "../../../lib/public_api.js";
-import type { ContentItemPayloadExtended } from "../../../lib/queries/content-items/models/content-item.models.js";
+import type { ContentItemPayloadExtended, ContentTypeCodenameOf } from "../../../lib/public_api.js";
 import { contentItemSchemaExtended } from "../../../lib/queries/content-items/schemas/content-item.schemas.js";
 import { type IntegrationTestProjectSchema, isMovie, type Movie } from "./integration-test.schema.js";
 

@@ -4,11 +4,10 @@ import type {
 	DeliveryMetadataWithToken,
 	DeliveryPagedFetchQuery,
 } from "../../models/core.models.js";
-import type { Filter } from "../../models/filter.models.js";
 import type { DeliveryRequestWithTokenPaging } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
 import { createDeliveryPagedByTokenQuery } from "../delivery-queries.js";
-import type { ContentItemSystemPayload, ItemsReferencingItemPayload } from "./models/content-item.models.js";
+import type { ContentItemSystemFilter, ItemsReferencingItemPayload } from "./models/content-item.models.js";
 
 export type ItemsReferencingItemResponse<TSchema extends DeliveryClientSchema = DeliveryClientSchema> = DeliveryResponse<
 	ItemsReferencingItemPayload<TSchema>,
@@ -23,7 +22,7 @@ export type ItemsReferencingItemQuery<TSchema extends DeliveryClientSchema> = De
 export type ItemsReferencingItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithTokenPaging<
 	ItemsReferencingItemPayload<TSchema>,
 	never,
-	readonly Filter<keyof ContentItemSystemPayload<TSchema>, never>[]
+	readonly ContentItemSystemFilter<TSchema>[]
 > & {
 	/**
 	 * Codename of the content item to retrieve referencing content items for.
