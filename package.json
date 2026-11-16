@@ -68,17 +68,17 @@
 		"ts-pattern": "^5"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.6.3",
+		"@biomejs/biome": "2.6.8",
 		"@kontent-ai/biome-config": "0.7.3",
 		"@kontent-ai/oxlint-config": "0.0.4",
-		"@types/node": "26.6.5",
-		"@vitest/coverage-v8": "5.0.5",
+		"@types/node": "26.6.6",
+		"@vitest/coverage-v8": "5.1.0",
 		"esbuild": "0.28.2",
-		"knip": "6.43.0",
-		"oxlint": "1.89.0",
-		"oxlint-tsgolint": "7.0.2005",
+		"knip": "6.45.1",
+		"oxlint": "1.94.0",
+		"oxlint-tsgolint": "7.0.2007",
 		"tsx": "4.23.15",
 		"typescript": "7.0.2",
-		"vitest": "5.0.5"
+		"vitest": "5.1.0"
 	}
 }

@@ -43,6 +43,7 @@ npm install @kontent-ai/delivery-sdk
 API access mode is now an explicit `apiMode` discriminant instead of optional API-key fields.
 
 **v16**
+
 ```typescript
 import { createDeliveryClient } from "@kontent-ai/delivery-sdk";
 
@@ -55,6 +56,7 @@ const client = createDeliveryClient({
 ```
 
 **v17**
+
 ```typescript
 import { createDeliveryClient } from "@kontent-ai/delivery-sdk";
 
@@ -123,6 +125,7 @@ v16 narrowed codenames with a `ClientTypes` generic. v17 uses `DeliveryClientSch
 types and taxonomies are **maps** (so elements/terms are tied to their parent).
 
 **v16**
+
 ```typescript
 import type { ClientTypes } from "@kontent-ai/delivery-sdk";
 
@@ -140,6 +143,7 @@ const client = createDeliveryClient<MyClientTypes>({ environmentId: "..." });
 ```
 
 **v17**
+
 ```typescript
 import { createDeliveryClient, type DeliveryClientSchema } from "@kontent-ai/delivery-sdk";
 
@@ -211,6 +215,7 @@ validated against your schema: keys must be element codenames of the type, eleme
 `type`, and multiple choice options and taxonomy terms must be declared in the schema.
 
 **v16**
+
 ```typescript
 import type { IContentItem, Elements } from "@kontent-ai/delivery-sdk";
 
@@ -233,6 +238,7 @@ type Movie = IContentItem<{
 ```
 
 **v17**
+
 ```typescript
 import type { ContentItemOf, Elements } from "@kontent-ai/delivery-sdk";
 
@@ -306,6 +312,7 @@ v16 chained builder methods; v17 passes a single request object. Query parameter
 content filtering under `filters`.
 
 **v16**
+
 ```typescript
 const response = await client
 	.items<Movie>()
@@ -322,6 +329,7 @@ console.log(response.data.items);
 ```
 
 **v17**
+
 ```typescript
 const { response } = await client
 	.listContentItems({
@@ -372,6 +380,7 @@ v16 queries threw `DeliveryError`. v17 prefers the safe variants, which return a
 `DeliverySdkError` instead of throwing (the throwing `fetch()`/`fetchPage()` variants still exist).
 
 **v16**
+
 ```typescript
 import { DeliveryError } from "@kontent-ai/delivery-sdk";
 
@@ -386,6 +395,7 @@ try {
 ```
 
 **v17**
+
 ```typescript
 import { isDeliverySdkError } from "@kontent-ai/delivery-sdk";
 
@@ -443,6 +453,7 @@ element's **`items`** array, directly on the default (resolved) response. Call `
 want the unresolved payload instead.
 
 **v16**
+
 ```typescript
 const movie = response.data.item;
 const stars = movie.elements.stars.linkedItems; // resolved Actor[]
@@ -450,6 +461,7 @@ const plotItems = movie.elements.plot.linkedItems; // items referenced from rich
 ```
 
 **v17**
+
 ```typescript
 // Linked-items element: `.value` holds codenames, `.items` holds the resolved items
 const stars = movie.elements.stars.items; // resolved Actor[]
@@ -504,6 +516,7 @@ for (const item of response?.payload.items ?? []) {
 v16 exposed filters as builder methods; v17 uses an explicit `filters` array.
 
 **v16**
+
 ```typescript
 const response = await client
 	.items<Movie>()
@@ -514,6 +527,7 @@ const response = await client
 ```
 
 **v17**
+
 ```typescript
 const { response } = await client
 	.listContentItems({
@@ -555,6 +569,7 @@ Only the property of a raw string filter is checked.
 ## Ordering
 
 **v16**
+
 ```typescript
 client.items().orderByAscending("system.name").toPromise();
 client.items().orderByDescending("elements.released").toPromise();
@@ -562,6 +577,7 @@ client.items().orderParameter("elements.title", "desc").toPromise();
 ```
 
 **v17**
+
 ```typescript
 client.listContentItems({ query: { order: "system.name[asc]" } }).fetchPageSafe();
 client.listContentItems({ query: { order: "elements.released[desc]" } }).fetchPageSafe();
@@ -574,6 +590,7 @@ client.listContentItems({ query: { order: "elements.released[desc]" } }).fetchPa
 ### URL paging (skip / limit)
 
 **v16**
+
 ```typescript
 const response = await client.items().limitParameter(10).skipParameter(20).includeTotalCountParameter().toPromise();
 
@@ -581,6 +598,7 @@ console.log(response.data.pagination.skip, response.data.pagination.totalCount);
 ```
 
 **v17**
+
 ```typescript
 const { response } = await client.listContentItems({ query: { limit: 10, skip: 20, includeTotalCount: true } }).fetchPageSafe();
 
@@ -590,11 +608,13 @@ console.log(response?.payload.pagination.skip, response?.payload.pagination.tota
 ### Continuation-token paging (items feed)
 
 **v16**
+
 ```typescript
 const response = await client.itemsFeed().withContinuationToken("token-from-previous-response").toPromise();
 ```
 
 **v17**
+
 ```typescript
 const { response } = await client.itemsFeed({ headers: { "X-Continuation": "token-from-previous-response" } }).fetchPageSafe();
 
@@ -604,12 +624,14 @@ console.log(response?.meta.continuationToken); // next token
 ### Fetching all pages
 
 **v16**
+
 ```typescript
 const response = await client.items().limitParameter(5).toAllPromise({ pages: 3 });
 console.log(response.data.items);
 ```
 
 **v17**
+
 ```typescript
 const { success, responses } = await client.listContentItems({ query: { limit: 5 } }).fetchAllPagesSafe({ maxPagesCount: 3 });
 if (success) {
