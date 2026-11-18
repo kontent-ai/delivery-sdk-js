@@ -491,7 +491,7 @@ v16 cast responses with `items<Movie>()`. In v17, responses are typed as the ite
 import { isContentItemOfType } from "@kontent-ai/delivery-sdk";
 
 // 1. Ask only for the types you need: items are typed as Movie[]
-const { response: movies } = await client.listContentItems({ contentTypes: ["movie"] }).fetchPageSafe();
+const { response: movies } = await client.listContentItems({ ofContentTypes: ["movie"] }).fetchPageSafe();
 
 // 2. Narrow items of mixed types with a guard
 const { response } = await client.listContentItems().fetchPageSafe();

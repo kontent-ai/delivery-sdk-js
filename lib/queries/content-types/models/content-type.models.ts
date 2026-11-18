@@ -8,14 +8,19 @@ import type {
 } from "../schemas/content-type.schemas.js";
 
 /**
- * A content type. For a single type (`TCodename`), `system.codename` and the element codenames are narrowed to it.
+ * A content type. For a single type (`TCodename`), `system.codename` and the element codenames are narrowed to it,
+ * and each element definition is narrowed to its schema definition (see {@link ContentTypeElementDefinitionOf}).
  */
 export type ContentTypePayload<
 	TSchema extends DeliveryClientSchema,
 	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
 > = Readonly<
 	Omit<z.infer<ReturnType<typeof contentTypeSchema<TSchema, TCodename>>>, "elements"> & {
-		readonly elements: Readonly<Partial<Record<ElementCodenamesOf<TSchema, TCodename>, ContentTypeElementDefinitionPayload>>>;
+		readonly elements: {
+			readonly [TElement in ElementCodenamesOf<TSchema, TCodename>]?: ContentTypeElementDefinitionOf<
+				ElementSchemaOf<TSchema, TCodename, TElement>
+			>;
+		};
 	}
 >;
 
@@ -31,16 +36,30 @@ export type ContentTypeElementPayload<
 	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
 	TCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
 	TElement extends ElementCodenamesOf<TSchema, TCodename> = ElementCodenamesOf<TSchema, TCodename>,
-> = ContentTypeElementOfType<ElementSchemaOf<TSchema, TCodename, TElement>["type"]> & {
+> = ContentTypeElementDefinitionOf<ElementSchemaOf<TSchema, TCodename, TElement>, z.infer<ReturnType<typeof contentTypeElementSchema>>> & {
 	readonly codename: TElement;
 };
 
 /**
- * Distributes over the element type first, so the payload union is filtered only once the element type is known.
+ * A content type element definition narrowed to its {@link DeliveryElementSchema}: the element `type` is narrowed,
+ * multiple choice `options[].codename` is narrowed to the declared options and taxonomy `taxonomy_group` to the declared group.
+ * Distributes over the element schema, so the payload union is filtered only once the element type is known.
  */
-type ContentTypeElementOfType<TType extends DeliveryElementSchema["type"]> = TType extends DeliveryElementSchema["type"]
-	? Extract<z.infer<ReturnType<typeof contentTypeElementSchema>>, { readonly type: TType }>
+export type ContentTypeElementDefinitionOf<
+	TElementSchema extends DeliveryElementSchema,
+	TPayload extends ContentTypeElementDefinitionPayload = ContentTypeElementDefinitionPayload,
+> = TElementSchema extends DeliveryElementSchema
+	? Extract<TPayload, { readonly type: TElementSchema["type"] }> & ElementDefinitionNarrowingOf<TElementSchema>
 	: never;
+
+type ElementDefinitionNarrowingOf<TElementSchema extends DeliveryElementSchema> = TElementSchema extends {
+	readonly type: "multiple_choice";
+	readonly options: infer TOptions extends readonly string[];
+}
+	? { readonly options: readonly { readonly name: string; readonly codename: TOptions[number] }[] }
+	: TElementSchema extends { readonly type: "taxonomy"; readonly taxonomyGroup: infer TGroup extends string }
+		? { readonly taxonomy_group: TGroup }
+		: unknown;
 
 export type ListContentTypesPayload<TSchema extends DeliveryClientSchema> = z.infer<ReturnType<typeof listContentTypesSchema<TSchema>>>;
 

@@ -306,14 +306,19 @@ properties only. Pass those inline.
 
 ## Narrowing items by content type
 
-Use the `contentTypes` parameter of `listContentItems` and `itemsFeed` to get items of specific content types. It is
+Use the `ofContentTypes` parameter of `listContentItems` and `itemsFeed` to get items of specific content types. It is
 sent as a `system.type[in]` filter and narrows the returned items to the matching models:
 
 ```typescript
-const { response } = await client.listContentItems({ contentTypes: ["movie"] }).fetchPageSafe();
+const { response } = await client.listContentItems({ ofContentTypes: ["movie"] }).fetchPageSafe();
 
 const movies = response?.payload.items; // readonly Movie[]
 ```
+
+`ofContentTypes` also scopes the rest of the request to those content types: `filters`, `order`, `elements` and
+`excludeElements` accept only their elements, element filter values follow their element definitions (e.g. the terms
+of the taxonomy used by that type's element), and `system.type` filters accept only the selected types. To type a
+filter array for a scoped query, pass the content types to `ContentItemFilter<MySchema, "movie">`.
 
 When a response holds items of several types, narrow each item with `isContentItemOfType`. (TypeScript can't narrow
 an item by the nested `item.system.type === "movie"` check, so use the guard instead.)

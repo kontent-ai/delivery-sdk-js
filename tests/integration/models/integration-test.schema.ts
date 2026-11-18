@@ -21,7 +21,7 @@ export type IntegrationTestProjectSchema = DeliveryClientSchema<{
 			readonly title: { readonly type: "text" };
 			readonly length_in_minutes: { readonly type: "number" };
 			readonly description: { readonly type: "rich_text" };
-			readonly is_blockbuster: { readonly type: "multiple_choice"; readonly options: readonly ["yes"] };
+			readonly is_blockbuster: { readonly type: "multiple_choice"; readonly options: readonly ["yes", "no"] };
 			readonly release_date: { readonly type: "date_time" };
 			readonly cover: { readonly type: "asset" };
 			readonly category: { readonly type: "taxonomy"; readonly taxonomyGroup: "movie_type" };
@@ -48,7 +48,7 @@ type MovieElements = {
 	readonly title: Elements.Text;
 	readonly length_in_minutes: Elements.Number;
 	readonly description: Elements.RichText;
-	readonly is_blockbuster: Elements.MultipleChoice<"yes">;
+	readonly is_blockbuster: Elements.MultipleChoice<"yes" | "no">;
 	readonly release_date: Elements.DateTime;
 	readonly cover: Elements.Asset;
 	readonly category: Elements.Taxonomy<MovieTaxonomyTerms, "movie_type">;

@@ -15,7 +15,7 @@ import type {
 	WithRaw,
 } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
-import type { AllElementCodenamesOf, ContentTypeCodenameOf } from "../../queries/content-types/models/content-type.models.js";
+import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
 import {
 	asTypedItems,
 	asTypedModularContent,
@@ -35,7 +35,14 @@ import type {
 } from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
-type AllElementCodenames<TSchema extends DeliveryClientSchema> = AllElementCodenamesOf<TSchema>;
+/**
+ * Element codenames of the content types selected by `ofContentTypes` (all content types when omitted).
+ * `NoInfer` keeps `ofContentTypes` as the only inference source for the content types.
+ */
+type ScopedElementCodenames<
+	TSchema extends DeliveryClientSchema,
+	TTypeCodename extends ContentTypeCodenameOf<TSchema>,
+> = ElementCodenamesOf<TSchema, NoInfer<TTypeCodename>>;
 
 export type ItemsFeedResponse<
 	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
@@ -60,7 +67,7 @@ export type ItemsFeedQueryRequest<
 > = DeliveryRequestWithTokenPaging<
 	ItemsFeedPayloadExtended<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>,
 	{
-		readonly order?: SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<AllElementCodenames<TSchema>>;
+		readonly order?: SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ScopedElementCodenames<TSchema, TTypeCodename>>;
 		/**
 		 * Determines which language variant of content items to return. By default, the API returns content in the default language.
 		 */
@@ -69,12 +76,12 @@ export type ItemsFeedQueryRequest<
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
 		 */
-		readonly elements?: ElementSelectionQueryParam<AllElementCodenames<TSchema>>;
+		readonly elements?: ElementSelectionQueryParam<ScopedElementCodenames<TSchema, TTypeCodename>>;
 
 		/**
 		 * Specifies which elements to exclude from the response. By default, no elements are excluded.
 		 */
-		readonly excludeElements?: ElementSelectionQueryParam<AllElementCodenames<TSchema>>;
+		readonly excludeElements?: ElementSelectionQueryParam<ScopedElementCodenames<TSchema, TTypeCodename>>;
 
 		/**
 		 * Determines the nesting level for linked content items that the API returns.
@@ -84,7 +91,7 @@ export type ItemsFeedQueryRequest<
 		 */
 		readonly depth?: number;
 	},
-	readonly ContentItemFilter<TSchema>[]
+	readonly ContentItemFilter<TSchema, NoInfer<TTypeCodename>>[]
 > &
 	ContentTypesRequestParam<TTypeCodename>;
 

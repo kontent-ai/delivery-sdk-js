@@ -15,12 +15,7 @@ import type {
 	SystemOrElementsFilterQuery,
 	SystemPropertyFilter,
 } from "../../../models/filter.models.js";
-import type {
-	AllElementCodenamesOf,
-	ContentTypeCodenameOf,
-	ElementCodenamesOf,
-	ElementSchemaOf,
-} from "../../content-types/models/content-type.models.js";
+import type { ContentTypeCodenameOf, ElementCodenamesOf, ElementSchemaOf } from "../../content-types/models/content-type.models.js";
 import type { TaxonomyTermCodenamesOf } from "../../taxonomies/models/taxonomy.models.js";
 import type {
 	contentItemSchema,
@@ -108,12 +103,15 @@ export type ContentItemSystemPayload<TSchema extends DeliveryClientSchema> = z.i
 /**
  * System properties of content items that can be filtered by, mapped to their accepted values.
  */
-export type ContentItemSystemFilterValues<TSchema extends DeliveryClientSchema> = {
+export type ContentItemSystemFilterValues<
+	TSchema extends DeliveryClientSchema,
+	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+> = {
 	readonly id: string;
 	readonly name: string;
 	readonly codename: string;
 	readonly language: LanguageCodenameOf<TSchema>;
-	readonly type: ContentTypeCodenameOf<TSchema>;
+	readonly type: TTypeCodename;
 	readonly collection: CollectionCodenameOf<TSchema>;
 	readonly last_modified: string;
 	readonly workflow: WorkflowCodenameOf<TSchema>;
@@ -125,11 +123,17 @@ export type ContentItemSystemFilterValues<TSchema extends DeliveryClientSchema> 
  * to the schema, e.g. `system.type` accepts content type codenames, number elements accept numbers, and taxonomy
  * elements accept their term codenames with the array operators (`contains`, `any`, `all`).
  * Use it to type a filter array declared outside the query call.
+ *
+ * `TTypeCodename` scopes the filter to the given content type(s): only their elements are accepted, element values
+ * follow those types' definitions and `system.type` accepts only those types. Queries scope it by `ofContentTypes`.
  */
-export type ContentItemFilter<TSchema extends DeliveryClientSchema = DeliveryClientSchema> =
-	| SystemPropertyFilter<ContentItemSystemFilterValues<TSchema>>
-	| ElementFilter<TSchema>
-	| SystemOrElementsFilterQuery<keyof ContentItemSystemFilterValues<TSchema>, AllElementCodenamesOf<TSchema>>;
+export type ContentItemFilter<
+	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
+	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+> =
+	| SystemPropertyFilter<ContentItemSystemFilterValues<TSchema, TTypeCodename>>
+	| ElementFilter<TSchema, TTypeCodename>
+	| SystemOrElementsFilterQuery<keyof ContentItemSystemFilterValues<TSchema>, ElementCodenamesOf<TSchema, TTypeCodename>>;
 
 /**
  * A filter on content item system properties only, used by queries that don't support element filters.
@@ -138,13 +142,13 @@ export type ContentItemSystemFilter<TSchema extends DeliveryClientSchema = Deliv
 	| SystemPropertyFilter<ContentItemSystemFilterValues<TSchema>>
 	| SystemOrElementsFilterQuery<keyof ContentItemSystemFilterValues<TSchema>, never>;
 
-type ElementFilter<TSchema extends DeliveryClientSchema> = {
-	readonly [TElement in AllElementCodenamesOf<TSchema>]: ElementFilterOf<
+type ElementFilter<TSchema extends DeliveryClientSchema, TTypeCodename extends ContentTypeCodenameOf<TSchema>> = {
+	readonly [TElement in ElementCodenamesOf<TSchema, TTypeCodename>]: ElementFilterOf<
 		TSchema,
 		`elements.${TElement}`,
-		ElementSchemaOf<TSchema, ContentTypeCodenameOf<TSchema>, TElement>
+		ElementSchemaOf<TSchema, TTypeCodename, TElement>
 	>;
-}[AllElementCodenamesOf<TSchema>];
+}[ElementCodenamesOf<TSchema, TTypeCodename>];
 
 type ElementFilterOf<
 	TSchema extends DeliveryClientSchema,

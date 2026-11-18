@@ -4,7 +4,7 @@ import type { ContentItemLike, ContentItemOfType } from "../queries/content-item
  * Checks whether a content item is of the given content type(s) and narrows it to the matching item model.
  *
  * TypeScript can't narrow an item union by `item.system.type === "movie"` because the discriminant is nested,
- * so use this guard (or the `contentTypes` request parameter) instead.
+ * so use this guard (or the `ofContentTypes` request parameter) instead.
  *
  * @example
  * ```ts

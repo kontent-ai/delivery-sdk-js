@@ -107,6 +107,7 @@ export type {
 export type {
 	AllElementCodenamesOf,
 	ContentTypeCodenameOf,
+	ContentTypeElementDefinitionOf,
 	ContentTypeElementDefinitionPayload,
 	ContentTypeElementPayload,
 	ContentTypePayload,
