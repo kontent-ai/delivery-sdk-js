@@ -53,12 +53,12 @@ export function createDeliveryClient<
 		>(
 			request: FetchContentTypeElementQueryRequest<TSchema, TCodename, TElement>,
 		) => fetchContentTypeElementQuery(config, request),
-		fetchContentItem: (request: FetchContentItemQueryRequest<TSchema, TItem>) => fetchContentItemQuery(config, request),
+		fetchContentItem: (request: FetchContentItemQueryRequest<TSchema>) => fetchContentItemQuery(config, request),
 		listContentItems: <const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
-			request?: ListContentItemsQueryRequest<TSchema, TTypeCodename, TItem>,
+			request?: ListContentItemsQueryRequest<TSchema, TTypeCodename>,
 		) => listContentItemsQuery<TSchema, TItem, TTypeCodename>(config, request),
 		itemsFeed: <const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
-			request?: ItemsFeedQueryRequest<TSchema, TTypeCodename, TItem>,
+			request?: ItemsFeedQueryRequest<TSchema, TTypeCodename>,
 		) => itemsFeedQuery<TSchema, TItem, TTypeCodename>(config, request),
 		itemsReferencingAsset: (request: ItemsReferencingAssetQueryRequest<TSchema>) => itemsReferencingAssetQuery(config, request),
 		itemsReferencingItem: (request: ItemsReferencingItemQueryRequest<TSchema>) => itemsReferencingItemQuery(config, request),

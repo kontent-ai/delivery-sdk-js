@@ -1,4 +1,4 @@
-import { isDefined } from "@kontent-ai/core-sdk";
+import { isDefined, type JsonValue, type SchemaInput } from "@kontent-ai/core-sdk";
 import type { DeliveryClientSchema } from "../models/core.models.js";
 import type { Filter } from "../models/filter.models.js";
 import type { ContentItemPayload, ContentItemPayloadExtended } from "../queries/content-items/models/content-item.models.js";
@@ -131,4 +131,15 @@ export function withContentTypesFilter<
 		...request,
 		filters: [...(request.filters ?? []), { property: "system.type", operator: "in", value: request.ofContentTypes }],
 	};
+}
+
+/**
+ * Types a validation schema of the generic extended payload as a schema of the payload typed with the consumer's item models.
+ *
+ * The exported schemas (e.g. `listContentItemsSchemaExtended`) describe items generically, so they cannot produce the item
+ * models supplied by the consumer. This is a type-level assertion only and is safe because `transformSchema` only validates
+ * the transformed payload: the validated output never replaces it, so the response keeps its item model types.
+ */
+export function asTypedPayloadSchema<TTypedPayload extends JsonValue>(schema: SchemaInput<JsonValue>): SchemaInput<TTypedPayload> {
+	return schema as SchemaInput<TTypedPayload>;
 }

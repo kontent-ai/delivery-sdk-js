@@ -12,6 +12,7 @@ import type { AllElementCodenamesOf } from "../../queries/content-types/models/c
 import {
 	asTypedItem,
 	asTypedModularContent,
+	asTypedPayloadSchema,
 	extendItemInPlace,
 	extendModularContentInPlace,
 	joinItems,
@@ -33,11 +34,8 @@ export type FetchContentItemQuery<
 		FetchContentItemPayload<TSchema>
 	>;
 
-export type FetchContentItemQueryRequest<
-	TSchema extends DeliveryClientSchema,
-	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
-> = DeliveryRequestWithCodename<
-	FetchContentItemPayloadExtended<TSchema, TItem>,
+export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
+	FetchContentItemPayloadExtended<TSchema>,
 	readonly string[],
 	{
 		/**
@@ -69,7 +67,7 @@ export type FetchContentItemQueryRequest<
 export function fetchContentItemQuery<
 	TSchema extends DeliveryClientSchema,
 	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
->(config: DeliveryClientConfig, request: FetchContentItemQueryRequest<TSchema, TItem>): FetchContentItemQuery<TSchema, TItem> {
+>(config: DeliveryClientConfig, request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema, TItem> {
 	const createRawQuery = (schema: SchemaInput<FetchContentItemPayload<TSchema>>) =>
 		createDeliveryFetchQuery<FetchContentItemPayload<TSchema>>({
 			config,
@@ -79,7 +77,7 @@ export function fetchContentItemQuery<
 		});
 	const extendedQuery = transformDeliveryFetchQuery({
 		query: createRawQuery(undefined),
-		transformSchema: request.config?.schema,
+		transformSchema: asTypedPayloadSchema<FetchContentItemPayloadExtended<TSchema, TItem>>(request.config?.schema),
 		transform: (response) => {
 			const allItems = joinItems({
 				modularContent: [response.payload.modular_content],

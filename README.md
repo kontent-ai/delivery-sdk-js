@@ -255,7 +255,9 @@ or a term of another taxonomy is a compile error. Linked items are resolved onto
 
 Other responses are narrowed too: `fetchTaxonomy` and `listTaxonomies` type term codenames per taxonomy,
 `fetchContentType` keeps the codename of the requested type and keys `elements` by its element codenames,
-`fetchContentTypeElement` narrows the element `type`, and `system.workflow_step` narrows once `system.workflow` is checked.
+`fetchContentType` and `fetchContentTypeElement` narrow each element definition to the schema (the element `type`,
+multiple choice `options[].codename` and the `taxonomy_group` of taxonomy elements), and `system.workflow_step`
+narrows once `system.workflow` is checked.
 
 ## Filters
 
@@ -375,10 +377,12 @@ tree directly instead of looking codenames up in `modular_content` yourself — 
 the referenced codenames, while `element.items` holds the resolved items.
 
 ```typescript
+import { isContentItemOfType } from "@kontent-ai/delivery-sdk";
+
 const { response } = await client.fetchContentItem({ codename: "my_movie" }).fetchSafe();
 const item = response?.payload.item;
 
-if (item && isMovie(item)) {
+if (isContentItemOfType(item, "movie")) {
 	const starCodenames = item.elements.stars.value; // codenames
 	const stars = item.elements.stars.items; // resolved Actor[]
 }

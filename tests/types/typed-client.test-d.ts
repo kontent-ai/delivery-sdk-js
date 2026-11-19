@@ -11,6 +11,13 @@ import {
 	type DeliveryClientSchema,
 	isContentItemOfType,
 } from "../../lib/public_api.js";
+import {
+	fetchContentItemSchemaExtended,
+	itemsFeedSchemaExtended,
+	listContentItemsSchema,
+	listContentItemsSchemaExtended,
+	listLanguagesSchema,
+} from "../../lib/public_schemas.js";
 import type { SampleDeliveryClient } from "../../sample/sample-schema/client.js";
 import type { Actor, Movie, SampleItem } from "../../sample/sample-schema/sample-project.models.js";
 import type { SampleProjectSchema } from "../../sample/sample-schema/sample-project.schema.js";
@@ -151,4 +158,29 @@ export async function filtersScopedByContentTypes(): Promise<void> {
 	expectTypeOf<{ readonly property: "elements.first_name"; readonly operator: "eq"; readonly value: "x" }>().not.toExtend<
 		ContentItemFilter<SampleProjectSchema, "movie">
 	>();
+}
+
+export async function runtimeValidationWithItemModels(): Promise<void> {
+	// The exported schemas describe items generically, yet are accepted by a client typed with item models.
+	const single = await client
+		.fetchContentItem({ codename: "x", config: { schema: fetchContentItemSchemaExtended<SampleProjectSchema>() } })
+		.fetch();
+	expectTypeOf(single.payload.item).toEqualTypeOf<SampleItem>();
+
+	const movies = await client
+		.listContentItems({ ofContentTypes: ["movie"], config: { schema: listContentItemsSchemaExtended<SampleProjectSchema>() } })
+		.fetchPage();
+	expectTypeOf(movies.payload.items).toEqualTypeOf<readonly Movie[]>();
+
+	const feed = await client.itemsFeed({ config: { schema: itemsFeedSchemaExtended<SampleProjectSchema>() } }).fetchPage();
+	expectTypeOf(feed.payload.items).toEqualTypeOf<readonly SampleItem[]>();
+
+	// Lazy schema factories are accepted too.
+	client.listContentItems({ config: { schema: async () => listContentItemsSchemaExtended<SampleProjectSchema>() } });
+
+	// The raw payload takes the raw schema.
+	client.listContentItems().raw({ schema: listContentItemsSchema<SampleProjectSchema>() });
+
+	// @ts-expect-error a content item query does not accept the schema of another payload.
+	client.listContentItems({ config: { schema: listLanguagesSchema<SampleProjectSchema>() } });
 }

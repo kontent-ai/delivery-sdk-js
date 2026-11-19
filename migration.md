@@ -94,6 +94,8 @@ const secureClient = createDeliveryClient({
 | `retryStrategy`                                            | `httpService: getDefaultHttpService({ retryStrategy })`                                                 |
 | `httpService`                                              | Still supported (`HttpService` from `@kontent-ai/core-sdk`)                                             |
 | `defaultQueryConfig.waitForLoadingNewContent`              | Per request: `headers: { "X-KC-Wait-For-Loading-New-Content": true }`                                   |
+| `assetsDomain` / `defaultRenditionPreset`                  | Removed                                                                                                 |
+| `excludeArchivedItems`                                     | Removed                                                                                                 |
 
 ```typescript
 import { getDefaultHttpService } from "@kontent-ai/core-sdk";
@@ -114,8 +116,6 @@ const retryingClient = createDeliveryClient({
 	}),
 });
 ```
-| `assetsDomain` / `defaultRenditionPreset` | Removed |
-| `excludeArchivedItems` | Removed |
 
 ---
 
@@ -195,7 +195,8 @@ passed as runtime values.
 > Multiple choice elements list their `options` and taxonomy elements name their `taxonomyGroup`. This lets the SDK
 > check your item models, type filter values per element, and narrow `fetchContentType` /
 > `fetchContentTypeElement` responses. Cross-type queries (`listContentItems`, `itemsFeed`, `fetchContentItem`,
-> `listContentTypes`) accept any element codename across all types.
+> `listContentTypes`) accept any element codename across all types. On `listContentItems` and `itemsFeed`,
+> `ofContentTypes` scopes `filters`, `order`, `elements` and `excludeElements` to the elements of the selected types.
 
 > **`workflowCodenames` + `workflowStepCodenames` → `workflows` map.** Each key is a workflow codename; its value
 > lists that workflow's step codenames, so `system.workflow_step` narrows once `system.workflow` is checked.
@@ -357,7 +358,7 @@ console.log(response?.payload.items);
 | `.limitParameter(n)` / `.skipParameter(n)`                                   | `query.limit` / `query.skip`                                                                               |
 | `.elementsParameter([...])` / `.excludeElementsParameter([...])`             | `query.elements` / `query.excludeElements`                                                                 |
 | `.includeTotalCountParameter()`                                              | `query.includeTotalCount: true`                                                                            |
-| `.orderByAscending(x)` / `.orderByDescending(x)` / `.orderParameter(x, dir)` | `query.order: "<x>[asc                                                                                     | desc]"` |
+| `.orderByAscending(x)` / `.orderByDescending(x)` / `.orderParameter(x, dir)` | `query.order: "<x>[asc]"` / `query.order: "<x>[desc]"`                                                     |
 | `.withHeaders([...])`                                                        | `config: { customHeaders: [...] }`                                                                         |
 | `.queryConfig({ waitForLoadingNewContent: true })`                           | `headers: { "X-KC-Wait-For-Loading-New-Content": true }`                                                   |
 | `.withParameter()` / `.withCustomParameter()`                                | No generic equivalent: use `query`, or a raw-string filter (`"system.*[op]=..."` / `"elements.*[op]=..."`) |
@@ -506,8 +507,7 @@ for (const item of response?.payload.items ?? []) {
 }
 ```
 
-> TypeScript can't narrow an item by the nested `item.system.type === "movie"` check, so use `isContentItemOfType`
-> (or the per-type guards such as `isMovieItem` emitted by `@kontent-ai/model-generator`).
+> TypeScript can't narrow an item by the nested `item.system.type === "movie"` check, so use `isContentItemOfType`.
 
 ---
 
@@ -542,9 +542,10 @@ const { response } = await client
 
 With a schema, values and operators are checked per property: `system.type` accepts content type codenames, number
 elements accept numbers, multiple choice and taxonomy elements accept their codenames with the array operators
-(`contains`, `any`, `all`), and so on.
+(`contains`, `any`, `all`), and so on. With `ofContentTypes`, filters accept only the elements of the selected types
+(see [Narrowing items by content type](./README.md#narrowing-items-by-content-type) in the README).
 
-Filters may also be raw query strings: `filters: ["system.type[eq]=movie", "elements.genre[all]=action,drama"]`.
+Filters may also be raw query strings: `filters: ["system.type[eq]=movie", "elements.category[all]=action,drama"]`.
 Only the property of a raw string filter is checked.
 
 | v16 method                 | v17 operator            |
@@ -655,7 +656,7 @@ exported from `@kontent-ai/delivery-sdk/schemas`. Responses are not validated by
 ```typescript
 import { listLanguagesSchema } from "@kontent-ai/delivery-sdk/schemas";
 
-const { success, error } = await client.listLanguages({ config: { schema: listLanguagesSchema() } }).fetchPageSafe();
+const { success, error } = await client.listLanguages({ config: { schema: listLanguagesSchema<MySchema>() } }).fetchPageSafe();
 
 if (!success && error.details.reason === "schemaMismatch") {
 	console.error(error.details.issues);

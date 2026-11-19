@@ -148,12 +148,12 @@ export type DeliveryClient<
 	>(
 		request: FetchContentTypeElementQueryRequest<TSchema, TCodename, TElement>,
 	): FetchContentTypeElementQuery<TSchema, TCodename, TElement>;
-	fetchContentItem(request: FetchContentItemQueryRequest<TSchema, TItem>): FetchContentItemQuery<TSchema, TItem>;
+	fetchContentItem(request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema, TItem>;
 	listContentItems<const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
-		request?: ListContentItemsQueryRequest<TSchema, TTypeCodename, TItem>,
+		request?: ListContentItemsQueryRequest<TSchema, TTypeCodename>,
 	): ListContentItemsQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>;
 	itemsFeed<const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
-		request?: ItemsFeedQueryRequest<TSchema, TTypeCodename, TItem>,
+		request?: ItemsFeedQueryRequest<TSchema, TTypeCodename>,
 	): ItemsFeedQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>;
 	itemsReferencingAsset(request: ItemsReferencingAssetQueryRequest<TSchema>): ItemsReferencingAssetQuery<TSchema>;
 	itemsReferencingItem(request: ItemsReferencingItemQueryRequest<TSchema>): ItemsReferencingItemQuery<TSchema>;

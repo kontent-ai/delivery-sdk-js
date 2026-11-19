@@ -19,6 +19,7 @@ import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../../queries/co
 import {
 	asTypedItems,
 	asTypedModularContent,
+	asTypedPayloadSchema,
 	extendItemsInPlace,
 	extendModularContentInPlace,
 	joinItems,
@@ -66,9 +67,8 @@ export type ListContentItemsQuery<
 export type ListContentItemsQueryRequest<
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
-	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
 > = DeliveryRequestWithUrlPaging<
-	ListContentItemsPayloadExtended<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>,
+	ListContentItemsPayloadExtended<TSchema>,
 	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ScopedElementCodenames<TSchema, TTypeCodename>>,
 	{
 		/**
@@ -111,7 +111,7 @@ export function listContentItemsQuery<
 	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
 >(
 	config: DeliveryClientConfig,
-	request?: ListContentItemsQueryRequest<TSchema, TTypeCodename, TItem>,
+	request?: ListContentItemsQueryRequest<TSchema, TTypeCodename>,
 ): ListContentItemsQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>> {
 	const createRawQuery = (schema: SchemaInput<ListContentItemsPayload<TSchema>>) =>
 		createDeliveryPagedByUrlQuery<ListContentItemsPayload<TSchema>>({
@@ -122,7 +122,9 @@ export function listContentItemsQuery<
 		});
 	const extendedQuery = transformDeliveryPagedByUrlQuery({
 		query: createRawQuery(undefined),
-		transformSchema: request?.config?.schema,
+		transformSchema: asTypedPayloadSchema<ListContentItemsPayloadExtended<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>>(
+			request?.config?.schema,
+		),
 		transform: (responses) => {
 			const allItems = joinItems({
 				items: responses.flatMap((m) => m.payload.items),
