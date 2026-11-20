@@ -27,9 +27,9 @@ declare const client: SampleDeliveryClient;
 declare const untypedClient: DeliveryClient;
 
 export async function responseNarrowing(): Promise<void> {
-	const all = await client.listContentItems().fetchPage();
-	expectTypeOf(all.payload.items).toEqualTypeOf<readonly SampleItem[]>();
-	expectTypeOf(all.payload.modular_content).toEqualTypeOf<Readonly<Record<string, SampleItem | undefined>>>();
+	const response = await client.listContentItems().fetchPage();
+	expectTypeOf(response.payload.items).toEqualTypeOf<readonly SampleItem[]>();
+	expectTypeOf(response.payload.modular_content).toEqualTypeOf<Readonly<Record<string, SampleItem | undefined>>>();
 
 	const movies = await client.listContentItems({ ofContentTypes: ["movie"] }).fetchPage();
 	expectTypeOf(movies.payload.items).toEqualTypeOf<readonly Movie[]>();
@@ -45,9 +45,9 @@ export async function responseNarrowing(): Promise<void> {
 }
 
 export async function untypedClientFallsBackToGenericItems(): Promise<void> {
-	const all = await untypedClient.listContentItems({ ofContentTypes: ["anything"] }).fetchPage();
-	expectTypeOf(all.payload.items[0]?.system.type).toEqualTypeOf<"anything" | undefined>();
-	expectTypeOf(all.payload.items).toExtend<readonly ContentItemPayloadExtended<DeliveryClientSchema>[]>();
+	const response = await untypedClient.listContentItems({ ofContentTypes: ["anything"] }).fetchPage();
+	expectTypeOf(response.payload.items[0]?.system.type).toEqualTypeOf<"anything" | undefined>();
+	expectTypeOf(response.payload.items).toExtend<readonly ContentItemPayloadExtended<DeliveryClientSchema>[]>();
 }
 
 export function guard(item: SampleItem): void {
@@ -187,8 +187,10 @@ export async function runtimeValidationWithItemModels(): Promise<void> {
 }
 
 export async function elementProjection(): Promise<void> {
-	const selected = await client.listContentItems({ ofContentTypes: ["movie"], query: { elements: ["title", "actors"] } }).fetchPage();
-	const movie = selected.payload.items[0];
+	const responseWithProjection = await client
+		.listContentItems({ ofContentTypes: ["movie"], query: { elements: ["title", "actors"] } })
+		.fetchPage();
+	const movie = responseWithProjection.payload.items[0];
 	if (movie) {
 		expectTypeOf<keyof typeof movie.elements>().toEqualTypeOf<"title" | "actors">();
 		expectTypeOf(movie.elements.title).toEqualTypeOf<Movie["elements"]["title"]>();
@@ -201,7 +203,7 @@ export async function elementProjection(): Promise<void> {
 			expectTypeOf<keyof typeof actor.elements>().toEqualTypeOf<never>();
 		}
 	}
-	const linked = selected.payload.modular_content.keanu_reeves;
+	const linked = responseWithProjection.payload.modular_content.keanu_reeves;
 	if (linked && isContentItemOfType(linked, "movie")) {
 		expectTypeOf<keyof typeof linked.elements>().toEqualTypeOf<"title" | "actors">();
 	}
@@ -221,6 +223,6 @@ export async function elementProjection(): Promise<void> {
 	expectTypeOf<ProjectedItem<Movie>>().toEqualTypeOf<Movie>();
 
 	// Untyped items are left unchanged.
-	const untyped = await untypedClient.listContentItems({ query: { elements: ["title"] } }).fetchPage();
-	expectTypeOf(untyped.payload.items).toExtend<readonly ContentItemPayloadExtended<DeliveryClientSchema>[]>();
+	const genericResponse = await untypedClient.listContentItems({ query: { elements: ["title"] } }).fetchPage();
+	expectTypeOf(genericResponse.payload.items).toExtend<readonly ContentItemPayloadExtended<DeliveryClientSchema>[]>();
 }
