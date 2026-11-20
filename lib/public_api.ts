@@ -85,6 +85,7 @@ export type {
 	ItemsReferencingItemPayload,
 	ListContentItemsPayload,
 	ListContentItemsPayloadExtended,
+	ProjectedItem,
 	SnippetOf,
 } from "./queries/content-items/models/content-item.models.js";
 export type { ContentItemElementPayload, ContentItemElementPayloadExtended } from "./queries/content-items/models/element.models.js";

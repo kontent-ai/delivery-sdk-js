@@ -10,6 +10,7 @@ import {
 	type DeliveryClient,
 	type DeliveryClientSchema,
 	isContentItemOfType,
+	type ProjectedItem,
 } from "../../lib/public_api.js";
 import {
 	fetchContentItemSchemaExtended,
@@ -124,7 +125,7 @@ export async function filtersScopedByContentTypes(): Promise<void> {
 		})
 		.fetchPage();
 	// Filters must not widen the content types inferred from `ofContentTypes`.
-	expectTypeOf(movies.payload.items).toEqualTypeOf<readonly Movie[]>();
+	expectTypeOf(movies.payload.items).toEqualTypeOf<readonly ProjectedItem<Movie, "title" | "rating">[]>();
 
 	client.listContentItems({
 		ofContentTypes: ["movie"],
@@ -183,4 +184,43 @@ export async function runtimeValidationWithItemModels(): Promise<void> {
 
 	// @ts-expect-error a content item query does not accept the schema of another payload.
 	client.listContentItems({ config: { schema: listLanguagesSchema<SampleProjectSchema>() } });
+}
+
+export async function elementProjection(): Promise<void> {
+	const selected = await client.listContentItems({ ofContentTypes: ["movie"], query: { elements: ["title", "actors"] } }).fetchPage();
+	const movie = selected.payload.items[0];
+	if (movie) {
+		expectTypeOf<keyof typeof movie.elements>().toEqualTypeOf<"title" | "actors">();
+		expectTypeOf(movie.elements.title).toEqualTypeOf<Movie["elements"]["title"]>();
+		expectTypeOf(movie.system).toEqualTypeOf<Movie["system"]>();
+		// @ts-expect-error "rating" is not selected, so the API does not return it.
+		movie.elements.rating;
+		// Resolved linked items come from `modular_content`, which the API projects too.
+		const actor = movie.elements.actors.items[0];
+		if (actor) {
+			expectTypeOf<keyof typeof actor.elements>().toEqualTypeOf<never>();
+		}
+	}
+	const linked = selected.payload.modular_content.keanu_reeves;
+	if (linked && isContentItemOfType(linked, "movie")) {
+		expectTypeOf<keyof typeof linked.elements>().toEqualTypeOf<"title" | "actors">();
+	}
+
+	const excluded = await client.itemsFeed({ ofContentTypes: ["actor"], query: { excludeElements: ["categories"] } }).fetchPage();
+	expectTypeOf<keyof NonNullable<(typeof excluded.payload.items)[number]>["elements"]>().toEqualTypeOf<
+		"first_name" | "last_name" | "role" | "related_actors" | "metadata__internal_id"
+	>();
+
+	const single = await client.fetchContentItem({ codename: "x", query: { elements: ["title", "first_name"] } }).fetch();
+	expectTypeOf(single.payload.item).toEqualTypeOf<ProjectedItem<SampleItem, "title" | "first_name">>();
+	if (isContentItemOfType(single.payload.item, "actor")) {
+		expectTypeOf<keyof typeof single.payload.item.elements>().toEqualTypeOf<"first_name">();
+	}
+
+	// Without a projection the item models are returned unchanged.
+	expectTypeOf<ProjectedItem<Movie>>().toEqualTypeOf<Movie>();
+
+	// Untyped items are left unchanged.
+	const untyped = await untypedClient.listContentItems({ query: { elements: ["title"] } }).fetchPage();
+	expectTypeOf(untyped.payload.items).toExtend<readonly ContentItemPayloadExtended<DeliveryClientSchema>[]>();
 }

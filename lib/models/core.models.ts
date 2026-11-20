@@ -7,14 +7,18 @@ import type {
 } from "../queries/content-items/items-referencing-asset-query.js";
 import type { ItemsReferencingItemQuery, ItemsReferencingItemQueryRequest } from "../queries/content-items/items-referencing-item-query.js";
 import type { ListContentItemsQuery, ListContentItemsQueryRequest } from "../queries/content-items/list-content-items-query.js";
-import type { ContentItemOfType, ContentItemPayloadExtended } from "../queries/content-items/models/content-item.models.js";
+import type { ContentItemOfType, ContentItemPayloadExtended, ProjectedItem } from "../queries/content-items/models/content-item.models.js";
 import type {
 	FetchContentTypeElementQuery,
 	FetchContentTypeElementQueryRequest,
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "../queries/content-types/fetch-content-type-query.js";
 import type { ListContentTypesQuery, ListContentTypesQueryRequest } from "../queries/content-types/list-content-types-query.js";
-import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../queries/content-types/models/content-type.models.js";
+import type {
+	AllElementCodenamesOf,
+	ContentTypeCodenameOf,
+	ElementCodenamesOf,
+} from "../queries/content-types/models/content-type.models.js";
 import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
@@ -26,16 +30,24 @@ import type { DeliverySdkError } from "./error.models.js";
  *
  * `type` matches the element `type` returned by the Delivery API. Multiple choice elements list their option
  * codenames and taxonomy elements name the taxonomy group they use, so element values and filters can be narrowed.
+ * Linked items and rich text elements may list the content types they allow (`allowedContentTypes`, any type when
+ * omitted), so item models must type the resolved linked items (and rich text components) accordingly.
  */
 export type DeliveryElementSchema =
 	| { readonly type: "text" }
 	| { readonly type: "number" }
-	| { readonly type: "rich_text" }
+	| {
+			readonly type: "rich_text";
+			readonly allowedContentTypes?: readonly string[];
+	  }
 	| { readonly type: "date_time" }
 	| { readonly type: "asset" }
 	| { readonly type: "url_slug" }
 	| { readonly type: "custom" }
-	| { readonly type: "modular_content" }
+	| {
+			readonly type: "modular_content";
+			readonly allowedContentTypes?: readonly string[];
+	  }
 	| {
 			readonly type: "multiple_choice";
 			readonly options: readonly string[];
@@ -148,13 +160,44 @@ export type DeliveryClient<
 	>(
 		request: FetchContentTypeElementQueryRequest<TSchema, TCodename, TElement>,
 	): FetchContentTypeElementQuery<TSchema, TCodename, TElement>;
-	fetchContentItem(request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema, TItem>;
-	listContentItems<const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
-		request?: ListContentItemsQueryRequest<TSchema, TTypeCodename>,
-	): ListContentItemsQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>;
-	itemsFeed<const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
-		request?: ItemsFeedQueryRequest<TSchema, TTypeCodename>,
-	): ItemsFeedQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>;
+	/**
+	 * `elements` / `excludeElements` narrow the elements of the returned items (see {@link ProjectedItem}).
+	 */
+	fetchContentItem<
+		const TSelected extends AllElementCodenamesOf<TSchema> = never,
+		const TExcluded extends AllElementCodenamesOf<TSchema> = never,
+	>(
+		request: FetchContentItemQueryRequest<TSchema, TSelected, TExcluded>,
+	): FetchContentItemQuery<TSchema, ProjectedItem<TItem, TSelected, TExcluded>>;
+	/**
+	 * `ofContentTypes` narrows the returned items to the given content types and scopes filters, order and element
+	 * selection to their elements. `elements` / `excludeElements` narrow the elements of the returned items.
+	 */
+	listContentItems<
+		const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+		const TSelected extends ElementCodenamesOf<TSchema, NoInfer<TTypeCodename>> = never,
+		const TExcluded extends ElementCodenamesOf<TSchema, NoInfer<TTypeCodename>> = never,
+	>(
+		request?: ListContentItemsQueryRequest<TSchema, TTypeCodename, TSelected, TExcluded>,
+	): ListContentItemsQuery<
+		TSchema,
+		ProjectedItem<TItem, TSelected, TExcluded>,
+		ContentItemOfType<ProjectedItem<TItem, TSelected, TExcluded>, TTypeCodename>
+	>;
+	/**
+	 * Same narrowing as {@link DeliveryClient.listContentItems}.
+	 */
+	itemsFeed<
+		const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+		const TSelected extends ElementCodenamesOf<TSchema, NoInfer<TTypeCodename>> = never,
+		const TExcluded extends ElementCodenamesOf<TSchema, NoInfer<TTypeCodename>> = never,
+	>(
+		request?: ItemsFeedQueryRequest<TSchema, TTypeCodename, TSelected, TExcluded>,
+	): ItemsFeedQuery<
+		TSchema,
+		ProjectedItem<TItem, TSelected, TExcluded>,
+		ContentItemOfType<ProjectedItem<TItem, TSelected, TExcluded>, TTypeCodename>
+	>;
 	itemsReferencingAsset(request: ItemsReferencingAssetQueryRequest<TSchema>): ItemsReferencingAssetQuery<TSchema>;
 	itemsReferencingItem(request: ItemsReferencingItemQueryRequest<TSchema>): ItemsReferencingItemQuery<TSchema>;
 };

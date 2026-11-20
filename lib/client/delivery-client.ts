@@ -14,7 +14,11 @@ import {
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import { type FetchContentTypeQueryRequest, fetchContentTypeQuery } from "../queries/content-types/fetch-content-type-query.js";
 import { type ListContentTypesQueryRequest, listContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
-import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../queries/content-types/models/content-type.models.js";
+import type {
+	AllElementCodenamesOf,
+	ContentTypeCodenameOf,
+	ElementCodenamesOf,
+} from "../queries/content-types/models/content-type.models.js";
 import { type ListLanguagesQueryRequest, listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
@@ -53,13 +57,26 @@ export function createDeliveryClient<
 		>(
 			request: FetchContentTypeElementQueryRequest<TSchema, TCodename, TElement>,
 		) => fetchContentTypeElementQuery(config, request),
-		fetchContentItem: (request: FetchContentItemQueryRequest<TSchema>) => fetchContentItemQuery(config, request),
-		listContentItems: <const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
-			request?: ListContentItemsQueryRequest<TSchema, TTypeCodename>,
-		) => listContentItemsQuery<TSchema, TItem, TTypeCodename>(config, request),
-		itemsFeed: <const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>>(
-			request?: ItemsFeedQueryRequest<TSchema, TTypeCodename>,
-		) => itemsFeedQuery<TSchema, TItem, TTypeCodename>(config, request),
+		fetchContentItem: <
+			const TSelected extends AllElementCodenamesOf<TSchema> = never,
+			const TExcluded extends AllElementCodenamesOf<TSchema> = never,
+		>(
+			request: FetchContentItemQueryRequest<TSchema, TSelected, TExcluded>,
+		) => fetchContentItemQuery<TSchema, TItem, TSelected, TExcluded>(config, request),
+		listContentItems: <
+			const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+			const TSelected extends ElementCodenamesOf<TSchema, NoInfer<TTypeCodename>> = never,
+			const TExcluded extends ElementCodenamesOf<TSchema, NoInfer<TTypeCodename>> = never,
+		>(
+			request?: ListContentItemsQueryRequest<TSchema, TTypeCodename, TSelected, TExcluded>,
+		) => listContentItemsQuery<TSchema, TItem, TTypeCodename, TSelected, TExcluded>(config, request),
+		itemsFeed: <
+			const TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+			const TSelected extends ElementCodenamesOf<TSchema, NoInfer<TTypeCodename>> = never,
+			const TExcluded extends ElementCodenamesOf<TSchema, NoInfer<TTypeCodename>> = never,
+		>(
+			request?: ItemsFeedQueryRequest<TSchema, TTypeCodename, TSelected, TExcluded>,
+		) => itemsFeedQuery<TSchema, TItem, TTypeCodename, TSelected, TExcluded>(config, request),
 		itemsReferencingAsset: (request: ItemsReferencingAssetQueryRequest<TSchema>) => itemsReferencingAssetQuery(config, request),
 		itemsReferencingItem: (request: ItemsReferencingItemQueryRequest<TSchema>) => itemsReferencingItemQuery(config, request),
 	};

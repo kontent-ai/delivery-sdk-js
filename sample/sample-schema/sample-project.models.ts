@@ -70,5 +70,11 @@ export type BadMovieOption = ContentItemOf<SampleProjectSchema, "movie", { reado
 // @ts-expect-error "news" is a term of the "tag" taxonomy, but "categories" uses the "category" taxonomy.
 export type BadMovieTerm = ContentItemOf<SampleProjectSchema, "movie", { readonly categories: Elements.Taxonomy<"news", "category"> }>;
 
+// @ts-expect-error "actors" allows only "actor" items in the schema.
+export type BadMovieLinkedItems = ContentItemOf<SampleProjectSchema, "movie", { readonly actors: Elements.LinkedItems<Movie> }>;
+
+// @ts-expect-error rich text linked items and components of "synopsis" must be "actor" items.
+export type BadMovieRichText = ContentItemOf<SampleProjectSchema, "movie", { readonly synopsis: Elements.RichText<Movie> }>;
+
 // A partial shape (only some of the type's elements) is still allowed.
 export type PartialMovie = ContentItemOf<SampleProjectSchema, "movie", { readonly title: Elements.Text }>;

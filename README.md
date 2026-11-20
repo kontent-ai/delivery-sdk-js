@@ -202,7 +202,8 @@ Two type arguments to `createDeliveryClient` make the client strongly typed:
 
 - `TSchema` (a `DeliveryClientSchema`) lists the codenames of your environment: languages, collections,
   taxonomies with their terms, workflows with their steps, and content types with their elements. Each element
-  declares its `type`, multiple choice elements list their `options` and taxonomy elements name their `taxonomyGroup`.
+  declares its `type`, multiple choice elements list their `options`, taxonomy elements name their `taxonomyGroup`, and
+  linked items and rich text elements may list their `allowedContentTypes` (any type when omitted).
 - `TItem` is the union of your content item models, described with `ContentItemOf` and the `Elements` namespace.
   Content item responses (`items`, `item`, `modular_content`) are typed as this union.
 
@@ -221,7 +222,7 @@ type MySchema = DeliveryClientSchema<{
 		readonly movie: {
 			readonly title: { readonly type: "text" };
 			readonly rating: { readonly type: "number" };
-			readonly stars: { readonly type: "modular_content" };
+			readonly stars: { readonly type: "modular_content"; readonly allowedContentTypes: readonly ["actor"] };
 			readonly genre: { readonly type: "taxonomy"; readonly taxonomyGroup: "genre" };
 		};
 		readonly actor: {
@@ -250,8 +251,9 @@ const client = createDeliveryClient<MySchema, MyItem>({ apiMode: "public", envir
 
 Codenames are checked at compile time. `ContentItemOf` also checks the element models against the schema: an unknown
 element codename, a wrong element type (e.g. `Elements.Number` for a text element), an undeclared multiple choice option
-or a term of another taxonomy is a compile error. Linked items are resolved onto each element's `items` array
-(e.g. `movie.elements.stars.items` is `Actor[]`).
+a term of another taxonomy, or linked items of a content type not in `allowedContentTypes` (e.g.
+`Elements.LinkedItems<Movie>` for `stars`) is a compile error. Linked items are resolved onto each element's `items`
+array (e.g. `movie.elements.stars.items` is `Actor[]`).
 
 Other responses are narrowed too: `fetchTaxonomy` and `listTaxonomies` type term codenames per taxonomy,
 `fetchContentType` keeps the codename of the requested type and keys `elements` by its element codenames,
@@ -340,6 +342,25 @@ for (const item of response?.payload.items ?? []) {
 
 The types are a compile-time contract: the SDK trusts that your schema and item models match your environment.
 Regenerate them with `@kontent-ai/model-generator` whenever your content model changes.
+
+## Selecting elements
+
+The `elements` and `excludeElements` query parameters of `fetchContentItem`, `listContentItems` and `itemsFeed` also
+narrow the returned items: `elements` keeps only the listed elements and `excludeElements` removes the listed ones.
+The API applies them to `modular_content` too, so resolved linked items are narrowed the same way.
+
+```typescript
+const { response } = await client.listContentItems({ ofContentTypes: ["movie"], query: { elements: ["title", "stars"] } }).fetchPageSafe();
+
+for (const movie of response?.payload.items ?? []) {
+	console.log(movie.elements.title.value); // typed as string
+	// movie.elements.rating: compile error, the element is not in the response
+}
+```
+
+The types assume every item is narrowed, which is the strictest reading of the API: content components (which the
+API does not narrow) and items that have none of the listed elements may hold more elements than their types show.
+`ProjectedItem<MyItem, "title">` names the narrowed type.
 
 ## Runtime validation
 

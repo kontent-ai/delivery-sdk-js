@@ -168,7 +168,7 @@ type MySchema = DeliveryClientSchema<{
 			readonly length: { readonly type: "number" };
 			readonly poster: { readonly type: "asset" };
 			readonly category: { readonly type: "multiple_choice"; readonly options: readonly ["action", "drama"] };
-			readonly stars: { readonly type: "modular_content" };
+			readonly stars: { readonly type: "modular_content"; readonly allowedContentTypes: readonly ["actor"] };
 			readonly seoname: { readonly type: "url_slug" };
 			readonly releasecategory: { readonly type: "taxonomy"; readonly taxonomyGroup: "genre" };
 		};
@@ -192,11 +192,13 @@ passed as runtime values.
 
 > **`contentTypeCodenames` + `elementCodenames` → `contentTypes` map.** Each key is a content type
 > codename; its value maps the type's element codenames to their element `type` (as returned by the Delivery API).
-> Multiple choice elements list their `options` and taxonomy elements name their `taxonomyGroup`. This lets the SDK
-> check your item models, type filter values per element, and narrow `fetchContentType` /
+> Multiple choice elements list their `options`, taxonomy elements name their `taxonomyGroup`, and linked items and
+> rich text elements may list their `allowedContentTypes`. This lets the SDK check your item models (including the
+> types of resolved linked items), type filter values per element, and narrow `fetchContentType` /
 > `fetchContentTypeElement` responses. Cross-type queries (`listContentItems`, `itemsFeed`, `fetchContentItem`,
 > `listContentTypes`) accept any element codename across all types. On `listContentItems` and `itemsFeed`,
 > `ofContentTypes` scopes `filters`, `order`, `elements` and `excludeElements` to the elements of the selected types.
+> `elements` / `excludeElements` also narrow the returned items (and resolved linked items) to the selected elements.
 
 > **`workflowCodenames` + `workflowStepCodenames` → `workflows` map.** Each key is a workflow codename; its value
 > lists that workflow's step codenames, so `system.workflow_step` narrows once `system.workflow` is checked.
@@ -356,7 +358,7 @@ console.log(response?.payload.items);
 | `.languageParameter(c)`                                                      | `query.language`                                                                                           |
 | `.depthParameter(n)`                                                         | `query.depth`                                                                                              |
 | `.limitParameter(n)` / `.skipParameter(n)`                                   | `query.limit` / `query.skip`                                                                               |
-| `.elementsParameter([...])` / `.excludeElementsParameter([...])`             | `query.elements` / `query.excludeElements`                                                                 |
+| `.elementsParameter([...])` / `.excludeElementsParameter([...])`             | `query.elements` / `query.excludeElements` (also narrow the item types)                                    |
 | `.includeTotalCountParameter()`                                              | `query.includeTotalCount: true`                                                                            |
 | `.orderByAscending(x)` / `.orderByDescending(x)` / `.orderParameter(x, dir)` | `query.order: "<x>[asc]"` / `query.order: "<x>[desc]"`                                                     |
 | `.withHeaders([...])`                                                        | `config: { customHeaders: [...] }`                                                                         |

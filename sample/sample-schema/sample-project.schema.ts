@@ -26,21 +26,21 @@ export type SampleProjectSchema = DeliveryClientSchema<{
 		readonly movie: {
 			readonly title: { readonly type: "text" };
 			readonly rating: { readonly type: "number" };
-			readonly synopsis: { readonly type: "rich_text" };
+			readonly synopsis: { readonly type: "rich_text"; readonly allowedContentTypes: readonly ["actor"] };
 			readonly genre: { readonly type: "multiple_choice"; readonly options: readonly ["genre1", "genre2"] };
 			readonly release_date: { readonly type: "date_time" };
 			readonly poster: { readonly type: "asset" };
 			readonly categories: { readonly type: "taxonomy"; readonly taxonomyGroup: "category" };
 			readonly url_slug: { readonly type: "url_slug" };
 			readonly custom_id: { readonly type: "custom" };
-			readonly actors: { readonly type: "modular_content" };
+			readonly actors: { readonly type: "modular_content"; readonly allowedContentTypes: readonly ["actor"] };
 			readonly metadata__internal_id: { readonly type: "text" };
 		};
 		readonly actor: {
 			readonly first_name: { readonly type: "text" };
 			readonly last_name: { readonly type: "text" };
 			readonly role: { readonly type: "multiple_choice"; readonly options: readonly ["opt1", "opt2", "opt3"] };
-			readonly related_actors: { readonly type: "modular_content" };
+			readonly related_actors: { readonly type: "modular_content"; readonly allowedContentTypes: readonly ["actor"] };
 			readonly metadata__internal_id: { readonly type: "text" };
 			readonly categories: { readonly type: "taxonomy"; readonly taxonomyGroup: "categoryActor" };
 		};

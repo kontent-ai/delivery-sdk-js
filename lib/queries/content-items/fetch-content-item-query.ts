@@ -18,7 +18,12 @@ import {
 	joinItems,
 } from "../../transforms/content-item-transforms.js";
 import { createDeliveryFetchQuery, transformDeliveryFetchQuery } from "../delivery-queries.js";
-import type { ContentItemPayloadExtended, FetchContentItemPayload, FetchContentItemPayloadExtended } from "./models/content-item.models.js";
+import type {
+	ContentItemPayloadExtended,
+	FetchContentItemPayload,
+	FetchContentItemPayloadExtended,
+	ProjectedItem,
+} from "./models/content-item.models.js";
 
 export type FetchContentItemResponse<
 	TSchema extends DeliveryClientSchema = DeliveryClientSchema,
@@ -34,7 +39,11 @@ export type FetchContentItemQuery<
 		FetchContentItemPayload<TSchema>
 	>;
 
-export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> = DeliveryRequestWithCodename<
+export type FetchContentItemQueryRequest<
+	TSchema extends DeliveryClientSchema,
+	TSelected extends AllElementCodenamesOf<TSchema> = AllElementCodenamesOf<TSchema>,
+	TExcluded extends AllElementCodenamesOf<TSchema> = AllElementCodenamesOf<TSchema>,
+> = DeliveryRequestWithCodename<
 	FetchContentItemPayloadExtended<TSchema>,
 	readonly string[],
 	{
@@ -46,12 +55,12 @@ export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> =
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
 		 */
-		readonly elements?: ElementSelectionQueryParam<AllElementCodenamesOf<TSchema>>;
+		readonly elements?: ElementSelectionQueryParam<TSelected>;
 
 		/**
 		 * Specifies which elements to exclude from the response. By default, no elements are excluded.
 		 */
-		readonly excludeElements?: ElementSelectionQueryParam<AllElementCodenamesOf<TSchema>>;
+		readonly excludeElements?: ElementSelectionQueryParam<TExcluded>;
 
 		/**
 		 * Determines the nesting level for linked content items that the API returns.
@@ -67,7 +76,14 @@ export type FetchContentItemQueryRequest<TSchema extends DeliveryClientSchema> =
 export function fetchContentItemQuery<
 	TSchema extends DeliveryClientSchema,
 	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
->(config: DeliveryClientConfig, request: FetchContentItemQueryRequest<TSchema>): FetchContentItemQuery<TSchema, TItem> {
+	TSelected extends AllElementCodenamesOf<TSchema> = never,
+	TExcluded extends AllElementCodenamesOf<TSchema> = never,
+>(
+	config: DeliveryClientConfig,
+	request: FetchContentItemQueryRequest<TSchema, TSelected, TExcluded>,
+): FetchContentItemQuery<TSchema, ProjectedItem<TItem, TSelected, TExcluded>> {
+	type TProjectedItem = ProjectedItem<TItem, TSelected, TExcluded>;
+
 	const createRawQuery = (schema: SchemaInput<FetchContentItemPayload<TSchema>>) =>
 		createDeliveryFetchQuery<FetchContentItemPayload<TSchema>>({
 			config,
@@ -77,7 +93,7 @@ export function fetchContentItemQuery<
 		});
 	const extendedQuery = transformDeliveryFetchQuery({
 		query: createRawQuery(undefined),
-		transformSchema: asTypedPayloadSchema<FetchContentItemPayloadExtended<TSchema, TItem>>(request.config?.schema),
+		transformSchema: asTypedPayloadSchema<FetchContentItemPayloadExtended<TSchema, TProjectedItem>>(request.config?.schema),
 		transform: (response) => {
 			const allItems = joinItems({
 				modularContent: [response.payload.modular_content],
@@ -93,8 +109,8 @@ export function fetchContentItemQuery<
 				meta: response.meta,
 				payload: {
 					...response.payload,
-					item: asTypedItem<TSchema, TItem>(item),
-					modular_content: asTypedModularContent<TSchema, TItem>(modular_content),
+					item: asTypedItem<TSchema, TProjectedItem>(item),
+					modular_content: asTypedModularContent<TSchema, TProjectedItem>(modular_content),
 				},
 			};
 		},

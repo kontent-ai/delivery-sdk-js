@@ -33,6 +33,7 @@ import type {
 	ContentItemPayloadExtended,
 	ListContentItemsPayload,
 	ListContentItemsPayloadExtended,
+	ProjectedItem,
 } from "./models/content-item.models.js";
 
 type SystemProperties = keyof ContentItemPayload<DeliveryClientSchema>["system"];
@@ -67,6 +68,8 @@ export type ListContentItemsQuery<
 export type ListContentItemsQueryRequest<
 	TSchema extends DeliveryClientSchema,
 	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+	TSelected extends ScopedElementCodenames<TSchema, TTypeCodename> = ScopedElementCodenames<TSchema, TTypeCodename>,
+	TExcluded extends ScopedElementCodenames<TSchema, TTypeCodename> = ScopedElementCodenames<TSchema, TTypeCodename>,
 > = DeliveryRequestWithUrlPaging<
 	ListContentItemsPayloadExtended<TSchema>,
 	SystemOrderQueryParam<SystemProperties> | ElementOrderQueryParam<ScopedElementCodenames<TSchema, TTypeCodename>>,
@@ -79,12 +82,12 @@ export type ListContentItemsQueryRequest<
 		/**
 		 * Specifies which elements to include in the response. By default, all elements are returned.
 		 */
-		readonly elements?: ElementSelectionQueryParam<ScopedElementCodenames<TSchema, TTypeCodename>>;
+		readonly elements?: ElementSelectionQueryParam<TSelected>;
 
 		/**
 		 * Specifies which elements to exclude from the response. By default, no elements are excluded.
 		 */
-		readonly excludeElements?: ElementSelectionQueryParam<ScopedElementCodenames<TSchema, TTypeCodename>>;
+		readonly excludeElements?: ElementSelectionQueryParam<TExcluded>;
 
 		/**
 		 * Determines the nesting level for linked content items that the API returns.
@@ -109,10 +112,16 @@ export function listContentItemsQuery<
 	TSchema extends DeliveryClientSchema,
 	TItem extends ContentItemPayloadExtended<TSchema> = ContentItemPayloadExtended<TSchema>,
 	TTypeCodename extends ContentTypeCodenameOf<TSchema> = ContentTypeCodenameOf<TSchema>,
+	TSelected extends ScopedElementCodenames<TSchema, TTypeCodename> = never,
+	TExcluded extends ScopedElementCodenames<TSchema, TTypeCodename> = never,
 >(
 	config: DeliveryClientConfig,
-	request?: ListContentItemsQueryRequest<TSchema, TTypeCodename>,
-): ListContentItemsQuery<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>> {
+	request?: ListContentItemsQueryRequest<TSchema, TTypeCodename, TSelected, TExcluded>,
+): ListContentItemsQuery<
+	TSchema,
+	ProjectedItem<TItem, TSelected, TExcluded>,
+	ContentItemOfType<ProjectedItem<TItem, TSelected, TExcluded>, TTypeCodename>
+> {
 	const createRawQuery = (schema: SchemaInput<ListContentItemsPayload<TSchema>>) =>
 		createDeliveryPagedByUrlQuery<ListContentItemsPayload<TSchema>>({
 			config,
@@ -122,9 +131,13 @@ export function listContentItemsQuery<
 		});
 	const extendedQuery = transformDeliveryPagedByUrlQuery({
 		query: createRawQuery(undefined),
-		transformSchema: asTypedPayloadSchema<ListContentItemsPayloadExtended<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>>(
-			request?.config?.schema,
-		),
+		transformSchema: asTypedPayloadSchema<
+			ListContentItemsPayloadExtended<
+				TSchema,
+				ProjectedItem<TItem, TSelected, TExcluded>,
+				ContentItemOfType<ProjectedItem<TItem, TSelected, TExcluded>, TTypeCodename>
+			>
+		>(request?.config?.schema),
 		transform: (responses) => {
 			const allItems = joinItems({
 				items: responses.flatMap((m) => m.payload.items),
@@ -132,7 +145,14 @@ export function listContentItemsQuery<
 			});
 
 			return responses.map<
-				QueryResponse<ListContentItemsPayloadExtended<TSchema, TItem, ContentItemOfType<TItem, TTypeCodename>>, DeliveryMetadata>
+				QueryResponse<
+					ListContentItemsPayloadExtended<
+						TSchema,
+						ProjectedItem<TItem, TSelected, TExcluded>,
+						ContentItemOfType<ProjectedItem<TItem, TSelected, TExcluded>, TTypeCodename>
+					>,
+					DeliveryMetadata
+				>
 			>((m) => {
 				const { items, modular_content } = m.payload;
 				extendItemsInPlace(items, allItems);
@@ -142,8 +162,8 @@ export function listContentItemsQuery<
 					...m,
 					payload: {
 						...m.payload,
-						items: asTypedItems<TSchema, ContentItemOfType<TItem, TTypeCodename>>(items),
-						modular_content: asTypedModularContent<TSchema, TItem>(modular_content),
+						items: asTypedItems<TSchema, ContentItemOfType<ProjectedItem<TItem, TSelected, TExcluded>, TTypeCodename>>(items),
+						modular_content: asTypedModularContent<TSchema, ProjectedItem<TItem, TSelected, TExcluded>>(modular_content),
 					},
 				};
 			});

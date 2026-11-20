@@ -51,7 +51,8 @@ export type ContentItemSystem<TSchema extends DeliveryClientSchema, TTypeCodenam
 
 /**
  * The shape an element model must satisfy for the given {@link DeliveryElementSchema}: the element `type` must match,
- * multiple choice option codenames must be declared options, and taxonomy terms must belong to the declared taxonomy group.
+ * multiple choice option codenames must be declared options, taxonomy terms must belong to the declared taxonomy group,
+ * and resolved linked items (and rich text components) must be of the declared allowed content types.
  */
 export type ElementConstraintOf<
 	TSchema extends DeliveryClientSchema,
@@ -67,7 +68,15 @@ export type ElementConstraintOf<
 				readonly taxonomy_group: TGroup;
 				readonly value: readonly { readonly codename: TaxonomyTermCodenamesOf<TSchema, TGroup> }[];
 			}
-		: { readonly type: TElementSchema["type"] };
+		: TElementSchema extends {
+					readonly type: infer TType extends "modular_content" | "rich_text";
+					readonly allowedContentTypes: infer TAllowed extends readonly string[];
+				}
+			? {
+					readonly type: TType;
+					readonly items: readonly { readonly system: { readonly type: TAllowed[number] } }[];
+				}
+			: { readonly type: TElementSchema["type"] };
 
 /**
  * Validates an element model map against the schema: every key must be an element of the content type(s)
@@ -196,6 +205,48 @@ export type ContentItemOfType<TItem extends ContentItemLike, TTypeCodename exten
 			? TItem & { readonly system: { readonly type: TTypeCodename } }
 			: never
 	: never;
+
+/**
+ * Narrows a content item union to the elements returned for an element projection (the `elements` and
+ * `excludeElements` query parameters). `TSelected` keeps only the given elements, `TExcluded` removes the given
+ * elements. Linked items resolved in `items` of linked items and rich text elements are projected too, because the
+ * API applies the projection to `modular_content` as well.
+ *
+ * Items are left unchanged when there is no projection or when their elements are not modeled (untyped items).
+ */
+export type ProjectedItem<TItem extends ContentItemLike, TSelected extends string = never, TExcluded extends string = never> = readonly [
+	TSelected | TExcluded,
+] extends readonly [never]
+	? TItem
+	: ProjectItem<TItem, TSelected, TExcluded>;
+
+type ProjectItem<TItem, TSelected extends string, TExcluded extends string> = TItem extends { readonly elements: infer TElements }
+	? string extends keyof TElements
+		? TItem
+		: {
+				readonly [TKey in keyof TItem]: TKey extends "elements" ? ProjectElements<TElements, TSelected, TExcluded> : TItem[TKey];
+			}
+	: TItem;
+
+type ProjectElements<TElements, TSelected extends string, TExcluded extends string> = {
+	readonly [TKey in keyof TElements as TKey extends TExcluded
+		? never
+		: readonly [TSelected] extends readonly [never]
+			? TKey
+			: TKey extends TSelected
+				? TKey
+				: never]: ProjectElement<TElements[TKey], TSelected, TExcluded>;
+};
+
+type ProjectElement<TElement, TSelected extends string, TExcluded extends string> = TElement extends {
+	readonly items: readonly (infer TLinkedItem)[];
+}
+	? {
+			readonly [TKey in keyof TElement]: TKey extends "items"
+				? readonly ProjectItem<TLinkedItem, TSelected, TExcluded>[]
+				: TElement[TKey];
+		}
+	: TElement;
 
 /**
  * Minimal shape of a content item, used to constrain user supplied item unions.

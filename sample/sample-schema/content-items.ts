@@ -6,7 +6,7 @@
  * in `content-item-filters.ts`.
  */
 
-import { isContentItemOfType, type WorkflowStepCodenameOf } from "../../lib/public_api.js";
+import { isContentItemOfType, type ProjectedItem, type WorkflowStepCodenameOf } from "../../lib/public_api.js";
 import { client } from "./client.js";
 import type { Actor, Movie, SampleItem } from "./sample-project.models.js";
 import type { SampleProjectSchema } from "./sample-project.schema.js";
@@ -57,11 +57,12 @@ export async function listItemsOfContentTypes(): Promise<void> {
 			},
 		})
 		.fetchPage();
-	const movieItems: readonly Movie[] = movies.payload.items;
+	// `elements` narrows the items to the selected elements (see 2b).
+	const movieItems: readonly ProjectedItem<Movie, "title" | "rating" | "actors">[] = movies.payload.items;
 	const totalCount: number | undefined = movies.payload.pagination.total_count;
 
 	// Several content types narrow to their union, and accept elements of any of them.
-	const feed = await client.itemsFeed({ ofContentTypes: ["movie", "actor"], query: { elements: ["title", "first_name"] } }).fetchPage();
+	const feed = await client.itemsFeed({ ofContentTypes: ["movie", "actor"] }).fetchPage();
 	const feedItems: readonly (Movie | Actor)[] = feed.payload.items;
 
 	// Without `ofContentTypes`, items are the whole item union and elements of all content types are accepted.
@@ -80,6 +81,35 @@ export async function listItemsOfContentTypes(): Promise<void> {
 	});
 	// @ts-expect-error "moive" is not a content type codename.
 	client.listContentItems({ ofContentTypes: ["moive"] });
+}
+
+/**
+ * 2b. Element projection
+ *
+ * `elements` keeps only the selected elements and `excludeElements` removes elements, both in the response
+ * types and in the API response. The projection also applies to `modular_content` and so to resolved linked items.
+ */
+export async function elementProjection(): Promise<void> {
+	const movies = await client.listContentItems({ ofContentTypes: ["movie"], query: { elements: ["title", "actors"] } }).fetchPage();
+
+	for (const movie of movies.payload.items) {
+		const title: string = movie.elements.title.value;
+
+		// @ts-expect-error "rating" was not selected, so it is not in the response.
+		movie.elements.rating;
+
+		// Linked actors are projected too, and "first_name" was not selected.
+		// @ts-expect-error "first_name" is not in the response.
+		movie.elements.actors.items[0]?.elements.first_name;
+	}
+
+	const actors = await client.listContentItems({ ofContentTypes: ["actor"], query: { excludeElements: ["categories"] } }).fetchPage();
+	for (const actor of actors.payload.items) {
+		const firstName: string = actor.elements.first_name.value;
+
+		// @ts-expect-error "categories" is excluded.
+		actor.elements.categories;
+	}
 }
 
 /**
