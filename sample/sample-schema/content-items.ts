@@ -6,7 +6,7 @@
  * in `content-item-filters.ts`.
  */
 
-import { isContentItemOfType, type ProjectedItem, type WorkflowStepCodenameOf } from "../../lib/public_api.js";
+import { isContentItemOfType, isContentItemWithSnippet, type ProjectedItem, type WorkflowStepCodenameOf } from "../../lib/public_api.js";
 import { client } from "./client.js";
 import type { Actor, Movie, SampleItem } from "./sample-project.models.js";
 import type { SampleProjectSchema } from "./sample-project.schema.js";
@@ -35,6 +35,14 @@ export async function fetchItem(): Promise<void> {
 
 	// @ts-expect-error "moive" is not a content type codename.
 	isContentItemOfType(item, "moive");
+
+	// `isContentItemWithSnippet` narrows to the models that use a snippet (here both "movie" and "actor").
+	if (isContentItemWithSnippet(item, "metadata")) {
+		const internalId: string = item.elements.metadata__internal_id.value;
+	}
+
+	// @ts-expect-error "seo" is not a snippet used by the item models.
+	isContentItemWithSnippet(item, "seo");
 
 	// @ts-expect-error "fr-fr" is not a language codename.
 	client.fetchContentItem({ codename: "the_matrix", query: { language: "fr-fr" } });

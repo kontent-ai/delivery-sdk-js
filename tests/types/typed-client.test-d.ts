@@ -6,11 +6,14 @@ import {
 	type ContentItemFilter,
 	type ContentItemOfType,
 	type ContentItemPayloadExtended,
+	type ContentItemWithSnippet,
 	type ContentTypeElementPayload,
 	type DeliveryClient,
 	type DeliveryClientSchema,
 	isContentItemOfType,
+	isContentItemWithSnippet,
 	type ProjectedItem,
+	type SnippetCodenameOf,
 } from "../../lib/public_api.js";
 import {
 	fetchContentItemSchemaExtended,
@@ -20,7 +23,7 @@ import {
 	listLanguagesSchema,
 } from "../../lib/public_schemas.js";
 import type { SampleDeliveryClient } from "../../sample/sample-schema/client.js";
-import type { Actor, Movie, SampleItem } from "../../sample/sample-schema/sample-project.models.js";
+import type { Actor, Movie, PartialMovie, SampleItem } from "../../sample/sample-schema/sample-project.models.js";
 import type { SampleProjectSchema } from "../../sample/sample-schema/sample-project.schema.js";
 
 declare const client: SampleDeliveryClient;
@@ -58,6 +61,28 @@ export function guard(item: SampleItem): void {
 		expectTypeOf(item).toEqualTypeOf<Movie | Actor>();
 	}
 	expectTypeOf<ContentItemOfType<SampleItem, "actor">>().toEqualTypeOf<Actor>();
+}
+
+export function snippetGuard(item: SampleItem, movieOrNothing: Movie | undefined): void {
+	if (isContentItemWithSnippet(item, "metadata")) {
+		expectTypeOf(item).toEqualTypeOf<Movie | Actor>();
+		expectTypeOf(item.elements.metadata__internal_id.value).toEqualTypeOf<string>();
+	}
+	if (isContentItemWithSnippet(movieOrNothing, "metadata")) {
+		expectTypeOf(movieOrNothing).toEqualTypeOf<Movie>();
+	}
+	expectTypeOf<SnippetCodenameOf<SampleItem>>().toEqualTypeOf<"metadata">();
+	expectTypeOf<ContentItemWithSnippet<PartialMovie | Actor, "metadata">>().toEqualTypeOf<Actor>();
+
+	// @ts-expect-error "seo" is not a snippet used by the item models.
+	isContentItemWithSnippet(item, "seo");
+}
+
+export async function untypedSnippetGuard(): Promise<void> {
+	const { item } = (await untypedClient.fetchContentItem({ codename: "x" }).fetch()).payload;
+	if (isContentItemWithSnippet(item, "anything")) {
+		expectTypeOf(item).toEqualTypeOf<ContentItemPayloadExtended<DeliveryClientSchema>>();
+	}
 }
 
 export function workflowSteps(movie: Movie): void {

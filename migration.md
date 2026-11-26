@@ -7,7 +7,7 @@ v17 is a ground-up rewrite. The biggest conceptual shifts:
 
 - The fluent query builder (`.items().type().limitParameter()...toPromise()`) is replaced by **request
   objects** passed to renamed methods (`client.listContentItems({ query, filters })`).
-- Queries no longer throw by default — they expose **safe** execution methods that return
+- Queries no longer throw by default: they expose **safe** execution methods that return
   `{ success, response, error }` alongside throwing ones.
 - Responses are the **raw API payload** (snake_case), wrapped as `{ payload, meta }`. Linked items are
   still resolved for you, but onto each element's `items` array rather than a separate `linkedItems` bag.
@@ -78,24 +78,24 @@ const secureClient = createDeliveryClient({
 });
 ```
 
-`usePreviewMode`/`useSecuredMode` query config is gone — the mode is fixed when the client is created.
+`usePreviewMode`/`useSecuredMode` query config is gone; the mode is fixed when the client is created.
 
 ### Removed / relocated config options
 
-| v16 property                                               | v17                                                                                                     |
-| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `previewApiKey` / `secureApiKey`                           | Replaced by `apiMode` + `deliveryApiKey`                                                                |
-| `defaultQueryConfig` (`usePreviewMode` / `useSecuredMode`) | Decided by `apiMode` at client creation                                                                 |
-| `elementResolver`                                          | Removed — elements are returned as typed discriminated-union values, not remapped                       |
-| `linkedItemsReferenceHandler`                              | Removed — linked items are resolved onto `element.items` (see [Linked items](#linked-items--rich-text)) |
-| `proxy` / `basePreviewUrl`                                 | `baseUrl: { protocol, host }`; for a proxy, omit `apiMode` (custom mode, `deliveryApiKey` optional)     |
-| `globalHeaders`                                            | `httpService: getDefaultHttpService({ requestHeaders })`, or per request via `config.customHeaders`     |
-| `defaultLanguage`                                          | Pass `query.language` per request                                                                       |
-| `retryStrategy`                                            | `httpService: getDefaultHttpService({ retryStrategy })`                                                 |
-| `httpService`                                              | Still supported (`HttpService` from `@kontent-ai/core-sdk`)                                             |
-| `defaultQueryConfig.waitForLoadingNewContent`              | Per request: `headers: { "X-KC-Wait-For-Loading-New-Content": true }`                                   |
-| `assetsDomain` / `defaultRenditionPreset`                  | Removed                                                                                                 |
-| `excludeArchivedItems`                                     | Removed                                                                                                 |
+| v16 property                                               | v17                                                                                                    |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `previewApiKey` / `secureApiKey`                           | Replaced by `apiMode` + `deliveryApiKey`                                                               |
+| `defaultQueryConfig` (`usePreviewMode` / `useSecuredMode`) | Decided by `apiMode` at client creation                                                                |
+| `elementResolver`                                          | Removed: elements are returned as typed discriminated-union values, not remapped                       |
+| `linkedItemsReferenceHandler`                              | Removed: linked items are resolved onto `element.items` (see [Linked items](#linked-items--rich-text)) |
+| `proxy` / `basePreviewUrl`                                 | `baseUrl: { protocol, host }`; for a proxy, omit `apiMode` (custom mode, `deliveryApiKey` optional)    |
+| `globalHeaders`                                            | `httpService: getDefaultHttpService({ requestHeaders })`, or per request via `config.customHeaders`    |
+| `defaultLanguage`                                          | Pass `query.language` per request                                                                      |
+| `retryStrategy`                                            | `httpService: getDefaultHttpService({ retryStrategy })`                                                |
+| `httpService`                                              | Still supported (`HttpService` from `@kontent-ai/core-sdk`)                                            |
+| `defaultQueryConfig.waitForLoadingNewContent`              | Per request: `headers: { "X-KC-Wait-For-Loading-New-Content": true }`                                  |
+| `assetsDomain` / `defaultRenditionPreset`                  | Removed                                                                                                |
+| `excludeArchivedItems`                                     | Removed                                                                                                |
 
 ```typescript
 import { getDefaultHttpService } from "@kontent-ai/core-sdk";
@@ -373,7 +373,7 @@ console.log(response?.payload.items);
 | `.toPromise()`    | `.fetch()` / `.fetchPage()`                          | Throws on error                                      |
 | `.toAllPromise()` | `.fetchAllPagesSafe()`                               | All pages, returns `{ success, responses, error }`   |
 | `.toAllPromise()` | `.fetchAllPages()`                                   | All pages, throws on error                           |
-| —                 | `.pages()` / `.pagesSafe()`                          | Async iterators over pages                           |
+| (none)            | `.pages()` / `.pagesSafe()`                          | Async iterators over pages                           |
 
 ---
 
@@ -432,7 +432,7 @@ Every query exports a matching response type for annotating results:
 `ListTaxonomiesResponse`, `ListLanguagesResponse`, `ItemsReferencingAssetResponse`,
 `ItemsReferencingItemResponse`.
 
-> `modular_content` is a record keyed by codename whose values are `item | undefined` — index access can
+> `modular_content` is a record keyed by codename whose values are `item | undefined`: index access can
 > return `undefined`, so guard before use.
 
 ### System property names
@@ -451,7 +451,7 @@ System properties are now snake_case to match the raw API:
 ## Linked items & rich text
 
 This is the biggest behavioural change to be aware of. v16 resolved linked items into a separate
-`linkedItems` bag and onto `element.linkedItems`. **v17 still resolves them for you** — but onto each
+`linkedItems` bag and onto `element.linkedItems`. **v17 still resolves them for you**, but onto each
 element's **`items`** array, directly on the default (resolved) response. Call `.raw()` on the query if you
 want the unresolved payload instead.
 
@@ -510,6 +510,12 @@ for (const item of response?.payload.items ?? []) {
 ```
 
 > TypeScript can't narrow an item by the nested `item.system.type === "movie"` check, so use `isContentItemOfType`.
+
+The per-type guards generated by older model generator versions (`isMovieType`, later `isMovieItem`) are no longer
+generated: use `isContentItemOfType(item, "movie")`. Snippet guards (`isSeoSnippet`) are replaced by
+`isContentItemWithSnippet(item, "seo")`, which narrows to the item models that use the snippet. It recognizes
+snippet elements by their `<snippet>__<element>` codenames, so it returns `false` when `elements` /
+`excludeElements` removed every snippet element from the response.
 
 ---
 
@@ -673,7 +679,7 @@ if (!success && error.details.reason === "schemaMismatch") {
 
 The `client.mappingService` property for remapping stored JSON responses is removed. Parse responses with
 the exported Zod schemas directly. The schemas live on the dedicated `@kontent-ai/delivery-sdk/schemas`
-subpath — a separate entry point that is **not** part of the main bundle, so it's only pulled in when you
+subpath, a separate entry point that is **not** part of the main bundle, so it's only pulled in when you
 import from it:
 
 ```typescript

@@ -253,6 +253,40 @@ type ProjectElement<TElement, TSelected extends string, TExcluded extends string
  */
 export type ContentItemLike = { readonly system: { readonly type: string; readonly codename: string } };
 
+/**
+ * Minimal shape of a content item with elements, used to constrain user supplied item unions.
+ */
+export type ContentItemWithElementsLike = ContentItemLike & { readonly elements: object };
+
+/**
+ * Codenames of the snippets used by the item models of a content item union. Snippet elements are named
+ * `<snippet codename>__<element codename>`, so the codenames are read from the element keys. Untyped items (and items
+ * whose element keys are unknown) accept any string.
+ */
+export type SnippetCodenameOf<TItem extends ContentItemWithElementsLike> = TItem extends unknown
+	? string extends keyof TItem["elements"]
+		? string
+		: readonly [keyof TItem["elements"]] extends readonly [never]
+			? string
+			: keyof TItem["elements"] extends infer TElement
+				? TElement extends `${infer TSnippet}__${string}`
+					? TSnippet
+					: never
+				: never
+	: never;
+
+/**
+ * Narrows a content item union to the items whose models contain elements of the given snippet.
+ * Untyped items are left unchanged.
+ */
+export type ContentItemWithSnippet<TItem extends ContentItemWithElementsLike, TSnippet extends string> = TItem extends unknown
+	? string extends keyof TItem["elements"]
+		? TItem
+		: readonly [Extract<keyof TItem["elements"], `${TSnippet}__${string}`>] extends readonly [never]
+			? never
+			: TItem
+	: never;
+
 type ModularContentOf<TItem> = Readonly<Record<string, TItem | undefined>>;
 
 export type FetchContentItemPayloadExtended<

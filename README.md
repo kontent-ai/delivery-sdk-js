@@ -50,13 +50,13 @@ lives in `payload.items` / `payload.item`); `meta` holds response metadata such 
 The API mode is set once, when you create the client:
 
 ```typescript
-// Public — published content
+// Public: published content
 createDeliveryClient({ apiMode: "public", environmentId: "<id>" });
 
-// Preview — unpublished content
+// Preview: unpublished content
 createDeliveryClient({ apiMode: "preview", environmentId: "<id>", deliveryApiKey: "<preview-key>" });
 
-// Secure — published content with Secured access enabled
+// Secure: published content with Secured access enabled
 createDeliveryClient({ apiMode: "secure", environmentId: "<id>", deliveryApiKey: "<secure-key>" });
 ```
 
@@ -224,6 +224,7 @@ type MySchema = DeliveryClientSchema<{
 			readonly rating: { readonly type: "number" };
 			readonly stars: { readonly type: "modular_content"; readonly allowedContentTypes: readonly ["actor"] };
 			readonly genre: { readonly type: "taxonomy"; readonly taxonomyGroup: "genre" };
+			readonly seo__title: { readonly type: "text" }; // element of the "seo" snippet
 		};
 		readonly actor: {
 			readonly first_name: { readonly type: "text" };
@@ -241,6 +242,7 @@ type Movie = ContentItemOf<
 		readonly rating: Elements.Number;
 		readonly stars: Elements.LinkedItems<Actor>;
 		readonly genre: Elements.Taxonomy<"action" | "comedy", "genre">;
+		readonly seo__title: Elements.Text;
 	}
 >;
 
@@ -340,6 +342,20 @@ for (const item of response?.payload.items ?? []) {
 }
 ```
 
+`isContentItemWithSnippet` narrows to the item models that use a content type snippet. The snippet codename is
+checked against your item models:
+
+```typescript
+import { isContentItemWithSnippet } from "@kontent-ai/delivery-sdk";
+
+if (isContentItemWithSnippet(item, "seo")) {
+	console.log(item.elements.seo__title.value); // item is narrowed to the models using the "seo" snippet
+}
+```
+
+It recognizes snippet elements by their `<snippet>__<element>` codenames, so it returns `false` when `elements` /
+`excludeElements` removed every snippet element from the response.
+
 The types are a compile-time contract: the SDK trusts that your schema and item models match your environment.
 Regenerate them with `@kontent-ai/model-generator` whenever your content model changes.
 
@@ -394,7 +410,7 @@ const result = await listContentItemsSchema<MySchema>().safeParseAsync(storedJso
 By default, content-item queries (`fetchContentItem`, `listContentItems`, `itemsFeed`) return an
 **extended** response: every rich-text and linked-items (modular content) element is augmented with a
 mapped `items` property holding the fully-resolved referenced items. This lets you traverse the content
-tree directly instead of looking codenames up in `modular_content` yourself — `element.value` still holds
+tree directly instead of looking codenames up in `modular_content` yourself; `element.value` still holds
 the referenced codenames, while `element.items` holds the resolved items.
 
 ```typescript
@@ -409,13 +425,13 @@ if (isContentItemOfType(item, "movie")) {
 }
 ```
 
-Because resolved items can reference one another — possibly in a **circular** way — the extended response
+Because resolved items can reference one another (possibly in a **circular** way), the extended response
 is **not** safe to `JSON.stringify`. When you need to serialize the response (caching, SSR payloads,
 sending it over the wire), use the query's `raw()` variant. It returns the plain API payload with **no**
 resolved `items`; linked items remain referenced by codename in `modular_content`.
 
 ```typescript
-// Raw payload — safe to serialize (no resolved `items`, so no circular references)
+// Raw payload: safe to serialize (no resolved `items`, so no circular references)
 const { response } = await client.listContentItems().raw().fetchPageSafe();
 
 const json = JSON.stringify(response?.payload); // safe

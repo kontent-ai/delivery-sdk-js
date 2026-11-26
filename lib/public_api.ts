@@ -75,6 +75,8 @@ export type {
 	ContentItemSystemFilter,
 	ContentItemSystemFilterValues,
 	ContentItemSystemPayload,
+	ContentItemWithElementsLike,
+	ContentItemWithSnippet,
 	ElementConstraintOf,
 	ElementsOf,
 	FetchContentItemPayload,
@@ -86,6 +88,7 @@ export type {
 	ListContentItemsPayload,
 	ListContentItemsPayloadExtended,
 	ProjectedItem,
+	SnippetCodenameOf,
 	SnippetOf,
 } from "./queries/content-items/models/content-item.models.js";
 export type { ContentItemElementPayload, ContentItemElementPayloadExtended } from "./queries/content-items/models/element.models.js";
@@ -136,5 +139,5 @@ export type {
 	TaxonomyTermCodenamesOf,
 	TaxonomyTermPayload,
 } from "./queries/taxonomies/models/taxonomy.models.js";
-export { isContentItemOfType } from "./utils/content-item.utils.js";
+export { isContentItemOfType, isContentItemWithSnippet } from "./utils/content-item.utils.js";
 export { isDeliverySdkError } from "./utils/error.utils.js";
