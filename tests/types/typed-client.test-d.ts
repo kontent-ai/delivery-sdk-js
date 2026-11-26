@@ -6,6 +6,7 @@ import {
 	type ContentItemFilter,
 	type ContentItemOfType,
 	type ContentItemPayloadExtended,
+	type ContentItemSnippetCodenameOf,
 	type ContentItemWithSnippet,
 	type ContentTypeElementPayload,
 	type DeliveryClient,
@@ -13,7 +14,6 @@ import {
 	isContentItemOfType,
 	isContentItemWithSnippet,
 	type ProjectedItem,
-	type SnippetCodenameOf,
 } from "../../lib/public_api.js";
 import {
 	fetchContentItemSchemaExtended,
@@ -71,7 +71,7 @@ export function snippetGuard(item: SampleItem, movieOrNothing: Movie | undefined
 	if (isContentItemWithSnippet(movieOrNothing, "metadata")) {
 		expectTypeOf(movieOrNothing).toEqualTypeOf<Movie>();
 	}
-	expectTypeOf<SnippetCodenameOf<SampleItem>>().toEqualTypeOf<"metadata">();
+	expectTypeOf<ContentItemSnippetCodenameOf<SampleItem>>().toEqualTypeOf<"metadata">();
 	expectTypeOf<ContentItemWithSnippet<PartialMovie | Actor, "metadata">>().toEqualTypeOf<Actor>();
 
 	// @ts-expect-error "seo" is not a snippet used by the item models.

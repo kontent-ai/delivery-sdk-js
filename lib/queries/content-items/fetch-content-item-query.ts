@@ -1,14 +1,8 @@
 import type { SchemaInput } from "@kontent-ai/core-sdk";
-import type {
-	DeliveryClientConfig,
-	DeliveryClientSchema,
-	DeliveryFetchQuery,
-	DeliveryMetadata,
-	LanguageCodenameOf,
-} from "../../models/core.models.js";
+import type { AllElementCodenamesOf, LanguageCodenameOf } from "../../models/codename.models.js";
+import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam, WithRaw } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
-import type { AllElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
 import {
 	asTypedItem,
 	asTypedModularContent,

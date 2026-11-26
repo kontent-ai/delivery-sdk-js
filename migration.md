@@ -203,6 +203,9 @@ passed as runtime values.
 > **`workflowCodenames` + `workflowStepCodenames` → `workflows` map.** Each key is a workflow codename; its value
 > lists that workflow's step codenames, so `system.workflow_step` narrows once `system.workflow` is checked.
 
+> **Snippets (optional `snippets` map).** Each key is a content type snippet codename; its value maps the snippet's
+> element codenames (as they appear on items, `<snippet>__<element>`) to their element definitions.
+
 > **Item union (second type argument).** Pass the union of your item models as the second type argument. Content
 > item responses (`items`, `item`, `modular_content`) are typed as this union, replacing v16's `items<Movie>()`.
 

@@ -1,8 +1,8 @@
 import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk/schema";
 import * as z from "@zod/mini";
+import type { TaxonomyCodenameOf } from "../../../models/codename.models.js";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationSchema } from "../../../models/pagination.schemas.js";
-import type { TaxonomyCodenameOf } from "../models/taxonomy.models.js";
 
 /**
  * Output shape of {@link taxonomyTermSchema}. Hand-written purely because a *recursive* Zod schema

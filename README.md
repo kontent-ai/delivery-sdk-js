@@ -203,7 +203,8 @@ Two type arguments to `createDeliveryClient` make the client strongly typed:
 - `TSchema` (a `DeliveryClientSchema`) lists the codenames of your environment: languages, collections,
   taxonomies with their terms, workflows with their steps, and content types with their elements. Each element
   declares its `type`, multiple choice elements list their `options`, taxonomy elements name their `taxonomyGroup`, and
-  linked items and rich text elements may list their `allowedContentTypes` (any type when omitted).
+  linked items and rich text elements may list their `allowedContentTypes` (any type when omitted). An optional `snippets` map lists
+  content type snippets with their elements (`SnippetCodenameOf`, `SnippetElementCodenamesOf`).
 - `TItem` is the union of your content item models, described with `ContentItemOf` and the `Elements` namespace.
   Content item responses (`items`, `item`, `modular_content`) are typed as this union.
 

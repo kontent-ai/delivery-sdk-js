@@ -45,4 +45,9 @@ export type SampleProjectSchema = DeliveryClientSchema<{
 			readonly categories: { readonly type: "taxonomy"; readonly taxonomyGroup: "categoryActor" };
 		};
 	};
+	readonly snippets: {
+		readonly metadata: {
+			readonly metadata__internal_id: { readonly type: "text" };
+		};
+	};
 }>;

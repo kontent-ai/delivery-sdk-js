@@ -1,12 +1,14 @@
 import type * as z from "@zod/mini";
 import type {
 	CollectionCodenameOf,
-	DeliveryClientSchema,
-	DeliveryElementSchema,
+	ContentTypeCodenameOf,
+	ElementCodenamesOf,
 	LanguageCodenameOf,
+	TaxonomyTermCodenamesOf,
 	WorkflowCodenameOf,
 	WorkflowStepCodenameOf,
-} from "../../../models/core.models.js";
+} from "../../../models/codename.models.js";
+import type { DeliveryClientSchema, DeliveryElementSchema } from "../../../models/core.models.js";
 import type {
 	ArrayFilter,
 	EmptyFilter,
@@ -15,8 +17,7 @@ import type {
 	SystemOrElementsFilterQuery,
 	SystemPropertyFilter,
 } from "../../../models/filter.models.js";
-import type { ContentTypeCodenameOf, ElementCodenamesOf, ElementSchemaOf } from "../../content-types/models/content-type.models.js";
-import type { TaxonomyTermCodenamesOf } from "../../taxonomies/models/taxonomy.models.js";
+import type { ElementSchemaOf } from "../../content-types/models/content-type.models.js";
 import type {
 	contentItemSchema,
 	contentItemSchemaExtended,
@@ -263,7 +264,7 @@ export type ContentItemWithElementsLike = ContentItemLike & { readonly elements:
  * `<snippet codename>__<element codename>`, so the codenames are read from the element keys. Untyped items (and items
  * whose element keys are unknown) accept any string.
  */
-export type SnippetCodenameOf<TItem extends ContentItemWithElementsLike> = TItem extends unknown
+export type ContentItemSnippetCodenameOf<TItem extends ContentItemWithElementsLike> = TItem extends unknown
 	? string extends keyof TItem["elements"]
 		? string
 		: readonly [keyof TItem["elements"]] extends readonly [never]

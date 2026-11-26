@@ -1,8 +1,20 @@
 // biome-ignore lint/performance/noBarrelFile: One barrel for the public API is fine
 export { createDeliveryClient } from "./client/delivery-client.js";
 export type {
-	ApiMode,
+	AllElementCodenamesOf,
 	CollectionCodenameOf,
+	ContentTypeCodenameOf,
+	ElementCodenamesOf,
+	LanguageCodenameOf,
+	SnippetCodenameOf,
+	SnippetElementCodenamesOf,
+	TaxonomyCodenameOf,
+	TaxonomyTermCodenamesOf,
+	WorkflowCodenameOf,
+	WorkflowStepCodenameOf,
+} from "./models/codename.models.js";
+export type {
+	ApiMode,
 	DeliveryApiConfig,
 	DeliveryClient,
 	DeliveryClientConfig,
@@ -11,10 +23,7 @@ export type {
 	DeliveryElementType,
 	DeliveryMetadata,
 	DeliveryMetadataWithToken,
-	LanguageCodenameOf,
 	WaitForLoadingNewContentHeaderName,
-	WorkflowCodenameOf,
-	WorkflowStepCodenameOf,
 } from "./models/core.models.js";
 export { DeliverySdkError, deliverySdkErrorBrands } from "./models/error.models.js";
 export type {
@@ -71,6 +80,7 @@ export type {
 	ContentItemOfType,
 	ContentItemPayload,
 	ContentItemPayloadExtended,
+	ContentItemSnippetCodenameOf,
 	ContentItemSystem,
 	ContentItemSystemFilter,
 	ContentItemSystemFilterValues,
@@ -88,7 +98,6 @@ export type {
 	ListContentItemsPayload,
 	ListContentItemsPayloadExtended,
 	ProjectedItem,
-	SnippetCodenameOf,
 	SnippetOf,
 } from "./queries/content-items/models/content-item.models.js";
 export type { ContentItemElementPayload, ContentItemElementPayloadExtended } from "./queries/content-items/models/element.models.js";
@@ -109,13 +118,10 @@ export type {
 	ListContentTypesResponse,
 } from "./queries/content-types/list-content-types-query.js";
 export type {
-	AllElementCodenamesOf,
-	ContentTypeCodenameOf,
 	ContentTypeElementDefinitionOf,
 	ContentTypeElementDefinitionPayload,
 	ContentTypeElementPayload,
 	ContentTypePayload,
-	ElementCodenamesOf,
 	ElementSchemaOf,
 	ListContentTypesPayload,
 } from "./queries/content-types/models/content-type.models.js";
@@ -134,9 +140,7 @@ export type {
 export type {
 	AnyTaxonomyPayload,
 	ListTaxonomiesPayload,
-	TaxonomyCodenameOf,
 	TaxonomyPayload,
-	TaxonomyTermCodenamesOf,
 	TaxonomyTermPayload,
 } from "./queries/taxonomies/models/taxonomy.models.js";
 export { isContentItemOfType, isContentItemWithSnippet } from "./utils/content-item.utils.js";

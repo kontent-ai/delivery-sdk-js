@@ -2,13 +2,13 @@ import { codenameOf, kontentUuidSchema } from "@kontent-ai/core-sdk/schema";
 import * as z from "@zod/mini";
 import type {
 	CollectionCodenameOf,
-	DeliveryClientSchema,
+	ContentTypeCodenameOf,
 	LanguageCodenameOf,
 	WorkflowCodenameOf,
 	WorkflowStepCodenameOf,
-} from "../../../models/core.models.js";
+} from "../../../models/codename.models.js";
+import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationWithTotalCountSchema } from "../../../models/pagination.schemas.js";
-import type { ContentTypeCodenameOf } from "../../content-types/models/content-type.models.js";
 import { contentItemElementSchema, contentItemElementSchemaExtended } from "./element.schemas.js";
 
 const modularContentItem = <TSchema extends DeliveryClientSchema>() => z.union([contentItemSchema<TSchema>(), z.undefined()]);

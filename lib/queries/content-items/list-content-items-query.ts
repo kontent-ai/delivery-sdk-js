@@ -1,11 +1,6 @@
 import type { QueryResponse, SchemaInput } from "@kontent-ai/core-sdk";
-import type {
-	DeliveryClientConfig,
-	DeliveryClientSchema,
-	DeliveryMetadata,
-	DeliveryPagedFetchQuery,
-	LanguageCodenameOf,
-} from "../../models/core.models.js";
+import type { ContentTypeCodenameOf, ElementCodenamesOf, LanguageCodenameOf } from "../../models/codename.models.js";
+import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryMetadata, DeliveryPagedFetchQuery } from "../../models/core.models.js";
 import type {
 	ContentTypesRequestParam,
 	DeliveryRequestWithUrlPaging,
@@ -15,7 +10,6 @@ import type {
 	WithRaw,
 } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
-import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../../queries/content-types/models/content-type.models.js";
 import {
 	asTypedItems,
 	asTypedModularContent,

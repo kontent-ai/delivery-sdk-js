@@ -1,8 +1,9 @@
+import type { ContentTypeCodenameOf, ElementCodenamesOf } from "../../models/codename.models.js";
 import type { DeliveryClientConfig, DeliveryClientSchema, DeliveryFetchQuery, DeliveryMetadata } from "../../models/core.models.js";
 import type { DeliveryRequestWithCodename, ElementSelectionQueryParam } from "../../models/request.models.js";
 import type { DeliveryResponse } from "../../models/response.models.js";
 import { createDeliveryFetchQuery } from "../delivery-queries.js";
-import type { ContentTypeCodenameOf, ContentTypePayload, ElementCodenamesOf } from "./models/content-type.models.js";
+import type { ContentTypePayload } from "./models/content-type.models.js";
 
 export type FetchContentTypeResponse<
 	TSchema extends DeliveryClientSchema = DeliveryClientSchema,

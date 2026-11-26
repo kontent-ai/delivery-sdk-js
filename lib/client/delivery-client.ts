@@ -1,3 +1,4 @@
+import type { AllElementCodenamesOf, ContentTypeCodenameOf, ElementCodenamesOf, TaxonomyCodenameOf } from "../models/codename.models.js";
 import type { DeliveryClient, DeliveryClientConfig, DeliveryClientSchema } from "../models/core.models.js";
 import { type FetchContentItemQueryRequest, fetchContentItemQuery } from "../queries/content-items/fetch-content-item-query.js";
 import { type ItemsFeedQueryRequest, itemsFeedQuery } from "../queries/content-items/items-feed-query.js";
@@ -14,15 +15,9 @@ import {
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import { type FetchContentTypeQueryRequest, fetchContentTypeQuery } from "../queries/content-types/fetch-content-type-query.js";
 import { type ListContentTypesQueryRequest, listContentTypesQuery } from "../queries/content-types/list-content-types-query.js";
-import type {
-	AllElementCodenamesOf,
-	ContentTypeCodenameOf,
-	ElementCodenamesOf,
-} from "../queries/content-types/models/content-type.models.js";
 import { type ListLanguagesQueryRequest, listLanguagesQuery } from "../queries/languages/list-languages-query.js";
 import { type FetchTaxonomyQueryRequest, fetchTaxonomyQuery } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import { type ListTaxonomiesQueryRequest, listTaxonomiesQuery } from "../queries/taxonomies/list-taxonomies-query.js";
-import type { TaxonomyCodenameOf } from "../queries/taxonomies/models/taxonomy.models.js";
 
 /**
  * Creates a delivery client. When you supply a `TSchema` type argument, codenames are narrowed for type safety.

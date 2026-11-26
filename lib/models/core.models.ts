@@ -14,15 +14,10 @@ import type {
 } from "../queries/content-types/fetch-content-type-element-query.js";
 import type { FetchContentTypeQuery, FetchContentTypeQueryRequest } from "../queries/content-types/fetch-content-type-query.js";
 import type { ListContentTypesQuery, ListContentTypesQueryRequest } from "../queries/content-types/list-content-types-query.js";
-import type {
-	AllElementCodenamesOf,
-	ContentTypeCodenameOf,
-	ElementCodenamesOf,
-} from "../queries/content-types/models/content-type.models.js";
 import type { ListLanguagesQuery, ListLanguagesQueryRequest } from "../queries/languages/list-languages-query.js";
 import type { FetchTaxonomyQuery, FetchTaxonomyQueryRequest } from "../queries/taxonomies/fetch-taxonomy-query.js";
 import type { ListTaxonomiesQuery, ListTaxonomiesQueryRequest } from "../queries/taxonomies/list-taxonomies-query.js";
-import type { TaxonomyCodenameOf } from "../queries/taxonomies/models/taxonomy.models.js";
+import type { AllElementCodenamesOf, ContentTypeCodenameOf, ElementCodenamesOf, TaxonomyCodenameOf } from "./codename.models.js";
 import type { DeliverySdkError } from "./error.models.js";
 
 /**
@@ -68,6 +63,8 @@ export type DeliveryElementType = DeliveryElementSchema["type"];
  * - `contentTypes` maps each content type codename to its elements (element codename to {@link DeliveryElementSchema}).
  * - `taxonomies` maps each taxonomy codename to its term codenames (all nesting levels).
  * - `workflows` maps each workflow codename to its step codenames.
+ * - `snippets` (optional) maps each content type snippet codename to its elements, keyed by their codenames on items
+ *   (`<snippet codename>__<element codename>`).
  */
 export type DeliveryClientSchema<
 	TSchema extends DeliveryClientSchema = {
@@ -78,31 +75,11 @@ export type DeliveryClientSchema<
 		readonly contentTypes: {
 			readonly [contentTypeCodename: string]: { readonly [elementCodename: string]: DeliveryElementSchema };
 		};
+		readonly snippets?: {
+			readonly [snippetCodename: string]: { readonly [elementCodename: string]: DeliveryElementSchema };
+		};
 	},
 > = TSchema;
-
-/**
- * The language codenames declared in the schema.
- */
-export type LanguageCodenameOf<TSchema extends DeliveryClientSchema> = TSchema["languageCodenames"][number];
-
-/**
- * The collection codenames declared in the schema.
- */
-export type CollectionCodenameOf<TSchema extends DeliveryClientSchema> = TSchema["collectionCodenames"][number];
-
-/**
- * The workflow codenames declared in the schema (the keys of the `workflows` map).
- */
-export type WorkflowCodenameOf<TSchema extends DeliveryClientSchema> = keyof TSchema["workflows"] & string;
-
-/**
- * The workflow step codenames of the workflow identified by `TWorkflow` (all workflows by default).
- */
-export type WorkflowStepCodenameOf<
-	TSchema extends DeliveryClientSchema,
-	TWorkflow extends WorkflowCodenameOf<TSchema> = WorkflowCodenameOf<TSchema>,
-> = TWorkflow extends keyof TSchema["workflows"] ? NonNullable<TSchema["workflows"][TWorkflow]>[number] : never;
 
 /**
  * Placeholder type if extension is needed in future

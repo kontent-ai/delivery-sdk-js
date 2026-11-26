@@ -1,9 +1,9 @@
 import type {
 	ContentItemLike,
 	ContentItemOfType,
+	ContentItemSnippetCodenameOf,
 	ContentItemWithElementsLike,
 	ContentItemWithSnippet,
-	SnippetCodenameOf,
 } from "../queries/content-items/models/content-item.models.js";
 
 /**
@@ -45,10 +45,10 @@ export function isContentItemOfType<TItem extends ContentItemLike, const TTypeCo
  * }
  * ```
  */
-export function isContentItemWithSnippet<TItem extends ContentItemWithElementsLike, const TSnippet extends SnippetCodenameOf<TItem>>(
-	item: TItem | null | undefined,
-	snippet: TSnippet,
-): item is ContentItemWithSnippet<TItem, TSnippet> {
+export function isContentItemWithSnippet<
+	TItem extends ContentItemWithElementsLike,
+	const TSnippet extends ContentItemSnippetCodenameOf<TItem>,
+>(item: TItem | null | undefined, snippet: TSnippet): item is ContentItemWithSnippet<TItem, TSnippet> {
 	if (!item) {
 		return false;
 	}

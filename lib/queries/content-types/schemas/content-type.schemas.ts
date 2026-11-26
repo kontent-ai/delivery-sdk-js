@@ -1,8 +1,8 @@
 import { codenameOf, jsonValueSchema, kontentUuidSchema } from "@kontent-ai/core-sdk/schema";
 import * as z from "@zod/mini";
+import type { ContentTypeCodenameOf } from "../../../models/codename.models.js";
 import type { DeliveryClientSchema } from "../../../models/core.models.js";
 import { paginationSchema } from "../../../models/pagination.schemas.js";
-import type { ContentTypeCodenameOf } from "../models/content-type.models.js";
 
 const contentTypeElementOptionSchema = z.readonly(
 	z.object({
